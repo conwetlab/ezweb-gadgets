@@ -1,0 +1,62 @@
+body {
+   margin: 0;
+   font-family: verdana, arial, "lucida console", sans-serif; 
+   font-size:small;
+   color:#225784;
+}
+h2{
+   margin: 3px 0 0 10px;
+}
+.logo{
+   display: none;
+   background: #225784 url(http://jjmr-desktop.hi.inet/repository/header_deg.gif) repeat-x scroll center bottom;
+   position: absolute;
+   bottom: 7px;
+   right: 0;
+}
+form{
+   margin: 4pt 4pt 0pt;
+   position: relative;
+}
+textarea, .text{
+   color: #225784;
+   width: 90%;
+   opacity:0.6;
+   border:1px solid #238ec2;
+   font-weight:bold
+}
+input[type="button"]{
+   color: #225784;
+   border: 1px solid #238EC2;
+   background: #eff7fa;
+}
+.content {
+   width:100%;
+}
+tr{
+   width:100%;
+}
+table {
+	width:100%;
+	border:none;
+	margin:auto;
+	color:#225784;
+	border-spacing:0pt;
+}
+td {
+	padding:0.25em 0.5em;
+	text-align:left;
+	vertical-align:top;
+}
+
+td{
+	font-family:"Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size:13px;
+}
+tr.odd td{
+	border-bottom:1px solid #FFFFFF;
+	background:#e6f3f8;
+}
+tr.first td{
+	border-top:1px solid #FFFFFF;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<title>Visor de datos de usuario</title>
+<script>
+var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
+var address = EzWebAPI.createRWGadgetVariable("address");
+/*Temporary data for the demo*/
+var users = [];
+var user = ["Alejandro","Rodriguez Perez","07688357J","Santa Engracia, 25, 1 B, Madrid","35.50","2"];
+users["913933233"] = user;
+user = ["Marta","Lopez Romero","34788114L","Marcelo Usera, 46, 3 C, Madrid","40.74","1"];
+users["915334432"] = user;
+user = ["Rodrigo","Fernandez Bartolome","53333236P","Gran Via, 25, 2 A, Madrid","55.29","8"];
+users["916432233"] = user;
+user = ["Maria","Perez Casas","34788114L","Francisco Silvela, 105, 5 B, Madrid","66.15","3"];
+users["917294723"] = user;
+user = ["Alberto","Garcia Casas","34788114L","Camarena, 2, 4 A, Madrid","36.00","3"];
+users["917744331"] = user;
+
+function _phoneHandler(phone){
+if (phone!=null && phone!=undefined){
+var content="";
+content+="<p id='title' style=\"font-size: 22px; font-weight: bold; color: #000077; margin-top: 5px; margin-bottom: 5px;\">Tabla de Datos de Usuario</p><table style=\"padding: 1px;\">";
+content+="<tr><th>Datos del Usuario</th><th>Valor</th></tr>";
+content+="<tr><td>Nombre</td><td>"+users[phone][0]+"</td></tr>";
+content+="<tr><td>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
+content+="<tr><td>DNI</td><td>"+users[phone][2]+"</td></tr>";
+content+="<tr><td>Direccion</td><td>"+users[phone][3]+"</td></tr>";
+content+="<tr><td>Factura media</td><td>"+users[phone][4]+"</td></tr>";
+content+="<tr><td>Antiguedad</td><td>"+users[phone][5]+"</td></tr></table>";
+document.getElementById("info").innerHTML=content;
+address.set(users[phone][3]);
+}
+}
+</script>
+</head>
+<body style="font-family: Arial; font-size: 14px; text-align: left; width: 100%; margin: 0px;">
+<div id='info'><i>A la espera de seleccionar una averia...</i></div>
+</body>
+</html>

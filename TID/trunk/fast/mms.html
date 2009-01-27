@@ -1,0 +1,312 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Gadget FAST</title>
+<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/resources/css/ext-all.css" />
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ext/ext-base.js"></SCRIPT>
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ext/ext-all.js"></SCRIPT>
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/fast/engine.js"></SCRIPT>
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/prototype/prototype.js"></SCRIPT>
+
+<SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+
+<script language="JavaScript">
+
+	var menu = null;
+	
+	var screens = new Hash();
+	
+	screens.set('MMS', {
+	             title: 'MMS',
+	             contentEl:'sendMMS',
+	             pre: ['text', 'mobile', 'objectURL']
+	        });
+    screens.set('Nota', {
+                title: 'Note',
+                contentEl:'note',
+                pre: []
+            });
+    screens.set('Agenda', {
+                title: 'Agenda',
+                contentEl:'agenda',
+                pre: []
+            });
+    screens.set('Message', {
+                title: 'Message',
+                contentEl:'message',
+                pre: ['message']
+            });
+
+	function loadMenu(){
+		
+		menu = new Ext.TabPanel({
+	        renderTo:'menu',
+	        activeTab:0,
+	        plain:true,
+	        frame:true,
+	        autoscroll:true,
+	        enableTabScroll:true,
+	        animScroll:true,
+	        autoHeight:true,
+	        autoWidth:true,
+	        monitorResize:true,
+	        defaults:{autoScroll:true}
+	    });
+	    
+	    EngineFactory.getInstance().setEngine(screens, menu);
+	    
+	    EngineFactory.getInstance().run();
+	}
+	
+	// Object URL
+	var objectUrl = EzWebAPI.createRGadgetVariable("objectUrl", setObjectUrl);
+	function setObjectUrl(val){
+		var event = {name: 'objectURL', url: val};
+		EngineFactory.getInstance().manageFacts([event],[]);
+		document.MMSCreationForm.objectURL.value = val;
+	}
+	
+</script>
+</head>
+
+<body onload="javascrip:loadMenu();">
+<div id="menu" style="overflow:auto;"></div>
+<div id="sendMMS" class="x-hide-display">
+	<object id="sendMMS_obj" width="100%" height="100%">
+		<html>
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+			<title>MMS</title>
+			
+			<script language="javascript">
+			
+				function MMS(){};
+				
+				MMS.prototype.load = function (){
+					document.MMSCreationForm.message.value = '';
+					document.MMSCreationForm.to.value = '';
+					document.MMSCreationForm.objectURL.value = '';
+					document.MMSCreationForm.subject.value = '';
+					
+					var preMessage = EngineFactory.getInstance().getFact('text');
+					if(preMessage){
+						if(preMessage.message){
+							document.MMSCreationForm.message.value = preMessage.message;
+						}
+					}
+					var preMobile = EngineFactory.getInstance().getFact('mobile');
+					if(preMobile){
+						if(preMobile.mobile){
+							document.MMSCreationForm.to.value = preMobile.mobile;
+						}
+					}
+					var preObjectURL = EngineFactory.getInstance().getFact('objectURL');
+					if(preObjectURL){
+						if(preObjectURL.url){
+							document.MMSCreationForm.objectURL.value = preObjectURL.url;
+						}
+					}
+					return true;
+				}
+				
+				MMS.prototype.successFooHandler = function (transport){
+					var post = {name: 'message', text: transport.responseText};
+					EngineFactory.getInstance().manageFacts([post],[]);	
+				}
+				
+				MMS.prototype.errorFooHandler = function (transport){
+					var post = {name: 'message', text: 'Error sending message'};
+					EngineFactory.getInstance().manageFacts([post], []);
+				}
+			
+				MMS.prototype.send = function (form){
+					EzWebAPI.send_get('http://demo.ezweb.morfeo-project.org:8001/greeting', this, mms.successFooHandler, mms.errorFooHandler);
+					EngineFactory.getInstance().manageFacts([],['text', 'mobile', 'objectURL', 'message']);
+				}
+				
+				var mms = new MMS();
+				EngineFactory.getInstance().addScreenLoader("MMS", mms.load);
+			</script>
+			
+			</head>
+		
+			<body>
+				<form name="MMSCreationForm" onsubmit="return false;">
+				<table>
+				<tr><td colspan="2" align="left" id="result"></td></tr>
+				<tr><td>Destination number*: </td><td><input type="text" name="to"></input></td></tr>
+				<tr><td>Subject: </td><td><input type="text" name="subject" size="30"></input></td></tr>
+				<tr><td>Object URL*: </td><td><input type="text" name="objectURL" size="60"></input></td></tr>
+				<tr><td>Message: </td><td><textarea name="message" rows="3" cols="45"></textarea></td></tr>
+				<tr><td colspan="2" align="center"><button onclick="javascript:mms.send(this.form);">Enviar</button></td></tr>
+				</table>
+				</form>
+			</body>
+		</html>
+	</object>
+</div>
+<div id="note" class="x-hide-display">
+	<object id="note_obj" width="100%" height="100%">
+		<html>
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+			<style>
+			#nota{
+				display:block;
+				border:1px solid black;
+				color:black;
+			        font-size:13pt;
+				font-family:"Comic Sans MS";
+				width:100%;
+				height:100%;
+				background: #f0e68c;
+				}
+			</style>
+			
+			<script language="JavaScript">
+			
+			function Note(){};
+			
+			Note.prototype.load = function (){
+				document.Nota.nota.value = '';
+				var pre = EngineFactory.getInstance().getFact('text');
+				if(pre){
+					if(pre.message){
+						document.Nota.nota.value = pre.message;
+					}
+				}
+				return true;
+			}
+				
+			Note.prototype.save = function (form){
+				var post = EngineFactory.getInstance().getFact('text');
+				if (post){
+					post.message = form.nota.value;
+				}else {
+					var post = {name: 'text', message: form.nota.value};
+				}
+				
+				EngineFactory.getInstance().manageFacts([post],[]);
+			}
+			
+			Note.prototype.del = function (form){
+				form.nota.value = '';
+				EngineFactory.getInstance().manageFacts([], ['text']);
+			}
+			
+			var note = new Note();
+			EngineFactory.getInstance().addScreenLoader("Note", note.load);
+			</script>
+			
+			</head>
+			<body>
+				<form name="Nota" onsubmit="return false;">	
+					<textarea id="nota"></textarea>
+					<center>
+						<button onclick="javascript:note.save(this.form);">Guardar</button>
+						&nbsp;&nbsp;
+						<button onclick="javascript:note.del(this.form);">Borrar</button>
+					</center>
+				</form>	
+			</body>
+		</html>
+	</object>
+</div>
+<div id="agenda" class="x-hide-display">
+	<object id="agenda_obj" width="100%" height="100%">
+		<html>
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+			<title>Agenda</title>
+			
+			<script language="JavaScript">
+			
+			function Agenda(){
+				this.store = null;
+				this.grid = null;
+			};
+			
+			Agenda.prototype.render = function (value){
+				if(value==null || value.length==0){
+					return "";
+				}
+				return String.format(
+				        '<a href="javascript:agenda.select(\'{0}\');">{0}</a>',
+				        value);
+			}
+			
+			Agenda.prototype.load = function (){
+			
+				var div = document.getElementById('grid');
+				div.innerHTML = '';
+			
+				var table = '<table border="1" align="center">'
+				
+				table += '<tr><th>Contact</th><th>Mobile Phone</th><th>Business Phone</th><th>E-mail</th><th>Address</th></tr>'
+				
+				//foo contacts
+			    var contacts = new Array();
+				for(var i = 0; i < 10; i++){
+					table += '<tr><td>'+'Nombre' + i+'</td><td>'+agenda.render('66666666' + i)+'</td><td>'+agenda.render('63866666' + i)+'</td><td>'+'mail' + i + '@kk.com'+'</td><td>'+'Calle Pepe ' + i+'</td></tr>';
+				}
+				
+				table += '</table>';
+			    
+			    div.innerHTML = table;
+			    return true;
+			}
+			
+			Agenda.prototype.select = function (val){
+				var post = EngineFactory.getInstance().getFact('mobile');
+				if(post){
+					post.mobile = val;
+				} else {
+					post = {name: 'mobile',  mobile: val};
+				}
+				EngineFactory.getInstance().manageFacts([post], []);
+			}
+			
+			var agenda = new Agenda();
+			EngineFactory.getInstance().addScreenLoader("Agenda", agenda.load);
+			</script>
+			</head>
+			<body>
+			<div id="grid">
+			</div>
+			</body>
+		</html>
+	</object>
+</div>
+<div id="message" class="x-hide-display">
+	<object id="message_obj" width="100%" height="100%">
+		<html>
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+			
+			<script language="JavaScript">
+			
+			function Message(){};
+			
+			Message.prototype.load = function (){
+				var pre = EngineFactory.getInstance().getFact('message');
+				if (pre){
+					document.getElementById('message').innerHTML = pre.text;
+				}
+				return true;
+			}
+			
+			var message = new Message();
+			EngineFactory.getInstance().addScreenLoader("Message", message.load);
+			
+			</script>
+			
+			</head>
+			<body>
+				<div id="message">
+				</div>	
+			</body>
+		</html>
+	</object>
+</div>
+</body>
+</html>

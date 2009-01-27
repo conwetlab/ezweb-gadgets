@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>NotepadWiring</Name>
+		<Version>1.0</Version>
+		<Author>mac</Author>
+		<Mail>mac@tid.es</Mail>
+		<Description>Notepad completo que configura colores de fondo y de texto mediante una lista de preferencias de usuario</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Notepad</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="nota" type="text" label="nota"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Slot name="bg" type="text" label="Background color" friendcode="color"/>
+	  <Slot name="textcolor" type="text" label="Text color" friendcode="color"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/tutorial/4-notepadFinal/notepad.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="1" height="20"/>
+</Template>

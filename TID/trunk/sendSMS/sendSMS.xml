@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>SMS Sender</Name>
+		<Version>1.3</Version>
+		<Author>pjm</Author>
+		<Mail>pjm@tid.es</Mail>
+	5C	<Description>Envio de SMS's utilizando la API de Open MovilForum. La clave del remitente se obtiene enviando un mensaje de texto gratuito al 770 (solo clientes Movistar) cuyo texto sea la clave de acceso que desee. La clave debera tener entre 6 y 14 caracteres</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/sendSMS/sendSMS.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/SMSSender</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="opensms_url" type="text" description="Open MovilForum SMS URI" default="http://triqui:7002/PruebaServletEzWeb/sms" label="Service URI"/>
+		<Preference name="tm_login" type="text" description="Source Telephone Number" label="Source Telephone Number"/>
+		<Preference name="tm_password" type="password" description="Password" label="Password"/>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/sendSMS/sendSMS.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="7" height="18"/>
+</Template>

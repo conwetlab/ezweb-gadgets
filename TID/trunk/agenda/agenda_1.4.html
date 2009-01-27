@@ -1,0 +1,259 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Agenda</title>
+
+<style type="text/css">
+a.bluelink:hover {color:#242060;}
+a.redlink {color:#9a030d;}
+a.redlink:hover {color:#740209;}
+a.greenlink {color:#2c9715;}
+a.greenlink:hover {color:#17500b;}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/resources/css/ext-all.css" />
+
+<SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ext/ext-base.js"></SCRIPT>
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ext/ext-all.js"></SCRIPT>
+
+<script language="JavaScript">
+
+
+//IMPORTANT: user preference stores openmms_url base uri. It must be set by user
+var openagenda_url = EzWebAPI.createRGadgetVariable("openagenda_url", setBaseURI);
+// Source Phone
+var login = EzWebAPI.createRGadgetVariable("login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("password", setPass);
+// Context
+var height = EzWebAPI.createRGadgetVariable("height", setHeight);
+var width = EzWebAPI.createRGadgetVariable("width", setWidth);
+// Data
+var mobilephone = EzWebAPI.createRWGadgetVariable("mobilephone");
+var businessphone = EzWebAPI.createRWGadgetVariable("businessphone");
+var homephone = EzWebAPI.createRWGadgetVariable("homephone");
+var email = EzWebAPI.createRWGadgetVariable("email");
+var address = EzWebAPI.createRWGadgetVariable("address");
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+	return;
+}//setBaseURI
+    
+function renderMobilePhone(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	return String.format(
+	        '<a class="bluelink" href="javascript:selectMobilePhone(\'{0}\');">{0}</a>',
+	        value);
+}
+
+function renderBusinessPhone(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	return String.format(
+	        '<a class="bluelink" href="javascript:selectBusinessPhone(\'{0}\');">{0}</a>',
+	        value);
+}
+
+function renderHomePhone(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	return String.format(
+	        '<a class="bluelink" href="javascript:selectHomePhone(\'{0}\');">{0}</a>',
+	        value);
+}
+
+function renderEmail(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	return String.format(
+	        '<a class="greenlink" href="javascript:selectEmail(\'{0}\');">{0}</a>',
+	        value);
+}
+
+function renderAddress(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	return String.format(
+	        '<a class="redlink" href="javascript:selectAddress(\'{0}\');">{0}</a>',
+	        value);
+}
+
+var store;
+var grid;
+function loadGrid(){
+
+    // create the data store
+    store = new Ext.data.SimpleStore({
+        fields: [
+           {name: 'contact'},
+           {name: 'mobilephone'},
+           {name: 'businessphone'},
+           {name: 'homephone'},
+           {name: 'email'},
+           {name: 'address'}
+        ]
+    });
+
+    // create the Grid
+    grid = new Ext.grid.GridPanel({
+        store: store,
+        columns: [
+            {id:'contact',header: "Contact", sortable: true, dataIndex: 'contact'},
+            {header: "Mobile Phone", sortable: false, dataIndex: 'mobilephone', renderer: renderMobilePhone},
+            {header: "Business Phone", sortable: false, dataIndex: 'businessphone', renderer: renderBusinessPhone},
+            {header: "Home Phone", sortable: false, dataIndex: 'homephone', renderer: renderHomePhone},
+            {header: "E-mail", sortable: false, dataIndex: 'email', renderer: renderEmail},
+            {header: "Address", sortable: false, dataIndex: 'address', renderer: renderAddress}
+        ],
+        stripeRows: true,
+        autoExpandColumn: 'contact',
+        height: height.get()-30,
+        width: width.get(),
+        title:'Contact List'
+    });
+
+    grid.render('grid');
+
+    grid.getSelectionModel().selectFirstRow();
+    
+    var source = login.get();
+    if(source != null && source != ''){
+    	getAgenda();
+    }
+}//loadGrid
+
+function setHeight(val){
+	if (grid) {
+		grid.setHeight(val-30);
+	}
+	return;
+}//setOriginNumber
+
+function setWidth(val){
+	if (grid) {
+		grid.setWidth(val);
+	}
+	return;
+}//setOriginNumber
+
+function setOriginNumber(val){
+	getAgenda();
+	return;
+}//setOriginNumber
+
+function setPass(){
+	return;
+}//setPass
+function getAgenda(){
+	var source = login.get();
+	var passwd = password.get();
+	
+	if (source==null || source.length <= 0) {
+		alert('Source Telephone Number is empty!!!. Please, fill it in order to look up the agenda');
+	} else if (passwd==null || passwd.length <= 0) {
+		alert('Password is empty!!!. Please, fill it in order to look up the agenda');
+	} else {
+		grid.setTitle("Looking up " + login.get() + " Contact List...");
+		var uri = openagenda_url.get();
+		uri += '?login=' + source;
+		uri += '&password=' + passwd;
+		EzWebAPI.send_get(uri, this, successGetAgendaHandler, errorGetAgendaHandler);
+	}
+	return;
+}//getAgenda
+
+function successGetAgendaHandler(resp){
+	var agenda = eval( '(' + resp.responseText + ')');
+	grid.setTitle(login.get() + " " + 'Contact List');
+	var contacts = new Array();
+	if (agenda == 0) {
+	   contacts[0] = new Array();
+	   contacts[0][0] = 'Juan Jose Jimenez Ruiz';
+	   contacts[0][1] = '619817347';
+	   contacts[0][2] = '619817347';
+	   contacts[0][3] = '619817347';
+	   contacts[0][4] = 'jhierro@tid.es';
+	   contacts[0][5] = 'Emilio Vargas 6, Madrid, Spain';
+	   contacts[1] = new Array();
+	   contacts[1][0] = 'Pedro A. Martinez Sanz';
+           contacts[1][1] = '639839273';
+           contacts[1][2] = '639839273';
+           contacts[1][3] = '639839273';
+           contacts[1][4] = 'pacebes@tid.es';
+           contacts[1][5] = 'c/ mayor alcala de henares spain';
+	   contacts[2] = new Array();
+	   contacts[2][0] = 'Ricardo Sanchez Gil';
+           contacts[2][1] = '666899673';
+           contacts[2][2] = '666939673';
+           contacts[2][3] = '666939673';
+           contacts[2][4] = 'rsg@gmail.com';
+           contacts[2][5] = 'c/ alcala 513 madrid spain';	
+	} else {	
+	for(var i = 0; i < agenda.length; i++){
+		var contact = new Array();
+		var name = agenda[i][3];
+		if(agenda[i][1]!=null && agenda[i][1].length>0){
+			if (name!=null && name.length>0){
+				name += ", ";
+			}
+			name += agenda[i][1];
+		}
+		contact.push(name); //Contact
+		contact.push(agenda[i][11]); //Mobile Phone
+		contact.push(agenda[i][18]); //Business Phone
+		contact.push(agenda[i][16]); //Home Phone
+		contact.push(agenda[i][8]); //E-mail
+		contact.push(agenda[i][36].replace(/\x24/g, ", ")); //Address
+		contacts.push(contact);
+	}
+	}
+	store.loadData(contacts);
+	return;
+}//successGetAgendaHandler
+
+function errorGetAgendaHandler(resp){
+	lock = false;
+	grid.setTitle("Error looking up " + login.get() + " Contact List");
+	var myData = [];
+	store.loadData(myData);
+	return;
+}//errorGetAgendaHandler
+
+function selectMobilePhone(val){
+	mobilephone.set(val);
+}
+
+function selectBusinessPhone(val){
+	businessphone.set(val);
+}
+
+function selectHomePhone(val){
+	homephone.set(val);
+}
+
+function selectEmail(val){
+	email.set(val);
+}
+
+function selectAddress(val){
+	address.set(val);
+}
+
+</script>
+
+</head>
+
+<body onload="javascrip:loadGrid();">
+<div id="grid"></div>
+<div id="buttons" align="center"><button onclick="javascript:getAgenda();">Refresh</button></div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+		<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+		<title>Paint</title>
+		
+		<style type="text/css">
+			
+			body 
+			{
+				margin:0px;
+				padding:0px;
+			}
+			
+			#content
+			{
+				text-align:center;
+			}
+		
+		</style>
+		
+		<script type="text/javascript" language="javascript">
+			
+			var MIN_WIDTH  = 320;
+			var MIN_HEIGHT = 200;
+			
+			var MAX_WIDTH  = 1000;
+			var MAX_HEIGHT = 1000;
+			
+			var heightVar = EzWebAPI.createRGadgetVariable("height", _Handler);
+			var widthVar  = EzWebAPI.createRGadgetVariable("width",  _Handler);
+			
+			function _Handler(value)
+			{
+				createApplet();
+			}
+			
+			function createApplet()
+			{
+				document.getElementById('content').innerHTML = '';
+				newApplet = document.createElement('applet');
+				newApplet.setAttribute('codebase', 'http://antares.ls.fi.upm.es/AppletPaint');
+				newApplet.setAttribute('code', 'paint.Paint.class');
+				newApplet.setAttribute('width', '' + ((widthVar.get() > MIN_WIDTH)?((widthVar.get() < MAX_WIDTH)?widthVar.get():MAX_WIDTH):MIN_WIDTH));
+				newApplet.setAttribute('height', '' + ((heightVar.get() > MIN_HEIGHT)?((heightVar.get() < MAX_HEIGHT)?heightVar.get():MAX_HEIGHT):MIN_HEIGHT));
+				newApplet.setAttribute('align', 'center');
+				document.getElementById('content').appendChild(newApplet);
+			}
+			
+		</script>
+		
+	</head>
+	<body onload="createApplet();">
+		<div id="content">
+		</div>
+	</body>
+</html>

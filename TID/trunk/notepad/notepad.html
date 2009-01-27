@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<style>
+#nota{
+	display:block;
+	border:1px solid black;
+	color:black;
+        font-size:13pt;
+	font-family:"Comic Sans MS";
+	width:100%;
+	height:100%;
+	background: #f0e68c;
+	}
+</style>
+
+<script language="JavaScript">
+var nota = EzWebAPI.createRWGadgetVariable("nota");
+var bg = EzWebAPI.createRGadgetVariable("bg", setColorbg);
+var textcolor = EzWebAPI.createRGadgetVariable("textcolor", setColorTexto);
+
+function setValue ()  {
+   document.getElementById('nota').value= nota.get();
+}
+
+function save(formulario){
+	nota.set(formulario.nota.value);
+}
+
+function delnote(){
+	nota.set("");
+}
+
+function setColorbg(color){
+	var f = document.getElementById("nota");
+	
+	f.style.background= color;
+}
+function setColorTexto(color){
+	var f = document.getElementById("nota");
+	
+	f.style.color= color;
+}
+function load(){
+	document.getElementById('nota').value= nota.get();
+	document.getElementById('nota').style.height= window.innerHeight - 42 + "px";
+        document.getElementById('nota').style.background=bg.get();
+        document.getElementById('nota').style.color=textcolor.get();
+}
+</script>
+
+</head>
+	<body onload="javascript:load();">
+		<form id="formulario" onsubmit="return false;">	
+
+			<textarea style="width:100%; height:90%;" id="nota"></textarea>
+			<center>
+				<button onclick="javascript:save(this.form)">Guardar</button>
+				&nbsp;&nbsp;
+				<input type="reset" value="Borrar" onclick="javascript:delnote()"/>
+			</center>
+		</form>	
+	</body>
+</html>

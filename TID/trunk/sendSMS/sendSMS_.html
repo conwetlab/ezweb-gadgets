@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+body {margin: 0px;padding: 0px; background-color: #d3e2f9; font-family: verdana, arial, "lucida console", sans-serif; font-size:small;}
+textarea{width: 200px;}
+table {margin-left:auto; margin-right:auto; width:100%; padding: 5px; }
+td {white-space: nowrap; font-size: small; /*border-width: 1px 1px 1px 1px; border-style: inset inset inset inset;
+	border-color: gray gray gray gray;*/}
+</style>
+<title>Alarm Creation</title>
+
+<SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+<script language="JavaScript">
+
+//IMPORTANT: user preference stores opensms_url base uri. It must be set by user
+var opensms_url = EzWebAPI.createRGadgetVariable("opensms_url", setBaseURI);
+// TM_LOGIN = numero de telefono del remitente del SMS
+var tm_login = EzWebAPI.createRGadgetVariable("tm_login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("tm_password", setPass);
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+	return;
+}//setBaseURI
+
+function setOriginNumber(){
+	return;
+}//setOriginNumber
+
+function setPass(){
+	return;
+}//setPass
+
+function successCreationHandler(resp){
+	var response = eval('(' + resp.responseText + ')');
+	if (response.result == 'OK') {
+		alert('SMS sent successfully !!!');
+	} else {
+		alert(response.result);
+	}
+	return;
+}//successCreationHandler
+
+function errorCreationHandler(error){
+	alert('An error occurred while sending SMS.\nPlease, Contact admin.');
+	return;
+}//errorCreationHandler
+
+function createSMS(f){
+	//var uri = "https://opensms.movistar.es/aplicacionpost/loginEnvio.jsp";
+	var uri = opensms_url.get();
+	var to = document.SMSCreationForm.elements['to'].value;
+	var message = document.SMSCreationForm.elements['message'].value;
+	
+	if (to.length <= 0) {
+		alert('Destination number is mandatory. Please, fill it in order to send a new SMS');
+	} else if (message.length <= 0) {
+		alert('Message is empty!!!. Please, fill it in order to send a new SMS');
+	}  else {
+		var parameters = 	"TM_ACTION=AUTHENTICATE" + 
+							"&TM_LOGIN=" + tm_login.get() + 
+							"&TM_PASSWORD=" + password.get() +
+							"&to=" + to +
+							"&message=" + message;
+		EzWebAPI.send_post(uri, parameters, this, successCreationHandler, errorCreationHandler);
+	}
+	
+	return;
+
+}
+
+</script>
+
+</head>
+
+<body>
+<form name="SMSCreationForm" action="return false">
+<table>
+<tr><td>Destination number: </td><td><input type="text" name="to"></input></td></tr>
+<tr><td>Message: </td><td><textarea id="message" rows="3" maxlength="256"></textarea></td></tr>
+<tr><td></td><td><input type="button" name="create" value="send" onclick="createSMS(this.form)"></td></tr>
+</table>
+</form>
+<!--FONT size="2" ><I>Fields with (*) are mandatory</I></FONT-->
+</body>
+</html>

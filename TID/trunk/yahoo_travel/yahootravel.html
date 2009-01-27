@@ -1,0 +1,159 @@
+<html>
+<head>
+<style>
+img{
+       margin-bottom: 5px;
+}
+
+#resultado{
+	background:#dfdfdf;
+	padding:5px;
+}
+
+.triptitle {
+	font-size:16pt;
+	font-style:italic;
+}
+
+.destino{
+	background:#ffffff;
+	padding: 5px;
+	margin: 5px 0 5px 0;
+}
+
+.destTitle {
+	font-size:12pt;
+	font-style:italic;
+}
+
+.poi{
+	clear:both;
+	overflow:hidden;
+	border: 0px solid;
+	padding: 5px;
+	margin: 4px 0 4px 0;
+	background: #D7E1E8;
+}
+
+.poi .info{
+	padding-left:5px;
+	vertical-align:top;
+}
+
+.poi .info .title{
+	font-weight: bold;
+	font-size: 10pt;
+        font-family: "Verdana";
+	padding-bottom: 3px;
+
+}
+
+.poi .info .sum{
+	font-size: 8pt;
+}
+
+.poi a{
+	text-decoration:none;
+}
+
+.poi img{
+	float:left;
+	margin-right:5px;
+	border:0px;
+}
+
+.poi .info a{
+	font-size: 7pt;
+}
+</style>
+</head>
+<body>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+var travel = EzWebAPI.createRGadgetVariable("travel",configuretravel);
+
+
+function configuretravel(idtravel){
+
+        var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/getTrip?appid=YahooDemo&id="+ idtravel);
+	EzWebAPI.send_get(url,this,configureOk, configureFail);
+ }
+
+function configureOk(res){
+//extract the result information
+	var result = res.responseXML.documentElement;
+	divres = document.getElementById("resultado");
+	tripTitle = result.getElementsByTagName("Title")[0].firstChild.nodeValue;
+	destinations = result.getElementsByTagName("Destination");
+
+	divres.innerHTML="";
+	newdiv = document.createElement('div');
+	newdiv.className = "tripTitle";
+	newdiv.innerHTML= tripTitle;
+	divres.appendChild(newdiv);
+
+	for (i = 0; i < destinations.length; i++){ 
+		destination = destinations[i];
+		if (destination.getElementsByTagName("Title")[0].firstChild != null){
+			destTitle = destination.getElementsByTagName("Title")[0].firstChild.nodeValue;
+		}
+		else{
+			destTitle = "";
+		}
+		items = destination.getElementsByTagName("Item");
+
+		divdestino = document.createElement('div');
+		divdestino.className = "destino";
+
+		divdestTitle = document.createElement('div');
+		divdestTitle.className = "destTitle";
+		divdestTitle.innerHTML= destTitle;
+		divdestino.appendChild(divdestTitle);
+
+		for (j = 0; j < items.length; j++){ 
+			item = items[j];
+			if (item.getElementsByTagName("Title")[0].firstChild != null){
+				itemtitle = item.getElementsByTagName("Title")[0].firstChild.nodeValue;
+			}
+			else{
+				itemtitle = "";
+			}
+			if (item.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild != null){
+				itemthumb = item.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild.nodeValue;
+			}
+			else{
+				itemthumb = "http://l.yimg.com/us.yimg.com/i/travel/trip/tp_tripthumb_noimage.gif";
+			}
+			if (item.getElementsByTagName("Summary")[0].firstChild != null){
+				itemsum = item.getElementsByTagName("Summary")[0].firstChild.nodeValue;
+			}
+			else{
+				itemsum = "";
+			}
+			
+			if (item.getElementsByTagName("Url")[0].firstChild != null){
+				itemurl = item.getElementsByTagName("Url")[0].firstChild.nodeValue;
+			}
+			else{
+				itemurl = "";
+			}
+
+			newdiv = document.createElement('div');
+			newdiv.className = "poi";
+			newdiv.innerHTML= "<a href='"+itemurl+"' target='_blank'><img src='"+itemthumb+"'/></a><div class='info'><div class='title'>" + itemtitle + "</div><div class='sum'>" + itemsum + "</div><a href='"+itemurl+"' target='_blank'>+ info</a></div>";
+			divdestino.appendChild(newdiv);
+		}
+		divres.appendChild(divdestino);		 
+	}
+}
+
+function configureFail(res){
+	alert("fallo en el send_get");
+}
+
+</script>
+<img src="http://us.i1.yimg.com/us.yimg.com/i/us/nt/ma/ma_tr_1.gif"/>
+<div id="resultado">A la espera...</div>
+</body>
+</html>

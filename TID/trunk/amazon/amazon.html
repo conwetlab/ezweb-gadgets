@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+.res {
+	border: 0px solid;
+	padding: 3px;
+	margin: 4px 0 4px 0;
+	background: #fee8c6;
+}
+.title{
+	font-size: 10pt;
+	display:block;
+        font-family: "Verdana";
+}
+.product{
+	font-weight: bold;
+	font-size: 9pt;
+	display: inline;
+}
+img{
+       margin-bottom: 5px;
+}
+</style>
+</head>
+<body>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+var vtitle = EzWebAPI.createRGadgetVariable("keyword", searchResults);
+
+
+function searchResults(title){
+
+        var url=encodeURI("http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=1VK3V6F9870HX6VTS5R2&Operation=ItemSearch&Keywords="+ title +"&SearchIndex=All");
+	EzWebAPI.send_get(url,this,searchOk, searchFail);
+ }
+
+function searchOk(res){
+//extract the search result information
+	var xml = res.responseXML.documentElement;
+	var item;
+	
+	divres = document.getElementById("resultados");
+	items = xml.getElementsByTagName('Item');
+	divres.innerHTML="";
+	for (i = 0; i < items.length; i++){ 
+		item = items[i];
+		url = item.getElementsByTagName("DetailPageURL")[0].firstChild.nodeValue;
+		itematt = item.getElementsByTagName('ItemAttributes')[0];
+		title = itematt.getElementsByTagName("Title")[0].firstChild.nodeValue;
+		product = itematt.getElementsByTagName("ProductGroup")[0].firstChild.nodeValue;
+		
+		newdiv = document.createElement('div');
+		newdiv.className = "res";
+		newdiv.innerHTML= "<div class='title'>" + title + "</div><div class='product'>" + product + "</div> " + "<a href='" + url + "' target='_blank'><small>detalles</small></a>";
+		divres.appendChild(newdiv);
+		 
+	}
+}
+
+function searchFail(res){
+	
+}
+
+</script>
+<img src="http://g-ecx.images-amazon.com/images/G/01/gno/images/general/navAmazonLogoFooter._V28232323_.gif"/>
+<div id="resultados">A la espera...</div>
+</body>
+</html>

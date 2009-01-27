@@ -1,0 +1,155 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="/repository/localizador/coordinates.js"></script>
+<title>Localizador</title>
+
+<!--script src="localizadorPequeno_files/maps" type="text/javascript"></script><script src="localizadorPequeno_files/main.js" type="text/javascript"></script><style type="text/css" media="screen">.gmnoscreen{display:none}</style><style type="text/css" media="print">.gmnoprint{display:none}</style-->
+
+<script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAMJVkXB8jBN4248w-bynRWhSxhvi8A6os512mS0A0OawqTqajIxS1lNIlAhUXxHYMUv946XERqG8djg" type="text/javascript"></script>
+
+<script>
+var map=null;
+var geocoder=null;
+var marker=null;
+var circleLine = null;
+var address = new EzWebAPI.createRGadgetVariable("address",_addressHandler);
+var utmCoord = new EzWebAPI.createRGadgetVariable("utmCoord",_utmHandler);
+
+function _initialize() {
+	if (GBrowserIsCompatible()) {
+		map = new GMap2(document.getElementById("map"));
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GMapTypeControl());
+		map.addControl(new GScaleControl());
+		map.setCenter(new GLatLng(34, 0), 1);
+		geocoder = new GClientGeocoder();
+	}
+}
+
+function _addressHandler(add) {
+
+	if ((add == null || add == undefined)) {
+	  return;
+	}
+
+	if (geocoder) {
+		geocoder.getLatLng(add, function(point) {
+			if (!point) {
+				//_initialize();
+				return;
+			} else {
+				if(marker!=null){
+					map.removeOverlay(marker);
+				}
+				if(circleLine!=null){
+					map.removeOverlay(circleLine);
+				}
+				map.setCenter(point, 16);
+				marker = new GMarker(point);
+				map.addOverlay(marker);
+				marker.openInfoWindowHtml(add);
+				GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(add);});
+			}
+		}
+		);
+	}
+}
+
+function _utmHandler(utm) {
+	if ((utm == null || utm == undefined)) {
+		return;
+	}
+
+	var values = utm.split(",");
+	if(values.length>=2){
+		if(circleLine){
+			map.removeOverlay(circleLine);
+		}
+		if(marker){
+			map.removeOverlay(marker);
+		}
+		var info ="";
+		var x = values[0]*1;
+		var y = values[1]*1;
+		if (x!='' && y!=''){
+			info += '<b>UTM X: </b>'+ x;
+			info += '<br/><b>UTM Y: </b>'+ y;
+						
+			if(values.length>=3){
+				var precision = values[2]*1;
+				if(precision!=''){
+					info += '<br/><b>Precision: </b>+/- '+ precision+'m.';
+
+					var latlon = new Array();
+					var latlonPrec = new Array();
+					var lonPrec = new Array();
+					var latPrec = new Array();
+					var circlePoints = new Array();
+					
+			        var coordinates = new Coordinates(Coordinates.DATUM_ED50);
+			        //var coordinates = new Coordinates(Coordinates.DATUM_WGS84);
+			        coordinates.utmToGeoDeg (x, y, 30, false, latlon);
+					
+					coordinates.utmToGeoDeg (x + precision, y, 30, false, latlonPrec);
+					lonPrec = Math.abs(latlon[1] - latlonPrec[1]);
+					coordinates.utmToGeoDeg (x, y + precision, 30, false, latlonPrec);
+					latPrec = Math.abs(latlon[0] - latlonPrec[0]);
+					
+					for (var a = 0 ; a < 361 ; a+=10 ) {
+						var aRad = a*(Math.PI/180);
+						var lat = latlon[0] + latPrec * Math.sin(aRad);
+						var lon = latlon[1] + lonPrec * Math.cos(aRad);
+						var point = new GLatLng(lat, lon);
+						circlePoints.push(point);
+					}
+					
+					circleLine = new GPolygon(circlePoints,  '#000000',  2,  0.5,  'Red',  0.25);
+					map.addOverlay(circleLine);
+				}
+			}
+			
+			marker = createPointUTM(x, y, info, true);
+		}
+	}
+}
+
+function createMarker(point, info, center) {
+    var marker = new GMarker(point);
+	map.addOverlay(marker);
+	GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(info);});
+	marker.openInfoWindowHtml(info);
+	if(center){
+       map.setCenter(point, 16);
+	   //window.setTimeout(function(){map.panTo(point);}, 2000);
+	}
+	return marker;
+}
+
+function createPointGeo(lat, lon, info, center){
+    if(lat!='' && lon!=''){
+        //alert(lat + ", " + lon);
+        var point = new GLatLng(lat, lon);
+        return createMarker(point, info, center);
+    }
+    return null;
+}
+
+function createPointUTM(utmx, utmy, info, center){
+    if(utmx!='' && utmy!=''){
+        var latlon = new Array();
+        var coordinates = new Coordinates(Coordinates.DATUM_ED50);
+        //var coordinates = new Coordinates(Coordinates.DATUM_WGS84);
+        coordinates.utmToGeoDeg (utmx, utmy, 30, false, latlon);
+        //alert(utmx + ", " + utmy);
+        return createPointGeo(latlon[0], latlon[1], info, center)
+    }
+    return null;
+}
+
+</script>
+
+</head><body style="margin: 0px; padding: 0px;" onload="_initialize();">
+<div style="width: 100%; height: 100%;" id="map"></div>
+</body></html>

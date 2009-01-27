@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Search</Name>
+		<Version>1.1</Version>
+		<Author>jjmr</Author>
+		<Mail>jjmr@tid.es</Mail>
+		<Description>Envío de una palabra clave como evento</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.com/repository/search/search.png</ImageURI>
+		<WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/Search</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Event name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.com/repository/search/search.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="7" height="5"/>
+</Template>

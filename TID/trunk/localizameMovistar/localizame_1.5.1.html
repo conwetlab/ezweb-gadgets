@@ -1,0 +1,111 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="http://demo.ezweb.morfeo-project.com/repository/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="JavaScript">
+
+//IMPORTANT: user preference stores opensms_url base uri. It must be set by user
+var opensms_url = EzWebAPI.createRGadgetVariable("opensms_url", setBaseURI);
+// TM_LOGIN = numero de telefono del solicitante de la localizacion
+var usuario = EzWebAPI.createRGadgetVariable("tm_login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("tm_password", setPass);
+var mobilePhone = EzWebAPI.createRGadgetVariable("mobilePhone", setMobilePhone);
+var utmCoord = EzWebAPI.createRWGadgetVariable("utmCoord");
+
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+return;
+}//setBaseURI
+
+function setOriginNumber(){
+return;
+}//setOriginNumber
+
+function setPass(){
+return;
+}//setPass
+
+function setMobilePhone(val){
+	document.SearchForm.elements['to'].value = val;
+}//setMobilePhone
+
+function successCreationHandler(resp){
+var response = eval('(' + resp.responseText + ')');
+
+//document.frames['Imapa'].location.href = response.mapa;
+if (response.mapa != null && response.mapa !='' && response.mapa !='null') {
+//document.getElementById('Imapa').src = response.mapa;
+//document.getElementById('divMapa').innerHTML = "<iframe src='" + response.mapa +"' marginWidth='0' marginHeight='0' frameBorder='0' width='550' height='400' scrolling='no'></iframe>";
+
+var xRE = /X=\d+/i;
+var yRE = /Y=\d+/i;
+var precisionRE = /OR=\d+/i;
+
+var xArray = xRE.exec(response.mapa);
+var yArray = yRE.exec(response.mapa);
+var precisionArray = precisionRE.exec(response.mapa);
+
+if(xArray.length>0 && yArray.length>0){
+var x = xArray[0].split("=")[1];
+var y = yArray[0].split("=")[1];
+
+var coord = x + "," + y;
+if(precisionArray.length>0){
+var precision = precisionArray[0].split("=")[1];
+coord += "," + precision;
+}
+
+// Populate Event
+utmCoord.set(coord);
+}
+} else {
+//document.getElementById('Imapa').src = '';
+//document.getElementById('divMapa').innerHTML = '';
+}
+
+// Write result text to div
+document.getElementById("divTexto").innerHTML = response.texto;
+
+return;
+}//successCreationHandler
+
+function errorCreationHandler(error){
+alert('An error occurred while searching number.\nPlease, Contact admin.');
+return;
+}//errorCreationHandler
+
+function search(f){
+//var uri = "https://opensms.movistar.es/aplicacionpost/loginEnvio.jsp";
+var uri = opensms_url.get();
+var to = document.SearchForm.elements['to'].value;
+
+if (to.length <= 0) {
+alert('Destination number is mandatory. Please, fill it in order to search that user');
+} else {
+
+//document.getElementById('divMapa').innerHTML = '';
+document.getElementById('divTexto').innerHTML = 'Searching number, please wait...';
+var parameters = "usuario=" + usuario.get() + 
+"&clave=" + password.get() +
+"&to=" + document.SearchForm.elements['to'].value;
+EzWebAPI.send_post(uri, parameters, this, successCreationHandler, errorCreationHandler);
+}
+
+return;
+
+}
+
+</script></head><body>
+
+<h2>Locate Mobile Phone</h2>
+<form name="SearchForm" onsubmit="return false">
+<table>
+<tbody><tr class="odd first"><td style="width: 20%;">Number to locate: </td><td style="width: 70%;"><input id="text" name="to" type="text" class="text"></td><td style="width: 10%;"><input name="create" value="search" onclick="search(this.form)" type="button"></td></tr>
+<tr><td colspan="3"><div id="divTexto"></div></td></tr>
+</tbody></table>
+</form>
+</body></html>

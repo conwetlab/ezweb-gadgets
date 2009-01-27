@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+  var nota = EzWebAPI.createRWGadgetVariable("nota");
+</script>
+
+<!-- JAVASCRIPT FUNCTIONS USING EZWEB VARIABLE -->
+<!-- Uncomment the following line -->
+
+<script language='JavaScript'>
+  function save(formulario){
+    nota.set(formulario.nota.value);
+  }
+
+  function delnote(){
+    nota.set("");
+  }
+
+  function load(){
+    document.getElementById('nota').value= nota.get();
+    document.getElementById('nota').style.height= window.innerHeight - 42 + "px";
+  }
+</script>
+
+
+
+<style>
+#nota{
+	display:block;
+	border:1px solid black;
+	color:black;
+        font-size:13pt;
+	font-family:"Comic Sans MS";
+	width:100%;
+	height:100%;
+	background: #f0e68c;
+	}
+</style>
+
+</head>
+	<body>
+		<form id="formulario" onsubmit="return false;">	
+
+			<textarea id="nota"></textarea>
+			<center>
+				<button onclick="">Guardar</button>
+				&nbsp;&nbsp;
+				<input type="reset" value="Borrar" onclick=""/>
+			</center>
+		</form>	
+	</body>
+</html>

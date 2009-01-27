@@ -1,0 +1,38 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="/repository/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<title>Send Keyword</title>
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="JavaScript">
+
+
+// keyword to Send
+var keyword = EzWebAPI.createRWGadgetVariable("keyword");
+
+function sendKeyword(){
+	var val = document.KeywordCreationForm.elements['keyword'].value;
+	if (val && val !="")
+		keyword.set(val);
+}
+
+
+</script>
+
+</head>
+<body>
+<h2>Search Keyword</h2>
+<form name="KeywordCreationForm" onsubmit="sendKeyword(this.form);return false;">
+<table class="content">
+<tbody>
+<tr class="odd">
+  <td style="width:15%">Keyword: </td>
+  <td style="width:70%"><input name="keyword" type="text" id="text" class="text"></td>
+  <td style="width:15%"><input name="create" value="search" onclick="sendKeyword(this.form)" type="button"></td>
+</tr>
+</tbody>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<HTML><HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<TITLE>Configuracion de Red</TITLE>
+
+<SCRIPT>
+var serviceHired = EzWebAPI.createRGadgetVariable("serviceHired",_serviceHandler);
+var deviceId = EzWebAPI.createRWGadgetVariable("deviceId");
+var deviceStatus = EzWebAPI.createRWGadgetVariable("deviceStatus");
+
+/*Random states for a demo*/
+function _getState(){
+if (Math.floor(Math.random()*2+1)>1.8){
+deviceStatus.set("NO_OK");
+return "http://europa.ls.fi.upm.es/~semillero/html/mapaRed/equis.gif";
+} else {
+deviceStatus.set("OK");
+return "http://europa.ls.fi.upm.es/~semillero/html/mapaRed/stick.gif";
+}
+}
+
+function _serviceHandler(service){
+var oFragment = document.createDocumentFragment();
+var oDiv = document.createElement("div");
+oDiv.id = "visorConfRed";
+var content = "";
+if (service=="INTERNET"){
+content+="<img src=\"http://europa.ls.fi.upm.es/~lmayllon/img/adsl.png\"/>\n<br>";
+content+="<img onClick=\"deviceId.set('device1')\" style=\"position:relative; top:-55px; left:50px;\" id=\"dslamADSLRed\" name=\"dslamADSL\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device2')\" style=\"position:relative; top:-35px; left:105px;\" id=\"conmutador1ADSLRed\" name=\"conmutador1ADSL\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device3')\" style=\"position:relative; top:-36px; left:175px;\" id=\"conmutador2ADSLRed\" name=\"conmutador2ADSL\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device4')\" style=\"position:relative; top:-38px; left:210px;\" id=\"esrADSLRed\" name=\"esrADSL\"  src=\""+_getState()+"\" />\n";
+} else {
+content+="<img src=\"http://europa.ls.fi.upm.es/~lmayllon/img/imag.png\"/><br>";
+content+="<img onClick=\"deviceId.set('device5')\" style=\"position:relative; top: -72px; left: 54px;\" id=\"dslamTVRed\" name=\"dslamTV\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device6')\" style=\"position:relative; top: -52px; left: 100px;\" id=\"conmutador1TVRed\" name=\"conmutador1TV\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device7')\" style=\"position:relative; top: -78px; left: 155px;\" id=\"conmutador2TVRed\" name=\"conmutador2TV\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device8')\" style=\"position:relative; top: -50px; left: 135px;\" id=\"conmutador3TVRed\" name=\"conmutador3TV\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device9')\" style=\"position:relative; top: -90px; left: 158px;\" id=\"esrTVRed\" name=\"esrTV\"  src=\""+_getState()+"\" />\n";
+content+="<img onClick=\"deviceId.set('device10')\" style=\"position:relative; top: -37px; left: 138px;\" id=\"erxTVRed\" name=\"erxTV\"  src=\""+_getState()+"\" />\n";
+}
+
+oDiv.innerHTML = content;
+oFragment.appendChild(oDiv);
+document.body.replaceChild(oFragment,document.getElementById("visorConfRed"));
+}
+
+</SCRIPT></HEAD><BODY>
+<DIV id="visorConfRed"><I>A la espera de seleccionar una averia...</I></DIV>
+</BODY></HTML>

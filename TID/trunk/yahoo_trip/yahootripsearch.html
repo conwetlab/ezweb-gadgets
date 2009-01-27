@@ -1,0 +1,95 @@
+<html>
+<head>
+<style>
+img {
+	border: 0px;
+}
+.res {
+	border: 0px solid;
+	padding: 5px;
+	margin: 4px 0 4px 0;
+	background: #D7E1E8;
+	clear:both;
+	overflow:hidden;
+}
+.res a{
+	float:left;
+	text-decoration:none;
+	padding-right:5px;
+}
+.info{
+	padding-left:5px;
+	vertical-align:top;
+}
+.info a{
+	font-size: 7pt;
+	text-align:right;
+}
+.title{
+	font-size: 11pt;
+	font-style: italic;
+        font-family: "Verdana";
+	padding-bottom: 3px;
+}
+.desc{
+	font-size: 8pt;
+	padding-bottom: 3px;
+}
+</style>
+</head>
+<body>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+var poi = EzWebAPI.createRGadgetVariable("poi", searchResults);
+var travel = EzWebAPI.createRWGadgetVariable("travel");
+
+function loadplan(idplan){
+
+	travel.set(idplan);
+}
+
+function searchResults(place){
+
+        var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/tripSearch?appid=YahooDemo&query="+ place);
+	EzWebAPI.send_get(url,this,searchOk, searchFail);
+ }
+
+function searchOk(res){
+//extract the search result information
+	var xml = res.responseXML.documentElement;
+	var result;
+	
+	divres = document.getElementById("resultados");
+	results = xml.getElementsByTagName('Result');
+	divres.innerHTML="";
+	for (i = 0; i < results.length; i++){ 
+		result = results[i];
+		id = result.getAttribute("id");
+		thumbnail = result.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild.nodeValue;
+		title = result.getElementsByTagName("Title")[0].firstChild.nodeValue;
+		if (result.getElementsByTagName("Summary")[0].firstChild != null){
+			summary = result.getElementsByTagName("Summary")[0].firstChild.nodeValue;
+			summary = summary.substring(0,Math.min(summary.length, 150))+"...";
+			summary = "<div class='desc'>"+ summary + "</div>";
+		}
+		else{
+			summary = "";
+		}
+
+		newdiv = document.createElement('div');
+		newdiv.className = "res";
+		newdiv.innerHTML= "<a href='javascript:loadplan("+id+");'><img src='"+thumbnail+"'/></a><div class='info'><div class='title'>" + title + "</div>"+summary+"<a href='javascript:loadplan("+id+");'>+ info</a></div>";
+		divres.appendChild(newdiv);
+		 
+	}
+}
+
+function searchFail(res){
+
+}
+
+</script>
+<img src="http://europa.ls.fi.upm.es/ezweb/gadgets/trip_search.gif"/>
+<div id="resultados">A la espera...</div>
+</body>
+</html>

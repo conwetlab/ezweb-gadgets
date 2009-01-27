@@ -1,0 +1,131 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+body {margin: 0px;padding: 0px; background-color: #d0ffd0; font-family: verdana, arial, "lucida console", sans-serif; font-size:small;}
+table {margin-left:auto; margin-right:auto; width:100%; padding: 5px; }
+td {white-space: nowrap; font-size: small; /*border-width: 1px 1px 1px 1px; border-style: inset inset inset inset;
+	border-color: gray gray gray gray;*/}
+</style>
+<title>MMS</title>
+
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+<script language="JavaScript">
+
+//IMPORTANT: user preference stores openmms_url base uri. It must be set by user
+var openmms_url = EzWebAPI.createRGadgetVariable("openmms_url", setBaseURI);
+// Remitente del MMS
+var login = EzWebAPI.createRGadgetVariable("login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("password", setPass);
+// Object URL
+var objectUrl = EzWebAPI.createRGadgetVariable("objectUrl", setObjectUrl);
+// Destination Phone
+var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDestinationPhone);
+// Subject
+var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
+// Message
+var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+	return;
+}//setBaseURI
+
+function setOriginNumber(){
+	return;
+}//setOriginNumber
+
+function setPass(){
+	return;
+}//setPass
+
+function setObjectUrl(val){
+	document.MMSCreationForm.elements['objectURL'].value = val;
+}//setObjectUrl
+
+function setSubject(val){
+	document.MMSCreationForm.elements['subject'].value = val;
+}//setSubject
+
+function setMessage(val){
+	if (document.MMSCreationForm.elements['message'].value != '') {
+  		document.MMSCreationForm.elements['message'].value += '\n' + val;
+ 	} else {
+  		document.MMSCreationForm.elements['message'].value = val;
+  	}
+  	return;
+}//setMessage
+
+function setDestinationPhone(val){
+	document.MMSCreationForm.elements['to'].value = val;
+}//setDestinationPhone
+
+function successCreationHandler(resp){
+	var response = resp.responseText;
+	var result = document.getElementById('result');
+	if (response == 'OK') {
+		result.innerHTML = 'MMS sent successfully !!!';
+	} else {
+		result.innerHTML = response;
+	}
+	return;
+}//successCreationHandler
+
+function errorCreationHandler(resp){
+	var result = document.getElementById('result');
+	result.innerHTML = 'An error occurred while sending MMS. ' + resp.responseText;
+	return;
+}//errorCreationHandler
+
+function createMMS(f){
+	var uri = openmms_url.get();
+	var to = document.MMSCreationForm.elements['to'].value;
+	var subject = document.MMSCreationForm.elements['subject'].value;
+	var message = document.MMSCreationForm.elements['message'].value;
+	var objectURL = document.MMSCreationForm.elements['objectURL'].value;
+	var source = login.get();
+	var passwd = password.get();
+	
+	if (source==null || source.length <= 0) {
+		alert('Source Telephone Number is empty!!!. Please, fill it in order to send a new MMS');
+	} else if (passwd==null || passwd.length <= 0) {
+		alert('Password is empty!!!. Please, fill it in order to send a new MMS');
+	} else if (to.length <= 0) {
+		alert('Destination number is mandatory. Please, fill it in order to send a new MMS');
+	} else if (objectURL.length <= 0) {
+		alert('Multimedia File is empty!!!. Please, fill it in order to send a new MMS');
+	} else {
+		uri += '?login=' + source;
+		uri += '&password=' + passwd;
+		uri += '&to=' + to;
+		uri += '&subject=' + subject;
+		uri += '&objectURL=' + objectURL;
+		uri += '&message=' + message;
+		
+		var result = document.getElementById('result');
+		result.innerHTML = 'Sending MMS...';
+		
+		EzWebAPI.send_get(uri, this, successCreationHandler, errorCreationHandler);
+	}
+	return;
+}
+
+</script>
+
+</head>
+
+<body>
+<form name="MMSCreationForm" action="return false">
+
+<table>
+<tr><td colspan="2" align="left" id="result"></td></tr>
+<tr><td>Destination number*: </td><td><input type="text" name="to"></input></td></tr>
+<tr><td>Subject: </td><td><input type="text" name="subject" size="30"></input></td></tr>
+<tr><td>Object URL*: </td><td><input type="text" name="objectURL" size="60"></input></td></tr>
+<tr><td>Message: </td><td><textarea name="message" rows="3" cols="45"></textarea></td></tr>
+<tr><td colspan="2" align="center"><input type="button" name="create" value="send" onclick="createMMS(this.form)"></td></tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>Prueba FAST EzWeb</Name>
+<Version>1.2</Version>
+<Author>fabio</Author>
+<Mail>fabio@tid.es</Mail>
+<Description>Gadget de prueba para FAST</Description>
+<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fast/fast.png</ImageURI>
+<WikiURI>http://forge.morfeo-project.org/wikis/fast</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+<Platform.Preferences>
+</Platform.Preferences>
+<!-- EzWeb Gadget Persistent State -->
+<Platform.StateProperties>
+</Platform.StateProperties>
+<!-- EzWeb Gadget Data Wiring -->
+<Platform.Wiring>
+	<Slot name="objectUrl" type="text" label="objectUrl" friendcode="objectUrl"/>
+</Platform.Wiring>
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/fast/mms.html"/>
+</Platform.Link>
+<Platform.Rendering width="7" height="18"/>
+</Template>

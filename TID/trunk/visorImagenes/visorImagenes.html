@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Visor Imagenes</title>
+  <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+  <script language="javascript" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/lib/js/ezwebext/v1.0/ezweb_ext.js"></script>
+  <script language="javascript" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/lib/js/json2.js"></script>
+		<style type="text/css">
+			
+			html {
+				margin:0px;
+				padding:0px;
+				height:100%;
+				width:100%;
+			}
+			
+			body {
+				margin:0px;
+				padding:0px;
+				height:100%;
+				width:100%;
+				font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+				font-size:14px;
+				overflow-y:hidden;
+			}
+						
+			#header {
+				background:#dddddd;
+				padding-left:2px;
+				height:7%;
+				border-bottom:1px solid #888888;
+				min-width:295px;
+				min-height:30px;
+			}
+			
+			#header .image {
+				cursor:pointer;
+				margin-bottom:3px;
+				padding:3px 10px 0px 2px;
+				width:23px;
+				height:23px;
+				display:block;
+				float:left;
+			}
+			
+			#header .text {
+				margin-top:3px;
+				margin-right:4px;
+				margin-left:4px;
+				float:left;
+			}
+			
+			#header .button {
+				margin-bottom:3px;
+				padding:3px 0px 0px 0px;
+				float:left;
+				overflow:hidden;
+			}
+			
+			#header #group {
+				width:120px;
+			}
+			
+			#content  {
+				width:100%;
+				height:93%;
+				overflow:hidden;
+			}
+			
+			#content #image_container {
+				width:100%;
+				height:100%;
+				text-align:center;
+				overflow: auto;
+			}
+			
+			.error {
+				width:10px;
+				height:15px;
+				display:block;
+				margin:7px 0px 0px 5px;
+				float:left;
+				font-size:12px;
+				color:red;
+				overflow:hidden;
+			}
+			
+			#error {
+				font-family:"Bookman Old Style";
+				color:red;
+				font-style:italic;
+				display:none;
+			}
+		</style>
+		<script type="text/javascript" language="javascript">	
+        				
+			var MAX_ZOOM = 200;
+			var MIN_ZOOM = 10;
+			var DEFAULT_ZOOM = 100;
+			var INC = 10;
+			
+			var actualZoom = DEFAULT_ZOOM;
+			
+			var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
+			
+			function init ()
+			{
+				//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
+				//document.getElementById('image_container').style.height = document.getElementById('content').offsetHeight + 'px';
+			}
+						
+			function setNewImage(value)
+			{
+				if (value != "" && value != undefined && value != null){
+					document.getElementById('image').src = value;
+					//document.getElementById('label').innerHTML = value;
+					//setSize(DEFAULT_ZOOM);
+				}
+			}
+			
+			function setSize(value)
+			{
+				var content = document.getElementById('content');
+				var container = document.getElementById('image_container');
+				var image = document.getElementById('image');
+				image.style.width = value + '%';
+			}
+
+			function expandZoom()
+			{
+				setSize((((actualZoom + INC) < MAX_ZOOM)?(actualZoom+=INC):(actualZoom=MAX_ZOOM)))
+			}
+			
+			function reduceZoom()
+			{
+				setSize((((actualZoom - INC) > MIN_ZOOM)?(actualZoom-=INC):(actualZoom=MIN_ZOOM)))
+			}
+			
+			function defaultZoom()
+			{
+				setSize(actualZoom = DEFAULT_ZOOM);
+			}
+			
+			function nextImage()
+			{
+				if (actualImage < (selectedImages.length-1))
+				{
+					setSelectedImage(++actualImage);
+				}
+			}
+/*
+  var dragging = false;
+  var x = 0;
+  var y = 0;
+
+  document.addEventListener("mousedown",startDragScroll,false);
+  
+  document.addEventListener("mouseup",stopDragScroll,false);
+
+  document.addEventListener("mousemove",dragScroll,false);
+
+  function startDragScroll(e){
+    if (e.button == 0) {
+      dragging=true;
+      x=e.clientX;
+      y=e.clientY;
+    }
+  }
+
+  function stopDragScroll(e){ 
+    dragging=false;
+  }
+
+  function dragScroll(e) {
+    if (dragging) {
+      document.getElementById("image_container").scrollTop += y-e.clientY;
+      document.getElementById("image_container").scrollLeft += x-e.clientX;
+    }
+  }*/
+		</script>
+	</head>
+	<body onload="init();">
+		<div id="header">
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-best-fit.png"></img></div>
+		</div>
+		<div id="content">
+			<div id="image_container"><img id="image" src="" onload="defaultZoom();"></img></div>
+		</div>
+		<!--<div id="default_footer" class="footer">
+			<div id="label">Esperando una imagen ...</div>
+		</div>-->
+	</body>
+</html>

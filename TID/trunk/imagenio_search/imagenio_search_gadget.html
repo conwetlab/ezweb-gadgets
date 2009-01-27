@@ -1,0 +1,1204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<style type="text/css">
+<!--
+body,td,div,span,p{font-family:arial,sans-serif;}a {color:#0000cc; }a:visited { color:#551a8b; }a:active { color:#ff0000; }body {margin: 0px;padding: 0px;   background-color: white;   }
+-->
+</style>
+<style>
+
+  .slot {
+
+    cursor:hand;
+
+    cursor:pointer;
+
+    width: 89px;
+
+    display:none;
+
+    text-align: center;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    padding-top:2px;
+
+    vertical-align: middle;
+
+  }
+
+
+
+  .browseitemtitle {
+
+    margin-left:2px;
+
+    font-size: 8pt;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+  }
+
+
+body {
+   overflow-x: hidden;
+}
+
+
+  .browseitemduration {
+
+    margin-left:2px;
+
+    font-size: 8pt;
+
+    text-align: left;
+
+  }
+
+ 
+
+  .infowatch{
+
+    font-size: 8pt;
+
+  }
+
+
+
+  .videotitle {
+
+    font-size: 9pt;
+
+    font-weight: bold;
+
+  }
+
+
+
+  .videoinfolabel {
+
+    font-size: 8pt;
+
+  }
+
+
+
+  .videoinfo {
+
+    font-size: 8pt;
+
+    overflow:scroll;
+
+    font-weight: bold;
+
+  }
+
+
+
+  .description {
+
+    font-size: 8pt;
+
+    overflow:auto;
+
+  }
+
+ 
+
+  .thumb {
+
+    width: 85px;
+
+    height: 64px;
+
+    padding: 1px;
+
+    border: 1px solid #666666;
+
+    text-align: middle;
+
+  }
+
+  
+
+  .player { 
+
+    margin-top:2px; 
+
+    margin-bottom: 2px; 
+
+    width: 100%;
+
+    height:200px;
+
+
+
+  }
+
+
+
+  .videobar{
+
+    background:#F6F6F6 none repeat scroll 0%;
+
+    border: 1px solid #CCCCCC;
+
+    voice-family: "\"}\"";
+
+    voice-family: inherit;
+
+    padding: 2px;
+
+  }
+
+
+
+  .contentpane {
+
+    clear:both;
+
+    margin-top: 2px; 
+
+    padding-left: 2px; 
+
+    padding-right: 2px; 
+
+    font-size: 8pt;
+
+    font-family: arial,helvetica;
+
+    height: 248px;
+
+  }
+
+
+
+  .infopane {
+
+    clear:both;
+
+    font-size: 8pt;
+
+    font-family: arial,helvetica;
+
+    vertical-align: middle;
+
+    border-top: solid 1px #cccccc;
+
+    border-right: solid 1px #cccccc;
+
+    border-left: solid 1px #cccccc;
+
+    height:201;
+
+    overflow:auto;
+
+  }
+
+ 
+
+  .pager {
+
+    font-size: 8pt; 
+
+    margin-top: -2px;
+
+    text-align: right;
+
+    white-space: nowrap; 
+
+    display: none;
+
+  }
+
+
+
+  .hbar {
+
+    width:100%; 
+
+    white-space:nowrap;
+
+    clear:both;
+
+  }
+
+
+
+  .loading {
+
+    visibility:hidden;
+
+    position: absolute; 
+
+    font-family:arial, helvetica; 
+
+    font-size: 8pt; 
+
+    padding:0px;
+
+    margin:0px;
+
+    margin-left:4px;
+
+  }
+
+
+
+  .message {
+
+    text-align: center; 
+
+    display:none; 
+
+    font-family:arial, helvetica; 
+
+    font-size: 10pt;
+
+    padding-top: 30px;
+
+    height: 208px; 
+
+    vertical-align:middle;
+
+    white-space:normal;
+
+  }
+
+
+
+  wbr:after { content: "\00200B" }
+
+
+
+  * html .thumb {
+
+    border: 1px solid white;
+
+  }
+
+
+
+  * html .thumbSpan {
+
+    border: 1px solid #666666;
+
+  }
+
+</style>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+function URLEncode( url )
+{
+	// The Javascript escape and unescape functions do not correspond
+	// with what browsers actually do...
+	var SAFECHARS = "0123456789" +					// Numeric
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +	// Alphabetic
+					"abcdefghijklmnopqrstuvwxyz" +
+					"-_.!~*'()";					// RFC2396 Mark characters
+	var HEX = "0123456789ABCDEF";
+
+	var plaintext = url;
+	var encoded = "";
+	for (var i = 0; i < plaintext.length; i++ ) {
+		var ch = plaintext.charAt(i);
+	    if (ch == " ") {
+		    encoded += "+";				// x-www-urlencoded, rather than %20
+		} else if (SAFECHARS.indexOf(ch) != -1) {
+		    encoded += ch;
+		} else {
+		    var charCode = ch.charCodeAt(0);
+			if (charCode > 255) {
+			    alert( "Unicode Character '" 
+                        + ch 
+                        + "' cannot be encoded using standard URL encoding.\n" +
+				          "(URL encoding only supports 8-bit characters.)\n" +
+						  "A space (+) will be substituted." );
+				encoded += "+";
+			} else {
+				encoded += "%";
+				encoded += HEX.charAt((charCode >> 4) & 0xF);
+				encoded += HEX.charAt(charCode & 0xF);
+			}
+		}
+	} // for
+
+	return encoded;
+}
+
+
+	var rssUrl = EzWebAPI.createRWGadgetVariable("rssUrl");
+	var place = EzWebAPI.createRWGadgetVariable("place");
+	var vtitle = EzWebAPI.createRWGadgetVariable("title");
+	var bsoartist = EzWebAPI.createRWGadgetVariable("bsoartist");
+	var poi = EzWebAPI.createRWGadgetVariable("poi");
+
+	
+	/* Channels */
+    var currentChannelId = 6;
+	/*movie channel*/
+	movies = new Array();
+	movie = new Object();
+
+	//movie 0
+	url = "http://www.youtube.com/v/fc3O8a8-BM4&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 130;
+	movie.thumbnail = "http://img.youtube.com/vi/fc3O8a8-BM4/default.jpg";
+	movie.title = "king Kong";
+	movie.location = "Nueva York";
+	movie.poi = "Nueva York";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+	//movie 1
+	movie = new Object();
+	url = "http://www.youtube.com/v/sECzJY07oK4&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 102;
+	movie.thumbnail = "http://img.youtube.com/vi/sECzJY07oK4/default.jpg";
+	movie.title = "Amelie";
+	movie.location = "Paris, Francia";
+	movie.poi = "Paris";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+	//movie 2
+
+	movie = new Object();
+	url = "http://www.youtube.com/v/P8nD2KB0a_E&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 139;
+	movie.thumbnail = "http://img.youtube.com/vi/P8nD2KB0a_E/default.jpg";
+	movie.title = "The Queen";
+	movie.location = "Londres";
+	movie.poi = "Londres";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+	//movie 3
+
+	movie = new Object();
+	url = "http://www.youtube.com/v/PxXb_YZ-CQI&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 126;
+	movie.thumbnail = "http://img.youtube.com/vi/PxXb_YZ-CQI/default.jpg";
+	movie.title = "Mar adentro";
+	movie.location = "Boiro, Galicia";
+	movie.poi = "Galicia";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+	//movie 4
+
+	movie = new Object();
+	url = "http://www.youtube.com/v/FnHj8LxkcU0&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 41;
+	movie.thumbnail = "http://img.youtube.com/vi/fXN3nADMhh0/default.jpg";
+	movie.title = "El Orfanato";
+	movie.location = "Llanes, Asturias";
+	movie.poi = "Asturias";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+	//movie 5
+
+	movie = new Object();
+	url = "http://www.youtube.com/v/2I4-Uec6XJM&rel=1";
+	movie.swf = url;
+	movie.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+	movie.index = movies.length;
+	movie.duration = 56;
+	movie.thumbnail = "http://img.youtube.com/vi/2I4-Uec6XJM/default.jpg";
+	movie.title = "Ciudad de Dios";
+	movie.location = "Rio de Janeiro";
+	movie.poi = "Rio de Janeiro";
+	movie.bsoartist = "";
+
+	movies.push(movie);
+
+
+    var channels = [
+      ["Ultimos destacados", "http://youtube.com/rss/global/recently_featured_es_ES.rss"],
+      ["Superfavoritos", "http://youtube.com/rss/global/top_favorites_es_ES.rss"],
+      ["Mas valorados", "http://youtube.com/rss/global/top_rated_es_ES.rss"],
+      ["Mas vistos hoy", "http://youtube.com/rss/global/top_viewed_today_es_ES.rss"],
+      ["Mas comentados hoy", "http://youtube.com/rss/global/most_discussed_today_es_ES.rss"],
+      ["Anadidos recientemente", "http://youtube.com/rss/global/recently_added_es_ES.rss"],
+      ["Peliculas",""]
+    ];
+    var defaultChannels = channels.length;
+	
+	/* User preference management */
+    //var prefs = new _IG_Prefs();
+    var MAX_SAVED_SEARCHES = 3;
+    var CURRENT_PREFS_VERSION = 2;
+    //var rawQuery = "";
+
+function load(){
+    rebuildChannelList();
+    document.getElementById("channellist").onchange();
+}
+
+/*
+	function loadPreferences() {
+      var prefs_version = prefs.getInt("prefs_version");
+      if (prefs_version < CURRENT_PREFS_VERSION) {
+        // Do nothing.
+      } else if (prefs_version == CURRENT_PREFS_VERSION) {
+        var search_channels = prefs.getInt("search_channels");
+        for (var i = 0; i < Math.min(MAX_SAVED_SEARCHES, search_channels); i++) {
+          var name = prefs.getString("search_channel_name" + i);
+          var url = prefs.getString("search_channel_url" + i);
+          channels[i + defaultChannels] = [name, url];
+        }
+        // If this channel number is no longer valid for whatever reason
+        // we'll just fallback when trying to set it as the current one
+        currentChannelId = prefs.getInt("current_channel_id");
+      }
+      
+      // host page requested initial search to run
+      rawQuery = prefs.getString("rawQuery");
+    }
+	*/
+	
+	/* DOM manipulation helpers */
+    function showElements() {
+      for (var i = 0; i < arguments.length; i++) {
+        document.getElementById(arguments[i]).style.display = "block";
+      }
+    }
+
+    function hideElements() {
+      for (var i = 0; i < arguments.length; i++) {
+        document.getElementById(arguments[i]).style.display = "none";
+      }
+    }
+ 
+    function clearElement(el) {
+      while(el.firstChild) {
+        el.removeChild(el.firstChild);
+      }
+    }
+    
+    function setElementText(element_id, text) {
+      el = document.getElementById(element_id);
+      clearElement(el);
+      el.appendChild(document.createTextNode(text));
+    }
+
+    function getDivHeight(div) {
+      if (div.clientHeight) {
+        return div.clientHeight;
+      } else if (div.offsetHeight) {
+        return div.offsetHeight;
+      }
+    }
+    
+    function getDivWidth(div) {
+      if (div.clientWidth) {
+        return div.clientWidth;
+      } else if (div.offsetWidth) {
+        return div.offsetWidth;
+      }
+    }
+
+    function addItemToList(list, id, text, value) {
+      var option = new Option(text, value);
+      option.id = id;
+      try {
+        list.add(option);
+      } catch (e) {
+        list.appendChild(option);
+      }
+    }
+	
+	// Gets the id of the listbox item for a particular channel
+    // index    
+    function channelNodeId(index) {
+      return "channel_" + index;
+    }
+ 
+     /* UI state management */
+    // Main gadget states
+    var GS_BROWSE = 0;
+    //var GS_WATCH = 1;
+    //var GS_INFO = 2;
+    var GS_LOADING = 3;
+    var GS_DISCONNECTED = 4;
+    var GS_NORESULTS = 5;
+    var GS_LOADING_INFO = 6;
+    var gadgetState = GS_LOADING;
+    //var MINI_WIDTH = 270;
+    var miniMode = false; 
+    function goToNewState(newState) {
+      if (newState == GS_LOADING) {
+        /*if (gadgetState == GS_INFO || gadgetState == GS_WATCH) {
+          goToNewState(GS_BROWSE);
+        }*/
+        document.getElementById("loading").style.visibility = "visible";
+      }/*else if (newState == GS_LOADING_INFO) {
+        setElementText("infoAdded",  "");
+        setElementText("infoFrom", "");
+        setElementText("infoViews", "");
+        setElementText("infoRatings", ""); 
+        setElementText("infoDescription", ""); 
+        document.getElementById("infoThumb").src = "";
+        document.getElementById("infoThumb").style.visibility = "hidden";
+        
+        hideElements("message", "infolink", "innerWatchVideos", "chooseVideos",
+            "pager");
+        showElements("hideLink", "infopane", "backlink");
+ 
+        document.getElementById("loadinginfo").style.visibility = "visible";
+      }*/else if (newState == GS_DISCONNECTED) {
+        hideElements("backlink", "pager", "watchVideos", "chooseVideos");
+        showElements("message");
+        displayMessage("No se puede conectar con YouTube, reintentando...");
+      }else if (newState == GS_NORESULTS) {
+        hideElements("watchVideos", "chooseVideos", "backlink", "pager");
+        showElements("message"); 
+        displayMessage("No se han encontrado resultados.");
+        document.getElementById("query").focus();
+      }/*else if (newState == GS_WATCH) {
+        hideElements("infopane", "message", "chooseVideos", "pager",
+            "hideLink");
+        showElements( "watchVideos", "innerWatchVideos", "backlink", 
+            "infolink");
+      }*/else if (newState == GS_BROWSE) {
+        hideElements("watchVideos", "message", "backlink", "infopane");
+        showElements("chooseVideos", "pager");
+      }/*else if (newState == GS_INFO) {
+        hideElements("message", "infolink", "innerWatchVideos", "chooseVideos",
+            "pager");
+        showElements("hideLink", "infopane", "backlink");
+
+        document.getElementById("infoThumb").style.visibility = "visible";
+      }
+      */
+      if (newState != GS_LOADING && newState != GS_LOADING_INFO) {
+        document.getElementById("loading").style.visibility = "hidden";
+        document.getElementById("loadinginfo").style.visibility = "hidden";
+      }
+
+      gadgetState = newState;
+    }
+
+ 
+    // Called initially and whenever the list of channels changes
+    function rebuildChannelList() {
+      // add all channels
+      var list = document.getElementById("channellist");
+      clearElement(list);
+      
+      for (var i = 0; i < channels.length; i++)  {
+        addItemToList(list, channelNodeId(i), channels[i][0], i);
+      }
+      
+      // go to the current visited channel
+      document.getElementById(channelNodeId(currentChannelId)).selected = true;
+    }
+	
+	// Search helper
+    function getSearchUrl(query) {
+      return "http://youtube.com/rss/search_by_relevance/" + 
+          encodeURI(query) + ".rss";
+    } 
+	
+	// Does a search by requesting the RSS feed for the query from YT
+	function doSearch(query) {
+      if (query == "") {
+        return;
+      }
+
+      var queryName = '"' + query + '"';
+      var queryUrl = getSearchUrl(query); 
+
+      var newChannelId = 0;
+      var alreadyInList = false;
+
+      // if this query is already in the channel list, just select it
+      for (var i = 0; i < channels.length; i++) {
+        if (channels[i][0] == queryName && channels[i][1] == queryUrl) {
+          newChannelId = i;
+          alreadyInList = true;
+          break;
+        }
+      }
+      
+      // otherwise add it
+      if (!alreadyInList) {
+        // keep the last MAX_SAVED_SEARCHES searches in the channel list
+        if (channels.length - defaultChannels == MAX_SAVED_SEARCHES) {
+          for (var i = 0; i < MAX_SAVED_SEARCHES - 1; i++) {
+            channels[defaultChannels + i] = channels[defaultChannels + i + 1];
+          }
+          // replace last one
+          channels[channels.length - 1] = [queryName, queryUrl];
+        } else {
+          // append
+          channels[channels.length] = [queryName, queryUrl];
+        }
+        
+        rebuildChannelList();
+        newChannelId = channels.length - 1; 
+      }
+      document.getElementById(channelNodeId(newChannelId)).selected = true;
+      document.getElementById("channellist").onchange();
+    }
+	
+	// Handle channel change from UI or Search
+    function changeChannel(selected) { 
+      currentChannelId = selected.value
+      channelUrl = channels[currentChannelId][1];
+      if (currentChannelId >= defaultChannels) {
+        var queryName = channels[currentChannelId][0];
+        var query = queryName.substr(1,queryName.length-2);
+        if(document.getElementById("query").value != query) {
+          document.getElementById("query").value = query;
+        }
+      }
+      
+      // Skip saving prefs if we're still loading
+      /*if (widgetLoaded) {
+        savePreferences();
+      }*/
+
+      goToNewState(GS_LOADING);
+      // TODO: move setp calls to here?
+      if (channelUrl == ""){//movie channel
+	videos = new Array();
+	videos = movies;
+	currentVideoIndex = 0;
+        renderBrowsePage(0);
+      }else{
+	EzWebAPI.send_get(channelUrl, this, handleChannelXml, handleChannelXmlError);
+      }
+    }
+	
+    // Callback once we've recieved channel data from YouTube
+    var CONNECTION_RETRY_SECONDS = 10;
+    var MAX_SEARCH_RESULTS = 24;
+
+    function handleChannelXmlError(response){
+        goToNewState(GS_DISCONNECTED);
+        setTimeout(rebuildChannelList, CONNECTION_RETRY_SECONDS * 1000);
+        return;
+    }
+
+    function handleChannelXml(response) {
+
+      var items = response.responseXML.getElementsByTagName("item");
+      videos = new Array();
+try{
+      for (var i = 0; i < items.length && 
+          videos.length <= MAX_SEARCH_RESULTS; i++) {
+        var video = new Object();
+        for (var j = 0; j < items[i].childNodes.length; j++) {
+          if (items[i].childNodes[j].nodeName == "enclosure") {
+            var url = items[i].childNodes[j].getAttribute("url");
+            var duration = items[i].childNodes[j].getAttribute("duration");
+            video.swf = url;
+            video.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+            video.index = videos.length;
+            video.duration = duration;
+          }
+          if (items[i].childNodes[j].nodeName == "media:thumbnail") {
+            var url = items[i].childNodes[j].getAttribute("url");
+            video.thumbnail = url;
+          }
+          if (items[i].childNodes[j].nodeName == "title") {
+            video.title = getXmlNodeText(items[i].childNodes[j])
+          }
+        }
+        videos.push(video);
+      }
+      
+      if (videos.length > 0) {
+        currentVideoIndex = 0;
+        renderBrowsePage(0);
+      } else {
+        goToNewState(GS_NORESULTS);
+      }
+
+}catch (e){
+alert("excepcion");
+}
+    }
+
+
+   // Start playback of a particular video
+//    var currentPlayerDivId = 0;
+    function loadVideo(video) {
+	rssUrl.set (URLEncode(video.swf));
+	currentChannelId = document.getElementById("channellist").value;
+	channelUrl = channels[currentChannelId][1];
+	if(channelUrl == ""){//movies
+		place.set(video.location);
+		vtitle.set(video.title);
+		//bsoartist.set(video.bsoartist);
+		poi.set(video.poi);
+	}
+      
+    }
+
+   function loadVideoLater(video) {
+      return function() {loadVideo(video);};
+    }
+
+    /* Browse page */
+    var VIDEO_SLOTS = 6; 
+    var VIDEO_SLOTS_PER_ROW = 3; 
+    var miniMode = false;
+    var currentPage = 0;
+    
+    function videosPerPage() {
+      return miniMode ? 4 : 6;
+    }
+
+    function renderBrowsePage(newPage) {
+      // Clear and hide video slots
+      for (var i = 0; i < VIDEO_SLOTS; i++) {
+         clearElement(document.getElementById("link" + i));
+        document.getElementById("slot" + i).style.display = "none";
+      }
+      
+      // Decide on videos per page and current page
+      var lastPage = Math.floor(videos.length/videosPerPage());
+      currentPage = newPage;
+      if (currentPage > lastPage) {
+        currentPage = lastPage;
+      } 
+
+      if(miniMode) {
+        document.getElementById("cell0").style.width = "50%";
+        document.getElementById("cell1").style.width = "50%";
+        document.getElementById("cell2").style.width = "0px";
+      } else {
+        document.getElementById("cell0").style.width = "33%";
+        document.getElementById("cell1").style.width = "33%";
+        document.getElementById("cell2").style.width = "33%";
+      }
+      
+      // Fill the slots
+      for (var i = 0; i < videosPerPage(); i++) {
+        var videoId = currentPage * videosPerPage() + i;
+
+        // Stop if out of videos 
+        if (videoId >= videos.length) {
+          break;
+        }
+ 
+        var slotId = i + (miniMode ? Math.floor(i/(VIDEO_SLOTS_PER_ROW-1)) : 0);
+        var video = videos[videoId];
+
+        // set up slot
+        document.getElementById("slot" + slotId).style.display = "block";
+        document.getElementById("slot" + slotId).onclick = loadVideoLater(video);
+        
+        // insert thumb
+        var thumb = document.createElement("img");
+        thumb.id = "thumb" + i;
+        thumb.className = "thumb";
+        thumb.src = video.thumbnail;
+        thumb.title = video.title;
+       
+        var span = document.createElement("span");
+        span.className = "thumbSpan";
+        span.appendChild(thumb);
+       
+        clearElement(document.getElementById("link" + slotId));
+        document.getElementById("link" + slotId).appendChild(span);
+        
+        // fill in title and duration
+        clearElement(document.getElementById("title" + slotId));
+        clearElement(document.getElementById("duration" + slotId));
+        title = document.createTextNode(truncate(video.title, 15));
+        duration = document.createTextNode("" + renderDuration(video.duration));
+        document.getElementById("title" + slotId).appendChild(title);
+        document.getElementById("duration" + slotId).appendChild(duration);
+      }
+
+      renderPager(currentPage);
+      goToNewState(GS_BROWSE); 
+    }
+
+    /* Pager */ 
+    function renderBrowsePageLater(newPage) {
+      return function() {renderBrowsePage(newPage);};
+    }
+
+    function getPageLink(page, selected) {
+      var node = document.createTextNode("" + (page + 1));
+      var inner;
+      if (selected) {
+        inner = node;
+      } else {
+        var link = document.createElement('a');
+        link.href = "#";
+        link.onclick = renderBrowsePageLater(page);
+        link.appendChild(node);
+        inner = link;
+      }
+
+      var span = document.createElement('span');
+      span.appendChild(inner);
+      span.appendChild(document.createTextNode("\u00A0\u00A0"));
+      return span;
+    }
+
+   // approximate char width, based on code used in AdWords (awCreateAdUtil)
+
+    function charWidth(ch) {
+
+      if (ch <= '\u04f9' ||
+
+          ch == '\u05be' ||
+
+          (ch >= '\u05d0' && ch <= '\u05ea') ||
+
+          ch == '\u05F3' ||
+
+          ch == '\u05f4' ||
+
+          (ch >= '\u0e00' && ch <= '\u0e7f') ||
+
+          (ch >= '\u1e00' && ch <= '\u20af') ||
+
+          (ch >= '\u2100' && ch <= '\u213a') ||
+
+          (ch >= '\uff61' && ch <= '\uffdc')) {
+
+        return 1;
+
+      }
+
+      return 2;
+
+    }
+
+   var TRUNCATION_STRING = "...";
+
+    function displayLength(string) {
+
+      var count = 0;
+
+      for (var i = 0; i < string.length; i++) {
+
+        var character = string.substr(i, 1);
+
+        count += charWidth(character);
+
+      }
+
+      return count;
+
+    }
+
+    function truncateByWidth(string, maxLen) {
+
+      var count = 0;
+
+      var truncated = "";
+
+      for (var i = 0; i < string.length && count < maxLen; i++) {
+
+        var character = string.substr(i, 1);
+
+        truncated += character;
+
+        count += charWidth(character);
+
+      }
+
+      return truncated;
+
+    }
+
+
+
+    // Truncate string to maxLen, in number of half-width (latin) characters.
+
+    //   CJK and other languages include characters that are wider
+
+    //   than standard latin characters, so we need to take this into account.
+
+    function truncate(string, maxLen) {
+
+      if (displayLength(string) > maxLen) {
+
+        string = truncateByWidth(string, maxLen - TRUNCATION_STRING.length);
+
+        string += TRUNCATION_STRING;
+
+      }
+
+      return string;
+
+    }
+
+    function renderDuration(duration) {
+
+      minutes = Math.floor(duration / 60);
+
+      seconds = (duration % 60) + "";
+
+      seconds = seconds.substr(0, 2);
+
+      if (seconds.length == 0) {
+
+        seconds = "00";
+
+      } else if (seconds.length == 1) {
+
+        seconds = "0" + seconds;
+
+      }
+
+      return minutes + ":" + seconds;
+
+    }
+
+    function renderPager(page) {
+      var linksDiv = document.getElementById("pagelinks");
+      clearElement(linksDiv);
+      
+      for (var i = 0; i < videos.length; i += videosPerPage()) {
+        linksDiv.appendChild(
+            getPageLink(i/videosPerPage(), i == (page * videosPerPage())));
+      }
+    }
+    
+    // XML DOM helper
+    function getXmlNodeText(node) {
+      if (node.text) {
+        // ie
+        return node.text;
+      } else if (node.textContent) {
+        // firefox
+        return node.textContent; 
+      } else if (node.firstChild && node.firstChild.nodeValue) {
+        // safari
+        return node.firstChild.nodeValue;
+      } else {
+        return "";
+      }
+    }	
+</script>
+</head>
+<body onload="javascript:load();">
+<div id="uppernav" class="hbar">
+
+  <table>
+    <tr>
+      <td>
+        <a href="http://www.telefonicaonline.com/imagenio-television" target="_top"><img
+            height="30" width="80" border="0"
+          src="http://demo.ezweb.morfeo-project.org/repository/imagenio_search/imagenio_logo.gif" /></a>
+      </td>
+      <td width="100%">
+        <form style="display:inline;">
+          <select id="channellist" onchange="changeChannel(this)"></select>
+        </form>
+
+      </td>
+      <td align="right" valign="middle">
+        <div id="pager" class="pager">
+          <span>Pagina: </span>
+          <span id="pagelinks"></span>
+        </div>
+        <div id="backlink" class="pager" > 
+          <a href="javascript:void(0)" onclick="renderBrowsePage(currentPage)"
+            >volver a la lista</a>
+
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div id="middle" class="hbar">
+  <div id="loading" class="loading" >Cargando...</div>
+
+  <div id="message" class="message"></div>
+
+  <div id="watchVideos" class="contentpane" >
+    <div id="innerWatchVideos">
+      <div id="video0" class="player"></div>
+      <div id="video1" class="player"></div>
+    </div>
+    <div id="infopane" class="infopane" style="display:none">
+
+      <table width=100%>
+        <tr valign=top> 
+          <td>
+
+            <span class="thumbSpan" style="float:right" >
+              <a href="javascript:void(0)" onclick="closeInfo()"><img 
+                  class="thumb" style="padding-top:2px;" id="infoThumb"/></a>
+            </span>
+            <span id="infoTitle" class="videotitle"></span><br/>
+            <div style="height:5px;"></div>
+            <span class="videoinfolabel">Subidos: </span>
+            <span id="infoAdded" class="videoinfo"></span><br/>
+            <span class="videoinfolabel">De: </span>          
+            <a target="_top" id="infoFrom" href="" class="videoinfo"></a><br/>
+
+            <span class="videoinfolabel">Reproducciones: </span> 
+            <span id="infoViews" class="videoinfo"></span><br/>
+            <span class="videoinfolabel">Puntuados: </span>
+            <span id="infoRatings" class="videoinfo"></span><br/>
+         </td>
+        </tr>
+        <tr><td></td></tr>
+        <tr>
+
+          <td colspan=2>
+            <div id="loadinginfo" class="loading" >Cargando...</div>
+            <div id="infoDescription" class="description"></div>
+          </td>
+      </table>
+    </div> 
+
+    <div class="videobar" id="videobar">
+      <table>
+        <tr>
+
+          <td align=left>
+            <div>
+              <a href="javascript:void(0)" onclick="previousVideo()"><img 
+                  border="0" width="17" height="17"
+                  src="http://img2.gmodules.com/ig/modules/youtube_videos_content/left_17x17.gif"/></a>
+            </div>
+          </td>
+          <td width=99%>
+            <div id="videoTitle" class="videotitle"></div>
+            <span id="videoDuration" class="videoinfo"></span>
+          </td>
+
+          <td>
+            <div id="videoMetadata" style="font-size:8pt; white-space:nowrap;">
+              <div id="infolink" class="infowatch">
+                <a href="javascript:void(0)" onclick="showInfo()">informacion</a>
+              </div>
+              <div id="hideLink" class="infowatch" style="display:none;">
+                <a href="javascript:void(0)"
+                  onclick="closeInfo()">ver</a>
+              </div>
+
+            </div>
+          </td>
+          <td align=right>
+            <div>
+              <a href="javascript:void(0)" onclick="nextVideo()"><img 
+                  border="0" width="17" height="17"
+                  src="http://img0.gmodules.com/ig/modules/youtube_videos_content/right_17x17.gif"/></a>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div id="chooseVideos" class="contentpane">
+    <table id="browse" style="width:100%; height:100%;">
+      <tr height="50%" align="center">
+        <td id="cell0" width="33%">
+          <div id="slot0" class="slot">
+            <a id="link0" href="javascript:void(0)"></a>
+
+            <div id="title0" class="browseitemtitle"></div>
+            <div id="duration0" class="browseitemduration"></div>
+          </div>
+        </td>
+        <td id="cell1" width="33%">
+          <div id="slot1" class="slot">
+            <a id="link1" href="javascript:void(0)"></a>
+            <div id="title1" class="browseitemtitle"></div>
+            <div id="duration1" class="browseitemduration"></div>
+
+          </div>
+        </td>
+        <td id="cell2" width="33%">
+          <div id="slot2" class="slot">
+            <a id="link2" href="javascript:void(0)"></a>
+            <div id="title2" class="browseitemtitle"></div>
+            <div id="duration2" class="browseitemduration"></div>
+          </div>
+        </td>
+
+      </tr>
+      <tr align="center">
+        <td>
+          <div id="slot3" class="slot">
+            <a id="link3" href="javascript:void(0)"></a>
+            <div id="title3" class="browseitemtitle"></div>
+            <div id="duration3" class="browseitemduration"></div>
+          </div>
+        </td>
+
+        <td>
+          <div id="slot4" class="slot">
+            <a id="link4" href="javascript:void(0)"></a>
+            <div id="title4" class="browseitemtitle"></div>
+            <div id="duration4" class="browseitemduration"></div>
+          </div>
+        </td>
+        <td>
+          <div id="slot5" class="slot">
+
+            <a id="link5" href="javascript:void(0)"></a>
+            <div id="title5" class="browseitemtitle"></div>
+            <div id="duration5" class="browseitemduration"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="searchFooter" class="hbar">
+  <form name="searchForm" onsubmit="doSearch(this.query.value); return false;">
+    <table>
+      <tr>
+        <td width="100%">
+          <input name="query" id="query" type="text" style="width:100%"/>
+        </td>
+        <td> 
+          <input name="search" value="Buscar" type="button"
+            onclick="this.form.onsubmit();"/>
+
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+</div>
+</body>
+</html>
+
+
+

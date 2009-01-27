@@ -1,0 +1,29 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Visor Datos de Equipo</Name>
+    <Version>1.0</Version>
+    <Author>miglesia</Author>
+    <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
+    <Description>Este gadget presenta la informacion relativa a un equipo perteneciente a la red de encaminadores</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/visorEquipos/datosEquipo.png</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosEquipo</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Event name="dir_equipo" type="text" label="Address" friendcode = "address" />
+    <Slot name="equipo" type="text" label="deviceId" friendcode = "deviceId" />
+    <Slot name="estado" type="text" label="deviceStatus" friendcode = "deviceStatus" />
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/visorEquipos/visorDatosEquipo.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="6" height="13"/>
+</Template>

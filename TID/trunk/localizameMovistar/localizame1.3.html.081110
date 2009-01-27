@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+body {margin: 0px;padding: 0px; background-color: #d3e2f9; font-family: verdana, arial, "lucida console", sans-serif; font-size:small;}
+textarea{width: 200px;}
+table {margin-left:auto; margin-right:auto; width:100%; padding: 4px; }
+td {font-size: small; /*border-width: 1px 1px 1px 1px; border-style: inset inset inset inset;
+border-color: gray gray gray gray;*/}
+
+</style>
+<title>SMS Sender</title>
+
+<SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+<script language="JavaScript">
+
+//IMPORTANT: user preference stores opensms_url base uri. It must be set by user
+var opensms_url = EzWebAPI.createRGadgetVariable("opensms_url", setBaseURI);
+// TM_LOGIN = numero de telefono del solicitante de la localizacion
+var usuario = EzWebAPI.createRGadgetVariable("tm_login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("tm_password", setPass);
+
+var utmCoord = EzWebAPI.createRWGadgetVariable("utmCoord");
+
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+return;
+}//setBaseURI
+
+function setOriginNumber(){
+return;
+}//setOriginNumber
+
+function setPass(){
+return;
+}//setPass
+
+
+function successCreationHandler(resp){
+var response = eval('(' + resp.responseText + ')');
+
+//document.frames['Imapa'].location.href = response.mapa;
+if (response.mapa != null && response.mapa !='' && response.mapa !='null') {
+//document.getElementById('Imapa').src = response.mapa;
+//document.getElementById('divMapa').innerHTML = "<iframe src='" + response.mapa +"' marginWidth='0' marginHeight='0' frameBorder='0' width='550' height='400' scrolling='no'></iframe>";
+
+var xRE = /X=\d+/i;
+var yRE = /Y=\d+/i;
+var precisionRE = /OR=\d+/i;
+
+var xArray = xRE.exec(response.mapa);
+var yArray = yRE.exec(response.mapa);
+var precisionArray = precisionRE.exec(response.mapa);
+
+if(xArray.length>0 && yArray.length>0){
+var x = xArray[0].split("=")[1];
+var y = yArray[0].split("=")[1];
+
+var coord = x + "," + y;
+if(precisionArray.length>0){
+var precision = precisionArray[0].split("=")[1];
+coord += "," + precision;
+}
+
+// Populate Event
+utmCoord.set(coord);
+}
+} else {
+//document.getElementById('Imapa').src = '';
+//document.getElementById('divMapa').innerHTML = '';
+}
+
+// Write result text to div
+document.getElementById("divTexto").innerHTML = response.texto;
+
+return;
+}//successCreationHandler
+
+function errorCreationHandler(error){
+alert('An error occurred while searching number.\nPlease, Contact admin.');
+return;
+}//errorCreationHandler
+
+function search(f){
+//var uri = "https://opensms.movistar.es/aplicacionpost/loginEnvio.jsp";
+var uri = opensms_url.get();
+var to = document.SearchForm.elements['to'].value;
+
+if (to.length <= 0) {
+alert('Destination number is mandatory. Please, fill it in order to search that user');
+} else {
+
+//document.getElementById('divMapa').innerHTML = '';
+document.getElementById('divTexto').innerHTML = 'Searching number, please wait...';
+var parameters = "usuario=" + usuario.get() + 
+"&clave=" + password.get() +
+"&to=" + document.SearchForm.elements['to'].value;
+EzWebAPI.send_post(uri, parameters, this, successCreationHandler, errorCreationHandler);
+}
+
+return;
+
+}
+
+</script>
+
+</head>
+
+<body>
+<form name="SearchForm" action="return false">
+<table>
+<tr><td>Number to locate: </td><td><input type="text" name="to"></input></td><td><input type="button" name="create" value="search" onclick="search(this.form)"></td></tr>
+<tr><td colspan="3"><div id='divTexto'></div></td></tr>
+</table>
+</form>
+</body>
+</html>

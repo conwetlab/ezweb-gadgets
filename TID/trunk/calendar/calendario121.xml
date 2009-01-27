@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>BasicCalendar</Name>
+		<Version>1.21</Version>
+		<Author>tylorh</Author>
+		<Mail>tylorh@tid.es</Mail>
+		<Description>This Calendar displays the date.</Description>
+		<ImageURI>http://www1.istockphoto.com/file_thumbview_approve/5295805/2/istockphoto_5295805_calendar_with_alarm_icon.jpg</ImageURI>
+		<WikiURI>http://www.google.com/</WikiURI>
+	</Catalog.ResourceDescription>
+	
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="yearInput" type="text" description="descripcion" label="Year:" />
+		<Preference name="monthInput" type="text" description="descripcion" label="Month:" />
+		<Preference name="dayInput" type="text" description="descripcion" label="Day:" />
+	</Platform.Preferences>
+	<Platform.StateProperties></Platform.StateProperties>
+	<Platform.Wiring>	<!-- EzWeb Gadget Data Wiring -->
+		<Slot name="inputDate" type="text" label="Date" friendcode="inputDate" />
+		<Event name="outputDate" type="text" label="Date" friendcode="outputDate" />
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/calendario121.html" />
+	</Platform.Link>
+	<Platform.Rendering width="10" height="10" />
+
+</Template>

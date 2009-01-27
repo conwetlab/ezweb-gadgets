@@ -1,0 +1,117 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="/gadgets/localizador/coordinates.js"></script>
+<title>Localizador</title>
+
+<!--script src="localizadorPequeno_files/maps" type="text/javascript"></script><script src="localizadorPequeno_files/main.js" type="text/javascript"></script><style type="text/css" media="screen">.gmnoscreen{display:none}</style><style type="text/css" media="print">.gmnoprint{display:none}</style-->
+
+<script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAMJVkXB8jBN4248w-bynRWhSxhvi8A6os512mS0A0OawqTqajIxS1lNIlAhUXxHYMUv946XERqG8djg" type="text/javascript"></script>
+
+<script>
+var map=null;
+var geocoder=null;
+var marker=null;
+var address = new EzWebAPI.createRGadgetVariable("address",_addressHandler);
+var utmCoord = new EzWebAPI.createRGadgetVariable("utmCoord",_utmHandler);
+
+function _initialize() {
+	if (GBrowserIsCompatible()) {
+		map = new GMap2(document.getElementById("map"));
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GMapTypeControl());
+		map.addControl(new GScaleControl());
+		map.setCenter(new GLatLng(34, 0), 1);
+		geocoder = new GClientGeocoder();
+	}
+}
+
+function _addressHandler(address) {
+
+if (address == null || address == undefined) {
+  map.setCenter(new GLatLng(34, 0), 1);
+  return;
+}
+
+if (geocoder) {
+geocoder.getLatLng(
+address,
+function(point) {
+if (!point) {
+_initialize();
+} else {
+map.setCenter(point, 16);
+marker = new GMarker(point);
+map.addOverlay(marker);
+marker.openInfoWindowHtml(address);
+GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(address);});
+}
+}
+);
+}
+}
+
+function _utmHandler(utm) {
+	var values = utm.split(",");
+	if(values.length>=2){
+		var info ="";
+		var x = values[0];
+		var y = values[1];
+		if (x!='' && y!=''){
+			info += '<b>UTM X: </b>'+ x;
+			info += '<br/><b>UTM Y: </b>'+ y;
+			if(values.length>=3){
+				var precision = values[2];
+				if(precision!=''){
+					info += '<br/><b>Precision: </b>+/- '+ precision+'m.';
+				}
+			}
+			
+			if(marker!=null){
+				map.removeOverlay(marker);
+			}
+			
+			createPointUTM(x, y, info, true);
+		}
+	}
+}
+
+function createMarker(point, info, center) {
+    var marker = new GMarker(point);
+	map.addOverlay(marker);
+	GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(info);});
+	marker.openInfoWindowHtml(info);
+	if(center){
+       map.setCenter(point, 16);
+	   //window.setTimeout(function(){map.panTo(point);}, 2000);
+	}
+	return marker;
+}
+
+function createPointGeo(lat, lon, info, center){
+    if(lat!='' && lon!=''){
+        //alert(lat + ", " + lon);
+        var point = new GLatLng(lat, lon);
+        return createMarker(point, info, center);
+    }
+    return null;
+}
+
+function createPointUTM(utmx, utmy, info, center){
+    if(utmx!='' && utmy!=''){
+        var latlon = new Array();
+        var coordinates = new Coordinates(Coordinates.DATUM_ED50);
+        //var coordinates = new Coordinates(Coordinates.DATUM_WGS84);
+        coordinates.utmToGeoDeg (utmx, utmy, 30, false, latlon);
+        //alert(utmx + ", " + utmy);
+        return createPointGeo(latlon[0], latlon[1], info, center)
+    }
+    return null;
+}
+
+</script>
+
+</head><body style="margin: 0px; padding: 0px;" onload="_initialize();">
+<div style="width: 100%; height: 100%;" id="map"></div>
+</body></html>

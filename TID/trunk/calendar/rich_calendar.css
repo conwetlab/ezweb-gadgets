@@ -1,0 +1,101 @@
+/************ main frame body ************/
+.rc_iframe_body {
+	margin: 0px;
+	background: #FFF;	/* general background (minus white lines) */
+	border: 0px solid #FFF;
+	cursor: default;
+}
+.rc_iframe_body .rc_table {
+	font-size: 11pt;
+	font-family: verdana,tahoma,sans-serif,arial;
+}
+
+/************ general characteristics ************/
+/* c  Month, Year x  (header) */
+.rc_iframe_body .rc_head_tr td,
+/* << < Today > >>  (navigation bar)*/
+.rc_iframe_body .rc_nav_tr td {
+	padding: 2px;
+	text-align: center;
+	white-space: nowrap;
+}
+/* c  Month, Year x  (header) */
+.rc_iframe_body .rc_head_tr td
+{
+	background: #9CF;
+	color: #000;
+	font-weight: bold;
+}
+/* << < Today > >>  (navigation bar)*/
+.rc_iframe_body .rc_nav_tr td
+{
+	background: #FFF;
+	border-bottom: 1px solid #999;
+	color: #06C;
+	text-decoration: underline;
+}
+/* Sun Mon Tue Wed Thu Fri Sat, non-special */
+.rc_iframe_body .rc_wd_tr td {
+	border-bottom: 1px solid #999;
+	padding: 2px;
+	text-align: center;
+	color: #000;
+	white-space: nowrap;
+}
+/* days of the month, non-special */
+.rc_iframe_body .rc_cal_tr td {
+	border: 1px solid #FFFFFF;		/* the rest of the "white space" for background */
+	padding: 4px 2px 4px 2px;
+	text-align: right;
+	color: #000;				/* normal day text color */
+	white-space: nowrap;
+	width: 20px;
+}
+/* Wed, June 26, 2008  (footer)  */
+.rc_iframe_body .rc_footer_tr td {
+	border-top: 1px solid #999;
+	padding: 2px;
+	text-align: center;
+	color: #000;
+	white-space: nowrap;
+}
+
+
+/************ special characteristics ************/
+/* CURRENT SELECTION */
+.rc_iframe_body td.rc_current {
+	color: #000;
+	background: #999;
+	font-weight: bold;
+}
+/* TODAY */
+.rc_iframe_body td.rc_today {
+	font-weight: bold;
+}
+/* WEEKEND  Sun Mon Tue Wed Thu Fri Sat */
+.rc_iframe_body td.rc_weekend_head {
+	color: #f00;
+}
+/* WEEKEND  days of the month  */
+.rc_iframe_body td.rc_weekend_day {
+	color: #f00;
+}
+/* HIGHLIGHTED ROW <tr> */
+.rc_iframe_body tr.rc_highlight,
+/* HIGHLIGHTED ROW <td> */
+.rc_iframe_body tr.rc_highlight td {
+	border: 1px solid #FFF;
+	background: inherit;
+}
+/* HIGHLIGHTED DAY <td> */
+.rc_iframe_body tr.rc_highlight td.rc_highlight {
+	background: #CCC;
+	border: 1px solid #CCC;
+}
+
+/* Not implemented */
+.rc_calendar {border: 10px solid #000000;	/* doesn't seem to do anything */}
+.rc_iframe_body .rc_time_tr td {border-top: 1px solid #000000; padding: 2px; text-align: center; color: #000; white-space: nowrap;}
+.rc_iframe_body .rc_hours {width: 20px;}
+.rc_iframe_body .rc_colon_span {}
+.rc_iframe_body .rc_mins {width: 20px;}

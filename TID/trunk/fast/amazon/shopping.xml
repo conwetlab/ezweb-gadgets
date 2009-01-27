@@ -1,0 +1,24 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>FAST Amazon</Name>
+<Version>1.0</Version>
+<Author>fabio</Author>
+<Mail>fabio@tid.es</Mail>
+<Description>Gadget Amazon de prueba para FAST</Description>
+<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fast/amazon/amazon.png</ImageURI>
+<WikiURI>http://forge.morfeo-project.org/wikis/fast</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+<Platform.Preferences>
+</Platform.Preferences>
+<!-- EzWeb Gadget Persistent State -->
+<Platform.StateProperties>
+</Platform.StateProperties>
+<!-- EzWeb Gadget Data Wiring -->
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/fast/amazon/shopping.html"/>
+</Platform.Link>
+<Platform.Rendering width="14" height="31"/>
+</Template>

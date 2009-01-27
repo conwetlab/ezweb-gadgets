@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>SimpleNotepad</Name>
+		<Version>1.0</Version>
+		<Author>jmartin</Author>
+		<Mail>jjmr@tid.es</Mail>
+		<Description>Este gadget permite anadir una nota personal</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/gadgets/postit.gif</ImageURI>
+		<WikiURI>http://piccolo.ls.fi.upm.es:7000/Notepad</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="bg" type="text" description="descripcion" label="background color"/>
+<Preference name="textcolor" type="text" description="descripcion" label="text color"/>
+
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="nota" type="text" label="nota"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring></Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/gadgets/notepad.html" />
+	</Platform.Link>
+	<Platform.Rendering width="1" height="11"/>
+</Template>

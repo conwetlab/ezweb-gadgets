@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<title>Visor de datos de equipo</title>
+<script>
+var deviceId = EzWebAPI.createRGadgetVariable("equipo",_deviceHandler);
+var deviceStatus = EzWebAPI.createRGadgetVariable("estado",_statusHandler);
+var address = EzWebAPI.createRWGadgetVariable("dir_equipo");
+var workingStatus = "OK";
+
+/*Temporary data for the demo*/
+var devices = [];
+var deviceData = ["DSLAM-ALCORCON-2","11111111","Fernandez Perez, Rodrigo","10.7.4.12","dslam1","transmision","MXF","ADSL","FSP","Calle Mayor 25, 28921 Alcorcon"];
+devices["device1"] = deviceData;
+deviceData = ["CONM-ALCOBENDAS-8","11112222","Rodriguez Fernandez, Alberto","10.6.7.144","conmuter4","conmutacion","DSL","ADSL","FSP","Calle de Triana 4, 28100 Alcobendas"];
+devices["device2"] = deviceData;
+deviceData = ["CONM-LEGANES-12","11111111","Fernandez Perez, Rodrigo","192.168.5.2","conmuter6","conmutacion","DSL","ADSL","XD","Calle de Antonio Machado 24, 28905 Getafe"];
+devices["device3"] = deviceData;
+deviceData = ["ESR-ALUCHE-10","11112222","Rodriguez Ferna&aacute;ndez, Alberto","10.6.7.12","esr2","conmutacion","DSL","ADSL","XD","Calle de Camarena 253, 28047 Madrid"];
+devices["device4"] = deviceData;
+deviceData = ["DSLAM-ROZAS-6","11111111","Fernandez Perez, Rodrigo","10.5.5.12","dslam2","transmision","DSL","ADSL","FSP","Calle del Ebro 20, 28230 Las Rozas de Madrid"];
+devices["device5"] = deviceData;
+deviceData = ["CONM-ALCOBENDAS-8","11112222","Rodriguez Fernandez, Alberto","10.6.7.144","conmuter4","conmutacion","DSL","ADSL","FSP","Calle de Triana 4, 28100 Alcobendas"];
+devices["device6"] = deviceData;
+deviceData = ["CONM-MOSTOLES-7","11111111","Fernandez Perez, Rodrigo","10.6.3.12","conmuter3","conmutacion","DSL","ADSL","XD","Calle Ricardo Medem 12, 28931 Mostoles"];
+devices["device7"] = deviceData;
+deviceData = ["CONM-RIOSROSAS-1","11112222","Rodriguez Fernandez, Alberto","10.0.5.56","commuter1","conmutacion","DSL","ADSL","FS","Calle de Rios Rosas 46, 28003 Madrid"];
+devices["device8"] = deviceData;
+deviceData = ["ERX-GETAFE-3","11112222","Rodriguez Fernandez, Alberto","10.3.6.33","erx1","conmutacion","DSL","IMAG","XD","Calle Villaverde 25, 28902 Getafe"];
+devices["device9"] = deviceData;
+deviceData = ["ESR-COSLADA-4","11111111","Fernandez Perez, Rodrigo","192.6.7.3","esr1","conmutacion","DSL","ADSL","FS","Calle de Paris 37, 28820 Coslada"];
+devices["device10"] = deviceData;
+
+function _statusHandler(status){
+workingStatus = status;
+}
+
+function _deviceHandler(device){
+if (device!=null && device!=undefined){
+var content="";
+content+="<p id='title' style=\"font-family: Arial; font-size: 22px; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: #000077;\">Datos del Equipo</p>";
+content+="<table style=\"font-family: Arial; font-size: 12px; padding: 1px;\" >";
+content+="<tr><th align='left'>Propiedad del Equipo</th><th align='left'>Valor</th></tr>";
+content+="<tr><td>Codigo del Equipo:</td><td>"+devices[device][0]+"</td></tr>";
+content+="<tr><td>Estado:</td><td>"+workingStatus+"</td></tr>";
+content+="<tr><td>Codigo del Responsable:</td><td>"+devices[device][1]+"</td></tr>";
+content+="<tr><td>Nombre del Responsable:</td><td>"+devices[device][2]+"</td></tr>";
+content+="<tr><td>IP:</td><td>"+devices[device][3]+"</td></tr>";
+content+="<tr><td>Nombre:</td><td>"+devices[device][4]+"</td></tr>";
+content+="<tr><td>Area:</td><td>"+devices[device][5]+"</td></tr>";
+content+="<tr><td>Tipo:</td><td>"+devices[device][6]+"</td></tr>";
+content+="<tr><td>Especificador:</td><td>"+devices[device][7]+"</td></tr>";
+content+="<tr><td>Modelo:</td><td>"+devices[device][8]+"</td></tr>";
+content+="<tr><td>Direccion:</td><td>"+devices[device][9]+"</td></tr></table>";
+document.getElementById("info").innerHTML=content;
+address.set(devices[device][9]);
+}
+}
+</script>
+</head>
+<body>
+<div id='info'><i>A la espera de seleccionar un equipo...</i></div>
+</body>
+</html>

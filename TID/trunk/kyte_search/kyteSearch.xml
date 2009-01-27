@@ -1,0 +1,33 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>KyteSearch1.0</Name>
+<Version>1.0</Version>
+<Author>abgp</Author>
+<Mail>abgp@tid.es</Mail>
+<Description>KyteTv Selector</Description>
+<ImageURI>http://media01.kyte.tv/images/header/home.gif?v=4</ImageURI>
+
+<WikiURI>
+http://trac.morfeo-project.org/trac/ezwebplatform/wiki/KyteSearch
+</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+<Platform.Preferences>
+  </Platform.Preferences>
+<Platform.StateProperties/>
+<!-- EzWeb Gadget Data Wiring -->
+
+<Platform.Wiring>
+	<Event name="Videourl" type="text" label="KiteVideoCode" friendcode="VideoURL"/>
+	<Event name="place" type="text" label="place" friendcode="address"/>
+	<Event name="title" type="text" label="title" friendcode="title"/>
+	<Event name="poi" type="text" label="poi" friendcode="poi"/>
+</Platform.Wiring>
+
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte_search/kyteSearch.html"/>
+</Platform.Link>
+<Platform.Rendering width="7" height="26"/>
+</Template>

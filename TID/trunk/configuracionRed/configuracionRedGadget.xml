@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Configuracion de Red</Name>
+		<Version>1.0</Version>
+		<Author>miglesia</Author>
+		<Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
+		<Description>Este gadget presenta un diagrama con la localizacion de la averia en el servicio</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/configuracionRed/red.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/ConfiguracionDeRed</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Slot name="serviceHired" type="text" label="ServiceHired" friendcode="service" />
+		<Event name="deviceId" type="text" label="deviceId" friendcode="deviceId" />
+		<Event name="deviceStatus" type="text" label="deviceStatus" friendcode="deviceStatus" />
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/configuracionRed/configuracionRed.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="7" height="13"/>
+</Template>

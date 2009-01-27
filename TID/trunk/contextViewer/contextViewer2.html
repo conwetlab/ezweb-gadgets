@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<style>
+#console{
+	display:block;
+	border:1px solid black;
+	color:black;
+        font-size:13pt;
+	font-family:"Comic Sans MS";
+	width:100%;
+	height:100%;
+	background: #f0e68c;
+	}
+</style>
+
+<script language="JavaScript">
+var nota = EzWebAPI.createRWGadgetVariable("nota");
+var bg = EzWebAPI.createRGadgetVariable("bg", setColorbg);
+var textcolor = EzWebAPI.createRGadgetVariable("textcolor", setColorTexto);
+var user = EzWebAPI.createRGadgetVariable("user", setVars1);
+var width = EzWebAPI.createRGadgetVariable("width", setVars2);
+var height = EzWebAPI.createRGadgetVariable("height", setVars3);
+var language = EzWebAPI.createRGadgetVariable("language", setVars4);
+
+function setVars1(){
+		var text = 'Context variables found (4)\n';
+		text = text + '  user: ' + user.get() + '\n';
+		text = text + '  width: ' + width.get() + '\n';
+		text = text + '  height: ' + height.get() + '\n';
+		text = text + '  language: ' + language.get() + '\n';
+		document.getElementById('console').value = text; 
+}
+
+function setVars2(){
+		setVars1();
+}
+
+function setVars3(){
+		setVars1();
+}
+
+function setVars4(){
+                setVars1();
+		}
+
+function setColorbg(color){
+	var f = document.getElementById("console");
+	
+	f.style.background= color;
+}
+function setColorTexto(color){
+	var f = document.getElementById("console");
+	
+	f.style.color= color;
+}
+function load(){
+		setVars1();
+		document.getElementById('console').style.height= window.innerHeight - 42 + "px";
+    document.getElementById('console').style.background=bg.get();
+    document.getElementById('console').style.color=textcolor.get();
+}
+</script>
+
+</head>
+	<body onload="javascript:load();">
+		<form id="formulario" onsubmit="return false;">	
+
+			<textarea id="console"></textarea>
+		</form>	
+	</body>
+</html>

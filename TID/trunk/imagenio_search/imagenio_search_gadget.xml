@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Imagenio Video Search</Name>
+    <Version>1.4</Version>
+    <Author>agarcia</Author>
+    <Mail>abgp@tid.es</Mail>
+    <Description>buscador de videos y selector de peliculas</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/imagenio_search/imagenio_logo.gif</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/TubeSearch</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Event name="rssUrl" type="text" label="rssUrl" friendcode="youtube_url"/>
+    <Event name="place" type="text" label="place" friendcode="address"/>
+    <Event name="title" type="text" label="title" friendcode="title"/>
+    <Event name="poi" type="text" label="poi" friendcode="poi"/>
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/imagenio_search/imagenio_search_gadget.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="26"/>
+</Template>
+
