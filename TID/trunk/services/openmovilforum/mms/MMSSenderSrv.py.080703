@@ -1,0 +1,42 @@
+
+from mms import MMSSenderAPI
+import web
+import httplib, urllib, urlparse
+
+class view:       
+    def GET(self):
+
+        parameters = web.input()
+        
+        if (not parameters.has_key('login')):
+            return web.badrequest()
+        login = parameters.get('login')
+        
+        if (not parameters.has_key('password')):
+            return web.badrequest()
+        password = parameters.get('password')
+        
+        if (not parameters.has_key('to')):
+            return web.badrequest()
+        to = parameters.get('to')
+        
+        if (not parameters.has_key('objectURL')):
+            return web.badrequest()
+        objectURL = parameters.get('objectURL')
+        
+        if (not parameters.has_key('subject')):
+            return web.badrequest()
+        subject = parameters.get('subject')
+        
+        if (not parameters.has_key('message')):
+            return web.badrequest()
+        message = parameters.get('message')
+        
+        mmsender=MMSSenderAPI.MMSSender()
+        response = mmsender.SendMMS(login, password, objectURL, subject, to, message)
+        if response.find('Tu mensaje ha sido enviado'):
+            print "Message sent"
+            return
+        print "Message not sent"
+        
+
