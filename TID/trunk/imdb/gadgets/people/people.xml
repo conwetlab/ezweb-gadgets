@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>ImdbPeople</Name>
+    <Version>0.1</Version>
+    <Author>jaimegc</Author>
+    <Mail>jaimegc@tid.es</Mail>
+    <Description>Este gadget permite obtener informacion una persona que ha participado en una pelicula</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Notepad</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+	  
+  </Platform.Preferences>
+
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+    
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+        <Event name="id" type="text" label="id" friendcode="id"/>
+		<Event name="name" type="text" label="name" friendcode="name"/>
+		<Event name="birth_date" type="text" label="birth_date" friendcode="birth_date"/>
+		<Event name="birth_notes" type="text" label="birth_notes" friendcode="birth_notes"/>
+		<Event name="headshot" type="text" label="headshot" friendcode="urlImage"/>
+        <Slot name="idMovie" type="text" label="idMovie" friendcode="idMovie"/>
+  </Platform.Wiring>
+  
+  <Platform.Link>
+    <XHTML href="http://localhost/repository/people/people.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="13"/>
+</Template>

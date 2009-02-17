@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+
+//Slots
+	var idMovie = EzWebAPI.createRGadgetVariable("idMovie",setIdMovie);
+//Events
+	var id = EzWebAPI.createRWGadgetVariable("id");
+	var name = EzWebAPI.createRWGadgetVariable("name");
+	var birth_date = EzWebAPI.createRWGadgetVariable("birth_date");
+	var birth_notes = EzWebAPI.createRWGadgetVariable("birth_notes");
+	var headshot = EzWebAPI.createRWGadgetVariable("headshot");
+
+
+  var prefix = "http://10.95.25.145:8080/"
+  
+  function setIdMovie(value)
+  {
+		//***** Recibe id de una peli, realiza peticion sobre esa id
+		//*****  y lista todas las personas de esa peli
+   var url = prefix + "movie/" + value;
+
+   EzWebAPI.send_get(url, this, callbackSuccessMovieId, callbackError);
+
+  }
+  function searchPeople()
+  {
+	var search = document.searchform.person.value;
+	var url = prefix + "person?text='"+encodeURIComponent(search)+"'";
+	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
+
+  }
+  
+  function infoPerson(id)
+  {
+	var url = "http://10.95.25.145:8080/person/"+id;
+	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
+  }
+  
+  function callbackError(responseData) {
+	alert("Request error: " + responseData.responseText);
+  }
+  
+	
+  function callbackSucessInfo(responseData) {
+
+	var infoPerson = eval("("+responseData.responseText+")");
+	var rows ="";
+
+	$('people').hide();
+	rows +="<div><table>";
+	//rows += "<tr><td><img src='"+infoPerson['headshot']+"'/></td><td>"+infoPerson.name+"</td></tr>";
+	rows += "<tr><td>Name: </td><td>"+infoPerson['name']+"</td></tr>";
+	rows += "<tr><td>Birth Date:</td><td>"+infoPerson['birth date']+"</td></tr>";
+	rows += "<tr><td>Birthplace:</td><td>"+infoPerson['birth notes']+"</td></tr>";
+	
+	var rolesL =[]; //***** MASCULINO - FEMENINO *****///
+	if (infoPerson['actor'])
+		rolesL.push("Actor");
+	if (infoPerson['director'])
+		rolesL.push("Director");
+	if (infoPerson['producer'])
+		rolesL.push("Producer");
+	if (infoPerson['writer'])
+		rolesL.push("Writer");
+	
+	var roles="";
+	for(i=0;i<rolesL.length-1;i++)
+	{
+		roles += rolesL[i] +", ";
+	}
+	roles += rolesL[rolesL.length-1];
+
+	rows += "<tr><td>Roles: </td><td>"+roles+"</td></tr>";
+	rows += "</table></div>";
+
+	$('infoPerson').update(rows);
+	$('infoPerson').show();
+	id.set(infoPerson.id);
+	name.set(infoPerson['name']);
+	birth_date.set(infoPerson['birth date']);
+	birth_notes.set(infoPerson['birth notes']);
+	headshot.set(infoPerson['headshot']);
+	
+  }
+
+  function callbackSuccessMovieId(responseData) {
+
+	var movie = eval("("+responseData.responseText+")");
+
+	if (movie.casting) {
+		    showPeopleList(movie.casting);
+        } else {
+	     	$('people').show();
+		$('people').innerHTML = "<tr><td style='cursor:pointer;'> There are co casting data available of this movie!</tr></td>";
+		$('infoPerson').hide();
+        }
+  }
+
+  function callbackSucessSearch(responseData) {
+
+	var peopleList = eval(responseData.responseText);
+	showPeopleList(peopleList);
+  }
+  
+  function showPeopleList(peopleList) {
+        var rows ="";
+	for(i=0;i<peopleList.length;i++)
+	{
+		rows += "<tr><td style='cursor:pointer;' onClick='infoPerson(\""+peopleList[i].id+"\")'>"+peopleList[i].name+"</td></tr>";
+	}
+	$('people').show();
+	$('people').innerHTML = rows;
+	$('infoPerson').hide();
+  }
+  
+  	
+</script>
+
+</head>
+<body>
+<h2>People</h2>
+<form name="searchform">
+<input type="text" name="person"/><input type="button" value="Search" onClick="searchPeople()">
+<table id="people">
+</table>
+<div id="infoPerson"></div>
+<div id="errors"></div>
+</form>
+</body>
+</html>
+<!--
+	var directors = infoMovie.directors;
+	rows += "<div id='directors'><table><tr><th>Directors</th></tr>";
+	for(i=0;i<directors.length;i++)
+	{
+		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+directors[i].id+"\")'>"+directors[i].name+"</span>"+directors[i].name+"</td></tr>";
+	}
+	rows += "</table></div>"
+	
+	var casting = infoMovie.casting;
+	rows += "<div id='casting'><table><tr><th>Casting</th></tr>";
+	for(i=0;i<casting.length;i++)
+	{
+		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+casting[i].id+"\")'>"+casting[i].name+"</span></td></tr>";
+	}
+	rows += "</table></div>"
+	
+	var writers = infoMovie.writers;
+	rows += "<div id='writters'><table><tr><th>Writers</th></tr>";
+	for(i=0;i<writers.length;i++)
+	{
+		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+writers[i].id+"\")'>"+writers[i].name+"</span>"+writers[i].name+"</td></tr>";
+	}
+	rows += "</table></div>"-->

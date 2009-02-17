@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<LINK rel="StyleSheet" href="http://localhost/repository/movie/style.css" type="text/css" />
+
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+
+//Slots
+	var idPerson = EzWebAPI.createRGadgetVariable("idPerson",setIdPerson);
+//Events
+	var id = EzWebAPI.createRWGadgetVariable("id");
+	var title = EzWebAPI.createRWGadgetVariable("title");
+	var year = EzWebAPI.createRWGadgetVariable("year");
+
+
+  function setIdPerson(value)
+  {
+		//***** Peticion a esa persona y sacar todas las peliculas
+		//***** mostrarlas en la lista de peliculas
+		var url = "http://10.95.25.145:8080/person/"+value;
+		EzWebAPI.send_get(url, this, callbackSucessIdPerson, callbackError);
+  }
+  function callbackSucessIdPerson(responseData)
+  {
+	var infoPerson = eval("("+responseData.responseText+")");
+	
+	var movieList = []
+
+	if (infoPerson['actor']) {
+		for (var i in infoPerson['actor'])
+			movieList.push(infoPerson['actor'][i]);
+	}
+
+	if (infoPerson['producer']) {
+		for (var i in infoPerson['producer'])
+			movieList.push(infoPerson['producer'][i]);
+	}
+
+	if (infoPerson['director']) {
+		for (var i in infoPerson['director'])
+			movieList.push(infoPerson['director'][i]);
+	}
+
+	if (infoPerson['writer']) {
+		for (var i in infoPerson['writer'])
+			movieList.push(infoPerson['writer'][i]);
+	}
+	
+	showMovies(movieList);
+	
+  }
+  function searchMovies()
+  {
+	var search = $('movie_input').value;
+	var url = "http://10.95.25.145:8080/movie?text='"+encodeURIComponent(search)+"'";
+	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
+
+        $('movie_text').innerHTML='Searching for: ' + search;
+
+  }
+  
+  function infoMovie(id)
+  {
+	var url = "http://10.95.25.145:8080/movie/"+id;
+	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
+  }
+  
+  function callbackError(responseData) {
+	alert("Request error: " + responseData.responseText);
+  }
+  
+  function sendIdPerson(id)
+  {
+	
+  }
+	
+  function callbackSucessInfo(responseData) {
+
+	var infoMovie = eval("("+responseData.responseText+")");
+	var rows ="";
+
+        var photo = '';
+        if (infoMovie.image){
+           photo = "<img id='movie_image' src='" + infoMovie.image  + "'/>";
+        }
+
+	rows += "<tr><td class='first'><b>Title:</b> " + infoMovie.title + "</td><td id='photo_container' width='1%' rowspan='3'>" + photo + "</td></tr>";
+	rows += "<tr><td class='even'><b>Year:</b> " + infoMovie.year + "</td></tr>";
+
+	var countries = "";
+        if (infoMovie.countries) {
+
+          for(i=0;i<infoMovie.countries.length-1;i++)
+		countries +=  infoMovie.countries[i] + ", ";
+
+	  countries +=  infoMovie.countries[infoMovie.countries.length-1];
+        }
+	rows += "<tr><td class='odd'><b>Countries:</b> " + countries + "</td></tr>";
+	
+	var genres = "";
+        if (infoMovie.genres) {
+	  for(i=0;i<infoMovie.genres.length-1;i++)
+		genres +=  infoMovie.genres[i] + ", ";
+
+	  genres +=  infoMovie.genres[infoMovie.genres.length-1];
+	}
+	rows += "<tr><td class='even' colspan='2'><b>Genres:</b> " + genres + "</td></tr>";
+	
+	var languages = "";
+        if (infoMovie.languages) {
+	  for(i=0;i<infoMovie.languages.length-1;i++)
+		languages +=  infoMovie.languages[i] + ", ";
+
+	  languages +=  infoMovie.languages[infoMovie.languages.length-1];
+	}
+	rows += "<tr><td class='odd' colspan='2'><b>Languages:</b> " + languages + "</td></tr>";
+	
+	var rating = "";
+        if (infoMovie.rating) {
+            rating = infoMovie.rating.toFixed(2) 
+        }
+	rows += "<tr><td class='even' colspan='2'><b>Rating:</b> " + rating + "</td></tr>";
+	
+
+        var plot = "";
+        if (infoMovie['plot']) {
+           plot = infoMovie['plot']
+	}
+	rows += "<tr><td class='odd' colspan='2'><b>Plot:</b> " + plot + "</td></tr>";
+	
+	
+	$('movies').hide();
+	$('movie_description').show();
+	$('movie_description').innerHTML = rows;
+	id.set(infoMovie.id);
+	title.set(infoMovie.title);
+	year.set(infoMovie.year);
+	
+  }
+
+  function callbackSucessSearch(responseData) {
+
+	var movieList = eval(responseData.responseText);
+	showMovies(movieList);
+  }
+  
+  function showMovies(movieList)
+  {
+	var odd = true;
+  	var rows ="";
+        var first = true;
+	
+        for(var i=0;i<movieList.length;i++) {
+	   var css_class = "";
+	   if (odd)
+              css_class='odd';
+           else
+              css_class='even';
+
+	   if (first) {
+              css_class= "first";
+	      first = false;
+           }
+
+	   odd = !odd;
+
+           var movie = movieList[i];
+
+	   if (movie.title) {
+             var re = new RegExp("http(.)*");
+
+             if (!re.test(movie.image))
+		   movie.image="http://i.media-imdb.com/images/tn15/addtiny.gif";
+			
+	     rows += "<tr>" + 
+                        "<td class='" + css_class + "' onClick='infoMovie(\""+movieList[i].id+"\")'>"+movieList[i].title+ " (" + movieList[i].year +  ")</td>" + 
+			"<td class='photo' onClick='infoMovie(\""+movieList[i].id+"\")'><img src='" + movieList[i].image + "'/></td>" + 
+                          "</tr>";
+           }
+	
+        }  
+
+	$('movies').show();
+	$('movies').innerHTML = rows;
+	$('movie_description').hide();
+  }
+    	
+</script>
+
+</head>
+<body>
+<div id="header">
+  <div id="left_header">
+    <img id="imdb_logo" src="http://i.media-imdb.com/images/nb15/logo2.gif" />
+  </div>
+  <div id="right_header">
+    Movie title:<br />
+    <input type="text" id="movie_input"/>
+    <a href="javascript:searchMovies();">Search</a>
+  </div>
+</div>
+
+<div id="movie_text"></div>
+
+<table id="movies">
+</table>
+
+<table id="movie_description">
+</table>
+
+<div id="errors"></div>
+
+</body>
+</html>
