@@ -158,6 +158,12 @@ class IMDbMobileAccessSystem(IMDbHTTPAccessSystem):
                 chpids = None
             elif len(chpids) == 1:
                 chpids = chpids[0]
+            
+            image = _findBetween(name, '<img src="', '"', maxRes=1)
+            image_url = ''
+            if image:
+                image_url = image[0]
+            
             name = _unHtml(name)
             # Catch unclosed tags.
             gt_indx = name.find('>')
@@ -168,7 +174,7 @@ class IMDbMobileAccessSystem(IMDbHTTPAccessSystem):
                 name = name[:-3]
             p = build_person(name, personID=str(pid[0]), billingPos=counter,
                             modFunct=self._defModFunct, roleID=chpids,
-                            accessSystem=self.accessSystem)
+                            accessSystem=self.accessSystem, image=image_url)
             plappend(p)
             counter += 1
         return pl
@@ -447,6 +453,11 @@ class IMDbMobileAccessSystem(IMDbHTTPAccessSystem):
                 image_url = _findBetween(img[0],' src="', '"', maxRes=1)[0]
 
         d['image_url'] = image_url
+        
+        film_location = _findBetween(cont, 'Filming Locations:</h5>', '</a>', maxRes=1)
+        if film_location:
+            film_location[:] = film_location[0].split('>')
+            if film_location: d['film_location'] = film_location [1].strip()
 
         return {'data': d}
 
@@ -632,6 +643,15 @@ class IMDbMobileAccessSystem(IMDbHTTPAccessSystem):
                     r.update(analyze_name(vtag, canonical=0))
                 except UnicodeEncodeError:
                     pass
+                
+        photo = _findBetween(s, '<div class="photo">', '</div>', maxRes=1)
+        image_url = ''
+        if (len(photo)>0):
+            img = _findBetween(photo[0], '<img', '/a>', maxRes=1)
+            if (len(img)>0):
+                image_url = _findBetween(img[0],' src="', '"', maxRes=1)[0]
+        r['image_url'] = image_url
+        
         return {'data': r, 'info sets': ('main', 'filmography')}
 
     def get_person_biography(self, personID):

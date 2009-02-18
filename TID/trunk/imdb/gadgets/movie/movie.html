@@ -8,7 +8,7 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-<LINK rel="StyleSheet" href="http://localhost/repository/movie/style.css" type="text/css" />
+<LINK rel="StyleSheet" href="http://localhost/repository/imdb/gadgets/movie/style.css" type="text/css" />
 
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -19,13 +19,14 @@
 	var id = EzWebAPI.createRWGadgetVariable("id");
 	var title = EzWebAPI.createRWGadgetVariable("title");
 	var year = EzWebAPI.createRWGadgetVariable("year");
+	var loc = EzWebAPI.createRWGadgetVariable("location");
 
 
   function setIdPerson(value)
   {
 		//***** Peticion a esa persona y sacar todas las peliculas
 		//***** mostrarlas en la lista de peliculas
-		var url = "http://10.95.25.145:8080/person/"+value;
+		var url = "http://localhost:8002/person/"+value;
 		EzWebAPI.send_get(url, this, callbackSucessIdPerson, callbackError);
   }
   function callbackSucessIdPerson(responseData)
@@ -60,7 +61,7 @@
   function searchMovies()
   {
 	var search = $('movie_input').value;
-	var url = "http://10.95.25.145:8080/movie?text='"+encodeURIComponent(search)+"'";
+	var url = "http://localhost:8002/movie?text='"+encodeURIComponent(search)+"'";
 	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
 
         $('movie_text').innerHTML='Searching for: ' + search;
@@ -69,17 +70,12 @@
   
   function infoMovie(id)
   {
-	var url = "http://10.95.25.145:8080/movie/"+id;
+	var url = "http://localhost:8002/movie/"+id;
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
   
   function callbackError(responseData) {
 	alert("Request error: " + responseData.responseText);
-  }
-  
-  function sendIdPerson(id)
-  {
-	
   }
 	
   function callbackSucessInfo(responseData) {
@@ -87,54 +83,61 @@
 	var infoMovie = eval("("+responseData.responseText+")");
 	var rows ="";
 
-        var photo = '';
-        if (infoMovie.image){
-           photo = "<img id='movie_image' src='" + infoMovie.image  + "'/>";
-        }
+    var photo = infoMovie.image;
+    if (photo){
+    	photo = "<img id='movie_image' src='" + infoMovie.image  + "'/>";
+    }else{
+    	photo = '';
+    }
 
 	rows += "<tr><td class='first'><b>Title:</b> " + infoMovie.title + "</td><td id='photo_container' width='1%' rowspan='3'>" + photo + "</td></tr>";
 	rows += "<tr><td class='even'><b>Year:</b> " + infoMovie.year + "</td></tr>";
 
 	var countries = "";
-        if (infoMovie.countries) {
-
-          for(i=0;i<infoMovie.countries.length-1;i++)
-		countries +=  infoMovie.countries[i] + ", ";
-
-	  countries +=  infoMovie.countries[infoMovie.countries.length-1];
-        }
+   	if (infoMovie.countries != undefined) {
+        for(i=0;i<infoMovie.countries.length-1;i++){
+			countries +=  infoMovie.countries[i] + ", ";
+		}
+ 		countries +=  infoMovie.countries[infoMovie.countries.length-1];
+    }
 	rows += "<tr><td class='odd'><b>Countries:</b> " + countries + "</td></tr>";
 	
 	var genres = "";
-        if (infoMovie.genres) {
-	  for(i=0;i<infoMovie.genres.length-1;i++)
-		genres +=  infoMovie.genres[i] + ", ";
-
-	  genres +=  infoMovie.genres[infoMovie.genres.length-1];
+    if (infoMovie.genres != undefined) {
+	  	for(i=0;i<infoMovie.genres.length-1;i++){
+			genres +=  infoMovie.genres[i] + ", ";
+		}
+	  	genres +=  infoMovie.genres[infoMovie.genres.length-1];
 	}
 	rows += "<tr><td class='even' colspan='2'><b>Genres:</b> " + genres + "</td></tr>";
 	
 	var languages = "";
-        if (infoMovie.languages) {
-	  for(i=0;i<infoMovie.languages.length-1;i++)
-		languages +=  infoMovie.languages[i] + ", ";
-
-	  languages +=  infoMovie.languages[infoMovie.languages.length-1];
+    if (infoMovie.languages != undefined) {
+	  	for(i=0;i<infoMovie.languages.length-1;i++){
+			languages +=  infoMovie.languages[i] + ", ";
+		}
+	  	languages +=  infoMovie.languages[infoMovie.languages.length-1];
 	}
 	rows += "<tr><td class='odd' colspan='2'><b>Languages:</b> " + languages + "</td></tr>";
 	
-	var rating = "";
-        if (infoMovie.rating) {
-            rating = infoMovie.rating.toFixed(2) 
-        }
+	var rating = infoMovie.rating;
+    if (isNaN(rating)) {
+        rating = "";
+    }
 	rows += "<tr><td class='even' colspan='2'><b>Rating:</b> " + rating + "</td></tr>";
 	
 
-        var plot = "";
-        if (infoMovie['plot']) {
-           plot = infoMovie['plot']
+    var plot = infoMovie.plot;
+    if (!plot) {
+    	plot = "";
 	}
 	rows += "<tr><td class='odd' colspan='2'><b>Plot:</b> " + plot + "</td></tr>";
+	
+	var locat = infoMovie.film_location;
+    if (!locat) {
+    	locat = "";
+	}
+	rows += "<tr><td class='even' colspan='2'><b>Location:</b> " + locat + "</td></tr>";
 	
 	
 	$('movies').hide();
@@ -143,7 +146,7 @@
 	id.set(infoMovie.id);
 	title.set(infoMovie.title);
 	year.set(infoMovie.year);
-	
+	loc.set(infoMovie.film_location);
   }
 
   function callbackSucessSearch(responseData) {
@@ -152,41 +155,35 @@
 	showMovies(movieList);
   }
   
-  function showMovies(movieList)
-  {
-	var odd = true;
+  function showMovies(movieList){
   	var rows ="";
-        var first = true;
 	
-        for(var i=0;i<movieList.length;i++) {
-	   var css_class = "";
-	   if (odd)
-              css_class='odd';
-           else
-              css_class='even';
+    for(var i=0;i<movieList.length;i++) {
+  		var css_class = ""
+		if(i==0){
+			css_class = "first";
+		} else if (i % 2 == 0){
+			css_class = "odd";
+		} else {
+			css_class = "even";
+		}
 
-	   if (first) {
-              css_class= "first";
-	      first = false;
-           }
+        var movie = movieList[i];
 
-	   odd = !odd;
+ 		if (movie.title) {
+			var re = new RegExp("http(.)*");
 
-           var movie = movieList[i];
-
-	   if (movie.title) {
-             var re = new RegExp("http(.)*");
-
-             if (!re.test(movie.image))
-		   movie.image="http://i.media-imdb.com/images/tn15/addtiny.gif";
-			
-	     rows += "<tr>" + 
-                        "<td class='" + css_class + "' onClick='infoMovie(\""+movieList[i].id+"\")'>"+movieList[i].title+ " (" + movieList[i].year +  ")</td>" + 
-			"<td class='photo' onClick='infoMovie(\""+movieList[i].id+"\")'><img src='" + movieList[i].image + "'/></td>" + 
-                          "</tr>";
-           }
+			if (!re.test(movie.image)){
+   				movie.image="http://i.media-imdb.com/images/tn15/addtiny.gif";
+			}
 	
-        }  
+			rows += "<tr>" + 
+                      	"<td class='" + css_class + "' onClick='infoMovie(\""+movieList[i].id+"\")'>"+movieList[i].title+ " (" + movieList[i].year +  ")</td>" + 
+						"<td class='photo' width='1%' onClick='infoMovie(\""+movieList[i].id+"\")'><img src='" + movieList[i].image + "'/></td>" + 
+                        "</tr>";
+         }
+
+      }  
 
 	$('movies').show();
 	$('movies').innerHTML = rows;

@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>ImdbMovie</Name>
-    <Version>0.3</Version>
+    <Version>0.4</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Este gadget permite obtener informacion de una pelicula</Description>
@@ -25,11 +25,12 @@
         <Event name="id" type="text" label="id" friendcode="id"/>
 		<Event name="title" type="text" label="title" friendcode="title"/>
 		<Event name="year" type="text" label="year" friendcode="year"/>
+		<Event name="location" type="text" label="location" friendcode="location"/>
         <Slot name="idPerson" type="text" label="idPerson" friendcode="idPerson"/>
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://localhost/repository/movie/movie.html"/>
+    <XHTML href="http://localhost/repository/imdb/gadgets/movie/movie.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>

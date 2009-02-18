@@ -66,6 +66,9 @@ def encode_detailed_movie(movie):
         
     if movie.data.has_key('image_url'):
         encoded_movie['image'] = movie.data['image_url']
+        
+    if movie.data.has_key('film_location'):
+        encoded_movie['film_location'] = movie.data['film_location']
     
     return encoded_movie
 
@@ -77,6 +80,10 @@ def encode_person(person):
     
     encoded_person['id']=person.personID
     encoded_person['name']=person.data['name']
+    if hasattr(person, 'image'):
+        encoded_person['image']=person.image
+    if hasattr(person, 'role'):    
+        encoded_person['role']=person.role
 
     return encoded_person
 
@@ -106,6 +113,9 @@ def encode_detailed_person(person):
     
     if person.data.has_key('headshot'):
         encoded_person['headshot']=person.data['headshot']
+        
+    if person.data.has_key('image_url'):
+        encoded_person['image'] = person.data['image_url']
     
     if person.data.has_key('actor'):
         encoded_person['actor']=encode_movies(person.data['actor'])

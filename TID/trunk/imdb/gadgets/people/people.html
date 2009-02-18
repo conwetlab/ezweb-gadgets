@@ -8,6 +8,8 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
+<LINK rel="StyleSheet" href="http://localhost/repository/imdb/gadgets/people/style.css" type="text/css" />
+
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
 
@@ -21,28 +23,24 @@
 	var headshot = EzWebAPI.createRWGadgetVariable("headshot");
 
 
-  var prefix = "http://10.95.25.145:8080/"
+  var prefix = "http://localhost:8002/"
   
-  function setIdMovie(value)
-  {
+  function setIdMovie(value){
 		//***** Recibe id de una peli, realiza peticion sobre esa id
 		//*****  y lista todas las personas de esa peli
-   var url = prefix + "movie/" + value;
-
-   EzWebAPI.send_get(url, this, callbackSuccessMovieId, callbackError);
-
-  }
-  function searchPeople()
-  {
-	var search = document.searchform.person.value;
-	var url = prefix + "person?text='"+encodeURIComponent(search)+"'";
-	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
-
+   	var url = prefix + "movie/" + value;
+   	EzWebAPI.send_get(url, this, callbackSuccessMovieId, callbackError);
   }
   
-  function infoPerson(id)
-  {
-	var url = "http://10.95.25.145:8080/person/"+id;
+  function searchPeople(){
+	var search = $('people_input').value;
+	var url = prefix + "person?text='"+encodeURIComponent(search)+"'";
+	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
+	$('people_text').innerHTML='Searching for: ' + search;
+  }
+  
+  function infoPerson(id){
+	var url = "http://localhost:8002/person/"+id;
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
   
@@ -52,16 +50,18 @@
   
 	
   function callbackSucessInfo(responseData) {
-
-	var infoPerson = eval("("+responseData.responseText+")");
+  
+  	var infoPerson = eval("("+responseData.responseText+")");
 	var rows ="";
 
-	$('people').hide();
-	rows +="<div><table>";
-	//rows += "<tr><td><img src='"+infoPerson['headshot']+"'/></td><td>"+infoPerson.name+"</td></tr>";
-	rows += "<tr><td>Name: </td><td>"+infoPerson['name']+"</td></tr>";
-	rows += "<tr><td>Birth Date:</td><td>"+infoPerson['birth date']+"</td></tr>";
-	rows += "<tr><td>Birthplace:</td><td>"+infoPerson['birth notes']+"</td></tr>";
+    var photo = '';
+    if (infoPerson.image != undefined){
+    	photo = "<img id='movie_image' src='" + infoPerson.image  + "'/>";
+    }
+
+	rows += "<tr><td class='first'><b>Name:</b> " + infoPerson['name'] + "</td><td id='photo_container' width='1%' rowspan='3'>" + photo + "</td></tr>";
+	rows += "<tr><td class='even'><b>Birth Date:</b> " + infoPerson['birth date'] + "</td></tr>";
+	rows += "<tr><td class='odd'><b>Birth Place:</b> " + infoPerson['birth notes'] + "</td></tr>";
 	
 	var rolesL =[]; //***** MASCULINO - FEMENINO *****///
 	if (infoPerson['actor'])
@@ -79,12 +79,13 @@
 		roles += rolesL[i] +", ";
 	}
 	roles += rolesL[rolesL.length-1];
-
-	rows += "<tr><td>Roles: </td><td>"+roles+"</td></tr>";
-	rows += "</table></div>";
-
-	$('infoPerson').update(rows);
-	$('infoPerson').show();
+	
+	rows += "<tr><td class='even' colspan='2'><b>Roles:</b> " + roles + "</td></tr>";
+	
+	
+	$('people').hide();
+	$('people_description').show();
+	$('people_description').innerHTML = rows;
 	id.set(infoPerson.id);
 	name.set(infoPerson['name']);
 	birth_date.set(infoPerson['birth date']);
@@ -98,67 +99,76 @@
 	var movie = eval("("+responseData.responseText+")");
 
 	if (movie.casting) {
-		    showPeopleList(movie.casting);
-        } else {
-	     	$('people').show();
+    	showPeopleList(movie.casting);
+    } else {
+    	$('people').show();
 		$('people').innerHTML = "<tr><td style='cursor:pointer;'> There are co casting data available of this movie!</tr></td>";
-		$('infoPerson').hide();
-        }
+		$('people_description').hide();
+    }
   }
 
   function callbackSucessSearch(responseData) {
-
 	var peopleList = eval(responseData.responseText);
 	showPeopleList(peopleList);
   }
   
   function showPeopleList(peopleList) {
-        var rows ="";
-	for(i=0;i<peopleList.length;i++)
-	{
-		rows += "<tr><td style='cursor:pointer;' onClick='infoPerson(\""+peopleList[i].id+"\")'>"+peopleList[i].name+"</td></tr>";
+    var rows ="";
+	for(i=0;i<peopleList.length;i++){
+		var css_class = "";
+		if(i==0){
+			css_class = "first";
+		} else if (i % 2 == 0){
+			css_class = "odd";
+		} else {
+			css_class = "even";
+		}
+		
+		var people = peopleList[i];
+		var re = new RegExp("http(.)*");
+		if (!re.test(people.image)){
+  				people.image="http://i.media-imdb.com/images/tn15/addtiny.gif";
+		}
+		
+		var role = people.role;
+		if(!role){
+			role = '';
+		}
+		
+		rows += "<tr>" + 
+            "<td class='" + css_class + "' onClick='infoPerson(\"" + people.id + "\")'>" + people.name + "</td>" + 
+            "<td class='" + css_class + "' onClick='infoPerson(\"" + people.id + "\")'>" + role + "</td>" + 
+			"<td class='photo' width='1%' onClick='infoPerson(\""+people.id+"\")'><img src='" + people.image + "'/></td>" + 
+            "</tr>";
 	}
 	$('people').show();
 	$('people').innerHTML = rows;
-	$('infoPerson').hide();
+	$('people_description').hide(); 
   }
-  
-  	
 </script>
 
 </head>
 <body>
-<h2>People</h2>
-<form name="searchform">
-<input type="text" name="person"/><input type="button" value="Search" onClick="searchPeople()">
+<div id="header">
+  <div id="left_header">
+    <img id="imdb_logo" src="http://i.media-imdb.com/images/nb15/logo2.gif" />
+  </div>
+  <div id="right_header">
+    People:<br />
+    <input type="text" id="people_input" name="person"/>
+    <a href="javascript:searchPeople();">Search</a>
+  </div>
+</div>
+
+<div id="people_text"></div>
+
 <table id="people">
 </table>
-<div id="infoPerson"></div>
+
+<table id="people_description">
+</table>
+
 <div id="errors"></div>
-</form>
+
 </body>
 </html>
-<!--
-	var directors = infoMovie.directors;
-	rows += "<div id='directors'><table><tr><th>Directors</th></tr>";
-	for(i=0;i<directors.length;i++)
-	{
-		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+directors[i].id+"\")'>"+directors[i].name+"</span>"+directors[i].name+"</td></tr>";
-	}
-	rows += "</table></div>"
-	
-	var casting = infoMovie.casting;
-	rows += "<div id='casting'><table><tr><th>Casting</th></tr>";
-	for(i=0;i<casting.length;i++)
-	{
-		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+casting[i].id+"\")'>"+casting[i].name+"</span></td></tr>";
-	}
-	rows += "</table></div>"
-	
-	var writers = infoMovie.writers;
-	rows += "<div id='writters'><table><tr><th>Writers</th></tr>";
-	for(i=0;i<writers.length;i++)
-	{
-		rows += "<tr><td><span class='link' onclick='sendIdPerson(\""+writers[i].id+"\")'>"+writers[i].name+"</span>"+writers[i].name+"</td></tr>";
-	}
-	rows += "</table></div>"-->

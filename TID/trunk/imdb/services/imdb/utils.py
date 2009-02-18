@@ -753,9 +753,9 @@ class _Container(object):
     cmpFunct = None
 
     def __init__(self, myID=None, data=None, notes=u'',
-                currentRole=u'', roleID=None, roleIsPerson=False,
+                currentRole=u'', role=None, roleID=None, roleIsPerson=False,
                 accessSystem=None, titlesRefs=None, namesRefs=None,
-                charactersRefs=None, modFunct=None, *args, **kwds):
+                charactersRefs=None, modFunct=None, image=None, *args, **kwds):
         """Initialize a Movie, Person or Character object.
         *myID* -- your personal identifier for this object.
         *data* -- a dictionary used to initialize the object.
@@ -803,6 +803,10 @@ class _Container(object):
         self.currentRole = currentRole
         if roleID:
             self.roleID = roleID
+        if role:
+            self.role = role
+        if image:
+            self.image = image
         self._init(*args, **kwds)
 
     def _get_roleID(self):

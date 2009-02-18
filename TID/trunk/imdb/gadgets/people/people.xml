@@ -31,7 +31,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://localhost/repository/people/people.html"/>
+    <XHTML href="http://localhost/repository/imdb/gadgets/people/people.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>

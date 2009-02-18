@@ -156,7 +156,7 @@ def subSGMLRefs(s):
 
 
 def build_person(txt, personID=None, billingPos=None,
-                roleID=None, accessSystem='http', modFunct=None):
+                roleID=None, accessSystem='http', modFunct=None, image=None):
     """Return a Person instance from the tipical <tr>...</tr> strings
     found in the IMDb's web site."""
     notes = u''
@@ -214,7 +214,7 @@ def build_person(txt, personID=None, billingPos=None,
     # XXX: return None if something strange is detected?
     return Person(name=name, personID=personID, currentRole=role,
                     roleID=roleID, notes=notes, billingPos=billingPos,
-                    modFunct=modFunct, accessSystem=accessSystem)
+                    modFunct=modFunct, role=role, image=image, accessSystem=accessSystem)
 
 
 # To shrink spaces.
