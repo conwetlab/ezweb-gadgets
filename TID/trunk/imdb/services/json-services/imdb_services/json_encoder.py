@@ -69,6 +69,9 @@ def encode_detailed_movie(movie):
         
     if movie.data.has_key('film_location'):
         encoded_movie['film_location'] = movie.data['film_location']
+        
+    if movie.data.has_key('runtimes'):
+        encoded_movie['runtimes'] = movie.data['runtimes']
     
     return encoded_movie
 
