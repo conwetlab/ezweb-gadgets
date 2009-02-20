@@ -458,6 +458,16 @@ class IMDbMobileAccessSystem(IMDbHTTPAccessSystem):
         if film_location:
             film_location[:] = film_location[0].split('>')
             if film_location: d['film_location'] = film_location [1].strip()
+            
+        awards = _findBetween(cont, 'Awards:</h5>', '</a>', maxRes=1)
+        if awards:
+            awards[:] = awards[0].split('<')
+            if awards: d['awards'] = awards[0].strip()
+            
+        company = _findBetween(cont, 'Company:</h5>', '</a>', maxRes=1)
+        if company:
+            company[:] = company[0].split('>')
+            if company: d['company'] = company [1].strip()
 
         return {'data': d}
 

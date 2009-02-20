@@ -72,6 +72,12 @@ def encode_detailed_movie(movie):
         
     if movie.data.has_key('runtimes'):
         encoded_movie['runtimes'] = movie.data['runtimes']
+        
+    if movie.data.has_key('awards'):
+        encoded_movie['awards'] = movie.data['awards']
+        
+    if movie.data.has_key('company'):
+        encoded_movie['company'] = movie.data['company']
     
     return encoded_movie
 
