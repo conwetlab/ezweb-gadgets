@@ -1,0 +1,363 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<title>Send Message</title>
+<style>
+#wait{
+	margin-left: 10px;
+	display: inline;
+}
+h2{
+	display: inline;
+	vertical-align: super;
+	margin-right: 10px;
+}
+h3{
+	margin: 5px 0 10px 0;
+}
+iframe{
+	width: 50px; 
+	height: 50px;
+}
+a{
+	color: #225784;
+}
+#header{
+	margin-top: 5px;
+}
+#cover{
+	position: relative;
+}
+#objectFile{
+	z-index: 1;
+	cursor: pointer;
+	color: #225784;
+	opacity:0.6;
+	font-weight:bold
+}
+#objectURL{
+	color: #225784;
+	opacity:0.6;
+   font-weight:bold
+	width: 165px;
+	display:none;
+	position: absolute;
+	z-index: 2;
+}
+#SMSmsg{
+	font-size:11pt;
+	color:#225784;
+	font-weight: bold;
+	vertical-align:super;
+	margin:5px;
+}
+.count{
+	display: none;
+	display: block;
+	font-weight: bold;
+	font-size: 7pt;
+}
+#num_messages, #num_characters{
+	font-size: 8pt;
+}
+#signatureConfig{
+	display: none;
+	margin: 5px 10px;
+	padding: 5px;
+	background: #E6F3F8;
+}
+#signature{
+	color: #225784;
+	opacity:0.6;
+    font-weight:bold;
+	border: 1px solid #238EC2;
+}
+.advice{
+	font-size: 8pt;
+}
+.advice span{
+	font-size: 10pt;
+	font-weight:bold;
+}
+</style>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="JavaScript">
+function sanitize( text ){
+	var equivalences = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ñ":"n","Ñ":"N",
+				'Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U',
+				'â':'a','ê':'e','î':'i','ô':'o','û':'u',
+				'Â':'A','Ê':'E','Î':'I','Ô':'O','Û':'U',
+				'à':'a','è':'e','ì':'i','ò':'o','ù':'u',
+				'À':'A','È':'E','Ì':'I','Ò':'O','Ù':'U',
+				'ä':'a','ë':'e','ï':'i','ö':'o','ü':'u',
+				'Ä':'A','Ë':'E','Ï':'I','Ö':'O','Ü':'U',
+				'ã':'a','õ':'o','Ã':'A','Õ':'O','€':'E',
+				'©':'c','°':'o','®':'R','£':'L','$':'S',
+				'\t':'   ', 'º':'o','ª':'a','“':'"','”':'"',
+				'…':'...'}
+
+	var plaintext = "";
+	for (var i = 0; i < text.length; i++) {
+		var ch = text.charAt(i);
+		if (equivalences[ch]) {
+			plaintext += equivalences[ch];
+		}else{
+			plaintext += ch;
+		}
+	} // for
+
+	return plaintext;
+}
+//IMPORTANT: user preference stores openmms_url base uri. It must be set by user
+var url = EzWebAPI.createRGadgetVariable("url", setBaseURI);
+
+// Remitente del MMS
+var login = EzWebAPI.createRGadgetVariable("login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("password", setPass);
+// Object URL
+var objectUrl = EzWebAPI.createRGadgetVariable("objectUrl", setObjectUrl);
+// Destination Phone
+var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDestinationPhone);
+// Subject
+var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
+// Message
+var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+
+var translator = null;
+
+//global variable
+
+var messageSended = false;
+var signature = "Thanks2EzWeb";
+var MESSAGE_SIZE = 160;
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+return;
+}//setBaseURI
+
+function setOriginNumber(){
+return;
+}//setOriginNumber
+
+function setPass(){
+return;
+}//setPass
+
+function setObjectUrl(val){
+	document.MMSCreationForm.elements['objectURL'].value = val;
+	document.getElementById("objectFile").parentNode.removeChild(document.getElementById("objectFile"));
+	//show the text-field and clear the file-field	
+	var file = document.createElement("input");
+	file.type = "file";
+	file.id = "objectFile";
+	file.name="objectFile";
+	file.size="24";
+	file.onkeyup=function(){document.getElementById('objectURL').value = document.getElementById('objectFile').value};
+	file.onchange=function(){document.getElementById("objectURL").value=document.getElementById('objectFile').value;document.getElementById("objectURL").style.display="none"};
+	document.getElementById("cover").appendChild(file);
+	document.getElementById("objectURL").style.display="block";
+	
+}//setObjectUrl
+
+function setSubject(val){
+	document.MMSCreationForm.elements['subject'].value = val;
+}//setSubject
+
+function setMessage(val){
+	if (document.MMSCreationForm.elements['message'].value != '') {
+ 	  document.MMSCreationForm.elements['message'].value += '\n' + val;
+   } else {
+  	  document.MMSCreationForm.elements['message'].value = val;
+   }
+   return;
+}//setMessage
+
+function setDestinationPhone(val){
+	document.MMSCreationForm.elements['to'].value = val;
+}//setDestinationPhone
+
+function toggleFileInput(){
+	var radio = document.getElementById("objectFileRadio");
+	var input = document.getElementById("objectFile");
+	var inputUrl = document.getElementById("objectURL");
+	if (radio.checked && input.style.display=="none"){
+		input.style.display="block";
+		inputUrl.style.display="none";
+	}
+}
+
+function toggleURLInput(){
+	var radio = document.getElementById("objectURLRadio");
+	var input = document.getElementById("objectURL");
+	var inputFile = document.getElementById("objectFile");
+	if (radio.checked && input.style.display=="none"){
+		input.style.display="block";
+		inputFile.style.display="none";
+	}
+}
+
+function updateCharacters(){
+	if (document.MMSCreationForm.elements['objectURL'].value!="" || document.MMSCreationForm.elements['objectFile'].value!=""){
+		document.getElementById("characters").style.display = 'none';
+		document.getElementById("messages").style.display = 'none';
+	}else{
+
+		document.getElementById("characters").style.display = 'block';
+		document.getElementById("messages").style.display = 'block';
+		var real_msg_size = document.getElementById("message").value.length;
+		
+		var char_rem = MESSAGE_SIZE - (real_msg_size % (MESSAGE_SIZE+1));
+		if (char_rem!=parseInt(document.getElementById("num_characters").innerHTML)){
+			document.getElementById("num_characters").innerHTML = char_rem;
+			document.getElementById("num_messages").innerHTML = Math.ceil(real_msg_size / MESSAGE_SIZE);
+		}
+	}
+}
+
+function clearForm(){
+	document.getElementById('MMSCreationForm').reset();
+}
+
+function removeSendingMessage(){
+	if (messageSended){
+		document.getElementById("wait").style.display="none";
+		document.getElementById("uploadFileFrameId").style.display="inline";
+		//document.getElementById('MMSCreationForm').reset();
+	}
+}
+
+function successSMS(r){
+	document.getElementById("wait").style.display="none";
+	document.getElementById("SMSmsg").src="/repository/openmovilforum/tick.gif";
+	document.getElementById("SMSmsg").style.display="block";
+	document.getElementById('MMSCreationForm').reset();
+}
+
+function errorSMS(r){
+	document.getElementById("wait").style.display="none";
+	document.getElementById("SMSmsg").src="/repository/openmovilforum/cross.gif";
+	document.getElementById("SMSmsg").style.display="block";
+}
+
+
+function validateMMS(f){
+	var uri_mms = url.get()+"/openmovilforum/mms";
+	var uri_sms = url.get()+"/openmovilforum/sms";
+	var to = document.MMSCreationForm.elements['to'].value;
+	var subject = document.MMSCreationForm.elements['subject'].value;
+	var message = document.MMSCreationForm.elements['message'].value;
+	var objectURL = document.MMSCreationForm.elements['objectURL'].value;
+	var objectFile = document.MMSCreationForm.elements['objectFile'].value;
+	var source = login.get();
+	var passwd = password.get();
+
+	if (message.length <= (MESSAGE_SIZE-signature.length-1)){
+		message += "\n"+signature;
+	}
+	message = sanitize(message);
+	subject = sanitize(subject);
+	if (source==null || source.length <= 0) {
+		alert('Source Telephone Number is empty!!!. Please, fill it in order to send a new MMS');
+	} else if (passwd==null || passwd.length <= 0) {
+		alert('Password is empty!!!. Please, fill it in order to send a new MMS');
+	} else if (to.length <= 0) {
+		alert('Destination number is mandatory. Please, fill it in order to send a new MMS');
+	} else if (objectURL.length <= 0 && objectFile.length <= 0) {
+		// Send the SMS
+		var parameters ={"TM_LOGIN":source,
+						 "TM_PASSWORD":passwd,
+						 "to":to,
+						 "message": message};
+		document.getElementById("uploadFileFrameId").style.display="none";
+		document.getElementById("SMSmsg").style.display="none";
+		document.getElementById("wait").style.display="block";
+    	EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
+	} else {
+		// Send the MMS
+		document.MMSCreationForm.action=uri_mms;
+		document.MMSCreationForm.elements['login'].value = source;
+		document.MMSCreationForm.elements['password'].value = passwd;
+		document.MMSCreationForm.elements['message'].value = message;
+		document.MMSCreationForm.elements['subject'].value = subject;
+		document.getElementById("uploadFileFrameId").style.display="none";
+		document.getElementById("SMSmsg").style.display="none";
+		document.getElementById("wait").style.display="block";
+		messageSended = true;
+		document.MMSCreationForm.submit();
+		return true;
+	}
+	//Do not send
+	return false;
+}
+
+function showSignature(){
+	document.getElementById('MMSCreationForm').style.display="none";
+	document.getElementById('signatureConfig').style.display="block";
+	document.getElementById("signature").value = signature;
+}
+
+function saveSignature(){
+	document.getElementById('MMSCreationForm').style.display="block";
+	document.getElementById('signatureConfig').style.display="none";
+	signature = document.getElementById("signature").value;
+}
+
+function init(){
+	document.MMSCreationForm.elements['create'].value = translator.getLabel("send_label");
+	setInterval(updateCharacters, 500);
+	
+}
+
+function generateLang(){
+	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/openmovilforum/languages.xml", "language", "languagePref", init);
+}
+
+</script>
+</head>
+<body onload="generateLang()" >
+<form id="MMSCreationForm" name="MMSCreationForm" method="POST" enctype="multipart/form-data" target="uploadFileFrame" onsubmit="return false;">
+<table class="content">
+<tbody>
+<tr class="odd first">
+	<td style="width: 25%;" id="dest_label" >Destination number*: </td>
+	<td style="width: 65%;"><input class="text" name="to" type="text" /><br/><span id="advice_label" class="advice">multiple numbers separated with <span>;</span></span><div></td>
+	<td style="width: 10%;"><input name="create" value="send" type="button" onclick="validateMMS()"/></div></td>
+</tr>
+<tr class="odd"><td id="subject_label">Subject: </td><td colspan="2"><input class="text" name="subject" type="text"/></td></tr>
+<tr class="odd">
+	<td id="url_label">URL/File: </td>
+	<td colspan="2">
+		<div id="cover">
+			<input id="objectFile" name="objectFile" type="file" size="24" onkeyup="document.getElementById('objectURL').value = document.getElementById('objectFile').value"/>
+			<input id="objectURL" name="objectURL" type="text" size="24" />
+		</div>
+	</td>
+</tr>
+<tr class="odd">
+	<td><span id="message_label">Message: </span>
+		<span id="characters" class="count"><span id="num_characters">160</span> <span id="chars_left">chars left</span></span>
+		<span id="messages" class="count"><span id="num_messages">1</span> SMS</span>
+		<div id="wait" style="display:none"><img src="/repository/openmovilforum/sending28x28blue.gif"/></div>
+		<img id="SMSmsg" style="display:none" />
+		<iframe id="uploadFileFrameId" name="uploadFileFrame" height="30px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
+	</td>
+	<td colspan="2" style="text-align:right;">
+		<textarea id="message" name="message" rows="4" onblur="updateCharacters()" onkeyup="updateCharacters()"></textarea>
+		<a href="javascript:showSignature()" id="editsign_label">edit signature</a>
+	</td></tr>
+</tbody>
+</table>
+<input name="login" value="" type="hidden" />
+<input name="password" value="" type="hidden" />
+</form>
+<div id="signatureConfig">
+<h3 id="signconf_label">Signature configuration</h3>
+<label id="sign_label">Signature: </label><input id="signature" type="text"/>
+<p class="warning" id="warning1_label">This signature would only be added if it does not involve sending a new message.</p>
+<p class="warning" id="warning2_label">Please, consider not removing this signature because it helps us to diseminate EzWeb. We need your help to keep offering EzWeb without any cost. Thank you very much!</p>
+<a href="javascript:saveSignature()" id="back_label">back</a>
+</div>
+</body></html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="send_label">send</label>
+		<label id="dest_label">Destination number*: </label>
+		<label id="advice_label">multiple numbers separated with &lt;span&gt;;&lt;/span&gt;</label>
+		<label id="subject_label">Subject: </label>
+		<label id="url_label">URL/File: </label>
+		<label id="message_label">Message: </label>
+		<label id="chars_left">chars left</label>
+		<label id="editsign_label">edit signature</label>
+		<label id="signconf_label">Signature configuration</label>
+		<label id="sign_label">Signature: </label>
+		<label id="warning1_label">This signature would only be added if it does not involve sending a new message.</label>
+		<label id="warning2_label">Please, consider not removing this signature because it helps us to diseminate EzWeb. We need your help to keep offering EzWeb without any cost. Thank you very much!</label>
+		<label id="back_label">back</label>
+	</language>
+	<language name="es">
+		<label id="send_label">enviar</label>
+		<label id="dest_label">Destinatario*: </label>
+		<label id="advice_label">multiples destinatarios separados por &lt;span&gt;;&lt;/span&gt;</label>
+		<label id="subject_label">Asunto: </label>
+		<label id="url_label">URL/Archivo:</label>
+		<label id="message_label">Mensaje: </label>
+		<label id="chars_left">restantes</label>
+		<label id="editsign_label">editar firma</label>
+		<label id="signconf_label">Configuración de la firma</label>
+		<label id="sign_label">Firma: </label>
+		<label id="warning1_label">Esta firma solo se añadirá si ello no implica un nuevo mensaje.</label>
+		<label id="warning2_label">Por favor, considera mantener esta firma ya que nos ayuda a difundir Ezweb. Necesitamos tu ayuda para seguir ofreciendo EzWeb libre de costes.</label>
+		<label id="back_label">volver</label>
+	</language>
+</languages>

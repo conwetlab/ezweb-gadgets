@@ -1,0 +1,43 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>MessageSender</Name>
+<Version>1.1</Version>
+<Author>jjmr</Author>
+<Mail>jjmr@tid.es</Mail>
+<Description>
+Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obtiene enviando un mensaje de texto gratuito al 770 (solo clientes Movistar) cuyo texto sea la clave de acceso que desee. La clave debera tener entre 6 y 14 caracteres</Description>
+<ImageURI>http://demo.ezweb.morfeo-project.com/repository/openmovilforum/sendMessage.png</ImageURI>
+<WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MMSSender</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+-
+<Platform.Preferences>
+	<Preference name="url" type="text" description="Open MovilForum MMS URI" default="http://jjmr-desktop.hi.inet:8001" label="Service Base URI"/>
+	<Preference name="login" type="text" description="Source Telephone Number" label="Source Telephone Number"/>
+	<Preference name="password" type="password" description="Password" label="Password"/>
+	<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
+		<Option value="default" name="Default"/>
+		<Option value="en" name="English"/>
+		<Option value="es" name="Español"/>
+	</Preference>
+</Platform.Preferences>
+<!-- EzWeb Gadget Persistent State -->
+<Platform.StateProperties>
+	</Platform.StateProperties>
+<!-- EzWeb Gadget Data Wiring -->
+<Platform.Wiring>
+	<Slot name="objectUrl" type="text" label="objectUrl" friendcode="objectUrl"/>
+	<Slot name="destinationPhone" type="text" label="destinationPhone" friendcode="phone"/>
+	<Slot name="subject" type="text" label="subject" friendcode="subject"/>
+	<Slot name="message" type="text" label="message" friendcode="message"/>
+</Platform.Wiring>
+<Platform.Context>
+	<Context name="language" type="text" concept="language"/>
+</Platform.Context>
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/sendMessage.html"/>
+</Platform.Link>
+<Platform.Rendering width="7" height="18"/>
+</Template>
