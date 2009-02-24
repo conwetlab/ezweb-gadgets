@@ -21,15 +21,26 @@
 	var birth_date = EzWebAPI.createRWGadgetVariable("birth_date");
 	var birth_notes = EzWebAPI.createRWGadgetVariable("birth_notes");
 	var headshot = EzWebAPI.createRWGadgetVariable("headshot");
+//Preferences
+	var urlService = EzWebAPI.createRGadgetVariable("url", setUrlService);
+	
+	
+	//var prefix = "http://localhost:8002/"
+	var prefix=urlService.get();
+	function setUrlService(value)
+	{
+		prefix = value;
+	}
 
 
-  var prefix = "http://localhost:8002/"
-  
   function setIdMovie(value){
 		//***** Recibe id de una peli, realiza peticion sobre esa id
 		//*****  y lista todas las personas de esa peli
-   	var url = prefix + "movie/" + value;
-   	EzWebAPI.send_get(url, this, callbackSuccessMovieId, callbackError);
+	if(value!=""){
+		var url = prefix + "movie/" + value;
+		EzWebAPI.send_get(url, this, callbackSuccessMovieId, callbackError);
+	}
+
   }
   
   function searchPeople(){
@@ -45,7 +56,8 @@
   }
   
   function callbackError(responseData) {
-	alert("Request error: " + responseData.responseText);
+	//alert("Request error: " + responseData.responseText);
+	$('people_text').innerHTML='<div style="color:red; text-align:center;">Service unavailable</div>';
   }
   
 	
@@ -91,7 +103,7 @@
 	birth_date.set(infoPerson['birth date']);
 	birth_notes.set(infoPerson['birth notes']);
 	headshot.set(infoPerson['headshot']);
-	
+	$('people_text').innerHTML='';
   }
 
   function callbackSuccessMovieId(responseData) {
@@ -105,11 +117,13 @@
 		$('people').innerHTML = "<tr><td style='cursor:pointer;'> There are co casting data available of this movie!</tr></td>";
 		$('people_description').hide();
     }
+	$('people_text').innerHTML='';
   }
 
   function callbackSucessSearch(responseData) {
 	var peopleList = eval(responseData.responseText);
 	showPeopleList(peopleList);
+	$('people_text').innerHTML='';
   }
   
   function showPeopleList(peopleList) {

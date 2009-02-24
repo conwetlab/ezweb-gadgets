@@ -20,14 +20,24 @@
 	var title = EzWebAPI.createRWGadgetVariable("title");
 	var year = EzWebAPI.createRWGadgetVariable("year");
 	var loc = EzWebAPI.createRWGadgetVariable("location");
+//Preferences
+	var urlService = EzWebAPI.createRGadgetVariable("url", setUrlService);
 
-
+	var prefix=urlService.get();
+	function setUrlService(value)
+	{
+		prefix = value;
+	}
   function setIdPerson(value)
   {
 		//***** Peticion a esa persona y sacar todas las peliculas
 		//***** mostrarlas en la lista de peliculas
-		var url = "http://localhost:8002/person/"+value;
-		EzWebAPI.send_get(url, this, callbackSucessIdPerson, callbackError);
+		//var url = "http://localhost:8002/person/"+value;
+		if(value!=""){
+			var url = prefix+"person/"+value;
+			EzWebAPI.send_get(url, this, callbackSucessIdPerson, callbackError);
+		}
+		
   }
   function callbackSucessIdPerson(responseData)
   {
@@ -61,7 +71,8 @@
   function searchMovies()
   {
 	var search = $('movie_input').value;
-	var url = "http://localhost:8002/movie?text='"+encodeURIComponent(search)+"'";
+	//var url = "http://localhost:8002/movie?text='"+encodeURIComponent(search)+"'";
+	var url = prefix+"movie?text='"+encodeURIComponent(search)+"'";
 	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
 
         $('movie_text').innerHTML='Searching for: ' + search;
@@ -70,12 +81,14 @@
   
   function infoMovie(id)
   {
-	var url = "http://localhost:8002/movie/"+id;
+	//var url = "http://localhost:8002/movie/"+id;
+	var url = prefix+"movie/"+id;
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
   
   function callbackError(responseData) {
-	alert("Request error: " + responseData.responseText);
+	//alert("Request error: " + responseData.responseText);
+	$('movie_text').innerHTML='<div style="color:red; text-align:center;">Service unavailable</div>';
   }
 	
   function callbackSucessInfo(responseData) {
@@ -93,6 +106,16 @@
 	rows += "<tr><td class='first'><b>Title:</b> " + infoMovie.title + "</td><td id='photo_container' width='1%' rowspan='3'>" + photo + "</td></tr>";
 	rows += "<tr><td class='even'><b>Year:</b> " + infoMovie.year + "</td></tr>";
 
+	var directors = "";
+   	if (infoMovie.directors != undefined) {
+        for(i=0;i<infoMovie.directors.length-1;i++){
+			directors +=  infoMovie.directors[i].name + ", ";
+		}
+ 		directors +=  infoMovie.directors[infoMovie.directors.length-1].name;
+    }
+	rows += "<tr><td class='odd' colspan='2'><b>Directors:</b> " + directors + "</td></tr>";
+	rows += "<tr><td class='even' colspan='2'><b>Company:</b> " + infoMovie.company + "</td></tr>";
+	
 	var countries = "";
    	if (infoMovie.countries != undefined) {
         for(i=0;i<infoMovie.countries.length-1;i++){
@@ -100,7 +123,7 @@
 		}
  		countries +=  infoMovie.countries[infoMovie.countries.length-1];
     }
-	rows += "<tr><td class='odd'><b>Countries:</b> " + countries + "</td></tr>";
+	rows += "<tr><td class='odd' colspan='2'><b>Countries:</b> " + countries + "</td></tr>";
 	
 	var genres = "";
     if (infoMovie.genres != undefined) {
@@ -139,10 +162,19 @@
 	}
 	rows += "<tr><td class='even' colspan='2'><b>Location:</b> " + locat + "</td></tr>";
 	
+	var awards = infoMovie.awards;
+	if(!awards || (awards == undefined)){
+		awards = "";
+	}
+	
+	rows += "<tr><td class='odd' colspan='2'><b>Awards:</b> " + awards + "</td></tr>";
+	
+	
 	
 	$('movies').hide();
 	$('movie_description').show();
 	$('movie_description').innerHTML = rows;
+	$('movie_text').innerHTML='';
 	id.set(infoMovie.id);
 	title.set(infoMovie.title);
 	year.set(infoMovie.year);
@@ -153,6 +185,7 @@
 
 	var movieList = eval(responseData.responseText);
 	showMovies(movieList);
+	$('movie_text').innerHTML='';
   }
   
   function showMovies(movieList){
@@ -187,6 +220,7 @@
 
 	$('movies').show();
 	$('movies').innerHTML = rows;
+	$('movie_text').innerHTML='';
 	$('movie_description').hide();
   }
     	

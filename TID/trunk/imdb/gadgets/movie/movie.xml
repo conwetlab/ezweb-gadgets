@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>ImdbMovie</Name>
-    <Version>0.4</Version>
+    <Version>0.6</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Este gadget permite obtener informacion de una pelicula</Description>
@@ -13,7 +13,7 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-	  
+	  <Preference name="url" type="text" description="descripcion" label="url" default="http://localhost:8002/"/>
   </Platform.Preferences>
 
   <!-- EzWeb Gadget Persistent State -->
