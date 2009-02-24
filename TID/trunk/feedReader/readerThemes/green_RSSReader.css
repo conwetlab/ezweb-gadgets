@@ -1,0 +1,124 @@
+/* red theme*/
+		body {	
+			background-color: #ffffff;
+			font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+			font-size:12px;
+		}
+		
+		a {
+			color:#006600;
+			text-decoration:none;
+		}
+		
+		a:hover {
+			text-decoration:underline;
+		}
+		
+		.item_content {
+			border: 1px solid #006600;
+			background: #FFFFFF;
+			padding: 5px;
+			margin-top:15px;
+			overflow:hidden;
+			-moz-border-radius-topleft:4px;
+			-moz-border-radius-topright:4px;
+			-webkit-border-top-left-radius:4px;
+			-webkit-border-top-right-radius:4px;
+			-moz-border-radius-bottomleft:4px;
+			-moz-border-radius-bottomright:4px;
+			-webkit-border-bottom-left-radius:4px;
+			-webkit-border-bottom-right-radius:4px;
+		}
+		
+		#chan {
+			margin-top: 10px;
+		}
+		
+		#chan_title, .msg{
+			font-size:20px;
+			color:#ffffff;
+			background:#006600;
+			margin-bottom:10px;
+			padding: 0 0 0 10px;
+		}
+		#chan_link{
+			color:#ffffff;
+		}
+		#chan_description{
+			margin:10px 0 0 5px;
+			font-style:italic;
+			color: #222222;
+		}
+		#chan_header{
+			overflow:hidden;
+		}
+
+		#chan_items li {
+			list-style:none;
+			margin:0px;
+			border-bottom: 1px solid #deeec0;
+			padding:5px;
+			background:#deeec0;
+			cursor: pointer;
+			position: relative;
+
+		}
+		#chan_items li.odd{
+			background:#ebf5df;
+		}
+
+		.item_title {
+			color:#222222;
+			margin-right:110px;
+		}
+
+		.item_date {
+			position:absolute;
+			font-size: 90%;
+			color: #828299;
+			right: 5px;
+			top: 3px;
+		}
+		
+		.item_link {
+			color:#7a8ed6;
+			font-size:14px;
+			font-weight:bold;
+			margin:5px;
+			display: inline;
+		}
+		
+		#chan_items { 
+			margin: 10px 0 10px 0; 
+		}
+		#chan_items ul{
+			border-top: 1px solid #deeec0;
+			margin:0px;
+		}
+		
+		.item { 
+		}
+
+		#chan_pubDate, #chan_copyright {
+			font-size:11px;
+			font-size: 90%;
+			color: #828299;
+		}
+		#chan_image_link {
+			float: right;
+		}
+		.chan_image{
+			height:auto;
+			width:auto;
+			max-height:70px;
+			max-width:200px;
+		}
+		img {
+			border: 0px;
+		}
+		
+		#loading{
+			display:block;
+			text-align:center;
+			margin-top: 15%;
+		}

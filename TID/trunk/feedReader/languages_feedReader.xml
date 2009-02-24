@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="sendTip_l">send summary</label>
+		<label id="dateFormat">MM-DD-YYYY</label>
+		<label id="Jan">Jan</label>
+		<label id="Apr">Apr</label>
+		<label id="Aug">Aug</label>
+		<label id="Dec">Dec</label>
+	</language>
+	<language name="es">
+		<label id="sendTip_l">enviar resumen</label>
+		<label id="dateFormat">DD-MM-YYYY</label>
+		<label id="Jan">Ene</label>
+		<label id="Apr">Abr</label>
+		<label id="Aug">Ago</label>
+		<label id="Dec">Dic</label>
+	</language>
+</languages>
+

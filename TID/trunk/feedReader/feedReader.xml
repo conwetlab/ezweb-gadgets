@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>FeedReader</Name>
+    <Version>3.22</Version>
+    <Author>abgp</Author>
+    <Mail>abgp@tid.es</Mail>
+    <Description>Este gadget muestra un feed RSS 2.0 o Atom 1.0</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rss.jpg</ImageURI>
+    <iPhoneImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssIPhone.png</iPhoneImageURI>
+    <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_Reader</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+	<Preference name="onClick" type="list" description="where must the piece of news be opened" label="Open news on...">
+	<Option value="gadget" name="This gadget"/>
+	<Option value="window" name="New window"/>
+	</Preference>
+    <Preference name="items" type="text" label="Max items" description="max num of items to show" default="7"/>
+	<Preference name="feedUrlPref" type="text" label="feedUrl" description="feed origin" default="http://morfeo-project.org/?feed=rss2"/>
+	<Preference name="theme" type="list" label="theme" description="theme">
+		<Option value="blue" name="blue"/>
+		<Option value="orange" name="orange"/>
+		<Option value="red" name="red"/>
+		<Option value="green" name="green"/>
+	</Preference>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Slot name="feedUrl" type="text" label="feedUrl" friendcode="feedUrl"/>
+	<Event name="newsUrl" type="text" label="newsUrl" friendcode="newsUrl"/>
+	<Event name="newsSummary" type="text" label="newsSummary" friendcode="newsSummary"/>
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/feedReader/feedReader.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="10" height="25"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>

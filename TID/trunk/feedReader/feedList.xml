@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>FeedList</Name>
+	  <Version>3.2</Version>
+	  <Author>abgp</Author>
+	  <Mail>abgp@tid.es</Mail>
+	  <Description>Este gadget muestra un Lista de Feeds</Description>
+	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssList.jpg</ImageURI>
+	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in...">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as...">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="feedList" type="text" label="Feed list"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="feedUrl" type="text" label="feedUrl" friendcode="feedUrl"/>
+	  <Event name="feedTitle" type="text" label="feedTitle" friendcode="feedTitle"/>
+	  <Event name="feedDesc" type="text" label="feedDesc" friendcode="feedDesc"/>
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/feedReader/feedList.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="8" height="5"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>
