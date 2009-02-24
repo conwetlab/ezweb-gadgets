@@ -1,0 +1,219 @@
+html
+{
+	background-color:aliceBlue;
+}
+.item
+{
+	/*display: block;*/
+	font-size:x-small;
+	font-family: Verdana;
+}
+
+.today .colleft
+{
+	/*float: left;*/
+	clear:both;
+	padding-right:3px;
+	width:100%;
+	text-align: center;
+	width:214px;
+	overflow:hidden;
+	
+	/*margin-top:5px;*/
+	padding-bottom:6px;
+	padding-right:6px;
+}
+
+.today .colleft .tmp
+{
+	font-family:verdana;
+	font-size:large;
+	margin-top:5px;
+	
+}
+
+.today .colleft .icon
+{
+		float:left;
+
+}
+
+.colleft
+{
+	/*float: left;*/
+	clear:both;
+	padding-right:3px;
+	font-family:verdana;
+	font-size:x-small;
+	text-align: center;
+}
+
+.colleft .tmp
+{
+	font-family:verdana;
+	font-size:large;
+	margin-top:5px;
+}
+
+.colleft .info
+{
+	float:right;
+}
+
+
+.item td
+{
+	text-align: center;
+	text-align:center;
+	background:white none repeat scroll 0 0;
+}
+
+.item .hd
+{
+}
+.item th
+{
+	background-color:LightSteelBlue;
+	padding-left:4px;
+	padding-right:4px;
+}
+
+.date
+{
+	font-size:x-small;
+	font-family: verdana;
+	clear: both;
+}
+.today .date
+{
+	font-size:x-small;
+	font-family: verdana;
+	clear: both;
+}
+
+.nextDay
+{
+	font-size:x-small;
+	font-family: verdana;
+}
+
+.nextDay .icon
+{
+	float: left;
+}
+
+.nextDay .info
+{
+	float: right;
+	margin-right:3px;
+	padding: 3px;
+	width:62px;
+}
+
+.infoNext
+{
+font-family:verdana;
+font-size:x-small;
+width:100%;
+}
+
+.infoD
+{
+	float: right;
+}
+
+.infoI
+{
+	float: left;
+	padding-left:4px;
+	padding-right:4px;
+}
+
+.infoNext .header
+{
+	background-color:LightSteelBlue;
+	/*padding-left:7px;
+	padding-right:7px;*/
+	text-align:center;
+}
+
+.infoNext .day
+{
+	background-color: white;
+}
+
+.datoscc
+{
+	font-size:x-small;
+	font-family: verdana;
+	float: right;
+}
+
+.datoscc .infoI
+{
+	float: left;
+	padding-left:7px;
+	padding-right:7px;
+	clear:both;
+}
+.datoscc .infoD
+{
+	float: right;
+}
+
+.datoscc .it
+{
+}
+.city{
+	font-family:verdana;
+	font-size:small;
+	font-weight:normal;
+	text-align:center;
+	max-width:409px;
+	text-decoration:underline;
+
+}
+
+.colright
+{
+	margin-top:26px;
+	float:right;
+}
+
+.full
+{
+	max-width:439px;
+}
+
+#loading
+{
+	/*background:transparent none repeat scroll right center;
+	vertical-align:top;
+	width:23px;
+	visibility: hidden;*/
+	/*left:260px;
+	position:absolute;*/
+	top:10px;
+	width:22px;
+	visibility: hidden;
+}
+
+label
+{
+	font-size:small;
+	font-family: Verdana;
+	padding-right: 3px;
+}
+
+
+
+#_city{
+	float:left;
+	font-family:Verdana;
+	font-size:small;
+	margin-top:8px;
+	padding-right:3px;
+	width:44px;
+}
+
+

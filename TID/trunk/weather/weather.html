@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/ezweb_ext.js"></script>
+<LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default.css" type="text/css" />
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+	var json=null;
+	var units=null;
+	var t = null;
+	
+	var id = EzWebAPI.createRWGadgetVariable("id");
+	var citySlot = EzWebAPI.createRGadgetVariable("city", setCitySlot);
+
+
+	var cityEvent = EzWebAPI.createRWGadgetVariable("cityEvent");
+	var lat = EzWebAPI.createRWGadgetVariable("lat");
+	var lon = EzWebAPI.createRWGadgetVariable("lon");
+	
+	var units = EzWebAPI.createRGadgetVariable("units", setUnits);
+	
+	function setUnits(unit)
+	{
+		if(id.get()!=""){
+			$('loading').style.visibility = 'visible';
+			var url = "http://xoap.weather.com/weather/local/"+id.get()+"?cc=*&dayf=5&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+unit;
+			EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
+		}
+	}
+	
+	function load()
+	{	
+		$('citiesList').style.visibility = 'hidden';
+		if(citySlot.get()==""){
+			if(id.get()!=""){
+				sendId(id.get());
+			}
+		}
+
+	}
+	function setCitySlot(city)
+	{
+		searchCity(city);		
+	}
+	
+  function searchCity(city)
+  {
+	if(city!=""){
+		$('loading').style.visibility = 'visible';
+		$('citiesList').style.visibility = 'hidden';
+		var url = "http://xoap.weather.com/weather/search/search?where="+encodeURIComponent(city);
+		EzWebAPI.send_get(url, this, callbackSucessID, callbackError);
+	}
+  }
+  
+  function callbackError(responseData) {
+	alert("Request error: " + responseData.responseText);
+	$('loading').style.visibility = 'hidden';
+  }
+
+  function callbackSucessID(responseData) {
+  	var xml = responseData.responseXML;
+	$('loading').style.visibility = 'hidden';
+	$('citiesList').innerHTML='';
+	for (i = 0; i < xml.getElementsByTagName('loc').length; i++)
+        {
+            // Accedemos al objeto XML
+			var id = xml.getElementsByTagName('loc')[i].attributes[0].firstChild.data;
+            var city = xml.getElementsByTagName('loc')[i].firstChild.data;
+			
+			var option = document.createElement('option');
+			option.setAttribute('value', id);
+			option.onclick = function (){sendId(this.value);};
+			option.appendChild(document.createTextNode(city));
+			
+
+			$('citiesList').appendChild(option);
+			
+        } 
+	if($('citiesList').options[0])
+		sendId($('citiesList').options[0].value);
+
+  }
+  
+  function sendId(idCity)
+  {
+	$('loading').style.visibility = 'visible';
+	var url = "http://xoap.weather.com/weather/local/"+idCity+"?cc=*&dayf=5&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+units.get();
+	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
+  }
+  	
+  
+  function callbackSucessInfo(responseData)
+	{
+
+		json=xml2json.parser(responseData.responseText);
+		var obj = {};
+		obj['loc'] = json.weather.loc;
+		obj['cc'] = json.weather.loc;
+		
+		info = {};
+		info['unit'] = json.weather.head.ut;
+		info['unitv'] = json.weather.head.us;
+		info['unitp'] = json.weather.head.up;
+		info['time'] = json.weather.loc.tm;
+		info['cctmp'] = json.weather.cc.tmp;
+		info['ccicon'] = "http://image.weather.com/web/common/wxicons/93/"+json.weather.cc.icon+".png";
+		
+		var html ="<div class='full'>";
+		html += "<div class='city'>"+json.weather.cc.obst+"</div>";
+			html += "<div class='today'>";
+			html += "<table><tr><td>";
+				html += "<div id='colleft' class='colleft' title='Current Weather'>";
+					html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
+					html += "<div class='datoscc'>";
+						html += "<div class='it'></div>";
+						html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
+						html += "<div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_pressure'>"+t.getLabel('_pressure')+"</div><div class='infoD'>"+json.weather.cc.bar.r+" "+info['unitp']+"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_wind'>"+t.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.d +" " + info['unitv'] +"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_humidity'>"+t.getLabel('_humidity')+"</div><div class='infoD'>"+json.weather.cc.hmid+"%</div></div>";
+						html += "<div class='it'><div class='infoI' id='_visibility'>"+t.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
+						html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_sunset'>"+t.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
+						
+					html += "</div>";
+				html += "</div><br>";
+			html += "</td><td valign='top' style='width:100%;' >";
+				html += "<div class='colright'>";
+					html += "<table class='item' width='100%'>";
+					html += "<tr><th id='_day-night'>"+t.getLabel('_day-night')+"</th><th id='_hum' title='Humidity'>"+t.getLabel('_hum')+"</th><th id='_ppcp' title='Probability of precipitation'>"+t.getLabel('_ppcp')+"</th><th id='_wind2' title='Wind'>"+t.getLabel('_wind2')+"</th></tr>";
+					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+json.weather.dayf.day[0].part[0].wind.t+"</div></td></tr>";
+					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+json.weather.dayf.day[0].part[1].wind.t+"</div></td></tr>";
+					html += "</table>";
+				html += "</div>";
+			html += "</td></tr></table>";
+			html += "</div>";
+		
+		
+			html += "<table class='infoNext'><tr>";
+			for(i=1;i<json.weather.dayf.day.length;i++)
+			{
+				html += "<td class='header'><div id='"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
+				
+			}	
+			html += "</tr>";
+			for(i=1;i<json.weather.dayf.day.length;i++)
+			{
+				html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
+				
+			}
+			
+		
+			
+			html+= "</tr></table>";
+		
+		html +="</div>";
+		
+		id.set(json.weather.loc.id);
+		lat.set(json.weather.loc.lat);
+		lon.set(json.weather.loc.lon);
+		$('infoTiempo').innerHTML = html;
+		$('loading').style.visibility = 'hidden';
+		if($('citiesList').options[0])
+			$('citiesList').style.visibility = 'visible';
+			
+		//$('loading').style.visibility = 'visible';
+		t.translate()
+		//translate();
+	}
+	
+	function translate()
+	{
+	
+		if ($('colleft')){//Si ya ha cargado
+			$('colleft').title = t.getLabel('_current weather');
+			$('_hum').title = t.getLabel('_humidity');
+			$('_ppcp').title = t.getLabel('_probability of precipitation');
+			$('_wind2').title = t.getLabel('_wind2');
+		}
+			
+	}
+	function generateLang(){
+		t = new EzWebExt.Translator("hhttp://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" ,"languagePref",load,translate);
+	}
+	
+
+</script>
+
+</head>
+<body onload="generateLang()">
+<form name="searchform" onsubmit="return false">
+<label id="_city">City</label><input id="city" type="text" name="city"/><input id="_search" type="button" value="Search" onClick="searchCity(document.searchform.city.value)">
+<img id="loading" src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/>
+<select id="citiesList" style="max-width:141px;">
+</select>
+
+
+</form>
+<div id="infoTiempo"></div>
+<div id="errors"></div>
+
+</body>
+</html>

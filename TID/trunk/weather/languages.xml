@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="_city">City</label>
+		<label id="_search">Search</label>
+		<label id="_hi">Hi</label>
+		<label id="_low">Low</label>
+		<label id="_humidity">Humidity</label>
+		<label id="_pressure">Pressure</label>
+		<label id="_wind">Wind</label>
+		<label id="_wind2">Wind</label>
+		<label id="_visibility">Visibility</label>
+		<label id="_sunrise">Sunrise</label>
+		<label id="_sunset">Sunset</label>
+		<label id="_day-night">Day/Night</label>
+		<label id="_hum">Hum</label>
+		<label id="_ppcp">PPcp</label>
+		<label id="_current weather">Current Weather</label>
+		<label id="_humidity">Humidity</label>
+		<label id="_probability of precipitation">Probability of precipitation</label>
+		<label id="_forecast">Forecast</label>
+		
+		<label id="Monday">Monday</label>
+		<label id="Tuesday">Tuesday</label>
+		<label id="Wednesday">Wednesday</label>
+		<label id="Thursday">Thursday</label>
+		<label id="Friday">Friday</label>
+		<label id="Saturday">Saturday</label>
+		<label id="Sunday">Sunday</label>
+		
+		<label id="Jan">Jan</label>
+		<label id="Feb">Feb</label>
+		<label id="Mar">Mar</label>
+		<label id="Apr">Apr</label>
+		<label id="May">May</label>
+		<label id="Jun">Jun</label>
+		<label id="Jul">Jul</label>
+		<label id="Aug">Aug</label>
+		<label id="Sep">Sep</label>
+		<label id="Oct">Oct</label>
+		<label id="Nov">Nov</label>
+		<label id="Dic">Dic"></label>
+
+		
+	</language>
+	<language name="es">
+		<label id="_city">Ciudad</label>
+		<label id="_search">Buscar</label>
+		<label id="_hi">Máx</label>
+		<label id="_low">Mín</label>
+		<label id="_humidity">Humedad</label>
+		<label id="_pressure">Presión</label>
+		<label id="_wind">Viento</label>
+		<label id="_wind2">Viento</label>
+		<label id="_visibility">Visibilidad</label>
+		<label id="_sunrise">Amanecer</label>
+		<label id="_sunset">Puesta</label>
+		<label id="_day-night">Dia/Noche</label>
+		<label id="_hum">Hum</label>
+		<label id="_ppcp">PPcp</label>
+		<label id="_current weather">Tiempo Actual</label>
+		<label id="_humidity">Humedad</label>
+		<label id="_probability of precipitation">Probabiliad de precipitación</label>
+		<label id="_forecast">Previsión</label>
+		
+		<label id="Monday">Lunes</label>
+		<label id="Tuesday">Martes</label>
+		<label id="Wednesday">Miércoles</label>
+		<label id="Thursday">Jueves</label>
+		<label id="Friday">Viernes</label>
+		<label id="Saturday">Sábado</label>
+		<label id="Sunday">Domingo</label>
+		
+		<label id="Jan">Ene</label>
+		<label id="Feb">Feb</label>
+		<label id="Mar">Mar</label>
+		<label id="Apr">Abr</label>
+		<label id="May">May</label>
+		<label id="Jun">Jun</label>
+		<label id="Jul">Jul</label>
+		<label id="Aug">Ago</label>
+		<label id="Sep">Sep</label>
+		<label id="Oct">Oct</label>
+		<label id="Nov">Nov</label>
+		<label id="Dic">Dic"></label>
+	</language>
+</languages>
