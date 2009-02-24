@@ -17,7 +17,7 @@ class view:
         
         try:
             agenda = APICopiagenda.RecuperaContactos(login, password)
-            
+	    web.ctx.headers = [('Content-Type', 'application/json; charset=ISO-8859-1')]            
             print json.JsonWriter().write(agenda)
             
         except Exception, e:

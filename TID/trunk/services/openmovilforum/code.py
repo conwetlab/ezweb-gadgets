@@ -2,6 +2,7 @@ import web
 
 urls = (
     '/openmovilforum/mms', 'mms.MMSSenderSrv.view',
+    '/openmovilforum/sms', 'sms.SMSSenderSrv.view',
     '/openmovilforum/agenda', 'agenda.AgendaSrv.view',
     '/greeting', 'greeting.GreetingSrv.view',
 )

@@ -20,29 +20,21 @@ class view:
                 return web.badrequest()
             to = parameters.get('to')
             
-            if (not parameters.has_key('attachment')):
-                return web.badrequest()
-            
             if (not parameters.has_key('objectURL')):
                 return web.badrequest()
             
             if (not parameters.has_key('objectFile')):
                 return web.badrequest()
             
-            if (parameters.get('attachment')=="URL"):
-                if (len(parameters.get('objectURL'))==0):
-                    return web.badrequest()
-                else:
-                    objectURL = parameters.get('objectURL')
-                    objectFile = None
-            elif (parameters.get('attachment')=="File"):
-                if (len(parameters.get('objectFile').filename)==0):
-                    return web.badrequest()
-                else:
-                    objectFile = parameters.get('objectFile')
-                    objectURL = None
+            if (len(parameters.get('objectFile').filename) > 0):
+                objectFile = parameters.get('objectFile')
+                objectURL = None
+            elif (len(parameters.get('objectURL')) > 0):
+                objectURL = parameters.get('objectURL')
+                objectFile = None
             else:
                 return web.badrequest()
+                    
             
             if (not parameters.has_key('subject')):
                 return web.badrequest()
@@ -58,13 +50,14 @@ class view:
                 response = mmsender.SendMMSWithFile(login, password, objectFile.value, objectFile.filename, subject, to, message)
 
             if response.find('Tu mensaje ha sido enviado')>=0:
-                print "<html><body><strong>Message sent succesfully!</strong></body></html>"
+                print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/tick.gif'/><script>window.parent.document.getElementByI\
+d('MMSCreationForm').reset()</script></body></html>"
                 return
-            print "<html><body><strong>Error sending message!</strong></body></html>"
+            print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
         except Exception, e:
             web.ctx.status = "500 Internal Server Error"
             web.ctx.headers = [('Content-Type', 'text/html')]
-            web.ctx.output = "Message not sent: %s." % e
+            web.ctx.output = "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
             
                 
         

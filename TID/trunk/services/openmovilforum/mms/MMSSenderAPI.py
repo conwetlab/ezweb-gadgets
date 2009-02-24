@@ -1,4 +1,5 @@
 import httplib, urllib, urlparse
+import urllib2
 
 CONTENT_TYPE_LIST = {'gif': 'image/gif', 'jpg': 'image/pjpeg', 'jpeg': 'image/pjpeg', 'png': 'image/x-png', 'bmp': 'image/bmp',
                      'mid': 'audio/mid', 'wav': 'audio/wav', 'mp3': 'audio/mpeg',
@@ -71,7 +72,11 @@ class MMSSender :
 
     def InsertFileURL(self, objURL) :
         name = urlparse.urlparse(objURL).path
-        obj = urllib.urlopen(objURL).read()
+        # Adding user agent to the request
+        req = urllib2.Request(objURL)
+        opener = urllib2.build_opener()
+        req.add_header('User-Agent','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051111 Firefox/1.5 BAVM/1.0.0')
+        obj = opener.open(req).read()
         self.InsertFile(obj, name)
 	
 
@@ -82,7 +87,7 @@ class MMSSender :
 
         path = name.split('.')
         extension = path[-1]
-        contentType = CONTENT_TYPE_LIST[extension]
+        contentType = CONTENT_TYPE_LIST[extension.lower()]
 
         #print 'Inserting file... ' + objURL
 
