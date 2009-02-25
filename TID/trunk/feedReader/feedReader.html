@@ -484,6 +484,7 @@
 				 		 									return (p1 == "lt")? "<" : ">";
  														});
 		 		summary = summary.replace(/<\/?[^>]+(>|$)/g, "");
+		 		summary = summary.replace(/"/g, "&quot;");
 
 			}
 			item_html += "onclick=\"javascript:openItem('item_" + i + "', '" + feed.items[i].link+ "');\" />";
@@ -542,7 +543,7 @@ function setSummary(e){
 				} else if (window.ActiveXObject) {
 					xml = new ActiveXObject("Microsoft.XMLDOM")
 					xml.async="false"
-					xml.loadXML(xmlString)
+					xml.loadXML(response.responseText)
 				}
 			}
 
