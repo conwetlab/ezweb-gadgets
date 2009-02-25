@@ -125,11 +125,7 @@ function addFeedToCombo(url){
 }
 
 function removeSelectedCat(category){
-/*	var operator = ($(category).previousSiblings().length > 0)?$(category).previous():$(category).next();
-	if(operator){
-		operator.remove();
-	}
-*/	$(category).remove();
+	$(category).remove();
 	paintFeedEntries(category);
 	
 }
@@ -176,11 +172,6 @@ function paintFeedEntries(category)
 			catElement.setAttribute("id", category);
 			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
 
-/*			if($('selected_categories').hasChildNodes()){//if there is at least one we need an operator
-				var new_operator = operator_html.cloneNode(true);
-				$('selected_categories').appendChild(new_operator);
-			}
-*/
 			$('selected_categories').appendChild(catElement);
 		}
 
@@ -527,20 +518,15 @@ function setOperator(value){
 	}
 	//END WA
 	current_operator = value;
-/*	operator_html = document.createElement('li');
-	operator_html.className ='operator';
-	operator_html.innerHTML = '-';
-*/
+
+	$(current_operator).checked = true;
+
 	if(selected_categories.length > 0){
 		//redo the last search
 		var last_cat = selected_categories[selected_categories.length-1];
 		$('selected_categories').update();
 		for (var i = 0; i<selected_categories.length-1;i++){
-/*			if($('selected_categories').hasChildNodes()){//if there is at least one, we need an operator
-				var new_operator = operator_html.cloneNode(true);
-				$('selected_categories').appendChild(new_operator);
-			}
-*/			var catElement = document.createElement("li");
+			var catElement = document.createElement("li");
 			catElement.setAttribute("id", selected_categories[i]);
 			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
 				$('selected_categories').appendChild(catElement);
@@ -875,7 +861,7 @@ function manageFeeds(){
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
-<div id="header_top"><label id="l_filter">Filter:</label><div id="combo_tag"><ul id="selected_categories"></ul><select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select></div><div id='match'><label id="l_all">Match all</label> <input type="radio" name="match" CHECKED onclick="setOperator('and')"/> <label id="l_any">any</label> <input type="radio" name="match" onclick="setOperator('or')"/></div><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div><div id="header_bottom"><label id="l_feed">Feed:</label><div id='combo_feed'><select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintFeedEntries('')"><span id="all_l">all feeds</span></div> | <div id="manage" onclick="manageFeeds()"><span id="manage_l">manage feeds</span><span id="hide_l" style="display:none">hide feeds</span></div> | <div id="add_link" onclick="showAddFeed()"><span id="add_l">add feed</span></div></div></div>
+<div id="header_top"><label id="l_filter">Filter:</label><div id="combo_tag"><ul id="selected_categories"></ul><select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select></div><div id='match'><label id="l_all">Match all</label> <input type="radio" id="and" name="match" onclick="setOperator('and')"/> <label id="l_any">any</label> <input type="radio" id="any" name="match" onclick="setOperator('or')"/></div><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div><div id="header_bottom"><label id="l_feed">Feed:</label><div id='combo_feed'><select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintFeedEntries('')"><span id="all_l">all feeds</span></div> | <div id="manage" onclick="manageFeeds()"><span id="manage_l">manage feeds</span><span id="hide_l" style="display:none">hide feeds</span></div> | <div id="add_link" onclick="showAddFeed()"><span id="add_l">add feed</span></div></div></div>
 </div>
 <div id="addFeed" style="display:none;">
 	<span id="addFeed_title">New Feed</span>

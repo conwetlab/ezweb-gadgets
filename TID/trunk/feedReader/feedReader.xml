@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>FeedReader</Name>
-    <Version>3.22</Version>
+    <Version>3.23</Version>
     <Author>abgp</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Este gadget muestra un feed RSS 2.0 o Atom 1.0</Description>
@@ -14,13 +14,13 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-	<Preference name="onClick" type="list" description="where must the piece of news be opened" label="Open news on...">
+	<Preference name="onClick" type="list" description="where must the piece of news be opened" label="Open news on..." default="gadget">
 	<Option value="gadget" name="This gadget"/>
 	<Option value="window" name="New window"/>
 	</Preference>
     <Preference name="items" type="text" label="Max items" description="max num of items to show" default="7"/>
 	<Preference name="feedUrlPref" type="text" label="feedUrl" description="feed origin" default="http://morfeo-project.org/?feed=rss2"/>
-	<Preference name="theme" type="list" label="theme" description="theme">
+	<Preference name="theme" type="list" label="theme" description="theme" default="blue">
 		<Option value="blue" name="blue"/>
 		<Option value="orange" name="orange"/>
 		<Option value="red" name="red"/>

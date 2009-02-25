@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>FeedList</Name>
-	  <Version>3.2</Version>
+	  <Version>3.21</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>Este gadget muestra un Lista de Feeds</Description>
@@ -13,11 +13,11 @@
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
-	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in...">
+	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in..." default="and">
 		<Option value="and" name="all of the selected categories"/>
 		<Option value="or" name="any of the selected categories"/>
 	</Preference>
-	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as...">
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
 		<Option value="header" name="header"/>
 		<Option value="fullList" name="full list"/>
 	</Preference>
