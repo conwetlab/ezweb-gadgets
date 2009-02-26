@@ -6,6 +6,8 @@
 		<label id="_search">Search</label>
 		<label id="_hi">Hi</label>
 		<label id="_low">Low</label>
+		<label id="_hi2">Hi</label>
+		<label id="_low2">Low</label>
 		<label id="_humidity">Humidity</label>
 		<label id="_pressure">Pressure</label>
 		<label id="_wind">Wind</label>
@@ -49,6 +51,8 @@
 		<label id="_search">Buscar</label>
 		<label id="_hi">Máx</label>
 		<label id="_low">Mín</label>
+		<label id="_hi2">Máx</label>
+		<label id="_low2">Mín</label>
 		<label id="_humidity">Humedad</label>
 		<label id="_pressure">Presión</label>
 		<label id="_wind">Viento</label>

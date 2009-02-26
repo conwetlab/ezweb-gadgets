@@ -7,9 +7,9 @@
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/ezweb_ext.js"></script>
-<LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default.css" type="text/css" />
+<script type="text/javascript" language="javascript" src="http://localhost/repository/weather/xml2json.js"></script>
+<script language="javascript" src="http://localhost/repository/weather/ezweb_ext.js"></script>
+<LINK rel="StyleSheet" href="http://localhost/repository/weather/default.css" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
 	var json=null;
@@ -61,7 +61,9 @@
   }
   
   function callbackError(responseData) {
-	alert("Request error: " + responseData.responseText);
+	//alert("Request error: " + responseData.responseText);
+	$('errors').innerHTML = "Service Unavailable";
+	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
   }
 
@@ -154,7 +156,7 @@
 			html += "</tr>";
 			for(i=1;i<json.weather.dayf.day.length;i++)
 			{
-				html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
+				html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi2'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low2'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
 				
 			}
 			
@@ -185,11 +187,12 @@
 			$('_hum').title = t.getLabel('_humidity');
 			$('_ppcp').title = t.getLabel('_probability of precipitation');
 			$('_wind2').title = t.getLabel('_wind2');
+			
 		}
 			
 	}
 	function generateLang(){
-		t = new EzWebExt.Translator("hhttp://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" ,"languagePref",load,translate);
+		t = new EzWebExt.Translator("http://localhost/repository/weather/languages.xml", "language" ,"languagePref",load,translate);
 	}
 	
 
@@ -198,15 +201,14 @@
 </head>
 <body onload="generateLang()">
 <form name="searchform" onsubmit="return false">
-<label id="_city">City</label><input id="city" type="text" name="city"/><input id="_search" type="button" value="Search" onClick="searchCity(document.searchform.city.value)">
-<img id="loading" src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/>
+<label id="_city">City</label><input id="city" type="text" name="city"/><button id="_search" type="button" onClick="searchCity(document.searchform.city.value)">Search</button>
+<img id="loading" src='http://localhost/repository/weather/loading.gif'/>
 <select id="citiesList" style="max-width:141px;">
 </select>
-
-
 </form>
-<div id="infoTiempo"></div>
 <div id="errors"></div>
+<div id="infoTiempo"></div>
+
 
 </body>
 </html>

@@ -4,16 +4,16 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.61</Version>
+    <Version>0.7</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Weather Forecast</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/weather/weather_icon.jpg</ImageURI>
-    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Notepad</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_meteorol.C3.B3gico</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-  	<Preference name="units" type="list" label="Set of units" description="Set of units" default="standard">
+  	<Preference name="units" type="list" label="Set of units" description="Set of units" default="s">
 		<Option value="s" name="Standard"/>
 		<Option value="m" name="Metric"/>
 	</Preference>
@@ -40,5 +40,5 @@
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/weather/weather.html"/>
   </Platform.Link>
-  <Platform.Rendering width="7" height="13"/>
+  <Platform.Rendering width="8" height="13"/>
 </Template>

@@ -2,11 +2,15 @@ html
 {
 	background-color:aliceBlue;
 }
+body
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif
+}
 .item
 {
 	/*display: block;*/
-	font-size:x-small;
-	font-family: Verdana;
+	font-size:12px;
+	/*font-family: Verdana;*/
 }
 
 .today .colleft
@@ -16,7 +20,7 @@ html
 	padding-right:3px;
 	width:100%;
 	text-align: center;
-	width:214px;
+	width:220px;
 	overflow:hidden;
 	
 	/*margin-top:5px;*/
@@ -26,7 +30,7 @@ html
 
 .today .colleft .tmp
 {
-	font-family:verdana;
+	/*font-family:verdana;*/
 	font-size:large;
 	margin-top:5px;
 	
@@ -43,14 +47,14 @@ html
 	/*float: left;*/
 	clear:both;
 	padding-right:3px;
-	font-family:verdana;
-	font-size:x-small;
+	/*font-family:verdana;*/
+	font-size:12px;
 	text-align: center;
 }
 
 .colleft .tmp
 {
-	font-family:verdana;
+	/*font-family:verdana;*/
 	font-size:large;
 	margin-top:5px;
 }
@@ -80,21 +84,21 @@ html
 
 .date
 {
-	font-size:x-small;
-	font-family: verdana;
+	font-size:12px;
+	/*font-family: verdana;*/
 	clear: both;
 }
 .today .date
 {
-	font-size:x-small;
-	font-family: verdana;
+	font-size:12px;
+	/*font-family: verdana;*/
 	clear: both;
 }
 
 .nextDay
 {
-	font-size:x-small;
-	font-family: verdana;
+	font-size:12px;
+	/*font-family: verdana;*/
 }
 
 .nextDay .icon
@@ -112,8 +116,8 @@ html
 
 .infoNext
 {
-font-family:verdana;
-font-size:x-small;
+/*font-family:verdana;*/
+font-size:12px;
 width:100%;
 }
 
@@ -144,8 +148,8 @@ width:100%;
 
 .datoscc
 {
-	font-size:x-small;
-	font-family: verdana;
+	font-size:12px;
+	/*font-family: verdana;*/
 	float: right;
 }
 
@@ -165,7 +169,7 @@ width:100%;
 {
 }
 .city{
-	font-family:verdana;
+	/*font-family:verdana;*/
 	font-size:small;
 	font-weight:normal;
 	text-align:center;
@@ -191,9 +195,9 @@ width:100%;
 	vertical-align:top;
 	width:23px;
 	visibility: hidden;*/
-	/*left:260px;
-	position:absolute;*/
-	top:10px;
+	/*left:260px;*/
+	position:relative;
+	top:6px;
 	width:22px;
 	visibility: hidden;
 }
@@ -201,7 +205,7 @@ width:100%;
 label
 {
 	font-size:small;
-	font-family: Verdana;
+	/*font-family: Verdana;*/
 	padding-right: 3px;
 }
 
@@ -209,11 +213,15 @@ label
 
 #_city{
 	float:left;
-	font-family:Verdana;
+	/*font-family:Verdana;*/
 	font-size:small;
 	margin-top:8px;
 	padding-right:3px;
 	width:44px;
+}
+input,button,select
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif
 }
 
 
