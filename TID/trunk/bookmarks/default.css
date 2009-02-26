@@ -1,0 +1,33 @@
+img
+{
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-right-width-ltr-source: physical;
+	border-right-width-rtl-source: physical;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-left-width-ltr-source: physical;
+	border-left-width-rtl-source: physical;
+	border-top-style: none;
+	border-right-style: none;
+	border-right-style-ltr-source: physical;
+	border-right-style-rtl-source: physical;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-left-style-ltr-source: physical;
+	border-left-style-rtl-source: physical;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-right-color-ltr-source: physical;
+	border-right-color-rtl-source: physical;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+	border-left-color-ltr-source: physical;
+	border-left-color-rtl-source: physical;
+}
+
+.social_img
+{
+	padding:1px;
+}
+

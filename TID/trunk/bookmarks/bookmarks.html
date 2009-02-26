@@ -1,0 +1,133 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<LINK rel="StyleSheet" href="http://localhost/repository/bookmarks/default.css" type="text/css" />
+<script type="text/javascript">
+
+	var url = EzWebAPI.createRGadgetVariable("url", setUrl);
+	var title = EzWebAPI.createRGadgetVariable("title", setTitle);
+	var description = EzWebAPI.createRGadgetVariable("description", setDescription);
+	var tags = EzWebAPI.createRGadgetVariable("tags", setTags);
+	
+	function setTitle (value){};
+	function setDescription (value){};
+	function setTags (value){};
+	
+	function setUrl(value)
+	{
+		//vTitle = title.get();
+		//vDescription = description.get();
+		//vTags = parseTags(tags.get());
+		initUrl(value);
+	}
+	
+	function parseTags(vTags)
+	{
+		/*******
+		IMPLEMENTAR
+		*******/
+	}
+
+	function initUrl(url)
+	{
+		// ## Delicious ##
+		/*Arguments
+		&url={URL}			(required) the url of the item.
+		&description={...}			(required) the description of the item.
+		&extended={...}			(optional) notes for the item.
+		&tags={...}		(optional) tags for the item (space delimited).*/
+		$('delicious').href = "http://del.icio.us/post?url="+url;
+		$('delicious').title = "Del.icio.us -> "+url;
+		
+		// ## Digg ##
+		$('digg').href = "http://digg.com/submit?phase=2&url="+url;
+		$('digg').title = "Digg -> "+url;
+		
+		// ## Technorati ##
+		$('technorati').href = "http://www.technorati.com/faves?add="+url;
+		$('technorati').title = "Technorati -> "+url;
+		
+		// ## Yahoo My Web ##
+		$('yahoo').href = "http://myweb2.search.yahoo.com/myresults/bookmarklet?u="+url;
+		$('yahoo').title = "Yahoo My Web -> "+url;
+		
+		// ## Google Bookmarks ##
+		/* URL Parameters
+		title    the title of the bookmark
+		bkmk    the bookmark URL
+		labels    comma separated labels or tags
+		annotation    A note or description about the bookmark
+		*/
+		$('google').href = "http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk="+url;
+		$('google').title = "Google Bookmarks -> "+url;
+		
+		// ## Meneame ##
+		$('meneame').href = "http://meneame.net/submit.php?url="+url;
+		$('meneame').title = "Meneame -> "+url;
+	}
+	
+	function load()
+	{
+		// ## Delicious ##
+		$('delicious').href = "http://del.icio.us/post";	
+		$('delicious').title = "Del.icio.us";
+		
+		// ## Digg ##
+		$('digg').href = "http://digg.com/submit?phase=2";
+		$('digg').title = "Digg";
+		
+		// ## Technorati ##
+		$('technorati').href = "http://www.technorati.com/faves";
+		$('technorati').title = "Technorati";
+		
+		// ## Yahoo My Web ##
+		$('yahoo').href = "http://myweb2.search.yahoo.com/myresults/bookmarklet";
+		$('yahoo').title = "Yahoo My Web";
+		
+		// ## Google Bookmarks ##
+		$('google').href = "http://www.google.com/bookmarks/mark"+url;
+		$('google').title = "Google Bookmarks";
+		
+		// ## Meneame ##
+		$('meneame').href = "http://meneame.net/submit.php";
+		$('meneame').title = "Meneame";
+	}
+</script>
+</head>
+<body onload="load()">
+
+<div class="social_bookmark">
+<a id="delicious"
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt="Del.icio.us" border="0"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/delicious.png"/></a>
+
+<a id="digg" 
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt="Digg"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/digg.png"/></a>
+
+<a id="technorati"
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt="Technorati"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/technorati.png"/></a>
+
+<a id="yahoo" 
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt="Yahoo My Web"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/yahoo_myweb.png"/></a>
+
+<a id="google"
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt="Google Bookmarks"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/google.png"/></a>
+
+<a id="meneame"
+onclick="window.open(this.href, '_blank', 'scrollbars=yes,menubar=no,border=0,height=600,width=750,resizable=yes,toolbar=no,location=no,status=no');
+return false;" class="social_img"><img alt=" 'Meneame"
+src="http://www.morfeo-project.org/wp-content/plugins/social-bookmarking-reloaded/meneame.gif"/></a>
+</div> 
+</body>
+</html>
