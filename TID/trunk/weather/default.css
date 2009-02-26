@@ -221,7 +221,8 @@ label
 }
 input,button,select
 {
-	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size:70%;
 }
 
 
