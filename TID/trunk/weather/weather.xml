@@ -13,7 +13,7 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-  	<Preference name="units" type="list" label="Set of units" description="Set of units" default="s">
+  	<Preference name="units" type="list" label="Set of units" description="Set of units" default="m">
 		<Option value="s" name="Standard"/>
 		<Option value="m" name="Metric"/>
 	</Preference>
