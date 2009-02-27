@@ -412,7 +412,9 @@
 			URL = decodeURI(feedUrlPref.get());
 			if (URL && URL != "")
 			{
-			   EzWebAPI.send_get (URL, this, processFeed, failedFeed);
+			
+			   var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+			   EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
 			}
 		}//if the slot isn't empy, wait for initial wiring propagation
 
@@ -581,7 +583,8 @@ function setSummary(e){
 			if (value && value != "")
 			{
 				URL = decodeURI(value);
-				EzWebAPI.send_get (URL, this, processFeed, failedFeed);
+				var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+			   	EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
 			}
 		}
 		function _SetNumItems(value){
