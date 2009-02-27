@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Bookmarks</Name>
-    <Version>0.14</Version>
+    <Version>0.18</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Permite agregar bookmarks a distintas webs</Description>
