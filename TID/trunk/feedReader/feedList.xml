@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>FeedList</Name>
-	  <Version>3.21</Version>
+	  <Version>3.22</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>Este gadget muestra un Lista de Feeds</Description>
@@ -32,6 +32,7 @@
 	  <Event name="feedUrl" type="text" label="feedUrl" friendcode="feedUrl"/>
 	  <Event name="feedTitle" type="text" label="feedTitle" friendcode="feedTitle"/>
 	  <Event name="feedDesc" type="text" label="feedDesc" friendcode="feedDesc"/>
+	  <Event name="feedTags" type="text" label="feedTags" friendcode="feedTags"/>	  
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
