@@ -7,10 +7,10 @@
 <LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/bookmarks/default.css" type="text/css" />
 <script type="text/javascript">
 
-	var url = EzWebAPI.createRGadgetVariable("url", setUrl);
-	var title = EzWebAPI.createRGadgetVariable("title", setTitle);
-	var description = EzWebAPI.createRGadgetVariable("description", setDescription);
-	var tags = EzWebAPI.createRGadgetVariable("tags", setTags);
+	var url = EzWebAPI.createRGadgetVariable("feedUrl", setUrl);
+	var title = EzWebAPI.createRGadgetVariable("feedTitle", setTitle);
+	var description = EzWebAPI.createRGadgetVariable("feedDesc", setDescription);
+	var tags = EzWebAPI.createRGadgetVariable("feedTags", setTags);
 	
 	var params = {};
 	function setUrl(value){
@@ -26,30 +26,31 @@
 		initBookmark();
 	}
 	function setTags(value){
-		params['tags'] = encodeURIComponent(value);
-		initBookmark();
+		//Si se recibe un array JSON se evaluara, si no, los tags seran directamente los que vengan por slot en un string
+		try{
+			arrayTags = value.evalJSON()
+			params['tags'] = arrayTags;
+			initBookmark();
+		}catch(e){
+			params['tags'] = [];
+			params['tags'].push(value);
+			initBookmark();
+		}
 	}
-	
-	/*function prepareBookmark()
-	{
-		//var params = {};
-		params['url'] = encodeURIComponent(url.get());
-		params['title'] = encodeURIComponent(title.get());
-		params['description'] = encodeURIComponent(description.get());
-		params['tags'] = encodeURIComponent(tags.get());
-		//initBookmark(params);
-	}*/
-	
-	function parseTags(vTags)
-	{
-		/*******
-		IMPLEMENTAR
-		*******/
-	}
+
 
 	function initBookmark()
 	{
 		if(params.url!=''){
+			commaTags = "";
+			if (params.tags.length>0){
+				for(i=0;i<params.tags.length-1;i++)
+				{
+					commaTags += params.tags[i] +",";
+				}
+				commaTags += params.tags[params.tags.length-1];
+			}
+		
 			// ## Delicious ##
 			// No pongo los tags porque delicious no los autorellena
 			$('delicious').href = "http://del.icio.us/post?url="+params.url+"&title="+params.title+
@@ -66,14 +67,16 @@
 			$('technorati').href = "http://www.technorati.com/faves?add="+params.url;
 			$('technorati').title = "Technorati -> "+params.url;
 			
+			
 			// ## Yahoo My Web ##
 			$('yahoo').href = "http://myweb2.search.yahoo.com/myresults/bookmarklet?u="+params.url+"&t="+params.title+"&d="+params.description+
-			"&tag="+params.tags;
+			"&tag="+commaTags;
 			$('yahoo').title = "Yahoo My Web -> "+params.url;
+			
 			
 			// ## Google Bookmarks ##
 			$('google').href = "http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk="+params.url+"&title="+params.title+
-			"&labels="+params.tags + "&annotation="+params.description;
+			"&labels="+commaTags + "&annotation="+params.description;
 			$('google').title = "Google Bookmarks -> "+params.url;
 			
 			// ## Meneame ##
@@ -88,7 +91,7 @@
 		params['url'] ='';
 		params['title'] ='';
 		params['description'] ='';
-		params['tags'] ='';
+		params['tags'] =[];
 		// ## Delicious ##
 		$('delicious').href = "http://del.icio.us/post";	
 		$('delicious').title = "Del.icio.us";
@@ -106,7 +109,7 @@
 		$('yahoo').title = "Yahoo My Web";
 		
 		// ## Google Bookmarks ##
-		$('google').href = "http://www.google.com/bookmarks/mark";
+		$('google').href = "http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=";
 		$('google').title = "Google Bookmarks";
 		
 		// ## Meneame ##

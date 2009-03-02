@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Bookmarks</Name>
-    <Version>0.18</Version>
+    <Version>0.21</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Permite agregar bookmarks a distintas webs</Description>
@@ -22,10 +22,10 @@
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-     <Slot name="url" type="text" label="url" friendcode="url"/>
-	 <Slot name="title" type="text" label="title" friendcode="title"/>
-	 <Slot name="description" type="text" label="description" friendcode="description"/>
-	 <Slot name="tags" type="text" label="tags" friendcode="tags"/>
+     <Slot name="feedUrl" type="text" label="feedUrl" friendcode="feedUrl"/>
+	 <Slot name="feedTitle" type="text" label="feedTitle" friendcode="feedTitle"/>
+	 <Slot name="feedDesc" type="text" label="feedDesc" friendcode="feedDesc"/>
+	 <Slot name="feedTags" type="text" label="feedTags" friendcode="feedTags"/>
   </Platform.Wiring>
   
   <Platform.Link>
