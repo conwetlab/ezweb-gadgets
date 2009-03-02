@@ -1,0 +1,488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://demo.ezweb.morfeo-project.org/repository/twitter/css/twitter.css" />
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript">
+
+var Base64 = {
+
+    // private property
+    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+    // public method for encoding
+    encode : function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+
+        input = Base64._utf8_encode(input);
+
+        while (i < input.length) {
+
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+
+            output = output +
+            this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+            this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+        }
+
+        return output;
+    },
+
+    // private method for UTF-8 encoding
+    _utf8_encode : function (string) {
+        string = string.replace(/\r\n/g,"\n");
+        var utftext = "";
+
+        for (var n = 0; n < string.length; n++) {
+
+            var c = string.charCodeAt(n);
+
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+
+        }
+
+        return utftext;
+    }
+
+}
+
+</script>
+
+<script language="javascript">
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+var twitter_user = EzWebAPI.createRGadgetVariable("twitter_user", twitter_user_handler);
+var twitter_pass = EzWebAPI.createRGadgetVariable("twitter_pass", twitter_pass_handler);
+var limit = EzWebAPI.createRGadgetVariable("limit_messages", limit_messages_handler);
+var message = EzWebAPI.createRGadgetVariable("message", update);
+
+var authorization = '';
+var init_msg = '';
+var current_friend = '';
+
+function twitter_user_handler (user) {
+	authorization = '';
+	if (sign_in()){
+		select_tab (getByClassName('div', 'tab current'));
+	}
+}
+
+
+function twitter_pass_handler (user) {
+	authorization = '';
+	if (sign_in()){
+		select_tab (getByClassName('div', 'tab current'));
+	}
+}
+
+
+function limit_messages_handler (next_limit) {
+	if (sign_in()){
+		select_tab (getByClassName('div', 'tab current'));
+	}
+}
+
+function getByClassName (tag, classname) {
+	
+	var all_elements = document.getElementsByTagName(tag);
+	for (var i = 0; i < all_elements.length ; i++){		
+		if (all_elements[i].className == classname){
+			return all_elements[i];				
+		}
+	}
+}
+
+function sign_in () {
+
+	if (authorization == ''){
+		if (twitter_user.get() == '')	{
+			var msg = 'Please, set your username in Twitter using the preferences.'
+			document.getElementById('messages_div').innerHTML = msg;        
+			return false;
+		}
+		
+		if (twitter_pass.get() == '') {
+			var msg = 'Please, set your password in Twitter using the preferences.'
+			document.getElementById('messages_div').innerHTML = msg;        
+			return false;
+		}
+		
+		authorization = 'Basic ' + Base64.encode(twitter_user.get() + ':' + twitter_pass.get());
+	}
+
+	return true;
+	
+}
+
+function get_messages () {
+	var target_url = 'http://twitter.com/statuses/friends_timeline.json?count=' + limit.get();	
+	send_request (target_url, 'GET', null, show_messages, show_http_error);
+}
+
+
+function show_messages (resp) {
+	
+	var content = document.getElementById('messages_div');
+	content.innerHTML = '';
+	
+	var response = resp.responseText;
+	var objRes = eval ('(' + response + ')');
+
+	var header_text = document.createElement("h3");
+	header_text.appendChild(document.createTextNode('What are you doing?'));
+	content.appendChild(header_text);
+	
+	var msg_textarea = document.createElement("textarea");
+	msg_textarea.setAttribute ('id', 'status');
+	msg_textarea.setAttribute ('rows', '2');
+	msg_textarea.setAttribute ('cols', '50');
+	msg_textarea.setAttribute ('maxlength', '140');
+	if (init_msg != ''){
+		msg_textarea.setAttribute ('value', init_msg);
+		init_msg = '';
+	}
+	content.appendChild(msg_textarea);
+	
+	var button_cont = document.createElement("div");
+	button_cont.className = 'button_cont';
+	content.appendChild(button_cont);
+	var update_button = document.createElement("input");
+	update_button.className = 'button';
+	update_button.setAttribute ('type', 'button');
+	update_button.onclick = update;
+	update_button.setAttribute ('value', 'Update');
+	button_cont.appendChild(update_button);
+
+	for (var i = 0; i < objRes.length; i++){
+			var message_content = document.createElement("div");
+			message_content.className = 'message_container';
+			
+			if (i == 0){
+				message_content.style.borderTop = "1px dashed #D2DADA";
+			}
+			
+			var avatar_cont = document.createElement("div");
+			message_content.appendChild(avatar_cont);
+			avatar_cont.className = 'avatar';
+			
+			var avatar = document.createElement("img");
+    	avatar_cont.appendChild(avatar);
+    	avatar.className = 'avatar';
+    	avatar.setAttribute("src", objRes[i].user.profile_image_url);
+			
+			var text_container = document.createElement("div");
+			message_content.appendChild(text_container);
+			text_container.className = 'message';
+
+			
+			var header_cont = document.createElement("span");
+			text_container.appendChild(header_cont);
+			header_cont.className = 'header';
+			var created_date = new Date (objRes[i].created_at);
+			var header_text = 'Written on ' + created_date.getDate() + '/' + created_date.getMonth() + '/' + created_date.getFullYear() + ' ';
+			header_text += created_date.getHours() + ':' + created_date.getMinutes() + ':' + created_date.getSeconds();
+			header_text += ' by '
+			header_cont.appendChild(document.createTextNode (header_text));
+			
+			var name_cont = document.createElement("span");
+			header_cont.appendChild(name_cont);
+			name_cont.className = 'name';
+			var name_text = objRes[i].user.screen_name + ': ';
+			name_cont.appendChild(document.createTextNode (name_text));
+			
+			header_cont.appendChild(document.createElement("br"));
+
+			var msg_cont = document.createElement("span");
+			text_container.appendChild(msg_cont);
+			msg_cont.appendChild(document.createTextNode (objRes[i].text));
+			
+			content.appendChild(message_content);
+			
+	}
+		
+}
+
+function remove_friend_messages () {
+
+	// Removes old messages
+	var message_container = document.getElementById('messages_div');        
+	var j = 0;
+	while (j < message_container.childNodes.length){
+		var current_message = message_container.childNodes[j];
+		if (current_message.id.split('_')[0] != 'user'){
+			message_container.removeChild(current_message);
+		}else{
+			j++;
+		}
+	}
+}
+
+function get_friend_messages (event) {
+	
+	if (current_friend.id == event.target.parentNode.parentNode.id){
+		remove_friend_messages();
+		current_friend = '';
+		return;
+	}
+	
+	current_friend = event.target.parentNode.parentNode;
+	var friend_name = current_friend.id.split('_')[1];
+	var target_url = 'http://twitter.com/statuses/user_timeline/' + friend_name + '.json?count=' + limit.get();	
+	send_request (target_url, 'GET', null, show_friend_messages, show_http_error);
+}
+
+function show_friend_messages (resp) {
+
+	var response = resp.responseText;
+	var objRes = eval ('(' + response + ')');
+
+	remove_friend_messages ();
+	
+	var next_position = null;
+	var append_message = current_friend.parentNode.lastChild.id == current_friend.id;
+	if (!append_message){
+		next_position = current_friend.nextSibling;
+	}
+
+	for (var i = 0; i < objRes.length; i++){
+			var message_content = document.createElement("div");
+			message_content.className = 'message_container';
+			
+			var avatar_cont = document.createElement("div");
+			message_content.appendChild(avatar_cont);
+			avatar_cont.className = 'avatar';
+			
+			var text_container = document.createElement("div");
+			message_content.appendChild(text_container);
+			text_container.className = 'message';
+			
+			var header_cont = document.createElement("span");
+			text_container.appendChild(header_cont);
+			header_cont.className = 'header';
+			var created_date = new Date (objRes[i].created_at);
+			var header_text = 'Written on ' + created_date.getDate() + '/' + created_date.getMonth() + '/' + created_date.getFullYear() + ' ';
+			header_text += created_date.getHours() + ':' + created_date.getMinutes() + ':' + created_date.getSeconds();
+			header_cont.appendChild(document.createTextNode (header_text));
+			
+			header_cont.appendChild(document.createElement("br"));
+
+			var msg_cont = document.createElement("span");
+			text_container.appendChild(msg_cont);
+			msg_cont.appendChild(document.createTextNode (objRes[i].text));
+			
+			// Insert the message after the user
+			if (append_message){
+					current_friend.parentNode.appendChild(message_content);
+			}else{
+					current_friend.parentNode.insertBefore(message_content, next_position)
+			}
+	}
+}
+
+
+function get_friends () {
+	var target_url = 'http://twitter.com/statuses/friends.json';
+	send_request (target_url, 'GET', null, show_friends_info, show_http_error);
+}
+
+
+function get_followers () {
+	var target_url = 'http://twitter.com/statuses/followers.json';
+	send_request (target_url, 'GET', null, show_friends_info, show_http_error);
+}
+
+function show_friends_info (resp) {
+	
+	var content = document.getElementById('messages_div');
+	content.innerHTML = '';
+		
+	var response = resp.responseText;
+	var objRes = eval ('(' + response + ')');
+
+	for (var i = 0; i < objRes.length; i++){
+			var user_content = document.createElement("div");
+			user_content.setAttribute ('id', 'user_' + objRes[i].id);
+			user_content.className = 'message_container';
+
+			user_content.style.borderBottom = '1px dashed #97A0A8';
+			if (i == 0){
+				user_content.style.borderTop = '1px dashed #97A0A8';
+			}
+						
+			var avatar_cont = document.createElement("div");
+			user_content.appendChild(avatar_cont);
+			avatar_cont.className = 'avatar';
+			
+			var avatar = document.createElement("img");
+    	avatar_cont.appendChild(avatar);
+    	avatar.className = 'avatar';
+    	avatar.setAttribute("src", objRes[i].profile_image_url);
+			
+			var text_container = document.createElement("div");
+			user_content.appendChild(text_container);
+			text_container.className = 'message';
+
+			var name_cont = document.createElement("a");
+			text_container.appendChild(name_cont);
+			name_cont.className = 'friend';
+			name_cont.onclick = get_friend_messages;
+			name_cont.setAttribute("href", "javascript:void(0)");
+			name_cont.appendChild(document.createTextNode (objRes[i].screen_name));
+			
+			content.appendChild(user_content);
+			
+	}
+			
+}
+
+function send_request (url, method, parameters, success_handler, error_handler){
+	if (method == 'POST' || method == 'PUT'){
+		if (typeof(parameters) != "string") {
+			var p = EzWebAPI.platform.Object.toJSON(parameters);
+		} else {
+	 		var p = parameters;
+		}
+		var proxy_params = {url: url, method: method, params: p};
+	}else{
+		var proxy_params = {url: url, method: method};
+	}
+	
+	success_handler.bind = EzWebAPI.platform.Function.prototype.bind;
+	error_handler.bind = EzWebAPI.platform.Function.prototype.bind;
+	
+	new EzWebAPI.platform.Ajax.Request(EzWebAPI.platform.URIs.PROXY, {
+				method: 'post',
+				parameters: proxy_params,
+				requestHeaders: {'Authorization': authorization}, 
+				onSuccess: success_handler.bind(this),
+				onFailure: error_handler.bind(this),
+				onException: error_handler.bind(this)
+	});
+}
+
+
+function show_http_error(res){
+	var msg = 'Sorry, we cannot send your request. Check your username/password and try it again...'
+	document.getElementById('messages_div').innerHTML = msg;
+}
+
+
+function select_tab (next_tab) {
+	
+	var current_tab = getByClassName('div', 'tab current');
+	
+	if (current_tab != null){
+		current_tab.className = 'tab';
+	}
+	current_tab = next_tab;
+	current_tab.className = 'tab current';
+	current_friend = '';
+	
+	if (current_tab.id == 'me_tab'){
+		get_messages ();
+	} else if (current_tab.id == 'friends_tab'){  
+		get_friends ();
+	} else{
+		get_followers();
+	}
+}
+
+
+function success_update (resp) {
+	select_tab(document.getElementById('me_tab'));
+}
+
+
+function update (message) {
+	var msg_text = '';
+	if (message instanceof Event){
+		// The "update" button
+		msg_text = document.getElementById('status').value;
+	}else if (typeof message == "string"){
+		// Event from the platform
+		try	{
+			document.getElementById('status').value = message;
+		} catch(err) {
+			init_msg = message;
+		}
+		return;
+	}
+	
+	if (msg_text == ''){
+		return;
+	}
+	
+	var url = 'http://twitter.com/statuses/update.json';
+	var params = {status : msg_text} ;
+	send_request (url, 'POST', params, success_update , show_http_error);
+	
+}
+
+function resize_height (){
+	var round = 50;
+	if (document.getElementById('messages_div').offsetTop == 0){
+		round += 50;
+	}
+	document.getElementById('messages_div').style.height = (window.frameElement.getHeight() - document.getElementById('messages_div').offsetTop  - round) + "px";
+}
+
+</script>
+
+</head>
+
+	<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png"/>
+
+<body onresize="resize_height()" onload="resize_height(); if (sign_in()) select_tab(document.getElementById('me_tab'))">
+
+	<table id="tab_table" cellpadding='0' cellspacing='0' align='center'>
+		<tr>
+			<td align='center'>
+				<div id="me_tab" class="tab"><a href="javascript:void(0)" onclick="select_tab(this.parentNode)">Me</a></div>
+				<div id="friends_tab" class="tab"><a href="javascript:void(0)" onclick="select_tab(this.parentNode)">Friends</a></div>
+				<div id="followers_tab" class="tab"><a href="javascript:void(0)" onclick="select_tab(this.parentNode)">Followers</a></div>
+			</td>
+		</tr>
+		<tr>
+			<td align='center'>
+				<div id="messages_div"></div>
+			</td>
+		</tr>
+	</table>
+	
+</body>
+
+</html>
+
