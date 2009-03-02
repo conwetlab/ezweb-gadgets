@@ -1,0 +1,36 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>KyteTv Player</Name>
+<Version>1.0</Version>
+<Author>abgp</Author>
+<Mail>abgp@tid.es</Mail>
+<Description>Kyte viewer/producer</Description>
+<ImageURI>http://media01.kyte.tv/images/header/home.gif?v=4</ImageURI>
+
+<WikiURI>
+http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_grabador/reproductor/webcam_sobre_kyte_tv
+</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+
+<Platform.Preferences>
+	<Preference name="videoURLPref" type="text" description="Video URL" label="VideoURL" default="channels/208346"/>
+</Platform.Preferences>
+<Platform.StateProperties/>
+<Platform.Context>
+	<GadgetContext name="width" type="text" concept="widthInPixels"/>
+	<GadgetContext name="height" type="text" concept="heightInPixels"/>
+</Platform.Context>
+<!-- EzWeb Gadget Data Wiring -->
+<Platform.Wiring>
+	<Slot name="videoURL" type="text" label="VideoURL" friendcode="VideoURL"/>
+</Platform.Wiring>
+
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte/kytePlayer.html"/>
+</Platform.Link>
+<Platform.Rendering width="7" height="38"/>
+</Template>

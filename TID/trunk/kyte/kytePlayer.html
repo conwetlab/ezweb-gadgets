@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" src="http://www.kyte.tv/js/kyte.js"></script>
+
+<script>
+
+var videoURLPref = EzWebAPI.createRGadgetVariable("videoURLPref", loadVideo);
+var videoURL = EzWebAPI.createRGadgetVariable("videoURL", loadVideo);
+var width = EzWebAPI.createRGadgetVariable("width", setWidth);
+var height = EzWebAPI.createRGadgetVariable("height", setHeight);
+
+
+var url;
+var kyteplayer;
+
+var embedParameters = [];
+embedParameters['wmode'] = "transparent";
+
+
+
+
+url = videoURL.get();
+if(!url){
+	loadVideo(videoURLPref.get());
+}
+
+function loadVideo(url_){
+	if(!kyteplayer){
+		kyteplayer = new Kyte.Player(url_,embedParameters);
+		setWidth(width.get());
+		setHeight(height.get());
+
+	}else
+		kyteplayer.setUri(url_);
+}
+
+function setWidth(value){
+		document.getElementById("KyteApplication_1").width = (value-20) + "px";
+}
+function setHeight(value){
+		document.getElementById("KyteApplication_1").height = (value-20) + "px";
+}
+</script>
+</body>
+</html>
