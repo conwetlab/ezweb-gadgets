@@ -43,7 +43,11 @@
 		<label id="Oct">Oct</label>
 		<label id="Nov">Nov</label>
 		<label id="Dic">Dic"></label>
-
+		
+		<label id="N">N</label>
+		<label id="S">S</label>
+		<label id="E">E</label>
+		<label id="W">W</label>
 		
 	</language>
 	<language name="es">
@@ -88,5 +92,10 @@
 		<label id="Oct">Oct</label>
 		<label id="Nov">Nov</label>
 		<label id="Dic">Dic"></label>
+		
+		<label id="N">N</label>
+		<label id="S">S</label>
+		<label id="E">E</label>
+		<label id="W">O</label>
 	</language>
 </languages>

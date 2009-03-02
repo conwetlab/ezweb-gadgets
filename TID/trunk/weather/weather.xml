@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.7</Version>
+    <Version>0.8</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Weather Forecast</Description>
@@ -16,11 +16,6 @@
   	<Preference name="units" type="list" label="Set of units" description="Set of units" default="m">
 		<Option value="s" name="Standard"/>
 		<Option value="m" name="Metric"/>
-	</Preference>
-	<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
-		<Option value="default" name="Default"/>
-		<Option value="en" name="English"/>
-		<Option value="es" name="Español"/>
 	</Preference>
   </Platform.Preferences>
 

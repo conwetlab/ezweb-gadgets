@@ -8,7 +8,7 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 <LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default.css" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -99,10 +99,9 @@
   }
   	
   
-  function callbackSucessInfo(responseData)
-	{
-
+  	function callbackSucessInfo(responseData){
 		json=xml2json.parser(responseData.responseText);
+
 		var obj = {};
 		obj['loc'] = json.weather.loc;
 		obj['cc'] = json.weather.loc;
@@ -127,7 +126,7 @@
 						html += "<div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
 						html += "<div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div></div>";
 						html += "<div class='it'><div class='infoI' id='_pressure'>"+t.getLabel('_pressure')+"</div><div class='infoD'>"+json.weather.cc.bar.r+" "+info['unitp']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_wind'>"+t.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.d +" " + info['unitv'] +"</div></div>";
+						html += "<div class='it'><div class='infoI' id='_wind'>"+t.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t) + "</div></div>";
 						html += "<div class='it'><div class='infoI' id='_humidity'>"+t.getLabel('_humidity')+"</div><div class='infoD'>"+json.weather.cc.hmid+"%</div></div>";
 						html += "<div class='it'><div class='infoI' id='_visibility'>"+t.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
 						html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
@@ -139,8 +138,8 @@
 				html += "<div class='colright'>";
 					html += "<table class='item' width='100%'>";
 					html += "<tr><th id='_day-night'>"+t.getLabel('_day-night')+"</th><th id='_hum' title='Humidity'>"+t.getLabel('_hum')+"</th><th id='_ppcp' title='Probability of precipitation'>"+t.getLabel('_ppcp')+"</th><th id='_wind2' title='Wind'>"+t.getLabel('_wind2')+"</th></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+json.weather.dayf.day[0].part[0].wind.t+"</div></td></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+json.weather.dayf.day[0].part[1].wind.t+"</div></td></tr>";
+					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[0].wind.t)+"</div></td></tr>";
+					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[1].wind.t)+"</div></td></tr>";
 					html += "</table>";
 				html += "</div>";
 			html += "</td></tr></table>";
@@ -191,8 +190,24 @@
 		}
 			
 	}
+	
+	function translateDirection(direction){
+		if(!direction){
+			return direction;
+		}
+		dir = "";
+		for (var j=0; j < direction.length ; j++){
+			var d = t.getLabel(direction.charAt(j));
+			if(!d){
+				return direction;	
+			}
+			dir += d;
+		}
+		return dir;
+	}
+	
 	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" ,"languagePref",load,translate);
+		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" , null, load,translate);
 	}
 	
 
