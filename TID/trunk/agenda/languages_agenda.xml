@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="l_configure">Please, configure gadget preferences</label>
+		<label id="l_looking_error">Error looking up</label>
+		<label id="l_looking">Looking up </label>
+		<label id="l_contact">Contact list of </label>
+		<label id="search_l">search</label>
+		<label id="refresh_l">refresh</label>
+		<label id="h_contact">Contact</label>
+		<label id="h_phone">Phone</label>
+		<label id="h_email">E-mail</label>
+		<label id="h_address">Address</label>
+		Contact
+	</language>
+	<language name="es">
+		<label id="l_configure">Por favor, configure las preferencias del gadget</label>
+		<label id="l_looking_error">Error recuperando</label>
+		<label id="l_looking">Recuperando </label>
+		<label id="l_contact">Lista de contactos de </label>
+		<label id="search_l">buscar</label>
+		<label id="refresh_l">refrescar</label>
+		<label id="h_contact">Contacto</label>
+		<label id="h_phone">Teléfono</label>
+		<label id="h_email">E-mail</label>
+		<label id="h_address">Dirección</label>
+	</language>
+</languages>
+
