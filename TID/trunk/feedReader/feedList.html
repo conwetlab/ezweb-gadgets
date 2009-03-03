@@ -223,8 +223,8 @@ function paintFeedEntries(category)
 		}
 		//make visible that the select has changed
 		if($('feedOptions').options.length >1){
-			$('feedOptions').style.background = '#3274D0';
-			setTimeout(function(){$('feedOptions').style.background = '#6c6c6c'}, 500)
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
 		}
 
 	}
@@ -500,8 +500,8 @@ function doSearch (value){
 		}
 		//make visible that the select has changed
 		if($('feedOptions').options.length >1){
-			$('feedOptions').style.background = '#3274D0';
-			setTimeout(function(){$('feedOptions').style.background = '#6c6c6c'}, 1000)
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
 		}
 		if(!$('list').hasChildNodes())	
 				$('list').update("<span class='no_feeds'>"+translator.getLabel('no_results1')+" - "+value+" - "+translator.getLabel('no_results2')+".</span>");
@@ -703,12 +703,11 @@ function manageFeeds(){
 	}
 
 	#header_top select, #header_bottom select{
-		color:#ffffff;
-		border: 0px;
-		background-color:#6c6c6c;
+		color:#6c6c6c;
+		border: 1px solid #cccccc;
+		background-color:#e9e9e9;
 		width:auto;
 		margin-left:5px;
-		vertical-align: top;
 	}
 
 	#header_top select{
@@ -721,11 +720,8 @@ function manageFeeds(){
 	}
 
 	#combo_tag .option{
-		background-color:#6c6c6c;
-		color: #ffffff;
-	}
-	#combo_tag option:hover{
-		bacground-color:black;
+		background-color:#e9e9e9;
+		color: #6c6c6c;
 	}
 
 	#header_top #match{
@@ -735,11 +731,11 @@ function manageFeeds(){
 
 	#match input[type=radio]{
 		margin:0;
-		vertical-align:middle;
+		position:relative;
+		top:2px;
 	}
 
 	#match #l_all, #match #l_any{
-		vertical-align:middle;
 	
 	}
 
@@ -755,10 +751,11 @@ function manageFeeds(){
 		color: #3274d0;		
 	}
 	#header #i_search{
-		color: #ffffff;
-		font-size: 90%;
-		background:#6C6C6C;
-		border: 1px solid #6C6C6C;
+		color: #6C6C6C;
+		background:#e9e9e9;
+		border: 1px solid #cccccc;
+		vertical-align: middle;
+		width: 75px;
 		padding:1px;
 	}
 	#header_bottom #options{
@@ -767,6 +764,7 @@ function manageFeeds(){
 		text-align: right;
 		min-width: 205px;
 		color:#3274d0;
+		top:2px;
 	}
 	#options div{
 		cursor:pointer;
@@ -793,16 +791,19 @@ function manageFeeds(){
 
 	#selected_categories li{
 		display:inline;
-		background: #6C6C6C;
+		background: #e9e9e9;
 		margin-right: 5px;
-		padding: 1px 1px 1px 5px;
+		padding: 0px 0px 0px 5px;
 		float:left;
+		border: 1px solid #cccccc;
 		vertical-align: middle;
-		color: #ffffff;
+		color: #6C6C6C;
 
 	}
 	#selected_categories li span{
 		float:left;
+		position:relative;
+		top:2px;
 	}
 
 	#selected_categories li img{
