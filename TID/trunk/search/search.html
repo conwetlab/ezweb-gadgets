@@ -7,9 +7,14 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="JavaScript">
 
-
+//Preferences
+var text = EzWebAPI.createRGadgetVariable("text", changeText);
 // keyword to Send
 var keyword = EzWebAPI.createRWGadgetVariable("keyword");
+
+function changeText(value){
+	document.getElementById("text_l").innerHTML = value;
+}
 
 function sendKeyword(){
 	var val = document.KeywordCreationForm.elements['keyword'].value;
@@ -21,13 +26,12 @@ function sendKeyword(){
 </script>
 
 </head>
-<body>
-<h2>Search Keyword</h2>
+<body onload="changeText(text.get());">
 <form name="KeywordCreationForm" onsubmit="sendKeyword(this.form);return false;">
 <table class="content">
 <tbody>
 <tr class="odd">
-  <td style="width:15%">Keyword: </td>
+  <td style="width:15%"><label id="text_l">Keyword: </label></td>
   <td style="width:70%"><input name="keyword" type="text" id="text" class="text"></td>
   <td style="width:15%"><input name="create" value="search" onclick="sendKeyword(this.form)" type="button"></td>
 </tr>

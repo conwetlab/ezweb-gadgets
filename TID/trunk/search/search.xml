@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Search</Name>
-		<Version>1.1</Version>
+		<Version>1.2</Version>
 		<Author>jjmr</Author>
 		<Mail>jjmr@tid.es</Mail>
 		<Description>Envío de una palabra clave como evento</Description>
@@ -13,13 +13,14 @@
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
+		<Preference name="text" type="text" description="text shown in front of the text field" label="text" default="keyword"/>
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
 	<Platform.StateProperties>
 	</Platform.StateProperties>
 	<!-- EzWeb Gadget Data Wiring -->
 	<Platform.Wiring>
-		<Event name="keyword" type="text" label="keyword" friendcode="keyword"/>
+		<Event name="keyword" type="text" label="keyword" friendcode="keyword:"/>
 	</Platform.Wiring>
 	<Platform.Link>
 		<XHTML href="http://demo.ezweb.morfeo-project.com/repository/search/search.html"/>
