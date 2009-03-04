@@ -496,7 +496,7 @@
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (feed.items[i].link == null) ? startLink + feed.items[i].title + endTag : startLink + "<a href='" + feed.items[i].link +"' target='_black'>"+feed.items[i].title+"</a>" + endTag;
 			item_html += (feed.items[i].description == null) ? "" : "<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>";
-			item_html += "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ feed.items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" + startDescription + feed.items[i].description + endTag;
+			item_html += "&nbsp;<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ feed.items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" + startDescription + feed.items[i].description + endTag;
 			item_html += endTag;
 
 			item_html += "</li>";
