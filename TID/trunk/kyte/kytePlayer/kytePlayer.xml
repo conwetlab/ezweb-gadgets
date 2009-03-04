@@ -30,7 +30,7 @@ http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_grabador/rep
 </Platform.Wiring>
 
 <Platform.Link>
-	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte/kytePlayer.html"/>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte/kytePlayer/kytePlayer.html"/>
 </Platform.Link>
 <Platform.Rendering width="7" height="38"/>
 </Template>

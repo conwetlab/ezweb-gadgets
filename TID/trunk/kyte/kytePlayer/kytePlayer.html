@@ -2,8 +2,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-</head>
-<body>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" src="http://www.kyte.tv/js/kyte.js"></script>
 
@@ -21,30 +19,29 @@ var kyteplayer;
 var embedParameters = [];
 embedParameters['wmode'] = "transparent";
 
-
-
-
 url = videoURL.get();
 if(!url){
-	loadVideo(videoURLPref.get());
+	url = videoURLPref.get();
 }
+kyteplayer = new Kyte.Player(url,embedParameters);
 
 function loadVideo(url_){
-	if(!kyteplayer){
-		kyteplayer = new Kyte.Player(url_,embedParameters);
-		setWidth(width.get());
-		setHeight(height.get());
-
-	}else
+	if(url_ != url){
 		kyteplayer.setUri(url_);
+		url =url_;
+	}
 }
 
 function setWidth(value){
-		document.getElementById("KyteApplication_1").width = (value-20) + "px";
+		if(document.getElementById("KyteApplication_1"))
+			document.getElementById("KyteApplication_1").width = (value-20) + "px";
 }
 function setHeight(value){
+		if(document.getElementById("KyteApplication_1"))
 		document.getElementById("KyteApplication_1").height = (value-20) + "px";
 }
 </script>
+</head>
+<body>
 </body>
 </html>
