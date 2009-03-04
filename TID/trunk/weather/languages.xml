@@ -22,6 +22,8 @@
 		<label id="_humidity">Humidity</label>
 		<label id="_probability of precipitation">Probability of precipitation</label>
 		<label id="_forecast">Forecast</label>
+		<label id="_more">More details...</label>
+		<label id="_less">Less detail...</label>
 		
 		<label id="Monday">Monday</label>
 		<label id="Tuesday">Tuesday</label>
@@ -30,6 +32,14 @@
 		<label id="Friday">Friday</label>
 		<label id="Saturday">Saturday</label>
 		<label id="Sunday">Sunday</label>
+		
+		<label id="sMonday">Monday</label>
+		<label id="sTuesday">Tuesday</label>
+		<label id="sWednesday">Wednesday</label>
+		<label id="sThursday">Thursday</label>
+		<label id="sFriday">Friday</label>
+		<label id="sSaturday">Saturday</label>
+		<label id="sSunday">Sunday</label>
 		
 		<label id="Jan">Jan</label>
 		<label id="Feb">Feb</label>
@@ -48,6 +58,8 @@
 		<label id="S">S</label>
 		<label id="E">E</label>
 		<label id="W">W</label>
+		
+
 		
 	</language>
 	<language name="es">
@@ -71,7 +83,9 @@
 		<label id="_humidity">Humedad</label>
 		<label id="_probability of precipitation">Probabiliad de precipitación</label>
 		<label id="_forecast">Previsión</label>
-		
+		<label id="_more">Más detalles...</label>
+		<label id="_less">Menos detalles...</label>
+				
 		<label id="Monday">Lunes</label>
 		<label id="Tuesday">Martes</label>
 		<label id="Wednesday">Miércoles</label>
@@ -79,6 +93,14 @@
 		<label id="Friday">Viernes</label>
 		<label id="Saturday">Sábado</label>
 		<label id="Sunday">Domingo</label>
+		
+		<label id="sMonday">Lunes</label>
+		<label id="sTuesday">Martes</label>
+		<label id="sWednesday">Miércoles</label>
+		<label id="sThursday">Jueves</label>
+		<label id="sFriday">Viernes</label>
+		<label id="sSaturday">Sábado</label>
+		<label id="sSunday">Domingo</label>
 		
 		<label id="Jan">Ene</label>
 		<label id="Feb">Feb</label>
@@ -97,5 +119,7 @@
 		<label id="S">S</label>
 		<label id="E">E</label>
 		<label id="W">O</label>
+		
+
 	</language>
 </languages>

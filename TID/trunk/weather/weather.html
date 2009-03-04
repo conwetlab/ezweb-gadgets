@@ -9,23 +9,43 @@
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-<LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default.css" type="text/css" />
+<LINK id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default2.css" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
 	var json=null;
 	var units=null;
 	var t = null;
+	var fullinfo = false;
 	
 	var id = EzWebAPI.createRWGadgetVariable("id");
 	var citySlot = EzWebAPI.createRGadgetVariable("city", setCitySlot);
-
-
+	var defaultCity = EzWebAPI.createRGadgetVariable("defaultCity", setDefaultCity);
+	var info = EzWebAPI.createRGadgetVariable("info", setInfo);
+	
 	var cityEvent = EzWebAPI.createRWGadgetVariable("cityEvent");
 	var lat = EzWebAPI.createRWGadgetVariable("lat");
 	var lon = EzWebAPI.createRWGadgetVariable("lon");
 	
 	var units = EzWebAPI.createRGadgetVariable("units", setUnits);
 	
+	function setInfo(value)
+	{
+		fullinfo = value=="fullinfo";
+		try{
+			if(fullinfo)
+				showFullInfo();
+			else
+				hideFullInfo();
+		}catch(e){
+			load();
+		}
+	}
+	
+	function setDefaultCity(value){
+		$('city').value = value;
+		if(defaultCity.get()!="")
+			searchCity(defaultCity.get());
+	}	
 	function setUnits(unit)
 	{
 		if(id.get()!=""){
@@ -39,14 +59,28 @@
 	{	
 		$('citiesList').style.visibility = 'hidden';
 		if(citySlot.get()==""){
-			if(id.get()!=""){
+			/*if(id.get()!=""){
 				sendId(id.get());
+			}*/
+			if(defaultCity.get()!=""){
+				$('city').value = defaultCity.get();
+				searchCity(defaultCity.get());
 			}
 		}
+		fullinfo = info.get()=="fullinfo";
+		var value ="default2";
+		if(fullinfo)
+			value ="default";
+			
+		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/"+value+".css";
+		var sheetLink=document.getElementById('style');
+		sheetLink.href=href;
+		
 
 	}
 	function setCitySlot(city)
 	{
+		$('city').value = city;
 		searchCity(city);		
 	}
 	
@@ -62,7 +96,7 @@
   
   function callbackError(responseData) {
 	//alert("Request error: " + responseData.responseText);
-	$('errors').innerHTML = "Service Unavailable";
+	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
 	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
   }
@@ -114,81 +148,149 @@
 		info['cctmp'] = json.weather.cc.tmp;
 		info['ccicon'] = "http://image.weather.com/web/common/wxicons/93/"+json.weather.cc.icon+".png";
 		
-		var html ="<div class='full'>";
-		html += "<div class='city'>"+json.weather.cc.obst+"</div>";
-			html += "<div class='today'>";
-			html += "<table><tr><td>";
-				html += "<div id='colleft' class='colleft' title='Current Weather'>";
-					html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
-					html += "<div class='datoscc'>";
-						html += "<div class='it'></div>";
-						html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
-						html += "<div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_pressure'>"+t.getLabel('_pressure')+"</div><div class='infoD'>"+json.weather.cc.bar.r+" "+info['unitp']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_wind'>"+t.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t) + "</div></div>";
-						html += "<div class='it'><div class='infoI' id='_humidity'>"+t.getLabel('_humidity')+"</div><div class='infoD'>"+json.weather.cc.hmid+"%</div></div>";
-						html += "<div class='it'><div class='infoI' id='_visibility'>"+t.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
-						html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_sunset'>"+t.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
-						
+		
+		
+			var html ="<div id='full' class='full'>";
+				html += "<div class='city'>"+json.weather.cc.obst+"</div>";
+				html += "<div class='today'>";
+				html += "<table><tr><td>";
+					html += "<div id='colleft' class='colleft' title='Current Weather'>";
+						html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
+						html += "<div class='datoscc'>";
+							html += "<div class='it'></div>";
+							html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
+							html += "<div class='it'><div class='infoI' id='_hi'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
+							html += "<div class='it'><div class='infoI' id='_low'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div></div>";
+							html += "<div class='it'><div class='infoI' id='_pressure'>"+t.getLabel('_pressure')+"</div><div class='infoD'>"+json.weather.cc.bar.r+" "+info['unitp']+"</div></div>";
+							html += "<div class='it'><div class='infoI' id='_wind'>"+t.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t) + "</div></div>";
+							html += "<div class='it'><div class='infoI' id='_humidity'>"+t.getLabel('_humidity')+"</div><div class='infoD'>"+json.weather.cc.hmid+"%</div></div>";
+							html += "<div class='it'><div class='infoI' id='_visibility'>"+t.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
+							html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
+							html += "<div class='it'><div class='infoI' id='_sunset'>"+t.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
+							html += "<div class='it'><div class='infoI' id='_less' style='cursor:pointer;text-decoration:underline;' onClick='hideFullInfo()'>Less details...</div></div>";
+							
+						html += "</div>";
+					html += "</div><br>";
+				html += "</td><td valign='top' style='width:100%;' >";
+					html += "<div class='colright'>";
+						html += "<table class='item' width='100%'>";
+						html += "<tr><th id='_day-night'>"+t.getLabel('_day-night')+"</th><th id='_hum' title='Humidity'>"+t.getLabel('_hum')+"</th><th id='_ppcp' title='Probability of precipitation'>"+t.getLabel('_ppcp')+"</th><th id='_wind2' title='Wind'>"+t.getLabel('_wind2')+"</th></tr>";
+						html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[0].wind.t)+"</div></td></tr>";
+						html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[1].wind.t)+"</div></td></tr>";
+						html += "</table>";
 					html += "</div>";
-				html += "</div><br>";
-			html += "</td><td valign='top' style='width:100%;' >";
-				html += "<div class='colright'>";
-					html += "<table class='item' width='100%'>";
-					html += "<tr><th id='_day-night'>"+t.getLabel('_day-night')+"</th><th id='_hum' title='Humidity'>"+t.getLabel('_hum')+"</th><th id='_ppcp' title='Probability of precipitation'>"+t.getLabel('_ppcp')+"</th><th id='_wind2' title='Wind'>"+t.getLabel('_wind2')+"</th></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[0].wind.t)+"</div></td></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[1].wind.t)+"</div></td></tr>";
-					html += "</table>";
+				html += "</td></tr></table>";
 				html += "</div>";
-			html += "</td></tr></table>";
-			html += "</div>";
-		
-		
-			html += "<table class='infoNext'><tr>";
-			for(i=1;i<json.weather.dayf.day.length;i++)
-			{
-				html += "<td class='header'><div id='"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
-				
-			}	
-			html += "</tr>";
-			for(i=1;i<json.weather.dayf.day.length;i++)
-			{
-				html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi2'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low2'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
-				
-			}
 			
-		
 			
-			html+= "</tr></table>";
+				html += "<table class='infoNext'><tr>";
+				for(i=1;i<json.weather.dayf.day.length;i++)
+				{
+					html += "<td class='header'><div id='"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
+					
+				}	
+				html += "</tr>";
+				for(i=1;i<json.weather.dayf.day.length;i++)
+				{
+					html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi2'>"+t.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low2'>"+t.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
+					
+				}
+				
+			
+				
+				html+= "</tr></table>";
+			
+			html +="</div>";
 		
-		html +="</div>";
+			html +="<div id='short' class='short'>";
+				html += "<div class='today'>";
+				html += "<table><tr><td>";
+					html += "<div id='colleft' class='colleft' title='Current Weather'>";
+						html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='s"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_sdateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
+						html += "<div class='datoscc'>";
+							html += "<div class='it'></div>";
+							html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
+							html += "<div class='it'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div>";
+							html += "<div class='it'>Hum "+json.weather.cc.hmid+"%</div>";
+							html += "<div class='it'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t)+"</div>";
+							html += "<div class='it'><div id='_more' style='cursor:pointer;text-decoration:underline;' onClick='showFullInfo()'>More details...</div></div>";
+						html += "</div>";
+					html += "</div><br>";
+				html += "</td>";
+				html += "</div>";
+				html += "<td>";
+					html += "<table class='infoNext'><tr>";
+					for(i=1;i<json.weather.dayf.day.length;i++)
+					{
+						html += "<td class='header'><div id='s"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
+						
+					}	
+					html += "</tr>";
+					for(i=1;i<json.weather.dayf.day.length;i++)
+					{
+						html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'>";
+						html += "<div class='it'><div class='infoI'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div>";
+						html += "<div class='it'><span class='infoI' id='_ppcp'>PPcp</span>"+json.weather.dayf.day[i].part[0].ppcp+"%</div>";
+						html += "<div class='it'>"+json.weather.dayf.day[i].part[0].wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.dayf.day[i].part[0].wind.t)+"</div></td>";
+						//html += "<div class='it'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div>";
+					}
+					html+= "</tr></table>";	
+				html += "</td></tr></table>";
+			html +="</div>";		
 		
-		id.set(json.weather.loc.id);
-		lat.set(json.weather.loc.lat);
-		lon.set(json.weather.loc.lon);
+		
+
 		$('infoTiempo').innerHTML = html;
+		if (fullinfo){
+			$('full').show();
+			$('short').hide();
+		}else{
+			$('short').show();
+			$('full').hide();
+		}
+		
 		$('loading').style.visibility = 'hidden';
 		if($('citiesList').options[0])
 			$('citiesList').style.visibility = 'visible';
 			
 		//$('loading').style.visibility = 'visible';
-		t.translate()
+		id.set(json.weather.loc.id);
+		lat.set(json.weather.loc.lat);
+		lon.set(json.weather.loc.lon);
+		t.translate();
 		//translate();
 	}
-	
+		
 	function translate()
 	{
 	
-		if ($('colleft')){//Si ya ha cargado
+		if ($('colleft'))
 			$('colleft').title = t.getLabel('_current weather');
+		if ($('_hum'))
 			$('_hum').title = t.getLabel('_humidity');
+		if ($('_ppcp'))
 			$('_ppcp').title = t.getLabel('_probability of precipitation');
+		if($('_wind2'))
 			$('_wind2').title = t.getLabel('_wind2');
-			
+		
+		if($('_sdateDT')){
+			//Parsear formato 'sss dd'
+			var fecha = $('_sdateDT').innerHTML.toArray();
+			var mes = "";
+			var dia = "";
+			for(i=0;i<fecha.length;i++)
+			{
+				if (fecha[i]!=" ")
+					mes += fecha[i];
+				else
+					break;
+			}
+			for(i=mes.length;i<fecha.length;i++){
+				dia += fecha[i];
+			}
+			$('_sdateDT').innerHTML = mes + " " + dia;
+			$('_dateDT').innerHTML = mes + " " + dia;
 		}
-			
 	}
 	
 	function translateDirection(direction){
@@ -209,6 +311,33 @@
 	function generateLang(){
 		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" , null, load,translate);
 	}
+	
+	function _changeTheme(value){
+		
+		if(!value || value =="")
+			value = "default2";
+		
+		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/"+value+".css";
+		var sheetLink=document.getElementById('style');
+		sheetLink.href=href;
+		return;
+	}
+	
+	function showFullInfo()
+	{
+		_changeTheme("default");
+		fullinfo=true;
+		$('full').show();
+		$('short').hide();
+	}
+	function hideFullInfo()
+	{
+		_changeTheme("default2");
+		fullinfo=false;
+		$('short').show();
+		$('full').hide();
+	}
+
 	
 
 </script>

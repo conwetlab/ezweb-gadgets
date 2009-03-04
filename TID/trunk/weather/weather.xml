@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.8</Version>
+    <Version>0.86</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Weather Forecast</Description>
@@ -16,6 +16,11 @@
   	<Preference name="units" type="list" label="Set of units" description="Set of units" default="m">
 		<Option value="s" name="Standard"/>
 		<Option value="m" name="Metric"/>
+	</Preference>
+	<Preference name="defaultCity" type="text" label="Default city" description="Default city"/>
+	<Preference name="info" type="list" label="Full/Short Info" description="Full/Short Info" default='shortinfo'>
+		<Option value="fullinfo" name="Full Info"/>
+		<Option value="shortinfo" name="Short Info"/>
 	</Preference>
   </Platform.Preferences>
 
@@ -35,5 +40,5 @@
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/weather/weather.html"/>
   </Platform.Link>
-  <Platform.Rendering width="8" height="13"/>
+  <Platform.Rendering width="11" height="19"/>
 </Template>
