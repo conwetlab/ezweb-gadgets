@@ -80,6 +80,10 @@ a{
 	font-size: 10pt;
 	font-weight:bold;
 }
+.clear_label{
+	padding-right: 7px;
+	float: left;
+}
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
@@ -124,6 +128,13 @@ var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDes
 var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 // Message
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+//status after succesfully sending message
+var destinationStatus = EzWebAPI.createRGadgetVariable("destinationStatus", function(){});
+var subjectStatus = EzWebAPI.createRGadgetVariable("subjectStatus", function(){});
+var urlfileStatus = EzWebAPI.createRGadgetVariable("urlfileStatus", function(){});
+var messageStatus = EzWebAPI.createRGadgetVariable("messageStatus", function(){});
+
+
 
 var translator = null;
 
@@ -179,25 +190,6 @@ function setDestinationPhone(val){
 	document.MMSCreationForm.elements['to'].value = val;
 }//setDestinationPhone
 
-function toggleFileInput(){
-	var radio = document.getElementById("objectFileRadio");
-	var input = document.getElementById("objectFile");
-	var inputUrl = document.getElementById("objectURL");
-	if (radio.checked && input.style.display=="none"){
-		input.style.display="block";
-		inputUrl.style.display="none";
-	}
-}
-
-function toggleURLInput(){
-	var radio = document.getElementById("objectURLRadio");
-	var input = document.getElementById("objectURL");
-	var inputFile = document.getElementById("objectFile");
-	if (radio.checked && input.style.display=="none"){
-		input.style.display="block";
-		inputFile.style.display="none";
-	}
-}
 
 function updateCharacters(){
 	if (document.MMSCreationForm.elements['objectURL'].value!="" || document.MMSCreationForm.elements['objectFile'].value!=""){
@@ -217,15 +209,46 @@ function updateCharacters(){
 	}
 }
 
-function clearForm(){
-	document.getElementById('MMSCreationForm').reset();
+function clearFields(){
+	
+	var destination = destinationStatus.get()
+	var subject = subjectStatus.get();
+	var urlfile = urlfileStatus.get();
+	var message = messageStatus.get();
+
+	if (destination=="cleared" && subject=="cleared" && urlfile=="cleared" && message=="cleared"){
+		document.getElementById('MMSCreationForm').reset();
+	}else{
+		if (destination=="cleared"){
+			document.MMSCreationForm.elements['to'].value='';
+		}
+		if (subject=="cleared"){
+			document.MMSCreationForm.elements['subject'].value='';
+		}
+		if (urlfile=="cleared"){
+			document.MMSCreationForm.elements['objectURL'].value='';
+			document.getElementById("objectFile").parentNode.removeChild(document.getElementById("objectFile"));
+			//show the text-field and clear the file-field	
+			var file = document.createElement("input");
+			file.type = "file";
+			file.id = "objectFile";
+			file.name="objectFile";
+			file.size="24";
+			file.onkeyup=function(){document.getElementById('objectURL').value = document.getElementById('objectFile').value};
+			file.onchange=function(){document.getElementById("objectURL").value=document.getElementById('objectFile').value;document.getElementById("objectURL").style.display="none"};
+			document.getElementById("cover").appendChild(file);
+		}
+		if (message=="cleared"){
+			document.MMSCreationForm.elements['message'].value='';
+		}
+	}
 }
+
 
 function removeSendingMessage(){
 	if (messageSended){
 		document.getElementById("wait").style.display="none";
 		document.getElementById("uploadFileFrameId").style.display="inline";
-		//document.getElementById('MMSCreationForm').reset();
 	}
 }
 
@@ -233,7 +256,7 @@ function successSMS(r){
 	document.getElementById("wait").style.display="none";
 	document.getElementById("SMSmsg").src="/repository/openmovilforum/tick.gif";
 	document.getElementById("SMSmsg").style.display="block";
-	document.getElementById('MMSCreationForm').reset();
+	clearFields();
 }
 
 function errorSMS(r){
@@ -315,6 +338,10 @@ function generateLang(){
 	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/openmovilforum/languages.xml", "language", "languagePref", init);
 }
 
+function clearText(){
+	document.MMSCreationForm.elements['message'].value='';
+}
+
 </script>
 </head>
 <body onload="generateLang()" >
@@ -346,7 +373,9 @@ function generateLang(){
 	</td>
 	<td colspan="2" style="text-align:right;">
 		<textarea id="message" name="message" rows="4" onblur="updateCharacters()" onkeyup="updateCharacters()"></textarea>
-		<a href="javascript:showSignature()" id="editsign_label">edit signature</a>
+		<a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
+		<a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
+		<a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a>
 	</td></tr>
 </tbody>
 </table>

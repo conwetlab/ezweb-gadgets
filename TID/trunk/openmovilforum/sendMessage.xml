@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.1</Version>
+<Version>1.12</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>
@@ -14,7 +14,7 @@ Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obt
 <!-- EzWeb Gadgets Tags -->
 -
 <Platform.Preferences>
-	<Preference name="url" type="text" description="Open MovilForum MMS URI" default="http://jjmr-desktop.hi.inet:8001" label="Service Base URI"/>
+	<Preference name="url" type="text" description="Open MovilForum MMS URI" default="http://demo.ezweb.morfeo-project.org/omf" label="Service Base URI"/>
 	<Preference name="login" type="text" description="Source Telephone Number" label="Source Telephone Number"/>
 	<Preference name="password" type="password" description="Password" label="Password"/>
 	<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
@@ -22,6 +22,23 @@ Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obt
 		<Option value="en" name="English"/>
 		<Option value="es" name="Español"/>
 	</Preference>
+	<Preference name="destinationStatus" type="list" label="Destination field" description="Status of the Destination field" default="cleared">
+		<Option value="cleared" name="clear after succesfully sent"/>
+		<Option value="kept" name="keep after succesfully sent"/>
+	</Preference>
+	<Preference name="subjectStatus" type="list" label="Subject field" description="Status of the Subject field" default="cleared">
+		<Option value="cleared" name="clear after succesfully sent"/>
+		<Option value="kept" name="keep after succesfully sent"/>
+	</Preference>
+	<Preference name="urlfileStatus" type="list" label="URL/file field" description="Status of the URL/file field" default="cleared">
+		<Option value="cleared" name="clear after succesfully sent"/>
+		<Option value="kept" name="keep after succesfully sent"/>
+	</Preference>
+	<Preference name="messageStatus" type="list" label="Message field" description="Status of the Message field" default="cleared">
+		<Option value="cleared" name="clear after succesfully sent"/>
+		<Option value="kept" name="keep after succesfully sent"/>
+	</Preference>
+
 </Platform.Preferences>
 <!-- EzWeb Gadget Persistent State -->
 <Platform.StateProperties>

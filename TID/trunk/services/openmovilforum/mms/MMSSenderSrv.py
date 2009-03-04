@@ -50,8 +50,7 @@ class view:
                 response = mmsender.SendMMSWithFile(login, password, objectFile.value, objectFile.filename, subject, to, message)
 
             if response.find('Tu mensaje ha sido enviado')>=0:
-                print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/tick.gif'/><script>window.parent.document.getElementByI\
-d('MMSCreationForm').reset()</script></body></html>"
+                print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/tick.gif'/><script>window.parent.document.clearFields()</script></body></html>"
                 return
             print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
         except Exception, e:
