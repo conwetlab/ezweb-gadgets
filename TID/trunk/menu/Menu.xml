@@ -1,0 +1,28 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<Catalog.ResourceDescription>
+		<Vendor>Intercom Factory, S.L.</Vendor>
+		<Name>Menú</Name>
+		<Version>0.1</Version>
+		<Author>Enric Mogas Nonell</Author>
+		<Mail>emogas@grupointercom.com</Mail>
+		<Description>Gadget para mostrar y ejecutar atajos de teclado</Description>
+		<ImageURI>http://gadgets.alimerka.loc/menu/Menu.png</ImageURI>
+		<WikiURI>http://gadgets.alimerka.loc/menu/wiki.html</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<Platform.Preferences>
+	</Platform.Preferences>
+
+	<Platform.StateProperties>
+		<Property name="atajos" type="text" label="Atajos"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://gadgets.alimerka.loc/menu/Menu.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="14" height="12"/>
+
+</Template>

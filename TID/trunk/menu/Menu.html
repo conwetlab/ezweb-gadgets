@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Gadget Menú</title>
+		<link rel="stylesheet" type="text/css" href="Menu.css" />
+
+    	<script type="text/javascript" src="http://www.ezweb.loc/ezweb/js/lib/prototype/prototype.js"></script>
+	    <script type="text/javascript" src="http://www.ezweb.loc/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+		<script type="text/javascript" src="http://gadgets.alimerka.loc/menu/Menu.js"></script>
+
+		</head>
+	<body onload="GadgetMenu.AjustarTeclado();" onkeydown="GadgetMenu.AjustarTeclado(event);" onkeyup="GadgetMenu.AjustarTeclado(event);">
+		<div id="teclado">
+			<div align="center">
+				<table summary="">
+					<tr class="teclado_normal">
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F1);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F1"  title="F1"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F2);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F2"  title="F2"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F3);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F3"  title="F3"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F4);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F4"  title="F4"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F5);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F5"  title="F5"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F6);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F6"  title="F6"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F7);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F7"  title="F7"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F8);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F8"  title="F8"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F9);" ><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F9"  title="F9"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F10);"><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F10" title="F10"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F11);"><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F11" title="F11"></a></td>
+						<td><a onclick="GadgetMenu.Ejecutar(TECLA_F12);"><img class="imagen_tecla" src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F12" title="F12"></a></td>
+						</tr>
+					<!-- <tr class="teclado_mayus">
+						<td class="_tecla"><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="%KEY_DESC%"  title="%KEY_DESC%"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F2"  title="F2"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F3"  title="F3"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F4"  title="F4"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F5"  title="F5"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F6"  title="F6"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F7"  title="F7"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F8"  title="F8"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F9"  title="F9"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F10" title="F10"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F11" title="F11"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F12" title="F12"></td>
+						</tr>
+					<tr class="teclado_control">
+						<td class="_tecla"><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="%KEY_DESC%"  title="%KEY_DESC%"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F2"  title="F2"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F3"  title="F3"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F4"  title="F4"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F5"  title="F5"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F6"  title="F6"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F7"  title="F7"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F8"  title="F8"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F9"  title="F9"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F10" title="F10"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F11" title="F11"></td>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F12" title="F12"></td>
+						</tr>-->
+					<tr class="teclado_normal">
+						<td id="_teclaTexto" align="center">F1</td>
+						<td align="center">F2</td>
+						<td align="center">F3</td>
+						<td align="center">F4</td>
+						<td align="center">F5</td>
+						<td align="center">F6</td>
+						<td align="center">F7</td>
+						<td align="center">F8</td>
+						<td align="center">F9</td>
+						<td align="center">F10</td>
+						<td align="center">F11</td>
+						<td align="center">F12</td>
+						</tr>
+					<!-- <tr class="teclado_mayus">
+						<td id="_teclaTexto" align="center">May�s+F1</td>
+						<td align="center">May�s+F2</td>
+						<td align="center">May�s+F3</td>
+						<td align="center">May�s+F4</td>
+						<td align="center">May�s+F5</td>
+						<td align="center">May�s+F6</td>
+						<td align="center">May�s+F7</td>
+						<td align="center">May�s+F8</td>
+						<td align="center">May�s+F9</td>
+						<td align="center">May�s+F10</td>
+						<td align="center">May�s+F11</td>
+						<td align="center">May�s+F12</td>
+						</tr>
+					<tr class="teclado_control">
+						<td id="_teclaTexto" align="center">Ctrl+F1</td>
+						<td align="center">Ctrl+F2</td>
+						<td align="center">Ctrl+F3</td>
+						<td align="center">Ctrl+F4</td>
+						<td align="center">Ctrl+F5</td>
+						<td align="center">Ctrl+F6</td>
+						<td align="center">Ctrl+F7</td>
+						<td align="center">Ctrl+F8</td>
+						<td align="center">Ctrl+F9</td>
+						<td align="center">Ctrl+F10</td>
+						<td align="center">Ctrl+F11</td>
+						<td align="center">Ctrl+F12</td>
+						</tr> -->
+					</table>
+				</div>
+			<div style="float: right;"><a href="javascript:void(0)" onclick="GadgetMenu.Configurar();">Configurar</a></div>
+			</div>
+
+
+
+
+
+		<div id="configuracion" style="display: none; position: absolute;">
+			<div align="center">
+				<table summary="" style="background-color: #7F7F00;">
+					<tr>
+						<th></th>
+						<th>Tecla</th>
+						<th>Accion</th>
+						<th>Instancia<br />de Gadget</th>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F1"  title="F1"></td>
+						<td align="center">F1</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F2"  title="F2"></td>
+						<td align="center">F2</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F3"  title="F3"></td>
+						<td align="center">F3</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F4"  title="F4"></td>
+						<td align="center">F4</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F5"  title="F5"></td>
+						<td align="center">F5</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F6"  title="F6"></td>
+						<td align="center">F6</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F7"  title="F7"></td>
+						<td align="center">F7</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F8"  title="F8"></td>
+						<td align="center">F8</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F9"  title="F9"></td>
+						<td align="center">F9</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F10" title="F10"></td>
+						<td align="center">F10</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F11" title="F11"></td>
+						<td align="center">F11</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					<tr>
+						<td><img src="http://gadgets.alimerka.loc/menu/Key_32x32.png" alt="F12" title="F12"></td>
+						<td align="center">F12</td>
+						<td><select class="listaAcciones"></select></select></td>
+						<td><select class="listaIGadgets"></select></select></td>
+						</tr>
+					</table>
+				</div>
+			<div style="float: right;">
+				<a href="javascript:void(0)" onclick="GadgetMenu.Guardar();">Guardar</a>-
+				<a href="javascript:void(0)" onclick="GadgetMenu.Usar();">Finalizar Configuracion</a>
+				</div>
+			</div>
+
+
+
+
+		</body>
+	</html>

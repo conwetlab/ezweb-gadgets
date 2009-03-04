@@ -1,0 +1,13 @@
+.oculto {
+	display: none;
+	<!--font-weight: bolder;
+	font-size: 1.2em;-->
+	}
+
+.importante {
+	color: #FF7777;
+	}
+
+.gadget_object {
+	display: none;
+	}
