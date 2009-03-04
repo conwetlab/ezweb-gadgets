@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Gadget Busquedas</title>
+
+    	<script type="text/javascript" src="http://www.ezweb.local/ezweb/js/lib/prototype/prototype.js"></script>
+	    <script type="text/javascript" src="http://www.ezweb.local/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+		<script type="text/javascript" src="http://gadgets.alimerka.local/busquedas/Busquedas.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="http://gadgets.alimerka.local/busquedas/Busquedas.css" />
+		</head>
+
+	<body onload="GadgetBusquedas.inicializar();" onresize="GadgetBusquedas._cambiarTamanyoHandler(event);">
+        <div id="gb_titulo" class="norte">
+            <h1 class="espera">Esperando la seleccion del origen de informacion</h1>
+            <h1 class="configuracion">Configuración</h1>
+            <div class="visualizacion">
+                <h1 id="gb_p_mensaje_filtro" class="izquierda" style="display:inline; height:100%;">Pulse Enter sobre el elemento para seleccionarlo.</h1>
+                <div class="derecha" style="display:inline; height:100%;">
+                    <label for="gb_filtro">Buscar </label>
+                    <input id="gb_filtro" type="text" size="15" onkeyup="GadgetBusquedas._cambiarEstado(GadgetBusquedas.FILTRANDO);" />
+                    </div>
+                </div>
+            </div>
+
+        <div id="gb_contenido" class="principal">
+            <div id="gb_configuracion" class="configuracion">
+                <table id="gb_configuracion_tabla" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Columna</th>
+                            <th>Título</th>
+                            <th>Visible</th>
+                            <th colspan="2">Acciones</th>
+                            </tr>
+                        </thead>
+                    <tbody />
+                    </table>
+                </div>
+            <div class="principal visualizacion">
+                <table id="gb_tabla" class="visualizacion" width="100%">
+                    <thead id="gb_cabecera" />
+                    <tbody id="gb_cuerpo" />
+                    </table>
+                </div>
+            </div>
+        <div id="gb_pie" class="sur">
+            <div class="configuracion">
+                <a href="javascript:void(0)" onclick="GadgetBusquedas._cambiarEstado(GadgetBusquedas.CARGANDO);">Confirmar Configuración</a> -
+                <a href="javascript:void(0)" onclick="GadgetBusquedas._cambiarEstado(GadgetBusquedas.IDENTIFICANDO_ORIGEN);">Configuración Original</a>
+                </div>
+            <div class="visualizacion">
+                <a href="javascript:void(0)" onclick="GadgetBusquedas._cambiarEstado(GadgetBusquedas.CONFIGURANDO);">Configurar</a>
+                <a href="javascript:void(0)" onclick="GadgetBusquedas._cambiarEstado(GadgetBusquedas.CARGANDO);">Actualizar</a>
+                </div>
+            </div>
+		</body>
+	</html>

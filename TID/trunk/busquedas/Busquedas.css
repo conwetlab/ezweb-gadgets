@@ -1,0 +1,104 @@
+@CHARSET "UTF-8";
+
+html {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    cursor:default;
+    min-height:100px;
+    }
+
+.izquierda {
+    float:left;
+    }
+
+.derecha {
+    float:right;
+    }
+
+.centro {
+    float:none;
+    }
+
+div.norte {
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:auto;
+    left:0;
+    width:100%;
+    height:48px;
+    }
+
+div.sur {
+    position:fixed;
+    top:auto;
+    right:0;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:30px;
+    }
+
+div.principal {
+    position:fixed;
+    top:48px;
+    right:0;
+    bottom:30px;
+    left:0;
+    height:auto;
+    overflow:hidden;
+    }
+
+th,td.header {
+    background-color:#3b60af;
+    color:yellow;
+    font-size:12px;
+    font-weight:700;
+    text-align: center;
+    }
+
+tr {
+    font-size:11px;
+    }
+
+tr.par {
+    color:#3b60af;
+    }
+
+tr.impar {
+    color:#ff6001;
+    }
+
+tr:hover {
+    background-color:#66ccff;
+    }
+
+tr:active,tr:focus {
+    background-color:#CC6633;
+    }
+
+
+
+#gb_titulo {
+    height:24px;
+    text-align:center;
+    vertical-align:middle;
+    }
+
+#gb_tabla {
+    position:relative;
+    width:99%;
+    height:auto;
+    bottom:auto;
+    }
+
+#gb_cuerpo {
+	overflow: auto;
+	overflow-x: hidden;
+    height:auto;
+    bottom:0px;
+    }
+
+#gb_pie {
+    text-align: center;
+    }

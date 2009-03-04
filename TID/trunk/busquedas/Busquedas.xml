@@ -1,0 +1,29 @@
+<Template schemaLocation="http//morfeo-project.org/2007/Template">
+	<Catalog.ResourceDescription>
+		<Vendor>Intercom Factory, S.L.</Vendor>
+		<Name>Busquedas</Name>
+		<Version>0.1</Version>
+		<Author>Enric Mogas Nonell</Author>
+		<Mail>emogas@grupointercom.com</Mail>
+		<Description>Gadget para filtrar y buscar informacion de origenes de datos</Description>
+		<ImageURI>http://gadgets.alimerka.local/busquedas/Busquedas.png</ImageURI>
+		<WikiURI>http://gadgets.alimerka.local/busquedas/wiki.html</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<Platform.Preferences>
+	  <Preference type="text" name="url" description="URL del Origen de Informacion" label="URL del Origen de Informacion" />
+	</Platform.Preferences>
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<Platform.Wiring>
+        <Event name="seleccionado" type="text" label="Seleccionado" friendcode="seleccionado"/>
+        <Slot name="filtro" type="text" label="Filtro" friendcode="filtro"/>
+        <Slot name="dsURL" type="text" label="URL" friendcode="URL"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://gadgets.alimerka.local/busquedas/Busquedas.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="14" height="12"/>
+
+</Template>
