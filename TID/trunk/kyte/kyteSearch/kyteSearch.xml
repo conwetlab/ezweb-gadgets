@@ -1,0 +1,36 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+<Catalog.ResourceDescription>
+<Vendor>Morfeo</Vendor>
+<Name>KyteTv Search</Name>
+<Version>2.0</Version>
+<Author>jjmr</Author>
+<Mail>jjmr@tid.es</Mail>
+<Description>KyteTv Search Gadget to search channels or shows. This gadget is compatible with the gadget KyteTV Player by wiring.</Description>
+<ImageURI>http://jjmr-desktop.hi.inet/repository/kyte/home.gif</ImageURI>
+
+<WikiURI>
+http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_suscriptor.2Fbuscador_sobre_kyte_tv
+</WikiURI>
+</Catalog.ResourceDescription>
+<!-- EzWeb Gadgets Tags -->
+<Platform.Preferences></Platform.Preferences>
+<Platform.StateProperties/>
+<!-- EzWeb Gadget Data Wiring -->
+
+<Platform.Wiring>
+	<Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	<Event name="videoURL" type="text" label="videoURL" friendcode="VideoURL"/>
+	<Event name="title" type="text" label="title" friendcode="title"/>
+	<Event name="synopsis" type="text" label="synopsis" friendcode="synopsis"/>
+	<Event name="tags" type="text" label="tags" friendcode="tags"/>
+	<Event name="permalink" type="text" label="permalink" friendcode="url"/>
+	<Event name="authorName" type="text" label="authorName" friendcode="authorName"/>
+	<Event name="authorURI" type="text" label="authorURI" friendcode="authorURI"/>
+</Platform.Wiring>
+
+<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte/kyteSearch/kyteSearch.html"/>
+</Platform.Link>
+<Platform.Rendering width="7" height="26"/>
+</Template>

@@ -1,0 +1,848 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<style>
+body{
+	color:#444444;
+}
+a{
+	color:#0066CC;
+	cursor: pointer;
+}
+h3{
+	margin: 0;
+}
+.header>div{
+	display: inline;
+}
+#searchbox{
+	position: absolute;
+	right: 5px;
+	top: 10px;
+}
+#searchbox input{
+	height: 12px;
+	border: 1px solid #0066CC;
+	font-size:8pt;
+	color:#444444;
+}
+#searchbox a{
+	vertical-align:middle;
+	padding:3px 5px;
+	font-size:small;
+	font-weight:bold;
+}
+
+.pag {
+	font-size: 90%;
+	color: #0066CC;
+	cursor: pointer;
+	margin: 0 2px;
+	vertical-align: middle;
+}
+.arrow{
+	vertical-align: middle;
+	border: none;
+}
+.prev{
+	padding-right: 5px;
+}
+.next{
+	padding-left: 5px;
+}
+.current_page {
+	color:#444444;
+}
+.globalContainer{
+	margin: 3px 0;
+}
+.slot{
+	display: none;
+	position: relative;
+	color:#333333;
+	min-height: 90px;
+	margin: 4px 0;
+	color:#888888;
+	background-color:#F3F5F5;
+}
+.selectedItem{
+	color: #FFFFFF;
+	background: #0078CF url(/repository/kyte/kyteSearch/gradient_selected.gif) repeat-x scroll 0 0 !important;
+}
+
+.selectedItem a{
+	color: #00FFFF;
+}
+
+.selectedItem .title{
+	color: #FFFFFF;
+}
+.images{
+	position: relative;
+	float: left;
+	margin-right: 10px;
+}
+.container{
+	margin-left: 130px;
+	line-height:16px;
+}
+.noresults{
+	font-size:x-small;
+	color:IndianRed;
+	font-weight: bold;
+}
+.source{
+	position: absolute;
+	right: 0;
+	bottom: 0; 
+}
+.live{
+	position: absolute;
+	left: 0;
+	bottom: 0; 
+
+}
+.label{
+	display: inline;
+	font-size: x-small;
+}
+.data{
+	display: inline;
+	font-size:x-small;
+	font-weight: bold;
+}
+.title{
+	font-size: 11px;
+	color:#444444;
+	cursor: pointer;
+}
+.images{
+	width: 120px;
+	height: 90px;
+}
+.thumb{
+	cursor: pointer;
+}
+.slotsHeader{
+	height: 17px;
+	border-color:#F0F0F0;
+	border-width:1px 0pt;
+	border-style:solid;
+	padding:3px 0;
+}
+.slotsHeader .linkContainer{
+	display: inline;
+	font-size:small;
+	font-weight:bold;
+	text-decoration:none;
+	color:#0066CC;
+	vertical-align:top;
+	padding:3px 5px;
+}
+.slotsHeader .selected{
+	color:#FFFFFF;
+	background: #00B0D8 url(/repository/kyte/kyteSearch/subnav_background.gif) repeat-x scroll center bottom;
+	cursor: default;
+}
+.slotsHeader .selected a{
+	color:#FFFFFF;
+}
+.linkContainer input, .linkContainer a{
+	display: inline;
+	text-decoration: none;
+}
+.loader{
+	width: 16px;
+	height: 16px;
+	border: none;
+	background: url(/repository/kyte/kyteSearch/loader-blue.gif) no-repeat;
+}
+.selected .loader{
+	background: url(/repository/kyte/kyteSearch/loader-white.gif) no-repeat;
+}
+</style>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="/repository/kyte/kyteSearch/md5.js"></script>
+<script src="/ezweb/js/lib/prototype/prototype.js" language="JavaScript"></script>
+<script>
+
+/*** AUXILIAR FUNCTIONS *****/
+	function URLEncode( url )
+	{
+		// The Javascript escape and unescape functions do not correspond
+		// with what browsers actually do...
+		var SAFECHARS = "0123456789" +					// Numeric
+						"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +	// Alphabetic
+						"abcdefghijklmnopqrstuvwxyz" +
+						"-_.!~*'()";					// RFC2396 Mark characters
+		var HEX = "0123456789ABCDEF";
+
+		var plaintext = url;
+		var encoded = "";
+		for (var i = 0; i < plaintext.length; i++ ) {
+			var ch = plaintext.charAt(i);
+			if (ch == " ") {
+				encoded += "+";				// x-www-urlencoded, rather than %20
+			} else if (SAFECHARS.indexOf(ch) != -1) {
+				encoded += ch;
+			} else {
+				var charCode = ch.charCodeAt(0);
+				if (charCode > 255) {
+					alert( "Unicode Character '" 
+		                    + ch 
+		                    + "' cannot be encoded using standard URL encoding.\n" +
+						      "(URL encoding only supports 8-bit characters.)\n" +
+							  "A space (+) will be substituted." );
+					encoded += "+";
+				} else {
+					encoded += "%";
+					encoded += HEX.charAt((charCode >> 4) & 0xF);
+					encoded += HEX.charAt(charCode & 0xF);
+				}
+			}
+		} // for
+
+		return encoded;
+	}
+
+	function getISOTimestamp(){
+
+		var today = new Date();
+
+		var year = today.getYear();
+		if (year < 2000) 
+		year = year + 1900;
+		var month = today.getMonth() + 1;
+		var day = today.getDate();
+
+		var hour = today.getUTCHours();
+		var minute = today.getUTCMinutes();
+		var second = today.getSeconds();
+
+		if (month <= 9) month = "0" + month;
+		if (day <= 9) day = "0" + day;
+		if (hour <= 9) hour = "0" + hour;
+		if (minute <= 9) minute = "0" + minute;
+		if (second <= 9) second = "0" + second;
+		time = year + month + day + "T"	+ hour + minute + second + "Z";
+		return time;
+	}
+
+
+// approximate char width, based on code used in AdWords (awCreateAdUtil)
+
+    function charWidth(ch) {
+
+      if (ch <= '\u04f9' ||
+
+          ch == '\u05be' ||
+
+          (ch >= '\u05d0' && ch <= '\u05ea') ||
+
+          ch == '\u05F3' ||
+
+          ch == '\u05f4' ||
+
+          (ch >= '\u0e00' && ch <= '\u0e7f') ||
+
+          (ch >= '\u1e00' && ch <= '\u20af') ||
+
+          (ch >= '\u2100' && ch <= '\u213a') ||
+
+          (ch >= '\uff61' && ch <= '\uffdc')) {
+
+        return 1;
+
+      }
+
+      return 2;
+
+    }
+
+   var TRUNCATION_STRING = "...";
+
+    function displayLength(string) {
+
+      var count = 0;
+
+      for (var i = 0; i < string.length; i++) {
+
+        var character = string.substr(i, 1);
+
+        count += charWidth(character);
+
+      }
+
+      return count;
+
+    }
+
+    function truncateByWidth(string, maxLen) {
+
+      var count = 0;
+
+      var truncated = "";
+
+      for (var i = 0; i < string.length && count < maxLen; i++) {
+
+        var character = string.substr(i, 1);
+
+        truncated += character;
+
+        count += charWidth(character);
+
+      }
+
+      return truncated;
+
+    }
+
+
+
+    // Truncate string to maxLen, in number of half-width (latin) characters.
+
+    //   CJK and other languages include characters that are wider
+
+    //   than standard latin characters, so we need to take this into account.
+
+    function truncate(string, maxLen) {
+
+      if (displayLength(string) > maxLen) {
+
+        string = truncateByWidth(string, maxLen - TRUNCATION_STRING.length);
+
+        string += TRUNCATION_STRING;
+
+      }
+
+      return string;
+
+    }
+
+    function renderDuration(duration) {
+
+	  _duration = duration / 1000;
+      minutes = Math.floor(_duration / 60);
+
+      seconds = (_duration % 60) + "";
+
+      seconds = seconds.substr(0, 2);
+
+      if (seconds.length == 0) {
+
+        seconds = "00";
+
+      } else if (seconds.length == 1) {
+
+        seconds = "0" + seconds;
+
+      }
+
+      return minutes + ":" + seconds;
+
+    }
+
+	function renderDate(time) {
+		var now = new Date();
+		var year = time.substr(0, 4);
+		var month = time.substr(4, 2);
+		var day = time.substr(6, 2);
+		var hour = time.substr(9, 2);
+		var minute = time.substr(11, 2);
+		
+		var current_month = parseInt(now.getMonth())+1;
+
+		if (now.getDate()==day && current_month==parseInt(month) && now.getFullYear()==year){ //same day
+			return hour+":"+minute;
+		}
+		else{ //other day
+			return day+"/"+month+"/"+year;
+		}
+	}
+
+/*** END OF AUXILIAR FUNCTIONS *****/
+
+/*** SLOTS AND EVENTS ***/
+
+	var vkeyword = EzWebAPI.createRGadgetVariable("keyword", searchKeyword);
+
+	var videoUrl = EzWebAPI.createRWGadgetVariable("videoURL");
+	var vtitle = EzWebAPI.createRWGadgetVariable("title");
+	var vsynopsis = EzWebAPI.createRWGadgetVariable("synopsis");
+	var vtags = EzWebAPI.createRWGadgetVariable("tags");
+	var vpermalink = EzWebAPI.createRWGadgetVariable("permalink");
+	var vauthorName = EzWebAPI.createRWGadgetVariable("authorName");
+	var vauthorURI = EzWebAPI.createRWGadgetVariable("authorURI");
+	
+/*** GLOBAL VARIABLES **/
+
+	var showList;	//current show list
+	var channelList; //current channel list
+	var selected = null; //last selection
+	//channels and shows currentURL (with the param FRT unasigned)
+	var currentChannelsURL=null;
+	var currentShowsURL=null;
+	//channels and shows variables to control paging
+	var channelsPaging = 0; 
+	var showsPaging = 0;
+
+
+/*** CONSTANTS **/
+	var VIDEO_SLOTS = 5; 
+	var MAX_RESULTS = 20;
+	
+	var ak = "UxvdLeYTlmJsXwEYNmOu"; //ezweb API key in kyte
+	var sk = "603GsdAj"; //ezweb secret key in kyte
+
+	var timestamp =	getISOTimestamp();
+	var hex_md5_stampsk = function(s, t){var _s = t+s; return binl2hex(core_md5(str2binl(_s), _s.length * chrsz))}
+	var as= timestamp+"."+ hex_md5_stampsk(sk, timestamp); //ezweb signature made with the secret key in kyte
+	var RECENTS_CHANNELS_URL = 'http://api.kyte.tv/services/rest/channelService.browseChannels?ak='+ak+'&as='+as+'&bm=LATEST&frt={{FRT}}&mrs='+MAX_RESULTS;
+	var FIND_SHOWS_URL = 'http://api.kyte.tv/services/rest/channelService.findShows?ak='+ak+'&as='+as+'&cta={"title-like":"%25{{KEYWORD}}%25"}&frt={{FRT}}&mrs='+MAX_RESULTS;
+	var SEARCH_CHANNELS_URL = 'http://api.kyte.tv/services/rest/channelService.searchChannels?ak='+ak+'&as='+as+'&kw={{KEYWORD}}&frt={{FRT}}&mrs='+MAX_RESULTS;
+
+
+/*** FUNCTIONS **/
+
+
+	function init(){
+		createSlots();
+		currentChannelsURL = RECENTS_CHANNELS_URL;
+		EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+	}
+
+	/* Create the base layout for the show list */
+	function createSlots(){
+		var html="";
+
+		for (var i = 0; i< VIDEO_SLOTS; i++){
+
+
+			//slot show information
+			html = "<div id='s_slot_"+i+"' class='slot'>";
+			html+= "<div id='s_slot_images_"+i+"' class='images'>";
+			html+= "<img id='s_slot_thumb_"+i+"' class='thumb' />";
+			html+= "<img id='s_slot_source_"+i+"' class='source' src='/repository/kyte/kyteSearch/mobileicon.gif' style='display:none;' />";
+			html+= "<img id='s_slot_live_"+i+"' class='live' src='/repository/kyte/kyteSearch/live.png' style='display:none;' />";
+			html += "</div>"; //slot images
+			html+= "<div id='s_slot_info_"+i+"' class='information'>";
+			html+= "<h3 id='s_slot_title_"+i+"' class='title data'></h3>";
+			html+= " <div id='s_slot_duration_"+i+"' class='duration data'></div>";
+			html+= "<div id='s_slot_cont_author_"+i+"' class='container'><span class='label'>author: </span><div id='s_slot_author_"+i+"' class='author data'></div></div>";
+			html+= "<div id='s_slot_cont_date_"+i+"' class='container'><span class='label'>published: </span><div id='s_slot_date_"+i+"' class='date data'></div></div>";
+			html+= "<div id='s_slot_cont_tags_"+i+"' class='container'><span class='label'>tags: </span><div id='s_slot_tags_"+i+"' class='tags data'></div></div>";
+			html += "</div>"; //slot info
+			html += "</div>"; //slot
+			//append to the container
+			new Insertion.Bottom("showsContainer", html);
+
+
+			//slot channel information
+			html = "<div id='c_slot_"+i+"' class='slot'>";
+			html+= "<div id='c_slot_images_"+i+"' class='images'>";
+			html+= "<img id='c_slot_thumb_"+i+"' class='thumb' />";
+			html += "</div>"; //slot images
+			html+= "<div id='c_slot_info_"+i+"' class='information'>";
+			html+= "<h3 id='c_slot_title_"+i+"' class='title data'></h3>";
+			html+= "<div id='c_slot_cont_author_"+i+"' class='container'><span class='label'>author: </span><div id='c_slot_author_"+i+"' class='author data'></div></div>";
+			html+= "<div id='c_slot_cont_date_"+i+"' class='container'><span class='label'>published: </span><div id='c_slot_date_"+i+"' class='date data'></div></div>";
+			html+= "<div id='c_slot_cont_tags_"+i+"' class='container'><span class='label'>tags: </span><div id='c_slot_tags_"+i+"' class='tags data'></div></div>";
+			html+= "<div id='c_slot_cont_showcount_"+i+"' class='container'><div id='c_slot_showcount_"+i+"' class='count data'></div><span class='label'> Shows</span></div>";
+			html += "</div>"; //slot info
+			html += "</div>"; //slot
+			new Insertion.Bottom("channelsContainer", html);
+
+		}
+	}
+
+	function searchIfEnter(e){
+		var keynum;
+		if(window.event){ // IE
+			keynum = e.keyCode;
+		}else if(e.which){ // Netscape/Firefox/Opera
+			keynum = e.which;
+		}
+		if (keynum == 13){ // enter
+			e.target.blur();
+			searchKeyword(e.target.value);
+		}
+	}
+
+	function searchKeyword(keyword){
+		if (keyword==null)
+			return;
+		if (keyword!=""){
+			$('showLoader').style.display="inline";
+			$('channelLoader').style.display="inline";
+			$('showLinkContainer').style.display="inline";
+			currentShowsURL = FIND_SHOWS_URL.replace("{{KEYWORD}}", keyword);	
+			EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", 0), this, onFindSuccess, onError);
+			currentChannelsURL = SEARCH_CHANNELS_URL.replace("{{KEYWORD}}", keyword);	
+			EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+			//initialize paging
+			channelsPaging = 0;
+			showsPaging = 0;
+		}
+		else{
+			$('showLinkContainer').style.display="none";
+			$('channelLoader').style.display="inline";
+			currentChannelsURL = RECENTS_CHANNELS_URL;
+			EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+		}
+	
+		return;
+	}
+
+	function changeChannelsPages(frt){
+		$('channelLoader').style.display="inline";
+		channelsPaging = frt;
+		EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", frt), this, onFindChannelsSuccess, onError);
+	}
+
+	function changeShowsPages(frt){
+		$('showLoader').style.display="inline";
+		showsPaging = frt;
+		EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", frt), this, onFindSuccess, onError);
+	}
+
+	function showShows(){
+		$("showsContainer").style.display="block";
+		$("channelsContainer").style.display="none";
+		$("showLinkContainer").addClassName("selected");
+		$("channelLinkContainer").removeClassName("selected");
+	}
+
+	function showChannels(){
+		$("showsContainer").style.display="none";
+		$("channelsContainer").style.display="block";
+		$("channelLinkContainer").addClassName("selected");
+		$("showLinkContainer").removeClassName("selected");
+	}
+	
+	
+	function onFindSuccess (resp){
+		
+		if (resp.responseText){
+			$('showLoader').style.display="none";
+			json =	eval("("+resp.responseText+")");
+			if (!json.error){
+				showList = json.result.items;
+				if (showList.length > 0){
+					$('s_noresults').style.display = "none";
+					renderShowPaginator();
+					renderShowList(0);
+				}
+				else{
+					$('s_noresults').style.display = "block";
+					//TODO: mostrar mensaje de que no hay nada encontrado
+				}
+			}
+			else{
+				alert(json.error.message);
+			}
+		}	
+	}
+
+	function onFindChannelsSuccess (resp){
+		if (resp.responseText){
+			$('channelLoader').style.display="none";
+			json =	eval("("+resp.responseText+")");
+			if (!json.error){
+				channelList = json.result.items;
+				if (channelList.length > 0){
+					$('c_noresults').style.display = "none";
+					renderChannelPaginator();
+					renderChannelList(0);
+				}
+				else{
+					$('c_noresults').style.display = "block";
+				}
+			}
+			else{
+				alert(json.error.message);
+			}
+		}	
+	}
+
+	function onError (resp){
+		alert(resp.responseText);
+	}
+	
+
+	/* Fill the Show paginator with the proper number of pages */
+	function renderShowPaginator(){
+		$('s_paginator').update();
+		var numPages = Math.floor(showList.length/VIDEO_SLOTS);
+		var endPage = showsPaging + numPages;
+		if (endPage > 1){
+			if (showsPaging > 0){
+				//add the "previous pages" control
+				var prev = document.createElement ("img");
+				prev.className = "prev arrow";
+				prev.src = "/repository/kyte/kyteSearch/left-arrow.png";
+				prev.alt = "prev";
+				prev.title = "previous page";
+				var a = document.createElement ("a");
+				a.href = "javascript:changeShowsPages("+parseInt(showsPaging-MAX_RESULTS)+");";
+				a.appendChild(prev);
+				$('s_paginator').appendChild(a);
+			}
+			//the rest of pages
+			var index = showsPaging / VIDEO_SLOTS;
+			var id = 0;
+			for (var i=index;i<index+numPages;i++){
+				//fill the paginator
+				var pag = document.createElement ("span");
+				pag.id = "s_pag_"+id;
+				pag.className="pag";
+				pag.onclick = function(e){renderShowList(parseInt(e.target.id.split("_")[2])*VIDEO_SLOTS)};
+				pag.update(i+1);
+				$('s_paginator').appendChild(pag);
+				id++;
+			}
+			if (channelList.length == MAX_RESULTS){
+				//add the "next pages" control
+				var next = document.createElement ("img");
+				next.className = "next arrow";
+				next.src = "/repository/kyte/kyteSearch/right-arrow.png";
+				next.alt = "next";
+				next.title = "next page";
+				var a = document.createElement ("a");
+				a.href = "javascript:changeShowsPages("+parseInt(showsPaging+MAX_RESULTS)+");";
+				a.appendChild(next);
+				$('s_paginator').appendChild(a);
+			}
+		}
+	}
+
+	/* Fill the Channel paginator with the proper number of pages */
+	function renderChannelPaginator(){
+		$('c_paginator').update();
+		var numPages = Math.floor(channelList.length/VIDEO_SLOTS);
+		var endPage = channelsPaging + numPages;
+		if (endPage > 1){
+			if (channelsPaging > 0){
+				//add the "previous pages" control
+				var prev = document.createElement ("img");
+				prev.className = "prev arrow";
+				prev.src = "/repository/kyte/kyteSearch/left-arrow.png";
+				prev.alt = "prev";
+				prev.title = "previous page";
+				var a = document.createElement ("a");
+				a.href = "javascript:changeChannelsPages("+parseInt(channelsPaging-MAX_RESULTS)+");";
+				a.appendChild(prev);
+				$('c_paginator').appendChild(a);
+			}
+			//the rest of pages
+			var index = channelsPaging / VIDEO_SLOTS;
+			var id = 0;
+			for (var i=index;i<index+numPages;i++){
+				//fill the paginator
+				var pag = document.createElement ("span");
+				pag.id = "c_pag_"+id;
+				pag.className="pag";
+				pag.onclick = function(e){renderChannelList(parseInt(e.target.id.split("_")[2])*VIDEO_SLOTS)};
+				pag.update(i+1);
+				$('c_paginator').appendChild(pag);
+				id++;
+			}
+			if (channelList.length == MAX_RESULTS){
+				//add the "next pages" control
+				var next = document.createElement ("img");
+				next.className = "next arrow";
+				next.src = "/repository/kyte/kyteSearch/right-arrow.png";
+				next.alt = "next";
+				next.title = "next page";
+				var a = document.createElement ("a");
+				a.href = "javascript:changeChannelsPages("+parseInt(channelsPaging+MAX_RESULTS)+");";
+				a.appendChild(next);
+				$('c_paginator').appendChild(a);
+			}
+		}
+	}
+
+
+    /* Fill the slots whit the correct shows */
+    function renderShowList(init) {
+      // Clear and hide video slots
+      // Fill the available slots
+	  var end = init+VIDEO_SLOTS-1;
+	  var j = 0;
+	  var context;
+	  if (selected){
+			$(selected).removeClassName('selectedItem');
+			selected = null;
+	 }
+
+      for (var i = init; i<=end; i++) {
+		if (j<showList.length){ //Paint the show
+		    var show = showList[i];
+		    /** fill the slot with the show content **/
+			//thumbnail
+		    $("s_slot_thumb_" + j).src=show.thumb120x90Url;
+			context = {'id':"s_slot_"+j, 'show':show}
+			$("s_slot_thumb_" + j).onclick = function(){loadVideo(this.id, this.show)}.bind(context);
+			//source
+			if (show.producedFromString=="MOBILE")
+			    $("s_slot_source_" + j).style.display="block";
+			else
+				$("s_slot_source_" + j).style.display="none";
+			//title
+		    $("s_slot_title_" + j).update(truncate(show.title, 50));
+			$("s_slot_title_" + j).onclick = function(){loadVideo(this.id, this.show)}.bind(context);
+			//duration
+			if (show.mediaDurationMillis)
+			    $("s_slot_duration_" + j).update(renderDuration(show.mediaDurationMillis));
+			//author
+		    $("s_slot_author_" + j).update(show.ownerName);
+			//date
+		    $("s_slot_date_" + j).update(renderDate(show.createdTime));
+			//live
+			if (show.liveStreaming)
+			    $("s_slot_live_" + j).style.display="block";
+			else
+				$("s_slot_live_" + j).style.display="none";
+			//duration
+			if (show.tags && show.tags!=""){
+				$("s_slot_cont_tags_" + j).style.display="block";
+			    $("s_slot_tags_" + j).update(show.tags.length<32?show.tags:show.tags.substr(0,28)+"...");
+			}else{
+				$("s_slot_cont_tags_" + j).style.display="none";
+			}
+
+			$("s_slot_" + j).style.display="block";
+		}
+		else{ //Hide the slot because there aren't more shows
+			$("s_slot_" + j).style.display="none";
+		}
+		//Increase the index
+		j++;
+      }
+	  
+	  //Change the class of the current page
+		var currentElements = $$("#s_paginator .current_page")
+		if (currentElements.length > 0)
+			currentElements[0].removeClassName("current_page");
+		var currentPage = $('s_pag_'+Math.floor(init/VIDEO_SLOTS));
+		if (currentPage)
+			currentPage.addClassName("current_page");
+
+    }
+
+	/* Fill the slots whit the correct channels */
+    function renderChannelList(init) {
+      // Clear and hide video slots
+      // Fill the available slots
+	  var end = init+VIDEO_SLOTS-1;
+	  var j = 0;
+	  var context;
+	
+	  if (selected){
+			$(selected).removeClassName('selectedItem');
+			selected = null;
+	  }
+      for (var i = init; i<=end; i++) {
+		if (j<channelList.length){ //Paint the show
+		    var channel = channelList[i];
+		    /** fill the slot with the show content **/
+			//thumbnail
+		    $("c_slot_thumb_" + j).src=channel.thumbUrl120x90;
+			context = {'id':"c_slot_"+j, 'channel':channel}
+			$("c_slot_thumb_" + j).onclick = function(){loadVideo(this.id, this.channel)}.bind(context);
+			//title			
+		    $("c_slot_title_" + j).update(truncate(channel.title, 50));
+			$("c_slot_title_" + j).onclick = function(){loadVideo(this.id, this.channel)}.bind(context);		
+			//author
+		    $("c_slot_author_" + j).update(channel.ownerName);
+			//date
+			if (channel.lastShowTime){
+				$("c_slot_cont_date_" + j).style.display="block";
+			    $("c_slot_date_" + j).update(renderDate(channel.lastShowTime));
+			}
+			else{
+				$("c_slot_cont_date_" + j).style.display="none";
+			}
+			// number of shows
+			if (channel.showCount)
+				$("c_slot_showcount_" + j).update(channel.showCount);
+			else
+				$("c_slot_showcount_" + j).update(0);
+			//tags
+			if (channel.tags && channel.tags!=""){
+				$("c_slot_cont_tags_" + j).style.display="block";
+			    $("c_slot_tags_" + j).update(channel.tags.length<32?channel.tags:channel.tags.substr(0,28)+"...");
+			}else{
+				$("c_slot_cont_tags_" + j).style.display="none";
+			}
+
+			$("c_slot_" + j).style.display="block";
+		}
+		else{ //Hide the slot because there aren't more shows
+			$("c_slot_" + j).style.display="none";
+		}
+		//Increase the index
+		j++;
+      }
+	  
+	  //Change the class of the current page
+		var currentElements = $$("#c_paginator .current_page")
+		if (currentElements.length > 0)
+			currentElements[0].removeClassName("current_page");
+		var currentPage = $('c_pag_'+Math.floor(init/VIDEO_SLOTS));
+		if (currentPage)
+			currentPage.addClassName("current_page");
+
+    }
+
+	function loadVideo(id, element){
+		if (selected)
+			$(selected).removeClassName('selectedItem');
+		selected = id;
+		$(id).addClassName('selectedItem');
+
+		//propagate events
+		if (element.uri)
+			videoUrl.set(element.uri);
+		if (element.title)
+			vtitle.set(element.title);
+		if (element.synopsis)
+			vsynopsis.set(element.synopsis);
+		if (element.ownerName)
+			vauthorName.set(element.ownerName);
+		if (element.ownerUri)
+			vauthorURI.set(element.ownerUri);
+		if (element.tags){
+			var cleaned =element.tags.replace(/,+/g,',');
+			cleaned = cleaned.replace(/(\s*,\s*)+/g,',');
+			cleaned = cleaned.replace(/^\s*,\s*|\s*,\s*$/g,'');
+			if(!cleaned.match(/^\s*$/)){
+				var tags = cleaned.split(',');
+				vtags.set(tags.toJSON());
+			}
+		}
+		if (element.permalink)
+			vpermalink.set(element.permalink);
+		
+	}
+
+</script></head><body onload="javascript:init();">
+<div id="slotsHeader" class="slotsHeader">
+	<div id="channelLinkContainer" class="linkContainer selected" >
+		<a id="channelLink" href="javascript:showChannels();" >Channels</a>
+		<input id="channelLoader" class="loader" style="display: none;"></input>
+	</div>
+	<div id="showLinkContainer" class="linkContainer" style="display: none;">
+		<a id="showLink" href="javascript:showShows()">Shows</a>
+		<input id="showLoader" class="loader" style="display: none;"></input>
+	</div>
+	<div id="searchbox"><input id="searchinput" onkeypress="searchIfEnter(event)" type="text" size="10" /><a href="javascript:searchKeyword($('searchinput').value)">search</a></div>
+</div>
+<div id="showsContainer" class="globalContainer" style="display:none">
+	<div id="s_noresults" class="noresults" style="display:none">Your search did not match any show. Please, try again.</div>
+	<div id="s_paginator" class="paginator"></div>
+</div>
+<div id="channelsContainer" class="globalContainer" >
+	<div id="c_noresults" class="noresults" style="display:none">Your search did not match any channel. Please, try again.</div>
+	<div id="c_paginator" class="paginator"></div>
+</div>
+
+</body></html>
