@@ -17,7 +17,8 @@
 	var feedUrlPref = EzWebAPI.createRGadgetVariable("feedUrlPref", _Handler);
 	var theme = EzWebAPI.createRGadgetVariable("theme", _changeTheme);
 	var items = EzWebAPI.createRGadgetVariable("items", _SetNumItems);
-	var newsUrl = EzWebAPI.createRWGadgetVariable("newsUrl");
+	var newsUrl = EzWebAPI.createRWGadgetVariable("selectedURL");
+	var readItemUrl = EzWebAPI.createRWGadgetVariable("itemURL");
 	var newsSummary = EzWebAPI.createRWGadgetVariable("newsSummary");
 
 	//global vars
@@ -494,7 +495,8 @@
 			item_html += startPubDate + feed.items[i].pubDate.value + endTag;
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (feed.items[i].link == null) ? startLink + feed.items[i].title + endTag : startLink + "<a href='" + feed.items[i].link +"' target='_black'>"+feed.items[i].title+"</a>" + endTag;
-			item_html += (feed.items[i].description == null) ? "" : "<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>" + startDescription + feed.items[i].description + endTag;
+			item_html += (feed.items[i].description == null) ? "" : "<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>";
+			item_html += "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ feed.items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" + startDescription + feed.items[i].description + endTag;
 			item_html += endTag;
 
 			item_html += "</li>";
@@ -518,15 +520,22 @@
 		return true;
 	}
 
-function setSummary(e){
-	if (!e) var e = window.event;
-	e.cancelBubble = true;
-	if (e.stopPropagation) e.stopPropagation();
+	function setSummary(e){
+		if (!e) var e = window.event;
+		e.cancelBubble = true;
+		if (e.stopPropagation) e.stopPropagation();
 
-	aux =e.target.id.split('_'); 
-	id = aux[aux.length-1];
-	summary = $('title_'+id).title;
-	newsSummary.set(summary);
+		aux =e.target.id.split('_'); 
+		id = aux[aux.length-1];
+		summary = $('title_'+id).title;
+		newsSummary.set(summary);
+	}
+
+	function setURL(e, url){
+		if (!e) var e = window.event;
+		e.cancelBubble = true;
+		if (e.stopPropagation) e.stopPropagation();
+		readItemUrl.set(url);
 }
 	
 		function processFeed (response)
