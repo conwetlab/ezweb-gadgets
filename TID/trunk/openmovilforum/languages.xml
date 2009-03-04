@@ -15,7 +15,7 @@
 		<label id="warning1_label">This signature would only be added if it does not involve sending a new message.</label>
 		<label id="warning2_label">Please, consider not removing this signature because it helps us to diseminate EzWeb. We need your help to keep offering EzWeb without any cost. Thank you very much!</label>
 		<label id="back_label">back</label>
-		<label id="clear_label">borrar texto</label>
+		<label id="cleartext_label">borrar texto</label>
 		<label id="clearall_label">borrar todo</label>
 	</language>
 	<language name="es">
@@ -32,7 +32,7 @@
 		<label id="warning1_label">Esta firma solo se añadirá si ello no implica un nuevo mensaje.</label>
 		<label id="warning2_label">Por favor, considera mantener esta firma ya que nos ayuda a difundir Ezweb. Necesitamos tu ayuda para seguir ofreciendo EzWeb libre de costes.</label>
 		<label id="back_label">volver</label>
-		<label id="clear_label">clear text</label>
+		<label id="cleartext_label">clear text</label>
 		<label id="clearall_label">clear all fields</label>
 	</language>
 </languages>
