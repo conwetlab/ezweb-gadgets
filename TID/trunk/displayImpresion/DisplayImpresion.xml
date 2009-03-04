@@ -1,0 +1,37 @@
+<Template schemaLocation="http//morfeo-project.org/2007/Template">
+	<Catalog.ResourceDescription>
+		<Vendor>Intercom Factory, S.L.</Vendor>
+		<Name>Display e Impresión</Name>
+		<Version>0.1</Version>
+		<Author>Enric Mogas Nonell</Author>
+		<Mail>emogas@grupointercom.com</Mail>
+		<Description>Gadget para visualizar e imprimir informacion de origenes de datos mediante XML + XSLT</Description>
+		<ImageURI>http://gadgets.alimerka.local/displayImpresion/DisplayImpresion.png</ImageURI>
+		<WikiURI>http://gadgets.alimerka.local/displayImpresion/wiki.html</WikiURI>
+	</Catalog.ResourceDescription>
+
+    <Platform.Preferences>
+	  <Preference type="text" name="xmlURL" description="URL del Origen de Informacion" label="URL de Datos" />
+	  <Preference type="text" name="xslURL" description="URL de la Hoja de Estilos" label="URL Estilo" />
+	</Platform.Preferences>
+
+	<Platform.StateProperties>
+		<Property name="urlDatos" type="text" label="URL del Origen de Informacion"/>
+		<Property name="urlEstilo" type="text" label="URL de la Hoja de Estilos"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+        <!--<Slot name="urlDatos" type="text" label="URL Datos" friendcode="xmlURL"/>-->
+        <!--<Slot name="urlEstilo" type="text" label="URL Hoja Estilo" friendcode="xslURL"/>-->
+        <Slot name="datos" type="text" label="Datos" friendcode="datos"/>
+        <Slot name="estilo" type="text" label="Hoja Estilo" friendcode="estilo"/>
+        <Slot name="accion" type="text" label="Accion" friendcode="accion"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://gadgets.alimerka.local/displayImpresion/DisplayImpresion.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="14" height="12"/>
+
+</Template>
