@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="prueba">test</label>
+		<label id="tareal">ToDo</label>
+		<label id="categoria">Category</label>
+		<label id="fechal">Date</label>
+		<label id="addButton">Add</label>
+		<label id="calendario">Calendar</label>
+		<label id="seleccionarFecha">Select Date</label>
+		<label id="si">yes</label>
+		<label id="addtask">Add task</label>
+		<label id="ocultar">Hide</label>
+		<label id="modificar">Edit</label>
+		<label id="barHeader">Add task</label>
+		<label id="titulomodificar">Edit task</label>
+		<label id="tituloeliminar">Remove task</label>
+		<label id="tituloenviar">Send task</label>
+	</language>
+	<language name="es">
+		<label id="prueba">prueba</label>
+		<label id="tareal">Tarea</label>
+		<label id="categoria">Categoría</label>
+		<label id="fechal">Fecha</label>
+		<label id="addButton">Añadir</label>
+		<label id="calendar">Calendar</label>
+		<label id="seleccionarFecha">Seleccionar Fecha</label>
+		<label id="si">si</label>
+		<label id="addtask">Añadir tarea</label>
+		<label id="ocultar">Ocultar</label>
+		<label id="modificar">Modificar</label>
+		<label id="barHeader">Añadir tarea</label>
+		<label id="titulomodificar">Modificar tarea</label>
+		<label id="tituloeliminar">Eliminar tarea</label>
+		<label id="tituloenviar">Enviar tarea</label>
+	</language>
+</languages>

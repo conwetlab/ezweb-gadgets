@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Tasklist</Name>
+    <Version>2.65</Version>
+    <Author>jaimegc</Author>
+    <Mail>jaimegc@tid.es</Mail> 
+    <Description>This gadget allow add tasks to a todo list and classify them by priority</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/tasklist/todo.gif</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_To-Do_List</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+	  <Preference name="agrupar" type="list" description="Classify tasks by priority" default="no" label="Classify tasks by priority">
+		<Option value="si" name="yes"/>
+		<Option value="no" name="no"/>
+	  </Preference>
+	<Preference name="finalizadas" type="list" default="si" description="Moving tasks to the bottom" label="Moving tasks to the bottom">
+		<Option value="si" name="yes"/>
+		<Option value="no" name="no"/>
+	</Preference>
+	<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
+		<Option value="default" name="Default"/>
+		<Option value="en" name="English"/>
+		<Option value="es" name="Español"/>
+	</Preference>
+	<Preference name="taskcolouring" type="list" default="colortheme" description="Task Colouring" label="Task Colouring">
+		<Option value="coloredrow" name="Task priority"/>
+		<Option value="colortheme" name="Color theme"/>
+	</Preference>
+	<Preference name="theme" type="list" label="theme" description="Theme" default="blue">
+		<Option value="blue" name="blue"/>
+		<Option value="orange" name="orange"/>
+		<Option value="red" name="red"/>
+		<Option value="green" name="green"/>
+	</Preference>
+
+  </Platform.Preferences>
+
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+    <Property name="tasklist" type="text" label="tasklist"/>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+        <Slot name="taskRecive" type="text" label="taskRecive" friendcode="taskDescription"/>
+        <Event name="taskSend" type="text" label="taskSend" friendcode="taskDescription"/>
+		<Slot name="dateRecive" type="text" label="taskRecive" friendcode="date"/>
+        <Event name="dateSend" type="text" label="taskSend" friendcode="date"/>
+  </Platform.Wiring>
+  <Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+  </Platform.Context>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/tasklist/tasklist.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="13"/>
+	
+</Template>

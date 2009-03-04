@@ -1,0 +1,312 @@
+body
+{
+	font-family: "Trebuchet MS","Bitstream Vera Sans";
+	font-size:12px;
+}
+.cajafecha{
+	display:block;
+	border:1px solid black;
+	color:black;
+	text-align:right;
+	/*font-family:"Verdana*/
+	font-size:10px;
+	width:72px;
+	height:100%;
+	background: #f4f4f4;
+}
+.cajatarea{
+	display:block;
+	border:1px solid black;
+	color:black;
+
+	/*font-family:"Verdana*/
+	font-size:12px;
+	width:100%;
+	height:100%;
+	background: #f4f4f4;
+}
+#listado{
+	border:0;
+	background: #ffffff;
+	width:100%;
+}
+
+.listado{
+
+	border:0;
+	background: #ffffff;
+	width:100%;
+}
+.picker
+{
+	background-color:#FFFFFF;
+	border:1px solid #000000;
+	float:none;
+	position: absolute;
+	top:0px;
+
+}
+#colorpicker{
+	width: 61px;
+	height: 24px;
+	position: relative;
+}
+
+.c1
+{
+	padding:8px;
+	background-color: #ffcccc;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c2
+{
+	padding:8px;
+	background-color: #ffffcc;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c3
+{
+	padding:8px;
+	background-color: #ccffcc;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c4
+{
+	padding:8px;
+	background-color: #ccccff;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c5
+{
+	padding:8px;
+	background-color: #ccffff;
+	cursor:pointer;
+	border:thin solid gray;
+}
+
+.c6
+{
+	padding:8px;
+	background-color: #ccc0c0;
+	cursor:pointer;
+	border:thin solid gray;
+}
+
+.c7
+{
+	padding:8px;
+	background-color: #efefdd;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c8
+{
+	padding:8px;
+	background-color: #a0e4d4;
+	cursor:pointer;
+	border:thin solid gray;
+}
+.c9
+{
+	padding:8px;
+	background-color: #ffffff;
+	cursor:pointer;
+	border:thin solid gray;
+}
+
+
+
+.buttonpicker
+{
+	background-color:#FFCCCC;
+	border:1px solid #000000;
+	cursor:pointer;
+	margin-left:15px;
+	margin-right:28px;
+	padding:8px;
+}
+
+.bar {
+	
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	color:#111111;
+	/*font-family:"Verdana*/
+	font-size:12px;
+	/*font-weight:bold;*/
+	letter-spacing:0;
+	padding-bottom:4px;
+}
+.barHeader{
+	cursor: pointer;
+}
+
+.addbar{
+	background:#E4E4E4 none repeat scroll 0 0;
+	border-style:none solid solid;
+	border-top:medium none;
+	border-width:medium 1px 1px;
+	color:black;
+	display:block;
+	/*font-family:"Verdana*/
+	font-size:12px;
+
+}
+.bartd
+{	
+	padding-left: 8px;
+	padding-right: 8px;
+	width:100%;
+	font-size:12px;
+}
+.contain {
+	background:#ddddff none repeat scroll 0 0;
+	/*font-family:"Verdana*/
+	font-size:10px;
+	font-weight: bold;
+	letter-spacing: 0;
+
+}
+.link
+{
+	cursor: pointer;
+	color: #444444;
+}
+.checkbox
+{
+	margin:5;
+	padding:5;
+}
+.item2
+{
+	border-bottom:1px solid gray;
+	border-color:gray;
+	border-left:1px solid gray;
+	border-right:1px solid gray;
+	clear:both;
+	overflow:hidden;
+	padding:3px;
+	
+}
+.modify td
+{
+	border-bottom:1px solid gray;
+	border-top:1px solid gray;
+	width:100%;
+	/*font-family:"Verdana*/
+	font-size:12px;
+	font-weight: bold;
+	letter-spacing: 0;
+}
+.modify .check
+{
+	padding-right:9px;
+	width:1px;
+}
+.buttons
+{
+	clear:both;
+	overflow: hidden;
+	padding-left:5px;
+	padding-right:5px;
+}
+.fecha
+{
+	float:left;
+	margin-right:34px;
+	margin-top:5px;
+	padding-bottom:5px;
+	font-size:12px;
+}
+.nota
+{
+	float:none;
+	margin-left:22px;
+	margin-top:3px;
+	text-align:left;
+	font-size:12px;
+}
+.item td
+{
+	border-bottom:1px solid gray;
+	width:100%;
+	/*font-family:"Verdana*/
+	font-size:12px;
+	font-weight: bold;
+	letter-spacing: 0;
+	
+}
+.item .check
+{
+	padding-right:9px;
+	width:1px;
+}
+.style1
+{
+	float:left;
+	min-width:10px;
+	overflow:visible;
+	width:47%
+}
+
+.style2
+{
+	float: right;
+	padding-left:5px;
+	padding-right:5px
+}
+
+.even td
+{
+	border-bottom:1px solid gray;
+	width:100%;
+	/*font-family:"Verdana*/
+	font-size:12px;
+	/*font-weight: bold;*/
+	letter-spacing: 0;
+}
+.even .check
+{
+	padding-right:9px;
+	width:1px;
+}
+.odd td
+{
+	border-bottom:1px solid gray;
+	width:100%;
+	/*font-family:"Verdana*/
+	font-size:12px;
+	/*font-weight: bold;*/
+	letter-spacing: 0;
+	
+}
+.odd .check
+{
+	padding-right:9px;
+	width:1px;
+}
+
+#categoria
+{
+	font-size:12px;
+}
+#addButton
+{
+	width:58px;
+	font-size:12px;
+}
+
+.prior
+{
+	/*background-color:red;*/
+	height:14px;
+	margin-right:47px;
+	margin-left:10px;
+	width:14px;
+	border: solid thin gray;
+}
+
