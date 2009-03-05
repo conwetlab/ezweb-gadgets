@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="channelLink">Channels</label>
+		<label id="showLink">Shows</label>
+		<label id="searchlabel">search</label>
+		<label id="s_noresults">Your search did not match any show. Please, try again.</label>
+		<label id="c_noresults">Your search did not match any channel. Please, try again.</label>
+		<label id="prev">previous page</label>
+		<label id="next">next page</label>
+	</language>
+	<language name="es">
+		<label id="channelLink">Canales</label>
+		<label id="showLink">Vídeos</label>
+		<label id="searchlabel">buscar</label>
+		<label id="s_noresults">Tu búsqueda no concuerda con ningún vídeo. Por favor, inténtalo de nuevo.</label>
+		<label id="c_noresults">Tu búsqueda no concuerda con ningún canal. Por favor, inténtalo de nuevo.</label>
+		<label id="prev">página anterior</label>
+		<label id="next">página siguiente</label>
+	</language>
+</languages>

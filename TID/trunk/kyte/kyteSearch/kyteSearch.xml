@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>KyteTv Search</Name>
-<Version>2.0</Version>
+<Version>2.01</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>KyteTv Search Gadget to search channels or shows. This gadget is compatible with the gadget KyteTV Player by wiring.</Description>
@@ -28,7 +28,9 @@ http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_suscriptor.2
 	<Event name="authorName" type="text" label="authorName" friendcode="authorName"/>
 	<Event name="authorURI" type="text" label="authorURI" friendcode="authorURI"/>
 </Platform.Wiring>
-
+<Platform.Context>
+	<Context name="language" type="text" concept="language"/>
+</Platform.Context>
 <Platform.Link>
 	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/kyte/kyteSearch/kyteSearch.html"/>
 </Platform.Link>

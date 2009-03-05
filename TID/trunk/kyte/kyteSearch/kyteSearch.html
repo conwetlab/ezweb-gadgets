@@ -163,6 +163,7 @@ h3{
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="/repository/kyte/kyteSearch/md5.js"></script>
 <script src="/ezweb/js/lib/prototype/prototype.js" language="JavaScript"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 <script>
 
 /*** AUXILIAR FUNCTIONS *****/
@@ -384,6 +385,7 @@ h3{
 	//channels and shows variables to control paging
 	var channelsPaging = 0; 
 	var showsPaging = 0;
+	var translator;
 
 
 /*** CONSTANTS **/
@@ -580,7 +582,7 @@ h3{
 				prev.className = "prev arrow";
 				prev.src = "/repository/kyte/kyteSearch/left-arrow.png";
 				prev.alt = "prev";
-				prev.title = "previous page";
+				prev.title = translator.getLabel("prev");
 				var a = document.createElement ("a");
 				a.href = "javascript:changeShowsPages("+parseInt(showsPaging-MAX_RESULTS)+");";
 				a.appendChild(prev);
@@ -605,7 +607,7 @@ h3{
 				next.className = "next arrow";
 				next.src = "/repository/kyte/kyteSearch/right-arrow.png";
 				next.alt = "next";
-				next.title = "next page";
+				next.title = translator.getLabel("next");
 				var a = document.createElement ("a");
 				a.href = "javascript:changeShowsPages("+parseInt(showsPaging+MAX_RESULTS)+");";
 				a.appendChild(next);
@@ -626,7 +628,7 @@ h3{
 				prev.className = "prev arrow";
 				prev.src = "/repository/kyte/kyteSearch/left-arrow.png";
 				prev.alt = "prev";
-				prev.title = "previous page";
+				prev.title = translator.getLabel("prev");
 				var a = document.createElement ("a");
 				a.href = "javascript:changeChannelsPages("+parseInt(channelsPaging-MAX_RESULTS)+");";
 				a.appendChild(prev);
@@ -651,7 +653,7 @@ h3{
 				next.className = "next arrow";
 				next.src = "/repository/kyte/kyteSearch/right-arrow.png";
 				next.alt = "next";
-				next.title = "next page";
+				next.title = translator.getLabel("next");
 				var a = document.createElement ("a");
 				a.href = "javascript:changeChannelsPages("+parseInt(channelsPaging+MAX_RESULTS)+");";
 				a.appendChild(next);
@@ -823,8 +825,13 @@ h3{
 			vpermalink.set(element.permalink);
 		
 	}
-
-</script></head><body onload="javascript:init();">
+	
+	function generateLang(){
+		translator = new EzWebExt.Translator("http://jjmr-desktop.hi.inet/repository/kyte/languages.xml", "language", null, init);
+	}
+</script>
+</head>
+<body onload="javascript:generateLang();">
 <div id="slotsHeader" class="slotsHeader">
 	<div id="channelLinkContainer" class="linkContainer selected" >
 		<a id="channelLink" href="javascript:showChannels();" >Channels</a>
@@ -834,7 +841,7 @@ h3{
 		<a id="showLink" href="javascript:showShows()">Shows</a>
 		<input id="showLoader" class="loader" style="display: none;"></input>
 	</div>
-	<div id="searchbox"><input id="searchinput" onkeypress="searchIfEnter(event)" type="text" size="10" /><a href="javascript:searchKeyword($('searchinput').value)">search</a></div>
+	<div id="searchbox"><input id="searchinput" onkeypress="searchIfEnter(event)" type="text" size="10" /><a id="searchlabel" href="javascript:searchKeyword($('searchinput').value)">search</a></div>
 </div>
 <div id="showsContainer" class="globalContainer" style="display:none">
 	<div id="s_noresults" class="noresults" style="display:none">Your search did not match any show. Please, try again.</div>
