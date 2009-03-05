@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>FeedReader</Name>
-    <Version>3.24</Version>
+    <Version>3.25</Version>
     <Author>abgp</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Este gadget muestra un feed RSS 2.0 o Atom 1.0</Description>
@@ -33,9 +33,12 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="feedUrl" type="text" label="feedUrl" friendcode="feedUrl"/>
-	<Event name="selectedURL" type="text" label="URL of selected item" friendcode="newsUrl"/>
-	<Event name="itemURL" type="text" label="sent item URL" friendcode="newsUrl"/>
-	<Event name="newsSummary" type="text" label="newsSummary" friendcode="newsSummary"/>
+	<Event name="selectedURL" type="text" label="selected item URL" friendcode="itemUrl"/>
+	<Event name="selectedTitle" type="text" label="selected item title" friendcode="itemTitle"/>
+	<Event name="selectedSummary" type="text" label="selected item summary" friendcode="itemSummary"/>
+	<Event name="sentURL" type="text" label="sent item URL" friendcode="itemUrl"/>
+	<Event name="sentTitle" type="text" label="sent item title" friendcode="itemTitle"/>
+	<Event name="sentSummary" type="text" label="sent item Summary" friendcode="itemSummary"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/feedReader/feedReader.html"/>
