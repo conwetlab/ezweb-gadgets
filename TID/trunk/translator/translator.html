@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
+    <link id="style" rel="StyleSheet" href="http://localhost/repository/translator/default.css" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 	<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
@@ -9,6 +9,7 @@
 	<script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("textS", setTextS);
+	var textE = EzWebAPI.createRWGadgetVariable("textE");
 	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
 			
 	function setLanguage(value)
@@ -37,11 +38,12 @@
 				var translated = document.getElementById("translation");
 				if (result.translation){
 					translated.value = result.translation;
+					textE.set(translated.value);
 					//$('translation').show();
 				}
 			});
 		}
-			
+		
 	}
 
 	//google.setOnLoadCallback(initialize);
@@ -81,7 +83,7 @@
     }
     
    /*	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
+		t = new EzWebExt.Translator("http://localhost/repository/translator/languages.xml", "language" , null, load);
 	}*/
     
     
