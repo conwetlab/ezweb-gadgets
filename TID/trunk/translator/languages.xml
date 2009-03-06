@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="sq">Albanian </label>
+		<label id="ar">Arabic </label>
+		<label id="bg">Bulgarian </label>
+		<label id="ca">Catalan</label>
+		<label id="zh">Chinese</label>
+		<label id="hr">Croatian</label>
+		<label id="cs">Czech</label>
+		<label id="da">Danish</label>
+		<label id="nl">Dutch</label>
+		<label id="en">English</label>
+		<label id="et">Estonian</label>
+		<label id="tl">Filipino</label>
+		<label id="fi">Finnish</label>
+		<label id="fr">French</label>
+		<label id="gl">Galician</label>
+		<label id="de">German</label>
+		<label id="el">Greek</label>
+		<label id="iw">Hebrew</label>
+		<label id="hi">Hindi</label>
+		<label id="hu">Hungarian</label>
+		<label id="id">Indonesian</label>
+		<label id="it">Italian</label>
+		<label id="ja">Japanese</label>
+		<label id="ko">Korean</label>
+		<label id="lv">Latvian</label>
+		<label id="lt">Lithuanian</label>
+		<label id="mt">Maltese</label>
+		<label id="no">Norwegian</label>
+		<label id="pl">Polish</label>
+		<label id="pt-PT">Portuguese</label>
+		<label id="ro">Romanian</label>
+		<label id="ru">Russian</label>
+		<label id="sr">Serbian</label>
+		<label id="sk">Slovak</label>
+		<label id="sl">Slovenian</label>
+		<label id="es">Spanish</label>
+		<label id="sv">Swedish</label>
+		<label id="th">Thai</label>
+		<label id="tr">Turkish</label>
+		<label id="uk">Ukrainian</label>
+		<label id="vi">Vietnamese</label>
+	</language>
+	<language name="es">
+		<label id="sq">Albanés</label>
+		<label id="ar">Árabe</label>
+		<label id="bg">Búlgaro</label>
+		<label id="ca">Catalán</label>
+		<label id="zh">Chino</label>
+		<label id="hr">Croata</label>
+		<label id="cs">Checo</label>
+		<label id="da">Danés</label>
+		<label id="nl">Holandés</label>
+		<label id="en">Inglés</label>
+		<label id="et">Estonio</label>
+		<label id="tl">Filipino</label>
+		<label id="fi">Finlandés</label>
+		<label id="fr">Francés</label>
+		<label id="gl">Gallego</label>
+		<label id="el">Griego</label>
+		<label id="de">Alemán</label>
+		<label id="iw">Hebreo</label>
+		<label id="hi">Hindi</label>
+		<label id="hu">Húngaro</label>
+		<label id="id">Indonesio</label>
+		<label id="it">Italiano</label>
+		<label id="ja">Japonés</label>
+		<label id="ko">Coreano</label>
+		<label id="lv">Letón</label>
+		<label id="lt">Lituano</label>
+		<label id="no">Noruego</label>
+		<label id="pl">Polaco</label>
+		<label id="pt-PT">Portugués</label>
+		<label id="mt">Maltés</label>
+		<label id="ro">Rumano</label>
+		<label id="ru">Ruso</label>
+		<label id="sr">Serbio</label>
+		<label id="sk">Eslovaco</label>
+		<label id="sl">Esloveno</label>
+		<label id="es">Español</label>
+		<label id="sv">Sueco</label>
+		<label id="th">Tailandés</label>
+		<label id="tr">Turco</label>
+		<label id="uk">Ucraniano</label>
+		<label id="vi">Vietnamita</label>
+	</language>
+</languages>
+<!--
+
+
+
+ -->

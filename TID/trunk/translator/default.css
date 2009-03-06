@@ -1,0 +1,75 @@
+body
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size: 12px;
+	
+}
+#translation
+{
+	font-family:Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size:12px;
+	height:100%;
+	margin-top:3px;
+	overflow:auto;
+	padding:5px;
+	width:100%;
+	opacity:0.8;
+}
+#original
+{
+	font-family:Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size:12px;
+	height:100%;
+	margin-bottom:3px;
+	overflow:auto;
+	padding:5px;
+	width:100%;
+	opacity:0.8;
+}
+select
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size: 12px;
+	opacity:0.7;
+}
+
+.full
+{
+
+}
+
+.action
+{
+	/*font-family: arial,sans-serif;*/
+	cursor:pointer;
+	margin-left: 10px;
+	text-decoration: underline;
+	/*font-size:1.5em;*/
+	/*vertical-align:-1px;*/
+}
+input[type="button"]{
+	display:inline;
+	opacity:0.6;
+	margin-left: 10px;
+}
+
+.text
+{
+	background-color:#E6F3F8;
+	padding: 4px;
+	height:40%;
+}
+
+
+
+.languages
+{
+	background-color:#E6F3F8;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.item
+{
+	margin-left: 10px;
+}

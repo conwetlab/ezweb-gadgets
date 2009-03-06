@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+    
+	<script type="text/javascript">
+	
+	var textS = EzWebAPI.createRGadgetVariable("textS", setTextS);
+	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
+			
+	function setLanguage(value)
+	{
+		$('srcLang').value = value;
+	}
+	function setTextS(value)
+	{
+		$('original').value = value;
+	}
+	
+	</script>
+    
+    
+	<script type="text/javascript">
+	google.load("language", "1");
+
+	function initialize() 
+	{
+		var text = $('original').value;
+		var srcLang = $('srcLang').value;
+		var destLang = $('destLang').value;
+		if (text!=""){
+			google.language.translate(text, srcLang, destLang, function(result) 
+			{
+				var translated = document.getElementById("translation");
+				if (result.translation){
+					translated.value = result.translation;
+					//$('translation').show();
+				}
+			});
+		}
+			
+	}
+
+	//google.setOnLoadCallback(initialize);
+
+    </script>
+    <script type="text/javascript">
+    
+    function load(){
+    	$('srcLang').value = language.get();
+    	//$('translation').hide();
+    	languages = Object.keys(google.language.Languages).sort();
+    	for(i=0;i<languages.length;i++){
+    		if (google.language.isTranslatable(google.language.Languages[languages[i]])){
+		       	var option = document.createElement('option');
+				option.setAttribute('value', google.language.Languages[languages[i]]);
+
+				//*****t.getLabel(google.language.Languages[languages[i]]).capitalize());********/
+
+				option.appendChild(document.createTextNode(languages[i].capitalize()));
+				$('srcLang').appendChild(option);
+				
+				var option = document.createElement('option');
+				option.setAttribute('value', google.language.Languages[languages[i]]);
+				option.appendChild(document.createTextNode(languages[i].capitalize()));
+				
+				$('destLang').appendChild(option);
+			}
+		}
+		
+		
+    }
+    function swap()
+    {
+    	var tmp = $('srcLang').value;
+		$('srcLang').value = $('destLang').value;
+		$('destLang').value = tmp;
+    }
+    
+   /*	function generateLang(){
+		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
+	}*/
+    
+    
+    
+    </script>
+    
+	 </head><body onLoad="load()">
+	 <div class="full">
+
+		<div class="text"><textarea id="original"></textarea></div>
+		<div class="languages"><span class="item">From <select id="srcLang"></select></span><span class="item">To <select id="destLang"></select></span><span onClick="swap()" class="action">Swap</span>
+		<input type="button" value="Translate" onClick="initialize()"/></div>
+		<div class="text"><textarea id="translation"></textarea></div>
+		
+	 </div>
+  </body></html>
