@@ -45,10 +45,10 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-        <Slot name="taskRecive" type="text" label="taskRecive" friendcode="taskDescription"/>
-        <Event name="taskSend" type="text" label="taskSend" friendcode="taskDescription"/>
-		<Slot name="dateRecive" type="text" label="taskRecive" friendcode="date"/>
-        <Event name="dateSend" type="text" label="taskSend" friendcode="date"/>
+        <Slot name="taskRecive" type="text" label="Description" friendcode="taskDescription"/>
+        <Event name="taskSend" type="text" label="Description" friendcode="taskDescription"/>
+		<Slot name="dateRecive" type="text" label="Date" friendcode="date"/>
+        <Event name="dateSend" type="text" label="Date" friendcode="date"/>
   </Platform.Wiring>
   <Platform.Context>
 		<Context name="language" type="text" concept="language"/>
