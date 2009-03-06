@@ -409,7 +409,7 @@ h3{
 	function init(){
 		createSlots();
 		currentChannelsURL = RECENTS_CHANNELS_URL;
-		EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+		EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onChannelError);
 	}
 
 	/* Create the base layout for the show list */
@@ -477,9 +477,9 @@ h3{
 			$('channelLoader').style.display="inline";
 			$('showLinkContainer').style.display="inline";
 			currentShowsURL = FIND_SHOWS_URL.replace("{{KEYWORD}}", keyword);	
-			EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", 0), this, onFindSuccess, onError);
+			EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", 0), this, onFindSuccess, onShowError);
 			currentChannelsURL = SEARCH_CHANNELS_URL.replace("{{KEYWORD}}", keyword);	
-			EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+			EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onChannelError);
 			//initialize paging
 			channelsPaging = 0;
 			showsPaging = 0;
@@ -488,7 +488,7 @@ h3{
 			$('showLinkContainer').style.display="none";
 			$('channelLoader').style.display="inline";
 			currentChannelsURL = RECENTS_CHANNELS_URL;
-			EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onError);
+			EzWebAPI.send_get(RECENTS_CHANNELS_URL.replace("{{FRT}}", 0), this, onFindChannelsSuccess, onChannelError);
 		}
 	
 		return;
@@ -497,13 +497,13 @@ h3{
 	function changeChannelsPages(frt){
 		$('channelLoader').style.display="inline";
 		channelsPaging = frt;
-		EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", frt), this, onFindChannelsSuccess, onError);
+		EzWebAPI.send_get(currentChannelsURL.replace("{{FRT}}", frt), this, onFindChannelsSuccess, onChannelError);
 	}
 
 	function changeShowsPages(frt){
 		$('showLoader').style.display="inline";
 		showsPaging = frt;
-		EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", frt), this, onFindSuccess, onError);
+		EzWebAPI.send_get(currentShowsURL.replace("{{FRT}}", frt), this, onFindSuccess, onShowError);
 	}
 
 	function showShows(){
@@ -539,7 +539,7 @@ h3{
 				}
 			}
 			else{
-				alert(json.error.message);
+				$('s_noresults').style.display = "block";
 			}
 		}	
 	}
@@ -560,14 +560,22 @@ h3{
 				}
 			}
 			else{
-				alert(json.error.message);
+				$('c_noresults').style.display = "block";
 			}
 		}	
 	}
 
-	function onError (resp){
-		alert(resp.responseText);
+	function onShowError (resp){
+		//Do nothing (or show error)
+		$('showLoader').style.display="none";
+		$('s_noresults').style.display = "block";
 	}
+
+	function onChannelError (resp){
+                //Do nothing (or show error)
+                $('channelLoader').style.display="none";
+                $('c_noresults').style.display = "block";
+        }
 	
 
 	/* Fill the Show paginator with the proper number of pages */
@@ -827,7 +835,7 @@ h3{
 	}
 	
 	function generateLang(){
-		translator = new EzWebExt.Translator("http://jjmr-desktop.hi.inet/repository/kyte/languages.xml", "language", null, init);
+		translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/kyte/kyteSearch/languages.xml", "language", null, init);
 	}
 </script>
 </head>
