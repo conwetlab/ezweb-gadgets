@@ -4,7 +4,12 @@ html
 }
 body
 {
-	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	border-top-width:0;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
 }
 .item
 {
@@ -20,7 +25,7 @@ body
 	padding-right:3px;
 	width:100%;
 	text-align: center;
-	width:220px;
+	width:181px;
 	overflow:hidden;
 	
 	/*margin-top:5px;*/
@@ -116,9 +121,11 @@ body
 
 .infoNext
 {
+	font-size:12px;
+	margin-left:11px;
 /*font-family:verdana;*/
-font-size:12px;
-width:100%;
+/*font-size:12px;*/
+/*width:100%;*/
 }
 
 .infoD
@@ -172,16 +179,24 @@ width:100%;
 	/*font-family:verdana;*/
 	font-size:small;
 	font-weight:normal;
-	text-align:center;
+	/*text-align:center;*/
 	max-width:409px;
-	text-decoration:underline;
+	/*text-decoration:underline;*/
+	margin-left:16px;
+	margin-top:8px;
 
+}
+.other
+{
+	text-decoration:underline;
+	cursor: pointer;
+	margin-left: 5px;
 }
 
 .colright
 {
 	margin-top:26px;
-	float:right;
+	/*float:right;*/
 }
 
 .full
@@ -225,4 +240,8 @@ input,button,select
 	font-size:70%;
 }
 
+#header
+{
+	margin-left:15px;
+}
 

@@ -4,7 +4,12 @@ html
 }
 body
 {
-	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	border-top-width:0;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
 }
 .item
 {
@@ -39,7 +44,7 @@ body
 .today .colleft .icon
 {
 		float:left;
-
+		text-align:center;
 }
 
 .colleft
@@ -152,7 +157,7 @@ width:100%;
 	font-size:12px;
 	/*font-family: verdana;*/
 	float: left;
-	margin-top:10px;
+	/*margin-top:10px;*/
 }
 
 .datoscc .infoI
@@ -169,17 +174,25 @@ width:100%;
 
 .datoscc .it
 {
-	margin-left:10px;
+	/*margin-left:10px;*/
 	text-align:left;
 }
 .city{
 	/*font-family:verdana;*/
 	font-size:small;
 	font-weight:normal;
-	text-align:center;
+	/*text-align:center;*/
 	max-width:409px;
-	text-decoration:underline;
+	/*text-decoration:underline;*/
+	margin-left:16px;
+	margin-top:8px;
 
+}
+.other
+{
+	text-decoration:underline;
+	cursor: pointer;
+	margin-left: 5px;
 }
 
 .colright
@@ -233,4 +246,14 @@ input,button,select
 	font-size:70%;
 }
 
+.icon .it
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+	font-size:12px;
+}
 
+
+#header
+{
+	margin-left:15px;
+}

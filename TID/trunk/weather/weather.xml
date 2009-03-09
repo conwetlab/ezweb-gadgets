@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.86</Version>
+    <Version>0.88</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Weather Forecast</Description>
@@ -21,6 +21,13 @@
 	<Preference name="info" type="list" label="Full/Short Info" description="Full/Short Info" default='shortinfo'>
 		<Option value="fullinfo" name="Full Info"/>
 		<Option value="shortinfo" name="Short Info"/>
+	</Preference>
+	<Preference name="days" type="list" label="Days" description="Days" default='5'>
+		<Option value="1" name="1"/>
+		<Option value="2" name="2"/>
+		<Option value="3" name="3"/>
+		<Option value="4" name="4"/>
+		<Option value="5" name="5"/>
 	</Preference>
   </Platform.Preferences>
 

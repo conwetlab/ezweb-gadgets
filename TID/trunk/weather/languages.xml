@@ -24,6 +24,8 @@
 		<label id="_forecast">Forecast</label>
 		<label id="_more">More details...</label>
 		<label id="_less">Less detail...</label>
+		<label id="_other">(Other city)</label>
+		<label id="_hide">(Hide)</label>
 		
 		<label id="Monday">Monday</label>
 		<label id="Tuesday">Tuesday</label>
@@ -85,7 +87,9 @@
 		<label id="_forecast">Previsión</label>
 		<label id="_more">Más detalles...</label>
 		<label id="_less">Menos detalles...</label>
-				
+		<label id="_other">(Otra ciudad)</label>
+		<label id="_hide">(Ocultar)</label>
+		
 		<label id="Monday">Lunes</label>
 		<label id="Tuesday">Martes</label>
 		<label id="Wednesday">Miércoles</label>
