@@ -25,12 +25,22 @@
 	var citySlot = EzWebAPI.createRGadgetVariable("city", setCitySlot);
 	var defaultCity = EzWebAPI.createRGadgetVariable("defaultCity", setDefaultCity);
 	var info = EzWebAPI.createRGadgetVariable("info", setInfo);
+	var days = EzWebAPI.createRGadgetVariable("days", setDays);
 	
 	var cityEvent = EzWebAPI.createRWGadgetVariable("cityEvent");
 	var lat = EzWebAPI.createRWGadgetVariable("lat");
 	var lon = EzWebAPI.createRWGadgetVariable("lon");
 	
 	var units = EzWebAPI.createRGadgetVariable("units", setUnits);
+	
+	function setDays(value){
+		if(id.get()!=""){
+			$('loading').style.visibility = 'visible';
+			var n = days.get();
+			var url = "http://xoap.weather.com/weather/local/"+id.get()+"?cc=*&dayf="+n+"&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+units.get();
+			EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
+		}
+	}
 	
 	function setInfo(value)
 	{
@@ -54,7 +64,8 @@
 	{
 		if(id.get()!=""){
 			$('loading').style.visibility = 'visible';
-			var url = "http://xoap.weather.com/weather/local/"+id.get()+"?cc=*&dayf=5&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+unit;
+			var n = days.get();
+			var url = "http://xoap.weather.com/weather/local/"+id.get()+"?cc=*&dayf="+n+"&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+unit;
 			EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
 		}
 	}
@@ -132,11 +143,21 @@
   function sendId(idCity)
   {
 	$('loading').style.visibility = 'visible';
-	var url = "http://xoap.weather.com/weather/local/"+idCity+"?cc=*&dayf=5&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+units.get();
+	var n = days.get();
+	var url = "http://xoap.weather.com/weather/local/"+idCity+"?cc=*&dayf="+n+"&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+units.get();
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
   	
-  
+  function showHeader() {
+  	$('header').show();
+  	$('_other').hide();
+  	$('_hide').show();
+  }
+  function HideHeader() {
+  	$('header').hide();
+  	$('_other').show();
+  	$('_hide').hide();
+  }
   	function callbackSucessInfo(responseData){
 		json=xml2json.parser(responseData.responseText);
 
@@ -150,12 +171,17 @@
 		info['unitp'] = json.weather.head.up;
 		info['time'] = json.weather.loc.tm;
 		info['cctmp'] = json.weather.cc.tmp;
-		info['ccicon'] = "http://image.weather.com/web/common/wxicons/93/"+json.weather.cc.icon+".png";
+		info['ccicon'] = "http://image.weather.com/web/common/wxicons/61/"+json.weather.cc.icon+".png";
 		
-		
-		
-			var html ="<div id='full' class='full'>";
-				html += "<div class='city'>"+json.weather.cc.obst+"</div>";
+		if (json.weather.dayf.day[0]==undefined){
+			aux = [];
+			aux.push(json.weather.dayf.day);
+			json.weather.dayf.day = aux;
+		}
+			var html = "<div class='city' id='cityHeader'>"+json.weather.cc.obst+"<span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_hide' class='other' onClick='HideHeader()'></div>";
+				html += "<div id='full' class='full'>";
+				
+				//html += "<div class='city'>"+json.weather.cc.obst+"</div>";
 				html += "<div class='today'>";
 				html += "<table><tr><td>";
 					html += "<div id='colleft' class='colleft' title='Current Weather'>";
@@ -172,9 +198,9 @@
 							html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
 							html += "<div class='it'><div class='infoI' id='_sunset'>"+t.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
 							html += "<div class='it'><div class='infoI' id='_less' style='cursor:pointer;text-decoration:underline;' onClick='hideFullInfo()'>Less details...</div></div>";
-							
 						html += "</div>";
-					html += "</div><br>";
+						//html += "</td></tr></table>";	
+					html += "</div>";
 				html += "</td><td valign='top' style='width:100%;' >";
 					html += "<div class='colright'>";
 						html += "<table class='item' width='100%'>";
@@ -210,7 +236,9 @@
 				html += "<div class='today'>";
 				html += "<table><tr><td>";
 					html += "<div id='colleft' class='colleft' title='Current Weather'>";
+					html += "<table border='0'><tr><td>";
 						html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='s"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_sdateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
+						html += "</td><td>";
 						html += "<div class='datoscc'>";
 							html += "<div class='it'></div>";
 							html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
@@ -219,7 +247,8 @@
 							html += "<div class='it'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t)+"</div>";
 							html += "<div class='it'><div id='_more' style='cursor:pointer;text-decoration:underline;' onClick='showFullInfo()'>More details...</div></div>";
 						html += "</div>";
-					html += "</div><br>";
+						html += "</td></tr></table>";
+					html += "</div>";
 				html += "</td>";
 				html += "</div>";
 				html += "<td>";
@@ -254,6 +283,8 @@
 		}
 		
 		$('loading').style.visibility = 'hidden';
+		$('header').hide();
+		$('_hide').hide();
 		if($('citiesList').options[0])
 			$('citiesList').style.visibility = 'visible';
 			
@@ -263,6 +294,7 @@
 		lon.set(json.weather.loc.lon);
 		t.translate();
 		//translate();
+		$('errors').innerHTML ="";
 	}
 		
 	function translate()
@@ -348,14 +380,16 @@
 
 </head>
 <body onload="generateLang()">
+<div id="header">
 <form name="searchform" onsubmit="return false">
 <label id="_city">City</label><input id="city" type="text" name="city"/><button id="_search" type="button" onClick="searchCity(document.searchform.city.value)">Search</button>
 <img id="loading" src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/>
 <select id="citiesList" style="max-width:141px;">
 </select>
 </form>
-<div id="errors"></div>
-<div id="infoTiempo"></div>
+</div>
+<span id="errors"></span>
+<span id="infoTiempo"></span>
 
 
 </body>
