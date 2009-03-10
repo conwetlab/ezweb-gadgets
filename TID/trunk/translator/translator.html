@@ -12,14 +12,28 @@
     
 	<script type="text/javascript">
 	
-	var textS = EzWebAPI.createRGadgetVariable("textS", setTextS);
-	var textE = EzWebAPI.createRWGadgetVariable("textE");
+	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
+	var textE = EzWebAPI.createRWGadgetVariable("outputText");
 	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
+	
+	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
 	
 	//Property
 	var languages = EzWebAPI.createRWGadgetVariable("languages");
 
 	var _languages = {'from':'','to':''};
+	
+	function setTheme(value){
+		//WORKAROUND: select blue by default
+		if(!value ||value =="")
+			value = "blue";
+		//END WA
+		var href = "http://demo.ezweb.morfeo-project.org/repository/translator/css/"+value+".css";
+		var sheetLink=document.getElementById('style');
+		sheetLink.href=href;
+		return;
+	}
+	
 		
 	function setLanguage(value)
 	{
@@ -102,7 +116,7 @@
     }
     
    /*	function generateLang(){
-		t = new EzWebExt.Translator("http://localhost/repository/translator/languages.xml", "language" , null, load);
+		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
 	}*/
     
     

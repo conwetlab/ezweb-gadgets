@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Translator</Name>
-    <Version>0.14</Version>
+    <Version>0.16</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Translator</Description>
@@ -13,6 +13,12 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
+  	<Preference name="theme" type="list" label="theme" description="Theme" default="blue">
+		<Option value="blue" name="blue"/>
+		<Option value="orange" name="orange"/>
+		<Option value="red" name="red"/>
+		<Option value="green" name="green"/>
+	</Preference>
   </Platform.Preferences>
 
   <!-- EzWeb Gadget Persistent State -->
@@ -21,8 +27,8 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-	<Slot name="textS" type="text" label="text" friendcode="text"/>
-	<Event name="textE" type="text" label="text" friendcode="text"/>
+	<Slot name="inputText" type="text" label="inputText" friendcode="text"/>
+	<Event name="outputText" type="text" label="outputText" friendcode="text"/>
   </Platform.Wiring>
   <Platform.Context>
   	<Context name="language" type="text" concept="language"/>	
