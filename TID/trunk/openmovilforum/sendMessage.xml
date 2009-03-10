@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.12</Version>
+<Version>1.13</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>
@@ -49,6 +49,10 @@ Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obt
 	<Slot name="destinationPhone" type="text" label="destinationPhone" friendcode="phone"/>
 	<Slot name="subject" type="text" label="subject" friendcode="subject"/>
 	<Slot name="message" type="text" label="message" friendcode="message"/>
+	<Event name="objectUrlEvent" type="text" label="objectUrl" friendcode="objectUrl"/>
+	<Event name="destinationPhoneEvent" type="text" label="destinationPhone" friendcode="phone"/>
+	<Event name="subjectEvent" type="text" label="subject" friendcode="subject"/>
+	<Event name="messageEvent" type="text" label="message" friendcode="message"/>
 </Platform.Wiring>
 <Platform.Context>
 	<Context name="language" type="text" concept="language"/>

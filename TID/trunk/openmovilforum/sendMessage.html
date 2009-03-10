@@ -132,6 +132,13 @@ var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDes
 var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 // Message
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+
+//Events
+var e_objectUrl = EzWebAPI.createRWGadgetVariable("objectUrlEvent");
+var e_destinationPhone = EzWebAPI.createRWGadgetVariable("destinationPhoneEvent");
+var e_subject = EzWebAPI.createRWGadgetVariable("subjectEvent");
+var e_message = EzWebAPI.createRWGadgetVariable("messageEvent");
+
 //status after succesfully sending message
 var destinationStatus = EzWebAPI.createRGadgetVariable("destinationStatus", function(){});
 var subjectStatus = EzWebAPI.createRGadgetVariable("subjectStatus", function(){});
@@ -270,7 +277,7 @@ function errorSMS(r){
 }
 
 
-function validateMMS(f){
+function validate(f){
 	var uri_mms = url.get()+"/openmovilforum/mms";
 	var uri_sms = url.get()+"/openmovilforum/sms";
 	var to = document.MMSCreationForm.elements['to'].value;
@@ -280,10 +287,11 @@ function validateMMS(f){
 	var objectFile = document.MMSCreationForm.elements['objectFile'].value;
 	var source = login.get();
 	var passwd = password.get();
-
+	var initial_message = message;
 	if (message.length <= (MESSAGE_SIZE-signature.length-1)){
 		message += "\n"+signature;
 	}
+	
 	message = sanitize(message);
 	subject = sanitize(subject);
 	if (source==null || source.length <= 0) {
@@ -302,6 +310,8 @@ function validateMMS(f){
 		document.getElementById("SMSmsg").style.display="none";
 		document.getElementById("wait").style.display="block";
     	EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
+		e_destinationPhone.set(to);
+		e_message.set(initial_message);
 	} else {
 		// Send the MMS
 		document.MMSCreationForm.action=uri_mms;
@@ -313,6 +323,11 @@ function validateMMS(f){
 		document.getElementById("SMSmsg").style.display="none";
 		document.getElementById("wait").style.display="block";
 		messageSended = true;
+		if (objectURL.length > 0)
+			e_objectUrl.set(objectURL);
+		e_destinationPhone.set(to);
+		e_subject.set(subject);
+		e_message.set(initial_message);
 		document.MMSCreationForm.submit();
 		return true;
 	}
@@ -355,7 +370,7 @@ function clearText(){
 <tr class="odd first">
 	<td style="width: 25%;" id="dest_label" >Destination number*: </td>
 	<td style="width: 65%;"><input class="text" name="to" type="text" /><br/><span id="advice_label" class="advice">multiple numbers separated with <span>;</span></span><div></td>
-	<td style="width: 10%;"><input name="create" value="send" type="button" onclick="validateMMS()"/></div></td>
+	<td style="width: 10%;"><input name="create" value="send" type="button" onclick="validate()"/></div></td>
 </tr>
 <tr class="odd"><td id="subject_label">Subject: </td><td colspan="2"><input class="text" name="subject" type="text"/></td></tr>
 <tr class="odd">
