@@ -15,10 +15,18 @@
 	var textS = EzWebAPI.createRGadgetVariable("textS", setTextS);
 	var textE = EzWebAPI.createRWGadgetVariable("textE");
 	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
-			
+	
+	//Property
+	var languages = EzWebAPI.createRWGadgetVariable("languages");
+
+	var _languages = {'from':'','to':''};
+		
 	function setLanguage(value)
 	{
-		$('srcLang').value = value;
+		if(languages.get()==''){
+			$('srcLang').value = value;
+			_languages['from'] = value;
+		}
 	}
 	function setTextS(value)
 	{
@@ -44,6 +52,10 @@
 					translated.value = result.translation;
 					textE.set(translated.value);
 					//$('translation').show();
+					//guardar idioma
+					_languages.from = srcLang;
+					_languages.to = destLang;
+					languages.set(Object.toJSON(_languages));
 				}
 			});
 		}
@@ -58,26 +70,29 @@
     function load(){
     	$('srcLang').value = language.get();
     	//$('translation').hide();
-    	languages = Object.keys(google.language.Languages).sort();
-    	for(i=0;i<languages.length;i++){
-    		if (google.language.isTranslatable(google.language.Languages[languages[i]])){
+    	googlelanguages = Object.keys(google.language.Languages).sort();
+    	for(i=0;i<googlelanguages.length;i++){
+    		if (google.language.isTranslatable(google.language.Languages[googlelanguages[i]])){
 		       	var option = document.createElement('option');
-				option.setAttribute('value', google.language.Languages[languages[i]]);
+				option.setAttribute('value', google.language.Languages[googlelanguages[i]]);
 
-				//*****t.getLabel(google.language.Languages[languages[i]]).capitalize());********/
+				//*****t.getLabel(google.language.Languages[googlelanguages[i]]).capitalize());********/
 
-				option.appendChild(document.createTextNode(languages[i].capitalize()));
+				option.appendChild(document.createTextNode(googlelanguages[i].capitalize()));
 				$('srcLang').appendChild(option);
 				
 				var option = document.createElement('option');
-				option.setAttribute('value', google.language.Languages[languages[i]]);
-				option.appendChild(document.createTextNode(languages[i].capitalize()));
+				option.setAttribute('value', google.language.Languages[googlelanguages[i]]);
+				option.appendChild(document.createTextNode(googlelanguages[i].capitalize()));
 				
 				$('destLang').appendChild(option);
 			}
 		}
-		
-		
+		if (languages.get()!=""){
+			_languages = eval('('+languages.get()+')');
+			$('srcLang').value = _languages.from;
+			$('destLang').value = _languages.to;
+		}
     }
     function swap()
     {
@@ -87,13 +102,13 @@
     }
     
    /*	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
+		t = new EzWebExt.Translator("http://localhost/repository/translator/languages.xml", "language" , null, load);
 	}*/
     
     
     
     </script>
-    
+    <!--
 	 </head><body onLoad="load()">
 	 <div class="full">
 
@@ -101,6 +116,16 @@
 		<div class="languages"><span class="item">From <select id="srcLang"></select></span><span class="item">To <select id="destLang"></select></span><span onClick="swap()" class="action">Swap</span>
 		<input type="button" value="Translate" onClick="initialize()"/></div>
 		<div class="text"><textarea id="translation"></textarea></div>
+		
+	 </div>
+	 -->
+	 	 </head><body onLoad="load()">
+	 <table class="full">
+
+		<tr><td class="text"><textarea id="original"></textarea></td></tr>
+		<tr><td class="languages"><span class="item">From <select id="srcLang"></select></span><span class="item">To <select id="destLang"></select></span><span onClick="swap()" class="action">Swap</span>
+		<input type="button" value="Translate" onClick="initialize()"/></td></tr>
+		<tr><td class="text"><textarea id="translation"></textarea></td></tr></table>
 		
 	 </div>
   </body></html>
