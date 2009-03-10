@@ -13,7 +13,7 @@
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-<LINK id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/weather/default2.css" type="text/css" />
+<LINK id="style" rel="StyleSheet" href="" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
 	var json=null;
@@ -28,10 +28,28 @@
 	var days = EzWebAPI.createRGadgetVariable("days", setDays);
 	
 	var cityEvent = EzWebAPI.createRWGadgetVariable("cityEvent");
-	var lat = EzWebAPI.createRWGadgetVariable("lat");
-	var lon = EzWebAPI.createRWGadgetVariable("lon");
+	var lat = EzWebAPI.createRWGadgetVariable("latitude");
+	var lon = EzWebAPI.createRWGadgetVariable("longitude");
 	
 	var units = EzWebAPI.createRGadgetVariable("units", setUnits);
+	
+	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
+	var actualTheme = "blue";
+	function setTheme(value){
+		//WORKAROUND: select blue by default
+		if(!value ||value =="")
+			value = "blue";
+		//END WA
+		actualTheme = value;
+		var css ="default2";
+		if(fullinfo)
+			css ="default";
+			
+		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+value+"/"+css+".css";
+		var sheetLink=document.getElementById('style');
+		sheetLink.href=href;
+		return;
+	}
 	
 	function setDays(value){
 		if(id.get()!=""){
@@ -354,7 +372,7 @@
 		if(!value || value =="")
 			value = "default2";
 		
-		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/"+value+".css";
+		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+actualTheme+"/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		return;

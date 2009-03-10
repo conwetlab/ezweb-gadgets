@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.89</Version>
+    <Version>0.91</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Weather Forecast</Description>
@@ -29,6 +29,12 @@
 		<Option value="4" name="4"/>
 		<Option value="5" name="5"/>
 	</Preference>
+	<Preference name="theme" type="list" label="theme" description="Theme" default="blue">
+		<Option value="blue" name="blue"/>
+		<Option value="orange" name="orange"/>
+		<Option value="red" name="red"/>
+		<Option value="green" name="green"/>
+	</Preference>
   </Platform.Preferences>
 
   <!-- EzWeb Gadget Persistent State -->
@@ -38,8 +44,8 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
 	<Slot name="city" type="text" label="city" friendcode="city"/>
-	<Event name="lat" type="text" label="latitude" friendcode="latitude"/>
-	<Event name="lon" type="text" label="longitude" friendcode="longitude"/>
+	<Event name="latitude" type="text" label="latitude" friendcode="latitude"/>
+	<Event name="longitude" type="text" label="longitude" friendcode="longitude"/>
   </Platform.Wiring>
   <Platform.Context>
 		<Context name="language" type="text" concept="language"/>
