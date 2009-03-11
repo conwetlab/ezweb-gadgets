@@ -662,6 +662,8 @@ function showAddFeed()
 	$("addFeed").style.display = 'block';
 	$("header").style.display = 'none';
 	$("list").update();
+    if($('hide_l').style.display=='inline')
+    	$("container").style.display = "none";
 }
 function hideAddFeed()
 {
@@ -670,6 +672,8 @@ function hideAddFeed()
 	$("addFeed").style.display = 'none';
 	$("header").style.display = 'block';
 	deleteQuery();
+	if($('hide_l').style.display=='inline')
+		$("container").style.display = "block";
 	paintFeedEntries('');
 }
 
@@ -701,7 +705,10 @@ function manageFeeds(){
 	a:hover {
 		text-decoration:underline;
 	}
-                
+
+	label a:hover{
+		text-decoration:none;
+	}       
 	
 	#list {
 		background-color: #ffffff;
