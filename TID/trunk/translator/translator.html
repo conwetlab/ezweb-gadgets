@@ -2,8 +2,8 @@
 * This code is licensed under terms shown on this link:
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 -->
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
@@ -82,6 +82,7 @@
     <script type="text/javascript">
     
     function load(){
+    	setTheme(theme.get());
     	$('srcLang').value = language.get();
     	//$('translation').hide();
     	googlelanguages = Object.keys(google.language.Languages).sort();
@@ -133,7 +134,7 @@
 		
 	 </div>
 	 -->
-	 	 </head><body onLoad="load()">
+</head><body onLoad="load()">
 	 <table class="full">
 
 		<tr><td class="text"><textarea id="original"></textarea></td></tr>
