@@ -24,7 +24,7 @@
 	var id = EzWebAPI.createRWGadgetVariable("id");
 	var citySlot = EzWebAPI.createRGadgetVariable("city", setCitySlot);
 	var defaultCity = EzWebAPI.createRGadgetVariable("defaultCity", setDefaultCity);
-	var info = EzWebAPI.createRGadgetVariable("info", setInfo);
+	var info_pref = EzWebAPI.createRGadgetVariable("info", setInfo);
 	var days = EzWebAPI.createRGadgetVariable("days", setDays);
 	
 	var cityEvent = EzWebAPI.createRWGadgetVariable("cityEvent");
@@ -100,7 +100,7 @@
 				searchCity(defaultCity.get());
 			}
 		}
-		fullinfo = info.get()=="fullinfo";
+		fullinfo = info_pref.get()=="fullinfo";
 		var value ="default2";
 		if(fullinfo)
 			value ="default";
@@ -133,11 +133,13 @@
 	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
 	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
+	$('loading_2').style.visibility = 'hidden';
   }
 
   function callbackSucessID(responseData) {
   	var xml = responseData.responseXML;
 	$('loading').style.visibility = 'hidden';
+	$('loading_2').style.visibility = 'hidden';
 	$('citiesList').innerHTML='';
 	for (i = 0; i < xml.getElementsByTagName('loc').length; i++)
         {
@@ -166,6 +168,15 @@
 	var url = "http://xoap.weather.com/weather/local/"+idCity+"?cc=*&dayf="+n+"&link=xoap&prod=xoap&par=1066087041&key=386454829f52bb7f&unit="+units.get();
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
+  
+  function refresh()
+  {
+  	if($('citiesList').options[0])
+  	{
+  		$('loading_2').style.visibility = 'visible';
+		sendId($('citiesList').options[0].value);
+	}
+  }
   	
   function showHeader() {
   	$('header').show();
@@ -184,7 +195,7 @@
 		obj['loc'] = json.weather.loc;
 		obj['cc'] = json.weather.loc;
 		
-		info = {};
+		var info = {};
 		info['unit'] = json.weather.head.ut;
 		info['unitv'] = json.weather.head.us;
 		info['unitp'] = json.weather.head.up;
@@ -197,7 +208,7 @@
 			aux.push(json.weather.dayf.day);
 			json.weather.dayf.day = aux;
 		}
-			var html = "<div class='city' id='cityHeader'>"+json.weather.cc.obst+"<span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_hide' class='other' onClick='HideHeader()'></div>";
+			var html = "<div class='city' id='cityHeader'>"+json.weather.cc.obst+"<span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
 				html += "<div id='full' class='full'>";
 				
 				//html += "<div class='city'>"+json.weather.cc.obst+"</div>";
@@ -302,6 +313,7 @@
 		}
 		
 		$('loading').style.visibility = 'hidden';
+		$('loading_2').style.visibility = 'hidden';
 		$('header').hide();
 		$('_hide').hide();
 		if($('citiesList').options[0])
