@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
@@ -36,12 +36,12 @@ var feedStructure;
 var tagStructure;
 
 //Global vars
-var category = '';
-var lastShown = "";
-var selected_categories = [];
-//var operator_html;
-var current_operator;
-var translator;
+var category = '';					//Selected category used for searchs. Default:'' to list all feeds
+var lastShown = "";					//Last list item unfolded
+var feedDataChanged = false;		//Says if some feed data has changed while editing it.
+var selected_categories = [];		//Categories included in the current search
+var current_operator;				//Current operator used for the search (AND/OR)
+var translator;						//language translator
 
 //aux functions
 //check mandatory fields
@@ -67,6 +67,16 @@ function init () {
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
 	
+	//is import/export operation enabled? (only for Firefox 3)
+	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
+		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+		if(Prototype.Browser.Gecko && ffversion>=3){
+			$('imp_exp').style.display="block";
+			//translate literals
+			$('import_l').title = translator.getLabel("opml_tip");
+			$('export_l').title = translator.getLabel("opml_tip");
+		}
+	}
 
 	if (tags != '')
 		tagStructure = new Hash(eval("(" +tags+ ")"));
@@ -153,9 +163,9 @@ function paintFeedEntries(category)
 	$('match').style.display = 'inline';
 
 	var compareFeeds = function(feed1, feed2){
-		if(feedStructure[feed1]['title'] < feedStructure[feed2]['title']) return -1;
-		else if(feedStructure[feed1]['title'] == feedStructure[feed2]['title']) return 0;
-		else if(feedStructure[feed1]['title'] > feedStructure[feed2]['title']) return 1;
+		if(feedStructure[feed1]['title'].toLowerCase() < feedStructure[feed2]['title'].toLowerCase()) return -1;
+		else if(feedStructure[feed1]['title'].toLowerCase() == feedStructure[feed2]['title'].toLowerCase()) return 0;
+		else if(feedStructure[feed1]['title'].toLowerCase() > feedStructure[feed2]['title'].toLowerCase()) return 1;
 	}
 
 	if(category != ''){
@@ -241,6 +251,8 @@ function paintFeedEntries(category)
 			feeds = feedStructure.keys();
 			feeds = feeds.sort(compareFeeds);
 			for(i=0;i<feeds.length;i++){
+
+				//paint feed info on the list of feeds
 				paintFeedInfo(i, feeds[i]);
 				//add the feed to the feeds combo
 				addFeedToCombo(feeds[i]);
@@ -276,14 +288,14 @@ function paintFeedInfo (index, feed)
 
 	html += "<table class='edition'>";
 	html += "<tr><td class='labels'>URL</td><td><span class='required'>*</span></td><td class='fields'>";
-	html += "<input id='url_edit_"+index+"' type='text' value='"+url+"' size='35' name='url'/></td>";
+	html += "<input id='url_edit_"+index+"' type='text' value='"+url+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
-	html += "<input id='title_edit_"+index+"' type='text' value='"+title+"' size='35' name='title'/></td>";
+	html += "<input id='title_edit_"+index+"' type='text' value='"+title+"' size='35' name='title' onchange='feedDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
-	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes'>"+notes+"</textarea>";
+	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='feedDataChanged=true;'>"+notes+"</textarea>";
 	html += "</td></tr>";
 	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
-	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags' onchange='feedDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
 	html += "</td></tr>";
 	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
 	html += "</table>";
@@ -309,14 +321,8 @@ function setEvents(url){
 function saveFeed (id, prevUrl) {
 
      var feed = new Object();
-	 var prevTags = [];
      var url = $("url_edit_"+id).value;
 
-	 //if it existed before, store the former tags to compare with the new ones
-	 if (feedStructure[url])
-		prevTags = feedStructure[url]['tags'];
-	 
-	
      feed.title = $("title_edit_"+id).value;
 	 feed.desc = $("notes_edit_"+id).value;
 
@@ -345,6 +351,16 @@ function saveFeed (id, prevUrl) {
 	 }
 	 feed.tags = cleanedTags;
 
+	 checkAndStore(url, feed, prevUrl);
+	 
+}
+
+function checkAndStore(url, feed, prevUrl){
+
+	 var prevTags = [];
+	 //if it existed before, store the former tags to compare with the new ones
+	 if (feedStructure[url])
+		prevTags = feedStructure[url]['tags'];
 
 	 //refresh the structure of tags
 	 //remove the new URL(it may has been created before) from all the related tags
@@ -370,7 +386,7 @@ function saveFeed (id, prevUrl) {
 	}
 
 	 //add the new URL to all new tags
-	 for (i=0; i<feed.tags.length; i++){
+	 for (var i=0; i<feed.tags.length; i++){
 		if(!tagStructure[feed.tags[i]]){
 			tagStructure[feed.tags[i]] = new Array();
 
@@ -384,7 +400,6 @@ function saveFeed (id, prevUrl) {
      feedStructure[url]=feed;
      feedList.set(feedStructure.toJSON());
 
-	 
 }
 
 function addFeed(){
@@ -398,10 +413,12 @@ function addFeed(){
 
 function updateFeed(id, url){
 	if(checkFields(id)){
-		saveFeed(id , url);
-		//undo the search
-		deleteQuery();
-		paintFeedEntries('');
+		if(feedDataChanged){
+			saveFeed(id , url);
+			//undo the search
+			deleteQuery();
+			paintFeedEntries('');
+		}
 		hide(id);
 	}else{
 		$('msg_'+id).update('* check required fields');
@@ -416,6 +433,7 @@ function editFeed(id) {
 		hide(lastShown);
 		show(id);
 		lastShown = id;
+		feedDataChanged = false;
 	}else hide(id);
 }
 
@@ -498,6 +516,7 @@ function doSearch (value){
 			feed = feedStructure[feeds[i]];
 			//if the keyword is in the title, description, any tag or url show the feed
 			if(feed.title.match(eval("/"+value+"/i")) || feed.desc.match(eval("/"+value+"/i")) || feed.tags.join().match(eval("/"+value+"/i")) || feeds[i].match(eval("/"+value+"/i"))){
+
 				paintFeedInfo(i, feeds[i]);
 				addFeedToCombo(feeds[i]);
 			}
@@ -550,14 +569,91 @@ function setConfiguration(value){
 		value = "header";
 	//END WA
 	if(value == 'header'){
-		$("list").style.display = "none";
+		$("container").style.display = "none";
 		$("manage_l").style.display = "inline";
 		$("hide_l").style.display = "none";
 	}else{
-		$("list").style.display = "block";
+		$("container").style.display = "block";
 		$("manage_l").style.display = "none";
 		$("hide_l").style.display = "inline";
 	}
+}
+
+function addFeedsFromFile(opml){
+	var outline;
+	var feed;
+	var url;
+	var tags;
+	var tags_hierachy;
+	
+	var outlines = opml.getElementsByTagName('outline');
+	for (var i=0;i<outlines.length;i++){
+		feed = new Object();
+		outline=outlines[i];
+		url = outline.getAttribute('xmlUrl');
+		if(!url) continue;
+		
+		feed.title = outline.getAttribute('text');
+		feed.desc = outline.getAttribute('description');
+		if (!feed.desc)
+			feed.desc = "";
+		tags = outline.getAttribute('category');
+		feed.tags = new Array();
+		if(tags && tags !=""){
+			tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				feed.tags=feed.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (feed.tags.indexOf("") != -1){
+				feed.tags.splice(feed.tags.indexOf(""), 1);
+			}
+		}
+		checkAndStore(url, feed, '');
+	}
+	paintFeedEntries('');
+	$('import_form').style.display="none";
+}
+
+function toggleImport(){
+	if($('import_form').style.display=="none")
+		$('import_form').style.display="inline";
+	else
+		$('import_form').style.display="none";
+}
+
+function importFeeds(){
+	var fileToUpload = document.forms['import_form'].fileToUpload;
+	if (fileToUpload.files.item(0)){
+		toggleImport();
+		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
+		//parsing OPML
+		var parser = new DOMParser()
+		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
+		addFeedsFromFile(opml);
+	}
+}
+
+function exportFeeds(){
+
+	var feed;
+	
+	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
+	opml += '<opml version="2.0">';
+	opml += '<head>';
+	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+	var currentTime = new Date();
+	opml += '<dateCreated>'+currentTime+'</dateCreated>';
+	opml +=	'</head><body>';
+
+	var keys = feedStructure.keys();
+	for (var i=0;i<keys.length;i++){
+		feed = feedStructure[keys[i]];
+		opml +='<outline text="' + feed.title + '" title="' + feed.title + '" description="'+ feed.desc +'" type="rss" xmlUrl="'+ keys[i] +'" category="'+ feed.tags +'"/>';
+	}
+	opml += '</body></opml>';
+	var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Feeds', 'menubar=yes');
+ 
 }
 
 
@@ -578,12 +674,12 @@ function hideAddFeed()
 }
 
 function manageFeeds(){
-	if($("list").style.display == "none"){
-		$("list").style.display = "block";
+	if($("container").style.display == "none"){
+		$("container").style.display = "block";
 		$("manage_l").style.display = "none";
 		$("hide_l").style.display = "inline";
 	}else{
-		$("list").style.display = "none";
+		$("container").style.display = "none";
 		$("manage_l").style.display = "inline";
 		$("hide_l").style.display = "none";
 	}
@@ -611,6 +707,7 @@ function manageFeeds(){
 		background-color: #ffffff;
 		position:relative;
 		border-top:1px solid #d5d5d5;
+		width:100%;
 	}
 	.no_feeds{
 		color:#6c6c6c;
@@ -618,6 +715,27 @@ function manageFeeds(){
 	#add_link{
 		color: #3274D0;
 	}
+
+	#imp_exp{
+		color:#3274d0;
+		margin: 5px;
+	}
+
+	#imp_exp #import_link, #imp_exp #export_link {
+		display:inline;
+		font-size:90%;
+		cursor:pointer;
+
+	}
+	#import_b{
+		color:#3274d0;
+		font-size:90%;
+	}
+
+	#import_form{
+		margin-left:5px;
+	}
+
 	#list .feed{
 		border-bottom:1px solid #d5d5d5;
 		padding:5px 5px 2px;
@@ -897,8 +1015,15 @@ function manageFeeds(){
 	</table>
 	</form>
 </div>
-<div id="list" style="display:none">
+<div id="container" style="display:none">
+<div id="imp_exp" style="display:none"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div> / <div id="export_link" onclick="exportFeeds()"><span id="export_l" title="OPML file">export</span></div>
+<form id="import_form" style="display:none">
+	<input type="file" name="fileToUpload" />
+	<label id="b_import"><a id="import_b" href="javascript:importFeeds()">upload</a></label>
+</div>
+</form>
+<div id="list">
+</div>
 </div>
 </body>
 </html>
-

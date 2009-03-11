@@ -25,6 +25,10 @@
 		<label id="remove_l">remove</label>
 		<label id="no_results1">Your search</label>
 		<label id="no_results2">did not match any feeds</label>
+		<label id="import_b">upload</label>
+		<label id="import_l">import</label>
+		<label id="export_l">export</label>
+		<label id="opml_tip">fichero OPML</label>
 	</language>
 	<language name="es">
 		<label id="l_filter">Filtro:</label>
@@ -50,6 +54,10 @@
 		<label id="remove_l">borrar</label>
 		<label id="no_results1">La búsqueda</label>
 		<label id="no_results2">no concuerda con ningún feed</label>
+		<label id="import_b">subir</label>
+		<label id="import_l">importar</label>
+		<label id="export_l">exportar</label>
+		<label id="opml_tip">OPML file</label>
 	</language>
 </languages>
 
