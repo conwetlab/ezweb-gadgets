@@ -258,7 +258,7 @@ function paintFeedEntries(category)
 				addFeedToCombo(feeds[i]);
 			};
 		}else{
-				$("list").update("<span id='no_feeds' class='no_feeds'>There are no feeds. Perhaps you'd like to </span><a id='add_link' href='javascript:showAddFeed();'>add a new one</a>.");
+				$("list").update("<span id='no_feeds' class='no_feeds'>"+translator.getLabel('no_feeds')+"</span><a id='add_link' href='javascript:showAddFeed();'>"+translator.getLabel('add_link')+"</a>.");
 		}
 
 	}
