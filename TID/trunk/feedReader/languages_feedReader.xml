@@ -5,6 +5,7 @@
 		<label id="sendTip_l">send summary</label>
 		<label id="sendURL_l">send URL</label>
 		<label id="sendTitle_l">send title</label>
+		<label id="untitled">untitled</label>
 		<label id="dateFormat">MM-DD-YYYY</label>
 		<label id="Jan">Jan</label>
 		<label id="Apr">Apr</label>
@@ -15,6 +16,7 @@
 		<label id="sendTip_l">enviar resumen</label>
 		<label id="sendURL_l">enviar URL</label>
 		<label id="sendTitle_l">enviar título</label>
+		<label id="untitled">sin título</label>
 		<label id="dateFormat">DD-MM-YYYY</label>
 		<label id="Jan">Ene</label>
 		<label id="Apr">Abr</label>

@@ -168,7 +168,9 @@
 		else
 		{
 			this.domain = catElement.getAttribute("domain");
-			this.value = catElement.childNodes[0].nodeValue;
+			if (catElement.childNodes && catElement.childNodes.length > 1)
+				this.value = catElement.childNodes[0].nodeValue;
+			else this.value = null;
 		}
 	}
 
@@ -490,7 +492,7 @@
 			}
 			summary = generateSummary(feed.items[i].description);
 			item_html += "onclick=\"javascript:openItem('item_" + i + "', " + i + ");\" />";
-			item_html += (feed.items[i].title == null) ? "" : startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + feed.items[i].title + endTag;
+			item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((feed.items[i].title == null) ? translator.getLabel('untitled'):feed.items[i].title)) + endTag;
 			item_html += startPubDate + feed.items[i].pubDate.value + endTag;
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (feed.items[i].link == null) ? startLink + feed.items[i].title + endTag : startLink + "<a href='" + feed.items[i].link +"' target='_black'>"+feed.items[i].title+"</a>" + endTag;
