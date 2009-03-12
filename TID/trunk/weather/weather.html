@@ -11,7 +11,7 @@
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/repository/weather/xml2json.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 <LINK id="style" rel="StyleSheet" href="" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
@@ -98,17 +98,19 @@
 			if(defaultCity.get()!=""){
 				$('city').value = defaultCity.get();
 				searchCity(defaultCity.get());
+			}else if(id.get()!=""){ // No default City
+				sendId(id.get());
 			}
+			
 		}
 		fullinfo = info_pref.get()=="fullinfo";
 		var value ="default2";
 		if(fullinfo)
 			value ="default";
 			
-		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/"+value+".css";
+		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+theme.get()+"/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
-		
 
 	}
 	function setCitySlot(city)
@@ -200,6 +202,7 @@
 		info['time'] = json.weather.loc.tm;
 		info['cctmp'] = json.weather.cc.tmp;
 		info['ccicon'] = "http://image.weather.com/web/common/wxicons/61/"+json.weather.cc.icon+".png";
+		
 		
 		if (json.weather.dayf.day[0]==undefined){
 			aux = [];
@@ -321,9 +324,14 @@
 		id.set(json.weather.loc.id);
 		lat.set(json.weather.loc.lat);
 		lon.set(json.weather.loc.lon);
+		var date = new Date();
+		$('update').innerHTML = '<span id="_update"></span>'+": "+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear();
 		t.translate();
 		//translate();
 		$('errors').innerHTML ="";
+		
+				
+		
 	}
 		
 	function translate()
@@ -419,7 +427,7 @@
 </div>
 <span id="errors"></span>
 <span id="infoTiempo"></span>
-
+<span id="update" style="font-size:11px;font-style:italic;margin-left:17px;"></span>
 
 </body>
 </html>
