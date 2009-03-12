@@ -133,13 +133,11 @@
 	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
 	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
-	$('loading_2').style.visibility = 'hidden';
   }
 
   function callbackSucessID(responseData) {
   	var xml = responseData.responseXML;
 	$('loading').style.visibility = 'hidden';
-	$('loading_2').style.visibility = 'hidden';
 	$('citiesList').innerHTML='';
 	for (i = 0; i < xml.getElementsByTagName('loc').length; i++)
         {

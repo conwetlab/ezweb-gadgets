@@ -26,7 +26,8 @@
 		<label id="_less">Less detail...</label>
 		<label id="_other">(Other city)</label>
 		<label id="_hide">(Hide)</label>
-		
+		<label id="_refresh">Refresh</label>
+				
 		<label id="Monday">Monday</label>
 		<label id="Tuesday">Tuesday</label>
 		<label id="Wednesday">Wednesday</label>
@@ -89,6 +90,7 @@
 		<label id="_less">Menos detalles...</label>
 		<label id="_other">(Otra ciudad)</label>
 		<label id="_hide">(Ocultar)</label>
+		<label id="_refresh">Actualizar</label>
 		
 		<label id="Monday">Lunes</label>
 		<label id="Tuesday">Martes</label>
