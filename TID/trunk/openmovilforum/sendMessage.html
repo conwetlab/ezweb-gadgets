@@ -294,6 +294,7 @@ function validate(f){
 	
 	message = sanitize(message);
 	subject = sanitize(subject);
+	to = to.replace(/\s/g,"");
 	if (source==null || source.length <= 0) {
 		alert('Source Telephone Number is empty!!!. Please, fill it in order to send a new MMS');
 	} else if (passwd==null || passwd.length <= 0) {
