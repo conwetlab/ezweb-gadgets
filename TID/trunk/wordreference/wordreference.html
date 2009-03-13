@@ -63,7 +63,7 @@ function callbackSucess(responseData) {
 	//document.sbox.B.onclick = function() { wordSearch();}; 
 	//alert(responseData.responseText);
 	
-	//Rectificar hrefs que tienen localhost
+	//Rectificar hrefs
 	parseHrefs();
 	
 }
@@ -71,11 +71,11 @@ function callbackSucess(responseData) {
 function parseHrefs()
 {
 	var ahrefs = document.getElementsByTagName("a");
-	for(i=0;i<ahrefs.length;i++)
+	/*for(i=0;i<ahrefs.length;i++)
 	{
 		ahrefs[i].href = ahrefs[i].href.gsub("localhost", "www.wordreference.com");
 		ahrefs[i].target ="_blank";
-	}
+	}*/
 	
 	for(i=0;i<ahrefs.length;i++)
 	{

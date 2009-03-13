@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>WordReference</Name>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
     <Description>Wordreference dictionary</Description>
@@ -28,7 +28,7 @@
         <Slot name="keyword" type="text" label="Word" friendcode="keyword"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://localhost/repository/wordreference/wordreference.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/wordreference/wordreference.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 	
