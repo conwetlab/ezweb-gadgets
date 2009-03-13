@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Translator</Name>
-    <Version>0.16</Version>
+    <Version>0.17</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Translator</Description>
@@ -34,7 +34,7 @@
   	<Context name="language" type="text" concept="language"/>	
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/translator/translator.html"/>
+    <XHTML href="http://localhost/repository/translator/translator.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="14"/>
 </Template>

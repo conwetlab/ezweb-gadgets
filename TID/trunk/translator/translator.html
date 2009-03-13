@@ -5,16 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
+    <link id="style" rel="StyleSheet" href="http://localhost/repository/translator/default.css" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 	<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-    
+    <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 	<script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
 	var textE = EzWebAPI.createRWGadgetVariable("outputText");
-	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
+	//var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
 	
 	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
 	
@@ -28,7 +28,7 @@
 		if(!value ||value =="")
 			value = "blue";
 		//END WA
-		var href = "http://demo.ezweb.morfeo-project.org/repository/translator/css/"+value+".css";
+		var href = "http://localhost/repository/translator/css/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		return;
@@ -83,7 +83,6 @@
     
     function load(){
     	setTheme(theme.get());
-    	$('srcLang').value = language.get();
     	//$('translation').hide();
     	googlelanguages = Object.keys(google.language.Languages).sort();
     	for(i=0;i<googlelanguages.length;i++){
@@ -103,11 +102,18 @@
 				$('destLang').appendChild(option);
 			}
 		}
+		
 		if (languages.get()!=""){
 			_languages = eval('('+languages.get()+')');
 			$('srcLang').value = _languages.from;
 			$('destLang').value = _languages.to;
+		}else
+		{
+			$('srcLang').value = t.getLabel('_value');
+			$('destLang').value = t.getLabel('_value')=="es"? "en":"es";
 		}
+		trans();
+		
     }
     function swap()
     {
@@ -116,30 +122,24 @@
 		$('destLang').value = tmp;
     }
     
-   /*	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
-	}*/
+   	function generateLang(){
+		t = new EzWebExt.Translator("http://localhost/repository/translator/languages.xml", "language" , null, load);
+	}
     
-    
+    function trans()
+    {
+    	$('translate').value = t.getLabel('_translate');
+    	
+    }
     
     </script>
-    <!--
-	 </head><body onLoad="load()">
-	 <div class="full">
 
-		<div class="text"><textarea id="original"></textarea></div>
-		<div class="languages"><span class="item">From <select id="srcLang"></select></span><span class="item">To <select id="destLang"></select></span><span onClick="swap()" class="action">Swap</span>
-		<input type="button" value="Translate" onClick="initialize()"/></div>
-		<div class="text"><textarea id="translation"></textarea></div>
-		
-	 </div>
-	 -->
-</head><body onLoad="load()">
+</head><body onLoad="generateLang()">
 	 <table class="full">
 
 		<tr><td class="text"><textarea id="original"></textarea></td></tr>
-		<tr><td class="languages"><span class="item">From <select id="srcLang"></select></span><span class="item">To <select id="destLang"></select></span><span onClick="swap()" class="action">Swap</span>
-		<input type="button" value="Translate" onClick="initialize()"/></td></tr>
+		<tr><td class="languages"><span id="_from" class="item"></span> <select id="srcLang"></select><span id="_to" class="item"></span> <select id="destLang"></select><span id="_swap" onClick="swap()" class="action">Swap</span>
+		<input id="translate" type="button" value="Translate" onClick="initialize()"/></td></tr>
 		<tr><td class="text"><textarea id="translation"></textarea></td></tr></table>
 		
 	 </div>
