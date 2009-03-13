@@ -4,8 +4,9 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.1</Version>
+    <Version>2.1.1</Version>
     <Author>lmayllon</Author>
+
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget version provides an engaging visual way to send and see messages into Twitter system</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png</ImageURI>
@@ -17,7 +18,11 @@
     <Preference name="twitter_user" type="text" description="Your username in Twitter" label="Username" default="ezweb_platform@yahoo.es"/>
     <Preference name="twitter_pass" type="password" description="Your password in Twitter" label="Password" default="ez_web_2009"/>
     <Preference name="limit_messages" type="number" description="Limit messages" label="Limit Messages" default="5"/>
- </Platform.Preferences>>
+    <Preference name="status_behavior" type="list" label="On new event, draft message is" description="On new event, draft message is" default="cleared">
+			<Option value="cleared" name="Cleared"/>
+			<Option value="kept" name="Kept"/>
+		</Preference>
+</Platform.Preferences>
   
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
@@ -25,7 +30,9 @@
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-     <Slot name="message" type="text" label="message" friendcode="message" />
+     <Slot name="input_to_message" type="text" label="Input to draft message" friendcode="message" />
+     <Slot name="auto_message" type="text" label="Automatically posted message" friendcode="message" />
+     <Event name="posted_message" type="text" label="Automatically posted message" friendcode="message" />
   </Platform.Wiring>
   
   <Platform.Link>
