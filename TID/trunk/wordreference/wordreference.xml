@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>WordReference</Name>
+    <Version>0.1</Version>
+    <Author>jaimegc</Author>
+    <Mail>jaimegc@tid.es</Mail> 
+    <Description>Wordreference dictionary</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+	<Preference name="dictionary" type="list" label="dictionary" description="Dictionary" default="enes">
+		<Option value="enes" name="English-Spanish"/>
+		<Option value="esen" name="Spanish-English"/>
+	</Preference>
+  </Platform.Preferences>
+
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+    
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+        <Slot name="keyword" type="text" label="Word" friendcode="keyword"/>
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://localhost/repository/wordreference/wordreference.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="13"/>
+	
+</Template>

@@ -1,0 +1,128 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<link rel="stylesheet" type="text/css" href="http://www.wordreference.com/2008/scripts/styleext.css">
+
+<base target="_blank" href="http://www.wordreference.com/">
+
+
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+
+  
+var word = EzWebAPI.createRGadgetVariable("keyword",setWord);
+var dict = EzWebAPI.createRGadgetVariable("dictionary",setDict);
+
+var actualWord ="";
+var actualDict ="";
+function setDict(value)
+{
+	actualDict = value;
+	/*var search = word.get();
+	if(search==""){
+		search = actualWord;
+	}*/
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	//$('frame').src=url;
+	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+	
+}
+  
+function setWord(value){
+	actualWord = value;
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+	//$('frame').src=url;
+}
+function callbackError(responseData) {
+	//alert("Request error: " + responseData.responseText);
+	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
+	$('errors').style.color = "Red";
+	$('content').innetHTML ="";
+}
+function callbackSucess(responseData) {
+	//alert("Request error: " + responseData.responseText);
+	$('errors').innerHTML = "";
+	$('content').innerHTML = responseData.responseText;
+	document.sbox.action="javascript:wordSearch()";
+	document.sbox.w.onkeydown = function() {};
+	actualDict = document.sbox.dict.value;
+	
+	//document.sbox.onsubmit = function(){return false;};
+	//document.sbox.B.type = "button";
+	//document.sbox.B.onclick = function() { wordSearch();}; 
+	//alert(responseData.responseText);
+	
+	//Rectificar hrefs que tienen localhost
+	parseHrefs();
+	
+}
+
+function parseHrefs()
+{
+	var ahrefs = document.getElementsByTagName("a");
+	for(i=0;i<ahrefs.length;i++)
+	{
+		ahrefs[i].href = ahrefs[i].href.gsub("localhost", "www.wordreference.com");
+		ahrefs[i].target ="_blank";
+	}
+	
+	for(i=0;i<ahrefs.length;i++)
+	{
+		/*ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,
+		'http://mini.wordreference.com/mini/index.aspx?dict=#{0}#{1}&w=#{2}');*/
+		//ahrefs[i].href.scan(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,alert);
+		ahrefs[i].href = ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,function(match){
+			ahrefs[i].target = '_self';
+			return 'javascript:search("http://mini.wordreference.com/mini/index.aspx?dict='+match[1]+match[2]+'&w='+match[3]+'");';
+			});
+		
+		//http://www.wordreference.com/es/translation.asp?tranword=hi-fi
+		ahrefs[i].href = ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/\w\w\/translation\.asp\?tranword\=(.*)/,function(match){
+			ahrefs[i].target = '_self';
+			return 'javascript:search("http://mini.wordreference.com/mini/index.aspx?dict='+actualDict+'&w='+match[1]+'");';
+			});	
+  	}
+}
+
+function search(url)
+{
+	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+}
+function wordSearch()
+{
+	actualWord = document.sbox.w.value;
+	actualDict = document.sbox.dict.value;
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+	//$('frame').src=url;
+}
+
+function load()
+{
+	actualDict = dict.get();
+	if(word.get()==""){
+		var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w=";
+		EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+		//$('frame').src=url;
+	}
+}  
+</script>
+</head>
+<body onload="load()">
+<div id="errors"></div>
+<div id="content"></div>
+
+<!-- <iframe id="frame" width="100%" height="97%" style="border:0px;" src="http://mini.wordreference.com/mini/index.aspx?dict=enes&w=start&u=1" name="WRmini"></iframe> -->
+</body>
+</html>
