@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Translator</Name>
-    <Version>0.17</Version>
+    <Version>0.18</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Translator</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/translator/translator.jpg</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
