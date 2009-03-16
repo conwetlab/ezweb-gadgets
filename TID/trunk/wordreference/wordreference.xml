@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>WordReference</Name>
-    <Version>0.2</Version>
+    <Version>0.3</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
     <Description>Wordreference dictionary</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/wordreference/wordreference.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
