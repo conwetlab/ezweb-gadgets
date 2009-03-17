@@ -1,0 +1,17 @@
+#####################################################################################
+################### Instrucciones de instalacion del servicio imdb ##################
+#####################################################################################
+
+1. Bajar el código del svn
+svn co https://svn.forge.morfeo-project.org/svn/ezwebplatform/gadgets/imdb $HOME/imdb
+
+2. Instalar la libreria imdb
+cd $HOME/imdb/services
+cp -rf imdb /usr/lib/python2.5/site-packages/
+
+3. Instalar la libreria python-simplejson
+apt-get install python-simplejson
+
+4. Arrancar el proceso
+$HOME/imdb/services/run.sh
+
