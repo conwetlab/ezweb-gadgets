@@ -1,0 +1,245 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script type="text/javascript" language="javascript" src="/gadget_repository/radioStation/lib/swfobject/swfobject.js"></script>
+
+<title>Radio Station</title>
+<script language="javascript">
+
+//EzWeb vars
+//Preferences
+var artistPref = EzWebAPI.createRGadgetVariable("artistPref", searchArtist);
+var skinPref = EzWebAPI.createRGadgetVariable("skinPref", setSkin);
+var heightInPixels = EzWebAPI.createRGadgetVariable("heightInPixels", setHeight);
+
+//wiring
+//slot
+var artist = EzWebAPI.createRWGadgetVariable("artist", searchArtist);
+//event
+var artistEvent = EzWebAPI.createRWGadgetVariable("artistEvent");
+var albumTitle = EzWebAPI.createRWGadgetVariable("albumTitle");
+var albumImage = EzWebAPI.createRWGadgetVariable("albumImage");
+
+//Global vars
+var artist_pattern = "http://jogli.com/util/widget/create.php?artist={{artist_name}}&type=artist";
+var youtube_pattern = "http://gdata.youtube.com/feeds/api/videos?category=Music&v=2&q={{artist_name}}";
+var artist_name = null;
+
+//aux functions
+
+
+
+function generateLang(){
+	translator = new EzWebExt.Translator("http://abgp-equipo.hi.inet/gadget_repository/radioStation/languages.xml", "language", "languagePref", init);
+}
+
+function init () {
+
+	//setBackColor(colorPref.get());
+
+	var artistSelected = artist.get();
+	if(!artistSelected || artistSelected == ""){
+		artistSelected = artistPref.get();
+		searchArtist(artistSelected)
+	}//if the slot isn't empy, wait for initial wiring propagation
+
+}
+
+
+function searchArtist(value){
+
+	if (value && value != ""){
+		artist_name = value.replace(/\s/g, "+");
+		var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+		var url = artist_pattern.replace("{{artist_name}}", artist_name);
+		EzWebAPI.send_get (url, this, processResponse, failedResponse, header);
+	}
+
+}
+
+
+function processResponse (response){
+
+	//get XML document
+	var xml = response.responseXML;
+	if(!xml){
+		//get it from responseText
+		// Mozilla and Netscape browsers
+		if (document.implementation.createDocument) {
+			var parser = new DOMParser()
+			xml = parser.parseFromString(response.responseText, "application/xhtml+xml")
+		// MSIE
+		} else if (window.ActiveXObject) {
+			xml = new ActiveXObject("Microsoft.XMLDOM")
+			xml.async="false"
+			xml.loadXML(response.responseText)
+		}
+	}
+	processArtist(xml);
+}
+
+function processArtist(xml){
+
+	try{
+		if(xml.getElementsByTagName("asx")[0].getElementsByTagName("entry").length > 0){
+			paintPlayer(artist_pattern.replace("{{artist_name}}", artist_name));
+			var albums = xml.getElementsByTagName("more")[0];
+			paintAlbums(albums);
+		}else{
+			searchInYoutube();
+		}
+	}catch (e){
+		searchInYoutube();
+		
+	}
+}
+
+function paintPlayer(url){
+
+	var flashvars = {
+	file:encodeURIComponent(url),
+	quality: "true",
+	volume: "70"
+	}
+	if(skinPref.get() != ""){
+		flashvars.skin = skinPref.get() + ".swf";
+	}
+
+	var params =
+	{
+	allowfullscreen:"true",
+	wmode:"transparent",
+	allowscriptaccess:"always"
+	}
+
+	var attributes ={
+	id: "player",
+	name: "player"
+	}
+
+	swfobject.embedSWF("http://jogli.com/flash/widget/player.swf", "player", "100%", "100%", "9", false, flashvars, params, attributes);
+
+}
+
+function paintAlbums(albums){
+}
+
+function failedResponse(response){
+	searchInYoutube();
+}
+
+function searchInYoutube(){
+	var url = youtube_pattern.replace("{{artist_name}}", artist_name);
+	paintPlayer(url);
+}
+
+function searchIfEnter(e){
+	var keynum;
+	if(window.event){ // IE
+		keynum = e.keyCode;
+	}else if(e.which){ // Netscape/Firefox/Opera
+		keynum = e.which;
+	}
+	if (keynum == 13){ // enter
+		e.target.blur();
+		searchArtist(e.target.value);
+	}
+}
+
+function clickSearch (){
+	searchArtist($('i_search').value);
+}
+
+
+function toggleVideo(){
+	if(document.getElementById('full').style.display=='inline'){
+		document.getElementById('playerContainer').style.height = (heightInPixels.get()-30)+"px";
+		document.getElementById('full').style.display='none';
+		document.getElementById('mini').style.display='inline';
+	}else{
+		document.getElementById('playerContainer').style.height = 55 + "px";
+		document.getElementById('full').style.display='inline';
+		document.getElementById('mini').style.display='none';
+	
+	}
+}
+
+function setSkin(value){
+	
+	searchArtist(artist_name);
+}
+
+function setHeight(value){
+	if(document.getElementById('mini').style.display=='inline')
+		document.getElementById('playerContainer').style.height = (heightInPixels.get()-30)+"px";
+}
+
+
+</script>
+
+<style type="text/css">
+	body {	
+		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+		font-size:12px;
+		margin:3px;
+	}
+		
+	a {
+		text-decoration:none;
+		color: #2E8EE4;
+	}
+		
+	a:hover {
+		text-decoration:none;
+	}
+
+	#header{
+		color:#2E8EE4;
+		font-size: 80%;
+		postion:relative;
+		float:left;
+		width:100%;
+	}
+	#l_search{
+		position:relative;
+		float:left;
+	}
+
+	#i_search{
+		position:relative;
+		float:left;
+	}
+
+	#full, #mini{
+		display:inline;
+		position:relative;
+		float:right;
+	}
+
+	#content{
+		position:relative;
+		clear:both;
+	}
+	#playerContainer{
+		height:55px;
+	}
+                
+</style>
+</head>
+<body onload="generateLang();">
+<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' width="100%" name="i_search" onkeypress="searchIfEnter(event)"/><div id="full" onclick="toggleVideo();" style="display:inline"><img src="" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="" alt="mini"/></div></div>
+<div id="content">
+<div id="playerContainer">
+<div id="player"></div>
+</div>
+<div id="albums" style="display:none"></div>
+</div>
+</body>
+</html>

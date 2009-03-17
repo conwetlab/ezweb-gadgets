@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>RadioStation</Name>
+	  <Version>0.1</Version>
+	  <Author>jjmr</Author>
+	  <Mail>jjmr@tid.es</Mail>
+	  <Description>Escucha tu música favorita</Description>
+	  <ImageURI>http://abgp-equipo.hi.inet/gadget_repository/radioStation/radioStation.png</ImageURI>
+	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="artistPref" type="text" description="artist who is played on loading" label="select artist"  default="madonna"/>
+		<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
+			<Option value="default" name="Default"/>
+			<Option value="en" name="English"/>
+			<Option value="es" name="Español"/>
+		</Preference>
+		<Preference name="skinPref" type="list" description="skin of the control bar and playlist" label="skin" default="">
+			<Option value="02" name="gray"/>
+			<Option value="06" name="green"/>
+			<Option value="07" name="cyan"/>
+			<Option value="08" name="red"/>
+		</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Slot name="artist" type="text" label="artist" friendcode="artist"/>
+	  <Slot name="artistEvent" type="text" label="artistEvent" friendcode="artist"/>
+	  <Event name="albumTitle" type="text" label="title of the album" friendcode="albumTitle"/>
+	  <Event name="albumImage" type="text" label="cover of the album" friendcode="albumImage"/>
+	</Platform.Wiring>
+	<Platform.Link>
+	  <XHTML href="http://abgp-equipo.hi.inet/gadget_repository/radioStation/radioStation.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="8" height="5"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="heightInPixels" type="text" concept="heightInPixels"/>
+	</Platform.Context>
+</Template>

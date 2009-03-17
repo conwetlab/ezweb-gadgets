@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="search_l">search</label>
+
+	</language>
+	<language name="es">
+		<label id="search_l">buscar</label>
+
+	</language>
+</languages>
+
