@@ -4,16 +4,16 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>ImdbMovie</Name>
-    <Version>0.6</Version>
+    <Version>0.7</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Este gadget permite obtener informacion de una pelicula</Description>
     <ImageURI>http://i.media-imdb.com/images/nb15/logo2.gif</ImageURI>
-    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Notepad</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_buscador_en_IMDB</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-	  <Preference name="url" type="text" description="descripcion" label="url" default="http://localhost:8002/"/>
+	  <Preference name="url" type="text" description="descripcion" label="url" default="http://demo.ezweb.morfeo-project.org/imdb/"/>
   </Platform.Preferences>
 
   <!-- EzWeb Gadget Persistent State -->
@@ -30,7 +30,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://localhost/repository/imdb/gadgets/movie/movie.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/imdb/gadgets/movie/movie.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>

@@ -12,7 +12,7 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-<LINK rel="StyleSheet" href="http://localhost/repository/imdb/gadgets/people/style.css" type="text/css" />
+<LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/imdb/gadgets/people/style.css" type="text/css" />
 
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -29,7 +29,7 @@
 	var urlService = EzWebAPI.createRGadgetVariable("url", setUrlService);
 	
 	
-	//var prefix = "http://localhost:8002/"
+	//var prefix = "http://demo.ezweb.morfeo-project.org/imdb/"
 	var prefix=urlService.get();
 	function setUrlService(value)
 	{
@@ -55,7 +55,7 @@
   }
   
   function infoPerson(id){
-	var url = "http://localhost:8002/person/"+id;
+	var url = "http://demo.ezweb.morfeo-project.org/imdb/person/"+id;
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
   

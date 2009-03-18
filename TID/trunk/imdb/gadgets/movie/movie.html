@@ -12,7 +12,7 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-<LINK rel="StyleSheet" href="http://localhost/repository/imdb/gadgets/movie/style.css" type="text/css" />
+<LINK rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/imdb/gadgets/movie/style.css" type="text/css" />
 
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -36,7 +36,7 @@
   {
 		//***** Peticion a esa persona y sacar todas las peliculas
 		//***** mostrarlas en la lista de peliculas
-		//var url = "http://localhost:8002/person/"+value;
+		//var url = "http://demo.ezweb.morfeo-project.org/imdb/person/"+value;
 		if(value!=""){
 			var url = prefix+"person/"+value;
 			EzWebAPI.send_get(url, this, callbackSucessIdPerson, callbackError);
@@ -75,7 +75,7 @@
   function searchMovies()
   {
 	var search = $('movie_input').value;
-	//var url = "http://localhost:8002/movie?text='"+encodeURIComponent(search)+"'";
+	//var url = "http://demo.ezweb.morfeo-project.org/imdb/movie?text='"+encodeURIComponent(search)+"'";
 	var url = prefix+"movie?text='"+encodeURIComponent(search)+"'";
 	EzWebAPI.send_get(url, this, callbackSucessSearch, callbackError);
 
@@ -85,7 +85,7 @@
   
   function infoMovie(id)
   {
-	//var url = "http://localhost:8002/movie/"+id;
+	//var url = "http://demo.ezweb.morfeo-project.org/imdb/movie/"+id;
 	var url = prefix+"movie/"+id;
 	EzWebAPI.send_get(url, this, callbackSucessInfo, callbackError);
   }
