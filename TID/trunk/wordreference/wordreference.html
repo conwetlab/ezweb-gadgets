@@ -32,7 +32,7 @@ function setDict(value)
 	if(search==""){
 		search = actualWord;
 	}*/
-	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	//$('frame').src=url;
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	
@@ -40,7 +40,7 @@ function setDict(value)
   
 function setWord(value){
 	actualWord = value;
-	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	//$('frame').src=url;
 }
@@ -54,6 +54,7 @@ function callbackSucess(responseData) {
 	//alert("Request error: " + responseData.responseText);
 	$('errors').innerHTML = "";
 	$('content').innerHTML = responseData.responseText;
+	document.body.scrollTop=0;
 	document.sbox.action="javascript:wordSearch()";
 	document.sbox.w.onkeydown = function() {};
 	actualDict = document.sbox.dict.value;
@@ -65,6 +66,7 @@ function callbackSucess(responseData) {
 	
 	//Rectificar hrefs
 	parseHrefs();
+	
 	
 }
 
@@ -97,7 +99,7 @@ function parseHrefs()
 
 function search(url)
 {
-	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+	EzWebAPI.send_get(encodeURI(url), this, callbackSucess, callbackError);
 }
 function wordSearch()
 {
