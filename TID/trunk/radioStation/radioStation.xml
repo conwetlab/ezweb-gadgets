@@ -19,12 +19,7 @@
 			<Option value="en" name="English"/>
 			<Option value="es" name="Español"/>
 		</Preference>
-		<Preference name="skinPref" type="list" description="skin of the control bar and playlist" label="skin" default="">
-			<Option value="02" name="gray"/>
-			<Option value="06" name="green"/>
-			<Option value="07" name="cyan"/>
-			<Option value="08" name="red"/>
-		</Preference>
+		<Preference name="colorPref" type="text" description="color of the controls" label="controls color (hex)" default="" />
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
 	<Platform.StateProperties>
@@ -37,7 +32,7 @@
 	  <Event name="albumImage" type="text" label="cover of the album" friendcode="albumImage"/>
 	</Platform.Wiring>
 	<Platform.Link>
-	  <XHTML href="http://abgp-equipo.hi.inet/gadget_repository/radioStation/radioStation.html"/>
+	  <XHTML href="http://jjmr-desktop.hi.inet/repository/radioStation/radioStation.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="8" height="5"/>
 	<Platform.Context>

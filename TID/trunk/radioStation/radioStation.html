@@ -8,7 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-<script type="text/javascript" language="javascript" src="/gadget_repository/radioStation/lib/swfobject/swfobject.js"></script>
+<script type="text/javascript" language="javascript" src="/repository/radioStation/lib/swfobject/swfobject.js"></script>
+<script type="text/javascript" language="javascript" src="/repository/radioStation/lib/checkplayer/checkplayer.js"></script>
 
 <title>Radio Station</title>
 <script language="javascript">
@@ -16,7 +17,7 @@
 //EzWeb vars
 //Preferences
 var artistPref = EzWebAPI.createRGadgetVariable("artistPref", searchArtist);
-var skinPref = EzWebAPI.createRGadgetVariable("skinPref", setSkin);
+var colorPref = EzWebAPI.createRGadgetVariable("colorPref", setColor);
 var heightInPixels = EzWebAPI.createRGadgetVariable("heightInPixels", setHeight);
 
 //wiring
@@ -33,6 +34,7 @@ var youtube_pattern = "http://gdata.youtube.com/feeds/api/videos?category=Music&
 var artist_name = null;
 var albums_divWidth;
 
+var check = new flensed.checkplayer("9.0.0")
 //constant
 var _IMAGEWIDTH = 55;
 
@@ -48,7 +50,7 @@ Function.prototype.bind = function(obj) {
 
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://abgp-equipo.hi.inet/gadget_repository/radioStation/languages.xml", "language", "languagePref", init);
+	translator = new EzWebExt.Translator("http://jjmr-desktop.hi.inet/repository/radioStation/languages.xml", "language", "languagePref", init);
 }
 
 function init () {
@@ -112,20 +114,22 @@ function processArtist(xml){
 	}
 }
 
-function paintPlayer(url){
+function paintPlayer(url, playerURL){
 
 	var flashvars = {
 	file:encodeURIComponent(url),
 	quality: "true",
-	volume: "70"
+	volume: "70",
+	repeat:'list',
+	playlist:'right',
 	}
-	if(skinPref.get() != ""){
-		flashvars.skin = skinPref.get() + ".swf";
+	if(colorPref.get()){
+		flashvars.frontcolor = colorPref.get();
 	}
 
 	var params =
 	{
-	allowfullscreen:"true",
+	allowfullscreen:"false",
 	wmode:"transparent",
 	allowscriptaccess:"always"
 	}
@@ -134,9 +138,28 @@ function paintPlayer(url){
 	id: "player",
 	name: "player"
 	}
+	
+	if (!playerURL){ //jogli player
+		document.getElementById("bar").style.display="none";
+		check.DoSWF("http://jogli.com/flash/widget/player.swf", "player", "100%", "100%", flashvars, params, attributes);
+	}
+	else{ //youtube payer
+		document.getElementById("bar").style.display="block";
+		document.getElementById("bar").innerHTML = artist_name;
+		var swfoptions = { swfCB:checkSWFStatus};
+		check.DoSWF(playerURL, "player", "100%", "100%", flashvars, params, attributes, swfoptions);
+	}
+}
+function checkSWFStatus(loadStatus) {
+	if (loadStatus.status == flensed.checkplayer.SWF_LOADED) {
+		document.getElementById("player").addControllerListener("ITEM", "paintBar");
+		document.getElementById("player").style.height="20px";
+	}
+}
 
-	swfobject.embedSWF("http://jogli.com/flash/widget/player.swf", "player", "100%", "100%", "9", false, flashvars, params, attributes);
-
+function paintBar(item){
+	var player = document.getElementById("player");
+	document.getElementById("bar").innerHTML = player.getPlaylist()[item.index].title;
 }
 
 function paintAlbums(albums){
@@ -214,7 +237,7 @@ function failedResponse(response){
 
 function searchInYoutube(){
 	var url = youtube_pattern.replace("{{artist_name}}", artist_name);
-	paintPlayer(url);
+	paintPlayer(url,"http://jjmr-desktop.hi.inet/repository/radioStation/mediaplayer/player.swf");
 }
 
 function searchIfEnter(e){
@@ -238,18 +261,19 @@ function clickSearch (){
 function toggleVideo(){
 	if(document.getElementById('full').style.display=='inline'){
 		var header_height = document.getElementById('header').clientHeight;
-		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";
+		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";		document.getElementById("player").style.height="100%";
 		document.getElementById('full').style.display='none';
 		document.getElementById('mini').style.display='inline';
 	}else{
 		document.getElementById('playerContainer').style.height = 55 + "px";
+		document.getElementById("player").style.height="20px";
 		document.getElementById('full').style.display='inline';
 		document.getElementById('mini').style.display='none';
 	
 	}
 }
 
-function setSkin(value){
+function setColor(value){
 	
 	searchArtist(artist_name);
 }
@@ -353,7 +377,15 @@ function setHeight(value){
 
 	#playerContainer{
 		height:55px;
+		background: #EEEEEE;
 		z-index: 1;
+	}
+
+	#bar{
+		display: none;
+		height: 35px;
+		padding: 5px 0  0 10px;
+		font-weight: bold;
 	}
                 
 </style>
@@ -363,6 +395,7 @@ function setHeight(value){
 <div id="content">
 <div id="playerContainer">
 <div id="player"></div>
+<div id="bar"></div>
 </div>
 <div id="albums_cont" style="display:none"><div id="albums"></div></div>
 </div>
