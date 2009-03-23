@@ -31,9 +31,20 @@ var albumImage = EzWebAPI.createRWGadgetVariable("albumImage");
 var artist_pattern = "http://jogli.com/util/widget/create.php?artist={{artist_name}}&type=artist";
 var youtube_pattern = "http://gdata.youtube.com/feeds/api/videos?category=Music&v=2&q={{artist_name}}";
 var artist_name = null;
+var albums_divWidth;
+
+//constant
+var _IMAGEWIDTH = 55;
 
 //aux functions
-
+Function.prototype.bind = function(obj) {
+  var method = this,
+   temp = function() {
+    return method.apply(obj, arguments);
+   };
+ 
+  return temp;
+ } 
 
 
 function generateLang(){
@@ -91,7 +102,7 @@ function processArtist(xml){
 		if(xml.getElementsByTagName("asx")[0].getElementsByTagName("entry").length > 0){
 			paintPlayer(artist_pattern.replace("{{artist_name}}", artist_name));
 			var albums = xml.getElementsByTagName("more")[0];
-			paintAlbums(albums);
+			paintAlbums(albums.getElementsByTagName("entry"));
 		}else{
 			searchInYoutube();
 		}
@@ -129,6 +140,72 @@ function paintPlayer(url){
 }
 
 function paintAlbums(albums){
+	var l_albums = document.getElementById('l_albums');
+	var albums_div = document.getElementById('albums');
+
+	albums_div.innerHTML = "";
+	albums_divWidth = 0;
+
+	if(albums.length >0){
+		l_albums.style.display= 'inline';
+
+		var width = 2;											//initial div width width (2px: first image margin);
+		var albumElement = null;
+		var albumHref;
+		var albumName;
+		var params;
+		var albumImg;
+		var context = {};
+
+		for (var i=0;i<albums.length;i++){
+			albumHref = albums[i].getElementsByTagName('xml')[0].getAttribute('href');
+			albumName = decodeURIComponent(albums[i].getElementsByTagName('title')[0].childNodes[0].nodeValue);
+
+			params = albums[i].getElementsByTagName('param');
+			for(var j=0;j<params.length;j++){
+				if(params[j].getAttribute('name') == 'image'){
+					albumImg = params[j].getAttribute('value');
+					break;
+				}
+			}
+
+			albumElement = document.createElement('div');
+			albumElement.id = 'album_'+i;
+			albumElement.className = 'album';
+//			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/><label class="info">' +albumName+ '</label>';
+			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/>';
+			context = {'href':albumHref, 'title':albumName, 'img':albumImg}
+			albumElement.onclick = function(){									
+											toggleAlbums();
+											paintPlayer(this.href);
+											artistEvent.set(artist_name);
+											albumTitle.set(this.title);
+											albumImage.set(this.img);
+										}.bind(context);
+
+								
+			albums_div.appendChild(albumElement);
+			//calculate current albums_div width in order to make it horizontally scrollable
+			width += _IMAGEWIDTH + 4;	//width of the album element + margin
+		}
+		albums_divWidth = width + "px";
+	}else{
+		l_albums.style.display= 'none';
+	}
+}
+
+function toggleAlbums(){
+	var div_albums = document.getElementById('albums_cont');
+	var div_player = document.getElementById('player');
+	if(div_albums.style.display == 'none'){
+		div_player.style.visibility = 'hidden';
+		div_albums.style.display = 'block';
+		document.getElementById('albums').style.width = albums_divWidth;
+	}else{
+		div_albums.style.display = 'none';
+		document.getElementById('albums').style.width = 0;
+		div_player.style.visibility = 'visible';
+	}
 }
 
 function failedResponse(response){
@@ -154,13 +231,14 @@ function searchIfEnter(e){
 }
 
 function clickSearch (){
-	searchArtist($('i_search').value);
+	searchArtist(document.getElementById('i_search').value);
 }
 
 
 function toggleVideo(){
 	if(document.getElementById('full').style.display=='inline'){
-		document.getElementById('playerContainer').style.height = (heightInPixels.get()-30)+"px";
+		var header_height = document.getElementById('header').clientHeight;
+		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";
 		document.getElementById('full').style.display='none';
 		document.getElementById('mini').style.display='inline';
 	}else{
@@ -177,8 +255,10 @@ function setSkin(value){
 }
 
 function setHeight(value){
-	if(document.getElementById('mini').style.display=='inline')
-		document.getElementById('playerContainer').style.height = (heightInPixels.get()-30)+"px";
+	if(document.getElementById('mini').style.display=='inline'){
+		var header_height = document.getElementById('header').clientHeight;
+		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";
+	}
 }
 
 
@@ -206,15 +286,25 @@ function setHeight(value){
 		postion:relative;
 		float:left;
 		width:100%;
+		height:23px;
 	}
 	#l_search{
 		position:relative;
 		float:left;
+		padding:6px 2px 0 3px;
 	}
 
 	#i_search{
 		position:relative;
 		float:left;
+		top: 2px;
+		font-size: 100%;
+	}
+	#l_albums{
+		position:relative;
+		float:left;
+		padding:6px 0 0 2px;
+	
 	}
 
 	#full, #mini{
@@ -227,19 +317,54 @@ function setHeight(value){
 		position:relative;
 		clear:both;
 	}
+
+	#albums_cont{
+		width:100%;
+		overflow:auto;
+		position:absolute;
+		top: 0;
+		z-index: 3;
+
+	}
+
+	#albums{
+		height:55px;
+	}
+
+	.album{
+		position:relative;
+		display:inline;
+		float:left;
+		cursor:pointer;
+		margin: 0 2px;
+		width: 55px;
+	}
+	.album img{
+		height:55px;
+		width: 55px;
+	}
+	.info{
+		float:left;
+		position:relative;
+		text-align: center;
+		font-size: 90%;
+		
+	}
+
 	#playerContainer{
 		height:55px;
+		z-index: 1;
 	}
                 
 </style>
 </head>
 <body onload="generateLang();">
-<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' width="100%" name="i_search" onkeypress="searchIfEnter(event)"/><div id="full" onclick="toggleVideo();" style="display:inline"><img src="" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="" alt="mini"/></div></div>
+<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' width="100%" name="i_search" onkeypress="searchIfEnter(event)"/><label id="l_albums" style="display:none"><a id="albums_l" href="javascript:toggleAlbums()">albums</a></label> <div id="full" onclick="toggleVideo();" style="display:inline"><img src="http://abgp-equipo.hi.inet/gadget_repository/radioStation/img/full.png" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="http://abgp-equipo.hi.inet/gadget_repository/radioStation/img/mini.png" alt="mini"/></div></div>
 <div id="content">
 <div id="playerContainer">
 <div id="player"></div>
 </div>
-<div id="albums" style="display:none"></div>
+<div id="albums_cont" style="display:none"><div id="albums"></div></div>
 </div>
 </body>
 </html>
