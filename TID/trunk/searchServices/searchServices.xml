@@ -38,7 +38,7 @@
 	<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://localhost/repository/searchServices/searchServices.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/searchServices/searchServices.html"/>
   </Platform.Link>
   <Platform.Rendering width="11" height="19"/>
 </Template>
