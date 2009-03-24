@@ -1,0 +1,459 @@
+<!-- 
+ This code is licensed under terms shown on this link:
+ http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<!-- EZWEB JAVASCRIPT LIBRARY  -->
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+
+<link id="style" rel="StyleSheet" href="http://localhost/repository/searchServices/default.css" type="text/css" />
+
+<!-- CREATION OF EZWEB VARIABLE -->
+<script language='JavaScript'>
+  var xml;
+  var geocoder=null;
+  //preferences
+  
+  var count = EzWebAPI.createRGadgetVariable("count", setCount);
+  
+  //slots
+  var search = EzWebAPI.createRGadgetVariable("search", setSearch);
+  var locality = EzWebAPI.createRGadgetVariable("locality", setLocality); //address
+  var latLngCoord = EzWebAPI.createRGadgetVariable("latLngCoord", setLatLngCoord); // separated by space
+  var radius = EzWebAPI.createRGadgetVariable("radius", setRadius);
+  
+  //events
+  var position = EzWebAPI.createRWGadgetVariable("position");
+  var address = EzWebAPI.createRWGadgetVariable("address");
+  var serviceName = EzWebAPI.createRWGadgetVariable("serviceName");
+  var telephone = EzWebAPI.createRWGadgetVariable("telephone");
+  var url = EzWebAPI.createRWGadgetVariable("url");
+  
+  function setCount(value){
+  	searchServices()
+  }
+  
+  function setLatLngCoord(value){
+  	//$('q').value ="";
+  	//$('l').value ="";
+  	//if(value!="")
+  	//	searchServices();
+  }
+  
+  function setRadius(value){
+  	$('r').value = value;
+  }
+  
+  function getLatLngParam(){
+  	if(latLngCoord && latLngCoord.get()!=""){
+	  	var pos = latLngCoord.get().split(" ");
+	  	if(pos.length!=2)
+	  		return "";
+	  	
+	  	var lat = pos[0];
+	  	var lon = pos[1];
+	  	var rad = 2; //default
+	  	if (radius && radius.get()!="")
+	  		rad = radius.get();
+	  	return "&lat="+lat+"&lon="+lon+"&radius="+rad;		
+  	}else{
+  		return "";
+  	}
+  }
+  
+  function getCount(){
+  	var value = count.get();
+  	if(isNaN(value) || (value>200) || (value <1))
+  		return 10;
+  	else
+  		return value;	
+  	  
+  }
+  
+  function setSearch(value){
+  	$('q').value = value;
+  	//if(locality){
+  	//	$('l').value = locality.get();
+  	//}
+  }
+  
+  function setLocality(value){
+    $('l').value = value;
+  	//if(search)
+  	//	$('q').value = search.get();
+  }
+  
+  function searchByAddress()
+  {
+  	$('loading').show();
+	 var l = encodeURIComponent($('l').value);
+	 if(l!=""){
+	  	 var url = "http://local.yahooapis.com/MapsService/V1/geocode?appid=.JAgSYbV34HTBqzwynS.TijEhQXjOsQJXUyLLW42yBR57gDLqp3zospKI5_nS38-&location="+l;
+	  	 EzWebAPI.send_get(url, this, okLatLngHandler, errorHandler);
+  	 }else
+  	 {
+ 	  	var q = encodeURIComponent($('q').value);
+ 	  	if(q!=""){
+		  	var authSign = "33af8af8ba538a3700ebf9490e1ffec9";
+			var appToken = "404e59ce25425eea28b3d0bf118bca6b";
+			var params = "";
+			params += "q="+q;
+		  	params += "&count="+getCount();
+		  	params += "&authSign="+authSign;
+		  	params += "&appToken="+appToken;
+	
+		  	var url = "http://11870.com/api/v1/search?"+params;
+			EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+		}
+  	 }
+  }
+  
+  function okLatLngHandler(responseData)
+  {
+  
+  	var latlngXML = responseData.responseXML;
+  	var latX = latlngXML.getElementsByTagName('Latitude')[0];
+  	var lngX = latlngXML.getElementsByTagName('Longitude')[0];
+  	var lat ="";
+  	var lng ="";
+  	var params ="";
+  	if(latX.length==0){
+  		$('results').innerHTML = t.getLabel('_noResults');
+  		$('loading').hide();
+	 	$('service').hide();
+  		$('results').show();
+  		return; // No se encuentra la direccion
+  	}
+  	else{
+  		lat = latX.firstChild.nodeValue;
+  		lng = lngX.firstChild.nodeValue;
+  	}
+  	//alert(lat+":"+lng);
+  	
+  	var q = encodeURIComponent($('q').value);
+  	var r = $('r').value;
+  	if(r!="" && (isNaN(r) || (r<0))){
+	  		alert(t.getLabel("_errorRadius"));
+	  		//alert("Introduzca un radio valido");
+	  		return;
+  	}else if (r==""){
+  		r = "20"; //default 20
+  	}
+  	var authSign = "33af8af8ba538a3700ebf9490e1ffec9";
+	var appToken = "404e59ce25425eea28b3d0bf118bca6b";
+	
+	params += "q="+q;
+  	params += "&count="+getCount();
+  	params += "&authSign="+authSign;
+  	params += "&appToken="+appToken;
+	params += "&lat="+lat+"&lon="+lng+"&radius="+r;
+	
+  	var url = "http://11870.com/api/v1/search?"+params;
+	EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+  	
+  }
+  
+  
+  function load(){
+  	$('loading').hide();
+  }
+  
+  function buttonSearch()
+  {
+  	getLatLng();
+  }
+  
+  /*function latLngSearch(pos)
+  {
+    	$('loading').show();
+		var params ="";
+	  	var q = encodeURIComponent($('q').value);
+	  	var l = encodeURIComponent($('l').value);
+	  	var r = $('r').value;
+	  	var latlonrad = "";
+	  	if(r!="" && (isNaN(r) || (r<0))){
+	  		//alert(t.getLabel("_errorRadius");
+	  		alert("Introduzca un numero valido");
+	  	}
+
+	  	var authSign = "33af8af8ba538a3700ebf9490e1ffec9";
+		var appToken = "404e59ce25425eea28b3d0bf118bca6b";
+
+		  	//params += (q!="")?"q="+q:"";
+		  	params += "q="+q;
+
+		  	params += (l!="")?"&l="+l:"";
+		  	params += "&count="+getCount();
+		  	params += "&authSign="+authSign;
+		  	params += "&appToken="+appToken;
+	  		if(pos==null){
+	  			params += getLatLngParam(); // return "" si no viene por slot
+	  		}else{
+	  			params += "&lat="+pos[0]+"&lon="+pos[1]+"&radius="+r;
+	  		}
+	  		  	
+		  	var url = "http://11870.com/api/v1/search?"+params;
+			EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+		}
+		
+		$('loading').hide();
+		
+  }*/
+    
+  
+  /*function searchServices(){
+  		$('loading').show();
+		var params ="";
+	  	var q = encodeURIComponent($('q').value);
+	  	var l = encodeURIComponent($('l').value);
+	  	var latlonrad = getLatLngParam();
+	  	var authSign = "33af8af8ba538a3700ebf9490e1ffec9";
+		var appToken = "404e59ce25425eea28b3d0bf118bca6b";
+	  	if((q!="" || l!="") && latlonrad==""){
+
+		  	params += (q!="")?"q="+q:"";
+		  	params += (l!="")?"&l="+l:"";
+		  	params += "&count="+getCount();
+		  	params += "&authSign="+authSign;
+		  	params += "&appToken="+appToken;
+		  	
+		  	var url = "http://11870.com/api/v1/search?"+params;
+			EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+			
+		}else if (latlonrad!=""){
+			params += (q!="")?"q="+q:"";
+			params += "count="+getCount();
+		  	params += "&authSign="+authSign;
+		  	params += "&appToken="+appToken;
+		  	params += latlonrad;
+		  	
+		  	var url = "http://11870.com/api/v1/search?"+params;
+			EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+		}
+		else{
+			$('loading').hide();
+		}
+   }
+  */
+  function errorHandler(responseData) {
+	//alert("Request error: " + responseData.responseText);
+	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
+	$('errors').style.color = "Red";
+	$('errors').show();
+	$('results').innerHTML = "";
+	$('service').innerHTML = "";
+	$('loading').hide();
+  }
+  
+  function showPage(url){
+  	$('loading').show();
+    EzWebAPI.send_get(url, this, okSearchHandler, errorHandler);
+    
+  }
+
+  function okSearchHandler(responseData){
+  	
+  	xml=responseData.responseXML;
+  	var html ="";
+  	var entries = xml.getElementsByTagName('entry');
+
+  	var results = 0;
+  	html +="<div class='pages'>";
+  	html += "<span class='resHeader'>";
+  	if(xml.getElementsByTagName('os:totalResults').length >0){
+		results = xml.getElementsByTagName('os:totalResults')[0].firstChild.nodeValue;
+	 	html += t.getLabel("_results")+ ": "+results;
+	}else{
+		html += t.getLabel("_noResults");
+	}
+	html += "</span>";
+  	if (entries.length==0){
+  		$('results').innerHTML = html;
+  		$('loading').hide();
+	 	$('service').hide();
+  		$('results').show();
+  		return;
+ 	}
+  	var pageLinks = xml.firstChild.childNodes;
+  	var previousUrl ="";
+  	var nextUrl ="";
+  	for(i=0;i<pageLinks.length;i++)
+  	{
+  		if(pageLinks[i].tagName=="link"){
+			//previous
+	  		if(pageLinks[i].attributes[1]!=undefined && pageLinks[i].attributes[1].firstChild.nodeValue=="previous"){
+	  			previousUrl = pageLinks[i].attributes[0].firstChild.nodeValue;
+	  		}
+  			//next
+	  		if(pageLinks[i].attributes[1]!=undefined && pageLinks[i].attributes[1].firstChild.nodeValue=="next"){
+	  			nextUrl = pageLinks[i].attributes[0].firstChild.nodeValue;	
+	  		}
+  		}
+  	}
+	var count = xml.getElementsByTagName('os:itemsPerPage')[0].firstChild.nodeValue;
+	var startIndex = xml.getElementsByTagName('os:startIndex')[0].firstChild.nodeValue;;
+  	var actualPage = Math.floor(startIndex/count) + 1;
+  	
+  	
+  	if(previousUrl!="")
+  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+t.getLabel("_prev")+"</label> &laquo;</a> ";
+	html += actualPage;
+  	if(nextUrl!="")
+  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+t.getLabel("_next")+"</label></a>";
+  	html +="</div>";
+  	html += "<ul>";
+  	for(i=0;i<entries.length;i++)
+  	{
+  		var class = (i%2==0)?"even":"odd";
+  		html+= "<li class='"+class+"'>";
+  		//ID
+  		var id = entries[i].getElementsByTagName('id')[0].firstChild.nodeValue;
+  		//Titulo
+  		var title = entries[i].getElementsByTagName('title')[0].firstChild.nodeValue;
+  		html += "<div class='title'><a href='javascript:showService("+i+")'>";
+  		html += title+"</a>";
+  		if(entries[i].getElementsByTagName('oos:telephone').length>0){
+  			var telephone = entries[i].getElementsByTagName('oos:telephone')[0].firstChild.nodeValue;
+  			html += "<span class='telf'>"+telephone+"</span>";
+  		}
+  		html += "</div>";
+		
+  		//Address + locality + city
+  		var address = entries[i].getElementsByTagName('oos:useraddress')[0].firstChild.nodeValue;
+  		var locality = entries[i].getElementsByTagName('oos:locality')[0].firstChild.nodeValue;
+  		html += "<div class='address'>"+address +", "+locality+"</div>";
+  		html += "</li>";
+  	}
+  	html += "</ul>";
+ 	
+ 	html +="<div class='pages'>";
+  	if(previousUrl!="")
+  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+t.getLabel("_prev")+"</label> &laquo;</a> ";
+	html += actualPage;
+  	if(nextUrl!="")
+  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+t.getLabel("_next")+"</label></a>";
+  	html +="</div>";
+  	
+  	$('results').innerHTML = html;
+  	$('errors').hide();
+  	document.body.scrollTop=0;
+  	$('service').hide();
+  	$('results').show();
+	$('loading').hide();
+  }
+
+
+  /*function viewService(url){
+  	var feedURL = url.gsub ("http://11870.com/","http://11870.com/feeds/");
+  	EzWebAPI.send_get(feedURL, this, okServiceHandler, errorHandler);
+  }
+  
+  function okServiceHandler(responseData){
+  	alert(responseData.responseXML);
+  }*/
+  
+  function showResults()
+  {
+ 	$('service').hide();
+  	$('results').show();
+  }
+  
+  function showService(nEntry)
+  {
+  
+  		var entries = xml.getElementsByTagName('entry');
+  		var entry = entries[nEntry];
+  		var html = "<div class='return'><a href='javascript:showResults()'>"+t.getLabel("_back")+"</a></div>";
+  		
+  	  	//ID
+  		var id = entry.getElementsByTagName('id')[0].firstChild.nodeValue;
+  		//Titulo
+  		
+  		var title = entry.getElementsByTagName('title')[0].firstChild.nodeValue;
+  		serviceName.set(title);
+  		html += "<div class='title'><a target='_blank' href='"+id+"'>";
+  		html += title+"</a>";
+  		if(entry.getElementsByTagName('oos:telephone').length>0){
+  			var _telephone = entry.getElementsByTagName('oos:telephone')[0].firstChild.nodeValue;
+  			html += "<span class='telf'>"+_telephone+"</span>";
+  			telephone.set(_telephone);
+  		}
+		html += "</div>";
+  		//Address + locality + city
+  		var _address = entry.getElementsByTagName('oos:useraddress')[0].firstChild.nodeValue;
+  		var _locality = entry.getElementsByTagName('oos:locality')[0].firstChild.nodeValue;
+  		html += "<div class='address'>"+_address +", "+_locality+"</div>";
+ 		address.set(_address+","+_locality);
+  		locality.set(_locality);
+  		
+  		//Url
+  		if(entry.getElementsByTagName('oos:url').length>0){
+  			var _url = entry.getElementsByTagName('oos:url')[0].firstChild.nodeValue;
+  			html += "<div class='address'><a target='_blank' href='"+_url+"'>"+_url+"</a></div>";
+  			url.set(_url);
+  		}
+
+  		//Descripcion
+  		if(entry.getElementsByTagName('summary')[0].firstChild){
+  			var summary = entry.getElementsByTagName('summary')[0].firstChild.nodeValue;
+  			html += "<div class='desc'>\""+summary+"...\"</div>";
+  		}
+  		//Media
+  		var links = entry.getElementsByTagName('link');
+  		for(j=0;j<links.length;j++){
+  			//images
+  			if(links[j].attributes[2]!=undefined){
+	  			var type = links[j].attributes[2].firstChild.nodeValue;
+	  			if(type=="image/jpg"){
+	  				var _url = links[j].attributes[0].firstChild.nodeValue;
+	  				html += "<a target='_blank' href='"+id+"/media'><img src='"+_url+"'/></a>";
+	  			}else if(type=="application/x-flash-video"){
+	  				var _url = links[j].attributes[0].firstChild.nodeValue;
+	  				//html +=_url +" ";
+	  				//#### UNAVAILABLE  ####
+	  			}
+			}
+  		}
+  		html += "<div class='return'><a href='javascript:showResults()'>"+t.getLabel("_back")+"</a></div>";
+  		
+  		$('service').innerHTML = html;
+  		$('errors').hide();
+  		$('results').hide();
+  		$('service').show();
+
+  		if(entry.getElementsByTagName('gml:pos').length>0){
+  			position.set(entry.getElementsByTagName('gml:pos')[0].firstChild.nodeValue);
+  		}
+
+  		
+  }
+  function generateLang(){
+		t = new EzWebExt.Translator("http://localhost/repository/searchServices/languages.xml", "language" , null, load);
+  }
+  
+</script>
+
+</head>
+<body onLoad="generateLang()">
+<div class="header">
+<form action="javascript: searchByAddress()">
+	<table style="width:100%;">
+	<tr><td style="width:50px;"><label id="_search">Search</label></td><td colspan="2"><input style="width:100%;min-width:30px;" id="q" type="text" name="q"/></td><td><img id="loading" src="http://localhost/repository/searchServices/loading.gif"/></td></tr>
+	<tr><td style="width:50px;"><label id="_location">Location</label></td><td><input style="width:100%;min-width:30px;" id="l" type="text" name="l"/></td><td style="width:89px;"><label>Radio</label><input style="width:34px;" id="r" type="text" name="r"/><label>Km</label></td><td style="width:59px;"><button id="_btnSearch" type="submit">Search</button></td></tr>
+	</table>
+</form>
+</div>
+<div id="errors"></div>
+<div id="results"></div>
+<div id="service"></div>
+<div id="image"></div>
+
+</body>
+</html>

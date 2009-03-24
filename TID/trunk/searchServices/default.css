@@ -1,0 +1,140 @@
+body
+{
+	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
+}
+
+h2
+{
+}
+a{
+	text-decoration:none;
+	color: #0066CC;
+}
+a:hover
+{
+color: #ff6600;
+}
+
+ul
+{
+	list-style-type:none;
+	padding-left:8px;
+	margin-top:0;
+	margin-bottom:0;
+}
+
+.even
+{
+	background-color: aliceBlue;
+}
+
+.odd
+{
+}
+
+li
+{
+	padding-bottom:1px;
+	padding-top:1px;
+}
+
+.address
+{
+	font-size:small;
+}
+
+.telf
+{
+	margin-left: 10px;
+}
+
+.title
+{
+	font-weight:bold;
+}
+
+.pages
+{
+	text-align: center;
+	font-size: 13px;
+}
+
+a label
+{
+	cursor:pointer;
+}
+
+.resHeader
+{
+	float:left;
+	font-size:12px;
+	margin-left:9px;
+}
+
+form
+{
+	margin-bottom:2px;
+	border-bottom:1px solid gray;
+}
+
+form label
+{
+	font-size:12px;
+}
+
+input
+{
+	font-size:12px;
+}
+
+.return
+{
+	font-size: 12px;
+}
+
+#service .title
+{
+	text-align:center;
+	font-size:20px;
+}
+
+#service .address
+{
+	text-align:center;
+	font-size:15px;
+}
+
+#service
+{
+	padding-left: 10px;
+}
+
+.desc
+{
+	font-size:13px;
+	margin-top:7px;
+}
+
+img
+{
+	border:thin solid darkGray;
+	margin:4px;
+	padding:2px;
+}
+
+#loading
+{
+	border:0;
+	margin-left:16px;
+	width:21px;
+	height:21px;
+	padding:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+
+button
+{
+	background-color:aliceBlue;
+	border:thin outset gray;
+}

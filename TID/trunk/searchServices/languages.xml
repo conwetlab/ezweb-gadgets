@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="_search">Search</label>
+		<label id="_location">Location</label>	
+		<label id="_btnSearch">Search</label>
+		<label id="_prev">Prev</label>
+		<label id="_next">Next</label>
+		<label id="_results">Results</label>
+		<label id="_noResults">No Results Found</label>
+		<label id="_back">Back</label>
+		<label id="_errorRadius">Enter a valid search radius</label>
+	</language>
+	<language name="es">
+		<label id="_search">Búsqueda</label>
+		<label id="_location">Lugar</label>	
+		<label id="_btnSearch">Buscar</label>
+		<label id="_prev">Ant.</label>
+		<label id="_next">Sig.</label>
+		<label id="_results">Resultados</label>
+		<label id="_noResults">No se han encontrado resultados</label>
+		<label id="_back">Volver</label>
+		<label id="_errorRadius">Introduzca un radio de búsqueda válido</label>
+	</language>
+</languages>
