@@ -3,11 +3,17 @@
 <languages>
 	<language name="en">
 		<label id="search_l">search</label>
-
+		<label id="artist_l">Artist: </label>
+		<label id="album_l">select album</label>
+		<label id="player_l">player</label>
+		<label id="artist_s_l">artist</label>
 	</language>
 	<language name="es">
 		<label id="search_l">buscar</label>
-
+		<label id="artist_l">Artista: </label>
+		<label id="album_l">elegir album</label>
+		<label id="player_l">reproductor</label>
+		<label id="artist_s_l">artista</label>
 	</language>
 </languages>
 

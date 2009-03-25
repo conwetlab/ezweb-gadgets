@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-<script type="text/javascript" language="javascript" src="/repository/radioStation/lib/swfobject/swfobject.js"></script>
-<script type="text/javascript" language="javascript" src="/repository/radioStation/lib/checkplayer/checkplayer.js"></script>
+<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/swfobject/swfobject.js"></script>
+<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/checkplayer/checkplayer.js"></script>
 
 <title>Radio Station</title>
 <script language="javascript">
@@ -50,26 +50,54 @@ Function.prototype.bind = function(obj) {
 
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://jjmr-desktop.hi.inet/repository/radioStation/languages.xml", "language", "languagePref", init);
+	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/radioStation/languages.xml", "language", "languagePref", init);
 }
 
 function init () {
 
-	//setBackColor(colorPref.get());
-
 	var artistSelected = artist.get();
 	if(!artistSelected || artistSelected == ""){
 		artistSelected = artistPref.get();
+		var color = colorPref.get();
+		if (!color || color=="")
+			color = "23527e";
+		setLinkColor(color);
 		searchArtist(artistSelected)
 	}//if the slot isn't empy, wait for initial wiring propagation
-
+	document.getElementById("i_search").value=translator.getLabel("artist_s_l");
 }
 
+function sanitize( text ){
+	var equivalences = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ñ":"n","Ñ":"N",
+				'Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U',
+				'â':'a','ê':'e','î':'i','ô':'o','û':'u',
+				'Â':'A','Ê':'E','Î':'I','Ô':'O','Û':'U',
+				'à':'a','è':'e','ì':'i','ò':'o','ù':'u',
+				'À':'A','È':'E','Ì':'I','Ò':'O','Ù':'U',
+				'ä':'a','ë':'e','ï':'i','ö':'o','ü':'u',
+				'Ä':'A','Ë':'E','Ï':'I','Ö':'O','Ü':'U',
+				'ã':'a','õ':'o','Ã':'A','Õ':'O','€':'E',
+				'©':'c','°':'o','®':'R','£':'L','$':'S',
+				'\t':'   ', 'º':'o','ª':'a','“':'"','”':'"',
+				'…':'...'}
+
+	var plaintext = "";
+	for (var i = 0; i < text.length; i++) {
+		var ch = text.charAt(i);
+		if (equivalences[ch]) {
+			plaintext += equivalences[ch];
+		}else{
+			plaintext += ch;
+		}
+	}
+
+	return plaintext;
+}
 
 function searchArtist(value){
-
 	if (value && value != ""){
 		artist_name = value.replace(/\s/g, "+");
+		artist_name = sanitize(artist_name);
 		var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
 		var url = artist_pattern.replace("{{artist_name}}", artist_name);
 		EzWebAPI.send_get (url, this, processResponse, failedResponse, header);
@@ -101,16 +129,26 @@ function processResponse (response){
 function processArtist(xml){
 
 	try{
+				
+		// paint jogli or youtube-playlist player
 		if(xml.getElementsByTagName("asx")[0].getElementsByTagName("entry").length > 0){
 			paintPlayer(artist_pattern.replace("{{artist_name}}", artist_name));
-			var albums = xml.getElementsByTagName("more")[0];
-			paintAlbums(albums.getElementsByTagName("entry"));
+			
 		}else{
 			searchInYoutube();
 		}
 	}catch (e){
 		searchInYoutube();
 		
+	}finally{
+		//paint or clean albums
+		var more = xml.getElementsByTagName("more");
+		if (more.length>0){
+			var albums = more[0];
+			paintAlbums(albums.getElementsByTagName("entry"));
+		}else{
+			paintAlbums(null);
+		}
 	}
 }
 
@@ -123,8 +161,13 @@ function paintPlayer(url, playerURL){
 	repeat:'list',
 	playlist:'right',
 	}
-	if(colorPref.get()){
-		flashvars.frontcolor = colorPref.get();
+	var color = colorPref.get();
+	if(color && color!=""){
+		flashvars.frontcolor = color;
+	}else{
+		if (playerURL){//youtube-playlist
+			flashvars.frontcolor = "23527e";
+		}
 	}
 
 	var params =
@@ -139,21 +182,30 @@ function paintPlayer(url, playerURL){
 	name: "player"
 	}
 	
+	var bar = document.getElementById("bar");
+	var bar_cont = document.getElementById("bar_cont");
 	if (!playerURL){ //jogli player
-		document.getElementById("bar").style.display="none";
+		bar_cont.style.display="none";
 		check.DoSWF("http://jogli.com/flash/widget/player.swf", "player", "100%", "100%", flashvars, params, attributes);
+		document.getElementById("playerContainer").className="jogli";
 	}
 	else{ //youtube payer
-		document.getElementById("bar").style.display="block";
-		document.getElementById("bar").innerHTML = artist_name;
+		bar.innerHTML = translator.getLabel("artist_l")+artist_name.replace("+"," ");
 		var swfoptions = { swfCB:checkSWFStatus};
 		check.DoSWF(playerURL, "player", "100%", "100%", flashvars, params, attributes, swfoptions);
+		document.getElementById("playerContainer").className="youtube";
+		if(document.getElementById('full').style.display=='inline'){//mini mode
+			bar_cont.style.display="block";
+			document.getElementById("player").style.height="20px";
+		}
+		else{//full mode
+			bar_cont.style.display="none";
+		}
 	}
 }
 function checkSWFStatus(loadStatus) {
 	if (loadStatus.status == flensed.checkplayer.SWF_LOADED) {
 		document.getElementById("player").addControllerListener("ITEM", "paintBar");
-		document.getElementById("player").style.height="20px";
 	}
 }
 
@@ -169,7 +221,7 @@ function paintAlbums(albums){
 	albums_div.innerHTML = "";
 	albums_divWidth = 0;
 
-	if(albums.length >0){
+	if(albums && albums.length >0){
 		l_albums.style.display= 'inline';
 
 		var width = 2;											//initial div width width (2px: first image margin);
@@ -195,8 +247,8 @@ function paintAlbums(albums){
 			albumElement = document.createElement('div');
 			albumElement.id = 'album_'+i;
 			albumElement.className = 'album';
-//			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/><label class="info">' +albumName+ '</label>';
-			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/>';
+			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/><label class="info">' +albumName+ '</label>';
+			//albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/>';
 			context = {'href':albumHref, 'title':albumName, 'img':albumImg}
 			albumElement.onclick = function(){									
 											toggleAlbums();
@@ -212,37 +264,50 @@ function paintAlbums(albums){
 			width += _IMAGEWIDTH + 4;	//width of the album element + margin
 		}
 		albums_divWidth = width + "px";
+		
+		//Select how to show the albums
+		if(document.getElementById('full').style.display=='inline'){//mini mode
+			albums_div.style.width = albums_divWidth;
+			albums_div.className = "mini_albums";
+		}else{ //full mode
+			albums_div.style.width = "100%";
+			albums_div.className = "big_albums";
+		}
 	}else{
 		l_albums.style.display= 'none';
-		if(div_albums.style.display == 'block'){
+		if(document.getElementById('albums_cont').style.display == 'block'){
 			toggleAlbums();
 		}
 	}
 }
 
 function toggleAlbums(){
-	var div_albums = document.getElementById('albums_cont');
+	var div_albums_cont = document.getElementById('albums_cont');
 	var div_player = document.getElementById('player');
-	if(div_albums.style.display == 'none'){
+	var div_albums = document.getElementById('albums');
+	if(div_albums_cont.style.display == 'none'){
 		div_player.style.visibility = 'hidden';
 		div_player.parentNode.style.visibility = 'hidden';
-		div_albums.style.display = 'block';
-		document.getElementById('albums').style.width = albums_divWidth;
+		div_player.parentNode.style.width = "";
+		div_albums_cont.style.display = 'block';
+		document.getElementById('album_l').innerHTML = translator.getLabel("player_l");
 	}else{
-		div_albums.style.display = 'none';
-		document.getElementById('albums').style.width = 0;
+		div_albums_cont.style.display = 'none';
 		div_player.style.visibility = 'visible';
+		div_player.parentNode.style.width = "100%";
 		div_player.parentNode.style.visibility = 'visible';
+		document.getElementById('album_l').innerHTML = translator.getLabel("album_l");
 	}
 }
 
 function failedResponse(response){
 	searchInYoutube();
+	paintAlbums(null);
 }
 
 function searchInYoutube(){
 	var url = youtube_pattern.replace("{{artist_name}}", artist_name);
-	paintPlayer(url,"http://jjmr-desktop.hi.inet/repository/radioStation/mediaplayer/player.swf");
+	paintPlayer(url,"http://demo.ezweb.morfeo-project.org/repository/radioStation/mediaplayer/player.swf");
 }
 
 function searchIfEnter(e){
@@ -264,40 +329,71 @@ function clickSearch (){
 
 
 function toggleVideo(){
-	if(document.getElementById('full').style.display=='inline'){
+	var div_albums = document.getElementById('albums');
+	var div_albums_cont = document.getElementById('albums_cont');
+	if(document.getElementById('full').style.display=='inline'){ //mini mode
+		//Changing to full mode
+
+		//PLAYER VIEW
 		var header_height = document.getElementById('header').clientHeight;
-		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";		document.getElementById("player").style.height="100%";
+		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";
+		document.getElementById("player").style.height="100%";
+		if (document.getElementById("playerContainer").className=="youtube"){//youtube player		
+			document.getElementById('bar_cont').style.display='none';
+		}
 		document.getElementById('full').style.display='none';
 		document.getElementById('mini').style.display='inline';
-	}else{
+
+		//ALBUMS VIEW
+		div_albums.style.width = "100%";
+		div_albums.className = "big_albums";
+
+	}else{ //full mode
+		//Changing to mini mode
+
+		//PLAYER VIEW
 		document.getElementById('playerContainer').style.height = 55 + "px";
-		document.getElementById("player").style.height="20px";
+		if (document.getElementById("playerContainer").className=="youtube"){//youtube player
+			document.getElementById("player").style.height="20px";
+			document.getElementById('bar_cont').style.display='block';
+		}
 		document.getElementById('full').style.display='inline';
 		document.getElementById('mini').style.display='none';
-	
+
+		//ALBUMS VIEW
+		div_albums.style.width = albums_divWidth;
+		div_albums.className = "mini_albums";
 	}
 }
 
-function setColor(value){
-	
+function setLinkColor(color){
 	var links = document.getElementsByTagName('a');
 
 	//set the color of the GUI elements
 	for(var i=0;i<links.length;i++){
-		links[i].style.color= '#' + value;
+		links[i].style.color= '#' + color;
 	}
-	document.getElementById('header').color = '#' + value;
-	
+	document.getElementById('header').color = '#' + color;
+}
+
+function setColor(value){
+	setLinkColor(value);	
 	searchArtist(artist_name);
 }
 
 function setHeight(value){
-	if(document.getElementById('mini').style.display=='inline'){
+	if(document.getElementById('mini').style.display=='inline'){ //full mode
+		//change player height
 		var header_height = document.getElementById('header').clientHeight;
 		document.getElementById('playerContainer').style.height = (heightInPixels.get() - header_height -10)+"px";
 	}
 }
 
+function clearBox(){
+	if (document.getElementById("i_search").value==translator.getLabel("artist_s_l")){
+		document.getElementById("i_search").value="";
+	}
+}
 
 </script>
 
@@ -306,11 +402,12 @@ function setHeight(value){
 		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
 		font-size:12px;
 		margin:3px;
+		color: #23527e;
 	}
 		
 	a {
 		text-decoration:none;
-		color: #2E8EE4;
+		color: #23527e;
 	}
 		
 	a:hover {
@@ -318,7 +415,7 @@ function setHeight(value){
 	}
 
 	#header{
-		color:#2E8EE4;
+		color:#23527e;
 		font-size: 80%;
 		postion:relative;
 		float:left;
@@ -348,6 +445,7 @@ function setHeight(value){
 		display:inline;
 		position:relative;
 		float:right;
+		cursor:pointer;
 	}
 
 	#content{
@@ -356,16 +454,11 @@ function setHeight(value){
 	}
 
 	#albums_cont{
-		width:100%;
 		overflow:auto;
 		position:absolute;
 		top: 0;
 		z-index: 3;
-
-	}
-
-	#albums{
-		height:55px;
+		width: 100%;
 	}
 
 	.album{
@@ -374,41 +467,68 @@ function setHeight(value){
 		float:left;
 		cursor:pointer;
 		margin: 0 2px;
-		width: 55px;
 	}
-	.album img{
+	.mini_albums img{
 		height:55px;
 		width: 55px;
+	}
+	.big_albums img{
+		height:85px;
+		width: 85px;
+	}
+	.mini_albums .info{
+		display: none;
+	}
+	.big_albums .info{
+		display: block;
+		
+	}
+	.big_albums .album{
+		height: 120px;
+		width: 85px;
+		overflow: hidden;
 	}
 	.info{
 		float:left;
 		position:relative;
 		text-align: center;
-		font-size: 90%;
-		
+		font-size: 85%;
+		width: 85px;
+		line-height:10px;
 	}
 
 	#playerContainer{
 		height:55px;
-		background: #EEEEEE;
+		background: #ebecee;
 		z-index: 1;
 	}
 
-	#bar{
+	#bar_cont{
+		background: transparent URL(http://demo.ezweb.morfeo-project.org/repository/radioStation/img/youtube.gif) no-repeat scroll 2px 2px;
 		display: none;
-		height: 35px;
-		padding: 5px 0  0 10px;
-		font-weight: bold;
+		height: 32px;
+	}
+	#bar{
+		height: 20px;
+		padding: 5px 5px 0;
+		margin: 0 5px 0 65px;
+		color: #23527e;
+		border: 2px solid white;
+		font-size: 8pt;
+	}
+
+	.youtube{
+		border: 1px solid #aaaaaa;
 	}
                 
 </style>
 </head>
 <body onload="generateLang();">
-<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' width="100%" name="i_search" onkeypress="searchIfEnter(event)"/><label id="l_albums" style="display:none"><a id="albums_l" href="javascript:toggleAlbums()">albums</a></label> <div id="full" onclick="toggleVideo();" style="display:inline"><img src="http://abgp-equipo.hi.inet/gadget_repository/radioStation/img/full.png" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="http://abgp-equipo.hi.inet/gadget_repository/radioStation/img/mini.png" alt="mini"/></div></div>
+<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" width="100%" name="i_search" size="15" onclick="clearBox()" onkeypress="searchIfEnter(event)"/><label id="l_albums" style="display:none"><a id="album_l" href="javascript:toggleAlbums()">select album</a></label> <div id="full" onclick="toggleVideo();" style="display:inline"><img src="http://demo.ezweb.morfeo-project.org/repository/radioStation/img/full.png" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="http://demo.ezweb.morfeo-project.org/repository/radioStation/img/mini.png" alt="mini"/></div></div>
 <div id="content">
 <div id="playerContainer">
 <div id="player"></div>
-<div id="bar"></div>
+<div id="bar_cont"><div id="bar"></div></div>
 </div>
 <div id="albums_cont" style="display:none"><div id="albums"></div></div>
 </div>
