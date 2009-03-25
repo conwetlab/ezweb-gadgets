@@ -4,12 +4,12 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>RadioStation</Name>
-	  <Version>0.1</Version>
+	  <Version>0.2</Version>
 	  <Author>abgp-jjmr</Author>
 	  <Mail>jjmr@tid.es</Mail>
 	  <Description>Escucha tu música favorita. Este gadget utiliza los servicios del portal Jogli (www.jogli.com) y, alternativamente, la API de Youtube para obtener la música de los grupos que Jogli no tiene en su repertorio.</Description>
 	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/radioStation/radioStation.png</ImageURI>
-	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#</WikiURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Radio_Station_on-line</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
@@ -27,14 +27,14 @@
 	<!-- EzWeb Gadget Data Wiring -->
 	<Platform.Wiring>
 	  <Slot name="artist" type="text" label="artist" friendcode="artist"/>
-	  <Slot name="artistEvent" type="text" label="artistEvent" friendcode="artist"/>
+	  <Event name="artistEvent" type="text" label="artistEvent" friendcode="artist"/>
 	  <Event name="albumTitle" type="text" label="title of the album" friendcode="albumTitle"/>
 	  <Event name="albumImage" type="text" label="cover of the album" friendcode="albumImage"/>
 	</Platform.Wiring>
 	<Platform.Link>
 	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/radioStation/radioStation.html"/>
 	</Platform.Link>
-	<Platform.Rendering width="8" height="7"/>
+	<Platform.Rendering width="6" height="8"/>
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
 		<GadgetContext name="heightInPixels" type="text" concept="heightInPixels"/>

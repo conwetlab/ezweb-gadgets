@@ -96,7 +96,7 @@ function sanitize( text ){
 
 function searchArtist(value){
 	if (value && value != ""){
-		//artist_name = value.replace(/\s/g, "+");
+		artistEvent.set(value);
 		artist_name = sanitize(value);
 		var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
 		var url = artist_pattern.replace("{{artist_name}}", artist_name);
