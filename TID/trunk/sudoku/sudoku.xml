@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Sudoku</Name>
-	  <Version>0.1</Version>
+	  <Version>0.2</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>Sudoku game</Description>
@@ -35,7 +35,7 @@
 	<Platform.Link>
 	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/sudoku/sudoku.html"/>
 	</Platform.Link>
-	<Platform.Rendering width="15" height="10"/>
+	<Platform.Rendering width="4" height="25"/>
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
 	</Platform.Context>
