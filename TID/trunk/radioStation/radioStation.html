@@ -96,11 +96,11 @@ function sanitize( text ){
 
 function searchArtist(value){
 	if (value && value != ""){
-		artist_name = value.replace(/\s/g, "+");
-		artist_name = sanitize(artist_name);
+		//artist_name = value.replace(/\s/g, "+");
+		artist_name = sanitize(value);
 		var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
 		var url = artist_pattern.replace("{{artist_name}}", artist_name);
-		EzWebAPI.send_get (url, this, processResponse, failedResponse, header);
+		EzWebAPI.send_get (encodeURI(url), this, processResponse, failedResponse, header);
 	}
 
 }
@@ -190,7 +190,7 @@ function paintPlayer(url, playerURL){
 		document.getElementById("playerContainer").className="jogli";
 	}
 	else{ //youtube payer
-		bar.innerHTML = translator.getLabel("artist_l")+artist_name.replace("+"," ");
+		bar.innerHTML = translator.getLabel("artist_l")+artist_name;
 		var swfoptions = { swfCB:checkSWFStatus};
 		check.DoSWF(playerURL, "player", "100%", "100%", flashvars, params, attributes, swfoptions);
 		document.getElementById("playerContainer").className="youtube";
