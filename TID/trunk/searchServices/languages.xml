@@ -11,6 +11,7 @@
 		<label id="_noResults">No Results Found</label>
 		<label id="_back">Back</label>
 		<label id="_errorRadius">Enter a valid search radius</label>
+		<label id="_radius">Radius</label>
 	</language>
 	<language name="es">
 		<label id="_search">Búsqueda</label>
@@ -22,5 +23,6 @@
 		<label id="_noResults">No se han encontrado resultados</label>
 		<label id="_back">Volver</label>
 		<label id="_errorRadius">Introduzca un radio de búsqueda válido</label>
+		<label id="_radius">Radius</label>
 	</language>
 </languages>
