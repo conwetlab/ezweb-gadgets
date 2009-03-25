@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>Sudoku</Name>
+	  <Version>0.1</Version>
+	  <Author>abgp</Author>
+	  <Mail>abgp@tid.es</Mail>
+	  <Description>Sudoku game</Description>
+	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/sudoku/sudoku.png</ImageURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Sudoku</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="levelPref" type="list" label="Level" description="preferred level" default="1">
+			<Option value="1" name="Beginner"/>
+			<Option value="2" name="Moderate"/>
+			<Option value="3" name="Hard"/>
+			<Option value="4" name="Expert"/>
+		</Preference>
+		<Preference name="languagePref" type="list" label="Language" description="Language of the elements of the gadget" default="default">
+			<Option value="default" name="Default"/>
+			<Option value="en" name="English"/>
+			<Option value="es" name="Español"/>
+		</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="sudokuProp" type="text" label="sudoku"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	</Platform.Wiring>
+	<Platform.Link>
+	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/sudoku/sudoku.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="15" height="10"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>

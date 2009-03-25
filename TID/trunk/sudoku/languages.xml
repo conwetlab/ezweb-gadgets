@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="reveal">Reveal numbers</label>
+		<label id="new">New game</label>
+		<label id="hint">Show hint</label>
+		<label id="try">Try this</label>
+		<label id="save">Save</label>
+		<label id="save_alert">Do you want to save the current game?</label>
+
+	</language>
+	<language name="es">
+		<label id="reveal">Resolver</label>
+		<label id="new">Nuevo</label>
+		<label id="hint">Ayuda</label>
+		<label id="try">Este</label>
+		<label id="save">Guardar</label>
+		<label id="save_alert">¿Deseas guardar la partida?</label>
+	</language>
+</languages>
+
