@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿﻿<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -15,8 +15,8 @@
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    <Preference name="twitter_user" type="text" description="Your username in Twitter" label="Username" default="ezweb_platform@yahoo.es"/>
-    <Preference name="twitter_pass" type="password" description="Your password in Twitter" label="Password" default="ez_web_2009"/>
+    <Preference name="twitter_user" type="text" description="Your username in Twitter" label="Username"/>
+    <Preference name="twitter_pass" type="password" description="Your password in Twitter" label="Password"/>
     <Preference name="limit_messages" type="number" description="Limit messages" label="Limit Messages" default="5"/>
     <Preference name="status_behavior" type="list" label="On new event, draft message is" description="On new event, draft message is" default="cleared">
 			<Option value="cleared" name="Cleared"/>
