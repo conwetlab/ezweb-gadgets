@@ -11,7 +11,7 @@ a {
 }
 
 h3 { 
-	margin: 5px auto;
+	margin: 0px auto 5px auto;
 }
 
 
@@ -22,8 +22,8 @@ h3 {
 #tab_table {
 	margin: 0 auto;
 	height:auto;
-//	padding-top: 5px;
-	width: 90%;
+	width: 98%;
+	table-layout: auto;
 }
 
 #tab_table .tab {
@@ -34,7 +34,6 @@ h3 {
 	padding: 3px 5px 0px 6px;
 	text-align: center;
 	float: left;
-//	border: 2px solid #9AE4E8;
 }
 
 #tab_table .tab.current{
@@ -43,7 +42,7 @@ h3 {
 
 #status{
 	border: 1px solid #AAAAAA;
-	width: 98%;
+	width: 100%;
 	padding: 5px 0px 0px 5px;
 	overflow: auto;
 	line-height:1.1;
@@ -55,63 +54,74 @@ h3 {
 	font-size: 1.15em;
 }
 
-#messages_div {
+#container {
 	-moz-border-radius: 5px;
 	background: #FFFFFF none repeat scroll 0 0;
 	text-align: left;
 	overflow: auto;
-//	margin: 0 auto 10px auto; 
 	padding: 10px;
-//	width: 90%;
 	min-height: 100px;
 }
 
-#messages_div .button_cont {
+#container .button_cont {
 	text-align: right;
-	margin: 5px auto;
 	width: 100%;
-	margin-bottom: 15px;
+	margin-top: 9px;
+	margin-bottom: 10px;
 }
 
-#messages_div .button_cont .button{
+#container .button_cont .disabled_button{
 	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
-	border: 0 none;
-	color: #666666;
+	-moz-border-radius: 5px;
+	border: 1px solid #CECECE;
+	margin-left: 5px;
+	padding: 0.25em 1em;
 	font-size: 14px;
-	height: 32px;
-	width: 115px;
+	color: #CECECE;
+	cursor: default;
 }
 
-#messages_div .button_cont .button:hover{
+#container .button_cont .button{
+	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
+	-moz-border-radius: 5px;
+	border: 1px solid #CECECE;
+	margin-left: 5px;
+	padding: 0.25em 1em;
+	color: #0084B4;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+#container .button_cont .button:hover{
 	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn-hover.gif) repeat scroll 0 0;
 }
 
-#messages_div .message_container {
+#container .message_container {
 	border-bottom: 1px dashed #D2DADA;
 	padding: 5px 5px 10px 5px;
 }
 
-#messages_div .message_container .message {
+#container .message_container .message {
 	min-height: 32px;
 	font-size: 0.9em;
 }
 
-#messages_div .message_container .message.selected{
+#container .message_container .message.selected{
 	background: #D5D5D5;
 }
 
-#messages_div .message_container .message .header {
+#container .message_container .message .header {
 	font-family: Georgia;
 	font-size: 0.8em;
 	font-style: italic;
 	color: #999999;
 }
 
-#messages_div .message_container .message .header .name, #messages_div .message_container .message .friend {
+#container .message_container .message .header .name, #container .message_container .message .friend {
 	color: #0084B4;	
 }
 
-#messages_div .message_container .avatar {
+#container .message_container .avatar {
 	float: left;
 	height: 32px;
 	width: 32px;
