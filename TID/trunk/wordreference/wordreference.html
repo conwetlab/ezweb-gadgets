@@ -105,7 +105,7 @@ function wordSearch()
 {
 	actualWord = document.sbox.w.value;
 	actualDict = document.sbox.dict.value;
-	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+actualWord;
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	//$('frame').src=url;
 }
