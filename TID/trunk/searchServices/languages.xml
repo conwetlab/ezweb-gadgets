@@ -23,6 +23,6 @@
 		<label id="_noResults">No se han encontrado resultados</label>
 		<label id="_back">Volver</label>
 		<label id="_errorRadius">Introduzca un radio de búsqueda válido</label>
-		<label id="_radius">Radius</label>
+		<label id="_radius">Radio</label>
 	</language>
 </languages>
