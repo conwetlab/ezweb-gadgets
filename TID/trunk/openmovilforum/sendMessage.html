@@ -288,7 +288,8 @@ function validate(f){
 	var source = login.get();
 	var passwd = password.get();
 	var initial_message = message;
-	if (message.length <= (MESSAGE_SIZE-signature.length-1)){
+	var last_msg_size = parseInt(message.length) % MESSAGE_SIZE;
+	if (last_msg_size>0 && last_msg_size<=(MESSAGE_SIZE-signature.length-1)){
 		message += "\n"+signature;
 	}
 	

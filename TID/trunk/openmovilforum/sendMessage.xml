@@ -60,5 +60,5 @@ Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obt
 <Platform.Link>
 	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/sendMessage.html"/>
 </Platform.Link>
-<Platform.Rendering width="7" height="18"/>
+<Platform.Rendering width="8" height="18"/>
 </Template>
