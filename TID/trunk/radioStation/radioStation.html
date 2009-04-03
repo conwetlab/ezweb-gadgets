@@ -233,7 +233,8 @@ function paintAlbums(albums){
 		var context = {};
 
 		for (var i=0;i<albums.length;i++){
-			albumHref = albums[i].getElementsByTagName('xml')[0].getAttribute('href');
+			albumHref = decodeURIComponent(albums[i].getElementsByTagName('xml')[0].getAttribute('href'));
+			albumHref = sanitize(albumHref);
 			albumName = decodeURIComponent(albums[i].getElementsByTagName('title')[0].childNodes[0].nodeValue);
 
 			params = albums[i].getElementsByTagName('param');
