@@ -1,0 +1,36 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>CTIC</Vendor>
+		<Name>Numeric Pad</Name>
+		<Version>1.01</Version>
+		<Author>rodrigo.garcia</Author>
+		<Mail>rodrigo.garcia@fundacionctic.org</Mail>
+		<Description>NumericPad</Description>
+		<ImageURI>http://www.fundacionctic.com/web/export/sites/default/es/resources/img/contenido/portal/ctic.gif</ImageURI>
+		<WikiURI>http://</WikiURI>
+	</Catalog.ResourceDescription>
+
+<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+
+<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="enlaces" type="text" label="enlaces"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://.../tecladoVirtual/numpad.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="7" height="30"/>
+
+<!-- EzWeb Gadget Data Context -->
+	<Platform.Context>
+	</Platform.Context> 
+
+</Template>

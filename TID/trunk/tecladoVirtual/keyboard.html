@@ -1,0 +1,420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Keyboard container</title>
+        <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js">
+        </script>
+        <script type="text/javascript" language="javascript" src="/ezweb/gadgets/tecladoVirtual/vkboard.js">
+        </script>
+	<script language="javascript" src="/ezweb/js/lib/ext/adapter/ext/ext-base.js"></script>
+	<script language="javascript" src="/ezweb/js/lib/ext/ext-all.js"></script>
+	<script language="javascript" src="/ezweb/gadgets/tecladoVirtual/prototype.js"></script>
+
+	<style type="text/css">
+		.keybutton {
+			font-size: 30px; font-weight: bold;
+			border: 1px solid rgb(119, 119, 119);
+			background-color: rgb(255, 255, 255);
+		}
+
+		.keybuttonpressed {
+			font-size: 30px; font-weight: bold;
+			border: 1px solid rgb(119, 119, 119);
+			background-color: rgb(0, 0, 255);
+		}
+
+		.keybuttonpressedctrl {
+			font-size: 25px; font-weight: bold;
+			border: 1px solid rgb(119, 119, 119);
+			background-color: rgb(0, 0, 255);
+		}
+
+		.keybuttonctrl {
+			font-size: 25px; font-weight: bold;
+			border: 1px solid rgb(119, 119, 119);
+			background-color: rgb(255, 255, 255);
+		}
+
+		.keycontainer {
+			font-size: 30px; font-weight: bold;
+			border: 1px solid rgb(119, 119, 119);
+			background-color: rgb(255, 255, 255);
+		}
+
+		div#keyboard___alt_gr {
+			font-size: 20px;
+		}
+	</style>
+
+        <script type="text/javascript" language="javascript">
+            var enlaces = EzWebAPI.createRWGadgetVariable("enlaces");
+            var keyb = null;
+            var boundCtrl = null;
+	    var vkb = null;
+	    // Hash Table con los valores de color iniciales
+	    // gadgetinputColor[gadgetId (text)][inputId (int)] == color de ese input
+	    var gadgetinputColor = new Hash();
+            
+            function init(){
+                if (keyb == null || keyb == undefined) {
+                    vkb = new VKeyboard("keyboard", // container's id, mandatory
+             keyb_callback,// reference to callback function, mandatory
+                    // (this & following parameters are optional)
+                    false, // create the arrow keys or not?
+             false, // create up and down arrow keys?
+             false, // reserved
+             false, // create the numpad or not?
+             "30px", // font size in px
+             false, // embed VKeyboard into the page?
+             true, // use 1-pixel gap between the keys?
+             5); // index (0-based) of the initial layout
+                }
+            }
+            
+            function keyb_callback(ch){
+                if (boundCtrl == null || boundCtrl == undefined) {
+                    return;
+                }
+                var text = boundCtrl;
+                
+		// keycodes obtenidos de: http://unixpapa.com/js/key.html
+                switch (ch) {
+                    case "BackSpace":
+			firePressKeyEvent(text,8,true);
+                        break;
+                        
+                    case "Enter":
+			firePressKeyEvent(text,13,true);
+                        break;
+                        
+                    default:
+			if (ch==' ') firePressKeyEvent(text,32,true);
+			else firePressKeyEvent(text,ch,false);
+			
+                }
+            }
+
+	function firePressKeyEvent(element, ch, special){
+                if (document.createEventObject){
+                        // dispatch for IE
+                        var evt = document.createEventObject();
+                        evt.keyCode = ch.charCodeAt(0);
+                        evt.shiftKey = vkb.Shift;
+                        return element.fireEvent('onkeypress',evt);
+                } else{
+                        // dispatch for firefox + others
+                        var evt = document.createEvent("KeyboardEvent");
+                        
+			if (ch=='\t')
+				evt.initKeyEvent('keypress', false, true,  null, false,
+					false,false,false,ch,9);
+			else if (ch=='.')
+				evt.initKeyEvent('keypress', false, true,  null, false,
+					false,false,false,ch,46);
+			else if (!special)
+				evt.initKeyEvent('keypress', false, true, null, false,
+					false, vkb.Shift, false,
+					ch.charCodeAt(0), ch.charCodeAt(0));
+			else
+				evt.initKeyEvent('keypress', false, true, null, false,
+					false,false,false, ch, ch);
+
+                        return !element.dispatchEvent(evt);
+                }
+        }
+
+	// Resalta los inputs cambiando el color de fondo y ademas hace una copia de los valores originales
+	function resaltarInputs()
+	{
+		var selected = grid.getSelectionModel().getSelections();
+		for (var i = 0; i < selected.length; ++i)
+		{
+			var inputId = selected[i].data.inputId;
+			var gadgetId = selected[i].data.gadgetId;
+			var gadgetIdInt = gadgetId - '';
+
+			if(!gadgetinputColor.get(gadgetId))
+				gadgetinputColor.set(gadgetId,new Hash());
+			
+			var gadgetDoc = getIGadgetDocument(gadgetIdInt);
+			if (gadgetDoc == null) continue;
+			
+			var inputs = getDocumentInputs(gadgetDoc);
+			
+			if (typeof(inputs[inputId].modificado) == "undefined" || inputs[inputId].modificado==false){
+			  gadgetinputColor.get(gadgetId).set(inputId,inputs[inputId].style.backgroundColor);
+			  inputs[inputId].style.backgroundColor = "rgb(159,216,239)";
+			  inputs[inputId].modificado = true;
+			}			
+		}
+	}
+
+	function desResaltarInputs()
+	{
+		gadgetinputColor.each(function(pair)
+		{
+			var gadgetDoc = getIGadgetDocument(pair.key);
+			if (gadgetDoc != null)
+			{
+				var inputs = getDocumentInputs(gadgetDoc);
+
+			 pair.value.each(function(pair2)
+			 {
+				inputs[pair2.key].style.backgroundColor =
+					pair2.value;
+				inputs[pair2.key].modificado = false;
+			 });
+			}
+		  });
+	}
+
+	var xg = Ext.grid, fm = Ext.form, Ed = Ext.grid.GridEditor, sm = new xg.CheckboxSelectionModel();
+	var data = new Array();
+
+	var reader = new Ext.data.ArrayReader({}, [
+       		{name: 'gadgetId'},
+		{name: 'gadgetInfo'},
+       		{name: 'inputId'},
+		{name: 'inputInfo'}
+    	]);
+
+	var grid = new xg.EditorGridPanel({
+        	store: new Ext.data.GroupingStore({
+            		reader: reader,
+            		data: data,
+            		sortInfo:{field: 'gadgetId', direction: "ASC"},
+            		groupField:'gadgetInfo'
+        	}),
+
+        	columns: [
+	    		sm,
+	    		{header: "Gadget", width: 30, sortable: false, dataIndex: 'gadgetInfo'},
+            		{id:'Campo',header: "Campo Editable", width: 30, sortable: false, dataIndex: 'inputInfo'}
+        	],
+
+        	view: new Ext.grid.GroupingView({
+           		 forceFit:true,
+           		 groupTextTpl: '{text}',
+			 enableGroupingMenu:false
+        	}),
+
+		sm: sm,
+       	 	frame: false,
+        	width: 250,
+        	height: 250,
+        	collapsible: false,
+        	animCollapse: false,
+        	iconCls: 'icon-grid',
+		enableHdMenu: false
+    	});
+
+	var win = new Ext.Window({
+		width:260,
+		draggable:false,
+        	title:"Propiedades Keyboard   [Enlaces]",
+		collapsible: true,
+		closable: false,
+		resizable: false,
+		renderTo: document.getElementById('keyOptions'),
+		listeners:
+		{
+			beforeexpand: function(panel,animate) {resaltarInputs();},
+			beforecollapse: function(panel,animate) {desResaltarInputs();}
+		},
+		items: grid,
+		buttons: [{
+			text: 'Enlazar Controles',
+			handler : function(){
+				buttonHandler(true);
+			}
+		},{
+			text: 'Actualizar Controles',
+			handler  : function(){
+				ezwebLoad_callback();
+			}
+		}]
+
+    	});
+
+	Ext.onReady(function(){
+    		win.show();
+    		win.setPagePosition(0, 0);
+		win.collapse(true);
+
+		// Deberiamos de enlazar con un callback, pero de momento
+		// retardamos la busqueda de controles 5 segundos
+		setTimeout("ezwebLoad_callback()", 5000);
+	});
+
+	function ezwebLoad_callback()
+	{
+		// Limpiamos los controles viejos
+		data = new Array();
+		// Buscamos los controles
+		searchEditableFields();
+		// Seleccionamos los controles almacenados en persistencia (records del grid)
+		var pref = Ext.util.JSON.decode(enlaces.get());
+		var store = grid.getStore();
+		for ( var i = 0; i < pref.length; ++i )
+		{
+			var inputP = pref[i];
+			for (var j = 0; j < store.getCount(); ++j)
+			{
+				var inputId = store.getAt(j).get('inputId');
+				var gadget = store.getAt(j).get('gadgetId');
+				if (inputId == inputP.inputId &&
+					gadget == inputP.gadgetId)
+					grid.getSelectionModel().selectRow(j,true);
+			}
+		}
+		// Y invocamos al buttonHandler para enlazar
+		buttonHandler(false);
+		loaded = true;
+	}
+
+	var buttonHandler = function(save)
+	{
+		// Sobreescribimos los nuevos controles enlazados persistentemente
+		var pref = new Array();
+		// Recorremos todo el datastore del grid
+		var store = grid.getStore();
+		for (var i=0; i < store.getCount(); i++)
+		{
+			var inputId = store.getAt(i).get('inputId');
+			var gadgetId = store.getAt(i).get('gadgetId');
+			var gadgetIdInt = gadgetId - '';
+
+			var gadgetDoc = getIGadgetDocument(gadgetIdInt);
+			var inputs = getDocumentInputs(gadgetDoc);
+
+			if (gadgetDoc == null)
+				alert("No se ha encontrado el Gadget para enlazar");
+			else if (inputId >= inputs.length )
+				alert("No se ha encontrado el input para enlazar");
+			else {
+				var inputField = inputs[inputId];
+
+				// Si esta seleccionado añadimos el escuchador
+				if (grid.getSelectionModel().isSelected(i))
+				{
+					// Añadimos a las preferencias este input usando el record asociado
+					pref.push(store.getAt(i).data);
+
+					if (inputField.addEventListener)
+					{
+						inputField.addEventListener("focus", requestKeyboard, false);
+						inputField.addEventListener("blur", clearKeyboard, false);
+					} else
+						inputField.observe('focusin',requestKeyboard).observe('focusout',clearKeyboard);
+				// Sino lo eliminamos
+				} else {
+					if (inputField.removeEventListener)
+					{
+						inputField.removeEventListener("focus", requestKeyboard, false);
+						inputField.removeEventListener("blur", clearKeyboard, false);
+					} else
+						inputField.stopObserving('focusin',requestKeyboard).stopObserving('focusout',clearKeyboard);
+				}
+			}
+		}
+		// Sobreescribimos las preferencias
+		if(save){
+			enlaces.set(Ext.util.JSON.encode(pref));
+			desResaltarInputs();
+			resaltarInputs();
+		}
+	}
+
+	function getIGadget(gadgetId)
+	{
+		var opManager = EzWebAPI.platform.OpManagerFactory.getInstance();
+		var igadget = null;
+		var workSpaceIds = opManager.workSpaceInstances.keys();
+		for (var i=0; i < workSpaceIds.length; i++)
+		{
+			var workSpace = opManager.workSpaceInstances[workSpaceIds[i]];
+			var iTemp = workSpace.getIgadget(gadgetId);
+			if (iTemp!=null)
+				igadget = iTemp;
+		}
+
+		return igadget;
+	}
+
+	function getIGadgetDocument(gadgetId)
+	{
+		var igadget = getIGadget(gadgetId);
+		if (igadget != null)
+			return igadget.element.childNodes[1].childNodes[1].contentDocument;
+		else return null;
+	}
+
+	function getDocumentInputs(document)
+	{
+		var inputs = document.getElementsByTagName("input");
+		var textareas = document.getElementsByTagName("textarea");
+		var list = new Array();
+
+		for (var i=0; i < inputs.length; i++)
+			if ((inputs[i].type == "text" || inputs[i].type == "password")
+				&& !inputs[i].readOnly)
+				list.push(inputs[i]);
+
+		for (var i=0; i < textareas.length; i++)
+			if(!textareas[i].readOnly)
+				list.push(textareas[i]);
+		
+		return list;
+	}
+
+	function searchEditableFields()
+	{
+		// Este es el identificador de Gadget del Teclado
+		var keyId = EzWebAPI.id - '';
+		// Aqui vamos a guardar el objeto Igadget del teclado para explorar
+		// por su Tab asociado los demas gadgets a buscar inputs
+		var igadget = getIGadget(keyId);
+		var igadgets = igadget.getTab().getDragboard().getIGadgets();
+		
+		// Por cada gadget...
+		for (var i=0; i < igadgets.length; i++)
+		{
+			// ... Buscamos textbox y pass de igadgets[i]
+			// y los añade a Ext.grid.data
+
+			var gadgetIdInt = igadgets[i].getId();
+			var gadgetId = gadgetIdInt + '';
+			var gadgetInfo = igadgets[i].getGadget().getName() + " ("+gadgetId+")";
+
+			var inputs = getDocumentInputs(igadgets[i].element.childNodes[1].childNodes[1].contentDocument);
+
+			for (var j=0; j < inputs.length; j++)
+			{
+				var t = j + "";
+				var inputInfo = ( typeof(inputs[j].id) == "undefined" ? "Campo " + t : inputs[j].id );
+				data.push([gadgetId,gadgetInfo,j,inputInfo]);
+			}
+		}
+
+		// Actualizamos el grid
+		grid.getStore().loadData(data);
+	}
+
+	function clearKeyboard(ev){
+        	boundCtrl = null;
+        }
+            
+        function requestKeyboard(ev){
+		boundCtrl = this;
+        }
+        </script>
+	<link rel="stylesheet" type="text/css" href="/ezweb/js/lib/ext/resources/css/ext-all.css">
+    </head>
+    <body onload="javascript:init();">
+	<div id="keyOptions"></div>
+	<br>
+        <div id="keyboard" style="top: 25px">
+        </div>
+    </body>
+</html>
