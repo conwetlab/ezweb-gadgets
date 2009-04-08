@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Flickr Contact Photos</Name>
+    <Version>1.2</Version>
+    <Author>lmayllon</Author>
+
+    <Mail>luismarcos.ayllon@panel.es</Mail>
+    <Description>This gadget version provide an engaging visual way to explore the new photos of your contacts in Flickr</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
+  </Catalog.ResourceDescription>
+  
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+    <Preference name="flickr_user" type="text" description="Your username in Flickr" label="Flickr username" default="ezweb2009"/>
+    <Preference name="api_key" type="text" description="api_key" label="Flickr Api Key (optional)"/>
+ </Platform.Preferences>>
+  
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+     <Event name="urlImage" type="text" label="urlImage" friendcode="imageUrl" />
+  </Platform.Wiring>
+  
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickerContactPhotos/flickr.html"/>
+  </Platform.Link>
+  
+  <Platform.Rendering width="7" height="18"/>
+  
+  <Platform.Context>
+  </Platform.Context> 
+</Template>
+

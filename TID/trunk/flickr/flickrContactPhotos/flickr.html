@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+
+<style type="text/css">
+	body,td,div,span,p{font-family:arial,sans-serif;}
+	a {color:#0000cc; }
+	a:visited { color:#551a8b; }a:active { color:#ff0000; }
+	body {margin: 0px;padding: 0px;   background-color: white;   }
+	.t { width: 75px; height: 75px; margin: 0; border:0; padding: 3px; } 
+	.t:hover { padding:1px; border: 2px solid #0063DC; border-right-color: #FF0084; }
+	#logo { width:100px;}
+</style>
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+var FLICK_API_KEY = "3eafb24b0d5aa817d52f45a27ee4f334";
+var user_id = "";
+
+var flickr_user = EzWebAPI.createRGadgetVariable("flickr_user", flickr_user_handler);
+var api_key = EzWebAPI.createRGadgetVariable("api_key", api_key_handler);
+var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
+
+function flickr_user_handler (user) {
+	get_user_id();
+}
+
+function api_key_handler (key) {
+	FLICK_API_KEY = key;
+	get_user_id();
+}
+
+function get_user_id () {
+	
+	if (flickr_user.get() == ""){
+		var msg = 'Firstly, you must set your username in Flickr using the preferences.'
+		document.getElementById('content_div').innerHTML = msg;        
+		return ;
+	}
+	
+	if (api_key.get() != ""){
+		FLICK_API_KEY = api_key.get();
+	}
+	
+	var user_id_url = "http://api.flickr.com/services/rest/";
+	user_id_url = encodeURI(user_id_url);
+	var user_id_params = {method: flickr.people.findByUsername, api_key: FLICK_API_KEY, username: flickr_user.get()}; 
+
+	EzWebAPI.send_post(user_id_url, user_id_params, this, set_user_id, show_error);
+}
+
+function set_user_id (resp) {
+	var response = resp.responseXML;
+	var user = response.getElementsByTagName("user")[0];
+		
+	if (!user){
+		var msg = 'Your username is not valid. Please, try again.'
+		document.getElementById('content_div').innerHTML = msg;        
+		return;
+	}
+	
+	user_id	= user.getAttribute("id");
+	
+	get_contact_photos ();
+}
+
+function get_contact_photos (resp) {
+	
+	if (user_id == ""){
+		get_user_id();
+		return;
+	}
+	
+	var user_id_url = 'http://api.flickr.com/services/feeds/photos_friends.gne?user_id=' + user_id + '&friends=0&display_all=1&lang=es-us&format=rss_200';
+	user_id_url = encodeURI(user_id_url);
+	EzWebAPI.send_get(user_id_url, this, show_photos, show_error);
+	
+}
+
+function show_photos(resp){
+	var response = resp.responseXML;
+
+	var html = "";
+	var items = response.getElementsByTagName("item");
+	for (var i = 0; i < items.length ; i++) {
+	        if (i==9 && is_iphone)
+		    break;
+		var itemNodes = items.item(i).childNodes;
+		for (var j = 0; j < itemNodes.length ; j++) {
+			var node = itemNodes.item(j);
+			if (node.nodeName=="media:thumbnail")
+				var urlT = node.getAttribute("url");
+			else if (node.nodeName=="link")
+				var url = node.firstChild.nodeValue;
+			else if (node.nodeName=="title") 
+				if (node.firstChild)
+					var t = node.firstChild.nodeValue;
+				else var t = "";
+			else if (node.nodeName=="author")
+				var a = node.firstChild.nodeValue;
+		}
+		if (t!="")
+			t = '\''+t+'\' by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
+		else 
+			t = 'Photo by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
+		html += '<a href="javascript:send_image(\''+urlT+'\');" title="'+t+'"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
+	}
+	document.getElementById('content_div').innerHTML = html;
+}
+
+function send_image(urlImage_)
+{
+	urlImage.set(urlImage_.substr(0, urlImage_.length - 6) + urlImage_.substr(urlImage_.length - 4, 4));
+}
+
+function show_error(res){
+ 	var msg = 'Sorry, but we cannot show the photos of your contacts. Try it again later...'
+	document.getElementById('content_div').innerHTML = msg;        
+}
+
+</script>
+
+</head>
+
+<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png"/>
+
+<body onload="javascript:get_contact_photos();">
+	<div id="content_div" style="margin:0 auto; text-align: center;"></div>
+</body>
+
+</html>
+
