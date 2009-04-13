@@ -342,6 +342,8 @@ function URLEncode( url )
 	var vtitle = EzWebAPI.createRWGadgetVariable("title");
 	var bsoartist = EzWebAPI.createRWGadgetVariable("bsoartist");
 	var poi = EzWebAPI.createRWGadgetVariable("poi");
+	var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+	var defaultChannel = EzWebAPI.createRGadgetVariable("channel", changeDefaultChannel);
 
 	
 	/* Channels */
@@ -462,8 +464,13 @@ function URLEncode( url )
     //var rawQuery = "";
 
 function load(){
+	currentChannelId = parseInt(defaultChannel.get());
     rebuildChannelList();
     document.getElementById("channellist").onchange();
+}
+
+function changeDefaultChannel(value){
+	//DO NOTHING
 }
 
 /*
@@ -1203,6 +1210,3 @@ alert("excepcion");
 </div>
 </body>
 </html>
-
-
-

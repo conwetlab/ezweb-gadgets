@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Search</Name>
-    <Version>1.4</Version>
+    <Version>1.41</Version>
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>buscador de videos youtube y selector de peliculas</Description>
@@ -13,6 +13,15 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
+		<Preference name="channel" type="list" description="default channel" label="default channel"  default="6">
+			<Option value="0" name="Ultimos destacados"/>
+			<Option value="1" name="Superfavoritos"/>
+			<Option value="2" name="Mas valorados"/>
+			<Option value="3" name="Mas vistos hoy"/>
+			<Option value="4" name="Mas comentados hoy"/>
+			<Option value="5" name="Anadidos recientemente"/>
+			<Option value="6" name="Películas"/>
+		</Preference>
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
@@ -23,10 +32,10 @@
     <Event name="place" type="text" label="place" friendcode="address"/>
     <Event name="title" type="text" label="title" friendcode="title"/>
     <Event name="poi" type="text" label="poi" friendcode="poi"/>
+	<Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_search/tube_iptv_search.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="26"/>
 </Template>
-
