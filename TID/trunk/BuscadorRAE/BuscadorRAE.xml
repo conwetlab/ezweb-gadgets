@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Buscador RAE</Name>
+		<Version>1.4</Version>
+		<Author>irodriguez</Author>
+		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget Notificador de correo</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/images/RAE.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BuscadorRAE</WikiURI>
+	</Catalog.ResourceDescription>
+
+<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
+			<Option value="en" name="English"/>
+			<Option value="es" name="Español"/>
+	 	 </Preference>
+	</Platform.Preferences>
+
+<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+
+<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Event name='definition' type='text' label='definition' friendcode='definition'/>
+		<Event name='keywordEvent' type='text' label='keywordEvent' friendcode='keywordEvent'/>
+		<Slot name='keyword' type='text' label='keyword' friendcode='keyword'/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/BuscadorRAE.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="6" height="24"/>
+	<Platform.Context>
+		<Context name="user" type="text" concept="user_name"/>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

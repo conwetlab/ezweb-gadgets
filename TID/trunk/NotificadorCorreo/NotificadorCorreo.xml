@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Notificador Correo</Name>
+		<Version>1.4</Version>
+		<Author>irodriguez</Author>
+		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget Notificador de correo</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/NotificadorCorreo/images/correo.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/NotificadorCorreo</WikiURI>
+	</Catalog.ResourceDescription>
+
+<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
+			<Option value="en" name="English"/>
+			<Option value="es" name="Español"/>
+	 	 </Preference>
+		<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(minutes)" default="1"/>
+	</Platform.Preferences>
+
+<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="config" type="text" label="config"/>
+	</Platform.StateProperties>
+
+<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="to" type="text" label="to" friendcode="to"/>
+	  <Event name="to_username" type="text" label="to_username" friendcode="to_username"/>
+	  <Event name="from" type="text" label="from" friendcode="from"/>
+	  <Event name="from_name" type="text" label="from_name" friendcode="from_name"/>
+	  <Event name="subject" type="text" label="subject" friendcode="subject"/>
+	  <Event name="date" type="text" label="date" friendcode="date"/>
+	  <Event name="uid" type="text" label="uid" friendcode="uid"/>
+ 	  <Event name="mailbox" type="text" label="mailbox" friendcode="mailbox"/>
+	  <Event name="newMails" type="text" label="newMails" friendcode="newMails"/>
+	  <Event name="details" type="text" label="details" friendcode="details"/>
+	</Platform.Wiring>
+	
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/NotificadorCorreo/NotificadorCorreo.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="6" height="24"/>
+	<Platform.Context>
+		<Context name="user" type="text" concept="user_name"/>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+
+</Template>

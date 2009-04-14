@@ -1,0 +1,121 @@
+#messages {
+	position:absolute;
+	bottom:0px;
+	width:100%;
+}
+
+.info, .success, .warning, .error, .validation {
+    border: 1px solid;
+    margin: 10px 10px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/info.png');
+}
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image:url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/success.png');
+}
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/warning.png');
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/error.png');
+}
+
+body {
+	padding:0;
+	margin:0;
+	background:yellow;
+}
+#head {
+	background:red;
+	height:35px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+#head {
+	background:#eee;
+	height:23px;
+	padding:6px;
+	border-bottom:1px solid #bbb;
+	border:#000 solid 1px;
+	border-left:0px;
+	border-right:0px;
+}
+
+#menu {
+	font-size: 80%;
+	color:#999;
+	position:absolute;
+	right:0px;
+	top:1px;
+	height:19px;
+	background:#eee;
+	padding:10px 6px 6px 6px;
+}
+
+#title {
+	color:#000;
+	font-weight:bold;
+	font-size:110%;
+	text-decoration:none;
+}
+
+#body {
+	position:absolute;
+	top:37px;
+	bottom:0px;
+	left:0;
+	right:0;
+	overflow:auto;
+}
+#body {
+	background:#fdfdfd;
+	padding:6px 20px;
+}
+
+#text {
+	text-align:left;
+}
+
+
+#source {
+	margin-top:1em;
+	font-size:80%;
+	text-align:right;
+	position:relative;
+	bottom:0px;
+	right:0px;
+}
+
+#source:before {
+	content:'Via: ';
+	font-weight:bold;
+}
+
+#date {
+	color:#bbb;
+	font-size:80%;
+	text-align:right;
+}
+#date:before {
+	content:'(';
+}
+#date:after {
+	content:')';
+}
+
+#left:hover, #right:hover {
+	cursor:pointer;
+}

@@ -1,0 +1,108 @@
+body {
+	text-align: left;
+	background: #EDECEB;
+	font-family:sans-serif;
+	font-size: 10pt;
+	white-space: normal
+}
+#header{
+	height:30px;
+	top:2px;
+	left:2px;
+	right: 2px;
+        border-bottom:1px solid #AAA;
+	position:absolute;
+	min-width:486px;
+}
+#header .text {
+	float:left;
+}
+#header .boton {
+	float:left;
+}
+#content{
+	top:32px;
+	left:2px;
+	right:2px;
+	bottom:2px;
+	position:absolute;
+}
+.eLema {
+	color: #0000FF;
+	font-size: 11pt;
+}
+.eAbrv {
+	color: #0000FF;
+}
+.eAbrvNoEdit {
+	color: #B3B3B3;
+}
+.eGenero {
+	color: #0000FF;
+	font-size: 11pt;
+}
+.eEtimo {
+	color: #008000;
+	font-family: TITUS Cyberbit Basic, Arial Unicode MS, Lucida Sans Unicode;
+	font-size: 10pt;
+}
+.eAcep {
+	color: #000000;
+}
+.eEjemplo {
+	color: #800080;
+}
+.eFCompleja {
+	color: #800000;
+}
+.eOrtografia {
+	color: #000000;
+}
+.eMorfologia {
+	color: #000000;
+}
+.eOrdenAcepLema {
+	color: #0000FF;
+}
+.eOrdenAcepFC {
+	color: #800000;
+}
+.eRefLema {
+	color: #FF0000;
+}
+.link {
+	cursor:pointer;
+	color: #0000FF;
+	text-decoration:underline;
+}
+.container div div {
+	margin-top: 10px;
+}
+#loading_background {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:3000;
+	background:none;
+	filter:alpha(opacity=60);
+	-moz-opacity:.60;
+	opacity:.60;
+	width: 100%;
+	height: 100%;
+}
+
+#loading_image {
+	position:absolute;
+	z-index:3001;
+	top:36px;
+	background-color: #E0E0E0;
+	left:5px;	
+}
+
+#TIPO_BUS{
+	margin-left:2px;
+}
+
+#search-button{
+	margin-left:2px;
+}

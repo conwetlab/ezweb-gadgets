@@ -1,0 +1,373 @@
+<?xml version="1.0"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" /> 
+
+<title>Frase del dia</title>
+
+<!-- API EzWeb -->
+<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script> 
+
+<style type="text/css">
+
+html 	{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden; 
+	}
+
+body 	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;
+	color: #123489;
+	background: #ffffff;
+	overflow: hidden; 
+	}	
+
+.block {
+	display: block;
+	overflow: hidden;
+	padding-left: 5px;
+	min-width: 295px;
+	-moz-border-radius:5px;
+	/*border: outset 1px blue;*/
+	position: absolute;
+	left: 5px;
+	right: 5px;
+	} 
+
+#date 	{
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	}
+
+#header {
+	top: 5px;
+	height: 30px;
+	background-color: #A1D8FF;
+}
+
+#header .image {
+	cursor: pointer;
+	}
+
+#next	{
+	position: absolute;
+	left: 30px;
+	top: 8px;
+	}
+	
+#previous{
+	position: absolute;
+	top: 8px;
+	left: 5px;
+	}
+
+#content {
+	top: 40px;
+	bottom: 30px;
+	overflow: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	font-size: 12px;
+        font-style: italic;
+	padding-right: 3px;
+	}
+
+#footer {
+	bottom: 5px;
+	height: 20px;
+	/*background-color: #A1D8FF;*/
+}
+
+#author	{
+	font-weight:bold;
+	position: absolute;
+	bottom: 2px;
+	right: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+	}
+	
+</style>
+
+<script language="JavaScript">
+
+// Template xml variables
+var urlSource = EzWebAPI.createRGadgetVariable("url",init);
+
+// Sentence Object
+
+function daySentence (sentence, author, pubDate, link){
+
+this.sentence = sentence;
+this.author = author;
+
+if (pubDate != ""){
+	this.pubDate = new Date(Date.parse(pubDate));
+	this.pubDate = this.pubDate.toLocaleDateString();
+}
+else 	{
+	this.pubDate = "";
+}
+		
+this.link = link;
+
+}
+
+// Global variables
+
+var nSentence;
+var sentences;
+var items;
+// Functions
+
+
+function showSentence(){
+
+        document.getElementById('date').style.display           = "block";
+        document.getElementById('author').style.display         = "block";
+}
+
+function hideSentence(){
+
+	document.getElementById('date').style.display 		= "none";
+	document.getElementById('content').innerHTML	 	= "";
+	document.getElementById('author').style.display 	= "none";
+
+}
+
+function showImageLoading(){
+	
+	hideArrows();
+	hideSentence();
+	document.getElementById('content').style.backgroundImage = 
+		"url(http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/loading.gif)";
+
+}
+
+function hideImageLoading(){
+	document.getElementById('content').style.backgroundImage = "none";
+}
+
+function initializeVar(){
+	nSentence = 0;
+        sentences = new Array();
+        items     = new Array();
+}
+
+function formatSentence(sentence){
+
+	sentence = sentence.replace(/<\s*img.*>/,'');
+	sentence = sentence.replace(/\s+$/,'');
+	sentence = sentence.replace(/^"/,'');
+	sentence = sentence.replace(/"$/,'');
+
+	return sentence;
+}
+
+
+
+function successHandler (value){
+
+// Get all items
+items = value.responseXML.getElementsByTagName('item');
+
+for (var i = 0; i < items.length; i++) {
+	
+	sentences[i] = new daySentence 	(
+				formatSentence(items[i].getElementsByTagName('description')[0].childNodes[0].nodeValue),
+				items[i].getElementsByTagName('title')[0].childNodes[0].nodeValue,
+				items[i].getElementsByTagName('pubDate')[0].childNodes[0].nodeValue,
+				items[i].getElementsByTagName('link')[0].childNodes[0].nodeValue );
+}
+	paintSentence(sentences[nSentence]);
+}
+
+function nextSentence(){
+
+	if ( nSentence != 0) {
+		nSentence = nSentence - 1;
+		paintSentence(sentences[nSentence]);
+	}
+	
+}
+
+function previousSentence(){
+
+	if (nSentence < (items.length-1) ){
+
+		nSentence = nSentence + 1;
+		paintSentence(sentences[nSentence]);
+	}
+}
+
+function getSource(value){
+
+	if( value == "1"){
+		return "http://frasedeldia.net/feed/";
+	}
+	else if (value == "2"){
+		return "http://www.proverbia.net/qotd.asp";
+	}
+}
+
+function init(){
+	
+	// It refreshs itself each hour
+
+	showImageLoading();
+	window.setInterval(init ,3600000);
+ 	initializeVar();	
+	
+	var url = getSource( urlSource.get() );
+
+	EzWebAPI.send_get(url, this, successHandler, errorHandler);
+}
+
+
+function errorHandler(value){
+
+	var errorSentence = new daySentence(	"Error: No se puede mostrar el contenido del Feed RSS",
+						"",
+						"",
+						"");
+
+	paintSentence(errorSentence);
+
+}
+
+function hideArrows(){
+	document.getElementById('next').style.display = "none";
+	document.getElementById('previous').style.display = "none";
+}
+
+
+function showArrows(){
+        document.getElementById('next').style.display = "block";
+        document.getElementById('previous').style.display = "block";
+}
+
+function arrowToPointer(value){
+	
+	if (value == '+'){
+		document.getElementById('next').style.cursor = "pointer";
+		document.getElementById('next').title = "Siguiente";
+	}
+	else if (value == '-'){
+		document.getElementById('previous').style.cursor = "pointer";
+		document.getElementById('previous').title = "Anterior";
+	}
+}
+
+function arrowToDefault(value){
+        
+        if (value == '+'){
+                document.getElementById('next').style.cursor = "default";
+		document.getElementById('next').title = "";
+        }
+        else if (value == '-'){
+                document.getElementById('previous').style.cursor = "default";
+		document.getElementById('previous').title = "";
+        }
+}
+
+
+function updateArrows(){
+
+	if (items.length == 0 || items.length == 1){
+		// Give transparency to the two arrows
+		document.getElementById('next').style.opacity = 0.4;
+		document.getElementById('previous').style.opacity = 0.4;
+		
+		arrowToDefault('+');
+		arrowToDefault('-');
+	}
+	
+	else if (nSentence == (items.length-1)) {
+		document.getElementById('previous').style.opacity = 0.4;
+		document.getElementById('next').style.opacity = 1;
+
+		arrowToDefault('-');
+		arrowToPointer('+');
+	}
+	
+	else if (nSentence == 0) {
+		document.getElementById('next').style.opacity = 0.4;
+		document.getElementById('previous').style.opacity = 1;
+
+		arrowToDefault('+');
+                arrowToPointer('-');
+	}
+	
+	else {	// No transparency
+		document.getElementById('next').style.opacity = 1;
+		document.getElementById('previous').style.opacity = 1;
+
+		arrowToPointer('-');
+                arrowToPointer('+');
+	}
+}
+
+
+function paintSentence(value){
+	
+	hideImageLoading();	
+	
+	document.getElementById('content').innerHTML	=	'"'+ value.sentence + '"';
+	document.getElementById('author').innerHTML	=	value.author;
+	document.getElementById('date').innerHTML	=	value.pubDate;
+	document.getElementById('author').title		=	value.link;
+	
+	updateArrows();
+	showArrows();	
+
+	showSentence();
+}
+
+function goToLink(){
+	window.open(sentences[nSentence].link); 
+}
+
+</script>
+ 
+
+</head>
+
+<body onload="javascript:init();">
+
+<div id="header" class="block">
+
+        <div id="date"></div>
+
+        <div class="image"><img id="previous" title="Anterior" onclick="previousSentence();"
+        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-previous.png"></img></div>
+
+        <div class="image"><img id="next" title="Siguiente" onclick="nextSentence();"
+        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-next.png"></img></div>
+	
+</div>
+
+<div id="content" class="block" >
+	
+</div>
+
+<div id="footer" class="block">
+        <div id="author" onclick="goToLink();"></div>
+</div>
+
+
+</body>
+
+</html>

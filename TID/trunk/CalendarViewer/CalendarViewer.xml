@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Calendar Viewer</Name>
+		<Version>1.5</Version>
+		<Author>jmostazo</Author>
+		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
+		<Description>This gadget presents a calendar which gets the events of Google Calendar using the email address of preferences.</Description>
+		<ImageURI>http://europa.ls.fi.upm.es/svn/ezweb/releases/caso_agenda/calendar/images/calendar.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Visor de Calendarios</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+                <Preference name="account" type="text" label="Account" description="Account" default="ezweb.platform@gmail.com"/>
+                <Preference name="host" type="text" label="Host" description="Host" default="smtp.gmail.com"/>
+                <Preference name="port" type="number" label="Port" description="Port" default="587"/>
+                <Preference name="username" type="text" label="User Name" description="User Name" default="ezweb.platform@gmail.com"/>
+                <Preference name="password" type="password" label="Password" description="Password" default="Pl4tform"/>
+                <Preference name="connection" type="list" label="Security level" description="Security level" default="TLS">
+                        <Option value="Normal" name="Normal"/>
+                        <Option value="TLS" name="TLS"/>
+                        <Option value="SSL" name="SSL"/>
+                </Preference>
+
+		<Preference name="languagePref" type="list" label="Gadget language" description="Language for the gadget content" default="default">
+			<Option value="default" name="Default"/>
+
+			<!-- You must list only the languages supported by this gadget -->
+			<Option value="en" name="English"/>
+			<Option value="es" name="Spanish"/>
+		</Preference>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="urlPrefs" type="text" label="iCals URL" description="URL of the ics file to use." default=""/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Event name="description" type="text" label="description" friendcode="description" />
+		<Event name="title" type="text" label="title" friendcode="title" />
+		<Event name="place" type="text" label="place" friendcode="place" />
+		<Event name="date" type="text" label="date" friendcode="date" />
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<!-- This must point to the URL of the html code of this gadget -->
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/CalendarViewer/CalendarViewer.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="6" height="30"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<Context       name="language"   type="text" concept="language"/>
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<!-- Usually not needed
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		-->
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>
+

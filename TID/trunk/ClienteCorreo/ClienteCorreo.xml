@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Cliente Correo</Name>
+		<Version>1.0</Version>
+		<Author>jmostazo</Author>
+		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget Cliente de correo</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/js/ClienteCorreo/images/correo.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/ClienteCorreo</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="accounts" type="text" label="accounts"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Slot name="emailDetails" type="text" label="emailDetails" friendcode="emailDetails"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/js/ClienteCorreo/ClienteCorreo.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="10" height="24"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<!--<Context       name="language"   type="text" concept="language"/>-->
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<!-- Usually not needed
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		-->
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

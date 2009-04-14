@@ -1,0 +1,361 @@
+#header {
+	background-color: #e0e0e0;
+	padding-left: 10px;
+	min-height: 30px;
+	min-width: 246px;
+	border-bottom: 1px solid #888;
+}
+
+#header img {
+	cursor: pointer;
+	position: relative;
+	top: 5px;
+}
+
+#content {
+	background-color: #E0E0E0;
+	font-size: 12px;
+	display: block;
+	min-width: 246px; 
+	scroll:auto;
+	overflow: hidden;
+	top:31px;
+	right:0px;
+	left:0px;
+	bottom:0px;
+	position:absolute;
+}
+
+.headerSettings{
+	padding-left:10px;
+	height: 30px;
+	min-width:256px;
+	background-color: #D4E6FC;
+	-moz-border-radius:3px;
+	border: 1px solid #888;
+	margin: 5px;
+}
+
+table.layout {
+	width: 100%;
+}
+
+#loading_background {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:3000;
+	background:none;
+	filter:alpha(opacity=60);
+	-moz-opacity:.60;
+	opacity:.60;
+	width: 100%;
+	height: 100%;
+}
+
+#loading_image {
+	position:absolute;
+	z-index:3001;
+	top:10px;
+	right:8px;
+}
+
+#footer {
+	width: 100%;
+	text-align: right;
+	background-color: #e0e0e0;
+	padding-left: 2px;
+	min-height: 30px;
+}
+
+#pagination {
+	position: relative;
+	right: 10px;
+}
+
+#pagination img {
+	position: relative;
+	top: 4px;
+	margin: 0px 3px;
+}
+
+#pagination img.selected {
+	cursor: pointer;
+}
+
+#pagination img.disabled {
+	cursor: normal;
+}
+
+#pagination span.info {
+}
+/* Pagina principal con los correos */
+#accountsMailList {
+	display:block;
+	top: 5px;
+	left: 5px;
+	bottom: 5px;
+	right: 5px;
+	position: absolute;
+	padding: 10px 0px 1px 20px;
+	font-family: sans-serif;
+	font-size: 12px;
+	background: #FFF;
+	border: 1px solid #888;
+	-moz-border-radius: 3px;
+	white-space: normal;
+	overflow: auto;
+}
+.open_tag {
+	white-space: nowrap;
+	cursor: pointer;
+	height:20px;
+}
+.node_name {
+	font-weight: bold;
+	padding-right: 5px;
+}
+.newMails {
+	color: blue;
+	font-weight:bold;
+}
+.children {
+	border-left: 1px dashed #aaa;
+	margin-left: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+.children div {
+	padding-top:2px;
+	padding-left: 30px;
+	margin-right: 20px;
+	padding-bottom: 2px;
+	border-bottom: 1px dashed #AAAAAA;
+	border-right: 1px dashed #AAAAAA;
+	cursor:pointer;
+}
+.children div span {
+	padding-right: 5px;
+}
+.children div img{
+	padding-right: 5px;
+}
+.children div .subject {
+	display: block;
+	padding-left: 21px;
+	font-style:italic;
+}
+.children div .from {
+	display: block;
+	padding-left:21px;
+	font-weight:bold;
+	color: black;
+}
+.children div .date {
+
+}
+
+/* Content Configuration. Styles for the table with the emails */
+#contentConfiguration{
+	margin: 5px;
+	font-size:12px;
+	border: 1px solid #888;
+	padding: 10px;
+	-moz-border-radius: 3px;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin: 5px;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	bottom: 0px;
+	position:absolute;
+}
+#headerContentConfiguration{
+	border:1px solid #888888;
+}
+#contentConfiguration table
+{
+	width: 100%;
+	border-collapse:collapse;
+}
+#contentConfiguration table tr{
+	
+	height:24px;
+	background-color:white;
+}
+#contentConfiguration table th{
+	background-color: #D4E6FC;
+	color:#3D3D3D;
+	text-align:center;
+	font-size:10pt;
+}
+.checkAccount {
+	text-align: center
+}
+.emailAccount {
+	padding-bottom:3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 1px;
+	vertical-align: middle;
+	font-size:10pt;
+}
+#footerConfiguration {
+	margin: 0% 10% 5%;
+}
+#footerConfiguration button{
+	float: left;
+	margin: 4px;
+}
+
+#accounts {
+	border: 1px double #CCC;
+	background-color: #BBB;
+	-moz-border-radius: 4px;
+}
+/* adding new emails accounts */
+#contentSetConfiguration {
+	padding: 5px;
+	position:absolute;
+	border: 1px solid #888;
+	-moz-border-radius: 3px;
+	top: 5px;
+	left: 5px;
+	right:5px;
+	bottom:5px;
+	font-size:12px;
+	white-space:nowrap
+	font-family:sans-serif;
+	overflow:auto;
+	background-color:white;
+}
+#contentSetConfiguration td {
+	font-size: 10pt;
+}
+#footerDisplayAccount {
+	margin: 0% 10% 5%;
+}
+#footerDisplayAccount button {
+	margin: 4px;
+}
+#tableSetAccount {
+	padding: 2px;
+}
+
+#textPort {
+	float:left;
+	margin-right:10px;
+	margin-top:4px;
+	width:50px;
+}
+
+#buttonsUpDown {
+	display:block;
+	float:left;
+	height:32px;
+	padding-top:1px;
+	width:10px;
+}
+#buttonsUpDown button {
+	font-size:5px;
+	height:15px;
+	vertical-align:top;
+}
+/********************/
+button {
+	padding: 0px;
+}
+
+button img {
+	vertical-align: middle;
+	padding-left: 2px;
+	float: left;
+}
+
+button div {
+	padding-right: 2px;
+	padding-left: 2px;
+	display: inline;
+	vertical-align: middle;
+}
+
+
+.small_image {
+	margin-left: -4px;
+	margin-right: 3px;
+	width:9px;
+	heigth:9px;
+}
+.folder_image{
+	width: 16px;
+	heigth: 16px;
+	top: 2px;
+	margin-left: 2px;
+	margin-right: 4px;
+	position: relative;
+	float : left;
+}
+
+#settings
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	min-height: 229px;
+	background-color: #E0E0E0;
+}
+
+.alternative_title{
+	float:left;
+	font-size:14px;
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.buttonsSettings
+{
+	float : right;
+	margin-right: 10px;
+}
+
+.buttonsSettings img{
+	cursor:pointer;
+	margin-left: 8px;
+}
+
+#buttonsHeader{
+	position:relative;
+	top:-27px;
+}	
+
+.contentTable{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: white;
+	overflow : auto;
+}
+
+#addSettings
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	background-color: #E0E0E0;
+}
+
+#modifySettings
+{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	background-color: #E0E0E0;
+}
