@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Context Viewer</Name>
+		<Version>1.0_beta1</Version>
+		<Author>jmostazo</Author>
+		<Mail>jmostazo</Mail>
+		<Description>Este gadget permite tanto ver los valores de las variables de contexto, como llevar un registro de estos</Description>
+		<ImageURI>Imagen_para_el_catálogo</ImageURI>
+		<WikiURI>Página_web_del_Gadget</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+		<Preference name="languagePref" type="list" label="Gadget language" description="Language for the gadget content" default="default">
+			<Option value="default" name="Default"/>
+
+			<!-- You must list only the languages supported by this gadget -->
+			<Option value="en" name="English"/>
+			<Option value="es" name="Spanish"/>
+		</Preference>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<!-- This must point to the URL of the html code of this gadget -->
+		<XHTML href="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta1/examples/ContextViewer/ContextViewer.html"/>
+	</Platform.Link>
+
+	<!-- Modify these values according to the gadget needings -->
+	<Platform.Rendering width="6" height="24"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<Context       name="language"   type="text" concept="language"/>
+		<GadgetContext name="heightFull" type="text" concept="height"/>
+		<GadgetContext name="widthFull"  type="text" concept="width"/>
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

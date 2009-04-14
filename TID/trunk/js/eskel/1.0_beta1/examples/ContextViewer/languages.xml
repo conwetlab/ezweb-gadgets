@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="userName">User Name</label>
+		<label id="platformLang">Platform Language</label>
+		<label id="gadgetWindow">Gadget Window dimension in Layout Units</label>
+		<label id="clean">Clean Events</label>
+	</language>
+	<language name="es">
+		<label id="userName">Nombre de usuario</label>
+		<label id="platformLang">Idioma de la platforma</label>
+		<label id="gadgetWindow">Dimensiones de la ventana del Gadget en unidades del layout</label>
+		<label id="clean">Limpiar lista de eventos</label>
+	</language>
+</languages>

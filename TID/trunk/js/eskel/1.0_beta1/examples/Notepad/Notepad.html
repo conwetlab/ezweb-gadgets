@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Notepad</title>
+
+  <!-- EzWeb Gadgets project JavaScript Library -->
+  <script type="text/javascript" src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
+
+  <!-- Custom style -->
+  <style type="text/css">
+    #note {
+      border:      1px solid black;
+      color:       black;
+      font-size:   13pt;
+      font-family: "Comic Sans MS";
+      width:       100%;
+      background:  #f0e68c;
+    }
+
+    body {
+      margin: 0px;
+      padding: 8px;
+    }
+
+    #buttons {
+      margin: 5px;
+    }
+  </style>
+
+  <!-- Custom JavaScript code -->
+  <script type="text/javascript">
+	/* Our Gadget logic comes here */
+
+	var NotepadGadget = function() {
+		/* Call to the parent constructor */
+		EzWebGadget.call(this, {translatable: "true"});
+
+		/* Init our custom attributes */
+		this.noteVar = EzWebAPI.createRWGadgetVariable("note");
+		this.bgVar = EzWebAPI.createRGadgetVariable("bgcolor",
+		                                            function(newBgColor) {
+		                                                this.noteElement.style.backgroundColor = newBgColor;
+		                                             });
+	this.textcolorVar = EzWebAPI.createRGadgetVariable("textcolor",
+		                                            function(newTextColor) {
+		                                                this.noteElement.style.color = newTextColor;
+		                                            });
+	}
+	NotepadGadget.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
+
+	NotepadGadget.prototype.resourcesURL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta1/examples/Notepad";
+
+	NotepadGadget.prototype.repaint = function() {
+		/* see style. This is the extra space needed for margins and borders: (8 + 5 + 1 + 1) * 2 = 28 */
+		/* (body.padding + buttons.margin + note.border + ?) * 2 */
+		var newHeight = this.getHeight() - this.buttonsElement.offsetHeight - 30;
+		this.noteElement.style.height = newHeight + "px";
+	}
+
+	NotepadGadget.prototype.init = function() {
+		this.noteElement = document.getElementById("note");
+		this.buttonsElement = document.getElementById("buttons");
+
+		var loadingElement = document.getElementById("loading");
+		loadingElement.parentNode.removeChild(loadingElement);
+	}
+
+	NotepadGadget.prototype.save = function() {
+		this.noteVar.set(this.noteElement.value);
+	}
+
+	NotepadGadget.prototype.clean = function() {
+		this.noteElement.value = "";
+		this.save();
+	}
+
+	/* Instanciate the Gadget class */
+	NotepadGadget = new NotepadGadget();
+  </script>
+</head>
+<body>
+    <div id="loading"></div>
+    <div class="center">
+        <textarea id="note"></textarea>
+        <div id="buttons" class="buttons center">
+            <button id="save" onclick="javascript:NotepadGadget.save()">Save</button>
+            <button id="clean" onclick="javascript:NotepadGadget.clean()">Clean</button>
+        </div>
+    </div>
+</body>
+</html>

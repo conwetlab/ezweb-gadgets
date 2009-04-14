@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Hello World!!!</title>
+
+  <!-- EzWeb Gadgets project JavaScript Library -->
+  <script type="text/javascript" src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
+
+  <script type="text/javascript">
+
+    var HelloWorldGadget = function() {
+      /* Call to the parent constructor */
+      EzWebGadget.call(this, {translatable: "true"});
+    }
+    HelloWorldGadget.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
+
+    HelloWorldGadget.prototype.resourcesURL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta1/examples/HelloWorld";
+
+    HelloWorldGadget.prototype.init = function() {
+      var loadingElement = document.getElementById("loading");
+      loadingElement.parentNode.removeChild(loadingElement);
+    }
+
+    /* Instanciate the Gadget class */
+    HelloWorldGadget = new HelloWorldGadget();
+  </script>
+</head>
+<body>
+  <div id="loading"> </div>
+  <p>
+    <span id="hello" title="This is the common example for programming languages ;-)">Hello world!!!</span>
+  </p>
+</body>
+</html>
