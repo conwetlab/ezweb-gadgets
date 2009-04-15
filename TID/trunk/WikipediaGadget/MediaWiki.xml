@@ -1,0 +1,65 @@
+<Template schemaLocation='http://morfeo-project.org/2007/Template'>
+<!-- Es la descripcion del gadget -->
+	<Catalog.ResourceDescription>
+		<Vendor>EzWeb</Vendor>
+		<Name>Wikipedia</Name>
+		<Version>2.1</Version>
+		<Author>Ignacio Rodriguez</Author>
+		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
+		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/images/Wikipedia-110x100.png</ImageURI>
+		<WikiURI>http://es.wikipedia.org</WikiURI>
+	</Catalog.ResourceDescription>
+<!-- Fin de la desripcion del gadget -->
+<!-- Definicion de las variables de integración y Elementos de Platforma -->
+	<!-- Preferencias de Usuario: variables que pueden ser modificadas desde la Platforma -->
+	<Platform.Preferences>
+	  <Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
+	    <Option value="en" name="English"/>
+	    <Option value="es" name="Español"/>
+	  </Preference>
+	  <Preference name="apilanguage" type="list" label="Search Language" description="Select search language " default="es">
+	    <Option value="es" name="Español"/>
+	    <Option value="ca" name="Català"/>
+	    <Option value="ca" name="Euskara"/>
+	    <Option value="en" name="English"/>
+	    <Option value="de" name="Deutsch"/>
+	    <Option value="fr" name="Français"/>
+	    <Option value="it" name="Italiano"/>
+	    <Option value="pt" name="Portugês"/>
+	    <Option value="nl" name="Nederlands"/>
+	  </Preference>
+	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org:13001"/>
+	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
+	    <Option value="5" name="5"/>
+	    <Option value="10" name="10"/>
+	    <Option value="15" name="15"/>
+	    <Option value="20" name="20"/>
+	    <Option value="25" name="25"/>
+	   </Preference>
+	</Platform.Preferences>
+	<!-- Indica que informacion debe ser persistente en el estado del gadget-->
+	<Platform.StateProperties> </Platform.StateProperties>
+	<!-- Indica que variables emplea el gadget para comunicarse con otros gadgets -->
+	<Platform.Wiring>
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	  <Slot name="gotokey" type="text" label="keyword" friendcode="gotokey"/>
+	  <Event name="url" type="text" label="url" friendcode="url"/>
+	  <Event name="summary" type="text" label="summary" friendcode="summary"/>
+	  <Event name="title" type="text" label="title" friendcode="title"/>
+	  <Event name="image" type="text" label="image" friendcode="image"/>
+	</Platform.Wiring>
+	<!-- Indica el contexto al gadget y se manejan por la propia Platforma -->
+	<Platform.Context>
+		<Context name="user" type="text" concept="user_name"/>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context>
+	<!-- Asocia este template con su implementacion (en html) -->
+	<Platform.Link>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/MediaWiki.html"/>
+	</Platform.Link>
+	<!-- Definimos la informacion de presentacion del interfaz ancho y alto -->
+	<Platform.Rendering width='6' height='24'/>
+</Template>		

@@ -1,0 +1,363 @@
+/* Header CSS */
+body{
+	background: #EEE;
+	font-family: sans-serif;
+	padding:0px;
+	margin: 0px;
+	overflow : hidden;
+}
+#header{
+	background: #E6ECFF url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikibar2.png) no-repeat scroll right center;
+	padding-left:0px;
+	height:30px;
+	border:1px solid #CCC;
+	min-width:500px;
+	-moz-border-radius:6px;
+}
+#header .image{
+	cursor:pointer;
+	margin-bottom:3px;
+	padding:3px 1px 0px 2px;
+	float:left;
+}
+#header .boton{
+	margin-bottom:3px;
+	padding:2px 1px 0px 2px;
+	float:left;
+}
+#header .text{
+	margin-bottom:3px;
+	padding:3px 1px 0px 2px;
+	float:left;
+}
+#header input {
+	width: 185px;
+	height: 25px;
+  	border: 1px solid #888888;;
+  	padding: 1px 2px;
+  	position: relative;
+  	-moz-border-radius: 4px;
+  	color: black;
+}
+
+#header button {
+	height:27px;   
+	padding-bottom:1px;
+	padding-left:2px;
+	padding-right:2px;
+	padding-top:0;
+}
+
+#search-buttons{
+	float:left;
+	padding-left:10px;
+	padding-top: 2px;
+}
+
+
+#content{
+	background: #EEE url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikipedia-logo.png) no-repeat scroll center center;
+	overflow: auto;
+	width: 100%;
+	position:absolute;
+	top: 32px;
+	bottom:3px;
+	left:3px;
+	right:3px;
+}
+#footer {
+	background: #E6ECFF url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikibar1.png) no-repeat scroll right center;
+	padding-left:0px;
+	height:30px;
+	border:1px solid #CCC;
+	min-width:295px;
+	-moz-border-radius:6px;
+}
+.search{
+	margin-top: -15px;
+}
+.search h3 {
+	padding-left: 15px;
+	color: black;
+	font-family: sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+}
+.search hr {
+	margin-top:-15px;
+}
+.search table{
+	padding-left: 30px;
+}
+.search a {
+	font-family: sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	font-size: small;
+	font-size-adjust: none;
+	cursor: pointer;
+	color: black;
+}
+
+#img-start{
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 20px;
+}
+.remarked{
+	color: #002BB8;
+	font-weight: bold;
+}
+.navigationbar{
+	color: #0033FF;
+}
+.pagesearch {
+	color: #A90A08;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#noSearchResult{
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-bottom: 90px;
+	color: #A90A08;
+	text-decoration: underline;
+}
+
+#titleArticle {
+	width:100%;
+	margin-top: 5px;
+	margin-bottom:5px;
+	border-bottom:1px solid black;
+}
+#titleArticle h3 {
+	color: black;
+	margin-top: 5px;
+	margin-bottom:5px;
+	padding-left:10px;
+	margin-right:20px;
+	font-family: sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	text-align: left;
+}
+#contentArticle{
+	display:block;
+	overflow:auto;
+	margin:0px;
+}
+#urlArticle {
+	text-align:left;
+	padding-bottom:9px;
+	padding-left:20px;
+} 
+#urlArticle a{
+	color:#002BB8;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: small;
+	font-size-adjust: none;
+	cursor: pointer;
+}
+#urlArticle img{
+	border: none;
+} 
+#messageArticle
+{
+	text-align:left;
+	padding-left:20px;
+}
+#messageArticle p{
+	color: black;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size-adjust: none;
+	font-size: small;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	margin:0px;
+}
+#linksArticle{
+	text-align:left;
+}
+#linksArticle ul{
+	margin:0px;
+	padding-left:35px;
+}
+#linksArticle li{
+	color:#3366BB;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: small;
+	font-size-adjust: none;
+	cursor: pointer;
+	padding-left: 2px;
+	list-style: square;
+}
+a:visited {
+	color:#3366BB;
+}
+
+.toccolours
+{
+	width: 100%;
+	float: left;
+}
+
+
+/*
+ * Estilos de los articulos
+ */
+.title-article{
+	border-bottom:1px solid #000000;
+	font-size-adjust:none;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.2em;
+	margin:5px 5px 0.1em 10px;
+	padding-bottom:0;
+	padding-left:5px;
+}
+#siteSub {
+	display:None;
+}
+
+.toc, #toc {
+	color:black;
+	font-size:small;
+	background-color: #F9F9F9;
+	border: 1px solid #AAA;
+	-moz-border-radius: 6px;
+	text-align: left;
+	padding-left:10px;
+	padding-right:10px
+}
+
+.toc, #toc h2 {
+	border: none;
+	font-size : large;
+}
+
+.toc ul, #toc ul {
+	list-style-type: none;
+	list-style-image:none;
+}
+#jump-to-nav{
+	display:None;
+}
+#bodyContent{
+	margin-left:10px;
+	margin-right:5px;
+	margin-bottom: 5px;
+	text-align: justify;
+	font-size:small;
+	font-size-adjust:none;
+	font-weight:normal;
+	line-height:1.5em;
+}
+#bodyContent h2 {
+	border-bottom: 1px solid #888;
+	text-align: left;
+}
+#bodyContent a {
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
+}
+.mw-headline {
+	font-size:100%;
+	line-height:1.5em;
+}
+.editsection{
+	display:None;
+}
+
+
+.ambox-text {
+	font-size:small;
+	font-size-adjust:none;
+	font-weight:normal;
+	line-height:1.5em;
+}
+
+.printfooter{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.thumb {
+	float:right;
+	clear:right;
+	padding:2px;
+	border: 1px solid #AAA;
+	-moz-border-radius:6px;
+	background: #CCC;
+	margin: 2px 0px 2px 14px;
+	max-width: 100%;
+	overflow:auto;
+}
+.infobox, .infoDerecha {
+	float:right;
+	padding:2px;
+	border: 1px solid #AAA;
+	-moz-border-radius:6px;
+	background: #CCC;
+	margin: 2px 0px 2px 14px;
+	font-size:small;
+	font-size-adjust:none;
+	font-weight:normal;
+	line-height:1.5em;
+}
+
+table.mw_metadata th {
+	background-color:#F9F9F9;
+}
+table.mw_metadata td, table.mw_metadata th { 
+	border:1px solid #AAAAAA;
+	padding-left:0.1em;
+	padding-right:0.1em;
+	text-align:center;
+	font-size:small;
+}
+table.mw_metadata th {
+	font-weight:normal;
+}
+.filehistory {
+	font-size:small;
+}
+#catlinks, .catlinks{
+	background-color:#F9F9F9;
+	border:1px solid #AAAAAA;
+	clear:both;
+	margin-top:1em;
+	padding:5px;
+}
+
+#loading_background {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:3000;
+	background:none;
+	filter:alpha(opacity=60);
+	-moz-opacity:.60;
+	opacity:.60;
+	width: 100%;
+	height: 100%;
+}
+
+#loading_image {
+	position:absolute;
+	z-index:3001;
+	top:35px;
+	right:10px;
+}
+

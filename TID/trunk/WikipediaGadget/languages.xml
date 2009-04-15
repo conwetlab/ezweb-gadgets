@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+    <language name="es">
+        <label id="description">Descripción</label>
+        <label id="links">Enlaces Relacionados</label>
+	<label id="noSearchResult">No se han encontrado resultados</label>
+	<label id="searchResult">Resultados Encontrados</label>
+	<label id="go-button">Ir</label>
+	<label id="search-button">Buscar</label>
+    </language>
+    <language name="en">
+        <label id="description">Description</label>
+        <label id="links">Related Links</label>
+	<label id="noSearchResult">No page text matches</label>
+	<label id="searchResult">Search Results</label>
+	<label id="go-button">Go</label>
+	<label id="search-button">Search</label>
+    </language>
+</languages>
