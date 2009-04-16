@@ -9,7 +9,7 @@
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget que muestra un chiste cada día.</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/icon.png</ImageURI>
-		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Chiste_del_d.C3.ADa</WikiURI>
 	</Catalog.ResourceDescription>
 
 	<!-- EzWeb Gadgets Preferences -->
