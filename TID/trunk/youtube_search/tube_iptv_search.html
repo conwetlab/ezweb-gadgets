@@ -344,6 +344,7 @@ function URLEncode( url )
 	var poi = EzWebAPI.createRWGadgetVariable("poi");
 	var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
 	var defaultChannel = EzWebAPI.createRGadgetVariable("channel", changeDefaultChannel);
+	var region = EzWebAPI.createRGadgetVariable("region", changeRegion);
 
 	
 	/* Channels */
@@ -446,16 +447,9 @@ function URLEncode( url )
 	movies.push(movie);
 
 
-    var channels = [
-      ["Ultimos destacados", "http://youtube.com/rss/global/recently_featured_es_ES.rss"],
-      ["Superfavoritos", "http://youtube.com/rss/global/top_favorites_es_ES.rss"],
-      ["Mas valorados", "http://youtube.com/rss/global/top_rated_es_ES.rss"],
-      ["Mas vistos hoy", "http://youtube.com/rss/global/top_viewed_today_es_ES.rss"],
-      ["Mas comentados hoy", "http://youtube.com/rss/global/most_discussed_today_es_ES.rss"],
-      ["Anadidos recientemente", "http://youtube.com/rss/global/recently_added_es_ES.rss"],
-      ["Peliculas",""]
-    ];
-    var defaultChannels = channels.length;
+    var channels = new Array()
+
+	var languages = {"DE":"de","BR":"pt","ES":"es","FR":"fr","HK":"zh-Hans","IE":"ga","IT":"it","JP":"ja","PL":"pl","RU":"ru"};
 	
 	/* User preference management */
     //var prefs = new _IG_Prefs();
@@ -463,37 +457,44 @@ function URLEncode( url )
     var CURRENT_PREFS_VERSION = 2;
     //var rawQuery = "";
 
+
 function load(){
+	createChannels(region.get());
 	currentChannelId = parseInt(defaultChannel.get());
     rebuildChannelList();
     document.getElementById("channellist").onchange();
 }
-
+function createChannels(region){
+	if (region=="US"){
+		channels = [
+		  ["Ultimos destacados", "http://gdata.youtube.com/feeds/api/standardfeeds/recently_featured?alt=rss"],
+		  ["Superfavoritos", "http://gdata.youtube.com/feeds/api/standardfeeds/top_favorites?alt=rss"],
+		  ["Mas valorados", "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?alt=rss"],
+		  ["Mas vistos", "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?alt=rss"],
+		  ["Mas comentados", "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?alt=rss"],
+		  ["Anadidos recientemente", "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?alt=rss"],
+		  ["Peliculas",""]
+		];
+	}else{
+		channels = [
+		  ["Ultimos destacados", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/recently_featured?alt=rss"],
+		  ["Superfavoritos", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/top_favorites?alt=rss"],
+		  ["Mas valorados", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/top_rated?alt=rss"],
+		  ["Mas vistos", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_viewed?alt=rss"],
+		  ["Mas comentados", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_discussed?alt=rss"],
+		  ["Anadidos recientemente", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_recent?alt=rss"],
+		  ["Peliculas",""]
+		];
+	}
+    defaultChannels = channels.length;
+}
 function changeDefaultChannel(value){
 	//DO NOTHING
 }
+function changeRegion(value){
+	load();
+}
 
-/*
-	function loadPreferences() {
-      var prefs_version = prefs.getInt("prefs_version");
-      if (prefs_version < CURRENT_PREFS_VERSION) {
-        // Do nothing.
-      } else if (prefs_version == CURRENT_PREFS_VERSION) {
-        var search_channels = prefs.getInt("search_channels");
-        for (var i = 0; i < Math.min(MAX_SAVED_SEARCHES, search_channels); i++) {
-          var name = prefs.getString("search_channel_name" + i);
-          var url = prefs.getString("search_channel_url" + i);
-          channels[i + defaultChannels] = [name, url];
-        }
-        // If this channel number is no longer valid for whatever reason
-        // we'll just fallback when trying to set it as the current one
-        currentChannelId = prefs.getInt("current_channel_id");
-      }
-      
-      // host page requested initial search to run
-      rawQuery = prefs.getString("rawQuery");
-    }
-	*/
 	
 	/* DOM manipulation helpers */
     function showElements() {
@@ -634,8 +635,16 @@ function changeDefaultChannel(value){
 	
 	// Search helper
     function getSearchUrl(query) {
-      return "http://youtube.com/rss/search_by_relevance/" + 
-          encodeURI(query) + ".rss";
+      var url= "http://gdata.youtube.com/feeds/api/videos?alt=rss&vq=" + encodeURI(query);
+	  try{
+	  	var lang = languages[region.get()];
+	  	if (lang && lang!="")
+			url = url + "&lr=" + lang
+	  }catch(e){
+
+	  }
+		return url;
+
     } 
 	
 	// Does a search by requesting the RSS feed for the query from YT
@@ -727,24 +736,33 @@ try{
       for (var i = 0; i < items.length && 
           videos.length <= MAX_SEARCH_RESULTS; i++) {
         var video = new Object();
-        for (var j = 0; j < items[i].childNodes.length; j++) {
-          if (items[i].childNodes[j].nodeName == "enclosure") {
-            var url = items[i].childNodes[j].getAttribute("url");
-            var duration = items[i].childNodes[j].getAttribute("duration");
-            video.swf = url;
-            video.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
-            video.index = videos.length;
-            video.duration = duration;
-          }
-          if (items[i].childNodes[j].nodeName == "media:thumbnail") {
-            var url = items[i].childNodes[j].getAttribute("url");
-            video.thumbnail = url;
-          }
-          if (items[i].childNodes[j].nodeName == "title") {
+		var j = 0;
+		for (j = 0; j < items[i].childNodes.length; j++) {
+		  if (items[i].childNodes[j].nodeName == "title") {
             video.title = getXmlNodeText(items[i].childNodes[j])
           }
+          if (items[i].childNodes[j].nodeName == "media:group") {
+				var group = items[i].childNodes[j].childNodes;
+				for (var k = 0; k < group.length; k++) {
+				  if (group[k].nodeName == "media:content") {
+					if (group[k].getAttribute("type")=="application/x-shockwave-flash"){
+						var url = group[k].getAttribute("url");
+						video.swf = url;
+						video.id = url.replace(/.*\/v\/(.*)\.swf/, "$1");
+						video.index = videos.length;           
+						var duration = group[k].getAttribute("duration");
+						video.duration = duration;
+					}
+				  }
+				  if (group[k].nodeName == "media:thumbnail") {
+				    var url = group[k].getAttribute("url");
+				    video.thumbnail = url;
+				  }
+        		}
+		  }
         }
-        videos.push(video);
+		if (video.swf)
+	        videos.push(video);
       }
       
       if (videos.length > 0) {
@@ -1025,7 +1043,7 @@ alert("excepcion");
   <table>
     <tr>
       <td>
-        <a href="http://es.youtube.com" target="_top"><img
+        <a href="http://www.youtube.com" target="_top"><img
             height="22" width="51" border="0"
           src="http://img0.gmodules.com/ig/modules/youtube_videos_content/ytlogo_51x22.gif" /></a>
       </td>

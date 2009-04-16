@@ -13,14 +13,34 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-		<Preference name="channel" type="list" description="default channel" label="default channel"  default="6">
+		<Preference name="channel" type="list" description="default channel" label="canal por defecto"  default="6">
 			<Option value="0" name="Ultimos destacados"/>
 			<Option value="1" name="Superfavoritos"/>
 			<Option value="2" name="Mas valorados"/>
-			<Option value="3" name="Mas vistos hoy"/>
-			<Option value="4" name="Mas comentados hoy"/>
+			<Option value="3" name="Mas vistos"/>
+			<Option value="4" name="Mas comentados"/>
 			<Option value="5" name="Anadidos recientemente"/>
 			<Option value="6" name="Películas"/>
+		</Preference>
+		<Preference name="region" type="list" description="region" label="region"  default="US">
+			<Option value="US" name="Estados Unidos"/>
+			<Option value="DE" name="Alemania"/>
+			<Option value="AU" name="Australia"/>
+			<Option value="BR" name="Brasil"/>
+			<Option value="CA" name="Canadá"/>
+			<Option value="KR" name="Corea del Sur"/>
+			<Option value="ES" name="España"/>
+			<Option value="FR" name="Francia"/>
+			<Option value="GB" name="Gran Bretaña"/>
+			<Option value="HK" name="Hong Kong"/>
+			<Option value="IE" name="Irlanda"/>
+			<Option value="IT" name="Italia"/>
+			<Option value="JP" name="Japón"/>
+			<Option value="MX" name="México"/>
+			<Option value="NZ" name="Nueva Zelanda"/>
+			<Option value="PL" name="Polonia"/>
+			<Option value="RU" name="Rusia"/>
+			<Option value="TW" name="Taiwán"/>
 		</Preference>
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
