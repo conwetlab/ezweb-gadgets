@@ -6,11 +6,13 @@ import urlparse
 def queryGET(url, params=None, headers={}):
     proto, host, cgi = urlparse.urlparse(url)[:3]
     conn = httplib.HTTPConnection(host)
-
+    print url
+    print params
     if params:
         conn.request ('GET', cgi +'?%s' % urllib.urlencode(params), headers)
     else:
         conn.request('GET', cgi, headers)
+    print 'aqui'
     response = conn.getresponse()
     return response
 

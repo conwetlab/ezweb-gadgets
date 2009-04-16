@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.cache import cache
 from utils import queryGET
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
@@ -46,7 +47,6 @@ def DESCRIPTION(request, url, value, sroffset, srlimit):
 def SEARCH(request, url, value, sroffset, srlimit):
     
 	if request.method == 'GET':
-
 		params = {'action' : 'query',
 			  'list' : 'search',
 			  'format' : 'xml',
@@ -55,7 +55,9 @@ def SEARCH(request, url, value, sroffset, srlimit):
 			  'srsearch' : value.encode('utf8')}
         
 		# Get result of the request
+		print url, value, sroffset, srlimit
 		response = queryGET(url, params, {})
+		print 'despues'
 		# Parsing the results
 		result = response.read()
 		response.close()
@@ -78,8 +80,8 @@ def SEARCH(request, url, value, sroffset, srlimit):
 def CONTENTARTICLE(request, url, value):
 
 	if request.method == 'GET':
-		
-		url = url + '/' + value
+		cache._cache.clear() # Limpia la cache	
+		url = 'http://'+url+'.wikipedia.org/wiki/' + value
 		userAgent = "Mozilla/5.0 (X11; U; Linux i686; es-ES; rv:1.9.0.5) Gecko/2008121621 Ubuntu/8.04 (hardy) Firefox/3.0.3;"
 
 		# Get result of the request
