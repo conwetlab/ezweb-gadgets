@@ -38,7 +38,7 @@ function getRecentMails()
 			  port: configs[i].port,
 			  connection: configs[i].connection}
 
-	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org:13000/mailproxy/imap/recent/1/20/", "config=" + 
+	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/20/", "config=" + 
 			      encodeURIComponent(to_json(config)), 
 			      onSuccessGetSize, 
 			      onError);
@@ -97,7 +97,7 @@ function onSuccessGetSize(transport)
 					      port: configs[i].port,
 					      connection: configs[i].connection}
 
-				NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org:13000/mailproxy/imap/recent/1/"+response.size+"/", "config=" + 
+				NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/"+response.size+"/", "config=" + 
 						  encodeURIComponent(to_json(config)), 
 						  onSuccessGetRecentMails, 
 						  onError);
