@@ -104,12 +104,12 @@ function sanitize( text ){
 				'ã':'a','õ':'o','Ã':'A','Õ':'O','€':'E',
 				'©':'c','°':'o','®':'R','£':'L','$':'S',
 				'\t':'   ', 'º':'o','ª':'a','“':'"','”':'"',
-				'…':'...'}
+				'…':'...','¿':'','¡':'','ç':'c','Ç':'C'}
 
 	var plaintext = "";
 	for (var i = 0; i < text.length; i++) {
 		var ch = text.charAt(i);
-		if (equivalences[ch]) {
+		if (equivalences[ch]!=null) {
 			plaintext += equivalences[ch];
 		}else{
 			plaintext += ch;
