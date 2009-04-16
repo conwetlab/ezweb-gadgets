@@ -29,12 +29,17 @@
 	var sentItemSummary = EzWebAPI.createRWGadgetVariable("sentSummary");
 
 	//global vars
-	var lastShown = "item_0";
-	var URL;
-	var xmlns;
-	var translator;
-	var current_feed;
+	var lastShown = "item_0";			//item which was unfolded last time
+	var URL;							// Feed URL
+	var xmlns;							//Namespace used in the xml. Null if not specified
+	var translator;						//language translator
+	var current_feed;					//feed structure which is being shown
+	var itemsElements;					//xml list of entries.
+	var itemsPerPage;					//items per page
+	var maxShownPages = 4;				//num of pages shown on the paginator
 
+
+	//aux functions
 	//set style
 	function _changeTheme(value){
 		//WORKAROUND: select blue by default
@@ -42,9 +47,67 @@
 			value = "blue";
 		//END WA
 		var href = "http://demo.ezweb.morfeo-project.org/repository/feedReader/readerThemes/"+value+"_RSSReader.css";
-		var sheetLink=document.getElementById('style');
+		var sheetLink=$('style');
 		sheetLink.href=href;
 		return;
+	}
+	
+	//draw a paginator control
+	function setPaginator(initPage){
+		//each page has a maximum of 'items' preference elements
+		var pages = Math.ceil(itemElements.length / itemsPerPage);
+        if(pages > 1){
+			var context = {'initPage':initPage};
+			$('paginator').update();
+			if((initPage + maxShownPages) < pages){
+				$('next_pages').style.display = "inline";
+				$('next_pages').onclick = function(e){e.stop;setPaginator(this.initPage + maxShownPages)}.bind(context);
+			}else{
+				$('next_pages').style.display = "none";
+			}
+			if(initPage > 0){
+				$('prev_pages').style.display = "inline";
+				$('prev_pages').onclick = function(e){e.stop;setPaginator(this.initPage - maxShownPages)}.bind(context);
+			}else{
+				$('prev_pages').style.display = "none";
+			}
+		
+			var pag, id=0;
+			for(var i=initPage; i<(initPage + maxShownPages) && i<pages; i++){
+				//fill the paginator
+				pag = document.createElement ("span");
+				pag.id = "c_pag_"+id;
+				pag.className="pag";
+				var context = {'index':i * itemsPerPage};
+				pag.onclick = function(e){e.stop;selectItems(this.index);
+								var current = $$('.current_page');
+								if(current.length > 0){
+									current[0].removeClassName('current_page');
+								}
+								$(e.target).addClassName('current_page');
+							  }.bind(context);									
+				pag.update(i+1);
+				$('paginator').appendChild(pag);
+				$('pages').style.width = ($('paginator').getWidth() + $('next_pages').getWidth() * 2 + 4) + "px";
+				id++;
+			}
+			$('c_pag_0').addClassName('current_page');
+			
+		}else{//do not show the paginator control
+			$('next_pages').style.display = 'none';
+			$('prev_pages').style.display = 'none';
+			$('paginator').update();
+		}
+		
+		//select the first page to show
+        var firstItem = initPage  * itemsPerPage;
+		selectItems(firstItem);
+	}
+	
+	function selectItems(index){
+		var items = current_feed.processItems(index);
+		populateItems(items);		
+	
 	}
 
 	//PARSERS
@@ -64,6 +127,7 @@
 			this.length = encElement.getAttribute("length");
 			this.type = encElement.getAttribute("type");
 		}
+
 	}
 
 	function RSS2Guid(guidElement)
@@ -71,6 +135,7 @@
 		if (!guidElement)
 		{
 			this.isPermaLink = null;
+
 			this.value = null;
 		}
 		else
@@ -202,9 +267,38 @@
 		this.title;
 		this.link;
 		this.description;
+		
+		//hash of RSS2Item objects
+		this.items = new Hash();
+		
+		//public methods
+		
+		//process only the items of one page. It the demanded items have already been processed, just return them
+		RSS2Channel.prototype.processItems = function(first){
 
-		//array of RSS2Item objects
-		this.items = new Array();
+			var items = new Array();		//items to return
+			
+			for (var i=first; i<(first + itemsPerPage)&&i<itemElements.length; i++)
+			{
+
+
+
+
+				//if it hasn't been parsed
+				if(!this.items[i]){
+					Item = new RSS2Item(itemElements[i]);
+					this.items[i] = Item;
+					items.push(Item);
+				}else{
+
+
+
+
+					items.push(this.items[i]);
+				}
+			}
+			return items;
+		}
 
 		//optional vars
 		this.language;
@@ -224,20 +318,13 @@
 
 		var chanElement = rssxml.getElementsByTagName("channel")[0];
 		xmlns = chanElement.namespaceURI;
-		var itemElements = rssxml.getElementsByTagNameNS(xmlns,"item");
+		itemElements = rssxml.getElementsByTagNameNS(xmlns,"item");
 		if (itemElements.length == 0){//the structure can be specified through RDF, so the items can be defined outside the channel
 			itemElements = rssxml.getElementsByTagName("item");
 		}
-		if(itemElements.length > 0){
-			//process a maximun of 'items' preference elements
-			var num_items = (itemElements.length >= items.get())? items.get():itemElements.length;
-			for (var i=0; i<num_items; i++)
-			{
-				Item = new RSS2Item(itemElements[i]);
-				this.items.push(Item);
-				//chanElement.removeChild(itemElements[i]);
-			}
-		}
+		
+		//set itemsPerPage global				
+		itemsPerPage = (itemElements.length >= items.get())? parseInt(items.get()):itemElements.length;
 
 		var properties = new Array("title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "lastBuildDate", "generator", "docs", "ttl", "rating");
 		var tmpElement = null;
@@ -340,6 +427,7 @@
 		if (catElement == null)
 		{
 			this.term = null;
+
 			this.label = '';
 		}
 		else
@@ -357,8 +445,31 @@
 		this.link;
 
 
-		//array of AtomEntry objects
-		this.items = new Array();
+		//hash of AtomEntry objects
+		this.items = new Hash();
+		
+		//public methods
+		
+		//process only the items of one page. It the demanded items have already been processed, just return them
+		AtomFeed.prototype.processItems = function(first){
+
+			var items = new Array();		//items to return
+			
+			for (var i=first; i<(first + itemsPerPage)&&i<itemElements.length; i++)
+			{
+
+				//if it hasn't been parsed
+				if(!this.items[i]){
+					Item = new AtomEntry(itemElements[i]);
+					this.items[i] = Item;
+					items.push(Item);
+
+				}else{
+					items.push(this.items[i]);
+				}
+			}
+			return items;
+		}
 
 		//optional vars
 		this.description;
@@ -373,21 +484,14 @@
 
 		var feedElement = rssxml.getElementsByTagName("feed")[0];
 		xmlns = feedElement.namespaceURI;
-		var itemElements = rssxml.getElementsByTagNameNS(xmlns,"entry");
+		itemElements = rssxml.getElementsByTagNameNS(xmlns,"entry");
 
 		if (itemElements.length == 0){//the structure can be specified through RDF, so the entries can be defined outside the feed
 			itemElements = rssxml.getElementsByTagName("entry");
 		}
-		if(itemElements.length > 0){
 
-			//process a maximun of 'items' preference elements
-			var num_items = (itemElements.length >= items.get())? items.get():itemElements.length;
-			for (var i=0; i<num_items; i++)
-			{
-				Item = new AtomEntry(itemElements[i]);
-				this.items.push(Item);
-			}
-		}
+		//set itemsPerPage global				
+		itemsPerPage = (itemElements.length >= items.get())? parseInt(items.get()):itemElements.length;
 
 		var properties = new Array("title", "subtitle", "rights", "generator");
 		var rss_properties = new Array("title", "description", "copyright", "generator");
@@ -434,11 +538,61 @@
 	
 	//shows the Feed content in the browser
 	function showFeed(feed) {
-		var item_html;
 		current_feed = feed;
 
 		//default values for html tags used
 		var imageTag = "<img class='chan_image'";
+
+		//populate channel data
+		var properties = new Array("link","pubDate","copyright");
+		for (var i=0; i<properties.length; i++)	{
+			$('chan_' + properties[i]).innerHTML = '';
+			curProp = feed[properties[i]];
+
+			if(properties[i] =='pubDate' && curProp != null){
+				$('chan_' + properties[i]).innerHTML = curProp.value;
+			}else if (properties[i] == 'link' && curProp != null){
+				$('chan_' + properties[i]).innerHTML = curProp;
+				$("chan_link").href = curProp;
+				$("chan_link").target = '_blank';
+			}else if(properties[i] == 'copyright'){
+				if(curProp != null){
+					$('chan_' + properties[i]).innerHTML = curProp;
+					$("rights_link").style.display = "inline";
+				}
+				else
+					$("rights_link"). display = "none";
+			}
+					
+		}
+
+		//show the image
+		$("chan_image_link").innerHTML = "";
+		if (feed.image.url != null)
+		{
+			$("chan_image_link").href = feed.image.link;
+			$("chan_image_link").innerHTML = imageTag
+				+" alt='"+feed.image.description
+				+"' width='"+feed.image.width
+				+"' height='"+feed.image.height
+				+"' src='"+feed.image.url
+				+"' "+"/>";
+		}
+		
+		//show the paginator
+		if(itemElements.length > 0){
+			//draw the paginator control and the first page items
+			setPaginator(0);
+		}
+		
+		//we're done
+		return true;
+	}
+
+	function populateItems(items){
+	
+		var item_html;
+		//default values for html tags used
 		var startItemTag = "<li ";
 		var endItemTag = "</li>"
 		var startPubDate = "<div class='item_date'>"
@@ -446,42 +600,11 @@
 		var startLink = "<div class='item_link'>";
 		var startDescription = "<div class='item_description'> ";
 		var endTag = "</div>";
-
-		//populate channel data
-		var properties = new Array("link","description","pubDate","copyright");
-		for (var i=0; i<properties.length; i++)	{
-			document.getElementById('chan_' + properties[i]).innerHTML = '';
-			curProp = feed[properties[i]];
-			if(properties[i] =='pubDate'){
-				document.getElementById('chan_' + properties[i]).innerHTML = curProp.value;
-			}else if (curProp != null){
-				document.getElementById('chan_' + properties[i]).innerHTML = curProp;
-				if (properties[i] == 'link')
-				{
-					document.getElementById("chan_link").href = curProp;
-					document.getElementById("chan_link").target = '_blank';
-				}
-
-			}				
-		}
-
-		//show the image
-		document.getElementById("chan_image_link").innerHTML = "";
-		if (feed.image.url != null)
-		{
-			document.getElementById("chan_image_link").href = feed.image.link;
-			document.getElementById("chan_image_link").innerHTML = imageTag
-				+" alt='"+feed.image.description
-				+"' width='"+feed.image.width
-				+"' height='"+feed.image.height
-				+"' src='"+feed.image.url
-				+"' "+"/>";
-		}
-
+	
 		//populate the items
 		document.getElementById("chan_items").innerHTML = "<ul>";
 		var summary;
-		for (var i=0; i<feed.items.length; i++)
+		for (var i=0; i<items.length; i++)
 		{
 			item_html = startItemTag;
 			item_html += "id=\"li_item_"+i+"\"";
@@ -490,15 +613,15 @@
 			}else{
 				item_html += "class=\"item\"";
 			}
-			summary = generateSummary(feed.items[i].description);
+			summary = generateSummary(items[i].description);
 			item_html += "onclick=\"javascript:openItem('item_" + i + "', " + i + ");\" />";
-			item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((feed.items[i].title == null) ? translator.getLabel('untitled'):feed.items[i].title) + endTag;
-			item_html += startPubDate + feed.items[i].pubDate.value + endTag;
+			item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
+			item_html += startPubDate + items[i].pubDate.value + endTag;
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
-			item_html += (feed.items[i].link == null) ? startLink + feed.items[i].title + endTag : startLink + "<a href='" + feed.items[i].link +"' target='_black'>"+feed.items[i].title+"</a>" + endTag;
-			item_html += (feed.items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ feed.items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
+			item_html += (items[i].link == null) ? startLink + items[i].title + endTag : startLink + "<a href='" + items[i].link +"' target='_black'>"+ items[i].title+"</a>" + endTag;
+			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
 			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
-			item_html += (feed.items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + feed.items[i].description + endTag;
+			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
 			item_html += endTag;
 
 			item_html += "</li>";
@@ -517,11 +640,10 @@
 		             links[j].target="_blank";
 		        }
 		}
-	        
-		//we're done
-		return true;
+		
 	}
-
+	
+	//generate a description which can be displayed on a tip box.
 	function generateSummary(description){
 		var summary;
 		if(description == null){
@@ -567,117 +689,142 @@
 		sentItemTitle.set(title);
 	}
 	
-		function processFeed (response)
-		{
-			var feed;
-			$('loading').style.display="none";
-			//get XML document
-			var xml = response.responseXML;
-			if(!xml){
-				//get it from responseText
-				// Mozilla and Netscape browsers
-				if (document.implementation.createDocument) {
-					var parser = new DOMParser()
-					xml = parser.parseFromString(response.responseText, "application/xhtml+xml")
-				// MSIE
-				} else if (window.ActiveXObject) {
-					xml = new ActiveXObject("Microsoft.XMLDOM")
-					xml.async="false"
-					xml.loadXML(response.responseText)
-				}
-			}
-
-			//RSS or Atom
-			if(xml.documentElement.tagName=='feed' ){
-				feed = new AtomFeed (xml);
-			}else{
-				feed = new RSS2Channel (xml);
-			}
-			showFeed(feed);
-		}
+	function processFeed (response)
+	{
+		var feed;
+		$('loading').style.display="none";
+		$('chan').style.display="block";
+		$('pages').style.display="block";
+		//get XML document
+		var xml = response.responseXML;
+		if(!xml){
+			//get it from responseText
+			// Mozilla and Netscape browsers
+			if (document.implementation.createDocument) {
+				var parser = new DOMParser()
+				xml = parser.parseFromString(response.responseText, "application/xhtml+xml")
+			// MSIE
+			} else if (window.ActiveXObject) {
+				xml = new ActiveXObject("Microsoft.XMLDOM")
+				xml.async="false"
+				xml.loadXML(response.responseText)
 
 
-		function failedFeed (response)
-		{
-			$('loading').style.display="none";
-			$('chan_items').innerHTML = "<span class='msg'> Error al obtener el feed</span>";
-
-		}
-
-		function _DoClick(value)
-		{
-		}
-
-		function _Handler(value)
-		{
-			$('loading').style.display = "block";
-			$('chan_link').innerHTML = '';
-			$('chan_description').innerHTML = '';
-			$('chan_image_link').innerHTML = '';
-			$('chan_items').innerHTML = '';
-			$('chan_pubDate').innerHTML = '';
-			$('chan_copyright').innerHTML = '';
-			lastShown = "item_0";
-			if (value && value != "")
-			{
-				URL = decodeURI(value);
-				var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
-			   	EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
-			}
-		}
-		function _SetNumItems(value){
-			_Handler(URL)
-		}
-
-		function show(id) 
-		{
-			document.getElementById(id).style.display = "block";
-			document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
-		}
-
-		function hide(id) 
-		{
-			if (id != ""){
-				document.getElementById(id).style.display = "none";
-				document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "block";
 			}
 		}
 
-		function openItem(id, i)
-		{
-			if (document.getElementById(id).style.display == "none")
-			{
-				//send events
-				selectedItemUrl.set(current_feed.items[i].link);
-				selectedItemTitle.set(current_feed.items[i].title);
-				var summary = $('title_'+i).title;
-				selectedItemSummary.set(summary);
-				
-				hide(lastShown);
-				if(onClick.get() == "window"){
-					window.open(URL);
-				}
-				else{
-					show(id);
-				}
-				lastShown = id;
-			}
-			else hide(id);
+		//RSS or Atom
+		if(xml.documentElement.tagName=='feed' ){
+			feed = new AtomFeed (xml);
+		}else{
+
+			feed = new RSS2Channel (xml);
 		}
+		showFeed(feed);
+		resizeItemsDiv();
+	}
+
+
+	function failedFeed (response)
+	{
+		$('loading').style.display="none";
+		$('chan_items').innerHTML = "<span class='msg'> Error al obtener el feed</span>";
+
+	}
+
+	function _DoClick(value)
+	{
+	}
+
+	function _Handler(value)
+	{
+		$('loading').style.display = "block";
+		$('chan').style.display = "none";
+		$('chan_link').innerHTML = '';
+		$('chan_image_link').innerHTML = '';
+		$('chan_items').innerHTML = '';
+		$('chan_pubDate').innerHTML = '';
+		$('chan_copyright').innerHTML = '';
+		$('chan_copyright').style.display="none";
+		$('rights_link').style.display = "none";
+		$('pages').style.display = "none";
+		lastShown = "item_0";
+		if (value && value != "")
+		{
+			URL = decodeURI(value);
+			var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+		   	EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
+		}
+	}
+	function _SetNumItems(value){
+		_Handler(URL)
+	}
+
+	function show(id) 
+	{
+		document.getElementById(id).style.display = "block";
+		document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
+	}
+
+	function hide(id) 
+	{
+		if (id != ""){
+			document.getElementById(id).style.display = "none";
+			document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "block";
+		}
+	}
+
+	function openItem(id, i)
+	{
+		if (document.getElementById(id).style.display == "none")
+		{
+			//send events
+			selectedItemUrl.set(current_feed.items[i].link);
+			selectedItemTitle.set(current_feed.items[i].title);
+			var summary = $('title_'+i).title;
+			selectedItemSummary.set(summary);
+			
+			hide(lastShown);
+			if(onClick.get() == "window"){
+				window.open(current_feed.items[i].link);
+			}
+			else{
+				show(id);
+			}
+			lastShown = id;
+		}
+		else hide(id);
+	}
+	
+	function toggleRights()
+	{
+		if ($("chan_copyright").style.display == "none")
+			$("chan_copyright").style.display = "block";
+		else
+			$("chan_copyright").style.display = "none";
+
+		resizeItemsDiv();
+	}
+
+	function resizeItemsDiv(){
+		//10px of margin-top/bottom of channel_items and channel margin-top
+		$('chan_items').style.height = (window.innerHeight - ($('chan_header').getHeight() + 30)) + "px";
+	}
+
     </script>
 
 </head>
-<body onload="generateLang();">
-    <div id="chan">
+<body onload="generateLang();" onresize="resizeItemsDiv()";>
+    <div id="chan" style="display:none">
 	<div id="chan_header">
 	<a id="chan_image_link" href="" target="_blank"></a>
         <div id="chan_title"><a id="chan_link" href=""></a></div>
-        <div id="chan_description"></div>
+        <div id="chan_pubDate"></div><a id="rights_link" href="javascript:toggleRights()" style="display:none">Copyright Notice</a>
+        <div id="chan_copyright" style="display:none"></div>
         <a id="chan_image_link" href=""></a>
+        <div id="pages" style="display:none"><span id="prev_pages"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/left-arrow.png" alt="<<"/></span><div id="paginator"></div><span id="next_pages"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/right-arrow.png" alt=">>"/></span></div>
 	</div>
         <div id="chan_items"></div>
-        <div id="chan_pubDate"></div>
-        <div id="chan_copyright"></div>
     </div>
 	<div id="loading"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/loading.gif" alt="Esperando feed..."/></div>
 </body>

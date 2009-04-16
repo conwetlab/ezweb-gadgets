@@ -35,7 +35,8 @@
 		}
 		
 		#chan_title, .msg{
-			font-size:20px;
+			font-size:16px;
+			font-weight:bold;
 			background:#c2cff1;
 			margin-bottom:10px;
 			padding: 0 0 0 10px;
@@ -43,10 +44,7 @@
 		#chan_link{
 			color:#000000;
 		}
-		#chan_description{
-			margin:10px 0 0 5px;
-			font-style:italic;
-		}
+
 		#chan_header{
 			overflow:hidden;
 		}
@@ -88,6 +86,7 @@
 		
 		#chan_items { 
 			margin: 10px 0 10px 0; 
+			overflow-y: auto;
 		}
 		#chan_items ul{
 			border-top:1px solid #cccccc;
@@ -98,17 +97,52 @@
 		}
 
 		#chan_pubDate, #chan_copyright {
-			font-size:11px;
 			font-size: 90%;
+			margin-left:5px;
 			color: #828299;
 		}
+		
+		#chan_pubDate {
+			display:inline;
+		}
+		
+		#rights_link {
+			font-size: 80%;
+			margin-left: 5px;
+		}
+		
+		#pages{
+			margin:auto;
+		}
+
+		#paginator{
+			display: inline;
+			margin: 0 2px;
+		}		
+
+		#paginator .pag{
+			margin: 0 2px;
+			font-size:90%;
+			cursor:pointer;
+			color:#6688ee;
+		}
+	
+		#paginator .current_page{
+			color:#828299;
+			cursor:auto;
+		}
+
+		#next_pages, #prev_pages{
+			cursor:pointer;
+		}
+
 		#chan_image_link {
 			float: right;
 		}
 		.chan_image{
 			height:auto;
 			width:auto;
-			max-height:70px;
+			max-height:50px;
 			max-width:200px;
 		}
 		img {
