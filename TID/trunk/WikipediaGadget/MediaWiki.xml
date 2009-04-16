@@ -8,7 +8,7 @@
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/images/Wikipedia-110x100.png</ImageURI>
-		<WikiURI>http://es.wikipedia.org</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_buscador_en_la_Wikipedia</WikiURI>
 	</Catalog.ResourceDescription>
 <!-- Fin de la desripcion del gadget -->
 <!-- Definicion de las variables de integración y Elementos de Platforma -->
@@ -29,7 +29,7 @@
 	    <Option value="pt" name="Portugês"/>
 	    <Option value="nl" name="Nederlands"/>
 	  </Preference>
-	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org:13001"/>
+	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org/mediawiki"/>
 	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
 	    <Option value="5" name="5"/>
 	    <Option value="10" name="10"/>
