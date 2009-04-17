@@ -11,7 +11,15 @@
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-<link rel="stylesheet" type="text/css" href="http://www.wordreference.com/2008/scripts/styleext.css">
+
+  <style type="text/css">
+  	table.Rtbl{
+		font-size:12px;
+	}
+	table.layout{
+		font-size:12px;
+	}
+  </style>
 
 <base target="_blank" href="http://www.wordreference.com/">
 
@@ -46,29 +54,38 @@ function setWord(value){
 }
 function callbackError(responseData) {
 	//alert("Request error: " + responseData.responseText);
-	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
+	$('errors').innerHTML = "Service Unavailable";
 	$('errors').style.color = "Red";
+	$('errors').style.textAlign= "center";
 	$('content').innetHTML ="";
 }
 function callbackSucess(responseData) {
 	//alert("Request error: " + responseData.responseText);
 	$('errors').innerHTML = "";
-	$('content').innerHTML = responseData.responseText;
+	var content = responseData.responseText;
+	var head = content.substring(content.indexOf('<head>') + ('<head>').length,content.indexOf('</head>'));
+	var headTag = document.getElementsByTagName('head')[0];
+	headTag.innerHTML = headTag.innerHTML + head;
+	var body = content.substring(content.indexOf('<body'),content.indexOf('</body>')+('</body>').length);
+	var bodyTag = document.getElementsByTagName('body')[0];
+	var bodyAux = body.replace(/<body/, "<div").replace(/body>/,"div>");
+	$('content').innerHTML = bodyAux;
 	document.body.scrollTop=0;
 	document.sbox.action="javascript:wordSearch()";
 	document.sbox.w.onkeydown = function() {};
 	actualDict = document.sbox.dict.value;
-	
+	$('Otbl').style.width = "100%";
+	$('Otbl').style.fontSize = "12px";
+	document.getElementsByTagName('table')[0].style.width ="100%";
 	//document.sbox.onsubmit = function(){return false;};
 	//document.sbox.B.type = "button";
 	//document.sbox.B.onclick = function() { wordSearch();}; 
 	//alert(responseData.responseText);
-	
 	//Rectificar hrefs
 	parseHrefs();
 	
-	
 }
+
 
 function parseHrefs()
 {
@@ -124,7 +141,6 @@ function load()
 <body onload="load()">
 <div id="errors"></div>
 <div id="content"></div>
-
 <!-- <iframe id="frame" width="100%" height="97%" style="border:0px;" src="http://mini.wordreference.com/mini/index.aspx?dict=enes&w=start&u=1" name="WRmini"></iframe> -->
 </body>
 </html>
