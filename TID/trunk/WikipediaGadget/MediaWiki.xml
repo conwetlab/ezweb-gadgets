@@ -29,7 +29,7 @@
 	    <Option value="pt" name="Portugês"/>
 	    <Option value="nl" name="Nederlands"/>
 	  </Preference>
-	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org/mediawiki"/>
+	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org"/>
 	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
 	    <Option value="5" name="5"/>
 	    <Option value="10" name="10"/>
