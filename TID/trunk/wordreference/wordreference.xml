@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>WordReference</Name>
-    <Version>0.3</Version>
+    <Version>0.31</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
-    <Description>Wordreference dictionary</Description>
+    <Description>Translate any word to a great number of languages using WordReference dictionary. You can enter a word in the input box as well as translate a word given by a connected gadget.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/wordreference/wordreference.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
   </Catalog.ResourceDescription>

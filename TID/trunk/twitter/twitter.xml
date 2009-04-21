@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.1.2</Version>
+    <Version>2.1.3</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
-    <Description>This gadget version provides an engaging visual way to send and see messages into Twitter system</Description>
+    <Description>This gadget provides an engaging visual way to see and send messages into Twitter system. Configure your Twitter account in the gadget preferences and start sharing your state. Connect this gadget to FeedReader, RadioStation, etc. to either publish a message automatically or show you an inline draft to modificate.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
   </Catalog.ResourceDescription>

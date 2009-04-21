@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>RadioStation</Name>
-	  <Version>0.2</Version>
+	  <Version>0.21</Version>
 	  <Author>abgp-jjmr</Author>
 	  <Mail>jjmr@tid.es</Mail>
 	  <Description>Escucha tu música favorita. Este gadget utiliza los servicios del portal Jogli (www.jogli.com) y, alternativamente, la API de Youtube para obtener la música de los grupos que Jogli no tiene en su repertorio.</Description>

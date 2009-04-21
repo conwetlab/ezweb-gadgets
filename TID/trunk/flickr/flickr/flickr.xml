@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>2.1</Version>
+    <Version>2.2</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
-    <Description>This gadget version provide an engaging visual way to explore tagged photos through a fairly comprehensive web-service API</Description>
+    <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Flickr</WikiURI>
   </Catalog.ResourceDescription>
@@ -15,7 +15,7 @@
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
     <!--<Preference name="url" type="text" description="descripcion" label="url" />-->
-    <Preference name="defaultSearch" type="text" description="defaultSearch" label="Default keyword" default="ezweb"/>
+    <Preference name="defaultSearch" type="text" description="Search to be done on loading" label="Default keyword to search"  default="ezweb"/>
   </Platform.Preferences>
   
   <!-- EzWeb Gadget Persistent State -->
@@ -25,7 +25,7 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
-    <Event name="urlImage" type="text" label="urlImage" friendcode="imageUrl" />
+    <Event name="urlImage" type="text" label="url of the image" friendcode="imageUrl" />
   </Platform.Wiring>
   
   <Platform.Link>

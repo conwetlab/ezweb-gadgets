@@ -3,16 +3,16 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>Mobile Agenda</Name>
-<Version>1.6.1</Version>
+<Version>1.6.2</Version>
 <Author>pjm</Author>
 <Mail>pjm@tid.es</Mail>
-<Description>Consulta de agenda utilizando la API de Open MovilForum.</Description>
+<Description>This gadget fetchs your contacts from the Copiagenda service through the Open Movilforum API. To sign up for Copiagenda in order to copy automatically your SIM card contacts, send the word "Alta" to 224422. To use Copiagenda service, you need a key which can be obtained by sending your chosen key (6-14 chars) by SMS to 22770 (free of charge, only for Movistar clients). After that, enter your key and your telephone number in the gadget's preferences and start to use your contacts!. For example, you can connect the Mobile Agenda to the Message Sender gadget in order to choose the contacts to whom you want to send an SMS/MMS.</Description>
 <ImageURI>http://demo.ezweb.morfeo-project.org/repository/agenda/agenda.png</ImageURI>
 <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MobileAgenda</WikiURI>
 </Catalog.ResourceDescription>
 <!-- EzWeb Gadgets Tags -->
 <Platform.Preferences>
-	<Preference name="openagenda_url" type="text" description="Open MovilForum Agenda URI" default="http://demo.ezweb.morfeo-project.org/omf/openmovilforum/agenda" label="Service URI"/>
+	<Preference name="openagenda_url" type="text" description="URI of the Open MovilForum Agenda service" default="http://demo.ezweb.morfeo-project.org/omf/openmovilforum/agenda" label="Service URI"/>
 	<Preference name="login" type="text" description="Source Telephone Number" label="Source Telephone Number"/>
 	<Preference name="password" type="password" description="Password" label="Password"/>
 </Platform.Preferences>

@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Translator</Name>
-    <Version>0.18</Version>
+    <Version>0.19</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
-    <Description>Translator</Description>
+    <Description>Translate any given text to a great number of languages using the Google translator engine. Enter the text directly in the input box or take it from any connected gadget. Send your translations to other gadgets just connecting the Translator gadget to them.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/translator/translator.jpg</ImageURI>
-    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_traductor</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
@@ -27,8 +27,8 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-	<Slot name="inputText" type="text" label="inputText" friendcode="text"/>
-	<Event name="outputText" type="text" label="outputText" friendcode="text"/>
+	<Slot name="inputText" type="text" label="input Text" friendcode="text"/>
+	<Event name="outputText" type="text" label="output Text" friendcode="text"/>
   </Platform.Wiring>
   <Platform.Context>
   	<Context name="language" type="text" concept="language"/>	
