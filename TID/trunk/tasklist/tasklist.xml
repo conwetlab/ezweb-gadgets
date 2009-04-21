@@ -3,11 +3,11 @@
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
-    <Name>Tasklist</Name>
-    <Version>2.65</Version>
+    <Name>Todo list</Name>
+    <Version>2.66</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
-    <Description>This gadget allow add tasks to a todo list and classify them by priority</Description>
+    <Description>This gadget allow add tasks their estimated dates to a to-do list and classify them by priority using a configurable color code</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/tasklist/todo.gif</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_To-Do_List</WikiURI>
   </Catalog.ResourceDescription>

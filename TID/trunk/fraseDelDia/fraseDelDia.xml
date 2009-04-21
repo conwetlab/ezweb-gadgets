@@ -9,13 +9,13 @@
 
 	<Name>Frase Del Dia</Name>
 
-	<Version>1.0</Version>
+	<Version>1.01</Version>
 
 	<Author>AlbertoChavesJiménez</Author>
 
 	<Mail>achaves@pegaso.ls.fi.upm.es</Mail>
 
-	<Description>Muestra la frase del dia</Description>
+	<Description>Muestra la frase del dia (At this moment the gadget is Spanish Only)</Description>
 
 	<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/fraseDelDia.png</ImageURI>
 

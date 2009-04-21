@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>FeedReader</Name>
-    <Version>3.25</Version>
+    <Version>3.26</Version>
     <Author>abgp</Author>
     <Mail>abgp@tid.es</Mail>
-    <Description>Este gadget muestra un feed RSS 2.0 o Atom 1.0</Description>
+    <Description>Feed reader for RSS 2.0 or Atom 1.0 resources. Thanks to this gadget you can access to your favourite feeds from your workspace. Change the feed shown editing the gadgets preferences from the gadget menu or wiring this gadget to any feed source available like the Feed List gadget. This reader also exports information about what you are reading (summary, title...). Try to wire it to any gadget waiting for text (MMS sender, Google Translator...)</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rss.jpg</ImageURI>
     <iPhoneImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssIPhone.png</iPhoneImageURI>
     <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_Reader</WikiURI>

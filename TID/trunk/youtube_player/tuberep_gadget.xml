@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Player</Name>
-    <Version>1.3</Version>
+    <Version>1.4</Version>
     <Author>jmartin</Author>
     <Mail>jjmr@tid.es</Mail>
-    <Description>Reproductor de videos de Youtube</Description>
+    <Description>Use this gadget to see your favourite videos from Youtube. Remember that, as any other gadget, you can resize the Youtube video player gadget in order to be adapted to your workspace. In order to be able to select the video to play this gadget requires the wiring connection with the Youtube Search gadget, also available in the catalogue. Try it!</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/youtube_player/tuberep.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/TubeRep</WikiURI>
   </Catalog.ResourceDescription>
@@ -21,7 +21,7 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-    <Slot name="RSSYurl" type="text" label="url" friendcode="youtube_url"/>
+    <Slot name="RSSYurl" type="text" label="video url" friendcode="youtube_url"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_player/tuberep.html"/>

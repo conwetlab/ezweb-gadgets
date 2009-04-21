@@ -4,43 +4,43 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Search</Name>
-    <Version>1.41</Version>
+    <Version>1.42</Version>
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
-    <Description>buscador de videos youtube y selector de peliculas</Description>
+    <Description>Search videos and movies from youtube, using the drop-list or searching with any string. NOTE: The movies selection in the drop-list provides some extra ad-hoc meta-information useful to wire with other gadgets as a great example of use</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/youtube_search/tubesearch.jpeg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/TubeSearch</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-		<Preference name="channel" type="list" description="default channel" label="canal por defecto"  default="6">
-			<Option value="0" name="Ultimos destacados"/>
-			<Option value="1" name="Superfavoritos"/>
-			<Option value="2" name="Mas valorados"/>
-			<Option value="3" name="Mas vistos"/>
-			<Option value="4" name="Mas comentados"/>
-			<Option value="5" name="Anadidos recientemente"/>
-			<Option value="6" name="Películas"/>
+		<Preference name="channel" type="list" description="default channel" label="Default channel"  default="6">
+			<Option value="0" name="Top Rated"/>
+			<Option value="1" name="Super-favorite"/>
+			<Option value="2" name="More scored"/>
+			<Option value="3" name="More seen"/>
+			<Option value="4" name="More commented"/>
+			<Option value="5" name="Recently added"/>
+			<Option value="6" name="Movies"/>
 		</Preference>
 		<Preference name="region" type="list" description="region" label="region"  default="US">
-			<Option value="US" name="Estados Unidos"/>
-			<Option value="DE" name="Alemania"/>
+			<Option value="US" name="US"/>
+			<Option value="DE" name="Germany"/>
 			<Option value="AU" name="Australia"/>
-			<Option value="BR" name="Brasil"/>
-			<Option value="CA" name="Canadá"/>
-			<Option value="KR" name="Corea del Sur"/>
-			<Option value="ES" name="España"/>
-			<Option value="FR" name="Francia"/>
-			<Option value="GB" name="Gran Bretaña"/>
+			<Option value="BR" name="Brazil"/>
+			<Option value="CA" name="Canada"/>
+			<Option value="KR" name="South Corea"/>
+			<Option value="ES" name="Spain"/>
+			<Option value="FR" name="France"/>
+			<Option value="GB" name="UK"/>
 			<Option value="HK" name="Hong Kong"/>
-			<Option value="IE" name="Irlanda"/>
-			<Option value="IT" name="Italia"/>
-			<Option value="JP" name="Japón"/>
-			<Option value="MX" name="México"/>
-			<Option value="NZ" name="Nueva Zelanda"/>
-			<Option value="PL" name="Polonia"/>
-			<Option value="RU" name="Rusia"/>
-			<Option value="TW" name="Taiwán"/>
+			<Option value="IE" name="Ireland"/>
+			<Option value="IT" name="Italy"/>
+			<Option value="JP" name="Japan"/>
+			<Option value="MX" name="Mexico"/>
+			<Option value="NZ" name="New Zeland"/>
+			<Option value="PL" name="Poland"/>
+			<Option value="RU" name="Russia"/>
+			<Option value="TW" name="Taiwan"/>
 		</Preference>
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
@@ -48,11 +48,11 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-    <Event name="rssUrl" type="text" label="rssUrl" friendcode="youtube_url"/>
-    <Event name="place" type="text" label="place" friendcode="address"/>
-    <Event name="title" type="text" label="title" friendcode="title"/>
-    <Event name="poi" type="text" label="poi" friendcode="poi"/>
-	<Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+    <Event name="rssUrl" type="text" label="Video URL" friendcode="youtube_url"/>
+    <Event name="place" type="text" label="Video location" friendcode="address"/>
+    <Event name="title" type="text" label="Title" friendcode="title"/>
+    <Event name="poi" type="text" label="Point of interest" friendcode="poi"/>
+	<Slot name="keyword" type="text" label="Keyword" friendcode="keyword"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_search/tube_iptv_search.html"/>

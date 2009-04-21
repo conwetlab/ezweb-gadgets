@@ -3,11 +3,11 @@
 <!-- Meta tags define gadgets properties -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Buscador RAE</Name>
-		<Version>1.4</Version>
+		<Name>Spanish dictionary (RAE)</Name>
+		<Version>1.41</Version>
 		<Author>irodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
-		<Description>Gadget Notificador de correo</Description>
+		<Description>Search in this Spanish dictionary word definitions according to the RAE (Real Academia de la lengua Española).</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/images/RAE.png</ImageURI>
 		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BuscadorRAE</WikiURI>
 	</Catalog.ResourceDescription>
