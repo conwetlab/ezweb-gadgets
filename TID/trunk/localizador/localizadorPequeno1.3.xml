@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Map Viewer</Name>
-    <Version>1.3</Version>
+    <Version>1.31</Version>
     <Author>fabio</Author>
     <Mail>fabio@tid.es</Mail>
-    <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada</Description>
+    <Description>Display in a map a location. This location could be either an address or an UTM coordenate and could be sent by another gadget. In addition to this, it could receive the precision of the search, drawing a circle around the resulting area. You can try this gadget with Localizame Gadget</Description>
     <ImageURI>http://ezweb.movilforum.com/repository/mapa/google_maps.jpg</ImageURI>
     <iPhoneImageURI>http://demo.ezweb.morfeo-project.org/repository/iphone/google_mapsIPhone.png</iPhoneImageURI>
     <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MapViewer</WikiURI>
@@ -21,7 +21,7 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="address" type="text" label="Address" friendcode="address"/>
-    <Slot name="utmCoord" type="text" label="UTM Coord." friendcode="utmCoord" description="UTM X Y Coordinates and precision (optional), comma separated"/>
+    <Slot name="utmCoord" type="text" label="UTM Coordinates" friendcode="utmCoord" description="UTM X Y Coordinates and precision (optional), comma separated"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/localizador/localizadorPequeno1.3.html"/>

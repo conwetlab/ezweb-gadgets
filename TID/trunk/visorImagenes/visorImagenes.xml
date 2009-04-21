@@ -3,11 +3,11 @@
 <!-- Meta tags define gadgets properties -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Visor Imágenes</Name>
-		<Version>1.0</Version>
+		<Name>Image Viewer</Name>
+		<Version>1.01</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
-		<Description>Este gadget permite mostrar imágenes recibidas en un slot</Description>
+		<Description>Watch your preferred images through this gadget and zoom into them. You should connect a Gadget like Flickr or Jogli to this gadget to watch the sent images.</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/visorImagenes/visorImagenes.png</ImageURI>
 		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorImagenes</WikiURI>
 	</Catalog.ResourceDescription>
@@ -21,7 +21,7 @@
 	</Platform.StateProperties>
 
 	<Platform.Wiring>
-		<Slot name="imageUrl" type="text" label="imageUrl" friendcode="imageUrl"/>
+		<Slot name="imageUrl" type="text" label="Image" friendcode="imageUrl"/>
 	</Platform.Wiring>
 
 	<Platform.Link>

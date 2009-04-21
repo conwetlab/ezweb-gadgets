@@ -3,10 +3,10 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>KyteTv Search</Name>
-<Version>2.01</Version>
+<Version>2.02</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
-<Description>KyteTv Search Gadget to search channels or shows. This gadget is compatible with the gadget KyteTV Player by wiring.</Description>
+<Description>Use KyteTv Search Gadget to search published channels and shows from www.kyte.tv. Connect this gadget with the KyteTV Player to watch the videos.</Description>
 <ImageURI>http://media01.kyte.tv/images/header/home.gif?v=4</ImageURI>
 
 <WikiURI>
@@ -20,13 +20,13 @@ http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_suscriptor.2
 
 <Platform.Wiring>
 	<Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
-	<Event name="videoURL" type="text" label="videoURL" friendcode="VideoURL"/>
+	<Event name="videoURL" type="text" label="URL of the video" friendcode="VideoURL"/>
 	<Event name="title" type="text" label="title" friendcode="title"/>
 	<Event name="synopsis" type="text" label="synopsis" friendcode="synopsis"/>
 	<Event name="tags" type="text" label="tags" friendcode="tags"/>
-	<Event name="permalink" type="text" label="permalink" friendcode="url"/>
-	<Event name="authorName" type="text" label="authorName" friendcode="authorName"/>
-	<Event name="authorURI" type="text" label="authorURI" friendcode="authorURI"/>
+	<Event name="permalink" type="text" label="video URL on Kyte" friendcode="url"/>
+	<Event name="authorName" type="text" label="author name" friendcode="authorName"/>
+	<Event name="authorURI" type="text" label="author URI" friendcode="authorURI"/>
 </Platform.Wiring>
 <Platform.Context>
 	<Context name="language" type="text" concept="language"/>

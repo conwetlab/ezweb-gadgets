@@ -4,10 +4,10 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Sudoku</Name>
-	  <Version>0.2</Version>
+	  <Version>0.3</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
-	  <Description>Sudoku game</Description>
+	  <Description>Try your preferred way of playing Sudoku. With multiple customizable levels in the gadget preferences. Will you be able of finishing it?</Description>
 	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/sudoku/sudoku.png</ImageURI>
 	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Sudoku</WikiURI>
 	</Catalog.ResourceDescription>

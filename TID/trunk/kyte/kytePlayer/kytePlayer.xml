@@ -4,10 +4,10 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>KyteTv Player</Name>
-<Version>1.0</Version>
+<Version>1.01</Version>
 <Author>abgp</Author>
 <Mail>abgp@tid.es</Mail>
-<Description>Kyte viewer/producer</Description>
+<Description>Watch your preferred Kyte.tv channels and shows. You will be able of producing new videos and publishing them in your channel. You can connect the KyteTv Search gadget with this to watch those videos discovered through that gadget. Let's start watching and producing!</Description>
 <ImageURI>http://media01.kyte.tv/images/header/home.gif?v=4</ImageURI>
 
 <WikiURI>
@@ -26,7 +26,7 @@ http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_grabador/rep
 </Platform.Context>
 <!-- EzWeb Gadget Data Wiring -->
 <Platform.Wiring>
-	<Slot name="videoURL" type="text" label="VideoURL" friendcode="VideoURL"/>
+	<Slot name="videoURL" type="text" label="video URL" friendcode="VideoURL"/>
 </Platform.Wiring>
 
 <Platform.Link>
