@@ -3,11 +3,10 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.13</Version>
+<Version>1.14</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
-<Description>
-Envio de MMS utilizando la API de Open MovilForum. La clave del remitente se obtiene enviando un mensaje de texto gratuito al 770 (solo clientes Movistar) cuyo texto sea la clave de acceso que desee. La clave debera tener entre 6 y 14 caracteres</Description>
+<Description>This gadget provides the capability of sending SMS/MMS messages using Open Movilforum API. To use this service you must send an SMS with your password to "770". You will receive a confirmation of your password in another SMS message. This API is available for all movistar subscribers in Spain.</Description>
 <ImageURI>http://demo.ezweb.morfeo-project.com/repository/openmovilforum/sendMessage.png</ImageURI>
 <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MMSSender</WikiURI>
 </Catalog.ResourceDescription>
