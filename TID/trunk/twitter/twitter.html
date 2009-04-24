@@ -115,7 +115,112 @@ var current_page = 1;
 var max_page = 1;
 var all_messages = new Object(); 
 var posted_msg_aux = '';
+var temp_id = null;
 
+// SPECIAL CHARACTERS
+///////////////////////
+
+var sc = {
+	 34:	'&quot;', 	  
+	 39:	'&apos;',     
+	 60: 	'&lt;',
+	 62:	'&gt;',
+	161: 	'&iexcl;', 	
+	162: 	'&cent;',
+	163: 	'&pound;', 	
+	164: 	'&curren;',	
+	165: 	'&yen;',
+	166: 	'&brvbar;', 	
+	167: 	'&sect;',
+	168: 	'&uml;',
+	169: 	'&copy;',
+	170: 	'&ordf;',
+	171: 	'&laquo;',
+	172: 	'&not;',
+	173: 	'&shy;',
+	174: 	'&reg;',
+	175: 	'&macr;',
+	176: 	'&deg;',
+	177: 	'&plusmn;', 	
+	178: 	'&sup2;',
+	179: 	'&sup3;',
+	180: 	'&acute;',
+	181: 	'&micro;',
+	182: 	'&para;',
+	183: 	'&middot;',
+	184: 	'&cedil;',
+	185: 	'&sup1;',
+	186: 	'&ordm;',
+	187: 	'&raquo;', 	
+	188: 	'&frac14;', 	
+	189: 	'&frac12;', 	
+	190: 	'&frac34;', 	
+	191: 	'&iquest;', 	
+	215: 	'&times;', 	
+	247: 	'&divide;', 	
+	192: 	'&Agrave;', 	
+	193: 	'&Aacute;', 	
+	194: 	'&Acirc;', 	
+	195: 	'&Atilde;', 	
+	196: 	'&Auml;',	
+	197: 	'&Aring;', 	
+	198: 	'&AElig;', 	
+	199: 	'&Ccedil;', 	
+	200: 	'&Egrave;', 	
+	201: 	'&Eacute;', 	
+	202: 	'&Ecirc;', 	
+	203: 	'&Euml;',	
+	204: 	'&Igrave;', 	
+	205: 	'&Iacute;', 	
+	206: 	'&Icirc;', 	
+	207: 	'&Iuml;',	
+	208: 	'&ETH;',
+	209: 	'&Ntilde;', 	
+	210: 	'&Ograve;', 	
+	211: 	'&Oacute;', 	
+	212: 	'&Ocirc;', 	
+	213: 	'&Otilde;', 	
+	214: 	'&Ouml;',	
+	216: 	'&Oslash;', 	
+	217: 	'&Ugrave;', 	
+	218: 	'&Uacute;', 	
+	219: 	'&Ucirc;', 	
+	220: 	'&Uuml;',	
+	221: 	'&Yacute;', 	
+	222: 	'&THORN;', 	
+	223: 	'&szlig;', 	
+	224: 	'&agrave;', 	
+	225: 	'&aacute;', 	
+	226: 	'&acirc;', 	
+	227: 	'&atilde;', 	
+	228: 	'&auml;',	
+	229: 	'&aring;', 	
+	230: 	'&aelig;', 	
+	231: 	'&ccedil;', 	
+	232: 	'&egrave;', 	
+	233: 	'&eacute;', 	
+	234: 	'&ecirc;', 	
+	235: 	'&euml;',
+	236: 	'&igrave;', 	
+	237: 	'&iacute;', 	
+	238: 	'&icirc;', 	
+	239: 	'&iuml;',	
+	240: 	'&eth;',
+	241: 	'&ntilde;', 	
+	242: 	'&ograve;', 	
+	243: 	'&oacute;', 	
+	244: 	'&ocirc;', 	
+	245: 	'&otilde;', 	
+	246: 	'&ouml;',	
+	248: 	'&oslash;',	
+	249: 	'&ugrave;', 	
+	250: 	'&uacute;', 	
+	251: 	'&ucirc;', 	
+	252: 	'&uuml;',	
+	253: 	'&yacute;', 	
+	254: 	'&thorn;', 	
+	255: 	'&yuml;'	
+}
 
 // EZWEB VARIABLE HANDLERS
 ///////////////////////////
@@ -200,6 +305,10 @@ function sign_in () {
 		}
 		
 		authorization = 'Basic ' + Base64.encode(twitter_user.get() + ':' + twitter_pass.get());
+		
+		var target_url = 'http://twitter.com/account/rate_limit_status.json';
+		send_request (target_url, 'GET', null, get_rate_limit, show_http_error);
+		
 	}
 
 	return true;
@@ -424,7 +533,7 @@ function get_message_element (message_object, with_avatar) {
 
 	var msg_cont = document.createElement("span");
 	text_container.appendChild(msg_cont);
-	msg_cont.appendChild(document.createTextNode (message_object.text + ' '));
+	msg_cont.innerHTML = replace_links (replace_special_chars (message_object.text)) + ' ';
 	if (message_object.truncated){
 		var truncated_link = document.createElement("a");			
 		truncated_link.target = '_blank';
@@ -435,6 +544,67 @@ function get_message_element (message_object, with_avatar) {
 	
 	return message_content;
 }
+
+// Replaces all special chars with theirs httml entities
+function replace_special_chars (msg){
+	for (var sc_item in sc){		
+		msg = msg.replace (new RegExp(String.fromCharCode(sc_item), 'g'), sc[sc_item]);
+	}
+	return msg;
+}
+
+
+// Replaces all links with <a> tag
+function replace_links (msg){
+	var n_urls = new EzWebAPI.platform.Array();
+	
+	// Search for www. in the message
+	var iter = msg.match (/www./g);
+	if (iter == null) iter = 0;
+	for (var i = 0; i < iter.length ; i++){		
+		
+		var n_msg = msg.substring(msg.indexOf('www.'));
+		var lchar = n_msg.indexOf(' ');
+		if (lchar == -1){
+			lchar = n_msg.length;
+		}
+		
+		var n_url = n_msg.substring(0, lchar);
+		if (msg.match('http://' + n_url) == null){
+			n_urls.push(n_url);
+		}
+	}
+	
+	// Search for http:// in the message
+	iter = msg.match (/http:\/\//g);
+	if (iter == null) iter = 0;
+	for (var i = 0; i < iter.length ; i++){		
+		
+		var n_msg = msg.substring(msg.indexOf('http://'));
+		var lchar = n_msg.indexOf(' ');
+		if (lchar == -1){
+			lchar = n_msg.length;
+		}
+		
+		var n_url = n_msg.substring(0, lchar);
+		n_urls.push(n_url);
+	}
+	
+	n_urls.uniq();
+	
+	// Replaces links
+	for (var i = 0; i < n_urls.length ; i++){		
+		var url_href = n_urls[i];
+		if (n_urls[i].indexOf ('http://') != 0){
+			url_href = 'http://' + n_urls[i];
+		}
+		msg = msg.replace (new RegExp (n_urls[i]), '<a target="_blank" rel="nofollow" href="' + url_href + '">' + n_urls[i] + '</a>');
+	}
+	
+	return msg;
+}
+
+
 
 
 // CLEAR THE MESSAGE
@@ -491,7 +661,7 @@ function arrived_message_handler (message) {
 function post_message (message) {
 	aux_posted_msg = message;
 	var url = 'http://twitter.com/statuses/update.json';
-	var params = {status : message.substr(0, 140)} ;
+	var params = {status : replace_special_chars (message.substr(0, 140))} ;
 	send_request (url, 'POST', params, success_update , error_update);
 }
 
@@ -742,13 +912,57 @@ function resize_height (){
 	document.getElementById('container').style.height = (window.frameElement.getHeight() - document.getElementById('container').offsetTop  - round) + "px";
 }
 
+
+// LOAD/UNLOAD HANDLERS
+////////////////////////
+
+onunload = function (){
+	clearInterval(temp_id);
+}
+
+onload = function (){
+	resize_height(); 
+	if (sign_in()) {
+		select_tab(document.getElementById('me_tab'));
+	}
+}
+
+// PERIODICAL UPDATE
+/////////////////////
+
+function get_rate_limit (resp){
+	var response = resp.responseText;
+	var rate_limit = eval ('(' + response + ')');
+	
+	var remaining_hits = parseInt(rate_limit['remaining_hits']);
+	if (isNaN(remaining_hits)){
+		remaining_hits = 50;
+	}
+	
+	if (remaining_hits > 10){
+		var time_interval = parseInt ((3600 / (remaining_hits * 0.2)) * 1000);
+		temp_id = setInterval("update_messages()", time_interval); 
+	} else {
+		temp_id = null;
+	}
+}
+
+function update_messages (){
+	var current_tab = getByClassName('div', 'tab current');
+	var status_input = document.getElementById('status');
+	if (sign_in() && (current_tab.id == 'me_tab') && (status_input != null) && (status_input.value == '')) {
+		select_tab(document.getElementById('me_tab'));
+	}
+}
+
+
 </script>
 
 </head>
 
 	<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png"/>
 
-<body onresize="resize_height()" onload="resize_height(); if (sign_in()) select_tab(document.getElementById('me_tab'));">
+<body onresize="resize_height()">
 
 	<table id="tab_table" cellpadding='0' cellspacing='0' align='center'>
 		<tr>
