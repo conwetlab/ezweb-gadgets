@@ -9,7 +9,7 @@ var EzWebExt = new Object();
  * Guarda la URL donde se encuentra alojada la librería JavaScript.
  * @type String
  */
-EzWebExt.URL = "http://ezweb.tid.es/repository/js/eskel/1.0_beta1";
+EzWebExt.URL = "http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1";
 
 /**
  * Permite obtener la URL absoluta de un recurso proporcionado por la librería.
