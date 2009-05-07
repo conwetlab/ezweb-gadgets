@@ -228,6 +228,8 @@
 							html += "<div class='it'><div class='infoI' id='_visibility'>"+t.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
 							html += "<div class='it'><div class='infoI' id='_sunrise'>"+t.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
 							html += "<div class='it'><div class='infoI' id='_sunset'>"+t.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
+							var date = new Date();
+							html += "<div class='it'><div class='infoI'><span id='_update' style='font-style:italic'>"+t.getLabel('_update')+"</span></div><div class='infoD' style='font-style:italic'>"+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear()+"</div></div>";
 							html += "<div class='it'><div class='infoI' id='_less' style='cursor:pointer;text-decoration:underline;' onClick='hideFullInfo()'>Less details...</div></div>";
 						html += "</div>";
 						//html += "</td></tr></table>";	
@@ -324,8 +326,8 @@
 		id.set(json.weather.loc.id);
 		lat.set(json.weather.loc.lat);
 		lon.set(json.weather.loc.lon);
-		var date = new Date();
-		$('update').innerHTML = '<span id="_update"></span>'+": "+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear();
+		//var date = new Date();
+		//$('update').innerHTML = '<span id="_update"></span>'+": "+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear();
 		t.translate();
 		//translate();
 		$('errors').innerHTML ="";
