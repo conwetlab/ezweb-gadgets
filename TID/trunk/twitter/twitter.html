@@ -425,16 +425,16 @@ function show_messages (resp) {
 	}
 	textarea_cont.appendChild(msg_textarea);
 	
-	var button_cont = document.createElement("div");
-	button_cont.className = 'button_cont';
-	content.appendChild(button_cont);
+	var bottom_cont = document.createElement("div");
+	bottom_cont.className = 'bottom_cont';
+	content.appendChild(bottom_cont);
 	
 	var clear_button = document.createElement("input");
 	clear_button.className = 'button';
 	clear_button.type = 'button';
 	clear_button.onclick = clear_message;
 	clear_button.value = 'Clear';
-	button_cont.appendChild(clear_button);
+	bottom_cont.appendChild(clear_button);
 	
 	var update_button = document.createElement("input");
 	update_button.className = 'disabled_button';
@@ -443,7 +443,7 @@ function show_messages (resp) {
 	update_button.disabled=true;
 	update_button.value = 'Update';
 	update_button.onclick = update_edited_message;
-	button_cont.appendChild(update_button);
+	bottom_cont.appendChild(update_button);
 	
 	var messages_container = document.createElement("div");
 	messages_container.id = 'message_container';
@@ -452,7 +452,7 @@ function show_messages (resp) {
 	print_messages (messages_container);
 	
 	var footer_cont = document.createElement("div");
-	footer_cont.className = 'button_cont';
+	footer_cont.className = 'bottom_cont';
 	footer_cont.style.paddingBottom = '10px';
 	content.appendChild(footer_cont);	
 

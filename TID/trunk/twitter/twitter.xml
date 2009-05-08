@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.5</Version>
+    <Version>2.6</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -22,10 +22,10 @@
 			<Option value="discarded" name="discarded"/>
 			<Option value="permitted" name="permitted"/>
 		</Preference>
-		<Preference name="draft_is" type="list" label="On new event, existing draft post text is" description="Concatenates or discards the draft when arrives a new event" default="prefixed">
-			<Option value="prefixed" name="prefixed event text"/>
-			<Option value="concatenated" name="concatenated after event text"/>
-			<Option value="cleaned" name="cleaned"/>
+		<Preference name="draft_is" type="list" label="On new event, existing draft" description="Concatenates or discards the draft when arrives a new event" default="prefixed">
+			<Option value="prefixed" name="prefixes event text"/>
+			<Option value="concatenated" name="concatenates after event text"/>
+			<Option value="cleaned" name="is cleaned"/>
 		</Preference>
 </Platform.Preferences>
   
