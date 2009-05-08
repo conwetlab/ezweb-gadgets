@@ -128,3 +128,12 @@ h3 {
 	padding: 2px;
 	margin-right: 5px;
 }
+
+#container .message_container .sender {
+	position: relative;
+	top: -23px;
+	right: 5px;
+	float: right;
+	padding: 2px;
+	margin-left: 5px;
+}

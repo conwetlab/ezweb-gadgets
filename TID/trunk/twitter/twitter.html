@@ -10,8 +10,11 @@
 
 <link rel="stylesheet" type="text/css" media="screen,projection" href="http://demo.ezweb.morfeo-project.org/repository/twitter/css/twitter.css" />
 
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script language="javascript">
+
+var urlimage = 'http://demo.ezweb.morfeo-project.org/repository/twitter/images/';
 
 
 // BASE64 ENCODER
@@ -103,7 +106,8 @@ var input_to_msg = EzWebAPI.createRGadgetVariable("input_to_message", arrived_me
 var auto_msg = EzWebAPI.createRGadgetVariable("auto_message", arrived_automessage_handler);
 var incoming_events = EzWebAPI.createRGadgetVariable("incoming_events", incoming_events_handler);
 var draft_is = EzWebAPI.createRGadgetVariable("draft_is", draft_is_handler);
-var posted_msg = EzWebAPI.createRWGadgetVariable("posted_message");
+var posted_msg = EzWebAPI.createRWGadgetVariable("last_posted_message");
+var sent_message = EzWebAPI.createRWGadgetVariable("sent_message");
 
 
 // GADGET VARIABLES
@@ -537,7 +541,9 @@ function get_message_element (message_object, with_avatar) {
 
 	var msg_cont = document.createElement("span");
 	text_container.appendChild(msg_cont);
-	msg_cont.innerHTML = replace_links (replace_special_chars (message_object.text)) + ' ';
+	var current_msg = replace_special_chars (message_object.text);
+	
+	msg_cont.innerHTML = replace_links (current_msg) + ' ';
 	if (message_object.truncated){
 		var truncated_link = document.createElement("a");			
 		truncated_link.target = '_blank';
@@ -545,6 +551,21 @@ function get_message_element (message_object, with_avatar) {
 		truncated_link.appendChild (document.createTextNode ('(...)'));
 		text_container.appendChild(truncated_link);
 	}
+	
+	var sender_bottom = document.createElement("div");
+	message_content.appendChild(sender_bottom);
+	sender_bottom.className = 'sender';
+		
+	var context = {msg: current_msg};
+	
+	var sender_img = document.createElement("img");
+  sender_bottom.appendChild(sender_img);
+	sender_img.src = urlimage + 'description.png';
+	Event.observe(sender_img, "click",
+	  function (ev) {
+			Event.stop(ev);
+			sent_message.set (this.msg);
+   	}.bind(context));
 	
 	return message_content;
 }
@@ -669,7 +690,6 @@ function arrived_message_handler (message) {
 		}
 
 	} catch(err) {
-		alert(err);
 		init_msg = message;
 	}
 }
@@ -707,9 +727,7 @@ function arrived_automessage_handler (message) {
 		input_elto.value = '';
 		post_message(nmessage);
 
-	} catch(err) {
-		alert(err);
-	}
+	} catch(err) {}
 }
 
 // The "update" button has been pressed

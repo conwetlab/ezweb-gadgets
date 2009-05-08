@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.4</Version>
+    <Version>2.5</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -37,7 +37,8 @@
   <Platform.Wiring>
      <Slot name="input_to_message" type="text" label="Input to draft message" friendcode="message" />
      <Slot name="auto_message" type="text" label="Automatically posted message" friendcode="message" />
-     <Event name="posted_message" type="text" label="Automatically posted message" friendcode="message" />
+     <Event name="last_posted_message" type="text" label="Last posted message" friendcode="message" />
+     <Event name="sent_message" type="text" label="Posted message" friendcode="message" />
   </Platform.Wiring>
   
   <Platform.Link>
