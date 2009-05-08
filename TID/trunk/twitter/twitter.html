@@ -100,8 +100,9 @@ var twitter_user = EzWebAPI.createRGadgetVariable("twitter_user", twitter_user_h
 var twitter_pass = EzWebAPI.createRGadgetVariable("twitter_pass", twitter_pass_handler);
 var limit = EzWebAPI.createRGadgetVariable("limit_messages", limit_messages_handler);
 var input_to_msg = EzWebAPI.createRGadgetVariable("input_to_message", arrived_message_handler);
-var auto_msg = EzWebAPI.createRGadgetVariable("auto_message", post_message);
-var status_behavior = EzWebAPI.createRGadgetVariable("status_behavior", behavior_handler);
+var auto_msg = EzWebAPI.createRGadgetVariable("auto_message", arrived_automessage_handler);
+var incoming_events = EzWebAPI.createRGadgetVariable("incoming_events", incoming_events_handler);
+var draft_is = EzWebAPI.createRGadgetVariable("draft_is", draft_is_handler);
 var posted_msg = EzWebAPI.createRWGadgetVariable("posted_message");
 
 
@@ -282,7 +283,10 @@ function limit_messages_handler (next_limit) {
 	
 }
 
-function behavior_handler (beha) {
+function incoming_events_handler (inc) {
+}
+
+function draft_is_handler (dra) {
 }
 
 
@@ -434,7 +438,7 @@ function show_messages (resp) {
 	update_button.type = 'button';
 	update_button.disabled=true;
 	update_button.value = 'Update';
-	update_button.onclick = arrived_message_handler;
+	update_button.onclick = update_edited_message;
 	button_cont.appendChild(update_button);
 	
 	var messages_container = document.createElement("div");
@@ -639,23 +643,80 @@ function change_update_button_state (){
 // SENDS THE NEW STATUS TO TWITTER
 ///////////////////////////////////
 
+// Event from the platform (input-to-message)
 function arrived_message_handler (message) {
-
-	if (message instanceof Event){
-		// The "update" button has been pressed
-		var status_input = document.getElementById('status');
-		post_message(status_input.value);
-		status_input.value = '';
-	}else if (typeof message == "string"){
-		// Event from the platform
-		try	{
-			if ((document.getElementById('status').value == '') || (status_behavior.get() == 'cleared')){
-				document.getElementById('status').value = message;
-			} 
-		} catch(err) {
-			init_msg = message;
-		}
+	if (incoming_events.get() == 'discarded'){
+		return;	
 	}
+	
+	try	{
+
+		var input_elto = document.getElementById('status');
+		
+		switch (draft_is.get()) {
+
+		case 'prefixed':
+			input_elto.value = input_elto.value + message;
+			break;
+
+		case 'concatenated':
+			input_elto.value = message + input_elto.value;
+			break;
+			
+		default:
+			input_elto.value = message;
+			break;
+		}
+
+	} catch(err) {
+		alert(err);
+		init_msg = message;
+	}
+}
+
+// Event from the platform (auto-message)
+function arrived_automessage_handler (message) {
+	if (incoming_events.get() == 'discarded'){
+		return;	
+	}
+	
+	try	{
+
+		var input_elto = document.getElementById('status');
+		if (input_elto.value == ''){
+			return;
+		}
+		
+		var nmessage = '';
+		
+		switch (draft_is.get()) {
+
+		case 'prefixed':
+			nmessage = input_elto.value + message;
+			break;
+
+		case 'concatenated':
+			nmessage = message + input_elto.value;
+			break;
+			
+		default:
+			nmessage = message;
+			break;
+		}
+		
+		input_elto.value = '';
+		post_message(nmessage);
+
+	} catch(err) {
+		alert(err);
+	}
+}
+
+// The "update" button has been pressed
+function update_edited_message (ev) {
+	var status_input = document.getElementById('status');
+	post_message(status_input.value);
+	status_input.value = '';
 }
 
 function post_message (message) {

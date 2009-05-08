@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.2</Version>
+    <Version>2.4</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -18,9 +18,14 @@
     <Preference name="twitter_user" type="text" description="Your username in Twitter" label="Username"/>
     <Preference name="twitter_pass" type="password" description="Your password in Twitter" label="Password"/>
     <Preference name="limit_messages" type="number" description="Limit messages" label="Limit Messages" default="5"/>
-    <Preference name="status_behavior" type="list" label="On new event, draft message is" description="On new event, draft message is" default="cleared">
-			<Option value="cleared" name="Cleared"/>
-			<Option value="kept" name="Kept"/>
+    <Preference name="incoming_events" type="list" label="While draft is under edition, incoming events are" description="Enables incoming messages while a message is under edition" default="permitted">
+			<Option value="discarded" name="discarded"/>
+			<Option value="permitted" name="permitted"/>
+		</Preference>
+		<Preference name="draft_is" type="list" label="On new event, existing draft post text is" description="Concatenates or discards the draft when arrives a new event" default="prefixed">
+			<Option value="prefixed" name="prefixed event text"/>
+			<Option value="concatenated" name="concatenated after event text"/>
+			<Option value="cleaned" name="cleaned"/>
 		</Preference>
 </Platform.Preferences>
   
