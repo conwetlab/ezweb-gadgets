@@ -8,7 +8,7 @@
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
-    <Description>This gadget provides an engaging visual way to see and send messages into Twitter system. Configure your Twitter account in the gadget preferences and start sharing your state. Connect this gadget to FeedReader, RadioStation, etc. to either publish a message automatically or show you an inline draft to modificate.</Description>
+    <Description>This gadget provides an engaging visual way to see and send messages into Twitter system.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
   </Catalog.ResourceDescription>
