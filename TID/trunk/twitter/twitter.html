@@ -677,11 +677,11 @@ function arrived_message_handler (message) {
 		switch (draft_is.get()) {
 
 		case 'prefixed':
-			input_elto.value = input_elto.value + message;
+			input_elto.value = input_elto.value + ' ' + message;
 			break;
 
 		case 'concatenated':
-			input_elto.value = message + input_elto.value;
+			input_elto.value = message + ' ' + input_elto.value;
 			break;
 			
 		default:
@@ -712,11 +712,11 @@ function arrived_automessage_handler (message) {
 		switch (draft_is.get()) {
 
 		case 'prefixed':
-			nmessage = input_elto.value + message;
+			nmessage = input_elto.value + ' ' + message;
 			break;
 
 		case 'concatenated':
-			nmessage = message + input_elto.value;
+			nmessage = message + ' ' + input_elto.value;
 			break;
 			
 		default:
