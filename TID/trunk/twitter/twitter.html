@@ -506,6 +506,21 @@ function get_message_element (message_object, with_avatar) {
 	var message_content = document.createElement("div");
 	message_content.className = 'message_container';
 		
+	var sender_bottom = document.createElement("div");
+	message_content.appendChild(sender_bottom);
+	sender_bottom.className = 'sender';
+		
+	var context = {msg: current_msg};
+	
+	var sender_img = document.createElement("img");
+  	sender_bottom.appendChild(sender_img);
+	sender_img.src = urlimage + 'description.png';
+	Event.observe(sender_img, "click",
+	  function (ev) {
+			Event.stop(ev);
+			sent_message.set (this.msg);
+   	}.bind(context));
+	
 	var avatar_cont = document.createElement("div");
 	message_content.appendChild(avatar_cont);
 	avatar_cont.className = 'avatar';
@@ -551,21 +566,6 @@ function get_message_element (message_object, with_avatar) {
 		truncated_link.appendChild (document.createTextNode ('(...)'));
 		text_container.appendChild(truncated_link);
 	}
-	
-	var sender_bottom = document.createElement("div");
-	message_content.appendChild(sender_bottom);
-	sender_bottom.className = 'sender';
-		
-	var context = {msg: current_msg};
-	
-	var sender_img = document.createElement("img");
-  sender_bottom.appendChild(sender_img);
-	sender_img.src = urlimage + 'description.png';
-	Event.observe(sender_img, "click",
-	  function (ev) {
-			Event.stop(ev);
-			sent_message.set (this.msg);
-   	}.bind(context));
 	
 	return message_content;
 }

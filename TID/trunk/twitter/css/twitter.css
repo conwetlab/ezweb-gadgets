@@ -131,10 +131,8 @@ h3 {
 
 #container .message_container .sender {
 	position: relative;
-	bottom: 35px;
 	right: 5px;
 	float: right;
-	padding: 2px;
 	margin-left: 5px;
 	cursor: pointer;
 }
