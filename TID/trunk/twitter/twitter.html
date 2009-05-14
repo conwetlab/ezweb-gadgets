@@ -510,6 +510,7 @@ function get_message_element (message_object, with_avatar) {
 	message_content.appendChild(sender_bottom);
 	sender_bottom.className = 'sender';
 		
+	var current_msg = replace_special_chars (message_object.text);
 	var context = {msg: current_msg};
 	
 	var sender_img = document.createElement("img");
@@ -556,7 +557,6 @@ function get_message_element (message_object, with_avatar) {
 
 	var msg_cont = document.createElement("span");
 	text_container.appendChild(msg_cont);
-	var current_msg = replace_special_chars (message_object.text);
 	
 	msg_cont.innerHTML = replace_links (current_msg) + ' ';
 	if (message_object.truncated){
