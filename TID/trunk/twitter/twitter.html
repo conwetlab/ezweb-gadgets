@@ -519,7 +519,7 @@ function get_message_element (message_object, with_avatar) {
 	Event.observe(sender_img, "click",
 	  function (ev) {
 			Event.stop(ev);
-			sent_message.set (this.msg);
+			sent_message.set (replace_html_entities( this.msg ));
    	}.bind(context));
 	
 	var avatar_cont = document.createElement("div");
@@ -578,6 +578,13 @@ function replace_special_chars (msg){
 	return msg;
 }
 
+// Replaces all httml entities with theirs special chars  
+function replace_html_entities (msg){
+	for (var sc_item in sc){		
+		msg = msg.replace (new RegExp(sc[sc_item], 'g'), String.fromCharCode(sc_item));
+	}
+	return msg;
+}
 
 // Replaces all links with <a> tag
 function replace_links (msg){
@@ -749,7 +756,7 @@ function success_update (resp) {
 	var response = resp.responseText;
 	var current_message = eval ('(' + response + ')');
 
-	posted_msg.set(aux_posted_msg);
+	posted_msg.set(replace_html_entities( aux_posted_msg ));
 	aux_posted_msg = '';
 	
 	var msgs_cont = document.getElementById('message_container');        
