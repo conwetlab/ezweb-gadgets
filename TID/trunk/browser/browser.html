@@ -1,0 +1,64 @@
+<html>
+<head>
+</head>
+<body>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+function URLDecode( url )
+{
+   // Replace + with ' '
+   // Replace %xx with equivalent character
+   // Put [ERROR] in output if %xx is invalid.
+   var HEXCHARS = "0123456789ABCDEFabcdef"; 
+   var encoded = url;
+   var plaintext = "";
+   var i = 0;
+   while (i < encoded.length) {
+       var ch = encoded.charAt(i);
+        if (ch == "+") {
+	    plaintext += " ";
+	     i++;
+	} else if (ch == "%") {
+		       if (i < (encoded.length-2) 
+		       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
+		       && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
+		          plaintext += unescape( encoded.substr(i,3) );
+		          i += 3;
+		       } else {
+		          alert( 'Bad escape combination near ...' + encoded.substr(i) );
+  		          plaintext += "%[ERROR]";
+		          i++;
+		       }
+	} else {
+	          plaintext += ch;
+		  i++;
+	}
+   } // while
+   
+   return plaintext;
+}
+
+var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadURL);
+var url = EzWebAPI.createRGadgetVariable("url", loadURL);
+
+
+function loadURL(url_){
+
+ if(url_ && url_!=""){
+   url_ = URLDecode (url_);
+   var frm = document.getElementById("browser");
+   frm.setAttribute('src',url_);
+ }
+}
+
+</script>
+
+<div id="video">
+<iframe id="browser" frameborder="0" width="100%" height="100%"></iframe>
+</div>
+</body>
+</html>
