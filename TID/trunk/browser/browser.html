@@ -1,7 +1,7 @@
 <html>
 <head>
 </head>
-<body>
+<body onload="init()">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script>
 
@@ -21,22 +21,22 @@ function URLDecode( url )
        var ch = encoded.charAt(i);
         if (ch == "+") {
 	    plaintext += " ";
-	     i++;
-	} else if (ch == "%") {
-		       if (i < (encoded.length-2) 
-		       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
-		       && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
-		          plaintext += unescape( encoded.substr(i,3) );
-		          i += 3;
-		       } else {
-		          alert( 'Bad escape combination near ...' + encoded.substr(i) );
-  		          plaintext += "%[ERROR]";
-		          i++;
-		       }
-	} else {
-	          plaintext += ch;
-		  i++;
-	}
+	         i++;
+		 } else if (ch == "%") {
+		        if (i < (encoded.length-2) 
+			       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
+			              && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
+				                plaintext += unescape( encoded.substr(i,3) );
+						          i += 3;
+							         } else {
+								           alert( 'Bad escape combination near ...' + encoded.substr(i) );
+									             plaintext += "%[ERROR]";
+										               i++;
+											              }
+												      } else {
+												                plaintext += ch;
+														  i++;
+														  }
    } // while
    
    return plaintext;
@@ -45,7 +45,13 @@ function URLDecode( url )
 var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadURL);
 var url = EzWebAPI.createRGadgetVariable("url", loadURL);
 
-
+function init(){
+	var real_url = url.get();
+	if (!real_url || real_url==""){
+		loadURL(urlPref.get());
+	}
+	//else -> wait the wiring propagation
+}
 function loadURL(url_){
 
  if(url_ && url_!=""){
