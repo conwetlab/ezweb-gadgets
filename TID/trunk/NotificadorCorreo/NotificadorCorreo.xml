@@ -10,7 +10,6 @@
 		<Description>Gadget Notificador de correo</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/NotificadorCorreo/images/correo.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_notificador_de_nuevo_correo</WikiURI>
-	</Catalog.ResourceDescription>
 
 <!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>

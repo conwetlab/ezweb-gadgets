@@ -62,7 +62,11 @@ NotificadorCorreo.prototype.init = function(){
     resetInterval(time.get());
     
 }
-    
+
+NotificadorCorreo.prototype.repaint = function (){
+	alternatives.repaint();
+}
+
 NotificadorCorreo = new NotificadorCorreo();
 
 
