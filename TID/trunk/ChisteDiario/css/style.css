@@ -1,91 +1,107 @@
-#messages {
+#error_frame {
 	position:absolute;
-	bottom:0px;
-	width:100%;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background:#fff;
+
+	color:#8A1F11;
 }
 
-.info, .success, .warning, .error, .validation {
-    border: 1px solid;
-    margin: 10px 10px;
-    padding:15px 10px 15px 50px;
-    background-repeat: no-repeat;
-    background-position: 10px center;
+#error_frame table {
+	height:100%;
+	margin:0 auto;
 }
-.info {
-    color: #00529B;
-    background-color: #BDE5F8;
-    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/info.png');
-}
-.success {
-    color: #4F8A10;
-    background-color: #DFF2BF;
-    background-image:url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/success.png');
-}
-.warning {
-    color: #9F6000;
-    background-color: #FEEFB3;
-    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/warning.png');
-}
-.error {
-    color: #D8000C;
-    background-color: #FFBABA;
-    background-image: url('http://demo.ezweb.morfeo-project.org/repository/ChisteDiario/images/error.png');
+#error_frame p {
+	color:#8A1F11;
+	border: 2px solid;
+	border-color: #FBC2C4;
+	background-color: #FBE3E4;
+	margin: 10px 10px;
+	padding:15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-image: url('../images/error.png');
 }
 
 body {
 	padding:0;
 	margin:0;
-	background:yellow;
+	font-size:12px;
+
+	background-image: url(../images/load.gif);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-position:center center;
+	
+//	cursor:wait;
 }
+
 #head {
-	background:red;
-	height:35px;
+	height:1.5em;
+	padding:.4em;
+
 	overflow:hidden;
 	white-space:nowrap;
+
+	background:#ffd157; //#eee;
+	border-top:1px solid #000;
 }
 
-#head {
-	background:#eee;
-	height:23px;
-	padding:6px;
-	border-bottom:1px solid #bbb;
-	border:#000 solid 1px;
-	border-left:0px;
-	border-right:0px;
-}
-
-#menu {
-	font-size: 80%;
-	color:#999;
-	position:absolute;
-	right:0px;
-	top:1px;
-	height:19px;
-	background:#eee;
-	padding:10px 6px 6px 6px;
-}
-
-#title {
+#joke_frame_title {
 	color:#000;
+	color:#bb8a0a;
+	color:#9e7300;
 	font-weight:bold;
 	font-size:110%;
 	text-decoration:none;
 }
 
-#body {
+#joke_frame_menu {
+	font-size:.8em;
+	color:#999;
+	color:#dfa203;
 	position:absolute;
-	top:37px;
-	bottom:0px;
-	left:0;
 	right:0;
-	overflow:auto;
-}
-#body {
-	background:#fdfdfd;
-	padding:6px 20px;
+	top:.25em;
+	background:#ffd157;
 }
 
-#text {
+#body {
+	position:absolute;
+	top:2.3em;
+	left:0;
+	right:0;
+	bottom:0;
+	padding:.4em 1.25em;
+
+	overflow:auto;
+
+	background:#fff9e8; //#e3f5f3; //#fdfdfd;
+//	border-top:1px solid #000;
+	border-top:.2em solid #ffb900;
+}
+
+#body table {
+	height:100%;
+	margin:0 auto;
+}
+
+table {
+	font-size:1em;
+	border-spacing:none;
+	border-collapse:collapse;
+	vertical-align:middle;
+}
+
+a {
+	color:#9e7300;
+	text-decoration:underline;
+}
+
+#joke_frame_text {
+	font-size:1em;
 	text-align:left;
 }
 
@@ -99,23 +115,26 @@ body {
 	right:0px;
 }
 
-#source:before {
-	content:'Via: ';
+
+.buttom {
+	color:#777;
 	font-weight:bold;
+	font-size:2em;
+//	width:1.2em;
+	
+//	cursor:pointer;
 }
 
-#date {
-	color:#bbb;
-	font-size:80%;
-	text-align:right;
-}
-#date:before {
-	content:'(';
-}
-#date:after {
-	content:')';
-}
-
-#left:hover, #right:hover {
+.buttom:hover {
+	color:red;
 	cursor:pointer;
+}
+
+.buttom.left:before {
+	content:'«';
+//	padding-left:.25em;
+}
+
+.buttom.right:before {
+	content:'»';
 }
