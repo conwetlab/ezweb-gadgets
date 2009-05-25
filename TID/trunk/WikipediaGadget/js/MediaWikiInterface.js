@@ -13,6 +13,7 @@ var urlbaseApi = '';
 var urlbaseWiki = '';
 var urlhostWiki = '';
 var urlimage = 'http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/images/'; 
+//var urlimage = 'http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/WikipediaGadget/images/'; 
 
 // value = keywords de la busqueda
 var value = '';
@@ -27,6 +28,7 @@ var WikipediaGadget = function () {
 }
 WikipediaGadget.prototype = new EzWebGadget();
 WikipediaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget"
+//WikipediaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget"
 // Funcion de inicio
 WikipediaGadget.prototype.init = function() {
 	setDefaultOptions();
@@ -40,6 +42,9 @@ WikipediaGadget.prototype.init = function() {
 	goArticle('Main_Page');
 }
 
+WikipediaGadget.prototype.repaint = function(){
+	panelArticle.repaint();
+}
 
 WikipediaGadget = new WikipediaGadget();
 
