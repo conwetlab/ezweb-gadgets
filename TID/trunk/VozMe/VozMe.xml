@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>VozMe</Name>
+		<Version>0.1</Version>
+		<Author> </Author>
+		<Mail> </Mail>
+		<Description>Gadget reproductor de texto</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/VozMe/img/megaphone50.png</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Reproductor_de_textos_en_ingl.C3.A9s</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+	  <!--Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(minutes)" default="1"/-->
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <!--Property name="route" type="text" label="route"/-->
+	</Platform.StateProperties>
+	
+	<Platform.Wiring>
+		<Slot name="text" type="text" label="text" friendcode="text"/>
+	</Platform.Wiring>
+	
+	  <Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/VozMe/VozMe.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="5" height="18"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<!--context       name="user"       type="text" concept="user_name"/-->
+		<!--Context       name="language"   type="text" concept="language"/-->
+		<!--GadgetContext name="height"     type="text" concept="heightInPixels"/-->
+		<!-- Usually not needed-->
+
+		<!--<GadgetContext name="width"      type="text" concept="widthInPixels"/>-->
+		
+		<!--GadgetContext name="lockStatus" type="text" concept="lockStatus"/-->
+	</Platform.Context> 
+
+</Template>

@@ -1,0 +1,124 @@
+html {
+	margin:0;
+	padding:0;
+	font-size:12px;
+}
+body {
+	margin:0;
+	padding:0;
+}
+select, input, textarea {
+	font-size:1em;
+}
+label {
+	font-weight:bold;
+	margin:.3em 0;
+}
+textarea {
+	border:.1em solid #aaa;
+	height:7em;
+}
+
+table {
+	border-collapse:collapse;
+	width:100%;
+	font-size:1em;
+}
+
+#line {
+	background:orange;
+	border-bottom:.05em solid #C30000;
+	height:1.5em;
+}	
+
+#head {
+	margin-bottom:.5em;
+}
+
+#head h1 {
+	margin:-0.8em 0 0 1em;
+	padding:0;
+}
+
+#head a img {
+	border:none;
+}
+
+#body {
+	margin:1em;
+}
+
+
+#playerFrame {
+	position:absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	
+}
+
+#player {
+	position:relative;
+	background: #fff;
+	border:.3em solid #000;
+	width:20em;
+}
+
+#player iframe {
+	width:100%;
+	height:13em;
+	overflow:hidden;
+}
+#player #b_close {
+	position:absolute;
+	top: 2px;
+	right: 2px;
+}
+
+#divMessage {
+	position:relative;
+	background: #FFEFEF;
+	border:.3em solid #9F3131;
+	width:15em;
+	height:8em;
+}
+
+.contenedor {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	display: table;
+	background: url(../img/ifondo.png) repeat;
+}
+
+.centrado {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.contenido {
+	margin: 0 auto;
+}
+.boton{
+	padding:.2em;
+	padding-left:20px;
+	border:.1em solid #555;
+	background-color:#CCC;
+	-moz-border-radius:4px;
+	cursor:pointer;
+	
+}
+span.boton:hover{
+	background-color:#ddd;	
+}
+.aceptar{
+	background-image:url(../img/ok.png);
+	background-repeat:no-repeat;
+	background-position:.2em center;
+	background-attachment: scroll;	
+
+}

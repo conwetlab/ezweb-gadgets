@@ -1,0 +1,109 @@
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>VozMe Gadget</title>
+	
+	<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/VozMe/css/style.css"></link>
+	<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
+	<script type="text/javascript" language="javascript" charset="utf-8">
+	// <![CDATA[
+		var text = EzWebAPI.createRGadgetVariable("text", function(text){
+					document.getElementById('formulario').text.value= text;
+				});
+		function showPlayer() {
+			document.getElementById('playerFrame').style.visibility = 'visible';
+		}
+		function hidenPlayer() {
+			document.getElementById('playerFrame').style.visibility = 'hidden';
+		}
+		function closePlayer() {
+			hidenPlayer();
+		}
+		function openPlayer() {
+			showPlayer();
+		}
+		function comprobarCampos(formulario){
+			var patron = /[a-zA-Z0-9]/;
+		
+			if(formulario.text.value.search(patron) == -1){
+				//Mostrar la ventana con el mensaje de error
+				openError();
+				return false;
+			}
+			openPlayer();
+			return true;
+			
+		}
+		function closeError(){
+			document.getElementById('divError').style.visibility = 'hidden';
+		}
+		function openError(){
+			document.getElementById('divError').style.visibility = 'visible';
+		}
+		
+	// ]]>
+	</script>
+
+</head>
+<body>
+	<div id="line"></div>
+	<div id="head">
+		<h1><a href="http://vozme.com" title="ir a VozMe.com"><img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/megaphone50.png" alt="VozMe Gadget"/></a></h1>
+	</div>
+	<div id="body">
+		<form id="formulario" action="http://vozme.com/text2voice.php" method="post" target="iPlay" onSubmit="return comprobarCampos(this);">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td>
+						<label>Idioma</label>:
+						<select id="language" name="lang">
+							<option value="en" selected="selected">English</option>
+							<option value="es">Spanish</option>
+							<option value="it">Italian</option>
+							<option value="pt">Portuguese</option>
+							<option value="ca">Catalan</option>
+						</select>
+					</td>
+					<td style="text-align:right">
+						<label>Genero</label>:
+						<select name="gn">
+							<option value="ml" selected="selected">Male</option>
+							<option value="fm">Female</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<label>Escriba el Texto ...</label><br/>
+						<textarea name="text" style="width:100%;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:right">
+						<input type="submit" value="Reproducir"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+	<div id="playerFrame" class="contenedor" style="visibility:hidden">
+		<div class="centrado">
+		<div id="player" class="contenido">
+			<img id="b_close" src="img/bclose.png" onclick="closePlayer()" />
+			<iframe name="iPlay" id="iPlay" frameborder="0"></iframe>
+		</div>
+		</div>
+	</div>
+	<div id="divError" class="contenedor" style="visibility:hidden">
+		<div class="centrado">
+		<div id="divMessage" class="contenido">
+			<p> El campo texto no puede estar vacío </p>
+			<p style="text-align:center; margin-top:1.8em">
+				<span class="boton aceptar" onclick="closeError()">Aceptar</span>
+			</p>
+		</div>
+		</div>
+	</div>
+</body>
+</html>
