@@ -78,6 +78,9 @@ BuscadorRAE.prototype.init = function() {
 /* Instanciate the Gadget class */
 BuscadorRAE = new BuscadorRAE();
 
+BuscadorRAE.prototype.repaint = function () {
+	dicitionary.repaint()
+}
 
 /* Definicion de funciones para las variables del XML */
 function setKeyword ()

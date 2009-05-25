@@ -3,13 +3,13 @@
 <!-- Meta tags define gadgets properties -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Spanish dictionary (RAE)</Name>
-		<Version>1.41</Version>
+		<Name>Buscador RAE</Name>
+		<Version>1.4</Version>
 		<Author>irodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
-		<Description>Search in this Spanish dictionary word definitions according to the RAE (Real Academia de la lengua Española).</Description>
+		<Description>Gadget que busca definiciones de palabras en la RAE</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/images/RAE.png</ImageURI>
-		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BuscadorRAE</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_RAE</WikiURI>
 	</Catalog.ResourceDescription>
 
 <!-- EzWeb Gadgets Tags -->
