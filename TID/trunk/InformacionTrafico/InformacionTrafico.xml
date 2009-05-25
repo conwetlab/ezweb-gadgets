@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Informacion Trafico</Name>
+		<Version>0.7</Version>
+		<Author>lgarcia</Author>
+		<Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget Información de cámaras de tráfico</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/InformacionTrafico/images/dgt.png</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_informaci.C3.B3n_de_tr.C3.A1fico</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+	  <Preference name="time" type="number" label="Time (seconds)" description="Refresh Time(seconds)" default="1"/>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="route" type="text" label="route"/>
+	</Platform.StateProperties>
+	
+	<Platform.Wiring>
+	  <Event name="URLImage" type="text" label="URLImage" friendcode="URLImage"/>
+	  <Event name="nameImage" type="text" label="nameImage" friendcode="nameImage"/>
+	  <Event name="nameRoute" type="text" label="nameRoute" friendcode="nameRoute"/>
+	</Platform.Wiring>
+	
+	  <Platform.Link>
+		  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/InformacionTrafico/InformacionTrafico.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="5" height="18"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<!--Context       name="language"   type="text" concept="language"/-->
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<!-- Usually not needed-->
+
+		<!--<GadgetContext name="width"      type="text" concept="widthInPixels"/>-->
+		
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

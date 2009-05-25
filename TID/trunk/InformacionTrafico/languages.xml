@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+    <language name="es">
+        <label id="add">Añadir</label>
+	<label id="modify">Modificar</label>
+        <label id="delete">Eliminar</label>
+	<label id="close">Cerrar</label>
+	<label id="email">Correo Electrónico</label>
+	<label id="name">Nombre Cuenta</label>
+	<label id="serverMail">Servidor de Correo</label>
+	<label id="port">Puerto</label>
+	<label id="username">Usuario</label>
+	<label id="password">Password</label>
+	<label id="accept">Aceptar</label>
+	<label id="cancel">Cancel</label>
+	<label id="protocol">Protocolo</label>
+	<label id="errorAdd">Por favor complete de forma correcta todos los campos del formulario</label>
+	<label id="errorAddUser">La cuenta de correo ya existe</label>
+	<label id="errorProtocol">Funcionalidad TLS, no implementado</label>
+    </language>
+    <language name="en">
+	<label id="add">Add</label>
+	<label id="modify">Modify</label>
+	<label id="delete">Delete</label>
+	<label id="close">Close</label>
+	<label id="name">Account Name</label>
+	<label id="email">Email</label>
+	<label id="serverMail">Mail Server</label>
+	<label id="port">Port</label>
+	<label id="username">Username</label>
+	<label id="password">Password</label>
+	<label id="accept">Accept</label>
+	<label id="cancel">Cancel</label>
+	<label id="protocol">Protocol</label>
+	<label id="errorAdd">Please complete correctly all fields</label>
+	<label id="errorAddUser">TLS Funcionality is not implemented</label>
+    </language>
+</languages>
