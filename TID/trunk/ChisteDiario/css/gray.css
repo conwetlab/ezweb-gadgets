@@ -1,0 +1,27 @@
+#head {
+	background-color:#eee;
+	border-color:#000;
+}
+
+#joke_frame_title {
+	color:#333;
+}
+
+#joke_frame_menu {
+	color:#999;
+	background-color:#eee;
+}
+
+#body {
+	background:#fdfdfd;
+	border-color: #000;
+}
+
+a {
+	color:blue;
+}
+
+.buttom {
+	color:#777;
+}
+
