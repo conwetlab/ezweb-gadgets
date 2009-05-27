@@ -8,9 +8,7 @@
     <Author>irodriguez</Author>
     <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget Seguimiento Bolsa:
-   Este gadget permite realizar el seguimiento de los valores de bolsa de distintos mercados y distintas empresas.
-Para ello disponemos de una pestaña de configuración en la que podemos seleccionar que empresas se desean seguir y que valores deseamos que se muestren para cada una de ellas. Además podemos seleccionar del mismo modo los mercados de valores sobre los que se desea mantener un seguimiento.
-   El gadget dispone de una pestaña fija en la que se muestran los valores que estamos siguiendo, mientras que el resto de valores que queremos ir viendo se va abriendo en otras pestañas según se hace click en ellas.
+   Este gadget permite realizar el seguimiento de los valores de bolsa de distintos mercados y distintas empresas. Disponemos de una pestaña de configuración y podemos seleccionar los mercados de valores sobre los que se desea mantener un seguimiento.
     </Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/BolsaGadget/images/Bolsa.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_Seguimiento_de_Bolsa</WikiURI>
