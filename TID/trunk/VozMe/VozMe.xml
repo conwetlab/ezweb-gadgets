@@ -4,11 +4,11 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>VozMe</Name>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 		<Author> </Author>
 		<Mail> </Mail>
 		<Description>Gadget reproductor de texto</Description>
-		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/VozMe/img/megaphone50.png</ImageURI>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/VozMe/icono.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Reproductor_de_textos_en_ingl.C3.A9s</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Preferences -->
@@ -26,7 +26,7 @@
 	</Platform.Wiring>
 	
 	  <Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/VozMe/VozMe.html"/>
+		  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/VozMe/VozMe.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="5" height="18"/>
@@ -34,7 +34,7 @@
 	<Platform.Context>
 		<!-- Normal EzWeb Gadget Data Context needed -->
 		<!--context       name="user"       type="text" concept="user_name"/-->
-		<!--Context       name="language"   type="text" concept="language"/-->
+		<Context       name="language"   type="text" concept="language"/>
 		<!--GadgetContext name="height"     type="text" concept="heightInPixels"/-->
 		<!-- Usually not needed-->
 

@@ -10,6 +10,22 @@
 		var text = EzWebAPI.createRGadgetVariable("text", function(text){
 					document.getElementById('formulario').text.value= text;
 				});
+		var language = EzWebAPI.createRGadgetVariable("language", function(){
+					var lang = language.get();
+
+					switch (lang){
+						case "es":
+							document.getElementById('language').value="es";
+							break;
+						case "en":
+							document.getElementById('language').value="en";
+							break;
+						case "pt":
+							document.getElementById('language').value="pt";
+							break;
+					}
+			});
+			
 		function showPlayer() {
 			document.getElementById('playerFrame').style.visibility = 'visible';
 		}
@@ -48,7 +64,7 @@
 <body>
 	<div id="line"></div>
 	<div id="head">
-		<h1><a href="http://vozme.com" title="ir a VozMe.com"><img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/megaphone50.png" alt="VozMe Gadget"/></a></h1>
+		<h1><a href="http://vozme.com" title="ir a VozMe.com"><img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/logo.png" alt="VozMe Gadget"/></a></h1>
 	</div>
 	<div id="body">
 		<form id="formulario" action="http://vozme.com/text2voice.php" method="post" target="iPlay" onSubmit="return comprobarCampos(this);">
@@ -57,7 +73,7 @@
 					<td>
 						<label>Idioma</label>:
 						<select id="language" name="lang">
-							<option value="en" selected="selected">English</option>
+							<option value="en">English</option>
 							<option value="es">Spanish</option>
 							<option value="it">Italian</option>
 							<option value="pt">Portuguese</option>
@@ -90,7 +106,7 @@
 	<div id="playerFrame" class="contenedor" style="visibility:hidden">
 		<div class="centrado">
 		<div id="player" class="contenido">
-			<img id="b_close" src="img/bclose.png" onclick="closePlayer()" />
+			<img id="b_close" src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png" onclick="closePlayer()" />
 			<iframe name="iPlay" id="iPlay" frameborder="0"></iframe>
 		</div>
 		</div>
