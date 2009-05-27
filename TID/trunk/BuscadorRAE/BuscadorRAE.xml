@@ -35,7 +35,7 @@
 		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/BuscadorRAE.html"/>
 	</Platform.Link>
 
-	<Platform.Rendering width="6" height="24"/>
+	<Platform.Rendering width="8" height="20"/>
 	<Platform.Context>
 		<Context name="user" type="text" concept="user_name"/>
 		<Context name="language" type="text" concept="language"/>
