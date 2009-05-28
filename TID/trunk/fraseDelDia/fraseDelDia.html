@@ -36,24 +36,23 @@ body 	{
 .block {
 	display: block;
 	overflow: hidden;
-	padding-left: 5px;
-	min-width: 295px;
-	-moz-border-radius:5px;
+	padding-left:0.417em;
+	-moz-border-radius:0.417em;
 	/*border: outset 1px blue;*/
 	position: absolute;
-	left: 5px;
-	right: 5px;
+	left: 0.417em;
+	right: 0.417em;
 	} 
 
 #date 	{
 	position: absolute;
-	right: 5px;
-	bottom: 5px;
+	right: 0.417em;
+	bottom: 0.417em;
 	}
 
 #header {
-	top: 5px;
-	height: 30px;
+	top: 0.417em;
+	height: 2.5em;
 	background-color: #A1D8FF;
 }
 
@@ -63,38 +62,41 @@ body 	{
 
 #next	{
 	position: absolute;
-	left: 30px;
-	top: 8px;
+	left: 2.5em;
+	top: 0.417em;
+	width: 1.83em;
+	height: 1.83em;
 	}
 	
 #previous{
 	position: absolute;
-	top: 8px;
-	left: 5px;
+	top: 0.417em;
+	left: 0.417em;
+        width: 1.83em;
+        height: 1.83em;
 	}
 
 #content {
-	top: 40px;
-	bottom: 30px;
+	top: 3.4em;
+	bottom: 2.5em;
 	overflow: auto;
 	background-repeat: no-repeat;
 	background-position: center;
-	font-size: 12px;
         font-style: italic;
-	padding-right: 3px;
+	padding-right: 0.25em;
 	}
 
 #footer {
-	bottom: 5px;
-	height: 20px;
+	bottom: 0.417em;
+	height: 1.7em;
 	/*background-color: #A1D8FF;*/
 }
 
 #author	{
 	font-weight:bold;
 	position: absolute;
-	bottom: 2px;
-	right: 5px;
+	bottom: 0.17em;
+	right: 0.417em;
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;
@@ -105,7 +107,13 @@ body 	{
 <script language="JavaScript">
 
 // Template xml variables
-var urlSource = EzWebAPI.createRGadgetVariable("url",init);
+var urlSource2 = EzWebAPI.createRGadgetVariable("url2",init);
+var urlSource  = EzWebAPI.createRGadgetVariable("url",init);
+var fontSize   = EzWebAPI.createRGadgetVariable("tam", changeFontSize);
+var colorTheme = EzWebAPI.createRGadgetVariable("color", changeColor);
+
+var authorEvent   = EzWebAPI.createRWGadgetVariable('author');
+var sentenceEvent = EzWebAPI.createRWGadgetVariable('sentence');
 
 // Sentence Object
 
@@ -126,13 +134,69 @@ this.link = link;
 
 }
 
+// Color Object
+
+function colorGadgetO(header, font){
+	this.header	= header;
+	this.font	= font;
+}
+
 // Global variables
 
 var nSentence;
 var sentences;
 var items;
+var language;
+var error;
 // Functions
 
+function getColor(){
+	
+	var color = colorTheme.get();
+	var header;
+	var font;
+	
+	if (color == "blue"){
+		header	= "#A1D8FF";
+		font 	= "#123489";
+	}
+	else if (color == "orange"){
+		header	= "#ffd157";
+		font	= "#9E7300";
+	}
+	else if (color == "green"){
+		header	= "#5bff57";
+		font	= "#063f05";
+	}
+	else if (color == "gray"){
+		header	= "#dedcdc";
+		font	= "#3F3F38";
+	}
+	else if (color == "yelow"){
+		header	= "#fff774";
+		font	= "#a49b0e";
+	}
+	
+	return new colorGadgetO(header, font);
+}
+	
+function changeColor(){
+	
+	var color = getColor();
+	
+	document.getElementById('header').style.backgroundColor = color.header;
+	document.body.style.color 				= color.font;
+}
+
+function changeFontSize(){
+	var size = fontSize.get();
+	
+	document.body.style.fontSize = size + "px";
+	
+	var body = document.body;
+	document.createElement("div").appendChild(body);
+	document.body = body; 
+}	
 
 function showSentence(){
 
@@ -153,7 +217,7 @@ function showImageLoading(){
 	hideArrows();
 	hideSentence();
 	document.getElementById('content').style.backgroundImage = 
-		"url(http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/loading.gif)";
+		"url(http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/loading.gif)";
 
 }
 
@@ -165,33 +229,145 @@ function initializeVar(){
 	nSentence = 0;
         sentences = new Array();
         items     = new Array();
+	language  = "";
+	error	  = new Array();
 }
 
 function formatSentence(sentence){
 
 	sentence = sentence.replace(/<\s*img.*>/,'');
-	sentence = sentence.replace(/\s+$/,'');
+	sentence = sentence.replace(/<\s*p.*>/,'');
+//	sentence = sentence.replace(/<\s*br.*>/,'');
+	sentence = sentence.replace(/<\s*a.*>/,'');
+
+	sentence = sentence.replace(/\n\s*\n.*\W/,'');
+
+        sentence = sentence.replace(/^\s+/,'');
+        sentence = sentence.replace(/\s+$/,'');
+	
 	sentence = sentence.replace(/^"/,'');
 	sentence = sentence.replace(/"$/,'');
 
-	return sentence;
+	sentence = sentence.replace(/\n/g,"<br/>");
+
+	return sentence; 
+
+	
+}
+
+function formatDcDate(value){
+	
+	return value.substring(0,10).replace(/-/,'/').replace(/-/,'/');
 }
 
 
+function getDate(item,responseXML){
+
+	try{
+                return item.getElementsByTagName('pubDate')[0].childNodes[0].nodeValue;
+        }
+        catch (Exception){
+		
+		try{
+			return responseXML.getElementsByTagName('pubDate')[0].childNodes[0].nodeValue;
+		}
+		catch(Exception){
+			
+			try{
+				return formatDcDate(item.getElementsByTagName('dc:date')[0].childNodes[0].nodeValue);
+			}
+			catch (Exception){
+				
+				try{
+					return formatDcDate(responseXML.getElementsByTagName('dc:date')[0].childNodes[0].nodeValue);
+				}
+				catch (Exception){
+					return "";
+				}
+			}
+		}
+	}
+	
+}
+
+function getDescription(item){
+
+	try{ 
+		return item.getElementsByTagName('description')[0].textContent;
+	}
+	catch(Exception){
+		
+		error[0] = "frase";
+		error[1] = "quote";
+		errorHandler();
+	}
+
+}
+
+function getTitle(item){
+	
+	try{
+		return item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
+	}
+	catch(Exception){
+		
+		error[0] = "título";
+                error[1] = "title";
+                errorHandler();
+	}
+}
+
+function getLink(item){
+	
+	try{
+		return item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
+	}
+	catch(Exception){
+		
+		error[0] = "link";
+                error[1] = "link";
+                errorHandler();
+	}
+}
 
 function successHandler (value){
 
-// Get all items
-items = value.responseXML.getElementsByTagName('item');
+	// Get all items
 
-for (var i = 0; i < items.length; i++) {
+	try{
+		items = value.responseXML.getElementsByTagName('item');
+	}
+	catch(Exception){
+
+		error[0] = "item";
+		error[1] = "item";
+		errorHandler();
+	}
+
+
+	language = getLanguage	(urlSource.get(),
+				 urlSource2.get(),
+				 value.responseXML);
+	var description;
+	var title;
+	var pubDate;
+	var link;
+
+	for (var i = 0; i < items.length; i++) {
 	
-	sentences[i] = new daySentence 	(
-				formatSentence(items[i].getElementsByTagName('description')[0].childNodes[0].nodeValue),
-				items[i].getElementsByTagName('title')[0].childNodes[0].nodeValue,
-				items[i].getElementsByTagName('pubDate')[0].childNodes[0].nodeValue,
-				items[i].getElementsByTagName('link')[0].childNodes[0].nodeValue );
-}
+		description 	= formatSentence( getDescription(items[i]) );	 
+		title		= getTitle(items[i]);
+		pubDate		= getDate(items[i],value.responseXML);
+		link		= getLink(items[i]);
+
+		sentences[i] = new daySentence 	(
+					description,
+					title,
+					pubDate,
+					link	);
+	}
+	
+	updateEvents(sentences[nSentence]);
 	paintSentence(sentences[nSentence]);
 }
 
@@ -199,6 +375,8 @@ function nextSentence(){
 
 	if ( nSentence != 0) {
 		nSentence = nSentence - 1;
+	
+		updateEvents(sentences[nSentence]);
 		paintSentence(sentences[nSentence]);
 	}
 	
@@ -209,17 +387,58 @@ function previousSentence(){
 	if (nSentence < (items.length-1) ){
 
 		nSentence = nSentence + 1;
+
+		updateEvents(sentences[nSentence]);
 		paintSentence(sentences[nSentence]);
 	}
 }
 
-function getSource(value){
 
-	if( value == "1"){
+function getLanguage(list, url, responseXML){
+
+	var defaultLanguage = "es";
+	
+	if (url != ""){
+	
+		try{
+         	       return responseXML.getElementsByTagName('language')[0].childNodes[0].nodeValue;
+        	}
+	        catch (Exception){
+        	        return defaultLanguage;
+	        }
+	
+	}
+	else if (list == "1" || list == "2" || list == "3"){
+		return "es";
+	}
+	else if (list == "4" || list == "5" || list == "6"){
+		return "en";
+	}
+}
+
+
+function getSource(list, url){
+
+	if ( url != ""){
+		return url;
+	}
+	else if( list == "1"){
 		return "http://frasedeldia.net/feed/";
 	}
-	else if (value == "2"){
+	else if (list == "2"){
 		return "http://www.proverbia.net/qotd.asp";
+	}
+	else if (list == "3"){
+		return "http://citas-comunidad.com/rss/540010110/citas..xml";
+	}
+	else if (list == "4"){
+		return "http://www.quotationspage.com/data/qotd.rss";
+	}
+	else if (list == "5"){
+		return "http://feeds2.feedburner.com/brainyquote/QUOTEBR";
+	}
+	else if (list == "6"){
+		return "http://quotes4all.net/rss/540010110/quotes..xml";
 	}
 }
 
@@ -230,16 +449,54 @@ function init(){
 	showImageLoading();
 	window.setInterval(init ,3600000);
  	initializeVar();	
+	changeFontSize();
+	changeColor();
 	
-	var url = getSource( urlSource.get() );
+	var url  = getSource( urlSource.get(), urlSource2.get() );
 
 	EzWebAPI.send_get(url, this, successHandler, errorHandler);
 }
 
+function getErrorText(){
+	
+	var errorText;
+	
+	
+	if ( language.search(/\s*\ben-?/) != -1 ){
+	
+		if( error.length != 0){
+			errorText = "Incorrect RSS Feed, there is no " + error[1];
+		}
+		else{
+			errorText = "Error: Unable to display the contents of the RSS Feed";
+		}
+	}
+	else{
+		if (error.length != 0){
+			errorText = "Feed RSS incorrecto, no existe " + error[0];
+		}
+		else{
+			errorText   = "Error: No se puede mostrar el contenido del Feed RSS";
+		}
+	}
+	return errorText;
 
+}
+function updateEvents(value){
+
+	authorEvent.set(value.author);
+	sentenceEvent.set(value.sentence);
+}
+	
 function errorHandler(value){
+	
+	language = getLanguage  (urlSource.get(),
+                                 urlSource2.get(),
+                                 value.responseXML);
 
-	var errorSentence = new daySentence(	"Error: No se puede mostrar el contenido del Feed RSS",
+	var description = getErrorText();
+	
+	var errorSentence = new daySentence(	description,
 						"",
 						"",
 						"");
@@ -259,15 +516,35 @@ function showArrows(){
         document.getElementById('previous').style.display = "block";
 }
 
-function arrowToPointer(value){
+function getArrowsText(value){
+
+	//default
+	var nextText		= "Siguiente";
+	var previousText	= "Anterior";
+
+	if ( language.search(/\s*\ben-?/) != -1) {
+		nextText	= "Next";
+		previousText	= "Previous";
+	}
 	
 	if (value == '+'){
+		return nextText;
+	}
+	else if (value == '-'){
+		return previousText;
+	}
+}
+	
+
+function arrowToPointer(value){
+
+	if (value == '+'){
 		document.getElementById('next').style.cursor = "pointer";
-		document.getElementById('next').title = "Siguiente";
+		document.getElementById('next').title = getArrowsText('+');
 	}
 	else if (value == '-'){
 		document.getElementById('previous').style.cursor = "pointer";
-		document.getElementById('previous').title = "Anterior";
+		document.getElementById('previous').title = getArrowsText('-');
 	}
 }
 
@@ -352,10 +629,10 @@ function goToLink(){
         <div id="date"></div>
 
         <div class="image"><img id="previous" title="Anterior" onclick="previousSentence();"
-        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-previous.png"></img></div>
+        src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/go-previous.png"></img></div>
 
         <div class="image"><img id="next" title="Siguiente" onclick="nextSentence();"
-        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-next.png"></img></div>
+        src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/go-next.png"></img></div>
 	
 </div>
 

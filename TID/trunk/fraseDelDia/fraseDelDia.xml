@@ -9,13 +9,13 @@
 
 	<Name>Frase Del Dia</Name>
 
-	<Version>1.01</Version>
+	<Version>1.0</Version>
 
 	<Author>AlbertoChavesJiménez</Author>
 
 	<Mail>achaves@pegaso.ls.fi.upm.es</Mail>
 
-	<Description>Muestra la frase del dia (At this moment the gadget is Spanish Only)</Description>
+	<Description>Muestra la frase del dia</Description>
 
 	<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/fraseDelDia.png</ImageURI>
 
@@ -27,11 +27,37 @@
 
 <Platform.Preferences>
 	<!-- El usuario puede seleccionar la URL de la frase -->
-	<!--<Preference name="url" type="text" description="Descripción" label="Fuente de la frase" default="http://frasedeldia.net/feed/"/>-->
+	<Preference name="url2" type="text" description="Descripción" label="Fuente url" default=""/>
 
-	<Preference name="url" type="list" description="Descripción" label="Fuente de la frase" default="1">
-		<Option value="1" name="Frasedeldia.net"/>
-		<Option value="2" name="Proverbia.net"/>
+	<Preference name="url" type="list" description="Descripción" label="Fuentes predeterminadas" default="1">
+		<Option value="1" name="Frasedeldia.net (Español)"/>
+		<Option value="2" name="Proverbia.net (Español)"/>
+		<Option value="3" name="Citas-comunidad.com (Español)"/>
+		<Option value="4" name="Quotationspage.com (English)"/>
+		<Option value="5" name="Brainyquote.com (English)"/> 
+		<Option value="6" name="Quotes4all.net (English)"/>
+	</Preference>
+	
+	<Preference name="tam" type="list" description="Descripción" label="Tamaño letra" default="12">
+		<Option value="10" name="10"/>
+		<Option value="11" name="11"/>
+		<Option value="12" name="12"/>
+		<Option value="13" name="13"/>
+		<Option value="14" name="14"/>
+		<Option value="15" name="15"/>
+		<Option value="16" name="16"/>
+		<Option value="17" name="17"/>
+		<Option value="18" name="18"/>
+		<Option value="19" name="19"/>
+		<Option value="20" name="20"/>
+	</Preference>
+	
+	<Preference name="color" type="list" description="Tema" label="Tema"  default="blue">
+                <Option value="blue" 	name="Azul"/>
+		<Option value="orange" 	name="Naranja"/>
+		<Option value="green" 	name="Verde"/>
+		<Option value="gray" 	name="Gris"/>
+		<Option value="yelow" 	name="Amarillo"/>
 	</Preference>
 
 </Platform.Preferences>
@@ -47,7 +73,8 @@
 
 
 <Plataform.Wiring>
-
+	<Event name="author" type="text" label="Autor" friendcode="author" />
+	<Event name="sentence" type="text" label="Frase" friendcode="sentence" />
 </Plataform.Wiring>
 
  
