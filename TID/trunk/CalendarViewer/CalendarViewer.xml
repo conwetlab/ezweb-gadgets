@@ -4,11 +4,11 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Calendar Viewer</Name>
-		<Version>1.5</Version>
-		<Author>jmostazo</Author>
-		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
+		<Version>1.9</Version>
+		<Author>rmartinez</Author>
+		<Mail>rmartinez@pegaso.ls.fi.upm.es</Mail>
 		<Description>This gadget presents a calendar which gets the events of Google Calendar using the email address of preferences.</Description>
-		<ImageURI>http://europa.ls.fi.upm.es/svn/ezweb/releases/caso_agenda/calendar/images/calendar.png</ImageURI>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/CalendarViewer/images/calendar.png</ImageURI>
 		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Visor de Calendarios</WikiURI>
 	</Catalog.ResourceDescription>
 

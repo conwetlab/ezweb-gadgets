@@ -24,8 +24,8 @@
 		<label id="return_button">Return</label>
 		<label id="create_button">Create</label>
 		<label id="create_event_button">Create event</label>
-		<label id="titleEventsMonth">%(month)s of %(year)s:</label>
-		<label id="titleEventsWeek">Week %(week)s:</label>
+		<label id="titleEventsMonth">%(month)s of %(year)s</label>
+		<label id="titleEventsWeek">Week %(week)s</label>
 		<label id="titleEventsDay">Events in %(year)s-%(month)s-%(day)s:</label>
 		<label id="titleDetails">Event details: </label>
 		<label id="descriptionDetails">Description: </label>
@@ -39,10 +39,21 @@
 		<label id="summaryEvent"> Summary: </label>
 		<label id="initialDate">Start date: </label>
 		<label id="endDate">End date: </label>
-		<label id="staff">Staff: </label>
+		<label id="staff">Guests: </label>
 		<label id="titleCalendars">My calendars</label>
 		<label id="addCalendar">Add calendar</label>
 		<label id="addURL">Add URL</label>
+		<label id="errorNoCalendar">You must insert at least one calendar</label>
+		<label id="eliminar">Remove</label>
+		<label id="previous">Previous</label>
+		<label id="next">Next</label>
+		<label id="add">Add event</label>
+		<label id="noCalendarSelected">You must select at least one calendar</label>
+		<label id="no_events">There are no events for the selected date</label>
+		<label id="calendar">Calendar: </label>
+		<label id="month">Month</label>
+		<label id="week">Week</label>
+		<label id="day">Day</label>
 	</language>
 	<language name="es">
 		<label id="sunday">Do</label>
@@ -67,8 +78,8 @@
 		<label id="return_button">Volver</label>
 		<label id="create_button">Crear</label>
 		<label id="create_event_button">Crear evento</label>
-		<label id="titleEventsMonth">%(month)s de %(year)s:</label>
-		<label id="titleEventsWeek">Semana %(week)s:</label>
+		<label id="titleEventsMonth">%(month)s de %(year)s</label>
+		<label id="titleEventsWeek">Semana %(week)s</label>
 		<label id="titleEventsDay">Eventos del día %(day)s de %(month)s del %(year)s:</label>
 		<label id="titleDetails">Detalles del evento: </label>
 		<label id="descriptionDetails">Descripción: </label>
@@ -82,9 +93,20 @@
 		<label id="summaryEvent"> Título: </label>
 		<label id="initialDate">Fecha inicial: </label>
 		<label id="endDate">Fecha final: </label>
-		<label id="staff">Personal: </label>
+		<label id="staff">Invitados: </label>
 		<label id="titleCalendars">Mis calendarios</label>
 		<label id="addCalendar">Añadir calendario</label>
-		<label id="addURL">Añadir URL</label>		
+		<label id="addURL">Añadir URL</label>
+		<label id="errorNoCalendar">Debe introducir al menos un calendario</label>
+		<label id="eliminar">Eliminar</label>
+		<label id="previous">Anterior</label>
+		<label id="next">Siguiente</label>
+		<label id="add">Crear evento</label>
+		<label id="noCalendarSelected">Debe seleccionar al menos un calendario</label>
+		<label id="no_events">No hay eventos para la fecha seleccionada</label>
+		<label id="calendar">Calendario: </label>
+		<label id="month">Mes</label>
+		<label id="week">Semana</label>
+		<label id="day">Día</label>
 	</language>
 </languages>
