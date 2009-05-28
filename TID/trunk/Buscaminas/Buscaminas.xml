@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Buscaminas</Name>
+		<Version>1.3</Version>
+		<Author>jmostazo</Author>
+		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
+		<Description>Clásico juego del buscaminas. ¡Encuentra todas las minas!</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/Buscaminas/images/buscaminas.png</ImageURI>
+		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Buscaminas</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+		<Preference name="level" type="list" label="Level" description="Select a game level" default="easy">
+			<Option value="easy" name="Easy"/>
+			<Option value="medium" name="Medium"/>
+			<Option value="hard" name="Hard"/>
+		</Preference>
+		<Preference name="theme" type="list" label="Theme" description="Select a color theme" default="orange">
+                        <Option value="orange" name="Orange"/>
+                        <Option value="blue" name="Blue"/>
+			<Option value="green" name="Green"/>
+                        <Option value="white" name="White"/>
+			<Option value="grey" name="Grey"/>
+                </Preference>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="times" type="text" label="times"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Event name="event_time" type="text" label="Time" friendcode="time"/>
+		<Event name="event_level" type="text" label="Level" friendcode="level"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/Buscaminas/Buscaminas.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="5" height="27"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<!--<Context       name="language"   type="text" concept="language"/>-->
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<!-- Usually not needed
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		-->
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

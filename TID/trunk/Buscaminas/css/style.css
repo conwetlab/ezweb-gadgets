@@ -1,0 +1,177 @@
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;
+	color: #000000;
+	overflow: hidden;
+	background-color: #E0E0E0;
+}
+
+.link {
+	text-decoration: none;
+	color: #306BBD;
+	cursor: pointer;
+}
+
+.link:hover {
+	text-decoration: underline;
+}
+
+#header {
+	height: 32px;
+	width: 100%;
+}
+
+#flags_counter {
+	position: absolute;
+	display: block;
+	width: 60px;
+	height: 32px;
+	line-height: 32px;
+	vertical-align: middle;
+	font-size: 14px;
+	left: 10px;
+	top: 0px;
+	padding-left: 25px;
+	background: transparent url(../images/flag-mini.png) no-repeat scroll 0 7px;
+	font-weight:bold;
+	color: #555555;
+	cursor: default;
+}
+
+#timer {
+	position: absolute;
+	display: block;
+	width: 70px;
+	height: 32px;
+	line-height: 32px;
+	vertical-align: middle;
+	font-size: 14px;
+	right: 10px;
+	top: 0px;
+	background: transparent url(../images/clock.png) no-repeat scroll 50px 7px;
+	font-weight:bold;
+	color: #555555;
+	cursor: default;
+}
+
+#timer.record {
+	color: #008000;
+}
+
+#flags_counter.flags_error {
+	color: #F92C2C;
+}
+
+#flags_counter.flags_ok {
+	color: #008000;
+}
+
+#main_button {
+	position: relative;
+	display: block;
+	width: 32px;
+	height: 32px;
+	background: transparent none no-repeat scroll 0 0;
+	cursor: pointer;
+}
+
+#content {
+	font-size: 12px;
+	white-space: nowrap;
+	display: block;
+	overflow: hidden;
+}
+
+#content .board {
+	position: relative;
+}
+
+#content .tile {
+	width: 25px;
+	height: 25px;
+	display: block;
+	float: left;
+	line-height: 25px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#content .tile img {
+	width: 100%;
+	height: 100%;
+}
+
+#content .tile_1 {
+	color: #0000FF;
+}
+
+#content .tile_2 {
+	color: #008000;
+}
+
+#content .tile_3 {
+	color: #F92C2C;
+}
+
+#content .tile_4 {
+	color: #00008B;
+}
+
+#content .tile_5 {
+	color: #8B0000;
+}
+
+#content .tile_6 {
+	color: #00FFFF;
+}
+
+#content .tile_7 {
+	color: #9400D3;
+}
+
+#content .tile_8 {
+	color: #000000;
+}
+
+#content .open {
+	border: 2px solid #D3D3D3;
+	background: #E0E0E0 none no-repeat scroll 0 0;
+	cursor: default;
+}
+
+#content .theme_orange {
+	border-color: #FFA500;
+	background-color: #FFA500;
+}
+
+#content .theme_blue {
+	border-color: #01A2D1;
+        background-color: #01A2D1;
+}
+
+#content .theme_green {
+	border-color: #60DA11;
+        background-color: #60DA11;
+}
+
+#content .theme_white {
+	border-color: #FAFAD2;
+        background-color: #FAFAD2;
+}
+
+#content .theme_grey {
+	border-color: #AAAAAA;
+        background-color: #AAAAAA;
+}
+
+#content .close {
+	border-width: 2px;
+	border-style: outset;
+	cursor: pointer;
+}
