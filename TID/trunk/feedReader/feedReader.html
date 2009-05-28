@@ -14,7 +14,6 @@
   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 
   <script type="text/javascript" language="javascript">
-
 	//EzWeb vars
 	var onClick = EzWebAPI.createRGadgetVariable("onClick", _DoClick);
 	var feedUrl = EzWebAPI.createRGadgetVariable("feedUrl", _Handler);
@@ -552,7 +551,7 @@
 			if(properties[i] =='pubDate' && curProp != null){
 				$('chan_' + properties[i]).innerHTML = curProp.value;
 			}else if (properties[i] == 'link' && curProp != null){
-				$('chan_' + properties[i]).innerHTML = curProp;
+			    $('chan_' + properties[i]).innerHTML = (feed["title"].length < 50) ? feed["title"]:feed["title"].substring(0,50);
 				$("chan_link").href = curProp;
 				$("chan_link").target = '_blank';
 			}else if(properties[i] == 'copyright'){
@@ -810,8 +809,8 @@
 		//10px of margin-top/bottom of channel_items and channel margin-top
 		$('chan_items').style.height = (window.innerHeight - ($('chan_header').getHeight() + 30)) + "px";
 	}
+  </script>
 
-    </script>
 
 </head>
 <body onload="generateLang();" onresize="resizeItemsDiv()";>
