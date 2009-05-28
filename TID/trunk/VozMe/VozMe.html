@@ -26,6 +26,7 @@
 					}
 			});
 			
+		this.over= false;
 		function showPlayer() {
 			document.getElementById('playerFrame').style.visibility = 'visible';
 		}
@@ -56,7 +57,14 @@
 		function openError(){
 			document.getElementById('divError').style.visibility = 'visible';
 		}
-		
+		function changeSrc(){
+			
+				document.getElementById('b_close').src = "http://demo.ezweb.morfeo-project.org/repository/VozMe/img/ibclosehover.png";
+			
+		}
+		function changeSrcInit(){
+				document.getElementById('b_close').src = "http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png";
+		}
 	// ]]>
 	</script>
 
@@ -106,7 +114,7 @@
 	<div id="playerFrame" class="contenedor" style="visibility:hidden">
 		<div class="centrado">
 		<div id="player" class="contenido">
-			<img id="b_close" src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png" onclick="closePlayer()" />
+			<img id="b_close" src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
 			<iframe name="iPlay" id="iPlay" frameborder="0"></iframe>
 		</div>
 		</div>
@@ -115,9 +123,13 @@
 		<div class="centrado">
 		<div id="divMessage" class="contenido">
 			<p> El campo texto no puede estar vacío </p>
-			<p style="text-align:center; margin-top:1.8em">
-				<span class="boton aceptar" onclick="closeError()">Aceptar</span>
-			</p>
+			<!--p style="text-align:center; margin-top:1.8em"-->
+				<!--span class="boton aceptar" onclick="closeError()">Aceptar</span-->
+				<button  onclick="closeError()">
+					<img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/ok.png">
+					
+				Aceptar</button>
+			<!--/p-->
 		</div>
 		</div>
 	</div>
