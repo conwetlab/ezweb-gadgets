@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>EzWeb</Vendor>
+    <Name>TV programming</Name>
+    <Version>1.0</Version>
+    <Author>acastilla</Author>
+    <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
+    <Description>Gadget para mostrar la programacion de television</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo_TV.jpg</ImageURI>
+    <WikiURI>http://ezforge.morfeo-project.org/wiki_en/index.php/EzForge</WikiURI>
+  </Catalog.ResourceDescription>
+  
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  		<Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
+			<Option value="en" name="English"/>
+			<Option value="es" name="Español"/>
+	 	 </Preference>
+  </Platform.Preferences>
+	
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+  </Platform.Wiring>
+  
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src/prog_tv.html"/>
+  </Platform.Link>
+  
+  <Platform.Rendering width="6" height="20"/>
+  <Platform.Context>
+  		<Context name="user" type="text" concept="user_name"/>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+  </Platform.Context>   
+</Template>
