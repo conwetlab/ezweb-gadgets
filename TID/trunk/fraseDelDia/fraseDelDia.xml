@@ -86,7 +86,7 @@
 </Platform.Link>
 
 <!-- Tamaño incial del gadget -->
-<Platform.Rendering width="6" height="24"/>
+<Platform.Rendering width="6" height="12"/>
 
  
 <!-- Variables de contexto -->
