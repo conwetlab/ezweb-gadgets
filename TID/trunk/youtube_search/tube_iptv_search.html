@@ -297,7 +297,6 @@ body {
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script>
-
 function URLEncode( url )
 {
 	// The Javascript escape and unescape functions do not correspond
@@ -345,6 +344,8 @@ function URLEncode( url )
 	var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
 	var defaultChannel = EzWebAPI.createRGadgetVariable("channel", changeDefaultChannel);
 	var region = EzWebAPI.createRGadgetVariable("region", changeRegion);
+	var searchKeyword = EzWebAPI.createRWGadgetVariable("searchKeyword");
+	var searchChannel = EzWebAPI.createRWGadgetVariable("searchChannel");
 
 	
 	/* Channels */
@@ -653,6 +654,9 @@ function changeRegion(value){
         return;
       }
 
+	  // Event Keyword Search
+      searchKeyword = searchKeyword.set(query);
+	  
       var queryName = '"' + query + '"';
       var queryUrl = getSearchUrl(query); 
 
@@ -692,6 +696,10 @@ function changeRegion(value){
 	// Handle channel change from UI or Search
     function changeChannel(selected) { 
       currentChannelId = selected.value
+	  
+	  // Event Search Parameters
+	  searchChannel.set(selected.options[selected.selectedIndex].text);
+	  
       channelUrl = channels[currentChannelId][1];
       if (currentChannelId >= defaultChannels) {
         var queryName = channels[currentChannelId][0];
@@ -705,7 +713,7 @@ function changeRegion(value){
       /*if (widgetLoaded) {
         savePreferences();
       }*/
-
+	
       goToNewState(GS_LOADING);
       // TODO: move setp calls to here?
       if (channelUrl == ""){//movie channel
@@ -1035,6 +1043,7 @@ alert("excepcion");
         return "";
       }
     }	
+
 </script>
 </head>
 <body onload="javascript:load();">

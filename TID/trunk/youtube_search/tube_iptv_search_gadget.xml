@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Search</Name>
-    <Version>1.42</Version>
+    <Version>2.2</Version>
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Search videos and movies from youtube, using the drop-list or searching with any string. NOTE: The movies selection in the drop-list provides some extra ad-hoc meta-information useful to wire with other gadgets as a great example of use</Description>
@@ -52,7 +52,10 @@
     <Event name="place" type="text" label="Video location" friendcode="address"/>
     <Event name="title" type="text" label="Title" friendcode="title"/>
     <Event name="poi" type="text" label="Point of interest" friendcode="poi"/>
-	<Slot name="keyword" type="text" label="Keyword" friendcode="keyword"/>
+    <Slot name="keyword" type="text" label="Keyword" friendcode="keyword"/>
+    <Event name="searchChannel" type="text" label="Search Channel" friendcode="searchChannel"/>
+    <Event name="searchKeyword" type="text" label="Search Keyword" friendcode="searchKeyword"/>
+	
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_search/tube_iptv_search.html"/>
