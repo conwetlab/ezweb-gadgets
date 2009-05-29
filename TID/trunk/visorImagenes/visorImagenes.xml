@@ -22,6 +22,7 @@
 
 	<Platform.Wiring>
 		<Slot name="imageUrl" type="text" label="Image" friendcode="imageUrl"/>
+		<Event name="imageUrlevent" type="text" label="ImageEvent" friendcode="imageUrlevent"/>
 	</Platform.Wiring>
 
 	<Platform.Link>

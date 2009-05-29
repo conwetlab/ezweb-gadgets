@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.14</Version>
+<Version>1.151</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>This gadget provides the capability of sending SMS/MMS messages using Open Movilforum API. To use this service you must send an SMS with your password to "770". You will receive a confirmation of your password in another SMS message. This API is available for all movistar subscribers in Spain.</Description>
@@ -41,7 +41,8 @@
 </Platform.Preferences>
 <!-- EzWeb Gadget Persistent State -->
 <Platform.StateProperties>
-	</Platform.StateProperties>
+	<Property name="signature" type="text" label="Signature"/>
+</Platform.StateProperties>
 <!-- EzWeb Gadget Data Wiring -->
 <Platform.Wiring>
 	<Slot name="objectUrl" type="text" label="objectUrl" friendcode="objectUrl"/>
@@ -57,7 +58,7 @@
 	<Context name="language" type="text" concept="language"/>
 </Platform.Context>
 <Platform.Link>
-	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/sendMessage.html"/>
+	<XHTML href="http://helios.ls.fi.upm.es/gadgets/gadgets/openmovilforum/sendMessage.html"/>
 </Platform.Link>
 <Platform.Rendering width="8" height="18"/>
 </Template>

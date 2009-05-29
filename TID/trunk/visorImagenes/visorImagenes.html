@@ -108,7 +108,8 @@
 			var actualZoom = DEFAULT_ZOOM;
 			
 			var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
-			
+			var urlEvent = EzWebAPI.createRWGadgetVariable('imageUrlevent');
+	
 			function init ()
 			{
 				//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
@@ -121,7 +122,12 @@
 					document.getElementById('image').src = value;
 					//document.getElementById('label').innerHTML = value;
 					//setSize(DEFAULT_ZOOM);
+					urlEvent.set (urlSlot.get());
 				}
+				else{
+					document.getElementById('image').src = urlSlot.get();
+					urlEvent.set (urlSlot.get());
+				}	
 			}
 			
 			function setSize(value)

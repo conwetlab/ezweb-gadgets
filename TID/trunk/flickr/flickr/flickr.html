@@ -4,83 +4,18 @@
 -->
 <html><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<style type="text/css">
-body,td,div,span,p{font-family:arial,sans-serif;}
-a {color:#0000cc; }
-a:visited { color:#551a8b; }a:active { color:#ff0000; }
-body {margin: 0px;padding: 0px;   background-color: white;   }
-.t { width: 75px; height: 75px; margin: 0; border:0; padding: 3px; } 
-.t:hover { padding:1px; border: 2px solid #0063DC; border-right-color: #FF0084; }
-#logo { width:100px;}
-</style>
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script>
-
-var agent=navigator.userAgent;
-var is_iphone = (agent.indexOf('iPhone')!=-1);
-
-var vkey = EzWebAPI.createRGadgetVariable("keyword", displayMenu);
-var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
-var vdefault = EzWebAPI.createRGadgetVariable("defaultSearch", displayMenu);
-
-function displayMenu(keyword) {
-	if (keyword==""){
-		if (vdefault.get()=="")
-			feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags=ezweb&lang=en-us&format=rss_200";
-		else
-		        feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+vdefault.get()+"&lang=en-us&format=rss_200";
-	}
-	else
-		feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+keyword+"&lang=en-us&format=rss_200";
-	feedUrl = encodeURI(feedUrl);
-	EzWebAPI.send_get(feedUrl, this, displayOk, displayError);
-}
-
-function displayOk(resp){
-	var response = resp.responseXML;
-
-	var html = "";
-	var items = response.getElementsByTagName("item");
-	for (var i = 0; i < items.length ; i++) {
-	        if (i==9 && is_iphone)
-		    break;
-		var itemNodes = items.item(i).childNodes;
-		for (var j = 0; j < itemNodes.length ; j++) {
-			var node = itemNodes.item(j);
-			if (node.nodeName=="media:thumbnail")
-				var urlT = node.getAttribute("url");
-			else if (node.nodeName=="link")
-				var url = node.firstChild.nodeValue;
-			else if (node.nodeName=="title") 
-				if (node.firstChild)
-					var t = node.firstChild.nodeValue;
-				else var t = "";
-			else if (node.nodeName=="author")
-				var a = node.firstChild.nodeValue;
-		}
-		if (t!="")
-			t = '\''+t+'\' by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
-		else 
-			t = 'Photo by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
-		html += '<a href="javascript:sendImage(\''+urlT+'\');" title="'+t+'"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
-		//html += '<a href="'+url+'" title="'+t+'" target="_blank"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
-	}
-	document.getElementById('content_div').innerHTML = html;
-}
-
-function sendImage(urlImage_)
-{
-	urlImage.set(urlImage_.substr(0, urlImage_.length - 6) + urlImage_.substr(urlImage_.length - 4, 4));
-}
-
-function displayError(res){
-         
-}
-
-</script>
+	<style type="text/css">
+		body,td,div,span,p{font-family:arial,sans-serif;}
+		a {color:#0000cc; }
+		a:visited { color:#551a8b; }a:active { color:#ff0000; }
+		body {margin: 0px;padding: 0px;   background-color: white;   }
+		.t { width: 75px; height: 75px; margin: 0; border:0; padding: 3px; } 
+		.t:hover { padding:1px; border: 2px solid #0063DC; border-right-color: #FF0084; }
+		#logo { width:100px;}
+	</style>
+	<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.js"> </script>
 </head>
-<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png"/>
-<body onload="javascript:displayMenu(vkey.get());">
-	<div id="content_div" style="margin:0 auto; text-align: center;"></div>
+<body onload="init();">
 </body>
 </html>

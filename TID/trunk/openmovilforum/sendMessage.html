@@ -132,6 +132,8 @@ var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDes
 var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 // Message
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+// Signature
+var sigprop = EzWebAPI.createRWGadgetVariable('signature');
 
 //Events
 var e_objectUrl = EzWebAPI.createRWGadgetVariable("objectUrlEvent");
@@ -145,14 +147,12 @@ var subjectStatus = EzWebAPI.createRGadgetVariable("subjectStatus", function(){}
 var urlfileStatus = EzWebAPI.createRGadgetVariable("urlfileStatus", function(){});
 var messageStatus = EzWebAPI.createRGadgetVariable("messageStatus", function(){});
 
-
-
 var translator = null;
 
 //global variable
 
 var messageSended = false;
-var signature = "Thanks2EzWeb";
+var signature = " (sent from EzWeb)";
 var MESSAGE_SIZE = 160;
 
 //updates base_uri var when user preference is updated
@@ -311,9 +311,12 @@ function validate(f){
 		document.getElementById("uploadFileFrameId").style.display="none";
 		document.getElementById("SMSmsg").style.display="none";
 		document.getElementById("wait").style.display="block";
-    	EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
+		e_objectUrl.set(objectURL)
 		e_destinationPhone.set(to);
+		e_subject.set(subject)
 		e_message.set(initial_message);
+
+    	EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
 	} else {
 		// Send the MMS
 		document.MMSCreationForm.action=uri_mms;
@@ -347,6 +350,7 @@ function saveSignature(){
 	document.getElementById('MMSCreationForm').style.display="block";
 	document.getElementById('signatureConfig').style.display="none";
 	signature = document.getElementById("signature").value;
+	sigprop.set(signature);
 }
 
 function init(){
@@ -357,6 +361,10 @@ function init(){
 
 function generateLang(){
 	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/openmovilforum/languages.xml", "language", "languagePref", init);
+	if (sigprop.get() == '')
+		signature = ' (sent form EzWeb)';
+	else
+		signature = sigprop.get();
 }
 
 function clearText(){

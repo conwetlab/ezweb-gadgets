@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>2.2</Version>
+    <Version>2.4</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
@@ -20,16 +20,19 @@
   
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
+	<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
   </Platform.StateProperties>
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
+    <Event name="title" type="text" label="title of the image" friendcode="title" />
+    <Event name="autor" type="text" label="autor of the image" friendcode="autor" />
     <Event name="urlImage" type="text" label="url of the image" friendcode="imageUrl" />
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>
