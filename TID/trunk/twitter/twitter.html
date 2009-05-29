@@ -299,8 +299,7 @@ function sign_in () {
 		if (twitter_user.get() == '')	{
 			
 			var msg = 'Please, set your username in Twitter using the preferences.'
-			not_cont.innerHTML = msg;        
-			not_cont.style.display = 'block';        
+			show_notification (msg);
 			
 			return false;
 		}
@@ -308,8 +307,7 @@ function sign_in () {
 		if (twitter_pass.get() == '') {
 
 			var msg = 'Please, set your password in Twitter using the preferences.'
-			not_cont.innerHTML = msg;        
-			not_cont.style.display = 'block';
+			show_notification (msg);
 
 			return false;
 		}

@@ -63,14 +63,14 @@ h3 {
 	min-height: 100px;
 }
 
-#container .bottom_cont {
+.bottom_cont {
 	text-align: right;
 	width: 100%;
 	margin-top: 13px;
 	margin-bottom: 10px;
 }
 
-#container .bottom_cont .disabled_button{
+.disabled_button{
 	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
 	border: 1px solid #CECECE;
@@ -81,7 +81,7 @@ h3 {
 	cursor: default;
 }
 
-#container .bottom_cont .button{
+.button{
 	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
 	border: 1px solid #CECECE;
@@ -92,7 +92,7 @@ h3 {
 	cursor: pointer;
 }
 
-#container .bottom_cont .button:hover{
+.button:hover{
 	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn-hover.gif) repeat scroll 0 0;
 }
 
@@ -133,6 +133,41 @@ h3 {
 	position: relative;
 	right: 5px;
 	float: right;
+	padding: 2px;
 	margin-left: 5px;
 	cursor: pointer;
+}
+
+#notifications {
+	background: #E8FECD;
+	border: 1px solid #A9BF74;
+	padding: 5px;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+#notifications .close {
+	float: right;
+	top: 5px;
+	cursor: pointer;
+}
+
+#notifications .button_cont {
+	text-align: right;
+	width: 100%;
+	margin-top: 5px;
+}
+
+#link_container {
+	text-align: left;
+	width: 100%;
+	margin-bottom: 5px;
+	font-family: 'Lucida Grande',sans-serif;
+	font-size: 12px;
+}
+
+#link_container .right{
+	float: right;
+	position: relative;
+	top: 4px;
 }
