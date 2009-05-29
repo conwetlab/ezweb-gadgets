@@ -44,7 +44,7 @@
 		var css ="default2";
 		if(fullinfo)
 			css ="default";
-			
+
 		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+value+"/"+css+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
@@ -209,7 +209,7 @@
 			aux.push(json.weather.dayf.day);
 			json.weather.dayf.day = aux;
 		}
-			var html = "<div class='city' id='cityHeader'>"+json.weather.cc.obst+"<span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
+			var html = "<div class='city' id='cityHeader'><span class='cityName' id='_cityName'>"+json.weather.cc.obst+"</span><span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
 				html += "<div id='full' class='full'>";
 				
 				//html += "<div class='city'>"+json.weather.cc.obst+"</div>";
@@ -412,9 +412,6 @@
 		$('short').show();
 		$('full').hide();
 	}
-
-	
-
 </script>
 
 </head>
