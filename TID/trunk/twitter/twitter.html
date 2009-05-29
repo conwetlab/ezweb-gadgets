@@ -121,6 +121,7 @@ var max_page = 1;
 var all_messages = new Object(); 
 var posted_msg_aux = '';
 var temp_id = null;
+var restart = false;
 
 // SPECIAL CHARACTERS
 ///////////////////////
@@ -224,38 +225,30 @@ var sc = {
 	252: 	'&uuml;',	
 	253: 	'&yacute;', 	
 	254: 	'&thorn;', 	
-	255: 	'&yuml;'	
+	255: 	'&yuml;',
+ 8216:  '&lsquo;',
+ 8217: 	'&rsquo;',
+ 8220: 	'&ldquo;',
+ 8221: 	'&rdquo;',
+ 8764:  '&sim;'
 }
 
 // EZWEB VARIABLE HANDLERS
 ///////////////////////////
 
 function twitter_user_handler (user) {
-	if (authorization == ''){
-		if (sign_in()){
-			select_tab (getByClassName('div', 'tab current'));
-		}
-	} else {
-		var target_url = 'http://twitter.com/account/end_session.json';
-		send_request (target_url, 'POST', null, sign_out, show_http_error);
-	}
+	restart_connection();
 }
 
 function twitter_pass_handler (pass) {
-	if (authorization == ''){
-		if (sign_in()){
-			select_tab (getByClassName('div', 'tab current'));
-		}
-	} else {
-		var target_url = 'http://twitter.com/account/end_session.json';
-		send_request (target_url, 'POST', null, sign_out, show_http_error);
-	}
+	restart_connection();
 }
 
 function limit_messages_handler (next_limit) {
 	
-	if (document.getElementById('me_tab').className == 'tab current'){
-		var msgs_cont = document.getElementById('message_container');        
+	var msgs_cont = document.getElementById('message_container');        
+	
+	if ((msgs_cont != undefined) && (document.getElementById('me_tab').className == 'tab current')){
 		msgs_cont.innerHTML = '';
 		
 		current_page = 1;
@@ -298,21 +291,33 @@ function draft_is_handler (dra) {
 ///////////
 
 function sign_in () {
+	
+	close_notification();
+	
 
 	if (authorization == ''){
 		if (twitter_user.get() == '')	{
+			
 			var msg = 'Please, set your username in Twitter using the preferences.'
-			document.getElementById('container').innerHTML = msg;        
+			not_cont.innerHTML = msg;        
+			not_cont.style.display = 'block';        
+			
 			return false;
 		}
 		
 		if (twitter_pass.get() == '') {
+
 			var msg = 'Please, set your password in Twitter using the preferences.'
-			document.getElementById('container').innerHTML = msg;        
+			not_cont.innerHTML = msg;        
+			not_cont.style.display = 'block';
+
 			return false;
 		}
 		
 		authorization = 'Basic ' + Base64.encode(twitter_user.get() + ':' + twitter_pass.get());
+		
+		document.getElementById('log_out').style.display = 'block';
+		document.getElementById('sign_in').style.display = 'none';
 		
 		var target_url = 'http://twitter.com/account/rate_limit_status.json';
 		send_request (target_url, 'GET', null, get_rate_limit, show_http_error);
@@ -323,13 +328,60 @@ function sign_in () {
 	
 }
 
+function get_login_links (visible_logout){
+
+	var html = '<div id="link_container">\n';
+	if (visible_logout){
+		html += '<a id="log_out" class="right" style="display: block;" href="javascript:void(0)" onclick="sign_out()">log out</a>';
+		html += '<a id="sign_in" class="right" style="display: none;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>';
+	} else {
+		html += '<a id="log_out" class="right" style="display: none;" href="javascript:void(0)" onclick="sign_out()">log out</a>';
+		html += '<a id="sign_in" class="right" style="display: block;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>';
+	}
+	html += '</div>';
+
+	return html;
+					
+}
+
+
+function restart_connection (){
+	
+	if (authorization == ''){
+		if (sign_in()){
+			select_tab (getByClassName('div', 'tab current'));
+		}
+	} else {
+		sign_out();
+	}
+}
+
 
 // SIGN OUT
 ////////////
 
-function sign_out (resp) {
+function sign_out () {
+	
+	close_notification();
+	
+	document.getElementById('container').innerHTML = get_login_links(false);        
+	
+	document.getElementById('log_out').style.display = 'none';
+	document.getElementById('sign_in').style.display = 'block';
+	
+	if (authorization != ''){
+		var target_url = 'http://twitter.com/account/end_session.json';
+		send_request (target_url, 'POST', null, sign_out_handler, show_http_error);
+	}
+}
+
+
+function sign_out_handler (resp) {
+
 	authorization = '';
-	if (sign_in()){
+	
+	if (restart && sign_in()){
+		restart = false;
 		select_tab (getByClassName('div', 'tab current'));
 	}
 }
@@ -384,10 +436,15 @@ function send_request (url, method, parameters, success_handler, error_handler){
 //////////////////////
 
 function show_http_error(res){
-	var msg = 'Sorry, we cannot send your request. Check your username/password and try it again...'
-	document.getElementById('container').innerHTML = msg;
+	
+	var msg = 'Sorry, an error has ocurried and now we cannot send your request.</br>Please, sign in again and try it again...'
+	show_notification(msg);
+	
+	if (temp_id != null)
+		clearInterval(temp_id);
+	
+	alert (res.responseText);
 }
-
 
 // GETS ALL MESSAGES (HOME PAGE)
 ////////////////////////////////
@@ -403,7 +460,7 @@ function show_messages (resp) {
 	all_messages = eval ('(' + response + ')');
 	
 	var content = document.getElementById('container');
-	content.innerHTML = '';
+	content.innerHTML = get_login_links(true);
 	
 	var header_text = document.createElement("h3");
 	header_text.appendChild(document.createTextNode('What are you doing?'));
@@ -514,13 +571,13 @@ function get_message_element (message_object, with_avatar) {
 	var context = {msg: current_msg};
 	
 	var sender_img = document.createElement("img");
-  	sender_bottom.appendChild(sender_img);
+  sender_bottom.appendChild(sender_img);
 	sender_img.src = urlimage + 'description.png';
 	Event.observe(sender_img, "click",
 	  function (ev) {
 			Event.stop(ev);
-			sent_message.set (replace_html_entities( this.msg ));
-   	}.bind(context));
+			sent_message.set ( replace_html_entities( this.msg ));
+   	}.bind(context));	
 	
 	var avatar_cont = document.createElement("div");
 	message_content.appendChild(avatar_cont);
@@ -542,7 +599,7 @@ function get_message_element (message_object, with_avatar) {
 	text_container.appendChild(header_cont);
 	header_cont.className = 'header';
 	var created_date = new Date (message_object.created_at);
-	var header_text = 'Written on ' + created_date.getDate() + '/' + created_date.getMonth() + '/' + created_date.getFullYear() + ' ';
+	var header_text = 'Written on ' + created_date.getDate() + '/' + (created_date.getMonth() + 1) + '/' + created_date.getFullYear() + ' ';
 	header_text += created_date.getHours() + ':' + created_date.getMinutes() + ':' + created_date.getSeconds();
 	header_text += ' by '
 	header_cont.appendChild(document.createTextNode (header_text));
@@ -585,6 +642,7 @@ function replace_html_entities (msg){
 	}
 	return msg;
 }
+
 
 // Replaces all links with <a> tag
 function replace_links (msg){
@@ -684,11 +742,17 @@ function arrived_message_handler (message) {
 		switch (draft_is.get()) {
 
 		case 'prefixed':
-			input_elto.value = input_elto.value + ' ' + message;
+			if (input_elto.value == '')
+				input_elto.value = message;
+			else
+				input_elto.value = input_elto.value + ' ' + message;
 			break;
 
 		case 'concatenated':
-			input_elto.value = message + ' ' + input_elto.value;
+			if (input_elto.value == '')
+				input_elto.value = message;
+			else
+				input_elto.value = message + ' ' + input_elto.value;
 			break;
 			
 		default:
@@ -719,11 +783,17 @@ function arrived_automessage_handler (message) {
 		switch (draft_is.get()) {
 
 		case 'prefixed':
-			nmessage = input_elto.value + ' ' + message;
+			if (input_elto.value == '')
+				nmessage = message;
+			else
+				nmessage = input_elto.value + ' ' + message;
 			break;
 
 		case 'concatenated':
-			nmessage = message + ' ' + input_elto.value;
+			if (input_elto.value == '')
+				nmessage = message;
+			else
+				nmessage = message + ' ' + input_elto.value;
 			break;
 			
 		default:
@@ -731,7 +801,7 @@ function arrived_automessage_handler (message) {
 			break;
 		}
 		
-		input_elto.value = '';
+		input_elto.value = nmessage;
 		post_message(nmessage);
 
 	} catch(err) {}
@@ -741,7 +811,6 @@ function arrived_automessage_handler (message) {
 function update_edited_message (ev) {
 	var status_input = document.getElementById('status');
 	post_message(status_input.value);
-	status_input.value = '';
 }
 
 function post_message (message) {
@@ -752,6 +821,8 @@ function post_message (message) {
 }
 
 function success_update (resp) {
+	
+	clear_message();
 	
 	var response = resp.responseText;
 	var current_message = eval ('(' + response + ')');
@@ -776,7 +847,10 @@ function success_update (resp) {
 
 function error_update (resp) {
 	aux_posted_msg = '';
-	show_http_error (resp);
+	
+	var msg = 'Sorry, we cannot send your request, check what could be wrong in your message (too long, strange characters, ...)';
+	show_notification(msg);        
+
 }
 
 
@@ -915,7 +989,7 @@ function get_followers () {
 function show_friends_info (resp) {
 	
 	var content = document.getElementById('container');
-	content.innerHTML = '';
+	content.innerHTML = get_login_links(true);
 		
 	var response = resp.responseText;
 	var objRes = eval ('(' + response + ')');
@@ -998,12 +1072,30 @@ function resize_height (){
 	document.getElementById('container').style.height = (window.frameElement.getHeight() - document.getElementById('container').offsetTop  - round) + "px";
 }
 
+// HTML HANDLERS
+/////////////////
+
+function close_notification (){ 
+	document.getElementById('not_message').innerHTML = '';        
+	document.getElementById('notifications').style.display = 'none';        
+	resize_height();
+}
+
+function show_notification (msg){ 
+	document.getElementById('not_message').innerHTML = msg;        
+	document.getElementById('notifications').style.display = 'block'; 
+	resize_height();
+}
 
 // LOAD/UNLOAD HANDLERS
 ////////////////////////
 
 onunload = function (){
-	clearInterval(temp_id);
+	
+	if (temp_id != null)
+		clearInterval(temp_id);
+		
+	sign_out();
 }
 
 onload = function (){
@@ -1046,10 +1138,15 @@ function update_messages (){
 
 </head>
 
-	<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png"/>
-
 <body onresize="resize_height()">
 
+	<div id="notifications" style="display: none;">
+		<img class="close" src="http://demo.ezweb.morfeo-project.org/repository/twitter/images/close.gif" onclick="close_notification()"/>
+		<div id="not_message"></div>
+	</div>
+	
+	<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/twitter/images/twitter_logo_s.png"/>
+	
 	<table id="tab_table" cellpadding='0' cellspacing='0' align='center'>
 		<tr>
 			<td align='center'>
@@ -1060,7 +1157,12 @@ function update_messages (){
 		</tr>
 		<tr>
 			<td align='center'>
-				<div id="container"></div>
+				<div id="container">
+					<div id="link_container">
+						<a id="log_out" class="right" style="display: none;" href="javascript:void(0)" onclick="sign_out()">log out</a>
+						<a id="sign_in" class="right" style="display: block;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>
+					</div>
+				</div>
 			</td>
 		</tr>
 	</table>
