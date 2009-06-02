@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/bookmarkList/ezweb_ext.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
 <title>Bookmark List</title>
@@ -185,7 +185,7 @@ function paintBookmarkEntries(category)
 
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", category);
-			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rm_tag.png' alt='remove'/></a>";
 
 			$('selected_categories').appendChild(catElement);
 		}
@@ -277,7 +277,7 @@ function paintBookmarkInfo (index, bookmark)
 	var notes = bookmarkStructure[bookmark]['desc'];
 	var tags = bookmarkStructure[bookmark]['tags'];
 	var html = "<div id='"+index+"' class='bookmark'><div id='title_"+index+"' class=\"bookmark_title\"><a href=\"javascript:setEvents('" + url + "');\">" + title +"</a></div>";
-	html +="<div class='actions'><a href=\"javascript:editBookmark('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/gadgets/feedReader/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeBookmark('"+index+"' , '"+ url + "')\"><img alt='remove' src='http://demo.ezweb.morfeo-project.org/repository/feedReader/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	html +="<div class='actions'><a href=\"javascript:editBookmark('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeBookmark('"+index+"' , '"+ url + "')\"><img alt='remove' src='hhttp://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
 	html += "<div id='tags_"+index+"' class='bookmark_tags'>";
 	for (var i=0; i<tags.length;i++){
 
@@ -553,7 +553,7 @@ function setOperator(value){
 		for (var i = 0; i<selected_categories.length-1;i++){
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", selected_categories[i]);
-			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rm_tag.png' alt='remove'/></a>";
 				$('selected_categories').appendChild(catElement);
 		}
 
