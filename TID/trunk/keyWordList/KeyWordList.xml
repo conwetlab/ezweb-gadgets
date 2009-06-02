@@ -9,7 +9,7 @@
 	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
 	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/keyWordList/images/rssList.jpg</ImageURI>
-	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#KeyWord_List</WikiURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_KeyWord_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
