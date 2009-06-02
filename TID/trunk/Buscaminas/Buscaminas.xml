@@ -9,7 +9,7 @@
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Clásico juego del buscaminas. ¡Encuentra todas las minas!</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/Buscaminas/images/buscaminas.png</ImageURI>
-		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Buscaminas</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Buscaminas</WikiURI>
 	</Catalog.ResourceDescription>
 
 	<!-- EzWeb Gadgets Preferences -->
