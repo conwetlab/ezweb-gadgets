@@ -9,7 +9,7 @@
 	  <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 	  <Description>This gadget manages your Bookmarks collections, tag and search your sources, show bookmarks related to any keyword (also by wiring!). Use it wired with the Bookmark Reader gadget in order to get the full functionality</Description>
 	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rssList.jpg</ImageURI>
-	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Bookmark_List</WikiURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Bookmark_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
