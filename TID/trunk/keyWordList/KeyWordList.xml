@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>KeyWordList</Name>
+	  <Version>0.1</Version>
+	  <Author>lgarcia</Author>
+	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
+	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
+	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/keyWordList/images/rssList.jpg</ImageURI>
+	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in..." default="and">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="keyWordList" type="text" label="KeyWord list"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="keyWordName" type="text" label="keyWordName" friendcode="keyWordName"/>
+	  <Event name="keyWordDesc" type="text" label="keyWordDesc" friendcode="keyWordDesc"/>
+	  <Event name="keyWordTags" type="text" label="keyWordTags" friendcode="keyWordTags"/>	  
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/keyWordList/KeyWordList.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="8" height="5"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>
