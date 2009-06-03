@@ -9,7 +9,7 @@
 		<Mail>rmartinez@pegaso.ls.fi.upm.es</Mail>
 		<Description>This gadget presents a calendar which gets the events of Google Calendar using the email address of preferences.</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/CalendarViewer/images/calendar.png</ImageURI>
-		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Visor de Calendarios</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_calendario</WikiURI>
 	</Catalog.ResourceDescription>
 
 	<!-- EzWeb Gadgets Preferences -->
