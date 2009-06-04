@@ -1,0 +1,171 @@
+body {
+	font-family:'Lucida Grande',sans-serif;
+}
+
+a { 
+	color:#0084B4;
+#	text-decoration: none; 
+	white-space: nowrap;
+	font-size: 12px;
+}
+
+h3 { 
+	margin: 0px auto 5px auto;
+}
+
+.button{
+	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/jabberPresence/images/round-btn.gif) repeat scroll 0 0;
+	-moz-border-radius: 5px;
+	border: 1px solid #CECECE;
+	margin-left: 5px;
+	padding: 0.25em 1em;
+	color: #0084B4;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.button:hover{
+	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/jabberPresence/images/round-btn-hover.gif) repeat scroll 0 0;
+}
+
+#notifications {
+	background: #DDEEFF;
+	border: 1px solid #BBBBBB;
+	padding: 5px;
+	font-size: 14px;
+}
+
+#notifications .message_from {
+	font-style: italic;
+}
+
+#notifications .button_cont {
+	text-align: right;
+	width: 100%;
+	margin-top: 5px;
+}
+
+#link_container {
+	text-align: left;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#link_container .right{
+	float: right;
+	position: relative;
+	top: 4px;
+}
+
+
+#container {
+	background: #E8E8E8;
+	padding: 5px;
+}
+
+#new_contact {
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+
+#new_contact #user_name {
+	border: 1px solid #AAAAAA;
+	width: 220px;
+	font-size: 14px;
+}
+
+#new_contact #user_alias {
+	border: 1px solid #AAAAAA;
+	width: 108px;
+	font-size: 14px;
+}
+
+#contacts {
+	-moz-border-radius: 7px;
+	background: #FFFFFF none repeat scroll 0 0;
+	text-align: left;
+	overflow: auto;
+	padding: 10px;
+	min-height: 100px;
+}
+
+#contacts .button_cont {
+	text-align: right;
+	width: 100%;
+	margin-top: 9px;
+	margin-bottom: 10px;
+}
+
+#contacts .button_cont .disabled_button{
+	background: transparent url(http://192.168.4.80:6670/twitter/images/round-btn.gif) repeat scroll 0 0;
+	-moz-border-radius: 5px;
+	border: 1px solid #CECECE;
+	margin-left: 5px;
+	padding: 0.25em 1em;
+	font-size: 14px;
+	color: #CECECE;
+	cursor: default;
+}
+
+#contacts .button_cont .button{
+	background: transparent url(http://192.168.4.80:6670/twitter/images/round-btn.gif) repeat scroll 0 0;
+	-moz-border-radius: 5px;
+	border: 1px solid #CECECE;
+	margin-left: 5px;
+	padding: 0.25em 1em;
+	color: #0084B4;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+#contacts .button_cont .button:hover{
+	background: transparent url(http://192.168.4.80:6670/twitter/images/round-btn-hover.gif) repeat scroll 0 0;
+}
+
+#contacts .message_container {
+	background: #F0F0F0;
+	border-bottom: 1px solid #D2DADA;
+	padding: 5px 5px 10px 5px;
+}
+
+#contacts .message_container.even {
+	background: #F8F8F8;
+}
+
+#contacts .message_container .message {
+	min-height: 32px;
+	font-size: 0.9em;
+}
+
+#contacts .message_container .message.selected{
+	background: #D5D5D5;
+}
+
+#contacts .message_container .message .header {
+	font-family: Georgia;
+	font-size: 0.8em;
+	font-style: italic;
+	color: #999999;
+}
+
+#contacts .message_container .message .header .name, #contacts .message_container .message .friend {
+	color: #0084B4;	
+}
+
+#contacts .message_container .avatar {
+	float: left;
+	height: 16x;
+	width: 16px;
+	padding: 2px;
+	margin-right: 5px;
+}
+
+#contacts .message_container .delete {
+	float: right;
+	padding: 2px;
+	margin-left: 5px;
+	top: -26px;
+	right: 5px;
+	position: relative;
+	cursor: pointer;
+}

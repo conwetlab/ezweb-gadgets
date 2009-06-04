@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Jabber Presence</Name>
+    <Version>10.0.6</Version>
+    <Author>lmayllon</Author>
+
+    <Mail>luismarcos.ayllon@panel.es</Mail>
+    <Description>This gadget version provide an engaging visual way to send messages into Twitter system</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/jabberPresence/images/jabber_logo.png</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
+  </Catalog.ResourceDescription>
+  
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+    <Preference name="user" type="text" description="Your username in the Jabber server" label="Username" default="ezweb"/>
+    <Preference name="pass" type="password" description="Your password in the Jabber server" label="Password" default="ezweb"/>
+    <Preference name="proxy" type="text" description="Jabber proxy" label="Jabber Proxy" default="http://pc-lmayllon/"/>
+    <Preference name="jabber_server" type="list" description="Jabber server" label="Jabber Server" default="jabber.rootbash.com">
+    	<Option value="jabber.rootbash.com" name="jabber.rootbash.com"/>
+		</Preference>
+    <Preference name="comm_method" type="list" label="Communication method" description="Communication method" default="binding">
+			<Option value="binding" name="Binding"/>
+			<Option value="polling" name="Polling"/>
+		</Preference>
+</Platform.Preferences>>
+  
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  	<!--Property name="contacts" type="text" label="User contacts"/-->
+  </Platform.StateProperties>
+  
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+     <Event name="sender" type="text" label="Message Sender" friendcode="text" />
+     <Event name="message" type="text" label="Received Message" friendcode="message" />
+  </Platform.Wiring>
+  
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/jabberPresence/jabber.html"/>
+  </Platform.Link>
+  
+  <Platform.Rendering width="9" height="20"/>
+  
+  <Platform.Context>
+  </Platform.Context> 
+</Template>
+

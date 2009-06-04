@@ -1,0 +1,994 @@
+
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://demo.ezweb.morfeo-project.org/repository/jabberPresence/css/jabber.css" />
+
+<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/jabberPresence/jsjac.js"></script>
+<script language="javascript">
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 								            GADGETS CONTANTS                                                        //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var urlimage = 'http://demo.ezweb.morfeo-project.org/repository/jabberPresence/images/';
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 											GADGET VARIABLES                                                        //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var con = null;
+var reconnect = false;
+var oDbg = null;
+var my_contacts = new Hash();
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 											EZWEB VARIABLES                                                         //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var user = EzWebAPI.createRGadgetVariable("user", user_handler);
+var pass = EzWebAPI.createRGadgetVariable("pass", pass_handler);
+var proxy = EzWebAPI.createRGadgetVariable("proxy", proxy_handler);
+var server = EzWebAPI.createRGadgetVariable("jabber_server", server_handler);
+var comm_mtd = EzWebAPI.createRGadgetVariable("comm_method", comm_handler);
+var msg = EzWebAPI.createRWGadgetVariable("message");
+var sdr = EzWebAPI.createRWGadgetVariable("sender");
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 									   EZWEB VARIABLE HANDLERS                                                      //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function user_handler (us) {
+	restart_connection();
+}
+
+function pass_handler (pa) {
+	restart_connection();
+}
+
+function proxy_handler(pr) {
+	restart_connection();
+}
+
+function server_handler (se) {
+	restart_connection();
+}
+
+function comm_handler (se) {
+	restart_connection();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 										      DATA MODEL                                                            //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Presence received from the server (XML)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function ServerPresence (doc_) {
+	this._doc = doc_;
+	this._from = null;
+	this._status = '';
+	
+	
+	try {
+		
+		var presence = this._doc.getElementsByTagName("presence")[0];
+		this._from = presence.getAttribute("from").split('/')[0];
+			
+		var ptype	= presence.getAttribute("type");
+		if (ptype == 'error'){
+			return;
+		}
+			
+		var pshow = presence.getElementsByTagName("show");
+		if (pshow.length == 0){
+			pshow = null;
+		} else{
+			pshow = pshow[0].textContent;
+		}
+			
+		var pstatus = presence.getElementsByTagName("status");
+		if ((pstatus.length == 0) || (ptype.toLowerCase() == pstatus[0].textContent.toLowerCase())){
+			pstatus = null;
+		} else {
+			pstatus = pstatus[0].textContent;
+		}
+			
+		if (!ptype && !pshow){
+			this._status += 'available';
+		} else {
+			
+			if (ptype){
+				this._status += ptype;
+			}else {
+				this._status += pshow;
+			}
+				
+			if (pstatus){
+				this._status += ' (' + pstatus + ')';
+			}
+		}
+		
+	} catch (err){
+		// The XML is malformed
+		oDbg.log("XML error: " + err);
+		this._status = 'Undefined';
+	}
+	
+}
+
+ServerPresence.prototype.getStatus = function () {
+	return this._status;	
+}
+
+ServerPresence.prototype.getFrom = function () {
+	return this._from;	
+}
+
+
+// Contact
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Contact (jid_, alias_, subs_) {
+	this._jid = jid_;
+	this._name = jid_.split('/')[0]; 
+	this._alias = alias_;
+	this._subscription = subs_;
+	this._status = 'undefined';
+}
+
+Contact.prototype.getName = function () {
+	return this._name;
+}
+
+Contact.prototype.getAlias = function () {
+	return this._alias;
+}
+
+Contact.prototype.getSubscription = function () {
+	return this._subscription;
+}
+
+Contact.prototype.setPresence = function (presence_) {
+	var new_status = '';
+
+	if (presence_.getType()){
+   	new_status += presence_.getType();
+  } else {
+   	new_status += presence_.getShow();
+  }
+
+  if (presence_.getStatus()){
+   	new_status += ' (' + presence_.getStatus() + ')';
+  }
+  
+  this.setAvatar(presence_.getType());
+  this.setStatus(new_status);
+}
+
+Contact.prototype.setAvatar = function (status_) {
+	var my_avatar = $(this._name + '_avatar');
+	if (my_avatar == null){
+		return;
+	}
+	
+	switch (status_) {
+	case 'waiting':
+	case 'unsubscribed':
+		my_avatar.src = urlimage + 'drop-no.gif';    	
+		break;
+	case 'unknown':
+		my_avatar.src = urlimage + 'exclamation.gif';    	
+		break;
+	default:
+		my_avatar.src = this.getAvatarURL();
+		break;
+	}
+}
+
+
+Contact.prototype.setStatus = function (status_) {
+	this._status = status_;
+	var html_status = $(this._name + '_status');
+	if (html_status != null){
+		html_status.innerHTML = status_;
+	}
+}
+
+Contact.prototype.subscribe = function (){
+	this._subscription = 'waiting';
+	this.setAvatar ('waiting');
+	this.setStatus ('waiting confirmation');
+}
+
+Contact.prototype.subscribed = function (){
+	this._subscription = 'subscribed';
+	this.setAvatar ('subscribed');
+	this.setStatus ('authorized'); 	
+}
+
+Contact.prototype.unsubscribe = function (){
+	this.unsubscribed()
+}
+
+Contact.prototype.unsubscribed = function (){
+	this._subscription = 'unsubscribed';
+	this.setAvatar ('unsubscribed');
+	this.setStatus ('unauthorized');
+}
+
+Contact.prototype.getAvatarURL = function (){
+	
+	switch (server.get()){
+	
+	case 'jabber80.org':
+		return this.getPresenceURL() + '/image/';
+		break;
+		
+	case 'jabberes.org':
+		return this.getPresenceURL() + '&type=image&iconset=gabber'
+		break;
+
+	default:
+		var ts = new Date();
+  	ts = '&' + ts.getTime();
+		return this.getPresenceURL() + ts;
+		break;
+	}
+	
+}
+
+Contact.prototype.getPresenceURL = function (format_){
+	
+	var base_uri = '';
+	
+	switch (server.get()){
+	
+	case 'jabber80.com':
+		base_uri = 'http://jabber80.com:5280/status/jid/' + user.get() + '/' + server.get();
+		if (format_ == 'xml');
+			base_uri += '/xml/';
+		break;
+		
+	case 'jabberes.org':
+		var base_uri = 'http://status.jabberes.org?jid=' + user.get() + '@' + server.get();
+		break;
+		
+	default:
+		base_uri  = 'http://jabber.rootbash.com/plugins/presence/status?req_jid=' + user.get() + '@' + server.get();
+		base_uri += '&jid=' + this._name;	
+	
+		if (format_ == 'xml') {
+			base_uri += '&type=xml';
+		}
+	
+		break;
+	}
+	
+	return base_uri;
+}
+
+Contact.prototype.no_error = function (res) {
+	oDbg.log("error: " + res.responseText);
+}
+
+Contact.prototype.getWebPresence = function () {
+	switch (server.get()){
+
+	case 'jabberes.org':
+		EzWebAPI.send_get(this.getPresenceURL(), this, this.printFromText, this.no_error);
+		break;
+
+	default:
+		EzWebAPI.send_get(this.getPresenceURL('xml'), this, this.printFromXML, this.no_error);
+		break;
+	}
+}
+
+// Show the contact information on the screen
+Contact.prototype.printFromText = function (resp) {
+
+		this.setStatus( resp.responseText );
+		this.generateHTML();
+}
+
+
+// Show the contact information on the screen
+Contact.prototype.printFromXML = function (resp) {
+
+		var new_presence = new ServerPresence( resp.responseXML );
+
+		this.setStatus( new_presence.getStatus() );
+		this.generateHTML();
+}
+
+
+Contact.prototype.generateHTML = function () {
+		var cont_layer = $('contacts');
+		var html = document.createElement("div");
+		html.id = this._name;
+
+		if ((cont_layer.childElements().length % 2) == 0){
+			html.className = 'message_container even';
+		} else {
+			html.className = 'message_container';
+		}
+
+		html.style.borderBottom = '1px solid #97A0A8';
+		if (cont_layer.childElements().length == 0){
+			html.style.borderTop = '1px solid #97A0A8';
+		}
+						
+		var avatar_cont = document.createElement("div");
+		html.appendChild(avatar_cont);
+		avatar_cont.className = 'avatar';
+			
+		var avatar = document.createElement("img");
+    avatar.id = this._name + '_avatar';
+    avatar_cont.appendChild(avatar);
+    avatar.className = 'avatar';
+    
+    switch ( this._subscription ){
+    case 'waiting':
+    case 'from':
+    case 'none':
+			avatar.src = urlimage + 'exclamation.gif'; 
+    	break;
+    default:
+    	avatar.src = this.getAvatarURL();
+    	break;
+   	}
+    
+		var text_container = document.createElement("div");
+		html.appendChild(text_container);
+		text_container.className = 'message';
+
+		var name_cont = document.createElement("span");
+		text_container.appendChild(name_cont);
+		name_cont.className = 'friend';
+		if ((this._alias != undefined) && (this._alias != '')){
+			name_cont.innerHTML = this._alias;
+		}else{
+			name_cont.innerHTML = this._name;
+		}
+		
+		text_container.appendChild(document.createElement("br"));
+		
+		var msg_cont = document.createElement("span");
+		msg_cont.id = this._name + '_status';
+		text_container.appendChild(msg_cont);
+		
+		switch ( this._subscription ){
+    case 'waiting':
+    case 'from':
+    case 'none':
+			msg_cont.appendChild(document.createTextNode ('waiting confirmation'));
+    	break;
+    default:
+    	msg_cont.appendChild(document.createTextNode (this._status));
+    	break;
+   	}
+		
+		var delete_img_cont = document.createElement("div");
+		html.appendChild(delete_img_cont);
+		delete_img_cont.className = 'delete';
+		
+		// Context for the handlers
+		var context = {contact: this};
+		
+		var delete_img = document.createElement("img");
+		Event.observe(delete_img, "click",
+		  function (ev) {
+  	   	try {
+					Event.stop(ev);
+					
+					if ((this.contact.getSubscription() != 'unsubscribed') && (this.contact.getSubscription() != 'none')){
+						this.contact.unsubscribe();
+						sendJabberPresence( 'unsubscribe', this.contact.getName() );	
+					} 
+					this.contact.remove();
+					delete my_contacts[this.contact.getName()];
+
+				} catch (er) {}
+      }.bind(context));
+
+  	delete_img_cont.appendChild(delete_img);
+  	delete_img.src = urlimage + 'delete.gif';
+		
+		cont_layer.appendChild(html);
+		
+		resize_height();
+}
+
+Contact.prototype.remove = function (){
+	if ($(this._name))
+		$(this._name).remove();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 										    JABBER SETTINGS                                                         //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function init() {
+	// Level 0 for production environment
+	// Level 2 for debugging
+	oDbg = new JSJaCConsoleLogger(0);
+}
+
+
+function setupCon(con) {
+    con.registerHandler('message',handleMessage);
+    con.registerHandler('presence',handlePresence);
+    con.registerHandler('onconnect',handleConnected);
+    con.registerHandler('ondisconnect',handleDisconnected);
+    con.registerHandler('onerror',handleError);
+    con.registerHandler('status_changed',handleStatusChanged);
+    
+    con.registerIQGet('query', NS_VERSION, handleIqVersion);
+    con.registerIQGet('query', NS_TIME, handleIqTime);
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 											 JABBER HANDLERS                                                        //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function handleMessage(aJSJaCPacket) {
+  var current_msg = '';
+	
+	current_msg += '{"from": "' + fromJIDToName(aJSJaCPacket.getFrom()) + '", ';
+  current_msg += '"message": "' + aJSJaCPacket.getBody() + '"}';
+  
+  if (aJSJaCPacket.getBody() != ''){
+  	sdr.set(fromJIDToName(aJSJaCPacket.getFrom()));
+  	msg.set(aJSJaCPacket.getBody());
+  }
+}
+
+
+function handlePresence(aJSJaCPacket) {
+	oDbg.log ('presence -> ' + aJSJaCPacket.getType());
+	oDbg.log ('from -> ' + fromJIDToName(aJSJaCPacket.getFrom()));
+
+  // The contact has become available
+  if (!aJSJaCPacket.getType() && !aJSJaCPacket.getShow()) {
+		
+		var ccont = my_contacts[fromJIDToName(aJSJaCPacket.getFrom())];
+		if ((ccont != undefined) && (ccont.getSubscription == 'subscribed')){
+			ccont.setAvatar ('available') ;
+			ccont.setStatus ('available') ;
+  	}
+  	
+  	if (server.get() == 'jabberes.org'){
+  		if ((con != null) && con.connected()){
+				con.send(new JSJaCPresence());
+			}
+  	}
+  	return;
+  }
+  
+	switch (aJSJaCPacket.getType()) {
+	case 'subscribe':
+ 	 	
+ 	 	// The contact have already been added	
+ 	 	if (my_contacts[fromJIDToName(aJSJaCPacket.getFrom())] != undefined ){
+ 	 		sendJabberPresence('subscribed', fromJIDToName(aJSJaCPacket.getFrom()));
+ 	 		return;
+ 	 	}
+ 	 	
+  	var usr_nots = $('notifications');
+	
+		// The contact wants to add this user. The request is shown to the user
+  	var not_from = document.createElement("span");
+  	not_from.className = 'message_from';
+  	not_from.innerHTML = fromJIDToName(aJSJaCPacket.getFrom());
+  	usr_nots.appendChild(not_from);
+  	
+  	var not_msg = document.createElement("span");
+		not_msg.innerHTML = ' wants to add you to his/her contact list. Do you want to allow it?';
+		usr_nots.appendChild(not_msg);
+
+		usr_nots.appendChild(document.createElement("br"));
+			
+		// Context for the handlers
+		var context = {packet: aJSJaCPacket};
+			
+		var button_cont = document.createElement("div");
+		button_cont.className = 'button_cont';
+		usr_nots.appendChild(button_cont);			
+			
+		// Creates the accept button
+		var accept_button = document.createElement("input");
+		accept_button.className = 'button';
+		accept_button.type = 'button';
+		accept_button.value = 'Allow';
+		Event.observe(accept_button, "click",
+		  function (ev) {
+  	   	try {
+					Event.stop(ev);
+
+					hide_notifications ();
+					
+					sendJabberPresence('subscribed', fromJIDToName(this.packet.getFrom()));
+					
+					// Adds the new contact
+					var cont_name = fromJIDToName(this.packet.getFrom());
+					var ncont = new Contact(cont_name, cont_name, 'subscribed');
+					my_contacts[cont_name] = ncont;
+					ncont.getWebPresence();
+				} catch (er) {}
+      }.bind(context));
+		button_cont.appendChild(accept_button);
+	
+		// Creates the reject button
+		var reject_button = document.createElement("input");
+		Event.observe(reject_button, "click",
+			function (ev) {
+  	   	try {
+					Event.stop(ev);
+					sendJabberPresence('unsubscribed', fromJIDToName(this.packet.getFrom()));
+					hide_notifications();
+				} catch (er) {}
+     }.bind(context));
+		reject_button.className = 'button';
+		reject_button.type = 'button';
+		reject_button.value = 'Reject';
+		button_cont.appendChild(reject_button);
+	
+		usr_nots.style.display = 'block';  
+		resize_height();
+	
+		break;
+	case 'subscribed':
+	
+		var ccont = my_contacts[fromJIDToName(aJSJaCPacket.getFrom())];
+		if (ccont != undefined){
+			ccont.subscribed();
+		}
+		break;	
+	case 'unsubscribe':
+	
+		var ccont = my_contacts[fromJIDToName(aJSJaCPacket.getFrom())];
+		if (ccont != undefined){
+			ccont.unsubscribe();
+		}
+
+		sendJabberPresence('unsubscribed', fromJIDToName(aJSJaCPacket.getFrom()));
+			
+		break;
+	case 'unsubscribed':
+		
+		var ccont = my_contacts[fromJIDToName(aJSJaCPacket.getFrom())];
+		if (ccont != undefined){
+			ccont.unsubscribed();	
+		}
+		
+		break;
+	default: // The contact status has been changed
+		
+		var ccont = my_contacts[fromJIDToName(aJSJaCPacket.getFrom())];
+		if ((ccont != undefined) && (ccont.getSubscription == 'subscribed')){
+			ccont.setPresence (aJSJaCPacket) ;
+		}
+			
+		break;
+	}		
+}
+
+function handleError(e) {
+
+  var msg = 'An error occured: ' + e.firstChild.nodeName;
+  msg += '<br>'; 
+	msg += 'Please, try to sign in again.'
+	
+	show_notifications(msg);
+	$('contacts').innerHTML = '';
+
+}
+
+
+function handleStatusChanged(status) {
+  switch (status){
+  case 'initializing':
+  	break;
+  case 'connecting':
+  	break;
+  case 'resuming':
+  	break;
+  case 'processing':
+  	break;
+  case 'onerror_fallback':
+  	break;
+  case 'protoerror_fallback':
+  	break;
+  case 'internal_server_error':
+  	break;
+  case 'suspending':
+  	break;
+  case 'aborted':
+  	break;
+  case 'disconnecting':
+  	break;
+  default:
+  	break;
+  }
+  
+  oDbg.log("status changed: "+status);
+}
+
+function handleConnected() {
+	
+	$('sign_in').style.display = 'none';
+	$('log_out').style.display = 'block';
+	hide_notifications();
+	
+	// Gets the contact list
+	sendJabberIQ ('roster_1', 'get', 'jabber:iq:roster', handleRoster);
+		
+	// Sends the message "available" to server
+	if ((con != null) && con.connected()){
+		con.send(new JSJaCPresence());
+	} 
+}
+
+
+// Prints the contact list
+function handleRoster(aRoster){
+	var iquery = aRoster.getQuery().childNodes;
+	
+	for (var i = 0; i < iquery.length; i++){
+		var citem = iquery.item(i);
+		
+		var ncont = new Contact(citem.getAttribute('jid'), citem.getAttribute('name'), citem.getAttribute('subscription'));
+		ncont.setStatus('unavailable');
+		my_contacts[ncont.getName()] = ncont;
+		ncont.getWebPresence();
+	}
+	
+}
+
+function handleDisconnected() {
+ 	
+ 	$('sign_in').style.display = 'block';
+	$('log_out').style.display = 'none';
+ 	
+ 	con = null;
+ 	if (reconnect){
+  	reconnect = false;
+  	sign_in();
+  }
+}
+
+function handleIqVersion(iq) {
+  if ((con != null) && con.connected()){
+  	con.send(iq.reply([
+                     iq.buildNode('name', 'jsjac simpleclient'),
+                     iq.buildNode('version', JSJaC.Version),
+                     iq.buildNode('os', navigator.userAgent)
+                     ]));
+  }
+  return true;
+}
+
+function handleIqTime(iq) {
+  var now = new Date();
+  if ((con != null) && con.connected()){
+  	con.send(iq.reply([iq.buildNode('display',
+                                  now.toLocaleString()),
+                     iq.buildNode('utc',
+                                  now.jabberDate()),
+                     iq.buildNode('tz',
+                                  now.toLocaleString().substring(now.toLocaleString().lastIndexOf(' ')+1))
+                     ]));
+  }
+  return true;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 											JABBER OPERATIONS                                                       //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function sendJabberPresence (op_, to_){
+	
+	var prs = new JSJaCPresence(); 
+	if (to_ != null){
+		prs.setTo (to_);
+	}
+	prs.setType (op_);
+	if ((con != null) && con.connected()){
+		con.send(prs);	
+	}
+}
+
+function sendJabberIQ (id_, type_, query_, handler_){
+	var jsiq = new JSJaCIQ();
+ 	jsiq.setType(type_);
+ 	jsiq.setID(id_);
+ 	jsiq.setQuery(query_);
+ 	if ((con != null) && con.connected()){
+ 		con.send(jsiq, handler_);
+ 	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 										    LOG OPERATIONS                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function restart_connection (){
+	if ((con != null) && con.connected()){
+		reconnect = true;
+		con.disconnect();
+	} else {
+		sign_in();
+	}
+}
+
+// SIGN IN
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function sign_in () {
+
+	if ((con != null) && con.connected()){
+		return;
+	}
+	
+	$('contacts').innerHTML = '';
+	var msg = '';
+	
+	if (user.get() == '')
+		msg = 'Please, set your username in Jabber Server using the preferences.'
+		
+	if (pass.get() == '')
+		msg = 'Please, set your password in Jabber Server using the preferences.'
+		
+	if (server.get() == '')
+		msg = 'Please, set the proxy to avoid Cross Domain problems.'
+		
+	if (proxy.get() == '')
+		msg = 'Please, set the proxy using the preferences to avoid Cross Domain problems.'
+		
+	if (comm_mtd.get()  == '')
+		msg = 'Please, select the communication mechanism using the preferences.'
+		
+	if (msg != ''){
+		show_notifications(msg);
+		return false;
+	}
+
+
+  try {
+    // setup args for contructor
+    var oArgs = new Object();
+
+    oArgs.oDbg = oDbg;
+    oArgs.timerval = 2000;
+    oArgs.httpbase = proxy.get();
+    if (proxy.get().lastIndexOf('/') != proxy.get().length - 1){
+			oArgs.httpbase += '/';
+		}
+		
+	  if (comm_mtd.get() == 'binding'){
+      if ((oArgs.httpbase.search(/http-bind\/$/) == -1) || (oArgs.httpbase.search(/http-bind\/$/) != (oArgs.httpbase.length - 10))){
+				oArgs.httpbase += 'http-bind/';
+			}
+      con = new JSJaCHttpBindingConnection(oArgs);
+    }else{
+      if ((oArgs.httpbase.search(/http-poll\/$/) == -1) || (oArgs.httpbase.search(/http-poll\/$/) != (oArgs.httpbase.length - 10))){
+				oArgs.httpbase += 'http-poll/';
+			}
+      con = new JSJaCHttpPollingConnection(oArgs);
+    }
+
+    setupCon(con);
+
+    // setup args for connect method
+    oArgs = new Object();
+    oArgs.domain = server.get();
+    oArgs.username = user.get();
+    oArgs.pass = pass.get();
+    oArgs.resource = 'ezweb_jabber_gadget';
+    oArgs.register = false;
+		oArgs.authtype = 'nonsasl';
+    con.connect(oArgs);
+    return true;
+  } catch (e) {
+		msg = 'The system could not log you on: ' + e.toString();
+		show_notifications(msg);
+    sign_out();
+    return false;
+  } 
+	
+}
+
+// SIGN OUT
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function sign_out () {
+ 	
+	if ((con != null) && (con.connected())){
+		sendJabberPresence ('unavailable');
+ 		con.disconnect();
+ 	}
+ 	
+ 	my_contacts.each( function (pair) {
+  	my_contacts[pair.key].remove();
+ 		my_contacts.remove(pair.key);
+	});
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 												GADGET OPERATIONS                                                   //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function add_new_contact (){
+	
+	var nc_name = $('user_name').value;
+ 	if ((nc_name == '') || (nc_name == ' ')){
+ 		return;
+ 	}
+ 	
+ 	// Adds the server domain (if empty)
+ 	if (nc_name.split('@').length < 2){
+ 		nc_name += '@' + server.get();
+ 	}
+ 	
+ 	// Contact already exits
+ 	if (my_contacts[nc_name] != undefined){ 	
+		return;
+	}
+	
+	// Contact does not exit yet
+	var nc_alias = $('user_alias').value;
+	if ((nc_alias == '') || (nc_alias == ' ')){
+		nc_alias = nc_name;
+	}
+	
+	show_contact_form();	
+	var ncont = new Contact(nc_name, nc_alias, 'waiting');
+	my_contacts[nc_name] = ncont;
+	ncont.generateHTML();
+	
+	sendJabberPresence('subscribe', fromJIDToName(nc_name));
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 												UTILITIES                                                           //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function fromJIDToName (jid_) {
+	return jid_.split('/')[0];
+}
+
+
+function getByClassName (tag, classname) {
+	var all_elements = document.getElementsByTagName(tag);
+	for (var i = 0; i < all_elements.length ; i++){		
+		if (all_elements[i].className == classname){
+			return all_elements[i];				
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 												HTTP ERROR HANDLER                                                  //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function show_http_error(res){
+	var msg = 'Sorry, we cannot send your request. Check your username/password and try it again...';
+	show_notifications(msg);
+	restart_connection();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 													HTML HANDLERS                                                   //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function hide_notifications (){
+	var nots = $('notifications');
+	nots.style.display = 'none';
+	nots.innerHTML = '';
+	resize_height();
+}
+
+function show_notifications (msg){
+	var nots = $('notifications');
+	nots.innerHTML = msg;
+	nots.style.display = 'block';
+	resize_height();
+}
+
+function resize_height (){
+	var round = 33;
+	if ($('contacts').offsetTop == 0){
+		round += 33;
+	}
+
+	if ($('notifications').visible()){
+			round += $('notifications').offsetHeight;
+	}
+	
+	
+	$('contacts').style.height = (window.frameElement.getHeight() - $('contacts').offsetTop  - round) + "px";
+}
+
+onload = function (){
+	resize_height(); 
+	init();
+	restart_connection();
+}
+
+
+onunload = function (){
+	// Log out
+	sign_out();	
+}
+
+onresize = function (){
+	resize_height;
+}
+
+function show_contact_form (){
+	$('new_contact').toggle();
+	
+	if ($('new_contact').visible()) {
+		$('show_form').innerHTML = 'hide';
+	} else {
+		$('show_form').innerHTML = 'add contacts';
+	}
+
+	resize_height();
+}
+
+
+</script>
+
+</head>
+
+<body onresize="resize_height()">
+
+	<div id="notifications" style="display: none;"></div>
+
+	<div id="container">
+	
+		<div id="new_contact" style="display: none;">
+			<label for="user_name">Contact name </label>
+			<input type="text" id="user_name" tabindex="1"/>
+			<label for="user_alias">Alias </label>
+			<input type="text" id="user_alias" tabindex="2"/>
+			<input type="button" value="Add" tabindex="3" class="button" onclick="add_new_contact()">
+		</div>
+		
+		<div id="link_container">
+			<a id="log_out" class="right" style="display: none;" href="javascript:void(0)" onclick="sign_out()">log out</a>
+			<a id="sign_in" class="right" style="display: block;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>
+			<a id="show_form" href="javascript:void(0)" onclick="show_contact_form()">add contacts</a>
+		</div>
+		
+
+		<div id="contacts"></div>
+	
+	</div>
+
+	
+</body>
+
+</html>
