@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Consulta Mensaje</Name>
+		<Version>0.1</Version>
+		<Author>jaimegc</Author>
+		<Mail>jaimegc@tid.es</Mail>
+		<Description>Ordenes Error</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/gadgets/postit.gif</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences></Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties></Platform.StateProperties>
+
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Slot name="orderId" type="text" label="orderId" friendcode="orderId" />
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML	href="http://jaimgc.hi.inet/repository/TDe/ConsultaMensaje/ConsultaMensaje.html" />
+	</Platform.Link>
+
+	<Platform.Rendering width="30" height="20" />
+
+	<Platform.Context>
+		<Context name="user" type="text" concept="user_name"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context>
+</Template>
+
