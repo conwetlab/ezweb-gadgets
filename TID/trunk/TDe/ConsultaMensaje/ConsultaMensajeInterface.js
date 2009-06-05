@@ -57,7 +57,7 @@ var ConsultaMensaje = function() {
 
 ConsultaMensaje.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-ConsultaMensaje.prototype.resourcesURL = "http://jaimgc.hi.inet/repository/TDe/OrdenesError"; 
+ConsultaMensaje.prototype.resourcesURL = "http://jaimegc.hi.inet/repository/TDe/OrdenesError"; 
 
 ConsultaMensaje.prototype.init = function() {
 	var header = document.createElement ('div');

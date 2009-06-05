@@ -129,7 +129,7 @@ var Consulta = function() {
 
 Consulta.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-Consulta.prototype.resourcesURL = "http://jaimgc.hi.inet/repository/TDe/ConsultaOrden"; 
+Consulta.prototype.resourcesURL = "http://jaimgec.hi.inet/repository/TDe/ConsultaOrden"; 
 
 Consulta.prototype.init = function() {
 	var header = document.createElement ('div');

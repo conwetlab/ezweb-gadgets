@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Consulta Mensaje</Name>
-		<Version>0.1</Version>
+		<Version>0.12</Version>
 		<Author>jaimegc</Author>
 		<Mail>jaimegc@tid.es</Mail>
 		<Description>Ordenes Error</Description>
@@ -24,7 +24,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML	href="http://jaimgc.hi.inet/repository/TDe/ConsultaMensaje/ConsultaMensaje.html" />
+		<XHTML	href="http://jaimegc.hi.inet/repository/TDe/ConsultaMensaje/ConsultaMensaje.html" />
 	</Platform.Link>
 
 	<Platform.Rendering width="30" height="20" />
