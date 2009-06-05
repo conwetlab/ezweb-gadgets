@@ -7,6 +7,7 @@
 var orderId = EzWebAPI.createRGadgetVariable ('orderId', orderId_handler);
 var address = EzWebAPI.createRWGadgetVariable ('address');
 
+
 /* Variables Globales */
 var value = '';
 var informacion = new StyledElements.StyledNotebook({'id':'informacion'});

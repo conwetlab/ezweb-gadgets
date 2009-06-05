@@ -121,7 +121,7 @@ Ordenes.prototype.init = function() {
 				
 		for(i=0;i<headers.length;i++){
 				if(i==0){
-					textinfo += "<td><span class='send' onclick='sendEvent(\""+datos[j][i]+"\")'>"+datos[j][i]+"<span></td>";	
+					textinfo += "<td><span class='send' onclick='sendEvent(\""+datos[j][i]+"\",\""+datos[j][9]+"\")'>"+datos[j][i]+"<span></td>";	
 				}else{
 					textinfo += "<td>"+datos[j][i]+"</td>";
 				}
@@ -143,9 +143,9 @@ Ordenes.prototype.init = function() {
 /* Instanciate the Gadget class */
 Ordenes = new Ordenes();
 
-function sendEvent(id){
+function sendEvent(id,desc){
 	orderId.set(id);
-	//description.set(desc);
+	description.set(desc);
 }
 
 /*************************************************************************/
