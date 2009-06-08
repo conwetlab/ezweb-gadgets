@@ -3,11 +3,11 @@
 	<!-- Meta tags define gadgets properties -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Ordenes Error</Name>
-		<Version>0.21</Version>
+		<Name>Voice Error Queue</Name>
+		<Version>0.22</Version>
 		<Author>jaimegc</Author>
 		<Mail>jaimegc@tid.es</Mail>
-		<Description>Ordenes Error</Description>
+		<Description>Voice Error Queue</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/gadgets/postit.gif</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
 	</Catalog.ResourceDescription>
