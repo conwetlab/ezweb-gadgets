@@ -8,8 +8,9 @@
 		<Author>jaimegc</Author>
 		<Mail>jaimegc@tid.es</Mail>
 		<Description>Messages</Description>
-		<ImageURI>http://demo.ezweb.morfeo-project.org/gadgets/postit.gif</ImageURI>
+		<ImageURI>http://www.telecoms.com/wp-content/uploads/2009/04/fixed.jpg</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+		<Organization>TDe</Organization>
 	</Catalog.ResourceDescription>
 
 	<!-- EzWeb Gadgets Tags -->
@@ -24,7 +25,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML	href="http://jaimegc.hi.inet/repository/TDe/ConsultaMensaje/ConsultaMensaje.html" />
+		<XHTML	href="http://ezweb.tid.es/repository/TDe/ConsultaMensaje/ConsultaMensaje.html" />
 	</Platform.Link>
 
 	<Platform.Rendering width="30" height="20" />
