@@ -7,13 +7,13 @@ var summary = EzWebAPI.createRWGadgetVariable ("summary");
 var url = EzWebAPI.createRWGadgetVariable ("url");
 var titleEvent = EzWebAPI.createRWGadgetVariable("title");
 var imageEvent = EzWebAPI.createRWGadgetVariable("image");
-
+var listoftabs = [];
 // Url for Api, wiki, and images
 var urlbaseApi = '';
 var urlbaseWiki = '';
 var urlhostWiki = '';
+//var urlimage = 'http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/'; 
 var urlimage = 'http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/images/'; 
-//var urlimage = 'http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/WikipediaGadget/images/'; 
 
 // value = keywords de la busqueda
 var value = '';
@@ -27,8 +27,8 @@ var WikipediaGadget = function () {
 	EzWebGadget.call (this, {translatable:true});
 }
 WikipediaGadget.prototype = new EzWebGadget();
+//WikipediaGadget.prototype.resourcesURL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/WikipediaGadget"
 WikipediaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget"
-//WikipediaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget"
 // Funcion de inicio
 WikipediaGadget.prototype.init = function() {
 	setDefaultOptions();
@@ -102,15 +102,15 @@ function displaySearch (search, context)
 	// Tab que muestra los resultados de la busqueda
 	if (context.targetTab != null)
 	{
-        	var tab1 = context.targetTab;
+       	var tab1 = context.targetTab;
 		tab1.clear();
 	}
-        else
-		var tab1 = panelArticle.createTab ({
+    else
+	var tab1 = panelArticle.createTab ({
 			"name":decodeURIComponent(context.value).replace(/_/g, " "),
+			'id':'Search_'+context.value;
 			closeable:true
 		});
-
 
 	// Creamos los divs que necesitamos para pintar el resultado
 	var div = document.createElement ('div');
@@ -321,6 +321,17 @@ function setGoArticleWiring ()
 // Displays Article
 function displayArticle(text)
 {
+	for (var i=0; i<listoftabs.length;i++) {
+		if (listoftabs[i] === undefined)
+		{}
+		else if (listoftabs[i].title == value) // Exists a tab with this key
+		{
+			dictionary.goToTab(listoftabs[i].id);
+			removeLoadingImage();
+			return;
+		}
+	} 
+
 	var div = document.createElement ('div');	
 	var h1 = '<h1 class="title-article">'+decodeURIComponent(value).replace(/_/g, " ")+'</h1>';
 	div.innerHTML = h1 + text;
@@ -379,10 +390,18 @@ function displayArticle(text)
 	}
 	var tab1 = panelArticle.createTab ({
 		"name":decodeURIComponent(value).replace(/_/g, " "),
+		"id":value;
 		closeable:true
 	});
 	tab1.appendChild (div);
+	var context = {id:tab.getId(), listoftabs:this.listoftabs};
+	tab1.addEventListener ('close', EzWebExt.bind (function(e){
+		for (var i=0;i<this.listoftabs.length;i++)
+			if (this.listoftabs[i].id == this.id)
+				delete this.listoftabs[i];
+	}, context), true);
 	panelArticle.goToTab(tab1.getId());
+	listoftabs[listoftabs.length] = ({title:value, id:tab1.getId()})
 	removeLoadingImage();
 }
 function setImageEvent (url)
