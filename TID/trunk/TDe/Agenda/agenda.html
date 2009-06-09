@@ -1,0 +1,1036 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<title>Feed List</title>
+<script language="javascript">
+
+//EzWeb vars
+//Properties
+var feedList = EzWebAPI.createRWGadgetVariable("feedList");
+var tagList = EzWebAPI.createRWGadgetVariable("tagList");
+
+//Preferences
+var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
+var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
+
+//wiring
+var feedUrl = EzWebAPI.createRWGadgetVariable("feedUrl");
+var feedTitle = EzWebAPI.createRWGadgetVariable("feedTitle");
+var feedDesc = EzWebAPI.createRWGadgetVariable("feedDesc");
+var feedTags = EzWebAPI.createRWGadgetVariable("feedTags");
+
+var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+
+// feed data structure for managing all feed subscriptions
+var feedStructure;
+var tagStructure;
+
+//Global vars
+var category = '';					//Selected category used for searchs. Default:'' to list all feeds
+var lastShown = "";					//Last list item unfolded
+var feedDataChanged = false;		//Says if some feed data has changed while editing it.
+var selected_categories = [];		//Categories included in the current search
+var current_operator;				//Current operator used for the search (AND/OR)
+var translator;						//language translator
+
+//aux functions
+//check mandatory fields
+function checkFields(id){
+	 return $("url_edit_"+id).value != '' && $("title_edit_"+id).value != ''
+}
+
+//remove starting/ending spaces
+String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
+
+
+function generateLang(){
+	translator = new EzWebExt.Translator("http://jaimegc.hi.inet/repository/TDe/Agenda/languages.xml", "language", null, init);
+}
+
+function init () {
+	var feeds = feedList.get();
+	var tags = tagList.get();
+
+	//set operator
+	setOperator(operator.get());
+	
+	//set configuration (header or full list)
+	setConfiguration(configuration.get());
+	
+	//is import/export operation enabled? (only for Firefox 3)
+	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
+		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+		if(Prototype.Browser.Gecko && ffversion>=3){
+			$('imp_exp').style.display="block";
+			//translate literals
+			$('import_l').title = translator.getLabel("opml_tip");
+			$('export_l').title = translator.getLabel("opml_tip");
+		}
+	}
+
+	if (tags != '')
+		tagStructure = new Hash(eval("(" +tags+ ")"));
+	else
+		tagStructure =new Hash();
+
+	if(feeds != ''){
+		feedStructure =new Hash(eval("(" +feeds+ ")" ));
+	}else{
+		feedStructure = new Hash();
+	}
+
+	$('header').style.display='block';
+    paintFeedEntries('');
+    resizeSelect();
+}
+
+function resizeSelect(){
+	$('feedOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_feed').getWidth()-60) + "px";
+}
+
+//filling the select object
+function fillSelectObject(tags){
+	if(tags.length == 0){
+		$('category').style.display = 'none';
+	}else{
+		$('category').style.display = 'inline';
+		for(var i=0;i<tags.length;i++){
+			$('category').options[i+1] = new Option(tags[i],tags[i]);
+			$('category').options[i+1].className="option";
+			$('category').options[i+1].id=tags[i];
+		}
+	}
+}
+
+function inAllSelectedCategories(feed){
+	for(var i=0;i<selected_categories.length;i++){
+		if(feed['tags'].indexOf(selected_categories[i]) == -1 ){
+			return false;
+		}
+	}
+	return true;
+}
+
+function inAnySelectedCategories(feed){
+	for(var i=0;i<selected_categories.length;i++){
+		if(feed['tags'].indexOf(selected_categories[i]) != -1 ){
+			return true;
+		}
+	}
+	return false;
+}
+
+function addFeedToCombo(url){
+	var feed = feedStructure[url];
+	try {
+		$('feedOptions').add(new Option(feed['title'], url), null); // standards compliant; doesn't work in IE
+	}catch(e) {
+		$('feedOptions').add(new Option(feed['title'], url)); // IE only
+	}
+}
+
+function removeSelectedCat(category){
+	$(category).remove();
+	paintFeedEntries(category);
+	
+}
+
+function deleteQuery(){
+	selected_categories.clear();
+	$('selected_categories').update();
+}
+
+
+function paintFeedEntries(category)
+{
+	var feeds = [];
+	var tags = [];
+
+	$("list").innerHTML ="";
+	//empty select objects
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('feedOptions').update("<option value=''><strong>"+translator.getLabel('select_feed')+"</strong></option>");
+	$('match').style.display = 'inline';
+
+	var compareFeeds = function(feed1, feed2){
+		if(feedStructure[feed1]['title'].toLowerCase() < feedStructure[feed2]['title'].toLowerCase()) return -1;
+		else if(feedStructure[feed1]['title'].toLowerCase() == feedStructure[feed2]['title'].toLowerCase()) return 0;
+		else if(feedStructure[feed1]['title'].toLowerCase() > feedStructure[feed2]['title'].toLowerCase()) return 1;
+	}
+
+	if(category != ''){
+
+		//feeds of the categories selected
+		//if the category was already selected, it's a removal of it from the query
+		if(selected_categories.indexOf(category)!=-1){
+			selected_categories.splice(selected_categories.indexOf(category),1);
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'none';
+			}
+		}else{//we want to add it to the query
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'inline';
+			}
+			selected_categories.push(category);
+
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", category);
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
+
+			$('selected_categories').appendChild(catElement);
+		}
+
+		//do the query
+		var op = current_operator;
+		var feedKeys = feedStructure.keys();
+		for(var i=0;i<feedKeys.length;i++){
+			var feed = feedStructure[feedKeys[i]];
+			//if AND
+			if(op=='and'){
+				if(inAllSelectedCategories(feed)){
+					feeds.push(feedKeys[i]);
+				}
+			}else{//if OR
+				if(inAnySelectedCategories(feed)){
+					feeds.push(feedKeys[i]);
+				}
+			}
+		}
+
+		//sort feeds alphabetically
+		feeds = feeds.sort(compareFeeds);
+
+		//fill the select objects
+		if(op=='or'){ //all tags must be in the select object but not repited.
+			var tagKeys=tagStructure.keys();
+			for(var i=0;i<tagKeys.length;i++){
+				//if the tag has not been selected yet, add it
+				if(selected_categories.indexOf(tagKeys[i]) == -1)
+					tags.push(tagKeys[i]);
+			}		
+		}
+
+		for (var i=0;i<feeds.length;i++)
+		{
+			if(op == 'and'){
+				feedTags = feedStructure[feeds[i]]['tags'];
+				for(var j=0;j<feedTags.length;j++){
+					//if the tag has not been selected yet and it isn't in the select object, add it
+					if((selected_categories.indexOf(feedTags[j]) == -1) && (tags.indexOf(feedTags[j]) == -1))
+						tags.push(feedTags[j]);
+				}
+			}
+			//paint feed info on the list of feeds
+			paintFeedInfo(i, feeds[i]);
+			//add the feed to the feeds combo
+			addFeedToCombo(feeds[i]);
+		}
+		//make visible that the select has changed
+		if($('feedOptions').options.length >1){
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
+		}
+
+	}
+	if (feeds.length == 0){//if we want all feeds
+		deleteQuery();
+
+		if (feedStructure.keys().length > 0){
+			//no category, show all feeds and all categories in the combo
+			tags = tagStructure.keys();
+			feeds = feedStructure.keys();
+			feeds = feeds.sort(compareFeeds);
+			for(i=0;i<feeds.length;i++){
+
+				//paint feed info on the list of feeds
+				paintFeedInfo(i, feeds[i]);
+				//add the feed to the feeds combo
+				addFeedToCombo(feeds[i]);
+			};
+		}else{
+				$("list").update("<span id='no_feeds' class='no_feeds'>"+translator.getLabel('no_feeds')+"</span><a id='add_link' href='javascript:showAddFeed();'>"+translator.getLabel('add_link')+"</a>.");
+		}
+
+	}
+
+	fillSelectObject(tags);	
+	if(selected_categories.length == 0 && $('category').options.length == 1){ //no tags to select
+		$('selected_categories').style.display = 'none';
+		$('match').style.display = 'none';
+	}
+}
+
+function paintFeedInfo (index, feed)
+{
+	var url = feed;
+	var title = feedStructure[feed]['title'];
+	var notes = feedStructure[feed]['desc'];
+	var tags = feedStructure[feed]['tags'];
+	var html = "<div id='"+index+"' class='feed'><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url + "');\">" + title +"</a></div>";
+	html +="<div class='actions'><a href=\"javascript:editFeed('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/feedReader/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url + "')\"><img alt='remove' src='http://demo.ezweb.morfeo-project.org/repository/feedReader/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	html += "<div id='tags_"+index+"' class='feed_tags'>";
+	for (var i=0; i<tags.length;i++){
+
+		html += "&nbsp; <a href=\"javascript:deleteQuery();paintFeedEntries('" + tags[i] + "');\">"+tags[i]+"</a> &nbsp;";
+	}
+	html += "</div>";
+	html += "<div id='edition_"+index+"' class='feed_edition' style='display:none;'>";
+
+	html += "<table class='edition'>";
+	html += "<tr><td class='labels'>URL</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "<input id='url_edit_"+index+"' type='text' value='"+url+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "<input id='title_edit_"+index+"' type='text' value='"+title+"' size='35' name='title' onchange='feedDataChanged=true;'/></td>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
+	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='feedDataChanged=true;'>"+notes+"</textarea>";
+	html += "</td></tr>";
+	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
+	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags' onchange='feedDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+	html += "</td></tr>";
+	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
+	html += "</table>";
+
+	html += "</div>";
+	html += "</div>";
+
+	$("list").innerHTML = $("list").innerHTML + html;
+
+}
+
+
+
+function setEvents(url){
+	if(url){
+		feedUrl.set(encodeURI(url));
+		feedTitle.set(feedStructure[url]['title']);
+		feedDesc.set(feedStructure[url]['desc']);
+		feedTags.set(feedStructure[url]['tags'].toJSON());		
+	}
+}
+
+function saveFeed (id, prevUrl) {
+
+     var feed = new Object();
+     var url = $("url_edit_"+id).value;
+
+     feed.title = $("title_edit_"+id).value;
+	 feed.desc = $("notes_edit_"+id).value;
+
+	 //sanitize string (empty tags)
+	 var cleaned =$('tags_edit_'+id).value.replace(/,+/g,',');
+	 cleaned = cleaned.replace(/(\s*,\s*)+/g,',');
+     cleaned = cleaned.replace(/^\s*,\s*|\s*,\s*$/g,'');
+	 if(cleaned =="")
+		feed.tags = new Array();
+	 else
+		feed.tags = cleaned.split(',');
+
+	 var tag;
+	 var tags = feed.tags.clone();
+	 var cleanedTags = feed.tags.clone();
+	 for(var i=0; i<feed.tags.length;i++){
+		tag = feed.tags[i];
+		//clean spaces tags
+		tag = tag.trim();
+
+		//remove duplicated tags
+		tags.splice(tags.indexOf(tag),1)
+		if(tags.indexOf(tag) != -1){
+			cleanedTags.splice(cleanedTags.indexOf(tag),1)
+		}
+	 }
+	 feed.tags = cleanedTags;
+
+	 checkAndStore(url, feed, prevUrl);
+	 
+}
+
+function checkAndStore(url, feed, prevUrl){
+
+	 var prevTags = [];
+	 //if it existed before, store the former tags to compare with the new ones
+	 if (feedStructure[url])
+		prevTags = feedStructure[url]['tags'];
+
+	 //refresh the structure of tags
+	 //remove the new URL(it may has been created before) from all the related tags
+	 for (var i=0; i< prevTags.length;i++){
+		tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(url), 1);
+		if (tagStructure[prevTags[i]].length == 0){ //there is no feed in this category: remove it
+			delete tagStructure[prevTags[i]];
+
+		}
+	 }
+
+	 if (prevUrl && (url != prevUrl) && feedStructure[prevUrl]){
+		 prevTags = feedStructure[prevUrl]['tags'];
+		 //refresh the structure of tags
+		 //remove the prev URL(it may has been changed) from all the related tags
+		 for (var i=0; i< prevTags.length;i++){
+			tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(prevUrl), 1);
+			if (tagStructure[prevTags[i]].length == 0){ //there is no feed in this category: remove it
+				delete tagStructure[prevTags[i]];
+
+			}
+		 }
+	}
+
+	 //add the new URL to all new tags
+	 for (var i=0; i<feed.tags.length; i++){
+		if(!tagStructure[feed.tags[i]]){
+			tagStructure[feed.tags[i]] = new Array();
+
+		}
+		tagStructure[feed.tags[i]].push(url);
+	 }
+     tagList.set(tagStructure.toJSON());
+
+	 //refresh the structure of feeds
+	 delete feedStructure[prevUrl];
+     feedStructure[url]=feed;
+     feedList.set(feedStructure.toJSON());
+
+}
+
+function addFeed(){
+	if(checkFields('')){
+		saveFeed('' , null);
+		hideAddFeed();
+	}else{
+		$('msg').update('* check required fields');
+	}
+}
+
+function updateFeed(id, url){
+	if(checkFields(id)){
+		if(feedDataChanged){
+			saveFeed(id , url);
+			//undo the search
+			deleteQuery();
+			paintFeedEntries('');
+		}
+		hide(id);
+	}else{
+		$('msg_'+id).update('* check required fields');
+	}
+}
+
+
+function editFeed(id) {
+
+	if ($('edition_'+id).style.display == "none")
+	{
+		hide(lastShown);
+		show(id);
+		lastShown = id;
+		feedDataChanged = false;
+	}else hide(id);
+}
+
+function show(id){
+	$('edition_'+id).style.display = "block";
+	$('tags_'+id).style.display = "none";
+}
+
+function restoreDefaults(id, url){
+	$('url_edit_'+id).value = url;
+	$('title_edit_'+id).value = feedStructure[url]['title'];
+	$('notes_edit_'+id).value = feedStructure[url]['desc'];
+	$('tags_edit_'+id).value = feedStructure[url]['tags'].join();
+}
+
+function hide(id){
+	if (id != ""){
+		$('edition_'+id).style.display = "none";
+		$('tags_'+id).style.display = "block";
+		$('msg_'+id).update();
+		lastShown = "";
+	}
+}
+
+function removeFeed(id, url) {
+	var	tags = feedStructure[url]['tags'];	
+
+	//remove the feed from the feed structure
+	delete feedStructure[url];
+	feedList.set(feedStructure.toJSON());  
+
+	if(tags.length > 0){
+		//remove the feed references from tag structure
+		for (var i=0; i<tags.length;i++){
+			tagStructure[tags[i]].splice(tagStructure[tags[i]].indexOf(url), 1);
+
+			if (tagStructure[tags[i]].length == 0) //there is no feed in this category: remove it
+				delete tagStructure[tags[i]];
+
+		}
+
+		tagList.set(tagStructure.toJSON());
+	}
+	deleteQuery();
+	paintFeedEntries('');
+	
+	if(id == lastShown)
+		lastShown = "";
+
+}
+
+function searchIfEnter(e){
+	var keynum;
+	if(window.event){ // IE
+		keynum = e.keyCode;
+	}else if(e.which){ // Netscape/Firefox/Opera
+		keynum = e.which;
+	}
+	if (keynum == 13){ // enter
+		e.target.blur();
+		doSearch(e.target.value);
+	}
+}
+function clickSearch (){
+	doSearch($('i_search').value);
+}
+
+function doSearch (value){
+
+	//empty select objects
+	deleteQuery();
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('feedOptions').update("<option value=''><strong>"+translator.getLabel('select_feed')+"</strong></option>");
+
+	if(value && value != ""){
+		var feeds = feedStructure.keys();
+		var feed;
+		$('list').update();
+		for(i=0;i<feeds.length;i++){
+			feed = feedStructure[feeds[i]];
+			//if the keyword is in the title, description, any tag or url show the feed
+			if(feed.title.match(eval("/"+value+"/i")) || feed.desc.match(eval("/"+value+"/i")) || feed.tags.join().match(eval("/"+value+"/i")) || feeds[i].match(eval("/"+value+"/i"))){
+
+				paintFeedInfo(i, feeds[i]);
+				addFeedToCombo(feeds[i]);
+			}
+		}
+		//make visible that the select has changed
+		if($('feedOptions').options.length >1){
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
+		}
+		if(!$('list').hasChildNodes())	
+				$('list').update("<span class='no_feeds'>"+translator.getLabel('no_results1')+" - "+value+" - "+translator.getLabel('no_results2')+".</span>");
+		fillSelectObject(tagStructure.keys());
+	}
+	else{
+		paintFeedEntries('');
+	}
+
+}
+
+function setOperator(value){
+	//WORKAROUND: select and by default
+	if(!value ||value ==""){
+		value = 'and';
+	}
+	//END WA
+	current_operator = value;
+
+	$(current_operator).checked = true;
+
+	if(selected_categories.length > 0){
+		//redo the last search
+		var last_cat = selected_categories[selected_categories.length-1];
+		$('selected_categories').update();
+		for (var i = 0; i<selected_categories.length-1;i++){
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", selected_categories[i]);
+			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/feedReader/rm_tag.png' alt='remove'/></a>";
+				$('selected_categories').appendChild(catElement);
+		}
+
+
+		selected_categories.splice(selected_categories.indexOf(last_cat));
+		paintFeedEntries(last_cat);
+	}
+}
+
+function setConfiguration(value){
+	//WORKAROUND: select header by default
+	if(!value ||value =="")
+		value = "header";
+	//END WA
+	if(value == 'header'){
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}else{
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+	}
+}
+
+function addFeedsFromFile(opml){
+	var outline;
+	var feed;
+	var url;
+	var tags;
+	var tags_hierachy;
+	
+	var outlines = opml.getElementsByTagName('outline');
+	for (var i=0;i<outlines.length;i++){
+		feed = new Object();
+		outline=outlines[i];
+		url = outline.getAttribute('xmlUrl');
+		if(!url) continue;
+		
+		feed.title = outline.getAttribute('text');
+		feed.desc = outline.getAttribute('description');
+		if (!feed.desc)
+			feed.desc = "";
+		tags = outline.getAttribute('category');
+		feed.tags = new Array();
+		if(tags && tags !=""){
+			tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				feed.tags=feed.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (feed.tags.indexOf("") != -1){
+				feed.tags.splice(feed.tags.indexOf(""), 1);
+			}
+		}
+		checkAndStore(url, feed, '');
+	}
+	paintFeedEntries('');
+	$('import_form').style.display="none";
+}
+
+function toggleImport(){
+	if($('import_form').style.display=="none")
+		$('import_form').style.display="inline";
+	else
+		$('import_form').style.display="none";
+}
+
+function importFeeds(){
+	var fileToUpload = document.forms['import_form'].fileToUpload;
+	if (fileToUpload.files.item(0)){
+		toggleImport();
+		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
+		//parsing OPML
+		var parser = new DOMParser()
+		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
+		addFeedsFromFile(opml);
+	}
+}
+
+function exportFeeds(){
+
+	var feed;
+	
+	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
+	opml += '<opml version="2.0">';
+	opml += '<head>';
+	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+	var currentTime = new Date();
+	opml += '<dateCreated>'+currentTime+'</dateCreated>';
+	opml +=	'</head><body>';
+
+	var keys = feedStructure.keys();
+	for (var i=0;i<keys.length;i++){
+		feed = feedStructure[keys[i]];
+		opml +='<outline text="' + feed.title + '" title="' + feed.title + '" description="'+ feed.desc +'" type="rss" xmlUrl="'+ keys[i] +'" category="'+ feed.tags +'"/>';
+	}
+	opml += '</body></opml>';
+	var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Feeds', 'menubar=yes');
+ 
+}
+
+
+function showAddFeed()
+{
+	$("addFeed").style.display = 'block';
+	$("header").style.display = 'none';
+	$("list").update();
+    if($('hide_l').style.display=='inline')
+    	$("container").style.display = "none";
+}
+function hideAddFeed()
+{
+	$('addForm').reset();
+	$('msg').update();
+	$("addFeed").style.display = 'none';
+	$("header").style.display = 'block';
+	deleteQuery();
+	if($('hide_l').style.display=='inline')
+		$("container").style.display = "block";
+	paintFeedEntries('');
+}
+
+function manageFeeds(){
+	if($("container").style.display == "none"){
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+	}else{
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}
+}
+
+</script>
+
+<style type="text/css">
+	body {	
+		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+		font-size:12px;
+		margin:3px;
+	}
+		
+	a {
+		text-decoration:none;
+	}
+		
+	a:hover {
+		text-decoration:underline;
+	}
+
+	label a:hover{
+		text-decoration:none;
+	}       
+	
+	#list {
+		background-color: #ffffff;
+		position:relative;
+		border-top:1px solid #d5d5d5;
+		width:100%;
+	}
+	.no_feeds{
+		color:#6c6c6c;
+	}
+	#add_link{
+		color: #3274D0;
+	}
+
+	#imp_exp{
+		color:#3274d0;
+		margin: 5px;
+	}
+
+	#imp_exp #import_link, #imp_exp #export_link {
+		display:inline;
+		font-size:90%;
+		cursor:pointer;
+
+	}
+	#import_b{
+		color:#3274d0;
+		font-size:90%;
+	}
+
+	#import_form{
+		margin-left:5px;
+	}
+
+	#list .feed{
+		border-bottom:1px solid #d5d5d5;
+		padding:5px 5px 2px;
+		position:relative;
+		overflow:hidden;
+	}
+	.feed .content{
+		position:relative;
+		margin-top:10px;
+		overflow:hidden;
+	}
+	.feed .feed_title {
+		margin: 0 60px 5px 0;
+	}
+	.feed .feed_title a{
+		color:#3274d0;
+	}
+	.feed .actions{
+		position:absolute;
+		width:50px;
+		right:0px;
+		top:3px;
+	}
+	.feed .actions img{
+		border:none;
+	}
+	.feed .feed_tags{
+		position:relative;
+		padding:5px;
+		width:auto;
+		float:right;
+		font-size:90%;
+		margin-left:50px;
+		background-color:#eff5fb;
+		-moz-border-radius-topleft:4px;
+		-moz-border-radius-topright:4px;
+		-webkit-border-top-left-radius:4px;
+		-webkit-border-top-right-radius:4px;
+		-moz-border-radius-bottomleft:4px;
+		-moz-border-radius-bottomright:4px;
+		-webkit-border-bottom-left-radius:4px;
+		-webkit-border-bottom-right-radius:4px;
+
+	}
+	.feed .feed_tags:hover{
+		background-color:#e9e9e9;
+	}
+	.feed_tags a{
+		color:#6c6c6c;
+	}
+	.feed_edition .edition{
+		padding:5px;
+		border: 1px solid #d5d5d5;
+		background-color: #e9e9e9;
+	}
+	.edition .required{
+		color:red;
+	}
+	.msg{
+		color: red;
+		font-size:95%;
+	}
+	
+	
+	#header{
+		position:relative;
+		padding: 5px 5px 0 5px;
+	}
+	#header label{
+		color: #6C6C6C;
+		font-size: 95%;
+		position:relative;
+	}
+	
+	#l_filter, #l_feed{
+		float:left;
+		top:3px;
+		width:35px;
+	}
+
+
+	#header_top, #header_bottom {
+		position:relative;
+		height: 19px;
+		margin-bottom:6px;
+		clear:both;
+	}
+
+	#header_top select, #header_bottom select{
+		color:#6c6c6c;
+		border: 1px solid #cccccc;
+		background-color:#e9e9e9;
+		width:auto;
+		margin-left:5px;
+	}
+
+	#header_top select{
+		max-width: 150px;
+	}
+
+	#header_bottom select{
+		width:100%;
+		min-width:150px;
+	}
+
+	#combo_tag .option{
+		background-color:#e9e9e9;
+		color: #6c6c6c;
+	}
+
+	#header_top #match{
+		margin-left:10px;
+		float:left;
+	}
+
+	#match input[type=radio]{
+		margin:0;
+		position:relative;
+		top:2px;
+	}
+
+	#match #l_all, #match #l_any{
+	
+	}
+
+	#header_top #search{
+		position: relative;
+		float: right;
+	}
+	#header #l_search{
+		margin-right: 5px;
+		font-size: 90%;
+	}
+	#l_search a{
+		color: #3274d0;		
+	}
+	#header #i_search{
+		color: #6C6C6C;
+		background:#e9e9e9;
+		border: 1px solid #cccccc;
+		vertical-align: middle;
+		width: 75px;
+		padding:1px;
+	}
+	#header_bottom #options{
+		position: relative;
+		float: right;
+		text-align: right;
+		min-width: 205px;
+		color:#3274d0;
+		top:2px;
+	}
+	#options div{
+		cursor:pointer;
+		display:inline;
+		position:relative;
+		font-size: 90%;
+	}
+	#combo_tag{
+		position:relative;
+		float:left;
+	}
+	#combo_tag #selected_categories{
+		display:none;
+		float:left;
+		margin: 0 0 0 5px;
+		padding: 0px;
+		vertical-align: middle;
+	}
+
+	#combo_feed{
+		position:relative;
+		float:left;	
+	}
+
+	#selected_categories li{
+		display:inline;
+		background: #e9e9e9;
+		margin-right: 5px;
+		padding: 0px 0px 0px 5px;
+		float:left;
+		border: 1px solid #cccccc;
+		vertical-align: middle;
+		color: #6C6C6C;
+
+	}
+	#selected_categories li span{
+		float:left;
+		position:relative;
+		top:2px;
+	}
+
+	#selected_categories li img{
+		border:none;
+		float:left;
+		margin-left: 5px;
+	}
+
+	#selected_categories li.operator{
+		background-color:#E9E9E9;
+		border: none;
+		color: #3274D0;
+	}
+	#addFeed{
+		background-color:#E9E9E9;
+		padding: 5px;
+	}
+	#addFeed #addFeed_title{
+		font-size: 150%;
+		color:#6C6C6C;
+	}
+	#addFeed table, .feed_edition table{
+		width:100%;
+		margin-top:5px;
+	}
+	#addFeed td, .feed_edition td{
+		color:#3274D0;
+	}
+	#addFeed td.labels, .feed_edition td.labels{
+		width:15%;
+		vertical-align:middle;
+	}
+	#addFeed td.fields, .feed_edition td.fields{
+		width:80%;
+	}
+
+	#addFeed input, .feed_edition input{
+		width:100%;
+		color:#6C6C6C;
+		border: 1px solid #D5D5D5;
+	}
+	#addFeed textarea, .feed_edition textarea{
+		width:100%;
+		color:#777777;
+		border: 1px solid #D5D5D5;
+	}
+	#addFeed .tag_label, .feed_edition .tag_label{
+		font-size:85%;
+	}
+	#addFeed #buttons, .feed_edition #buttons{
+		text-align:center;
+	}	
+	#addFeed .button, .feed_edition .button{
+		color:#3274D0;
+		font-size:90%;
+	}
+</style>
+</head>
+<body onload="generateLang();" onresize="resizeSelect();">
+<div id="header" class="header" style="display:none;">
+<div id="header_top"><label id="l_filter">Filter:</label><div id="combo_tag"><ul id="selected_categories"></ul><select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select></div><div id='match'><label id="l_all">Match all</label> <input type="radio" id="and" name="match" onclick="setOperator('and')"/> <label id="l_any">any</label> <input type="radio" id="or" name="match" onclick="setOperator('or')"/></div><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div><div id="header_bottom"><label id="l_feed">Contact:</label><div id='combo_feed'><select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintFeedEntries('')"><span id="all_l">all contacts</span></div> | <div id="manage" onclick="manageFeeds()"><span id="manage_l">manage contacts</span><span id="hide_l" style="display:none">hide contacts</span></div> | <div id="add_link" onclick="showAddFeed()"><span id="add_l">add feed</span></div></div></div>
+</div>
+<div id="addFeed" style="display:none;">
+	<span id="addFeed_title">New contact</span>
+	<form id="addForm">
+	<table class='edition'>
+	<tr><td class="labels">Number</td>
+		<td><span class="required">*</span></td>
+		<td class="fields"><input id='url_edit_' type='text' value='' size='35' name='url'/></td>
+	</tr>
+	<tr><td id="title_l" class="labels">NAME</td>
+		<td><span class="required">*</span></td>
+		<td class="fields"><input id='title_edit_' type='text' value='' size='35' name='title'/></td>
+	</tr>
+	<tr><td id="notes_l" class="labels">NOTES</td>
+		<td></td>
+		<td class="fields"><textarea id='notes_edit_' rows='4' cols='35' size='300' name='notes'></textarea></td>
+	</tr>
+	<tr><td id="tags_l" class="labels">TAGS</td>
+		<td></td>
+		<td class="fields"><input id='tags_edit_' type='text' value='' size='35' autocomplete='OFF' name='tags'/><label id="separator_l" class="tag_label">comma separated</label></td>
+	</tr>
+	<tr>
+		<td id="buttons" colspan="3"><div id="msg" class="msg"></div>
+			<a id="save_l" class="button" href="javascript:addFeed();">SAVE</a> | <a id="cancel_l" class="button" href="javascript:hideAddFeed();">CANCEL</a></td>
+	</tr>
+	</table>
+	</form>
+</div>
+<div id="container" style="display:none">
+<div id="imp_exp" style="display:none"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div> / <div id="export_link" onclick="exportFeeds()"><span id="export_l" title="OPML file">export</span></div>
+<form id="import_form" style="display:none">
+	<input type="file" name="fileToUpload" />
+	<label id="b_import"><a id="import_b" href="javascript:importFeeds()">upload</a></label>
+</div>
+</form>
+<div id="list">
+</div>
+</div>
+</body>
+</html>

@@ -138,6 +138,10 @@ th{
 table{
 	border: solid 1px gray;
 	margin-top: 5px;
-	
-	
+}
+
+.caption{
+	font-size:10pt;
+	font-style:italic;
+	font-weight:bold;
 }

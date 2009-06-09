@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
+<languages>
+	<language name="en">
+		<label id="l_filter">Filter:</label>
+		<label id="search_l">search</label>
+		<label id="all_l">all contacts</label>
+		<label id="manage_l">manage contacts</label>
+		<label id="hide_l">hide contacts</label>
+		<label id="add_l">add contact</label>
+		<label id="no_feeds">There are no contacts. Perhaps you'd like to </label>
+		<label id="add_link">add a new one</label>
+		<label id="addFeed_title">New contact</label>
+		<label id="title_l">NAME</label>
+		<label id="notes_l">NOTES</label>
+		<label id="tags_l">TAGS</label>
+		<label id="save_l">SAVE</label>
+		<label id="cancel_l">CANCEL</label>
+		<label id="separator_l">comma separated</label>
+		<label id="l_all">Match all</label>
+		<label id="l_any">any</label>
+		<label id="select_tag">select tag</label>
+		<label id="select_feed">select contact</label>
+		<label id="edit_l">edit</label>
+		<label id="remove_l">remove</label>
+		<label id="no_results1">Your search</label>
+		<label id="no_results2">did not match any contacts</label>
+		<label id="import_b">upload</label>
+		<label id="import_l">import</label>
+		<label id="export_l">export</label>
+		<label id="opml_tip">OPML file</label>
+		<label id="opml_title">My list of favourites</label>
+	</language>
+	<language name="es">
+		<label id="l_filter">Filtro:</label>
+		<label id="search_l">buscar</label>
+		<label id="all_l">todos</label>
+		<label id="manage_l">gestionar</label>
+		<label id="hide_l">ocultar</label>
+		<label id="add_l">nuevo</label>
+		<label id="no_feeds">No tienes ningún feed. Puedes </label>
+		<label id="add_link">añadir uno nuevo</label>
+		<label id="addFeed_title">Nuevo Feed</label>
+		<label id="title_l">TÍTULO</label>
+		<label id="notes_l">NOTAS</label>
+		<label id="tags_l">ETIQUETAS</label>
+		<label id="save_l">ACEPTAR</label>
+		<label id="cancel_l">CANCELAR</label>
+		<label id="separator_l">separadas por comas</label>
+		<label id="l_all">Cumple todos</label>
+		<label id="l_any">alguno</label>
+		<label id="select_tag">etiquetas</label>
+		<label id="select_feed">feeds</label>
+		<label id="edit_l">editar</label>
+		<label id="remove_l">borrar</label>
+		<label id="no_results1">La búsqueda</label>
+		<label id="no_results2">no concuerda con ningún feed</label>
+		<label id="import_b">subir</label>
+		<label id="import_l">importar</label>
+		<label id="export_l">exportar</label>
+		<label id="opml_tip">fichero OPML</label>
+		<label id="opml_title">Mi lista de favoritos</label>
+	</language>
+</languages>
+
