@@ -35,6 +35,7 @@ body {
 }
 #menu_options:hover > * {
     -moz-opacity:1;
+   
 }
 #menu_route:hover > * {
     -moz-opacity:1;
@@ -50,6 +51,14 @@ body {
     height:16px;
     margin:6px;
     float:left;
+  
+}
+.imageEnviar{
+	height:12px;
+	position:absolute;
+	right:13px;
+	top:7px;
+	width:26px;
   
 }
 .buttonDel{

@@ -168,7 +168,22 @@ InformacionTrafico.prototype._createUserInterface = function(){
 	}
 	
     }, this)));
-    menu_options.appendChild(content_button_options);
+
+	var div = document.createElement("div");
+    	div.style.cursor="pointer";
+    	EzWebExt.addClassName(div, "imageEnviar");
+    	div.style.background = 'url(' + this.getResourceURL("images/avion.png") + ')';
+    	div.addEventListener("click", EzWebExt.bind(function(){
+	var srcCam = this.content_img._srcOld;
+	var titleCam =this.getTitle(srcCam);
+	this.urlImage.set(srcCam);
+	this.nameImage.set(titleCam);
+	this.nameRoute.set(this.actualRoute);
+
+	},this), false);
+    	div.setAttribute("title","Enviar eventos");
+    	content_button_options.appendChild(div);
+	menu_options.appendChild(content_button_options);
     
     //MENÚ SELECCIÓN DEL TRAYECTO
     
@@ -359,9 +374,7 @@ InformacionTrafico.prototype.getFirstCam = function(){
 	src = this.listRoutes.trayectos[this.actualRoute][0][0][1];
 	var title =this.listRoutes.trayectos[this.actualRoute][0][0][0];
 	this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][0][0][0]);
-	this.urlImage.set(this.toJSON(src));
-	this.nameImage.set(this.toJSON(title));
-	this.nameRoute.set(this.toJSON(this.actualRoute));
+	
 	this.content_img.setAttribute("src",src);
 	this.content_img._srcOld = src;
 	this.showAlternative(this.PRINCIPAL_VIEW);
@@ -436,6 +449,21 @@ InformacionTrafico.prototype.getNextCam = function(src){
     
 }
 
+InformacionTrafico.prototype.getTitle = function(src){
+
+	var encontrado = false;
+	var titlecam="";
+	var i = 0;
+	while(!encontrado && i<this.listRoutes.trayectos[this.actualRoute].length){
+	    if (this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
+		encontrado = true;
+		titlecam = this.listRoutes.trayectos[this.actualRoute][i][0][0];
+		
+	    }
+	    i++;
+	}
+	return titlecam;
+}
  
 
 // Devuelve la cámara anterior
@@ -879,7 +907,7 @@ InformacionTrafico.prototype.selectCam = function(divImg){
 	}
     }
     
-    this.route.set(this.toJSON(this.listRoutes));
+   this.route.set(this.toJSON(this.listRoutes));
     this.createAlternativeConfig();
     this.showAlternative(this.EDIT_VIEW);
     
