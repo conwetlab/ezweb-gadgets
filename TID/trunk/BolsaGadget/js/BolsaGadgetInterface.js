@@ -5,6 +5,12 @@
 /*************************************************************************/
 var preferences = EzWebAPI.createRWGadgetVariable("preferencesUser");
 var time = EzWebAPI.createRGadgetVariable("time", resetInterval);
+// Events and Slots
+var sendCompanyInfoFinance = EzWebAPI.createRWGadgetVariable("value-finance-company");
+var sendMarketInfoFinance = EzWebAPI.createRWGadgetVariable("value-finance-market");
+var companyNameSlot = EzWebAPI.createRGadgetVariable("company-name", getCompany);
+var marketNameSlot = EzWebAPI.createRGadgetVariable("market-name", getMarket);
+
 
 var urlimage = 'http://demo.ezweb.morfeo-project.org/repository/BolsaGadget/images/';
 var urlYahooImage = "http://es.ichart.yahoo.com/b?s=";
@@ -29,6 +35,7 @@ var tabsIndexSettings = {
 };
 
 
+
 function resetInterval(){
     var value = time.get();
     if (interval != null) {
@@ -50,7 +57,6 @@ var BolsaGadget = function(){
 
 BolsaGadget.prototype = new EzWebGadget();
 BolsaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/BolsaGadget"
-
 BolsaGadget.prototype.init = function(){
 
     var preferences = EzWebAPI.createRWGadgetVariable("preferencesUser");
@@ -271,6 +277,7 @@ function displayQuote(info, context){
         }
     }
     
+
     for (var i = 0; i < info.length; i++) {
         var tr = document.createElement("tr");
         
@@ -289,6 +296,7 @@ function displayQuote(info, context){
             info: info[i][1],
             t: t
         };
+
         tr.addEventListener("click", EzWebExt.bind(function(e){
             getQuoteEnterprise(["@" + this.info], [this.t]);
         }, contextEvent), false);
@@ -318,16 +326,43 @@ function displayQuote(info, context){
     div.appendChild(table);
     
     if (context.newTab) {
-        //var tab1 = panelMain.createTab(addTitle(value));
-        var tab1 = panelMain.createTab({
-            "name": addTitle(value)
-        });
-        tab1.appendChild(div);
-        tab1.__context = {};
-        tab1.__context["symbols"] = context.symbols;
-        tab1.__context["tags"] = context.tags;
-        tab1.__context["type"] = 1; // Type Market Enterprises
-        panelMain.goToTab(tab1.getId());
+	// Check tabs
+	enc = false;
+	var panelLength = panelMain.getNumberOfTabs();
+	for (var i = 0; ((i < panelLength) && (!enc)); i++) 
+	    {
+		currentTab = panelMain.getTabByIndex(i);
+		symbols1 = '';
+		symbols2 = '';
+		if (currentTab.__context)
+		    {
+			for(var j = 0; j < currentTab.__context.symbols.length; j++)
+			    symbols1 += currentTab.__context.symbols[j];
+			
+			for(var j = 0; j < context.symbols.length; j++)
+			    symbols2 += context.symbols[j];
+			enc = (symbols1 == symbols2);
+		    }
+	    }
+	
+	if (enc)
+	    {
+		// Go to tab
+		panelMain.goToTab(currentTab.getId());
+	    }
+	else
+	    {
+		// Create a new tab
+		var tab1 = panelMain.createTab({
+			"name": addTitle(value)
+		    });
+		tab1.appendChild(div);
+		tab1.__context = {};
+		tab1.__context["symbols"] = context.symbols;
+		tab1.__context["tags"] = context.tags;
+		tab1.__context["type"] = 1; // Type Market Enterprises
+		panelMain.goToTab(tab1.getId());
+	    }
     }
     else {
         var tab = panelMain.getTabByIndex(context.indexTab);
@@ -377,26 +412,29 @@ function displayQuoteEnterprise(info, context){
     divButtonsDetails.setAttribute("class", "buttonsDetails");
     
 	
-	// Comprobamos si se esta realizando seguimiento de la empresa
-	var preferencesAux = eval('('+preferences.get()+')');
-	
-	if (inList(context.symbols[0].replace(/@/g, ""), preferencesAux.followUp, 0)) {
-		var imgRemoveFollowUp = document.createElement("img");
-		var contextImg = {"image": imgRemoveFollowUp, "symbol":context.symbols[0].replace(/@/g, "")};
-		imgRemoveFollowUp.src = urlimage + "remove.png";
-		imgRemoveFollowUp.setAttribute("title", BolsaGadget.getTranslatedLabel("removeToFollowUp"));
-		imgRemoveFollowUp.addEventListener("click", EzWebExt.bind(removeFollowUp, contextImg), false);
-	    divButtonsDetails.appendChild(imgRemoveFollowUp);
-	}
-	else {
-		var imgAddFollowUp = document.createElement("img");
-		var contextImg = {"image": imgAddFollowUp, "symbol":context.symbols[0].replace(/@/g, "")};
-		imgAddFollowUp.src = urlimage + "add.png";
+    // Comprobamos si se esta realizando seguimiento de la empresa
+    var preferencesAux = eval('('+preferences.get()+')');
+    
+    if (inList(context.symbols[0].replace(/@/g, ""), preferencesAux.followUp, 0)) {
+	var imgRemoveFollowUp = document.createElement("img");
+	var contextImg = {"image": imgRemoveFollowUp, "symbol":context.symbols[0].replace(/@/g, "")};
+	imgRemoveFollowUp.src = urlimage + "remove.png";
+	imgRemoveFollowUp.setAttribute("title", BolsaGadget.getTranslatedLabel("removeToFollowUp"));
+	imgRemoveFollowUp.addEventListener("click", EzWebExt.bind(removeFollowUp, contextImg), false);
+	divButtonsDetails.appendChild(imgRemoveFollowUp);
+    }
+    else {
+	var imgAddFollowUp = document.createElement("img");
+	var contextImg = {"image": imgAddFollowUp, "symbol":context.symbols[0].replace(/@/g, "")};
+	imgAddFollowUp.src = urlimage + "add.png";
 		imgAddFollowUp.setAttribute("title", BolsaGadget.getTranslatedLabel("addToFollowUp"));
 		imgAddFollowUp.addEventListener("click", EzWebExt.bind(addFollowUp, contextImg), false);
-	    divButtonsDetails.appendChild(imgAddFollowUp);
-	}
-	
+		divButtonsDetails.appendChild(imgAddFollowUp);
+    }
+    imgSendEvent = document.createElement("img");
+    imgSendEvent.src = "/ezweb/images/wiring21px.png";
+    divButtonsDetails.appendChild(imgSendEvent);
+    
     divHeader.appendChild(divButtonsDetails);
     div.appendChild(divHeader);
     hpaned.insertInto(divHpanned);
@@ -409,49 +447,90 @@ function displayQuoteEnterprise(info, context){
     var table = document.createElement("table");
     table.setAttribute("class", "tableInfoQuote");
     var preferencesAux = eval("(" + preferences.get() + ')');
+    values = [];
     
     for (var i = 0; i < preferencesAux.enterprise.length; i++) {
-        var tr = document.createElement("tr");
-        var td = document.createElement("td");
-        td.appendChild(document.createTextNode(BolsaGadget.getTranslatedLabel(preferencesAux.enterprise[i])));
-        td.id = preferencesAux.enterprise[i];
-        td.setAttribute("class", "titleTableInfoQuote");
-        tr.appendChild(td);
-        
-        var td = document.createElement("td");
-        td.innerHTML = info[0][i];
-        
-        if ((i != 0) && (info[0][i].indexOf("+") >= 0)) 
-            td.setAttribute("class", "positive");
-        else 
+	var tr = document.createElement("tr");
+	var td = document.createElement("td");
+	td.appendChild(document.createTextNode(BolsaGadget.getTranslatedLabel(preferencesAux.enterprise[i])));
+	td.id = preferencesAux.enterprise[i];
+	td.setAttribute("class", "titleTableInfoQuote");
+	tr.appendChild(td);
+	
+	var td = document.createElement("td");
+	td.innerHTML = info[0][i];
+	
+	if ((i != 0) && (info[0][i].indexOf("+") >= 0)) 
+		td.setAttribute("class", "positive");
+	else 
             if ((i != 0) && (info[0][i].indexOf("-") >= 0) &&
-            (info[0][i].indexOf("N/A -") < 0) &&
-            (preferencesAux.enterprise[i] != "l") &&
-            (preferencesAux.enterprise[i] != "m") &&
-            (preferencesAux.enterprise[i] != "q") &&
-            (preferencesAux.enterprise[i] != "r1") &&
-            (preferencesAux.enterprise[i] != "w")) 
+		(info[0][i].indexOf("N/A -") < 0) &&
+		(preferencesAux.enterprise[i] != "l") &&
+		(preferencesAux.enterprise[i] != "m") &&
+		(preferencesAux.enterprise[i] != "q") &&
+		(preferencesAux.enterprise[i] != "r1") &&
+		(preferencesAux.enterprise[i] != "w")) 
                 td.setAttribute("class", "negative");
             else 
                 td.setAttribute("class", "valueTableInfoQuote");
         
-        tr.appendChild(td);
-        
+	values[i] = [BolsaGadget.getTranslatedLabel(preferencesAux.enterprise[i]), info[0][i]];
+        tr.appendChild(td);        
         table.appendChild(tr);
     }
     
     divTable.appendChild(table);
     
+    // Send Event Company
+    // Company Name
+    company = values[0][1]; 
+    sendEventCompany(company, values);
+    contextEvent ={'company':company, 'info':values};
+    imgSendEvent.addEventListener("click", 
+    EzWebExt.bind(function(e){
+	    sendEventCompany(this.company,
+			     this.info); 
+	}, contextEvent), false);
+    
+    
     if (context.newTab) {
-        var tab = panelMain.createTab({
-            "name": addTitle(value)
-        });
-        tab.appendChild(div);
-        tab.__context = {};
-        tab.__context["symbols"] = [context.symbols[0].replace(/@/g, "")];
-        tab.__context["tags"] = context.tags;
-        tab.__context["type"] = 2; // Type Enterprises
-        panelMain.goToTab(tab.getId());
+
+	// Check tabs
+	enc = false;
+	var panelLength = panelMain.getNumberOfTabs();
+	for (var i = 0; ((i < panelLength) && (!enc)); i++) 
+	    {
+		currentTab = panelMain.getTabByIndex(i);
+		symbols1 = '';
+		symbols2 = '';
+		if (currentTab.__context)
+		    {
+			for(var j = 0; j < currentTab.__context.symbols.length; j++)
+			    symbols1 += currentTab.__context.symbols[j];
+			
+			for(var j = 0; j < context.symbols.length; j++)
+			    symbols2 += context.symbols[j];
+			enc = (symbols1 == symbols2.replace(/@/g, ""));
+		    }
+	    }
+	if(enc)
+	    {
+		panelMain.goToTab(currentTab.getId());
+		removeLoadingImage();
+		return;
+	    }
+	else
+	    {
+		var tab = panelMain.createTab({
+			"name": addTitle(value)
+		    });
+		tab.appendChild(div);
+		tab.__context = {};
+		tab.__context["symbols"] = [context.symbols[0].replace(/@/g, "")];
+		tab.__context["tags"] = context.tags;
+		tab.__context["type"] = 2; // Type Enterprises
+		panelMain.goToTab(tab.getId());
+	    }
     }
     else {
         var tab = panelMain.getTabByIndex(context.indexTab);
@@ -601,6 +680,8 @@ function displayQuoteEnterprise(info, context){
     removeLoadingImage();
     hpaned.repaint();
 }
+
+
 
 
 /*

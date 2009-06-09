@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Bolsa Gadget</Name>
-    <Version>1.2</Version>
+    <Version>1.4</Version>
     <Author>irodriguez</Author>
     <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget Seguimiento Bolsa:
@@ -30,10 +30,9 @@
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-    <event name='value-finance' type='text' label='value-finance' friendcode='value-finance'/>
-    <event name='value-name' type='text' label='value-name' friencode='value-name'/>
-    <slot name='company-name' type='text' label='company-name' friendcode='company-name'/>
-    <slot name='market-name' type='text' label='market-name' friendcode='market-name'/>
+    <Event name='value-finance-company' type='text' label='value-finance-company' friendcode='value-finance-company'/>
+    <Slot name='company-name' type='text' label='company-name' friendcode='company-name'/>
+    <Slot name='market-name' type='text' label='market-name' friendcode='market-name'/>
   </Platform.Wiring>
   
   <Platform.Link>
@@ -42,9 +41,9 @@
   
   <Platform.Rendering width="6" height="24"/>
   <Platform.Context>
-		<Context name="user" type="text" concept="user_name"/>
-		<Context name="language" type="text" concept="language"/>
-		<GadgetContext name="height" type="text" concept="heightInPixels"/>
-		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+    <Context name="user" type="text" concept="user_name"/>
+    <Context name="language" type="text" concept="language"/>
+    <GadgetContext name="height" type="text" concept="heightInPixels"/>
+    <GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
   </Platform.Context>   
 </Template>

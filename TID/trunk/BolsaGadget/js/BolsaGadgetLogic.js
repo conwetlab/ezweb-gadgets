@@ -1,5 +1,46 @@
 var urlApi = "http://es.old.finance.yahoo.com/d/quotes.csv";
-var urlApi2 = "http://download.finance.yahoo.com/d/quotes.csv"
+var urlApi2 = "http://download.finance.yahoo.com/d/quotes.csv";
+
+// SEND EVENT WITH VALUE FINANCE COMPANY
+function sendEventCompany(company, info)
+{
+    result = to_json({'company':company, 
+		      'info':info});
+    sendCompanyInfoFinance.set(result);
+    
+}
+
+// SEND EVENT WITH VALUE FINANCE MARKET
+function sendEventMarket(market, info)
+{
+    result = to_json({'market':market, 
+		      'info':info});
+    sendMarketInfoFinance.set(result);
+
+}
+
+// GET Company WHEN EVENT SLOT IS DETEDTED
+function getCompany()
+{
+    var preferencesAux = eval("(" + preferences.get() + ')');
+    var tagsAux = preferencesAux.enterprise;
+    var t = "";
+    for (var k = 0; k < tagsAux.length; k++) 
+	t += tagsAux[k];
+    getQuoteEnterprise([companyNameSlot.get()], [t]);
+}
+
+
+// GET MARKET WHEN EVENT SLOT IS DETEDTED
+function getMarket()
+{
+    var preferencesAux = eval("(" + preferences.get() + ')');
+    var tagsAux = preferencesAux.list;
+    var t = "";
+    for (var k = 0; k < tagsAux.length; k++) 
+	t += tagsAux[k];
+    getQuoteFile(['@'+marketNameSlot.get()], [t]);
+}
 
 
 function refresh(type, _symbols, _tags, indexTab)
@@ -13,11 +54,11 @@ function refresh(type, _symbols, _tags, indexTab)
 	{
 	    if (s != "")
 		{
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 		}
 	    else
 		{
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 		}
 	}
 	
@@ -33,7 +74,7 @@ function refresh(type, _symbols, _tags, indexTab)
 	    for(var i = 0; i < tagsAux.length; i++)
 		t += tagsAux[i];
 	    
-	    var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab}		
+	    var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab, refresh:true}		
 	    var urlRequest = urlApi + "?s=" + s + "&f=" + t;
 	    EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteMarket, onError);
 	}
@@ -45,20 +86,20 @@ function refresh(type, _symbols, _tags, indexTab)
 		    t += tagsAux[i];
 		
 		
-		var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab}			
+		var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab, refresh:true}			
 		var urlRequest = urlApi + "?s=" + s + "&f=" + t;
 		EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteFile, onError);
-	}
+	    }
 	else
-	{
+	    {
 		var tagsAux = preferencesAux.enterprise;
 		// CONCATENATE TAGS REQUEST
-    	for(var i = 0; i < tagsAux.length; i++)
-			t += tagsAux[i];
-		
-		var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab}
+		for(var i = 0; i < tagsAux.length; i++)
+		    t += tagsAux[i];
+	
+		var context = {symbols: _symbols, tags: tagsAux, newTab: false, indexTab : indexTab, resfresh:true}
 		var urlRequest = urlApi2 + "?s=" + s + "&f=" + t;
-    	EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteEnterprise, onError);
+		EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteEnterprise, onError);
 	}
 }
 
@@ -69,9 +110,9 @@ function getNamesMarkets(_symbols)
 	for(var i=0; i < _symbols.length; i++)
 	{
 		if (s != "")
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	    else
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	}
 	
 	var t = "ns";
@@ -87,9 +128,9 @@ function getNamesEnterprises(list, value)
 	for(var i=0; i < value.length; i++)
 	{
 		if (s != "")
-		    s += "%2B" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
 	    else
-		    s += "%2B" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
 	}
 	
 	var t="ns";
@@ -106,9 +147,9 @@ function getNamesEnterprisesSelected(_symbols)
 	for(var i=0; i < _symbols.length; i++)
 	{
 		if (s != "")
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	    else
-		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	}
 	
 	var t="ns";
@@ -119,49 +160,49 @@ function getNamesEnterprisesSelected(_symbols)
 
 function getQuoteMarket(symbols, tags)
 {
-	addLoadingImage();
+    addLoadingImage();
     var s = "";
     var t = "";
-	
+    
 	if (value == "")
-		value = "MAIN";
+	    value = "MAIN";
 	else
-		value = symbols[0].replace(/@/g, "").replace(/\^/g, "");
-
-    // CONCATENATE SYMBOLS REQUEST
-    for(var i = 0; i < symbols.length; i++)
-	{
-		if (s != "")
-			s += "%2B" + encodeURIComponent(symbols[i]);
-		else
-			s += encodeURIComponent(symbols[i]);
-    }
+	    value = symbols[0].replace(/@/g, "").replace(/\^/g, "");
 	
-    // CONCATENATE TAGS REQUEST
-    for(var i = 0; i < tags.length; i++)
-		t += tags[i];
-
+	// CONCATENATE SYMBOLS REQUEST
+	for(var i = 0; i < symbols.length; i++)
+	{
+	    if (s != "")
+		s += "+" + encodeURIComponent(symbols[i]);
+	    else
+		s += encodeURIComponent(symbols[i]);
+	}
+	
+	// CONCATENATE TAGS REQUEST
+	for(var i = 0; i < tags.length; i++)
+	    t += tags[i];
+	
   	var context = {symbols: symbols, tags: tags, newTab: true}
-    var urlRequest = urlApi + "?s=" + s + "&f=" + t;
-    EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteMarket, onError);
+	var urlRequest = urlApi + "?s=" + s + "&f=" + t;
+	EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteMarket, onError);
 }
 
 function getQuoteFile(symbols, tags)
 {
-	addLoadingImage();
+    addLoadingImage();
     var s = "";
     var t = "";
 	
 	if (value == "")
-		value = "MAIN";
+	    value = "MAIN";
 	else
-		value = symbols[0].replace(/@/g, "").replace(/\^/g, "");
+	    value = symbols[0].replace(/@/g, "").replace(/\^/g, "");
 
     // CONCATENATE SYMBOLS REQUEST
     for(var i = 0; i < symbols.length; i++)
 	{
 		if (s != "")
-			s += "%2B" + encodeURIComponent(symbols[i].replace(/ /g, ""));
+			s += "+" + encodeURIComponent(symbols[i].replace(/ /g, ""));
 		else
 			s += encodeURIComponent(symbols[i].replace(/ /g, ""));
     }
@@ -170,7 +211,7 @@ function getQuoteFile(symbols, tags)
     for(var i = 0; i < tags.length; i++)
 		t += tags[i];
     
-	var context = {symbols: symbols, tags: tags, newTab: true}
+    var context = {symbols: symbols, tags: tags, newTab: true}
     var urlRequest = urlApi + "?s=" + s + "&f=" + t;
     EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteFile, onError);
 }
@@ -191,19 +232,19 @@ function getQuoteEnterprise(symbols, tags)
     for(var i = 0; i < symbols.length; i++)
 	{
 		if (s != "")
-			s += "%2B" + encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
+			s += "+" + encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
 		else
 			s += encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
     }
 	
     // CONCATENATE TAGS REQUEST
     for(var i = 0; i < tags.length; i++)
-		t += tags[i];
-		
-	if (tags.length == 2)
-		t += "a";
+	t += tags[i];
     
-	var context = {symbols: symbols, tags:tags, newTab: true}
+    if (tags.length == 2)
+	t += "a";
+    
+    var context = {symbols: symbols, tags:tags, newTab: true}
     var urlRequest = urlApi2 + "?s=" + s + "&f=" + t;
     EzWebAPI.send_get(urlRequest, context, onSuccessGetQuoteEnterprise, onError);
 }
@@ -238,7 +279,7 @@ function onSuccessGetQuoteMarket(response)
 
 function onSuccessGetQuoteFile(response)
 {
-	var context = this;
+    var context = this;
     var text = response.responseText;
     var lines = text.split("\n");
     var quote = [];
@@ -262,7 +303,7 @@ function onSuccessGetQuoteFile(response)
 function onSuccessGetQuoteEnterprise(response)
 {
     var context = this;
-	var text = response.responseText;
+    var text = response.responseText;
     var lines = text.split("\n");
     var quote = [];
 
@@ -335,11 +376,10 @@ function onSuccessGetNameQuoteEnterpriseSelected(response)
 	    		quote[i] = [info[1], info[0]];
 			}			
 	}
-	
 	displayNameEnterpriseSelected(quote);
 }
 
-function onError(transport, e)
+function onError()
 {
 	removeLoadingImage();
 }

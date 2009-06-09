@@ -124,6 +124,7 @@
 		<label id="MAIN">Principal</label>
 		<label id="show">Mostrar</label>
 		<label id="hidden">Ocultar</label>
+		<label id="event">Enviar Eventos</label>
    	</language>
 	<language name="en">
 		<label id="save.png">Save</label>
@@ -249,5 +250,6 @@
 		<label id="MAIN">Main</label>
 		<label id="show">Show</label>
 		<label id="hidden">Hidden</label>
+		<label id="event">Send Events</label>
    	</language>
 </languages>	

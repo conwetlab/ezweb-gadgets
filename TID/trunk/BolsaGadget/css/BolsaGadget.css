@@ -459,9 +459,10 @@ div.styled_select {
 
 .buttonsDetails{
     float:right;
-    width: 32px;
-    height: 32px;
-    margin-bottom:2px;
+    height:32px;
+    margin-bottom:5px;
+    padding:4px;
+    width:50px;
 }
 
 .buttonsDetails img{
