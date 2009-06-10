@@ -101,6 +101,15 @@ body 	{
 	overflow: hidden;
 	cursor: pointer;
 	}
+
+#wiring {
+	cursor: pointer;
+	width: 26px;
+	height: 12px;
+	position: absolute;
+	left: 0.417em;
+	top:0.417em;
+	}
 	
 </style>
 
@@ -213,11 +222,12 @@ function hideSentence(){
 }
 
 function showImageLoading(){
-	
+
+	hideWiring();	
 	hideArrows();
 	hideSentence();
 	document.getElementById('content').style.backgroundImage = 
-		"url(http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/loading.gif)";
+		"url(http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/loading.gif)";
 
 }
 
@@ -367,7 +377,8 @@ function successHandler (value){
 					link	);
 	}
 	
-	updateEvents(sentences[nSentence]);
+	updateEvents();
+	showWiring();
 	paintSentence(sentences[nSentence]);
 }
 
@@ -376,7 +387,7 @@ function nextSentence(){
 	if ( nSentence != 0) {
 		nSentence = nSentence - 1;
 	
-		updateEvents(sentences[nSentence]);
+		updateEvents();
 		paintSentence(sentences[nSentence]);
 	}
 	
@@ -388,7 +399,7 @@ function previousSentence(){
 
 		nSentence = nSentence + 1;
 
-		updateEvents(sentences[nSentence]);
+		updateEvents();
 		paintSentence(sentences[nSentence]);
 	}
 }
@@ -482,10 +493,10 @@ function getErrorText(){
 	return errorText;
 
 }
-function updateEvents(value){
+function updateEvents(){
 
-	authorEvent.set(value.author);
-	sentenceEvent.set(value.sentence);
+	authorEvent.set(sentences[nSentence].author);
+	sentenceEvent.set(sentences[nSentence].sentence);
 }
 	
 function errorHandler(value){
@@ -501,6 +512,7 @@ function errorHandler(value){
 						"",
 						"");
 
+	hideWiring();
 	paintSentence(errorSentence);
 
 }
@@ -611,10 +623,19 @@ function paintSentence(value){
 	showArrows();	
 
 	showSentence();
+
 }
 
 function goToLink(){
 	window.open(sentences[nSentence].link); 
+}
+
+function showWiring(){
+	document.getElementById('wiring').style.display    = "block";
+}
+
+function hideWiring(){
+	document.getElementById('wiring').style.display = "none";
 }
 
 </script>
@@ -629,10 +650,10 @@ function goToLink(){
         <div id="date"></div>
 
         <div class="image"><img id="previous" title="Anterior" onclick="previousSentence();"
-        src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/go-previous.png"></img></div>
+        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-previous.png"></img></div>
 
         <div class="image"><img id="next" title="Siguiente" onclick="nextSentence();"
-        src="http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/fraseDelDia/images/go-next.png"></img></div>
+        src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/go-next.png"></img></div>
 	
 </div>
 
@@ -641,6 +662,8 @@ function goToLink(){
 </div>
 
 <div id="footer" class="block">
+	<img id="wiring" src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/avion.png" onclick="updateEvents();"></img>
+
         <div id="author" onclick="goToLink();"></div>
 </div>
 
@@ -648,4 +671,3 @@ function goToLink(){
 </body>
 
 </html>
-
