@@ -3,8 +3,8 @@
 	<!-- Meta tags define gadgets properties -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>ConsultaOrden</Name>
-		<Version>0.19</Version>
+		<Name>Order Information</Name>
+		<Version>0.20</Version>
 		<Author>jaimegc</Author>
 		<Mail>jaimegc@tid.es</Mail>
 		<Description>Consultar Orden</Description>
