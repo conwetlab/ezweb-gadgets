@@ -4,12 +4,13 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Contacts</Name>
-	  <Version>0.2</Version>
+	  <Version>0.3</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your contacts collections, tag and search your sources, show contacts related to any keyword (also by wiring!).</Description>
-	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssList.jpg</ImageURI>
+	  <ImageURI>http://mindprod.com/image/icon128/party.png</ImageURI>
 	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
+	  <Organization>TDe</Organization>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
@@ -36,7 +37,7 @@
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-	  <XHTML href="http://jaimegc.hi.inet/repository/TDe/Agenda/agenda.html"/>
+	  <XHTML href="http://ezweb.tid.es/repository/TDe/Agenda/agenda.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="8" height="5"/>
 	<Platform.Context>
