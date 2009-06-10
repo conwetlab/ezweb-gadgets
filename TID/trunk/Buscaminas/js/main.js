@@ -199,7 +199,6 @@ var Board = function(width, height, bombs, parentElement) {
 	
 	this._createInterface(parentElement);
 	this._initTiles();
-	this._initBombs();
 }
 
 Board.prototype._initTiles = function() {
@@ -212,11 +211,20 @@ Board.prototype._initTiles = function() {
 	}
 }
 
-Board.prototype._initBombs = function() {
+Board.prototype._initBombs = function(initX, initY) {
 	var candidates = [];
+	var selecteIndex = 0;
+
 	for (var i=0; i<(this.width*this.height); i++) {
 		candidates[i] = i;
+		
+		if (i == ((initY*(this.width))+initX)) {
+			 selectedIndex = i;
+		}
 	}
+
+	candidates = Utils.removeElementByIndex(candidates, selectedIndex);
+
 	for (var i=0; i<this.bombs; i++) {
 		var index = Math.floor(Math.random()*(candidates.length-1));
 		var y = Math.floor(candidates[index]/this.width);
@@ -254,6 +262,12 @@ Board.prototype.changeTheme = function(oldTheme, newTheme) {
 
 Board.prototype.openTile = function(x,y) {
 	var tile = this.tiles[x][y];
+         if (!this.runTime) {
+	     this._initBombs(x,y);
+             this.runTime = true;
+             this.timer.start();
+        }
+
 	this.tilesUpdated[x + "-" + y] = true;
 
 	if (tile.getState() != tile.STATE_OPEN) {
@@ -448,7 +462,7 @@ Board.prototype.finish = function() {
 	}
 	this.end = true;
 	this.timer.stop();
-	this.runtime = false;
+	this.runTime = false;
 	Buscaminas.lost();
 }
 
@@ -634,10 +648,6 @@ Tile.prototype._createInterface = function(parentElement) {
 	EzWebExt.addClassName(this.element, "close");
 	this.element.addEventListener("mousedown", EzWebExt.bind(function(e) {
 		if (!this.board.end) {
-			if (!this.board.runTime) {
-				this.board.runTime = true;
-				this.board.timer.start();
-			}
 			if ((Utils.isRightButton(e)) && (this.state != this.STATE_OPEN)) {
 				this.board.markTile(this.x, this.y);
 			}
