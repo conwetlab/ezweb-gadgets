@@ -17,6 +17,33 @@ Buscaminas.prototype.BORDER_WIDTH = 4;
 
 Buscaminas.prototype.init = function() {
 
+	// Pre Init - Loading images
+	this.img = [];
+	this.img[1] = document.createElement("img");
+	this.img[1].src = this.getResourceURL("images/face-smile.png");
+	this.img[2] = document.createElement("img");
+        this.img[2].src = this.getResourceURL("images/face-cool.png");
+        this.img[3] = document.createElement("img");
+        this.img[3].src = this.getResourceURL("images/face-sad.png");
+        this.img[4] = document.createElement("img");
+        this.img[4].src = this.getResourceURL("images/face-win.png");
+        this.img[5] = document.createElement("img");
+        this.img[5].src = this.getResourceURL("images/clock.png");
+        this.img[6] = document.createElement("img");
+        this.img[6].src = this.getResourceURL("images/flag-mini.png");
+        this.img[7] = document.createElement("img");
+        this.img[7].src = this.getResourceURL("images/tile-bang.png");
+        this.img[8] = document.createElement("img");
+        this.img[8].src = this.getResourceURL("images/tile-bomb.png");
+        this.img[9] = document.createElement("img");
+        this.img[9].src = this.getResourceURL("images/tile-mark.png");
+        this.img[10] = document.createElement("img");
+        this.img[10].src = this.getResourceURL("images/tile-mark-fail.png");
+        this.img[11] = document.createElement("img");
+        this.img[11].src = this.getResourceURL("images/face-mark-question.png");	
+
+
+	// Init
 	this.LEVELS = {};
 	this.LEVELS["easy"]   = [8,8,12];
 	this.LEVELS["medium"] = [12,12,25];
