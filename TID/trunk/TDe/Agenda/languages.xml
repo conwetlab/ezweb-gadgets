@@ -11,6 +11,7 @@
 		<label id="no_feeds">There are no contacts. Perhaps you'd like to </label>
 		<label id="add_link">add a new one</label>
 		<label id="addFeed_title">New contact</label>
+		<label id="number_l">NUMBER</label>
 		<label id="title_l">NAME</label>
 		<label id="notes_l">NOTES</label>
 		<label id="tags_l">TAGS</label>
@@ -41,7 +42,8 @@
 		<label id="no_feeds">No tienes ningún feed. Puedes </label>
 		<label id="add_link">añadir uno nuevo</label>
 		<label id="addFeed_title">Nuevo Feed</label>
-		<label id="title_l">TÍTULO</label>
+		<label id="number_l">TELEFONO</label>
+		<label id="title_l">NOMBRE</label>
 		<label id="notes_l">NOTAS</label>
 		<label id="tags_l">ETIQUETAS</label>
 		<label id="save_l">ACEPTAR</label>

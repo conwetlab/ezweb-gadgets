@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Contacts</Name>
-	  <Version>0.3</Version>
+	  <Version>0.4</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your contacts collections, tag and search your sources, show contacts related to any keyword (also by wiring!).</Description>
@@ -18,7 +18,7 @@
 		<Option value="and" name="all of the selected categories"/>
 		<Option value="or" name="any of the selected categories"/>
 	</Preference>
-	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="fullList">
 		<Option value="header" name="header"/>
 		<Option value="fullList" name="full list"/>
 	</Preference>
