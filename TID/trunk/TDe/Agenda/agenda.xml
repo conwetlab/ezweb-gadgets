@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Contacts</Name>
-	  <Version>0.4</Version>
+	  <Version>0.5</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your contacts collections, tag and search your sources, show contacts related to any keyword (also by wiring!).</Description>
@@ -39,7 +39,7 @@
 	<Platform.Link>
 	  <XHTML href="http://ezweb.tid.es/repository/TDe/Agenda/agenda.html"/>
 	</Platform.Link>
-	<Platform.Rendering width="8" height="5"/>
+	<Platform.Rendering width="8" height="12"/>
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
 	</Platform.Context>
