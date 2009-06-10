@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Chiste del día</Name>
+		<Version>0.5</Version>
+		<Author>jvelasco</Author>
+		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget que muestra un chiste cada día.</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/icon.png</ImageURI>       <!--CHANGE -->
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Chiste_del_d.C3.ADa</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/ChisteDelDia.html"/> <!--CHANGE -->
+	</Platform.Link>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+		<Preference name="font_size" type="list" label="Font Size" description="Size of Font" default="12px">
+			<Option value="10px" name="10px"/>
+			<Option value="11px" name="11px"/>
+			<Option value="12px" name="12px"/>
+			<Option value="13px" name="13px"/>
+			<Option value="14px" name="14px"/>
+			<Option value="15px" name="15px"/>
+			<Option value="16px" name="16px"/>
+			<Option value="17px" name="17px"/>
+			<Option value="18px" name="18px"/>
+			<Option value="19px" name="19px"/>
+			<Option value="20px" name="20px"/>
+		</Preference>
+
+		<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="1">
+			<Option value="orange" name="Orange"/>
+			<Option value="green" name="Green"/>
+			<Option value="blue" name="Blue"/>
+			<Option value="gray" name="Gray"/>
+		</Preference>
+
+		<Preference name="source" type="list" label="Joke Sources" description="Sources of jokes" default="1">
+			<Option value="0" name="RSS Source"/>
+			<Option value="1" name="Chistes.com"/>
+			<Option value="2" name="Chisteweb.com"/>
+			<Option value="3" name="Comedy Central"/>
+			<Option value="4" name="Jokes4all.net"/>
+		</Preference>
+		<Preference name="rss_source" type="text" label="RSS Source" description="RSS Source" default="" />
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Event name="title" type="text" label="title" friendcode="title" />
+		<Event name="text" type="text" label="text" friendcode="text" />
+		<Event name="url" type="text" label="url" friendcode="url" />
+		<Event name="sourceUrl" type="text" label="sourceUrl" friendcode="sourceUrl" />
+	</Platform.Wiring>
+
+	<Platform.Rendering width="6" height="15"/>
+
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context> 
+</Template>
