@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<title></title>
+
+		<script type="text/javascript" language="javascript" charset="utf-8">
+		// <![CDATA[
+		function getURLParam(strParamName){
+			var strReturn = "";
+			var strHref = window.location.href;
+
+			if ( strHref.indexOf("?") > -1 ){
+				var strQueryString = strHref.substr(strHref.indexOf("?")).toLowerCase();
+				var aQueryString = strQueryString.split("&");
+				for ( var iParam = 0; iParam < aQueryString.length; iParam++ ){
+					if (aQueryString[iParam].indexOf(strParamName.toLowerCase() + "=") > -1 ){
+						var aParam = aQueryString[iParam].split("=");
+						strReturn = aParam[1];
+						break;
+					}
+				}
+			}
+			return unescape(strReturn);
+		}
+
+		var image = document.createElement('img');
+		image.style.border = "1px solid grey";
+		image.center = function() {
+			var image = this;
+			image.width = image.naturalWidth +6;
+			image.height = image.naturalHeight +6;
+			if (image.width > document.body.clientWidth) {
+				image.width = document.body.clientWidth;
+				image.height = image.naturalHeight * (image.width / image.naturalWidth);
+			}
+			if (image.height > document.body.clientHeight) {
+				image.height = document.body.clientHeight;
+				image.width = image.naturalWidth * (image.height / image.naturalHeight);
+			}
+			image.width -= 6;
+			image.height -= 6;
+			image.style.position = 'absolute';
+			image.style.left = (document.body.clientWidth - image.width) / 2;
+			image.style.top = (document.body.clientHeight - image.height) / 2;
+		};
+		image.addEventListener('load', function() {
+			this.center();
+		}, true);
+
+		window.addEventListener('load', function() {
+			image.src = getURLParam('i');
+			document.body.style.margin= "0";
+			document.body.style.padding= "0";
+			document.body.appendChild(image);
+			window.addEventListener('resize', function(){
+				image.center();
+			}, true);
+		}, true);
+		// ]]>
+		</script>
+
+	</head>
+	<body></body>
+</html>

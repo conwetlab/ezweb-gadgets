@@ -1,0 +1,29 @@
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Tira Cómica</title>
+	<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<script language="javascript">
+		var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/TiraComica/"; // CHANGE
+		function loadJS(archive) {
+			var head= document.getElementsByTagName('head')[0];
+			var script= document.createElement('script');
+			script.type= 'text/javascript';
+			script.src= resourcesURL+archive;
+			head.appendChild(script);
+		}
+		function loadCSS(archive) {
+			var head= document.getElementsByTagName('head')[0];
+			var style= document.createElement('link');
+			style.type= 'text/css';
+			style.media= 'screen';
+			style.rel= 'stylesheet';
+			style.href= resourcesURL+archive;
+			head.appendChild(style);
+		}
+		loadJS('code.js');
+		loadCSS('style.css');
+	</script>
+</head>
+<body></body>
+</html>

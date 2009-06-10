@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Tira Comica</Name>
+		<Version>0.6</Version>
+		<Author>jvelasco</Author>
+		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
+		<Description>El gadget muestra una tira comica.</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/TiraComica/icon.png</ImageURI>   <!--CHANGE -->
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Tira_c.C3.B3mica_del_d.C3.ADa</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/TiraComica/index.html"/>   <!--CHANGE -->
+	</Platform.Link>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+		<Preference name="source" type="list" label="Sources" description="Sources" default="1">
+			<Option value="1" name="XKCD"/>
+			<Option value="2" name="Legin del Espacio"/>
+			<Option value="3" name="Tira ecol"/>
+			<Option value="4" name="Bit y Byte"/>
+			<Option value="5" name="Plétora de piñatas"/>
+		</Preference>
+		<Preference name="pop-up" type="list" label="Image PopUp" description="Image PopUp" default="on">
+			<Option value="on"  name="On"/>
+			<Option value="off" name="Off"/>
+		</Preference>
+		<Preference name="background" type="list" label="Background Color" description="Set background color" default="#DFDFDF">
+			<Option value="white" name="White"/>
+			<Option value="grey"  name="Grey 1"/>
+			<Option value="#DFDFDF"  name="Grey 2"/>
+			<Option value="black" name="Black"/>
+		</Preference>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Event name="imgUrl" type="text" label="title" friendcode="title" />
+	</Platform.Wiring>
+
+	<Platform.Rendering width="5" height="15"/>
+</Template>
