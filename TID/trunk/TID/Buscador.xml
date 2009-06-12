@@ -15,8 +15,8 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-     <Preference name="urlPref" type="text" description="HTML base URL" label="Base URL" default="https://biblus.cpd.hi.inet/kid/servicio_busqueda/buscadorEZWEB.jsp?docKID=1&amp;blogs=1&amp;foros=1"/>
-     <Preference name="homeUrl" type="text" description="Home page URL" label="Home page URL" default="https://biblus.cpd.hi.inet/kid/servicio_busqueda/buscadorEZWEB.jsp"/>
+     <Preference name="urlPref" type="text" description="HTML base URL" label="Base URL" default="https://biblus.cpd.hi.inet/kid/servicio_busqueda/buscadorEZWEB.jsp?docKID=1&amp;foros=1"/>
+     <Preference name="homeUrl" type="text" description="Home page URL" label="Home page URL" default="https://biblus.cpd.hi.inet/kid/servicio_busqueda/buscadorEZWEB.jsp?docKID=1&amp;foros=1"/>
      <Preference name="refreshingTime" type="text" description="Refreshing interval (minutes)" label="Refresh every... (minutes)" default="0"/>
      <Preference name="qt_pref" type="text" description="qt" label="qt" default=""/>
   </Platform.Preferences>
