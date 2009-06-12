@@ -1,0 +1,345 @@
+<html>
+<head>
+
+<style>
+#header{
+	padding: 3px 0;
+}
+
+#header div{
+	font-size: 75%;
+	display:inline;
+	margin: 0 5px;
+}
+
+#header #source label{
+	color: #274463;
+}
+
+#header a, #header .link{
+	color: #2D6F9C;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#header #source a {
+
+}
+#header div.param{
+	display: inline-table;
+	margin: 0 3px;
+	padding: 1px;
+}
+
+.param input{
+	font-size:85%;
+}
+.param label{
+	display:block;
+	font-size:90%;
+	font-weight:bold;
+}
+#header div.event{
+	background: #DEDEDE;
+}
+button{
+	vertical-align:bottom;
+}
+form, body {
+	margin: 0;
+}
+form{
+	display: inline;
+	margin: 0 5px;
+}
+</style>
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+function URLDecode( url )
+{
+   // Replace + with ' '
+   // Replace %xx with equivalent character
+   // Put [ERROR] in output if %xx is invalid.
+   var HEXCHARS = "0123456789ABCDEFabcdef"; 
+   var encoded = url;
+   var plaintext = "";
+   var i = 0;
+   while (i < encoded.length) {
+       var ch = encoded.charAt(i);
+        if (ch == "+") {
+	    plaintext += " ";
+	         i++;
+		 } else if (ch == "%") {
+		        if (i < (encoded.length-2) 
+			       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
+			              && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
+				                plaintext += unescape( encoded.substr(i,3) );
+						          i += 3;
+							         } else {
+								           alert( 'Bad escape combination near ...' + encoded.substr(i) );
+									             plaintext += "%[ERROR]";
+										               i++;
+											              }
+												      } else {
+												                plaintext += ch;
+														  i++;
+														  }
+   } // while
+   
+   return plaintext;
+}
+
+//PREFERENCES
+var urlPref = EzWebAPI.createRGadgetVariable("urlPref", setURL);
+var homeUrl = EzWebAPI.createRGadgetVariable("homeUrl", setHomeURL);
+var refreshingTime = EzWebAPI.createRGadgetVariable("refreshingTime", setRefreshingTime);
+//WIRING
+
+var params = EzWebAPI.createRGadgetVariable("parameters", setParams);
+
+//PROPERTIES
+var source = EzWebAPI.createRWGadgetVariable("source");
+var sourceUrl = EzWebAPI.createRWGadgetVariable("sourceUrl");
+
+//AUTHOMATIC EVENTS, SLOTS AND PREFERENCES OF THE URL
+var slotValuesArray = new Array();
+
+slotValuesArray[0] = {
+	'name': 'qt',
+	'value': null,
+	'withValue': false,
+};
+var qt_event = EzWebAPI.createRWGadgetVariable("qt_event");
+var qt_slot = EzWebAPI.createRGadgetVariable("qt_slot",qt_slot_handler);
+var qt_pref = EzWebAPI.createRGadgetVariable("qt_pref",qt_pref_handler);
+
+function qt_pref_handler (value){
+	document.getElementById("qt_event").value=value;
+}
+
+function qt_slot_handler (value){
+	// form value = slot value
+	document.getElementById("qt_event").value=value;
+	// Update slot values array counter
+	slotValuesArray[0].value = value;
+	slotValuesArray[0].withValue = true;
+	checkSlotValues();
+}
+
+
+//AUTHOMATIC EVENTS
+
+
+//GLOBAL
+var real_url;
+var current_url;
+var idInterval;
+
+function init(){
+	resizeIframe()
+	//the url comes from the urlPref or homeUrl preferences
+	var home_url = homeUrl.get();
+	real_url = urlPref.get();
+	
+	
+	if (!params.get() || params.get()==""){
+	
+		// there is no params -> show the home if it exists
+		if (home_url && home_url!=""){
+			loadURL(home_url);
+		}
+		else{
+			//no more options -> show the url base
+			loadURL(real_url);
+		}
+		
+	}
+	
+
+	//print the preference values
+	
+		if (qt_pref.get() && qt_pref.get()!=""){
+			document.getElementById("qt_event").value=qt_pref.get()
+		}
+	
+	if (home_url=="")
+		document.getElementById("home").style.display="none";
+	//else -> wait the wiring propagation
+	//show source
+	if(source.get() && source.get()!=""){
+		var sourceDiv = document.getElementById('source');
+		//if we have an URL, create a link
+		if(sourceUrl.get() && sourceUrl.get()!=""){
+			var link = document.createElement('a');
+			link.href = sourceUrl.get();
+			link.target = "_blank";
+			link.innerHTML = source.get();
+			sourceDiv.appendChild(link);
+		}else{
+			var span = document.createElement('span');
+			span.innerHTML = source.get();
+			sourceDiv.appendChild(span);
+		}
+
+		sourceDiv.style.display="inline";
+	}
+	if(refreshingTime.get() > 0)
+		idInterval = setInterval("refresh()",parseInt(refreshingTime.get()) * 60000);
+}
+
+function resizeIframe(){
+	iframe = document.getElementById("browser");
+	header = document.getElementById("header");
+	iframe.height = window.innerHeight - header.offsetHeight; 
+}
+
+function loadURL(url_){
+
+ if(url_ && url_!=""){
+   url_ = URLDecode (url_);
+   var frm = document.getElementById("browser");
+   frm.setAttribute('src',url_);
+	current_url = url_;
+ }
+}
+function setHomeURL(value){
+	if (value && value!="")
+		document.getElementById("home").style.display="inline";
+	else
+		document.getElementById("home").style.display="none";
+}
+
+function setURL(value){
+	real_url = value;
+	//loadURL(real_url + params.get());
+}
+
+
+function setParams(value){
+	loadURL(real_url + value);
+	if (value !="")
+		//print the parameters in the input fields
+		var parameters = value.split('&');
+		for (i in parameters){
+			var param = parameters[i].split("=");
+			if (param[0]!=parameters[i]){
+				if (document.getElementById(param[0]))
+					document.getElementById(param[0]).value=param[1]
+			}
+		} 
+}
+
+
+function refresh(){
+	loadURL(current_url);
+}
+
+function setRefreshingTime(value){
+	if(parseInt(value) > 0){
+		clearInterval(idInterval);
+		idInterval = setInterval("refresh()",parseInt(value) * 60000);
+	}
+}
+
+function goHome(){
+	loadURL(homeUrl.get());
+}
+
+function sendParameters(){
+	var elements = document.getElementById('parameters').elements;
+	var params_query = '';
+	//var URL =""
+	// Send form values through the events variables
+	for (index=0;index<elements.length;index++){
+		var field = elements[index]
+		if (field.nodeName.toLowerCase()=="input"){
+			if (field.value!=""){
+				eval(field.name).set(field.value);
+				// Build query string 
+				params_query = params_query + '&' + field.name.substring(0,field.name.lastIndexOf('_event')) + '=' + field.value;
+			}else{
+				eval(field.name).set(null);
+			}
+		}		
+	}
+	buildQueryAndInvoke(real_url, params_query);
+	
+	//return false;
+}
+
+// Build query string and invoke URL
+function buildQueryAndInvoke(real_url, params_query) {
+	if (real_url.charAt(real_url.length-1) == '?') {
+		// If the last character is a '?', we don't have fixed params, so we remove the initial '&'
+		params_query = params_query.substring(1); 
+	}
+	loadURL(real_url + params_query);
+}
+
+function checkSlotValues(){
+	var params_query = '';
+
+	for (var i = 0; i<slotValuesArray.length; i++) {
+		if (!slotValuesArray[i].withValue) {
+			// If we've found some 'false' element, do nothing
+			return; 
+		} else {
+			if (slotValuesArray[i].value != null){
+				// Build query string 
+				params_query = params_query + '&' + slotValuesArray[i].name + '=' + slotValuesArray[i].value;
+			}
+		}
+	}
+	// If we get here, all the elements of the slotWithValueArray are 'true'. 
+	// Reset the array and make the request
+	for (var i = 0; i<slotValuesArray.length; i++) {
+		slotValuesArray[i].withValue = false;
+	}
+	buildQueryAndInvoke(real_url, params_query)
+}
+
+function showVariables(){
+	document.getElementById("show_link").style.display="none";
+	document.getElementById("hide_link").style.display="inline";	
+	document.getElementById("parameters").style.display="block";
+	resizeIframe();
+}
+
+function hideVariables(){
+	document.getElementById("hide_link").style.display="none";
+	document.getElementById("show_link").style.display="inline";	
+	document.getElementById("parameters").style.display="none";
+	resizeIframe();
+}
+
+</script>
+</head>
+<body onload="init()" onresize="resizeIframe()">
+<div id="header">
+	<div id="source" style="display:none"><label>source: </label></div>
+	<div id="home" onclick="goHome()" class="link">home</div>
+	<div id="refresh" onclick="refresh()" class="link">refresh</div>
+	
+	<div id="show_link" onclick="showVariables()" class="link">show variables</div>
+	<div id="hide_link" onclick="hideVariables()" style="display:none" class="link">hide variables</div>
+	
+	<form id="parameters" name="parameters" style="display:none" onsubmit="return false;">
+	
+		<div class="param"><label>qt</label><input size="9" type="text" name="qt_event" id="qt_event" /></div>
+	
+	
+	
+		<button id="send" type="button"  onclick="sendParameters()">send</button>
+	
+	</form>
+</div>
+<div id="video">
+<iframe id="browser" frameborder="0" width="100%"></iframe>
+</div>
+</body>
+</html>
