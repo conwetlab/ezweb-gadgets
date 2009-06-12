@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
-    <Name>Busca I+D</Name>
+    <Name>Busca TID</Name>
     <Version>0.5</Version>
     <Author>ezweb</Author>
     <Mail>ezwebplatform-feedback@lists.morfeo-project.org</Mail>
