@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Busca TID</Name>
-    <Version>0.5</Version>
+    <Version>0.6</Version>
     <Author>ezweb</Author>
     <Mail>ezwebplatform-feedback@lists.morfeo-project.org</Mail>
     <Description>Gadget que permite realizar búsquedas de información en el KID y en otros sistemas de gestión del conocimiento de Telefónica I+d (foros, blogs, wikis, Banco de Ideas).</Description>
@@ -34,7 +34,7 @@
   <Platform.Link>
     <XHTML href="http://ezweb.tid.es/repository/TID/Buscador.html"/>
   </Platform.Link>
-  <Platform.Rendering width="10" height="13"/>
+  <Platform.Rendering width="10" height="20"/>
   <MenuColor></MenuColor>
 </Template>
 
