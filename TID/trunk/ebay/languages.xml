@@ -1,0 +1,18 @@
+<languages>
+−
+<language name="es">
+<label id="option0">Búsqueda Exacta</label>
+<label id="option1">Búsqueda sin signos diacríticos</label>
+<label id="option2">Búsqueda con enlaces fonéticos</label>
+<label id="option3">Búsqueda por aproximación</label>
+<label id="search-button">Buscar</label>
+</language>
+−
+<language name="en">
+<label id="option0">Exactly search</label>
+<label id="option1">Search without diacritic signs</label>
+<label id="option2">Search with phonetical linkess</label>
+<label id="option3">Search by aproximation</label>
+<label id="search-button">Search</label>
+</language>
+</languages>

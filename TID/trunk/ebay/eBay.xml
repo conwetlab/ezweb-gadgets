@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>eBay</Name>
+		<Version>1.4</Version>
+		<Author>cizquierdo</Author>
+		<Mail>cizquierdo@pegaso.es</Mail>
+		<Description>This gadget presents an eBay gadget that allow to search products.</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/ebay/images/ebay_logo.jpg</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_EZebay</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+		
+		<Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="3">
+		    <Option value="3" name="3"/>
+		    <Option value="5" name="5"/>
+		    <Option value="10" name="10"/>
+		</Preference>
+		<Preference name="siteId" type="list" label="Ebay Site" description="Set the eBay search location" default="186">
+		    <Option value="15" name="eBay.Australia"/>
+		    <Option value="16" name="eBay.Austria"/>
+		    <Option value="2" name="eBay.Canada"/>
+		    <Option value="71" name="eBay.France"/>
+		    <Option value="77" name="eBay.Germany"/>
+		    <Option value="203" name="eBay.India"/>
+		    <Option value="101" name="eBay.Italy"/>
+		    <Option value="146" name="eBay.Netherlands"/>
+		    <Option value="186" name="eBay.Spain"/>
+		    <Option value="193" name="eBay.Swizerland"/>
+		    <Option value="3" name="eBay.UK"/>
+		    <Option value="0" name="eBay.USA"/>
+		</Preference>
+
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+	        <Slot name="keyword" type="text" label="Keyword" friendcode="keyword"/>
+	        <Event name="name" type="text" label="Name" friendcode="name"/>
+	        <Event name="title" type="text" label="Title" friendcode="title"/>
+	        <Event name="bid" type="text" label="Bid" friendcode="bid"/>
+	        <Event name="image" type="text" label="image" friendcode="image"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<!-- This must point to the URL of the html code of this gadget -->
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/ebay/eBay.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="6" height="24"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="user"       type="text" concept="user_name"/>
+		<!--<Context       name="language"   type="text" concept="language"/>-->
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+		<!-- Usually not needed
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>		
+		-->
+
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+
+	</Platform.Context> 
+</Template>
+
+
