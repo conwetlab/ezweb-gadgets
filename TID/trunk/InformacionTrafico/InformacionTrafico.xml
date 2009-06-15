@@ -14,7 +14,7 @@
 
 	<!-- EzWeb Gadgets Preferences -->
 	<Platform.Preferences>
-	  <Preference name="time" type="number" label="Time (seconds)" description="Refresh Time(seconds)" default="1"/>
+	  <Preference name="time" type="number" label="Time (seconds)" description="Refresh Time(seconds)" default="303030303030303030303030303030303030303030303030303030303030"/>
 	</Platform.Preferences>
 
 	<!-- EzWeb Gadget Persistent State -->
