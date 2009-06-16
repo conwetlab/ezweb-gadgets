@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>EzWeb</Vendor>
     <Name>TV programming</Name>
-    <Version>1.1</Version>
+    <Version>1.2</Version>
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget para mostrar la programacion de television</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo_TV.jpg</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/tv_logo.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_programaci.C3.B3n_televisi.C3.B3n</WikiURI>
   </Catalog.ResourceDescription>
   
