@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Localiza</Name>
+		<Version>0.15</Version>
+		<Author>jaimegc</Author>
+		<Mail>jaimegc@tid.es</Mail>
+		<Description>Localiza</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/gadgets/postit.gif</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences></Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties></Platform.StateProperties>
+
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML	href="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/localiza.html" />
+	</Platform.Link>
+
+	<Platform.Rendering width="20" height="30" />
+
+
+</Template>
+

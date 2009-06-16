@@ -1,0 +1,199 @@
+body {
+	text-align: left;
+	background: #FFFFFF;
+	font-family:sans-serif;
+	font-size: 10pt;
+	white-space: normal
+}
+
+A:link {
+	COLOR: #5f759a; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #5f759a; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ba352e; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #5f759a; TEXT-DECORATION: none
+}
+INPUT {
+	BORDER-RIGHT: #cbd6eb 1px solid; BORDER-TOP: #cbd6eb 1px solid; FONT-WEIGHT: bold; FONT-SIZE: 9px; BORDER-LEFT: #cbd6eb 1px solid; COLOR: #5f759a; BORDER-BOTTOM: #cbd6eb 1px solid; FONT-FAMILY: Verdana, Helvetica; BACKGROUND-COLOR: #ffffff
+}
+.combobox {
+	BORDER-RIGHT: #cbd6eb 1px solid; BORDER-TOP: #cbd6eb 1px solid; FONT-WEIGHT: bold; FONT-SIZE: 9px; BORDER-LEFT: #cbd6eb 1px solid; COLOR: #5f759a; BORDER-BOTTOM: #cbd6eb 1px solid; FONT-FAMILY: Verdana, Helvetica; BACKGROUND-COLOR: #ffffff
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.fondo_claro {
+	FONT-SIZE: 9px; BACKGROUND: #ffefd6; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.fondo_oscuro {
+	FONT-SIZE: 9px; BACKGROUND: #fec874; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.tam_pequeño {
+	FONT-SIZE: 9px
+}
+.tam_mediano {
+	FONT-SIZE: 12px
+}
+.tam_grande {
+	FONT-SIZE: 16px
+}
+.menu_superior {
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; BACKGROUND: #b2372f; VERTICAL-ALIGN: middle; COLOR: #c7423d; FONT-FAMILY: Verdana, Helvetica
+}
+A.menu_superior {
+	CURSOR: hand; TEXT-DECORATION: none
+}
+A.menu_superior:hover {
+	BACKGROUND: #c7423d; COLOR: #ffffff
+}
+.menu_izquierda {
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; BACKGROUND: #ffffff; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+A.menu_izquierda {
+	CURSOR: hand; TEXT-DECORATION: none
+}
+A.menu_izquierda:hover{
+	BACKGROUND: #e2e8f0; COLOR: #518fed
+}
+.tabla_con_borde {
+	BORDER-RIGHT: #fec874 1px solid; BORDER-TOP: #fec874 1px solid; BACKGROUND: #ffefd6; BORDER-LEFT: #fec874 1px solid; BORDER-BOTTOM: #fec874 1px solid;
+	font-family:MS Sans Serif;
+	text-align:center;
+}
+
+.tabla_con_borde th{
+	color:#990033;
+	font-size:12px;
+}
+.tabla_con_borde a{
+	font-size:13px;
+}
+.tabla_sin_borde {
+	BACKGROUND: #ffefd6
+}
+.tabla_sin_borde th{
+	font-color:#990033;
+
+}
+
+IMG.tabla_sin_borde {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: #ffefd6; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+.tabla_con_marco {
+	BORDER-RIGHT: #fec874 1px solid; BORDER-TOP: #fec874 1px solid; BORDER-LEFT: #fec874 1px solid; BORDER-BOTTOM: #fec874 1px solid
+}
+.titulo1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.titulo2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.titulo3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica
+}
+.pestaña_con_relleno {
+	BORDER-RIGHT: #fec874 1px solid; BORDER-TOP: #fec874 1px solid; FONT-SIZE: 12px; BACKGROUND: #fec874; BORDER-LEFT: #fec874 1px solid; BORDER-BOTTOM: #fec874 1px solid
+}
+.pestaña_sin_relleno {
+	BORDER-RIGHT: #fec874 1px solid; BORDER-TOP: #fec874 1px solid; FONT-SIZE: 12px; BACKGROUND: #ffffff; BORDER-LEFT: #fec874 1px solid; BORDER-BOTTOM: #fec874 1px solid
+}
+.tarea_leida {
+	BORDER-TOP-WIDTH: 5px; FONT-WEIGHT: bold; BORDER-LEFT-WIDTH: 5px; FONT-SIZE: 9px; BORDER-LEFT-COLOR: #5f759a; BACKGROUND: #ffffff; BORDER-BOTTOM-WIDTH: 5px; BORDER-BOTTOM-COLOR: #5f759a; COLOR: #5f759a; BORDER-TOP-COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica; BORDER-RIGHT-WIDTH: 5px; BORDER-RIGHT-COLOR: #5f759a
+}
+.tarea_noleida {
+	BORDER-TOP-WIDTH: 0px; FONT-WEIGHT: bold; BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 9px; BACKGROUND: #fec874; BORDER-BOTTOM-WIDTH: 0px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica; BORDER-RIGHT-WIDTH: 0px
+}
+.tarea_hoy {
+	BORDER-TOP-WIDTH: 0px; FONT-WEIGHT: bold; BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 9px; BACKGROUND: #990000; BORDER-BOTTOM-WIDTH: 0px; COLOR: #5f759a; FONT-FAMILY: Verdana, Helvetica; BORDER-RIGHT-WIDTH: 0px
+}
+.no_revisado {
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; BACKGROUND: #ffe6e6; FONT-FAMILY: Verdana, Helvetica
+}
+
+
+
+
+#header{
+	height:30px;
+	top:2px;
+	left:2px;
+	right: 2px;
+    border-bottom:1px solid #AAA;
+	position:absolute;
+	min-width:486px;
+}
+#header .text {
+	float:left;
+}
+#header .boton {
+	float:left;
+}
+#content{
+	top:1px;
+	left:2px;
+	right:2px;
+	bottom:2px;
+	position:absolute;
+}
+
+.link {
+	cursor:pointer;
+	color: #0000FF;
+	text-decoration:underline;
+}
+.container div div {
+	margin-top: 10px;
+}
+
+#info{
+	font-family: "Trebuchet MS","Bitstream Vera Sans";
+	font-size:8pt;
+}
+
+
+.even td, .even th{
+	background-color: aliceBlue;
+	font-size:8pt;
+}
+
+.odd td, .odd th{
+	background-color: #FFFFFF;
+	font-size:8pt;
+}
+
+
+.send{
+	font-style:oblique;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+.view{
+	font-style:oblique;
+	font-weight:bold;
+	
+	cursor:pointer;
+}
+
+.send:hover{
+	text-decoration:underline;
+}
+.view:hover{
+	text-decoration:underline;
+}
+
+.datos{
+	height:300px;
+	overflow:auto;
+	width:851px;
+	margin-top:4px;
+}
+
+caption{
+	text-align:center;
+	color:#990033;
+	font-size:12px;
+}

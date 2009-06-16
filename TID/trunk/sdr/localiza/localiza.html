@@ -1,0 +1,3121 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/default.css" />
+
+
+</head>
+
+<body>
+
+	<table class="tabla_con_borde">
+	<tbody>
+	<tr>
+		<th>Provincia</th>
+		<th>Cadena de busqueda</b></font></th>
+		<th>Descriptor</th>
+		<th>Tipo de Movimiento</th>
+	</tr>
+
+	<tr>
+
+	<td>
+		<select name="pro1" size="1">
+		<option value="0">Seleccione Provincia</option>
+		<option value="$">Todas</option>
+		<option value="1">01 Alava</option>
+		<option value="2">02 Albacete</option>
+		<option value="3">03 Alicante</option>
+		<option value="4">04 Almeria</option>
+		<option value="5">05 Avila</option>
+		<option value="6">06 Badajoz</option>
+		<option value="7">07 Baleares</option>
+		<option value="8">08 Barcelona</option>
+		<option value="9">09 Burgos</option>
+		<option value="10">10 Caceres</option>
+		<option value="11">11 Cadiz</option>
+		<option value="12">12 Castellon</option>
+		<option value="13">13 Ciudad Real</option>
+		<option value="14">14 Cordoba</option>
+		<option value="15">15 Coru&ntilde;a<option>
+		<option value="16">16 Cuenca</option>
+		<option value="17">17 Gerona</option>
+		<option value="18">18 Granada</option>
+		<option value="19">19 Guadalajara</option>
+		<option value="20">20 Guipuzcoa</option>
+		<option value="21">21 Huelva</option>
+		<option value="22">22 Huesca</option>
+		<option value="23">23 Jaen</option>
+		<option value="24">24 Leon</option>
+		<option value="25">25 Lerida</option>
+		<option value="26">26 La Rioja</option>
+		<option value="27">27 Lugo</option>
+		<option value="28">28 Madrid</option>
+		<option value="29">29 Malaga</option>
+		<option value="30">30 Murcia</option>
+		<option value="31">31 Navarra</option>
+		<option value="32">32 Orense</option>
+		<option value="33">33 Asturias</option>
+		<option value="34">34 Palencia</option>
+		<option value="35">35 Las Palmas</option>
+		<option value="36">36 Pontevedra</option>
+		<option value="37">37 Salamanca</option>
+		<option value="38">38 Tenerife</option>
+		<option value="39">39 Cantabria</option>
+		<option value="40">40 Segovia</option>
+		<option value="41">41 Sevilla</option>
+		<option value="42">42 Soria</option>
+		<option value="43">43 Tarragona</option>
+		<option value="44">44 Teruel</option>
+		<option value="45">45 Toledo</option>
+		<option selected="selected" value="46">46 Valencia</option>
+		<option value="47">47 Valladolid</option>
+		<option value="48">48 Vizcaya</option>
+		<option value="49">49 Zamora</option>
+		<option value="50">50 Zaragoza</option>
+		<option value="51">51 Ceuta</option>
+		<option value="52">52 Melilla</option>
+		</select>
+	</td>
+	<td><input name="cod1" value="A." type="text"></td>
+	<td>
+		<select name="cde" id="cde">
+		<option value="0">Seleccion</option>
+		<option value="1">Central Telefonica</option>
+		<option value="7">Estacion Base Amena</option>
+		<option value="3">Estacion Base TSM</option>
+		<option value="6">Estacion Base Vodafone</option>
+		
+		<option value="8">Estacion Base XSFERA</option>
+		<option value="4">FITEL/LITESPAN</option>
+		<option value="2">Instalacion de Cliente</option>
+		<option value="5">Otras localizaciones</option>
+		</select>
+	</td>
+
+	<td>
+		<select name="accion" size="1">
+		<option value="0" selected="selected">Seleccion</option>
+		<option value="1">Pendiente Baja</option>
+		<option value="2">Pendiente Revision</option>
+		<option value="3">Revisadas</option>
+		</select>
+	</td>
+
+	<td><input value="Buscar" name="b1" onclick="buscar()" type="button"></td>
+	<td><a href="javascript:ayuda()">Ayuda</a></td>
+	<td><a href="javascript:semaforo()">Semaforo NO ATLAS</a></td>
+
+</tr>
+</tbody></table>
+<div  class="datos">
+<table><caption>Datos Encontrados</caption>
+<tr class="fondo_oscuro">
+          <th title="Seleccione el bot&oacute;n si desea consultar la informaci&oacute;n detallada de la ubicaci&oacute;n">&nbsp;</th>
+          <th title="C&oacute;digo SIGIR de la ubicaci&oacute;n.Estructura: &lt;POBLACI&oacute;N (4 caracteres)&gt;.&lt;SITUACI&oacute;N(3 caracteres)&gt;"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=LOC_CODIGO">C&Oacute;DIGO</a></font></th>
+          <th title="Provincia de la ubicaci&oacute;n."><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=PRO_NOMBRE">PROVINCIA</a></font></th>
+          <th title="Unidad de poblaci&oacute;n en cuyo t&eacute;rmino municipal est&aacute; ubicada la localizaci&oacute;n, seg&uacute;n el nomenclator estad&iacute;stico de la correspondiente Comunidad Autonoma"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=POB_NOMBRE">POBLACI&Oacute;N</a></font></th>
+          <th title="Nombre por el cual se designa habitualmente la localizaci&oacute;n.No puede ser igual a la poblaci&oacute;n a menos que solo exista una &uacute;nica localizaci&oacute;n a inventariar. En caso de existir m&aacute;s, se utilizar&aacute; un &iacute;ndice numerico al final y separado por un gui&oacute;n .No debe contener referencias a aspectos tecnol&oacute;gicos."><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=LOC_NEMOTECNICO">NEMOT&Eacute;CNICO</a></font></th>
+          <th title="Turno de Ma&ntilde;ana. Sem&aacute;foro de Acceso"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=LSE_MANANA">Ma&ntilde;ana</a></font></th>
+          <th title="Turno de Tarde. Sem&aacute;foro de Acceso"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=LSE_TARDE">Tarde</a></font></th>
+          <th title="Turno de Noche. Sem&aacute;foro de Acceso"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=LSE_NOCHE">Noche</a></font></th>
+          <th title="Refleja el tipo de instalaci&oacute;n de la ubicaci&oacute;n"><font color="white" size="1" face="MS Sans Serif"><a href="http://al.infraestructuras/al2/index.asp?url=asp/operacion/localiza/loc44.asp&amp;pro1=46&amp;cde=1&amp;ordena=CDE_NOMBRE">Descriptor</a></font></th>
+         </tr>
+<TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=428 name=conubi> </TD>
+          <TD>AALB. </TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=429 name=conubi> </TD>
+          <TD>AALB.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL TSM EB CALVO SOTELO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=197273 name=conubi> 
+          </TD>
+          <TD>AALB.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL ALBAL AIRTEL EB </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=430 name=conubi> </TD>
+          <TD>AALB.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL RETEVISION MOVIL EB CAUDILLO</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=310551 name=conubi> 
+          </TD>
+          <TD>AALB.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL ALBAL EB TSM MERCADONA-ALBAL/CORTS </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=431 name=conubi> </TD>
+          <TD>AALB.F02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAL </TD>
+          <TD>ALBAL MUXFIN PTRO-2 </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=432 name=conubi> </TD>
+          <TD>AALG. </TD>
+          <TD>Valencia</TD>
+          <TD>ALFARA ALGIMIA </TD>
+          <TD>ALFARA ALGIMIA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=433 name=conubi> </TD>
+          <TD>AALG.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALFARA ALGIMIA </TD>
+          <TD>ALFARA DE ALGIMIA CANTERA TSM EB </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m3.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=434 name=conubi> </TD>
+          <TD>AALG.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALFARA ALGIMIA </TD>
+          <TD>ALGAR TSM LA TALL EB </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=364055 name=conubi> 
+          </TD>
+          <TD>AALG.A03</TD>
+          <TD>Valencia</TD>
+          <TD>GENERALITAT VALENCIANA (S15P-) </TD>
+          <TD>GENERALITAT VALENCIANA (S15P-)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070969 name=conubi> 
+          </TD>
+          <TD>AALG.ETQ</TD>
+          <TD>Valencia</TD>
+          <TD>ALFARA ALGIMIA ENTRONQUE</TD>
+          <TD>ALFARA ALGIMIA ENTRONQUE</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=437 name=conubi> </TD>
+          <TD>AALP. </TD>
+          <TD>Valencia</TD>
+          <TD>ARAS DE OLMOS </TD>
+          <TD>ARAS DE ALPUENTE </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=438 name=conubi> </TD>
+          <TD>AALP.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ARAS DE OLMOS </TD>
+          <TD>ARAS DE ALPUENTE TSM EB </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=439 name=conubi> </TD>
+          <TD>AALP.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ARAS DE OLMOS </TD>
+          <TD>ARAS DE ALPUENTE OBSERVATORIO </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=364059 name=conubi> 
+          </TD>
+          <TD>AALP.A03</TD>
+          <TD>Valencia</TD>
+          <TD>GENERALITAT VALENCIANA (S17P-) </TD>
+          <TD>GENERALITAT VALENCIANA (S17P-)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=197404 name=conubi> 
+          </TD>
+          <TD>ABEJ. </TD>
+          <TD>Valencia</TD>
+          <TD>ABEJUELA (VALENCIA) </TD>
+          <TD>ABEJUELA (VALENCIA) ABEJUELA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=197405 name=conubi> 
+          </TD>
+          <TD>ABEJ.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ABEJUELA (VALENCIA) </TD>
+          <TD>ABEJUELA (VALENCIA) TSM/ABEJAR </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1523 name=conubi> </TD>
+          <TD>ACBS. </TD>
+          <TD>Valencia</TD>
+          <TD>ALCUBLAS </TD>
+          <TD>ALCUBLAS </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1524 name=conubi> </TD>
+          <TD>ACBS.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUBLAS </TD>
+          <TD>ALCUBLAS TSM EB DISEMINADO </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1555 name=conubi> </TD>
+          <TD>ACHE. </TD>
+          <TD>Valencia</TD>
+          <TD>ALBORACHE </TD>
+          <TD>ALBORACHE </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1556 name=conubi> </TD>
+          <TD>ACHE.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALBORACHE </TD>
+          <TD>ALBORACHE TSM EB YATOVA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m3.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1557 name=conubi> </TD>
+          <TD>ACHE.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBORACHE </TD>
+          <TD>ALBORACHE MERCADONA URBA.LLANORELL</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=363371 name=conubi> 
+          </TD>
+          <TD>ACHE.A03</TD>
+          <TD>Valencia</TD>
+          <TD>GENERALITAT VALENCIANA (S6P) </TD>
+          <TD>GENERALITAT VALENCIANA (S6P)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1803 name=conubi> </TD>
+          <TD>ADDA. </TD>
+          <TD>Valencia</TD>
+          <TD>ADZANETA DE ALBAIDA </TD>
+          <TD>ADZANETA DE ALBAIDA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1804 name=conubi> </TD>
+          <TD>ADDA.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ADZANETA DE ALBAIDA </TD>
+          <TD>ADZANETA DE ALBAIDA TSM EB </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=365142 name=conubi> 
+          </TD>
+          <TD>ADDA.A02</TD>
+          <TD>Valencia</TD>
+          <TD>GENERALITAT VALENCIANA (S18P) </TD>
+          <TD>GENERALITAT VALENCIANA (S18P)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2003 name=conubi> </TD>
+          <TD>ADLC. </TD>
+          <TD>Valencia</TD>
+          <TD>ALQUERIA DE LA CONDESA </TD>
+          <TD>L'ALQUERIA DE LA CONTESSA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2004 name=conubi> </TD>
+          <TD>ADLC.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALQUERIA DE LA CONDESA </TD>
+          <TD>L'ALQUERIA D/L COMTESSA RETEVISION</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1051263 name=conubi> 
+          </TD>
+          <TD>ADLC.A02</TD>
+          <TD>Valencia</TD>
+          <TD>PROY. ARTERIAS GENERVALE </TD>
+          <TD>PROY. ARTERIAS GENERVALE</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2005 name=conubi> </TD>
+          <TD>ADLC.CR </TD>
+          <TD>Valencia</TD>
+          <TD>ALQUERIA DE LA CONDESA </TD>
+          <TD>L'ALQUERIA DE LA COMTESSA C.R. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2012 name=conubi> </TD>
+          <TD>ADLR. </TD>
+          <TD>Valencia</TD>
+          <TD>ALBALAT DE LA RIBERA </TD>
+          <TD>ALBALAT DE LA RIBERA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m3.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2013 name=conubi> </TD>
+          <TD>ADLR.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALBALAT DE LA RIBERA </TD>
+          <TD>BENICULL TSM EB </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2014 name=conubi> </TD>
+          <TD>ADLS. </TD>
+          <TD>Valencia</TD>
+          <TD>ARCOS DE LAS SALINAS </TD>
+          <TD>ARCOS DE LAS SALINAS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2015 name=conubi> </TD>
+          <TD>ADLS.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ARCOS DE LAS SALINAS </TD>
+          <TD>ARCOS D/L SALINAS TSM EB CERELLAR </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2016 name=conubi> </TD>
+          <TD>ADLS.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ARCOS DE LAS SALINAS </TD>
+          <TD>ARCOS DE LAS SALINAS EB TSM </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=352123 name=conubi> 
+          </TD>
+          <TD>ADLS.VS </TD>
+          <TD>Valencia</TD>
+          <TD>VEGA SELVA </TD>
+          <TD>VEGA SELVA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=198045 name=conubi> 
+          </TD>
+          <TD>ADOR. </TD>
+          <TD>Valencia</TD>
+          <TD>ADOR </TD>
+          <TD>ADOR ADOR(L'ALBAIDA) </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1077593 name=conubi> 
+          </TD>
+          <TD>ADPA.A01</TD>
+          <TD>Valencia</TD>
+          <TD>INFORTISA S.L </TD>
+          <TD>INFORTISA S.L</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2127 name=conubi> </TD>
+          <TD>AFAR. </TD>
+          <TD>Valencia</TD>
+          <TD>ALFAFAR </TD>
+          <TD>ALFAFAR </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1046911 name=conubi> 
+          </TD>
+          <TD>AFAR.A01</TD>
+          <TD>Valencia</TD>
+          <TD>CC CARREFOUR (S5P) </TD>
+          <TD>CC CARREFOUR (S5P)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1077267 name=conubi> 
+          </TD>
+          <TD>AFAR.A02</TD>
+          <TD>Valencia</TD>
+          <TD>HENNES_MAURITZ S.L. ( </TD>
+          <TD>HENNES_MAURITZ S.L. (</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070924 name=conubi> 
+          </TD>
+          <TD>AFAR.EB1</TD>
+          <TD>Valencia</TD>
+          <TD>ALFAFAR E.B.</TD>
+          <TD>ALFAFAR E.B.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2136 name=conubi> </TD>
+          <TD>AFNH. </TD>
+          <TD>Valencia</TD>
+          <TD>ALFINACH </TD>
+          <TD>ALFINACH URB. LOS MONASTERIOS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2137 name=conubi> </TD>
+          <TD>AFNH.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALFINACH </TD>
+          <TD>ALFINACH OSBORN INTERNATIONAL S.L.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2138 name=conubi> </TD>
+          <TD>AFNH.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALFINACH </TD>
+          <TD>ALFINACH DEPOSITO EB TSM </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m3.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=319891 name=conubi> 
+          </TD>
+          <TD>AFNH.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALFINACH CUMANERA WONDER </TD>
+          <TD>ALFINACH CUMANERA WONDER</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2139 name=conubi> </TD>
+          <TD>AFRP. </TD>
+          <TD>Valencia</TD>
+          <TD>ALFARP </TD>
+          <TD>ALFARP (BENIFAIO) </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2140 name=conubi> </TD>
+          <TD>AFRP.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALFARP </TD>
+          <TD>CATADAU TSM EB POLIGONO ALFARP </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2322 name=conubi> </TD>
+          <TD>AGNT. </TD>
+          <TD>Valencia</TD>
+          <TD>AGULLENT </TD>
+          <TD>AGULLENT </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2323 name=conubi> </TD>
+          <TD>AGNT.A01</TD>
+          <TD>Valencia</TD>
+          <TD>AGULLENT </TD>
+          <TD>AGULLENT MANUEL REVERT SA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2324 name=conubi> </TD>
+          <TD>AGNT.A02</TD>
+          <TD>Valencia</TD>
+          <TD>AGULLENT </TD>
+          <TD>AGULLENT TSM EB POLIDEPORTIVO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=365121 name=conubi> 
+          </TD>
+          <TD>AGNT.A03</TD>
+          <TD>Valencia</TD>
+          <TD>G.V (S13P-) C.A.PRIMARIA AGULLENT </TD>
+          <TD>G.V (S13P-) C.A.PRIMARIA AGULLENT</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2989 name=conubi> </TD>
+          <TD>AIDA. </TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2990 name=conubi> </TD>
+          <TD>AIDA.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA AIRTEL EB ARQUEOLOGO BALLE</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=198535 name=conubi> 
+          </TD>
+          <TD>AIDA.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA ALBAIDA AIRTEL EB PUERTO ALBAIDA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2991 name=conubi> </TD>
+          <TD>AIDA.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA REIG MARTIN SA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=198536 name=conubi> 
+          </TD>
+          <TD>AIDA.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA CENTRO SALUD ALBAIDA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1052031 name=conubi> 
+          </TD>
+          <TD>AIDA.A05</TD>
+          <TD>Valencia</TD>
+          <TD>RURALCAJA </TD>
+          <TD>RURALCAJA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070918 name=conubi> 
+          </TD>
+          <TD>AIDA.EB1</TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA PUERTO TSM</TD>
+          <TD>ALBAIDA PUERTO TSM</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=2992 name=conubi> </TD>
+          <TD>AIDA.ER </TD>
+          <TD>Valencia</TD>
+          <TD>ALBAIDA </TD>
+          <TD>ALBAIDA/ER </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3392 name=conubi> </TD>
+          <TD>ALAQ. </TD>
+          <TD>Valencia</TD>
+          <TD>ALAQUAS </TD>
+          <TD>ALAQUAS (ALDAYA) </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1053044 name=conubi> 
+          </TD>
+          <TD>ALAQ.A01</TD>
+          <TD>Valencia</TD>
+          <TD>TME/MERCADONA-ALAQUAS-EB1 460150 </TD>
+          <TD>TME/MERCADONA-ALAQUAS-EB1 460150</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3455 name=conubi> </TD>
+          <TD>ALBX. </TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3460 name=conubi> </TD>
+          <TD>ALBX.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH HAMMAN ESPA&ntilde;A SA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3461 name=conubi> </TD>
+          <TD>ALBX.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH GEC-ALSTHOM SA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3462 name=conubi> </TD>
+          <TD>ALBX.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH PLASTICOS MONDRAGON </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3463 name=conubi> </TD>
+          <TD>ALBX.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXEC TSM EB P.I. MEDITERRANEO </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3464 name=conubi> </TD>
+          <TD>ALBX.A05</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH TSM EB MAJOR 36 </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3465 name=conubi> </TD>
+          <TD>ALBX.A06</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH VALENCIANA DE CEMENTOS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3466 name=conubi> </TD>
+          <TD>ALBX.A07</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH BANCAIXA LA FILA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3467 name=conubi> </TD>
+          <TD>ALBX.A08</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH PLEXI S.L. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=248140 name=conubi> 
+          </TD>
+          <TD>ALBX.A09</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXEC BOMBAS IDEAL S.A. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=308106 name=conubi> 
+          </TD>
+          <TD>ALBX.A10</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH ALBUIXEC AT&amp;T NETWORK SERVICES </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=324184 name=conubi> 
+          </TD>
+          <TD>ALBX.A11</TD>
+          <TD>Valencia</TD>
+          <TD>MAKRO </TD>
+          <TD>MAKRO</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=324305 name=conubi> 
+          </TD>
+          <TD>ALBX.A12</TD>
+          <TD>Valencia</TD>
+          <TD>ONEX S.L. </TD>
+          <TD>ONEX S.L.</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=324800 name=conubi> 
+          </TD>
+          <TD>ALBX.A13</TD>
+          <TD>Valencia</TD>
+          <TD>TYCO THERMAL CONTROLS (INTAL) </TD>
+          <TD>TYCO THERMAL CONTROLS (INTAL)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=328063 name=conubi> 
+          </TD>
+          <TD>ALBX.A14</TD>
+          <TD>Valencia</TD>
+          <TD>MEDIA MARKT </TD>
+          <TD>MEDIA MARKT</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=329394 name=conubi> 
+          </TD>
+          <TD>ALBX.A15</TD>
+          <TD>Valencia</TD>
+          <TD>TYCO THERMAL CONTROLS </TD>
+          <TD>TYCO THERMAL CONTROLS</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=348849 name=conubi> 
+          </TD>
+          <TD>ALBX.A16</TD>
+          <TD>Valencia</TD>
+          <TD>LACTALIS IBERIA </TD>
+          <TD>LACTALIS IBERIA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=353758 name=conubi> 
+          </TD>
+          <TD>ALBX.A17</TD>
+          <TD>Valencia</TD>
+          <TD>CU&ntilde;ADO VALENCIA </TD>
+          <TD>CU&ntilde;ADO VALENCIA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3468 name=conubi> </TD>
+          <TD>ALBX.A27</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>MASSALFASAR TSM EB PROGRESO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3469 name=conubi> </TD>
+          <TD>ALBX.A28</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXEC MENEU DISTRIBUCION SA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3470 name=conubi> </TD>
+          <TD>ALBX.A29</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH FLORAZAR S.A. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=310487 name=conubi> 
+          </TD>
+          <TD>ALBX.A30</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH BRENNTAG QUIMICA S.A. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=312531 name=conubi> 
+          </TD>
+          <TD>ALBX.A31</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXECH MIDASCOM </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=317298 name=conubi> 
+          </TD>
+          <TD>ALBX.A32</TD>
+          <TD>Valencia</TD>
+          <TD>COMP.GRAL.COMPRAS(AGROTURIA) </TD>
+          <TD>COMP.GRAL.COMPRAS(AGROTURIA)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=319665 name=conubi> 
+          </TD>
+          <TD>ALBX.A33</TD>
+          <TD>Valencia</TD>
+          <TD>ALMACEN CENTRAL VALENCIA </TD>
+          <TD>ALMACEN CENTRAL VALENCIA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=320258 name=conubi> 
+          </TD>
+          <TD>ALBX.A34</TD>
+          <TD>Valencia</TD>
+          <TD>CORPORACION DERMOESTETICA </TD>
+          <TD>CORPORACION DERMOESTETICA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=347866 name=conubi> 
+          </TD>
+          <TD>ALBX.A35</TD>
+          <TD>Valencia</TD>
+          <TD>INDUSTRIAS BAN S.L. </TD>
+          <TD>INDUSTRIAS BAN S.L.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=349363 name=conubi> 
+          </TD>
+          <TD>ALBX.A36</TD>
+          <TD>Valencia</TD>
+          <TD>FRIMAR PANADEROS P.I. MEDITERRANEO </TD>
+          <TD>FRIMAR PANADEROS P.I. MEDITERRANEO</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=361490 name=conubi> 
+          </TD>
+          <TD>ALBX.A37</TD>
+          <TD>Valencia</TD>
+          <TD>CIA. LOG. DE HIDROCARBUROS </TD>
+          <TD>CIA. LOG. DE HIDROCARBUROS</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=363506 name=conubi> 
+          </TD>
+          <TD>ALBX.A38</TD>
+          <TD>Valencia</TD>
+          <TD>DSV LOGI FREIGHT FORWARDIN SPAIN </TD>
+          <TD>DSV LOGI FREIGHT FORWARDIN SPAIN</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1048977 name=conubi> 
+          </TD>
+          <TD>ALBX.A39</TD>
+          <TD>Valencia</TD>
+          <TD>KEY S.A. </TD>
+          <TD>KEY S.A.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3471 name=conubi> </TD>
+          <TD>ALBX.F04</TD>
+          <TD>Valencia</TD>
+          <TD>ALBUIXECH </TD>
+          <TD>ALBUIXEC MUXFIN PTRO4 </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3472 name=conubi> </TD>
+          <TD>ALBY.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALBORAYA </TD>
+          <TD>ALBORAYA METRORED CENTRAL FRONTERA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1042866 name=conubi> 
+          </TD>
+          <TD>ALBY.A03</TD>
+          <TD>Valencia</TD>
+          <TD>IBERMUTUAMUR </TD>
+          <TD>IBERMUTUAMUR</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3545 name=conubi> </TD>
+          <TD>ALCU. </TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>L'ALCUDIA DE CARLET </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3547 name=conubi> </TD>
+          <TD>ALCU.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>L'ALCUDIA AIRTEL EB SANTIAGO APOST</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3548 name=conubi> </TD>
+          <TD>ALCU.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>L'ALCUDIA ISTOBAL </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3549 name=conubi> </TD>
+          <TD>ALCU.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>L'ALCUDIA CTO SALUD L'ALCUDIA CAR </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3550 name=conubi> </TD>
+          <TD>ALCU.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>L?ALCUDIA EB TSM AYUNTAMIENTO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=245890 name=conubi> 
+          </TD>
+          <TD>ALCU.A05</TD>
+          <TD>Valencia</TD>
+          <TD>ALCUDIA DE CARLET, L' </TD>
+          <TD>ALCUDIA EB TSM ALCUDIA POL&iacute;GONO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=344683 name=conubi> 
+          </TD>
+          <TD>ALCU.A06</TD>
+          <TD>Valencia</TD>
+          <TD>BANKINTER </TD>
+          <TD>BANKINTER</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=367274 name=conubi> 
+          </TD>
+          <TD>ALCU.A07</TD>
+          <TD>Valencia</TD>
+          <TD>MERCADONA </TD>
+          <TD>MERCADONA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3604 name=conubi> </TD>
+          <TD>ALDY. </TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3605 name=conubi> </TD>
+          <TD>ALDY.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA MC AMENA ALAQUAS AUSIAS 37 </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=199023 name=conubi> 
+          </TD>
+          <TD>ALDY.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ALDAYA AIRTEL EB ALACUAS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3606 name=conubi> </TD>
+          <TD>ALDY.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA TSM EB ESCULTOR MELITON </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3607 name=conubi> </TD>
+          <TD>ALDY.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA TSM EB BARRIO DEL CRISTO </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3608 name=conubi> </TD>
+          <TD>ALDY.A05</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA TSM EB ALACUAS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=199024 name=conubi> 
+          </TD>
+          <TD>ALDY.A06</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ALDAYA SERV.ESCAVACIONES TSM CORP. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3609 name=conubi> </TD>
+          <TD>ALDY.A07</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA EB TSM MERCADONA-ALAQUAS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3610 name=conubi> </TD>
+          <TD>ALDY.A08</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA DIFUSION DIGITAL </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3611 name=conubi> </TD>
+          <TD>ALDY.A09</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA AYUNTAMIENTO ALAQUAS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3612 name=conubi> </TD>
+          <TD>ALDY.A10</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA COSUM COOPERATIVA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3613 name=conubi> </TD>
+          <TD>ALDY.A11</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA SALVESEN LOGISTICA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3614 name=conubi> </TD>
+          <TD>ALDY.A12</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA DANONE SA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Sin Acceso"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n4.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3615 name=conubi> </TD>
+          <TD>ALDY.A13</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA MC AMENA ALAQUAS PAIS VALEN</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3616 name=conubi> </TD>
+          <TD>ALDY.A14</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ALTERNATIVA COMERCIAL FARMA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3617 name=conubi> </TD>
+          <TD>ALDY.A15</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA CENTRO SALUD ALDAIA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3618 name=conubi> </TD>
+          <TD>ALDY.A16</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ST. REDES DE LEVANTE SA </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3619 name=conubi> </TD>
+          <TD>ALDY.A17</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA C. SALUD ALAQUAS S.JOSE </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3620 name=conubi> </TD>
+          <TD>ALDY.A18</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA SP BERNER PLASTIC GROUP </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3621 name=conubi> </TD>
+          <TD>ALDY.A19</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA GENERVALE C. ESPECIALIDADES</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3622 name=conubi> </TD>
+          <TD>ALDY.A20</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA PINTURAS ISAVAL S.A. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3623 name=conubi> </TD>
+          <TD>ALDY.A21</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA C.AT. PRIMARIA MONDUBER </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=254782 name=conubi> 
+          </TD>
+          <TD>ALDY.A22</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAIA GENERVALE TARREGA BARBERA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=199026 name=conubi> 
+          </TD>
+          <TD>ALDY.A23</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ALDAIA BSC AMENA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=245945 name=conubi> 
+          </TD>
+          <TD>ALDY.A24</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA EB AIRTEL BOBALAR POLIGONO </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=303631 name=conubi> 
+          </TD>
+          <TD>ALDY.A25</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ALDAIA EB TSM BONAIRE </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t1.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=319184 name=conubi> 
+          </TD>
+          <TD>ALDY.A26</TD>
+          <TD>Valencia</TD>
+          <TD>V/ALDAYA BANKINTER TRO-11 </TD>
+          <TD>V/ALDAYA BANKINTER TRO-11</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=319574 name=conubi> 
+          </TD>
+          <TD>ALDY.A27</TD>
+          <TD>Valencia</TD>
+          <TD>BANKINTER </TD>
+          <TD>BANKINTER</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=323119 name=conubi> 
+          </TD>
+          <TD>ALDY.A28</TD>
+          <TD>Valencia</TD>
+          <TD>INEM </TD>
+          <TD>INEM</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=323363 name=conubi> 
+          </TD>
+          <TD>ALDY.A29</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM 4601439 P.I. LA GARROFERA </TD>
+          <TD>EB TSM 4601439 P.I. LA GARROFERA</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=324616 name=conubi> 
+          </TD>
+          <TD>ALDY.A30</TD>
+          <TD>Valencia</TD>
+          <TD>SAINT GOBAIN (INTAL) </TD>
+          <TD>SAINT GOBAIN (INTAL)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=332733 name=conubi> 
+          </TD>
+          <TD>ALDY.A31</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM 4601450 P.I. BOVALAR </TD>
+          <TD>EB TSM 4601450 P.I. BOVALAR</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=332477 name=conubi> 
+          </TD>
+          <TD>ALDY.A32</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM 4601368 P.I. ELS MOLLONS </TD>
+          <TD>EB TSM 4601368 P.I. ELS MOLLONS</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=328733 name=conubi> 
+          </TD>
+          <TD>ALDY.A33</TD>
+          <TD>Valencia</TD>
+          <TD>BANKINTER </TD>
+          <TD>BANKINTER</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=352153 name=conubi> 
+          </TD>
+          <TD>ALDY.A34</TD>
+          <TD>Valencia</TD>
+          <TD>MERCADONA </TD>
+          <TD>MERCADONA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=352157 name=conubi> 
+          </TD>
+          <TD>ALDY.A35</TD>
+          <TD>Valencia</TD>
+          <TD>MERCADONA </TD>
+          <TD>MERCADONA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=347579 name=conubi> 
+          </TD>
+          <TD>ALDY.A36</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM 4601453 P.I. INVA </TD>
+          <TD>EB TSM 4601453 P.I. INVA</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=354128 name=conubi> 
+          </TD>
+          <TD>ALDY.A37</TD>
+          <TD>Valencia</TD>
+          <TD>ALUVAL S.L. </TD>
+          <TD>ALUVAL S.L.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=353588 name=conubi> 
+          </TD>
+          <TD>ALDY.A38</TD>
+          <TD>Valencia</TD>
+          <TD>SERVEF </TD>
+          <TD>SERVEF</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=356673 name=conubi> 
+          </TD>
+          <TD>ALDY.A39</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM P.I. LA GARROFERA - ALDAIA </TD>
+          <TD>EB TSM P.I. LA GARROFERA - ALDAIA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=356104 name=conubi> 
+          </TD>
+          <TD>ALDY.A40</TD>
+          <TD>Valencia</TD>
+          <TD>TME/ALAQUAS PI GARR.-FLORA 4601550 </TD>
+          <TD>TME/ALAQUAS PI GARR.-FLORA 4601550</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1044819 name=conubi> 
+          </TD>
+          <TD>ALDY.A41</TD>
+          <TD>Valencia</TD>
+          <TD>CEMBRE ESPA&ntilde;A </TD>
+          <TD>CEMBRE ESPA&ntilde;A</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1049149 name=conubi> 
+          </TD>
+          <TD>ALDY.A42</TD>
+          <TD>Valencia</TD>
+          <TD>LEROY MERLIN ESPA&ntilde;A S.L.U.(ALDAIA) </TD>
+          <TD>LEROY MERLIN ESPA&ntilde;A S.L.U.(ALDAIA)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1043157 name=conubi> 
+          </TD>
+          <TD>ALDY.A43</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA HEFAME S.C.C.L.R(S10P-) </TD>
+          <TD>ALDAYA HEFAME S.C.C.L.R(S10P-)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1075735 name=conubi> 
+          </TD>
+          <TD>ALDY.A44</TD>
+          <TD>Valencia</TD>
+          <TD>RURALCAJA (S11P- 961501097) </TD>
+          <TD>RURALCAJA (S11P- 961501097)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1077125 name=conubi> 
+          </TD>
+          <TD>ALDY.A45</TD>
+          <TD>Valencia</TD>
+          <TD>EDIFICIO INDUSTRIA 10 </TD>
+          <TD>EDIFICIO INDUSTRIA 10</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1078349 name=conubi> 
+          </TD>
+          <TD>ALDY.A47</TD>
+          <TD>Valencia</TD>
+          <TD>EDIFICIO XESTE 1 </TD>
+          <TD>EDIFICIO XESTE 1</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070923 name=conubi> 
+          </TD>
+          <TD>ALDY.EB2</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAIA C.T. E.B.</TD>
+          <TD>ALDAIA C.T. E.B.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3624 name=conubi> </TD>
+          <TD>ALDY.F01</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA PTRO 1 MUXFIN POL.EL MOLLON</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3625 name=conubi> </TD>
+          <TD>ALDY.F02</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA PTRO 2 MUXFIN POL.GARROFERA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3626 name=conubi> </TD>
+          <TD>ALDY.S/N</TD>
+          <TD>Valencia</TD>
+          <TD>ALDAYA </TD>
+          <TD>ALDAYA ARQUETA H DANONE </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3674 name=conubi> </TD>
+          <TD>ALFU. </TD>
+          <TD>Valencia</TD>
+          <TD>ALFAUIR </TD>
+          <TD>ALFAUIR (ROTOVA) </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3870 name=conubi> </TD>
+          <TD>ALGI. </TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET </TD>
+          <TD>ALGINET </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3871 name=conubi> </TD>
+          <TD>ALGI.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET </TD>
+          <TD>ALGINET AIRTEL EB </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3872 name=conubi> </TD>
+          <TD>ALGI.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET </TD>
+          <TD>ALGINET TEXTIL S.A. </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3873 name=conubi> </TD>
+          <TD>ALGI.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET </TD>
+          <TD>ALGINET ESTABLECIMIENTOS BAIXENS </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3874 name=conubi> </TD>
+          <TD>ALGI.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET </TD>
+          <TD>ALGINET GENERVALE </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=364127 name=conubi> 
+          </TD>
+          <TD>ALGI.A05</TD>
+          <TD>Valencia</TD>
+          <TD>CAJA RURAL DE ALGINET </TD>
+          <TD>CAJA RURAL DE ALGINET</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=363031 name=conubi> 
+          </TD>
+          <TD>ALGI.A06</TD>
+          <TD>Valencia</TD>
+          <TD>MERCADONA </TD>
+          <TD>MERCADONA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070735 name=conubi> 
+          </TD>
+          <TD>ALGI.EB1</TD>
+          <TD>Valencia</TD>
+          <TD>ALGINET E.B.</TD>
+          <TD>ALGINET E.B.</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3878 name=conubi> </TD>
+          <TD>ALGM. </TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI </TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1070970 name=conubi> 
+          </TD>
+          <TD>ALGM. SR</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI SALA DE RADIO</TD>
+          <TD>ALGEMESI SALA DE RADIO</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3880 name=conubi> </TD>
+          <TD>ALGM.A01</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI AIRTEL EB </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3881 name=conubi> </TD>
+          <TD>ALGM.A02</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI TSM EB MONTA&ntilde;A </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3882 name=conubi> </TD>
+          <TD>ALGM.A03</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI AUMAR PEAJE AUTOPISTA A-7</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acomapa&ntilde;amiento a Valorar por EGOT"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t2.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3883 name=conubi> </TD>
+          <TD>ALGM.A04</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI CENTRO DE SALUD PL.RIBERA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3884 name=conubi> </TD>
+          <TD>ALGM.A05</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI SOS CUETARA </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=199162 name=conubi> 
+          </TD>
+          <TD>ALGM.A06</TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI ALGEMESI EB RETEMOVIL P.I. COTES </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=318033 name=conubi> 
+          </TD>
+          <TD>ALGM.A07</TD>
+          <TD>Valencia</TD>
+          <TD>SAINT GOBAIN(INTERNACIONAL) </TD>
+          <TD>SAINT GOBAIN(INTERNACIONAL)</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=325645 name=conubi> 
+          </TD>
+          <TD>ALGM.A08</TD>
+          <TD>Valencia</TD>
+          <TD>EB TSM 4600714 ALGEMESI ALARIS </TD>
+          <TD>EB TSM 4600714 ALGEMESI ALARIS</TD>
+          <TD title="Turno de Ma&ntilde;ana : Acompa&ntilde;amiento No Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m1.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t3.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche : Acompa&ntilde;amiento Necesario"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n3.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=353617 name=conubi> 
+          </TD>
+          <TD>ALGM.A09</TD>
+          <TD>Valencia</TD>
+          <TD>CAJA RURAL ALGEMESI </TD>
+          <TD>CAJA RURAL ALGEMESI</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=364749 name=conubi> 
+          </TD>
+          <TD>ALGM.A10</TD>
+          <TD>Valencia</TD>
+          <TD>TME/PI COTES EB1 4601551 </TD>
+          <TD>TME/PI COTES EB1 4601551</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=363027 name=conubi> 
+          </TD>
+          <TD>ALGM.A11</TD>
+          <TD>Valencia</TD>
+          <TD>MERCADONA </TD>
+          <TD>MERCADONA</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=368868 name=conubi> 
+          </TD>
+          <TD>ALGM.A12</TD>
+          <TD>Valencia</TD>
+          <TD>GENERALITAT VALEN.(GVA PROY.ARTERI </TD>
+          <TD>GENERALITAT VALEN.(GVA PROY.ARTERI</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=1080235 name=conubi> 
+          </TD>
+          <TD>ALGM.A13</TD>
+          <TD>Valencia</TD>
+          <TD>AYUNTAMIENTO DE ALGEMESI-PABELLON </TD>
+          <TD>AYUNTAMIENTO DE ALGEMESI-PABELLON</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=3885 name=conubi> </TD>
+          <TD>ALGM.CR </TD>
+          <TD>Valencia</TD>
+          <TD>ALGEMESI </TD>
+          <TD>ALGEMESI C.R </TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        <TR class=no_revisado>
+          <TD><INPUT onclick=consulta() type=radio value=319753 name=conubi> 
+          </TD>
+          <TD>ALGM.F03</TD>
+          <TD>Valencia</TD>
+          <TD>ARMARIO MUXFIN TRO-3 P.I. COTES </TD>
+          <TD>ARMARIO MUXFIN TRO-3 P.I. COTES</TD>
+          <TD title="Turno de Ma&ntilde;ana Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/m0.gif" 
+          border=0></TD>
+          <TD title="Turno de Tarde Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/t0.gif" 
+          border=0></TD>
+          <TD title="Turno de Noche Sin Asignar"><IMG 
+            src="http://demo.ezweb.morfeo-project.org/repository/sdr/localiza/img/n0.gif" 
+          border=0></TD>
+          <TD>Central Telef&oacute;nica</TD></TR>
+        
+                
+         
+</table>
+</div>
+</body>
+
+</html>
