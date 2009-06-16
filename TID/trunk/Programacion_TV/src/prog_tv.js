@@ -1,6 +1,6 @@
 var ProgramacionTV = function() {
     /* Call to the parent constructor */
-    EzWebGadget.call(this, {translatable: "false"});
+    EzWebGadget.call(this, {translatable: false});
 }
 
 ProgramacionTV.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
