@@ -6,7 +6,7 @@ var ProgramacionTV = function() {
 ProgramacionTV.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
 ProgramacionTV.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src"; 
-ProgramacionTV.prototype.imageURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo';
+ProgramacionTV.prototype.imageURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo";
 
 ProgramacionTV.prototype.init = function() {
 	
