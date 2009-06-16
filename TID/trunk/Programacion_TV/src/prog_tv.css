@@ -1,34 +1,55 @@
-#cadena {
-	cursor: default;
+
+body {
+	overflow: hidden;
 }
 
-#cadena {
+img {
+	cursor: pointer;
+}
+
+.cadena {
 	display:block;
 	font: normal 0.9em tahoma, arial, sans-serif;
 	color: #4F6480;
 	margin-top:10px;
 	padding-left:10px;
+	cursor: default;
 }
 
+.hora {
+	text-align: center;
+}
 
 table		{
-		margin: 10;
-		padding: 0;
+		margin: 11px;
 		font: normal 0.9em tahoma, arial, sans-serif;
 		line-height: 1.4em;
 		border-collapse: collapse;
 		border: 4px solid #ADBBCA;
 		color: #4F6480;
 		background: #F0F0F0;
+		width: 95%;
 		}
+
+table.current {
+	border: 1px solid #ADBBCA;
+}
 
 td {
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
+.programa {
+	cursor: pointer;
+}
+
+td.programa:hover {
+	text-decoration: underline;
+}
+
 tr:hover {
-	color: #000000;
+	color: #ca1131;
 	cursor: default;
 }
 
@@ -42,4 +63,20 @@ tr:hover {
 
 .actual {
 	background: #ffc0cb;
+}
+
+#descripcion {
+	background: #ffffff;
+	border: 2px solid #ADBBCA;
+	font: normal 0.8em tahoma, arial, sans-serif;
+	padding: 0 3px;
+	max-height: 90px;
+	max-width: 200px;
+	overflow: auto;
+	position: absolute;
+	cursor: default;
+	}
+
+#background {
+	position:absolute;
 }
