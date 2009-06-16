@@ -9,7 +9,7 @@ var EzWebExt = new Object();
  * Guarda la URL donde se encuentra alojada la librería JavaScript.
  * @type String
  */
-EzWebExt.URL = "http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1";
+EzWebExt.URL = "http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1/";
 
 /**
  * Permite obtener la URL absoluta de un recurso proporcionado por la librería.
@@ -422,7 +422,7 @@ EzWebExt.BERT2 = 37;
  *   userVarName: "user"
  *   languagePrefVarName: "languagePref"
  *   platformLanguageVarName: "language"
- *   translatable: "false"
+ *   translatable: false
  *   defaultLanguage: "en"
  *
  * @param {Array} settings
@@ -1097,18 +1097,23 @@ StyledElements.StyledInputElement.prototype.reset = function () {
 }
 
 /**
- * Este componente permite agrupar varios componentes en uno solo
+ * Este componente permite agrupar varios componentes en uno solo.
+ *
+ * @param options
+ * @param events
  */
-StyledElements.Container = function(options) {
+StyledElements.Container = function(options, events) {
     var defaultOptions = {
         'extending': false,
         'class': ''
     };
     options = EzWebExt.merge(defaultOptions, options);
 
+    // Necesario para permitir herencia
     if (options.extending)
         return;
 
+    StyledElements.StyledElement.call(this, events);
     this.wrapperElement = document.createElement("div");
     this.childs = new Array();
 
@@ -1135,6 +1140,9 @@ StyledElements.Container.prototype.repaint = function(temporal) {
         this.childs[i].repaint(temporal);
 }
 
+/**
+ * Elimina el contenido de este contenedor.
+ */
 StyledElements.Container.prototype.clear = function() {
     this.childs = new Array();
     this.wrapperElement.innerHTML = "";
@@ -1198,6 +1206,8 @@ StyledElements.StyledSelect.prototype.setValue = function (newValue) {
 }
 
 StyledElements.StyledSelect.prototype.addEntries = function (newEntries) {
+    var oldSelectedIndex = this.inputElement.options.selectedIndex;
+
     for (var i = 0; i < newEntries.length; i++) {
         var option = document.createElement("option");
         var optionValue = newEntries[i][0];
@@ -1214,15 +1224,21 @@ StyledElements.StyledSelect.prototype.addEntries = function (newEntries) {
         this.inputElement.appendChild(option);
         this.optionsByValue[optionValue] = optionLabel;
     }
+
+    // initialize the textDiv with the initial selection
+    var selectedIndex = this.inputElement.options.selectedIndex;
+    if (oldSelectedIndex !== selectedIndex)
+        this.textDiv.textContent = this.inputElement.options[selectedIndex].text;
 }
 
 StyledElements.StyledSelect.prototype.clear = function () {
-    var options = this.inputElement.getElementsByTagName("option");
-    for (var i = 0; i < options.length; i++)
-        EzWebExt.removeFromParent(options[i]);
-
     // Clear textDiv
     this.textDiv.textContent = "";
+
+    // Clear select element options
+    var options = this.inputElement.textContent = "";
+
+    this.optionsByValue = {};
 }
 
 /**
@@ -1240,7 +1256,7 @@ StyledElements.StyledList = function(options) {
 
     this.wrapperElement = document.createElement("div");
     this.wrapperElement.className = "styled_list";
-    
+
     this.content = document.createElement("div");
     this.wrapperElement.appendChild(this.content);
 
@@ -1632,7 +1648,7 @@ StyledElements.StyledCheckBox = function(nameGroup_, value, options) {
     options = EzWebExt.merge(defaultOptions, options);
 
     StyledElements.StyledInputElement.call(this, options.initiallyChecked, ['change']);
-    
+
     this.wrapperElement = document.createElement("input");
 
     this.wrapperElement.setAttribute("type", "checkbox");
@@ -1683,7 +1699,7 @@ StyledElements.StyledRadioButton = function(nameGroup_, value, options) {
     options = EzWebExt.merge(defaultOptions, options);
 
     StyledElements.StyledInputElement.call(this, options.initiallyChecked, ['change']);
-    
+
     this.wrapperElement = document.createElement("input");
 
     this.wrapperElement.setAttribute("type", "radio");
@@ -1819,7 +1835,7 @@ StyledElements.StyledHPaned = function(options) {
             hpaned.handlerPosition = 0;
         else
             hpaned.handlerPosition = handlerPosition;
-          
+
         hpaned.repaint(true);
     }
 
@@ -1896,7 +1912,6 @@ StyledElements.StyledHPaned.prototype.repaint = function(temporal) {
 
 /**
  * Este compontente representa a un tab de un notebook.
- *
  */
 StyledElements.Tab = function(id, notebook, options) {
     if (!(notebook instanceof StyledElements.StyledNotebook))
@@ -1918,7 +1933,7 @@ StyledElements.Tab = function(id, notebook, options) {
     this.tabElement.appendChild(this.name);
 
     /* call to the parent constructor */
-    StyledElements.Container.call(this, options['containerOptions']);
+    StyledElements.Container.call(this, options['containerOptions'], ['close']);
 
     EzWebExt.prependClassName(this.wrapperElement, "tab hidden"); // TODO
 
@@ -2273,7 +2288,7 @@ StyledElements.StyledNotebook.prototype.removeTab = function(id) {
 
         if (this.firstVisibleTab == this.tabs.length) {
             if (this.tabs.length > 0) {
-                var lastTabId = this.tabs[this.firstVisibleTab - 1].getId(); 
+                var lastTabId = this.tabs[this.firstVisibleTab - 1].getId();
                 this.focus(lastTabId);
             } else {
                 this.firstVisibleTab = 0;
@@ -2285,10 +2300,10 @@ StyledElements.StyledNotebook.prototype.removeTab = function(id) {
       this.visibleTab = null;
       if (index == this.tabs.length) {
         if (this.tabs.length > 0) {
-            var lastTabId = this.tabs[index - 1].getId(); 
+            var lastTabId = this.tabs[index - 1].getId();
             this.goToTab(lastTabId);
         } /* else
-           notify */ 
+           notify */
       } else {
         this.goToTab(this.tabs[index].getId());
       }
@@ -2297,8 +2312,11 @@ StyledElements.StyledNotebook.prototype.removeTab = function(id) {
     // Enable/Disable tab moving buttons
     this._enableDisableButtons();
 
+    // Send specific tab close event
+    tabToExtract.events['close'].dispatch(tabToExtract, this);
+
     // Event dispatch
-    this.events['tabDeletion'].dispatch(this);
+    this.events['tabDeletion'].dispatch(this, tabToExtract);
 }
 
 /**
@@ -2311,8 +2329,11 @@ StyledElements.StyledNotebook.prototype.removeTab = function(id) {
  */
 StyledElements.StyledNotebook.prototype.goToTab = function(id) {
     var newTab = this.tabsById[id];
+    var oldTab = this.visibleTab;
     if (this.visibleTab && newTab == this.visibleTab)
         return;
+
+    this.events['change'].dispatch(this, oldTab, newTab);
 
     if (this.visibleTab)
         this.visibleTab.setVisible(false);
@@ -2545,7 +2566,7 @@ StyledElements.Alternative = function(id, initialName, options) {
     this.altId = id;
 
     /* call to the parent constructor */
-    StyledElements.Container.call(this, options);
+    StyledElements.Container.call(this, options, []);
 
     EzWebExt.appendClassName(this.wrapperElement, "hidden"); // TODO
 }
