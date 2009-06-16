@@ -9,7 +9,7 @@ var EzWebExt = new function(){
  * Guarda la URL donde se encuentra alojada la librer&iacute;a Javascript.
  * @type String
  */
-EzWebExt.URL = "http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js";
+EzWebExt.URL = "http://europa.ls.fi.upm.es/svn/ezweb/releases/lib/js/ezwebext/v1.1b";
 
 /** 
  * Realiza una petici&oacute;n GET a la URL indicada.
@@ -212,6 +212,27 @@ EzWebExt.getUser = function(context_label){
     })((context_label) ? context_label : "user_name")).getName();
 }
 
+EzWebExt.addClassName = function(element, className){  
+	EzWebExt.removeClassName(element, className);
+	element.className += (" " + className);
+}
+
+EzWebExt.removeClassName = function(element, className){
+	element.className = element.className.replace(RegExp("(^\\s*|\\s+)" + className + "(\\s+|\\s*$)", "g"), " ").replace(RegExp("^\\s+|\\s+$", "g"), "");
+}
+
+EzWebExt.createLockVariable = function(lockVariable) {
+	EzWebAPI.createRGadgetVariable((lockVariable)?lockVariable:"lockStatus", 
+	                       function(newLockStatus) {
+								if (newLockStatus == true) {
+									EzWebExt.addClassName(document.body, "locked");
+								} else {
+									EzWebExt.removeClassName(document.body, "locked");
+								}
+							});
+}
+
+
 /**
  * Sustituye los caracteres XML reservados, por las entidades predefinidas
  * que los representan.
@@ -349,12 +370,8 @@ EzWebExt.alert = function(message, title, type){
     "filter:alpha(opacity=60);" +
     "-moz-opacity:.60;" +
     "opacity:.60;" +
-    "width:" +
-    document.documentElement.scrollWidth +
-    "px;" +
-    "height:" +
-    document.documentElement.scrollHeight +
-    "px;";
+    "width: 100%;" +
+    "height: 100%;";
     
     var divMessage = document.createElement("div");
     divMessage.innerHTML = '<div style="diplay:block;width:100%;height:7px;">' +
@@ -466,6 +483,7 @@ EzWebExt.alert = function(message, title, type){
     divMessage.appendChild(button);
     document.body.appendChild(divMessage);
     document.body.appendChild(div);
+    return {background: div, popup: divMessage};
 }
 
 /**
@@ -593,7 +611,10 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
             _babel[_languages[i]] = [];
         }
         
-		_langPrefHandler(_langPref.get());
+		if(_langPref)
+                        _langPrefHandler(_langPref.get());
+                else
+                        _langPrefHandler(PLATFORM_LANGUAGE);
 		if (onLoad) onLoad();
 		_translate();
     }
@@ -622,9 +643,11 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
                 _addKey(xmlLabels[j].attributes.id.value);
                 _babel[_languages[i]][xmlLabels[j].attributes.id.value] = xmlLabels[j].firstChild.nodeValue;
             }
-        }
-        
-		_langPrefHandler(_langPref.get());
+        }        
+		if(_langPref) 
+			_langPrefHandler(_langPref.get());
+		else
+			_langPrefHandler(PLATFORM_LANGUAGE);
 		if (onLoad) onLoad();
 		_translate();
     }
@@ -735,9 +758,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
      * @private
      */
     function _langContextHandler(value){
-        if (_actualLanguage == PLATFORM_LANGUAGE) {
-            _langPrefHandler(value);
-        }
+        _langPrefHandler(value);
     }
 }
-
