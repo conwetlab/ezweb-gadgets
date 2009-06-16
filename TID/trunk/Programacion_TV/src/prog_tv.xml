@@ -36,10 +36,9 @@
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src/prog_tv.html"/>
   </Platform.Link>
   
-  <Platform.Rendering width="10" height="10"/>
+  <Platform.Rendering width="6" height="20"/>
   <Platform.Context>
   		<Context name="user" type="text" concept="user_name"/>
-		<Context name="language" type="text" concept="language"/>
 		<GadgetContext name="height" type="text" concept="heightInPixels"/>
 		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
   </Platform.Context>   
