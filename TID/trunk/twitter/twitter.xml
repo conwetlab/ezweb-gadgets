@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>2.91</Version>
+    <Version>2.92</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -42,7 +42,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/gadgets/twitter/twitter.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/twitter/twitter.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="5" height="12"/>
