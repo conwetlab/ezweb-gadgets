@@ -8,15 +8,19 @@ a {
 	color:#0084B4;
 	text-decoration: none; 
 	white-space: nowrap;
+	font-size:11px;
 }
 
 h3 { 
 	margin: 0px auto 5px auto;
+	font-size:12px;
 }
 
 
 #logo { 
 	width:100px;
+	position:absolute;
+	right:6px;
 }
 
 #tab_table {
@@ -59,14 +63,14 @@ h3 {
 	background: #FFFFFF none repeat scroll 0 0;
 	text-align: left;
 	overflow: auto;
-	padding: 10px;
+	padding: 10px 10px 10px;
 	min-height: 100px;
 }
 
 .bottom_cont {
 	text-align: right;
 	width: 100%;
-	margin-top: 13px;
+	margin-top: 5px;
 	margin-bottom: 10px;
 }
 
@@ -86,7 +90,7 @@ h3 {
 	-moz-border-radius: 5px;
 	border: 1px solid #CECECE;
 	margin-left: 5px;
-	padding: 0.25em 1em;
+	padding: 0.24em;
 	color: #0084B4;
 	font-size: 14px;
 	cursor: pointer;
