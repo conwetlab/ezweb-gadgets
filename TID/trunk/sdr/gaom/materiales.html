@@ -1,0 +1,596 @@
+<html>
+<head>
+	
+	<!--LINK REL=STYLESHEET TYPE="text/css" HREF="http://10.237.17.33:5757/estilos/style.css">
+	<LINK REL=STYLESHEET TYPE="text/css" HREF="http://10.237.17.33:5757/estilos/styleDetalle.css">
+
+	<SCRIPT LANGUAGE="javascript" SRC="http://10.237.17.33:5757/javascript/funciones.js">
+	</SCRIPT-->
+	
+	<link rel="stylesheet" type="text/css" media="screen,projection" href="http://pablix.hi.inet/repository/sdr/gaom/materiales.css" />
+	
+	<!--style type="text/css">
+		body {
+			font-family: "Times New Roman", Times, serif;
+			font-style: normal;
+			color: #000000;
+			background-color: #FFFFFF;
+		}
+
+		h1 {
+			font-family: Arial, Helvetica, sans-serif;
+			color: #0033CC
+		}
+
+		h2 {
+			font-family: Arial, Helvetica, sans-serif;
+			color: #0033CC
+		}
+
+		h3 {
+			font-family: Arial, Helvetica, sans-serif;
+			color: #0033CC
+		}
+
+		b {
+			font-weight: bold;
+		}
+
+		.code {
+			font-family: Courier, mono;
+		}
+
+		.codeblock {
+			font-family: Courier, mono;
+		}
+
+		.navheading {
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #0033CC
+		}
+
+		.navitem {
+			font-family: "Times New Roman", Times, serif;
+			margin-left: 10pt;
+			color: #000000
+		}
+
+		.itemdef {
+			font-family: "Times New Roman", Times, serif;
+			font-size: smaller;
+			color: #000000
+		}
+
+		.fineprint {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: smaller;
+			color: #000000
+		}
+
+
+		.menu {
+		  z-index: 1;
+		  position:absolute;
+		  visibility:hidden;
+		  background-color: #7079A7;
+		  color: White;
+		  padding: 3px;
+		  #text-decoration:none;
+		  #font-family: Verdana, Arial, Helvetica, sans-serif;
+		  #font-size: 9px;
+		  #font-weight: bold;
+
+		  white-space: nowrap;
+		  text-transform: uppercase;
+		}
+		.menu A:hover {text-decoration: none; color: black;}
+		.menu A {text-decoration: none; color: white;}
+
+		.ocultar {
+			display: none;
+		}
+
+		.mostrar {
+			display:block;
+			position:absolute;
+			background-color: #D4D7E4;
+			border:1px solid #316AC5;
+			padding:2px;
+			text-align:justify;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #000000
+		}
+		
+		h3 {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 18px;
+			color: #00006C
+		}
+
+		td {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color: #000000
+		}
+
+		th {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			color: #000000
+		}
+
+		input {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color: #000000
+		}
+
+		textarea {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color: #000000
+		}
+
+		select {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color: #000000
+		}
+
+		.filaVerdana {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			background-color: #ECEDFF;
+			color: #000000
+		}
+
+		.filaVerdanaSel {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			background-color: #9999CC;
+			color: #000000
+		}
+
+		.filaVerdanaCabTabla {
+			background-color: Navy;
+		}
+
+		.filaVerdanaCabTablaTXT{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: White
+		}
+
+		.campos {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color: #000000
+		}
+		.TablaBasica {  background-color: #D4D7E4}
+
+		.cabeceraPeq {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			color:"#FFFFC8"
+		}
+
+		.capan{
+
+			position:relative;
+			align:center;
+			visibility:true;
+		}
+
+		.capa0{
+
+		}
+
+		.capa1{
+			position:absolute;
+			align:center;
+			visibility:true;
+		}
+
+		.enlaceSimple{
+			text-decoration:none;
+			
+		}
+
+		.textoNormal {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 14px;
+			color: #000000
+		}
+
+		.textoNavegacionNombre {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 12px;
+			color: White;
+			height:18
+		}
+
+		.filaEnlaces {
+			bgcolor: Navy
+		}
+
+		.FilaOperaciones{
+			background-color: #E3E4FA;
+			valign: middle
+		}
+
+		.FilaEnlaces{
+			background-color: #7079A7;
+			height:16
+		}
+
+		.FilaOperaciones2{
+			background-color: #9999CC;
+			height:16
+		}
+
+		.enlaceCabecera{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: White
+		}
+
+		.TablaPestanya {
+			background-color: #E3E4FA;
+			width:90%;
+		}
+
+		.TablaPestanyaSel {
+			background-color: Navy
+		}
+
+		.FilaOperacionesN{
+			background-color: #9399BE;
+		}
+
+		A.enlaceCabecera{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #C6C9DC;
+			text-transform: uppercase}
+
+		A.enlaceCabecera:hover{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #070745;
+			text-transform: uppercase}
+
+		.Ruta{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 9px;
+			font-weight: bold;
+			color: White;
+			white-space: nowrap;
+			text-transform: uppercase}    
+
+		.Ruta:hover{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 9px;
+			font-weight: bold;
+			color: 070745;
+			white-space: nowrap;
+			text-transform: uppercase}
+
+		.RutaFinal{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: White; white-space: nowrap}
+			
+		.RutaCargando{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 9px;
+			font-weight: bold;
+			color: Red;
+			white-space: nowrap;
+			text-transform: uppercase}    
+
+		.TabSelected{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #7079A7;
+			text-transform: uppercase;
+			white-space: nowrap}
+
+		.TabSelected:hover{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #7079A7;
+			text-transform: uppercase;
+			white-space: nowrap}
+
+		.TabTable{
+			background-color: #7079A7}
+
+		.Tab{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #C6C9DC;
+			text-transform: uppercase;
+			white-space: nowrap}
+
+		.Tab:hover{
+			text-decoration:none;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 10px;
+			font-weight: bold;
+			color: #070745;
+			text-transform: uppercase;
+			white-space: nowrap}
+
+		A.Boton{
+			font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+			font-size: 11px;
+			font-weight: bold;
+			font-style: normal;
+			text-decoration: none;
+			color: white;
+			clip:      rect(   );
+			background-color: #9399BE}
+
+		A.Boton:hover {
+			font-family: Verdana, Arial, Helvetica, sans-serif, Symbol;
+			font-size: 11px;
+			font-weight: bold;
+			font-style: normal;
+			text-decoration: none;
+			color: #070745;
+			clip:      rect(   );
+			background-color: #9399BE}
+
+		A.enlaceNormal{
+			text-decoration:none;
+			color: Black
+		}
+
+		A.enlaceNormal:hover{
+			text-decoration:none;
+			color: #C6C9DC
+		}
+
+		.titleText {
+			font-family:  Arial, Helvetica, sans-serif, Verdana;
+			font-size: 16px;
+			font-weight: bold;
+			color: #9999CC;
+		}
+
+	</style-->
+
+	
+	<script src="/ezweb/js/lib/prototype/prototype.js"></script>
+	<script language="JavaScript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="/repository/sdr/gaom/materiales.js"></script>
+	<script language="JavaScript">
+			
+		var exchangeCode = EzWebAPI.createRGadgetVariable("codigo_material", makeRequest);
+
+		// BASE64 ENCODER
+		//////////////////
+
+		var Base64 = {
+
+			// private property
+			_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+			// public method for encoding
+			encode : function (input) {
+				var output = "";
+				var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+				var i = 0;
+
+				input = Base64._utf8_encode(input);
+
+				while (i < input.length) {
+
+					chr1 = input.charCodeAt(i++);
+					chr2 = input.charCodeAt(i++);
+					chr3 = input.charCodeAt(i++);
+
+					enc1 = chr1 >> 2;
+					enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+					enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+					enc4 = chr3 & 63;
+
+					if (isNaN(chr2)) {
+						enc3 = enc4 = 64;
+					} else if (isNaN(chr3)) {
+						enc4 = 64;
+					}
+
+					output = output +
+					this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+					this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+				}
+
+				return output;
+			},
+
+			// private method for UTF-8 encoding
+			_utf8_encode : function (string) {
+				string = string.replace(/\r\n/g,"\n");
+				var utftext = "";
+
+				for (var n = 0; n < string.length; n++) {
+
+					var c = string.charCodeAt(n);
+
+					if (c < 128) {
+						utftext += String.fromCharCode(c);
+					}
+					else if((c > 127) && (c < 2048)) {
+						utftext += String.fromCharCode((c >> 6) | 192);
+						utftext += String.fromCharCode((c & 63) | 128);
+					}
+					else {
+						utftext += String.fromCharCode((c >> 12) | 224);
+						utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+						utftext += String.fromCharCode((c & 63) | 128);
+					}
+
+				}
+
+				return utftext;
+			}
+
+		}
+
+		
+		function callbackError(responseData) {
+			alert("Request error: " + responseData.responseText);
+		}
+
+		function callbackSucess(responseData) {
+			
+			var page = responseData.responseText; 
+			
+			// Extract form subsection:
+			// <form name="materiales" action="IFDespachoGenericServlet"
+			// ...
+			// </form>
+			var i = page.search(/<form name=\"materiales\" action=\"IFDespachoGenericServlet\"/);
+			if (i >= 0) {
+				var tblData = page.substring(i,page.length);
+				
+				i = tblData.search(/<\/form>/);
+				tblData = tblData.substring(0,i+7);
+				
+				var exchangeContainer = $('exchangeContainer');
+				exchangeContainer.innerHTML = tblData;
+				cargarTablas();
+				// Fix links
+				//parseLinks();
+				// Fix form link
+				//parseForms();
+				// Fix image URI's
+				//parseImgs();
+			} else {
+				var exchangeContainer = $('exchangeContainer');
+				exchangeContainer.innerHTML = "Codigo de material no encontrado";
+			}
+		}
+		
+		function makeRequest(exchange_code) {
+			if (exchange_code != '') {
+				var exchangeContainer = $('exchangeContainer');
+				exchangeContainer.innerHTML = "Buscando codigo de material...";
+				var _authorization = 'Basic ' + Base64.encode('Supervisor'+ ':' + 'sacarin0');
+				var target_url = "http://10.237.17.33:5757/IFDespachoGenericServlet?_operation_id=consultar_material&origen=materiales_general&PROVINCIA=&TERRITORIO=110&coddaga=&codigo_material_seleccionado=&depositos=&esGenerica=true&provincia_seleccionada=&provincias=08@17@25@43@&territorio_seleccionado=110&codigo_material=" + exchange_code;
+				send_request (target_url, 'GET', null, _authorization, callbackSucess, callbackError);
+			}
+		}
+		
+		// MY OWN SEND_GET/SEND_POST 
+		// (the request is sent to EzWeb by this method because the authentication field has been added to the HTTP headerS)
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		function send_request (url, method, parameters, authorization, success_handler, error_handler){
+			if (method == 'POST' || method == 'PUT'){
+				if (typeof(parameters) != "string") {
+					var p = EzWebAPI.platform.Object.toJSON(parameters);
+				} else {
+					var p = parameters;
+				}
+				var proxy_params = {url: url, method: method, params: p};
+			}else{
+				var proxy_params = {url: url, method: method};
+			}
+			
+			success_handler.bind = EzWebAPI.platform.Function.prototype.bind;
+			error_handler.bind = EzWebAPI.platform.Function.prototype.bind;
+			
+			new EzWebAPI.platform.Ajax.Request(EzWebAPI.platform.URIs.PROXY, {
+						method: 'post',
+						parameters: proxy_params,
+						requestHeaders: {'Authorization': authorization}, 
+						onSuccess: success_handler.bind(this),
+						onFailure: error_handler.bind(this),
+						onException: error_handler.bind(this)
+			});
+		}
+
+		
+	</script>
+		
+	<SCRIPT>
+
+		function cargarTablas(){
+			
+				document.getElementById('resumen').style.display='block';
+			
+		}
+
+		var provinciaSeleccionada = '';
+		var provinciaColumnaSelec = '';
+		function CargarDetalleProvincia(provincia) {
+			if (seleccionar != '') {
+				document.getElementById('detalle' + seleccionar).style.display = 'none';
+			}
+			if (columnaSelec != ''){
+			 document.getElementById('depo' + columnaSelec).style.backgroundColor = '#D4D7E4';
+			}
+			if (provinciaSeleccionada != '') {
+				document.getElementById('detalle' + provinciaSeleccionada).style.display = 'none';
+			}
+			if (provinciaColumnaSelec != '') {
+				document.getElementById('prov' + provinciaColumnaSelec).style.backgroundColor = '#D4D7E4';
+			}
+			provinciaSeleccionada = provincia + "@";
+			provinciaColumnaSelec = provincia;
+			document.getElementById('detalle' + provincia + '@').style.display='block';
+			document.getElementById('prov' + provincia).style.backgroundColor='red';
+		}
+
+		var seleccionar="";
+		var columnaSelec="";
+		function CargarDetalleDeposito(provincia, deposito){
+			if (seleccionar != '') {
+				document.getElementById('detalle' + seleccionar).style.display = 'none';
+			}
+			if (columnaSelec != ''){
+			 document.getElementById('depo' + columnaSelec).style.backgroundColor = '#D4D7E4';
+			}
+			seleccionar = provincia + "@" + deposito;
+			columnaSelec = provincia + deposito;
+			document.getElementById('depo'+provincia+deposito).style.backgroundColor = 'red';
+			document.getElementById('detalle'+provincia+"@"+deposito).style.display = 'block';
+		}
+
+</SCRIPT>
+
+</head>
+
+<body>
+        <div id="containerExample">
+                <div id="exchangeContainer" align="center">
+                </div>
+        </div>
+</body>
+</html>

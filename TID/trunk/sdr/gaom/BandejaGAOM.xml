@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Bandeja GAOM</Name>
+		<Version>0.30</Version>
+		<Author>pjm</Author>
+		<Mail>pjm@tid.es</Mail>
+		<Description>Bandeja de actuaciones del Despacho Web Operaciones Locales</Description>
+		<ImageURI>http://ezwuc.hi.inet/repository/sdr/gaom/DespachoGAOM.png</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences></Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties></Platform.StateProperties>
+
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Event name="numBoletinOrigen" type="text" label="Numero Boletin Origen" friendcode="boletinId"/>
+		<Event name="direccion" type="text" label="Direccion" friendcode="address"/>
+		<Event name="telefono" type="text" label="Telefono" friendcode="phone"/>
+		<Event name="material" type="text" label="Cod Material" friendcode="material"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML	href="http://pablix.hi.inet/repository/sdr/gaom/BandejaGAOM.html" />
+	</Platform.Link>
+
+	<Platform.Rendering width="30" height="20" />
+
+	<Platform.Context>
+		<Context name="user" type="text" concept="user_name"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context>
+</Template>
+
