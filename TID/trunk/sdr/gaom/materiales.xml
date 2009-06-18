@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>TID</Vendor>
     <Name>Consulta Lorcet</Name>
-    <Version>1.0</Version>
+    <Version>1.1</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Consulta de materiales</Description>
@@ -21,7 +21,7 @@
 
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-	<Slot name="codigo_material" type="text" label="Codigo Material" friendcode="codigo_material"/>
+	<Slot name="codigo_material" type="text" label="Codigo Material" friendcode="material"/>
   </Platform.Wiring>
   <Platform.Context>
   </Platform.Context>
