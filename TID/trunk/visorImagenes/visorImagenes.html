@@ -9,8 +9,8 @@
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
   <title>Visor Imagenes</title>
   <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-  <script language="javascript" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/lib/js/ezwebext/v1.0/ezweb_ext.js"></script>
-  <script language="javascript" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/lib/js/json2.js"></script>
+  <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezwebext/v1.0/ezweb_ext.js"></script>
+  <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/json2.js"></script>
 		<style type="text/css">
 			
 			html {
@@ -35,7 +35,7 @@
 				padding-left:2px;
 				height:7%;
 				border-bottom:1px solid #888888;
-				min-width:295px;
+				min-width:110px;
 				min-height:30px;
 			}
 			
@@ -108,7 +108,7 @@
 			var actualZoom = DEFAULT_ZOOM;
 			
 			var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
-			var urlEvent = EzWebAPI.createRWGadgetVariable('imageUrlevent');
+			var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
 	
 			function init ()
 			{
@@ -160,6 +160,11 @@
 					setSelectedImage(++actualImage);
 				}
 			}
+
+			function sentURL()
+			{
+				urlEvent.set (urlSlot.get());
+			}
 /*
   var dragging = false;
   var x = 0;
@@ -193,9 +198,11 @@
 	</head>
 	<body onload="init();">
 		<div id="header">
-			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-out.png"></img></div>
-			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-in.png"></img></div>
-			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://europa.ls.fi.upm.es/svn/ezweb/releases/visorImagenes/images/zoom-best-fit.png"></img></div>
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-best-fit.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="sentURL();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/run.png"></img></div>
+
 		</div>
 		<div id="content">
 			<div id="image_container"><img id="image" src="" onload="defaultZoom();"></img></div>
