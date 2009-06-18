@@ -1,4 +1,4 @@
-/*************************************************************************/
+Ôªø/*************************************************************************/
 /*	Definicion de las variables de XML - Preferencias y Wirings	 */
 /*	Definicion de variables globales				 */
 /*	Definicion de los manejadores de las funciones			 */
@@ -15,34 +15,34 @@ var informacion = new StyledElements.StyledNotebook({'id':'informacion'});
 
 
 
-var headers = ['ActuaciÛn',
+var headers = ['Actuaci√≥n',
 				'Estado',
-				'BoletÌn Origen',
+				'Bolet√≠n Origen',
 				'NdA',
-				'TecnologÌa',
+				'Tecnolog√≠a',
 				'Central',
 				'Provincia',
-				'Fecha CreaciÛn',
-				'TÈcnico',
-				'TelÈfono MÛvil',
+				'Fecha Creaci√≥n',
+				'T√©cnico',
+				'Tel√©fono M√≥vil',
 				'Repuesto',
 				'Material',
-				'AutonomÌa GMO',
+				'Autonom√≠a GMO',
 				'Observaciones',
-				'DirecciÛn'				
+				'Direcci√≥n'				
 				];
 			
 var datos = [
 ['106984034','Retenida','INC-0000012153','9','CORRIENTE CONTINUA','--','ALBACETE','03/06/2009 13:43','--','--','elementos baterias','00671282','A3','03/06/2009 13:49:22 t125208 EGOT INDICA QUE SE RETENGA DE FALTA DE MATERIAL','Av de Pedro Manuel Vila, 7, 02600, Villarrobledo, Albacete, Castilla-La Mancha'],
-['106811632','Retenida','INC-0000012155','9','EFICIENCIA ENERGETICA','--','ALBACETE','14/04/2009 2:22','--','--','AR4/AR3 y polÌmetro','00687916','A1','Incidencia generada por Omega-Energia FactorPotencia','Calle de los M·rtires, 6, 02630, La Roda, Albacete, Castilla-La Mancha'],
-['107021049','En Curso','INC-0000012157','28','S12','AL/ALBORAN V+TSED','ALMERIA','16/06/2009 9:06','PEREZ SALVADOR,ANGEL','618987034','50269348,LEN=3785;RIT=4 A 3 35;ALIC;671282,950269348,RUIDOS EN LINEA, AISLADO Y BIEN SITUADO, NO PRUEBA, VERIFY: TERMINA','00687588','A4','+++ OMEGA +++ No se han ejecutado comandos SCTSC REPU(75)ACTUACION GMO','AVDA. VILCHES, 20 , AlmerÌa, EspaÒa'],
-['107019326','En Curso','INC-0000012168','39','GigADSL','--','ALMERIA','15/06/2009 20:54','LOPEZ BISBAL,JUAN JOSE','679470902','VP/VC:8/32 NO SINCRONIZA LIM-HB-72.687916,LPM-72.687677,FILTRO-CORNING.687588,AMPER.687618,MONTSENY.687626,MONTSENY 687895','00687618','A4','OBSERVACIONES: 617715437 Francisco. Zyxel P660 inalambrico. WVista. Wifi. No sincroniza. Reinicio. Microfiltros ok. Cableado ok. RJ11 ok. No jalones pendientes. AF reciente. Linea de voz ok.16/06/2009 00:31:58 t116270 INFORMADO TECNICO. 16/06/2009 05:27:42 t116270 informa gmo., no tenemos router para sincronizar. se deja pendiente turno de maÒana.','HOSPITAL TORRECARDENAS , AlmerÌa, EspaÒa'],
-['106980081','Retenida','INC-0000012170','9','RIMA','--','ALMERIA','02/06/2009 14:38','--','--','682039 ETHERNET MÛdulo Ethernet (4 puertos) TNT-SL-E100-ND-C','00687626','No','--','AV.MEDITERR¡NEO, 178 , AlmerÌa, EspaÒa'],
-['106941999','Retenida','INC-0000012177','9','RIMA','--','ALMERIA','25/05/2009 10:46','--','--','cod.telefonico: 682055 FUENTE D Fuente de alimentaciÛn DC TNT-SP-DC-H','00687405','No','--','CAMINO DE LOS MOLINOS,63 , AlmerÌa, EspaÒa'],
-['106885693','Retenida','INC-0000012174','9','MODULO DE ENERGIA','--','ALMERIA','06/05/2009 7:29','--','--','ETAPA DE MEDIDAS ANALOGICAS 6 P. 21 Y 22','00671282','A3','--','C/RAMIRO DE MAEZTU, S/N , AlmerÌa, EspaÒa'],
-['107019131','Adjudicada','INC-0000012164','28','P1000','DON BENITO P-1000','BADAJOZ','15/06/2009 19:40','CORDERO FUENTES,RAFAEL GUSTAVO','630019736','NO','00687432','A2','--','C/ESTACION, 7 , AlmerÌa, EspaÒa'],
-['107019226','En Curso','INC-0000012167','85','GigaADSL','--','BADAJOZ','15/06/2009 20:14','PARDO BANDA,FRANCISCO JAVIER','659518529','E1NT-C 687405, E1NC-C 687413, E1NC-C 687456, E1LT-B 687359, E1LC-C 687367','00682039','A1','15/06/2009 20:15:27 t135018 David.- Consultado EGOT. Se retiene para el T/M por ser ruta MIC.','PASEO SAN FRANCISCO, 10 Badajoz, EspaÒa'],
-['107019149','En Curso','INC-0000012158','28','P1000','DON BENITO P-1000','BADAJOZ','15/06/2009 19:47','CORDERO FUENTES,RAFAEL GUSTAVO','630019736','NO','00687341','A2','15/06/2009 19:49:07 t126289 Retenida a peticiÛn de egot','C/ZURBARAN 20 Badajoz, EspaÒa']
+['106811632','Retenida','INC-0000012155','9','EFICIENCIA ENERGETICA','--','ALBACETE','14/04/2009 2:22','--','--','AR4/AR3 y pol√≠metro','00687916','A1','Incidencia generada por Omega-Energia FactorPotencia','Calle de los M√°rtires, 6, 02630, La Roda, Albacete, Castilla-La Mancha'],
+['107021049','En Curso','INC-0000012157','28','S12','AL/ALBORAN V+TSED','ALMERIA','16/06/2009 9:06','PEREZ SALVADOR,ANGEL','618987034','50269348,LEN=3785;RIT=4 A 3 35;ALIC;671282,950269348,RUIDOS EN LINEA, AISLADO Y BIEN SITUADO, NO PRUEBA, VERIFY: TERMINA','00687588','A4','+++ OMEGA +++ No se han ejecutado comandos SCTSC REPU(75)ACTUACION GMO','AVDA. VILCHES, 20 , Almer√≠a, Espa√±a'],
+['107019326','En Curso','INC-0000012168','39','GigADSL','--','ALMERIA','15/06/2009 20:54','LOPEZ BISBAL,JUAN JOSE','679470902','VP/VC:8/32 NO SINCRONIZA LIM-HB-72.687916,LPM-72.687677,FILTRO-CORNING.687588,AMPER.687618,MONTSENY.687626,MONTSENY 687895','00687618','A4','OBSERVACIONES: 617715437 Francisco. Zyxel P660 inalambrico. WVista. Wifi. No sincroniza. Reinicio. Microfiltros ok. Cableado ok. RJ11 ok. No jalones pendientes. AF reciente. Linea de voz ok.16/06/2009 00:31:58 t116270 INFORMADO TECNICO. 16/06/2009 05:27:42 t116270 informa gmo., no tenemos router para sincronizar. se deja pendiente turno de ma√±ana.','HOSPITAL TORRECARDENAS , Almer√≠a, Espa√±a'],
+['106980081','Retenida','INC-0000012170','9','RIMA','--','ALMERIA','02/06/2009 14:38','--','--','682039 ETHERNET M√≥dulo Ethernet (4 puertos) TNT-SL-E100-ND-C','00687626','No','--','AV.MEDITERR√ÅNEO, 178 , Almer√≠a, Espa√±a'],
+['106941999','Retenida','INC-0000012177','9','RIMA','--','ALMERIA','25/05/2009 10:46','--','--','cod.telefonico: 682055 FUENTE D Fuente de alimentaci√≥n DC TNT-SP-DC-H','00687405','No','--','CAMINO DE LOS MOLINOS,63 , Almer√≠a, Espa√±a'],
+['106885693','Retenida','INC-0000012174','9','MODULO DE ENERGIA','--','ALMERIA','06/05/2009 7:29','--','--','ETAPA DE MEDIDAS ANALOGICAS 6 P. 21 Y 22','00671282','A3','--','C/RAMIRO DE MAEZTU, S/N , Almer√≠a, Espa√±a'],
+['107019131','Adjudicada','INC-0000012164','28','P1000','DON BENITO P-1000','BADAJOZ','15/06/2009 19:40','CORDERO FUENTES,RAFAEL GUSTAVO','630019736','NO','00687432','A2','--','C/ESTACION, 7 , Almer√≠a, Espa√±a'],
+['107019226','En Curso','INC-0000012167','85','GigaADSL','--','BADAJOZ','15/06/2009 20:14','PARDO BANDA,FRANCISCO JAVIER','659518529','E1NT-C 687405, E1NC-C 687413, E1NC-C 687456, E1LT-B 687359, E1LC-C 687367','00682039','A1','15/06/2009 20:15:27 t135018 David.- Consultado EGOT. Se retiene para el T/M por ser ruta MIC.','PASEO SAN FRANCISCO, 10 Badajoz, Espa√±a'],
+['107019149','En Curso','INC-0000012158','28','P1000','DON BENITO P-1000','BADAJOZ','15/06/2009 19:47','CORDERO FUENTES,RAFAEL GUSTAVO','630019736','NO','00687341','A2','15/06/2009 19:49:07 t126289 Retenida a petici√≥n de egot','C/ZURBARAN 20 Badajoz, Espa√±a']
 ];
 
 var Ordenes = function() {
