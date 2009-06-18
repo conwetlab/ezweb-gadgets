@@ -11,13 +11,13 @@ var BuscadorRAE = function() {
 
 BuscadorRAE.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-BuscadorRAE.prototype.resourcesURL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/BuscadorRAE/"; 
+BuscadorRAE.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/"; 
 
 BuscadorRAE.prototype.init = function() {
 	this.value = '';
 	this.dictionary = new StyledElements.StyledNotebook({'id':'dictionary'});
 	this.listoftabs = [];
-	this.urlimage = 'http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/BuscadorRAE/images/';
+	this.urlimage = 'http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/images/';
 
 	this.definition = EzWebAPI.createRWGadgetVariable('definition');
 	this.keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
@@ -33,10 +33,11 @@ BuscadorRAE.prototype.init = function() {
 	input.setAttribute ('class', 'text_field');
 	input.setAttribute ('type', 'text');
 	input.setAttribute ('autocomplete', 'on');
+	input.setAttribute ('size', 8);
 
 	input.addEventListener('keypress', EzWebExt.bind (function (e){
 		if (e.keyCode == 13)
-			this.goSearchInputText;
+			this.goSearchInputText();
 	}, this), false);
 	div1.appendChild (input);
 	var div2 = document.createElement ('div');
@@ -282,7 +283,10 @@ BuscadorRAE.prototype.parseContent = function (tab)
 				var word = parameters[j].split("=")[1];
 			}
 		    links[i].removeAttribute("href");
-		    links[i].setAttribute("onclick", "getSearch('"+decodeURIComponent(word)+"',"+0+");");
+			context = {value:decodeURIComponent(word), self:this};
+		    links[i].addEventListener ('click', EzWebExt.bind (function(e){
+				this.self.getSearch(this.value,0);
+			}, context), false);
 		    links[i].setAttribute("class", "link");
 		}
 	    else if ((links[i].href != "") && (links[i].href.search("IDVERBO") >= 0))

@@ -12,7 +12,7 @@ body {
 	right: 2px;
         border-bottom:1px solid #AAA;
 	position:absolute;
-	min-width:486px;
+	min-width:320px;
 }
 #header .text {
 	float:left;
