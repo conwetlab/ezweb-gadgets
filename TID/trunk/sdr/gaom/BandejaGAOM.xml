@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Bandeja GAOM</Name>
-		<Version>0.30</Version>
+		<Version>0.40</Version>
 		<Author>pjm</Author>
 		<Mail>pjm@tid.es</Mail>
 		<Description>Bandeja de actuaciones del Despacho Web Operaciones Locales</Description>
@@ -27,7 +27,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML	href="http://pablix.hi.inet/repository/sdr/gaom/BandejaGAOM.html" />
+		<XHTML	href="http://ezwuc.hi.inet/repository/sdr/gaom/BandejaGAOM.html" />
 	</Platform.Link>
 
 	<Platform.Rendering width="30" height="20" />

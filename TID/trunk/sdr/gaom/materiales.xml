@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>TID</Vendor>
     <Name>Consulta Lorcet</Name>
-    <Version>0.8</Version>
+    <Version>1.0</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Consulta de materiales</Description>
-    <ImageURI>http://ezwuc.hi.inet/repository/sdr/gaom/DespachoGAOM.png</ImageURI>
+    <ImageURI>http://ezwuc.hi.inet/repository/sdr/gaom/lorcet.gif</ImageURI>
     <WikiURI> </WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -26,7 +26,7 @@
   <Platform.Context>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://pablix.hi.inet/repository/sdr/gaom/materiales.html"/>
+    <XHTML href="http://ezwuc.hi.inet/repository/sdr/gaom/materiales.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="14"/>
 </Template>
