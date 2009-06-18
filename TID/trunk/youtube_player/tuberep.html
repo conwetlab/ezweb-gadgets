@@ -1,7 +1,3 @@
-<!-- 
-* This code is licensed under terms shown on this link:
-* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
--->
 <html>
 <head>
 </head>
@@ -54,21 +50,36 @@ function loadVideo(url_){
  if(url_ && url_!=""){
    url_ = URLDecode (url_);
    if (!is_iphone){
+	 var object = document.createElement('object');
+  	 object.setAttribute('width',"100%");
+     object.setAttribute('height',"100%");
+	 var param = document.createElement('param');
+	 param.name = "movie";
+	 param.value = url_;
+	 object.appendChild(param);
+	 param = document.createElement('param');
+	 param.name = "wmode";
+	 param.value = "transparent";
+	 object.appendChild(param);
+
      var embed = document.createElement('embed');
      embed.setAttribute('src',url_);
      embed.setAttribute('width',"100%");
      embed.setAttribute('height',"100%");
+     embed.setAttribute('wmode',"transparent");
+	 embed.setAttribute('type',"application/x-shockwave-flash");
      embed.id="rep";
+     object.appendChild(embed);
    }
    else{ //iphone
-     var embed = document.createElement('a');
-     embed.setAttribute('href',url_);
-     embed.setAttribute('target',"blank");
+     var object = document.createElement('a');
+     object.setAttribute('href',url_);
+     object.setAttribute('target',"blank");
    }
    var divAnt = document.getElementById("video");
    var divVideo = document.createElement("div");
    divVideo.id="video";
-   divVideo.appendChild(embed);
+   divVideo.appendChild(object);
    document.body.replaceChild(divVideo,divAnt);   
  }
 }
@@ -76,6 +87,10 @@ function loadVideo(url_){
 
 </script>
 
-<div id="video"><embed id="rep" width="100%" height="100%" src="http://www.youtube.com/v/d6C0bNDqf3Y&rel=1" type="application/x-shockwave-flash" wmode="opaque"></embed></div>
+<div id="video">
+<object width="100%" height="100%">
+<param name="movie" value="http://www.youtube.com/v/d6C0bNDqf3Y&rel=1">
+<param name="wmode" value="transparent">
+<embed id="rep" width="100%" height="100%" src="http://www.youtube.com/v/d6C0bNDqf3Y&rel=1" type="application/x-shockwave-flash" wmode="transparent"></embed></object></div>
 </body>
 </html>
