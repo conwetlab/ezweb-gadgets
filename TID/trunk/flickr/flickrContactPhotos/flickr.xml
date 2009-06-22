@@ -3,13 +3,13 @@
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
-    <Name>Flickr Contact Photos</Name>
-    <Version>1.2</Version>
+    <Name>Flickr Contact Photos2</Name>
+    <Version>1.4</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget version provide an engaging visual way to explore the new photos of your contacts in Flickr</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -26,10 +26,12 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
      <Event name="urlImage" type="text" label="urlImage" friendcode="imageUrl" />
+     <Event name="title" type="text" label="title" friendcode="title" />
+     <Event name="author" type="text" label="author" friendcode="author" />
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickerContactPhotos/flickr.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>

@@ -6,12 +6,11 @@
 
 <style type="text/css">
 	body,td,div,span,p{font-family:arial,sans-serif;}
-	a {color:#0000cc; }
-	a:visited { color:#551a8b; }a:active { color:#ff0000; }
 	body {margin: 0px;padding: 0px;   background-color: white;   }
 	.t { width: 75px; height: 75px; margin: 0; border:0; padding: 3px; } 
 	.t:hover { padding:1px; border: 2px solid #0063DC; border-right-color: #FF0084; }
 	#logo { width:100px;}
+	.t2 {cursor:pointer;}
 </style>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
@@ -26,6 +25,8 @@ var user_id = "";
 var flickr_user = EzWebAPI.createRGadgetVariable("flickr_user", flickr_user_handler);
 var api_key = EzWebAPI.createRGadgetVariable("api_key", api_key_handler);
 var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
+var title = EzWebAPI.createRWGadgetVariable("title");
+var author = EzWebAPI.createRWGadgetVariable("author");
 
 function flickr_user_handler (user) {
 	get_user_id();
@@ -50,7 +51,7 @@ function get_user_id () {
 	
 	var user_id_url = "http://api.flickr.com/services/rest/";
 	user_id_url = encodeURI(user_id_url);
-	var user_id_params = {method: flickr.people.findByUsername, api_key: FLICK_API_KEY, username: flickr_user.get()}; 
+	var user_id_params = {method: "flickr.people.findByUsername", api_key: FLICK_API_KEY, username: flickr_user.get()}; 
 
 	EzWebAPI.send_post(user_id_url, user_id_params, this, set_user_id, show_error);
 }
@@ -106,17 +107,20 @@ function show_photos(resp){
 				var a = node.firstChild.nodeValue;
 		}
 		if (t!="")
-			t = '\''+t+'\' by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
+			t2 = '\''+t+'\' by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
 		else 
 			t = 'Photo by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
-		html += '<a href="javascript:send_image(\''+urlT+'\');" title="'+t+'"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
+	
+		html += '<img onclick="javascript:send_image(\''+urlT+'\', \''+t+'\', \''+a+'\');" src="'+urlT+'" class="t2" title="'+t2+'" alt="'+t2+'"/>';
 	}
 	document.getElementById('content_div').innerHTML = html;
 }
 
-function send_image(urlImage_)
+function send_image(urlImage_,t,a)
 {
 	urlImage.set(urlImage_.substr(0, urlImage_.length - 6) + urlImage_.substr(urlImage_.length - 4, 4));
+	title.set(t);
+	author.set(a);			    
 }
 
 function show_error(res){
@@ -128,7 +132,7 @@ function show_error(res){
 
 </head>
 
-<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png"/>
+<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png"/>
 
 <body onload="javascript:get_contact_photos();">
 	<div id="content_div" style="margin:0 auto; text-align: center;"></div>

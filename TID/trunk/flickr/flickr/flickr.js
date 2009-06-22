@@ -8,6 +8,7 @@ var vdefault = EzWebAPI.createRGadgetVariable("defaultSearch", displayMenu);
 var interval = null;
 var titleevent = EzWebAPI.createRWGadgetVariable ('title');
 var autorevent = EzWebAPI.createRWGadgetVariable ('autor');
+var keywordevent = EzWebAPI.createRWGadgetVariable("keyword_event");
 
 function init (){
 	// Creo la cabecera
@@ -16,7 +17,7 @@ function init (){
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
 	img.setAttribute ('title', 'Refresh');
-	img.setAttribute ('src', 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr.png');
+	img.setAttribute ('src', 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png');
 	img.setAttribute ('onclick', 'displayMenu2();');
 	img.style.cssText = 'cursor: pointer';
 	header.appendChild (img);
@@ -27,7 +28,7 @@ function init (){
 
 	document.body.appendChild (header);
 	document.body.appendChild (content);
-
+	keywordevent.set(vdefault.get());
 	displayMenu(vkey.get());
 	resetInterval(time.get())
 }
@@ -36,13 +37,19 @@ function displayMenu2(){
 }
 function displayMenu(keyword) {
 	if (keyword==""){
-		if (vdefault.get()=="")
+		if (vdefault.get()==""){
 			feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags=ezweb&lang=en-us&format=rss_200";
-		else
-		        feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+vdefault.get()+"&lang=en-us&format=rss_200";
+			keywordevent.set(vdefault.get());
+		}
+		else{
+	        feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+vdefault.get()+"&lang=en-us&format=rss_200";
+			keywordevent.set(vdefault.get());
+		}
 	}
-	else
+	else{
 		feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+keyword+"&lang=en-us&format=rss_200";
+		keywordevent.set(keyword);
+	}
 	feedUrl = encodeURI(feedUrl);
 	EzWebAPI.send_get(feedUrl, this, displayOk, displayError);
 }
