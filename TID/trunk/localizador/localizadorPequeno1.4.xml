@@ -25,7 +25,7 @@
     <Event name="utmCoordEvent" type="text" label="UTM Coord." friendcode="utmCoord"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/localizador/localizadorPequeno1.2.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/localizador/localizadorPequeno1.4.html"/>
   </Platform.Link>
   <Platform.Rendering width="9" height="25"/>
 </Template>
