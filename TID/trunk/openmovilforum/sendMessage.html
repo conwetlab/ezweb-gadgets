@@ -5,7 +5,7 @@
 <html><head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 <style>
 #wait{
@@ -26,6 +26,7 @@ iframe{
 }
 a{
 	color: #225784;
+	font-size:10pt;
 }
 #header{
 	margin-top: 5px;
@@ -43,7 +44,7 @@ a{
 #objectURL{
 	color: #225784;
 	opacity:0.6;
-   font-weight:bold
+   	font-weight:bold
 	width: 165px;
 	display:none;
 	position: absolute;
@@ -57,8 +58,8 @@ a{
 	margin:5px;
 }
 .count{
-	display: none;
-	display: block;
+	//display: none;
+	//display: block;
 	font-weight: bold;
 	font-size: 7pt;
 }
@@ -85,8 +86,22 @@ a{
 	font-weight:bold;
 }
 .clear_label{
-	padding-right: 7px;
-	float: left;
+	
+	font-size:10pt;
+	padding-right:7px;
+}
+.labelStyle{
+	font-size:10pt;
+}
+.pStyle{
+	margin:2px;
+}
+.text{
+	width:100%;
+}
+#buttonSend{
+	float:right;
+	margin-top:4px;
 }
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
@@ -208,8 +223,10 @@ function updateCharacters(){
 		document.getElementById("messages").style.display = 'none';
 	}else{
 
-		document.getElementById("characters").style.display = 'block';
-		document.getElementById("messages").style.display = 'block';
+		//document.getElementById("characters").style.display = 'block';
+		//document.getElementById("messages").style.display = 'block';
+		document.getElementById("characters").style.display = '';
+		document.getElementById("messages").style.display = '';
 		var real_msg_size = document.getElementById("message").value.length;
 		
 		var char_rem = MESSAGE_SIZE - (real_msg_size % (MESSAGE_SIZE+1));
@@ -375,39 +392,36 @@ function clearText(){
 </head>
 <body onload="generateLang()" >
 <form id="MMSCreationForm" name="MMSCreationForm" method="POST" enctype="multipart/form-data" target="uploadFileFrame" onsubmit="return false;">
-<table class="content">
-<tbody>
-<tr class="odd first">
-	<td style="width: 25%;" id="dest_label" >Destination number*: </td>
-	<td style="width: 65%;"><input class="text" name="to" type="text" /><br/><span id="advice_label" class="advice">multiple numbers separated with <span>;</span></span><div></td>
-	<td style="width: 10%;"><input name="create" value="send" type="button" onclick="validate()"/></div></td>
-</tr>
-<tr class="odd"><td id="subject_label">Subject: </td><td colspan="2"><input class="text" name="subject" type="text"/></td></tr>
-<tr class="odd">
-	<td id="url_label">URL/File: </td>
-	<td colspan="2">
-		<div id="cover">
-			<input id="objectFile" name="objectFile" type="file" size="24" onkeyup="document.getElementById('objectURL').value = document.getElementById('objectFile').value"/>
-			<input id="objectURL" name="objectURL" type="text" size="24" />
-		</div>
-	</td>
-</tr>
-<tr class="odd">
-	<td><span id="message_label">Message: </span>
-		<span id="characters" class="count"><span id="num_characters">160</span> <span id="chars_left">chars left</span></span>
-		<span id="messages" class="count"><span id="num_messages">1</span> SMS</span>
-		<div id="wait" style="display:none"><img src="/repository/openmovilforum/sending28x28blue.gif"/></div>
-		<img id="SMSmsg" style="display:none" />
-		<iframe id="uploadFileFrameId" name="uploadFileFrame" height="30px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
-	</td>
-	<td colspan="2" style="text-align:right;">
-		<textarea id="message" name="message" rows="4" onblur="updateCharacters()" onkeyup="updateCharacters()"></textarea>
-		<a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
-		<a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
-		<a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a>
-	</td></tr>
-</tbody>
-</table>
+
+<p class="pStyle">
+ <label id="dest_label" class="labelStyle">Destination number*: </label><br/>
+ <input class="text" name="to" type="text"/><br/>
+ <span id="advice_label" class ="advice">multiple numbers separated with <span>;</span></span>
+</p>
+<p class="pStyle">
+<label id="Subject" class="labelStyle">Subject: </label><br/>
+<input class="text" name="subject" type="text"/></br>
+</p>
+<p class="pStyle">
+<label id="url_label" class="labelStyle">URL/File: </label><br/>
+<input id="objectFile" name="objectFile" type="file" onkeyup="document.getElementById('objectURL').value= document.getElementById('objectFile').value"/>
+<input id="objectURL" name="objectURL" type="text"/>
+</p>
+<p class="pStyle">
+<label id="message_label" class="labelStyle">Message: </label>
+<span id="characters" class="count"><span id="num_characters">160</span> <span id="chars_left">chars left</span></span>,
+<span id="messages" class="count"><span id="num_messages">1</span> SMS</span>
+<div id="wait" style="display:none"><img src="/repository/openmovilforum/sending28x28blue.gif"/></div>
+<img id="SMSmsg" style="display:none" />
+<iframe id="uploadFileFrameId" name="uploadFileFrame" height="30px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
+<textarea id="message" name="message" class="text" onblur="updateCharacters()" onkeyup="updateCharacters()"></textarea><br/>
+<a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
+<a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
+<a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a></br>
+<input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/>
+</p>
+
+
 <input name="login" value="" type="hidden" />
 <input name="password" value="" type="hidden" />
 </form>

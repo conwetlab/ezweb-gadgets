@@ -19,7 +19,7 @@
 		<label id="clearall_label">clear all fields</label>
 	</language>
 	<language name="es">
-		<label id="send_label">enviar</label>
+		<label id="send_label">Enviar</label>
 		<label id="dest_label">Destinatario*: </label>
 		<label id="advice_label">multiples destinatarios separados por &lt;span&gt;;&lt;/span&gt;</label>
 		<label id="subject_label">Asunto: </label>
