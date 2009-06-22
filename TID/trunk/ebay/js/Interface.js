@@ -3,6 +3,10 @@ var notebook = new StyledElements.StyledNotebook({'id':'notebook'}, {'initiallyV
 var msg = 0;
 var usd = new Array();
 
+var tabArray = new Array(); 
+
+
+
 usd["15"] = "AUD";
 usd["16"] = "€";
 usd["2"] = "C$";
@@ -78,6 +82,7 @@ EbayGadget.prototype.init = function() {
     input.setAttribute ('type', 'text');
     input.setAttribute ('autocomplete', 'on');
     input.setAttribute ('onkeypress', "onReturn (event, goSearchInputText);");
+    
 
     var button = document.createElement('button');
     button.setAttribute ('id', 'search-button');
@@ -93,6 +98,8 @@ EbayGadget.prototype.init = function() {
     document.body.appendChild(topPanel);
     document.body.appendChild(bottomPanel);
     document.body.appendChild(finalPanel);
+
+    notebook.insertInto(document.getElementById('bottomPanel'));
     
     com.ebay.widgets.needs({
 	    baseUrl: 'http://w-1.ebay.com/js/587/min/',
@@ -117,6 +124,7 @@ EbayGadget.prototype.setInput = function() {
  * @param {Object} params
  */
 EbayGadget.prototype.goSearch = function(params) {
+    input.setAttribute('disabled', true);
     var keyword = null;
     if (params) {
 	keyword = params.g_queryKeywords;
@@ -124,7 +132,7 @@ EbayGadget.prototype.goSearch = function(params) {
     
     var props = {};
     props["appId"] = "TIDba44fe-401f-4801-8ba8-79db5b774c7" ;
-    props["siteId"] = this.siteIdValue;
+    props["siteId"] = this.siteIdValue.get();
     	 
     var config = new com.ebay.shoppingservice.ShoppingConfig(props);
 
@@ -402,6 +410,8 @@ function Ebay (props) {
      * Display items collected and buttons for navigation
      */
 	this.display = function() {
+
+	    input.removeAttribute ('disabled');
 	    	
 	    /*If there are no results*/
 	    if (this.items.length == 0){
@@ -412,18 +422,25 @@ function Ebay (props) {
 		}
 		mainTab = notebook.createTab({name: text});
 		notebook.goToTab(mainTab.getId());
+     
 		var mesage = document.createTextNode("no item found, please try again!");
 		mainTab.appendChild(mesage);
 		return;
 	    }
 	    
-	    notebook.insertInto(document.getElementById('bottomPanel'));
+	    
 	    var text = document.getElementById('text_search').value;
 	    if (!text) {
 		    text = "welcome";
 		}
 	    mainTab = notebook.createTab({name: text});
+	    /*Insert the new search into the array*/
+	    tabArray[text] = mainTab;	    
+	    mainTab.addEventListener("close", EzWebExt.bind(function(){
+			delete tabArray[text];	
+		}, this));	    
 	    notebook.goToTab(mainTab.getId());
+
 	    var content = document.createElement('div');
 	    content.setAttribute('id', 'content');
 
@@ -474,6 +491,7 @@ function Ebay (props) {
 	    this.displayPages(buttons);
 
 	    mainTab.appendChild(buttons);
+	    
 	    
 
 	}
@@ -673,7 +691,12 @@ function Ebay (props) {
 /*Get the text to look for before calling goSearch()*/
 goSearchInputText = function() {
     var value = document.getElementById('text_search').value;
-    EbayGadget.goSearch({g_queryKeywords: value});
+    if (tabArray[value] != undefined) {
+	notebook.goToTab(tabArray[value].getId());
+    }
+    else {
+	EbayGadget.goSearch({g_queryKeywords: value});
+    }
 }
 
 
