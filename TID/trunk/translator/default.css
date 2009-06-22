@@ -75,4 +75,5 @@ input[type="button"]{
 .item
 {
 	margin-left: 10px;
+	display:block;
 }

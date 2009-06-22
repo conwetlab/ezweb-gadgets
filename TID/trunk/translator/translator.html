@@ -5,16 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link id="style" rel="StyleSheet" href="http://localhost/repository/translator/default.css" type="text/css" />
+    <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-	<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+    <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
     <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-	<script type="text/javascript">
+    <script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
 	var textE = EzWebAPI.createRWGadgetVariable("outputText");
-	//var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
+	var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
 	
 	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
 	
@@ -79,6 +79,15 @@
 	//google.setOnLoadCallback(initialize);
 
     </script>
+<style>
+.divStyle{
+	float:left;
+	height:40px;
+
+}
+
+
+</style>
     <script type="text/javascript">
     
     function load(){
@@ -122,9 +131,9 @@
 		$('destLang').value = tmp;
     }
     
-   	function generateLang(){
+   function generateLang(){
 		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
-	}
+   }
     
     function trans()
     {
@@ -137,10 +146,32 @@
 </head><body onLoad="generateLang()">
 	 <table class="full">
 
-		<tr><td class="text"><textarea id="original"></textarea></td></tr>
-		<tr><td class="languages"><span id="_from" class="item"></span> <select id="srcLang"></select><span id="_to" class="item"></span> <select id="destLang"></select><span id="_swap" onClick="swap()" class="action">Swap</span>
-		<input id="translate" type="button" value="Translate" onClick="initialize()"/></td></tr>
-		<tr><td class="text"><textarea id="translation"></textarea></td></tr></table>
+		<tr>
+			<td class="text">
+				<textarea id="original"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="languages">
+				<div class="divStyle">
+					<span id="_from" class="item">From </span>
+					<select id="srcLang"></select>
+				</div>
+				<div class="divStyle">
+					<span id="_to" class="item" style="margin-right:0.5em">To </span>
+					<select id="destLang"></select>
+				</div>
+				<div class="divStyle">
+					<span id="_swap" onClick="swap()" class="action">Swap</span>
+					<input id="translate" type="button" value="Translate" onClick="initialize()"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="text">
+				<textarea id="translation"></textarea>
+			</td>
+		</tr>
+        </table>
 		
-	 </div>
   </body></html>

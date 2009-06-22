@@ -4,10 +4,10 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Translator</Name>
-    <Version>0.19</Version>
+    <Version>0.193</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
-    <Description>Translate any given text to a great number of languages using the Google translator engine. Enter the text directly in the input box or take it from any connected gadget. Send your translations to other gadgets just connecting the Translator gadget to them.</Description>
+    <Description>Translate any given text to a great number of languages using the Google translator engine.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/translator/translator.jpg</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_traductor</WikiURI>
   </Catalog.ResourceDescription>
@@ -36,5 +36,5 @@
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/translator/translator.html"/>
   </Platform.Link>
-  <Platform.Rendering width="7" height="14"/>
+  <Platform.Rendering width="5" height="12"/>
 </Template>
