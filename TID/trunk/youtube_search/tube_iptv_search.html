@@ -5,298 +5,205 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<style type="text/css">
-<!--
-body,td,div,span,p{font-family:arial,sans-serif;}a {color:#0000cc; }a:visited { color:#551a8b; }a:active { color:#ff0000; }body {margin: 0px;padding: 0px;   background-color: white;   }
--->
-</style>
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://demo.ezweb.morfeo-project.org/repository/youtube_search/css/global.css" />
 <style>
 
+  body{
+	background-image:none;
+  }
+
+  #content {
+	background:#ffffff;
+  }
+			
+  #header {
+	height: 40px;
+	border-bottom:1px solid #DD1F26;
+  }
+
+  #footer {
+	height:30px;
+	padding:2px 0px;
+	border-top:1px solid #DD1F26;
+  }
+
+
   .slot {
-
     cursor:hand;
-
     cursor:pointer;
-
-    width: 89px;
-
+    width: 90%;
     display:none;
-
     text-align: center;
-
     margin-left: auto;
-
     margin-right: auto;
-
     padding-top:2px;
-
     vertical-align: middle;
-
   }
 
 
 
   .browseitemtitle {
-
     margin-left:2px;
-
     font-size: 8pt;
-
-    text-align: left;
-
+    text-align: center;
     white-space: nowrap;
-
   }
-
-
-body {
-   overflow-x: hidden;
-}
-
 
   .browseitemduration {
-
     margin-left:2px;
-
     font-size: 8pt;
-
-    text-align: left;
-
+    text-align: center;
   }
 
- 
-
   .infowatch{
-
     font-size: 8pt;
-
   }
 
 
 
   .videotitle {
-
     font-size: 9pt;
-
     font-weight: bold;
-
   }
-
 
 
   .videoinfolabel {
-
     font-size: 8pt;
-
   }
 
-
-
   .videoinfo {
-
     font-size: 8pt;
-
     overflow:scroll;
-
     font-weight: bold;
-
   }
 
 
 
   .description {
-
     font-size: 8pt;
-
     overflow:auto;
-
   }
-
  
 
   .thumb {
-
-    width: 85px;
-
-    height: 64px;
-
+    width: 100%;
     padding: 1px;
-
     border: 1px solid #666666;
-
-    text-align: middle;
-
+    text-align: center;
   }
 
   
-
   .player { 
-
     margin-top:2px; 
-
     margin-bottom: 2px; 
-
     width: 100%;
-
     height:200px;
-
-
-
   }
 
 
 
   .videobar{
-
     background:#F6F6F6 none repeat scroll 0%;
-
     border: 1px solid #CCCCCC;
-
     voice-family: "\"}\"";
-
     voice-family: inherit;
-
     padding: 2px;
-
   }
 
 
 
   .contentpane {
-
     clear:both;
-
     margin-top: 2px; 
-
     padding-left: 2px; 
-
     padding-right: 2px; 
-
     font-size: 8pt;
-
     font-family: arial,helvetica;
-
-    height: 248px;
-
+    background:#ffffff;
   }
 
 
 
   .infopane {
-
     clear:both;
-
     font-size: 8pt;
-
     font-family: arial,helvetica;
-
     vertical-align: middle;
-
     border-top: solid 1px #cccccc;
-
     border-right: solid 1px #cccccc;
-
     border-left: solid 1px #cccccc;
-
-    height:201;
-
+    height:201pt;
     overflow:auto;
-
   }
 
  
 
   .pager {
-
     font-size: 8pt; 
-
     margin-top: -2px;
-
     text-align: right;
-
     white-space: nowrap; 
-
     display: none;
-
   }
 
 
 
   .hbar {
-
     width:100%; 
-
     white-space:nowrap;
-
     clear:both;
-
   }
 
 
-
   .loading {
-
     visibility:hidden;
-
     position: absolute; 
-
     font-family:arial, helvetica; 
-
     font-size: 8pt; 
-
     padding:0px;
-
     margin:0px;
-
     margin-left:4px;
-
   }
 
 
 
   .message {
-
     text-align: center; 
-
     display:none; 
-
     font-family:arial, helvetica; 
-
     font-size: 10pt;
-
     padding-top: 30px;
-
     height: 208px; 
-
     vertical-align:middle;
-
     white-space:normal;
-
   }
 
 
 
-  wbr:after { content: "\00200B" }
+  wbr:after {
+    content: "\00200B"
+  }
 
 
 
   * html .thumb {
-
     border: 1px solid white;
-
   }
 
 
-
   * html .thumbSpan {
-
     border: 1px solid #666666;
-
   }
 
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js">
+</script><script>
+
+var lock = EzWebExt.createLockVariable();
+var cellHeight = EzWebAPI.createRGadgetVariable("height", function(value){repaint();});
+
+
 function URLEncode( url )
 {
 	// The Javascript escape and unescape functions do not correspond
@@ -346,6 +253,10 @@ function URLEncode( url )
 	var region = EzWebAPI.createRGadgetVariable("region", changeRegion);
 	var searchKeyword = EzWebAPI.createRWGadgetVariable("searchKeyword");
 	var searchChannel = EzWebAPI.createRWGadgetVariable("searchChannel");
+	//Added to refresh the videos on gadget///
+	var interval = null;
+	var time = EzWebAPI.createRGadgetVariable('time', resetInterval);
+
 
 	
 	/* Channels */
@@ -460,11 +371,12 @@ function URLEncode( url )
 
 
 function load(){
-	createChannels(region.get());
-	currentChannelId = parseInt(defaultChannel.get());
+    createChannels(region.get());
+    currentChannelId = parseInt(defaultChannel.get());
     rebuildChannelList();
-    document.getElementById("channellist").onchange();
+    document.getElementById("channellist").onchange();   
 }
+
 function createChannels(region){
 	if (region=="US"){
 		channels = [
@@ -473,7 +385,7 @@ function createChannels(region){
 		  ["Mas valorados", "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?alt=rss"],
 		  ["Mas vistos", "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?alt=rss"],
 		  ["Mas comentados", "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?alt=rss"],
-		  ["Anadidos recientemente", "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?alt=rss"],
+		  ["Mas recientes", "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?alt=rss"],
 		  ["Peliculas",""]
 		];
 	}else{
@@ -483,15 +395,13 @@ function createChannels(region){
 		  ["Mas valorados", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/top_rated?alt=rss"],
 		  ["Mas vistos", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_viewed?alt=rss"],
 		  ["Mas comentados", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_discussed?alt=rss"],
-		  ["Anadidos recientemente", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_recent?alt=rss"],
+		  ["Mas recientes", "http://gdata.youtube.com/feeds/api/standardfeeds/"+region+"/most_recent?alt=rss"],
 		  ["Peliculas",""]
 		];
 	}
     defaultChannels = channels.length;
 }
-function changeDefaultChannel(value){
-	//DO NOTHING
-}
+
 function changeRegion(value){
 	load();
 }
@@ -511,6 +421,8 @@ function changeRegion(value){
     }
  
     function clearElement(el) {
+      if (el == null) ///
+      	return;
       while(el.firstChild) {
         el.removeChild(el.firstChild);
       }
@@ -581,30 +493,30 @@ function changeRegion(value){
         document.getElementById("infoThumb").src = "";
         document.getElementById("infoThumb").style.visibility = "hidden";
         
-        hideElements("message", "infolink", "innerWatchVideos", "chooseVideos",
+        hideElements("message", "infolink", "innerWatchVideos", "content",
             "pager");
         showElements("hideLink", "infopane", "backlink");
  
         document.getElementById("loadinginfo").style.visibility = "visible";
       }*/else if (newState == GS_DISCONNECTED) {
-        hideElements("backlink", "pager", "watchVideos", "chooseVideos");
+        hideElements("backlink", "pager", "watchVideos", "content");
         showElements("message");
         displayMessage("No se puede conectar con YouTube, reintentando...");
       }else if (newState == GS_NORESULTS) {
-        hideElements("watchVideos", "chooseVideos", "backlink", "pager");
+        hideElements("watchVideos", "content", "backlink", "pager");
         showElements("message"); 
         displayMessage("No se han encontrado resultados.");
         document.getElementById("query").focus();
       }/*else if (newState == GS_WATCH) {
-        hideElements("infopane", "message", "chooseVideos", "pager",
+        hideElements("infopane", "message", "content", "pager",
             "hideLink");
         showElements( "watchVideos", "innerWatchVideos", "backlink", 
             "infolink");
       }*/else if (newState == GS_BROWSE) {
         hideElements("watchVideos", "message", "backlink", "infopane");
-        showElements("chooseVideos", "pager");
+        showElements("content", "pager");
       }/*else if (newState == GS_INFO) {
-        hideElements("message", "infolink", "innerWatchVideos", "chooseVideos",
+        hideElements("message", "infolink", "innerWatchVideos", "content",
             "pager");
         showElements("hideLink", "infopane", "backlink");
 
@@ -654,8 +566,8 @@ function changeRegion(value){
         return;
       }
 
-	  // Event Keyword Search
-      searchKeyword = searchKeyword.set(query);
+	// Event Keyword Search
+      searchKeyword.set(query);
 	  
       var queryName = '"' + query + '"';
       var queryUrl = getSearchUrl(query); 
@@ -715,6 +627,10 @@ function changeRegion(value){
       }*/
 	
       goToNewState(GS_LOADING);
+      
+      //Added for refresh starting the time to refresh///
+      resetInterval(time.get());
+      
       // TODO: move setp calls to here?
       if (channelUrl == ""){//movie channel
 	videos = new Array();
@@ -770,7 +686,7 @@ try{
 		  }
         }
 		if (video.swf)
-	        videos.push(video);
+	        	videos.push(video);
       }
       
       if (videos.length > 0) {
@@ -785,6 +701,15 @@ alert("excepcion");
 }
     }
 
+    //This function is used to update the default channel selected on preferences
+    function changeDefaultChannel(value){
+	//Added to change the selected channel to show
+	var select = document.getElementById("channellist");
+	//Changing the value of select
+	select.selectedIndex = value;
+	changeChannel(select);
+    }
+
 
    // Start playback of a particular video
 //    var currentPlayerDivId = 0;
@@ -792,13 +717,11 @@ alert("excepcion");
 	rssUrl.set (URLEncode(video.swf));
 	currentChannelId = document.getElementById("channellist").value;
 	channelUrl = channels[currentChannelId][1];
+	vtitle.set(video.title);
 	if(channelUrl == ""){//movies
 		place.set(video.location);
-		vtitle.set(video.title);
-		//bsoartist.set(video.bsoartist);
 		poi.set(video.poi);
-	}
-      
+	}		
     }
 
    function loadVideoLater(video) {
@@ -860,7 +783,7 @@ alert("excepcion");
         thumb.id = "thumb" + i;
         thumb.className = "thumb";
         thumb.src = video.thumbnail;
-        thumb.title = video.title;
+        thumb.title = video.title+ ", "+ renderDuration(video.duration);//duration added
        
         var span = document.createElement("span");
         span.className = "thumbSpan";
@@ -873,9 +796,9 @@ alert("excepcion");
         clearElement(document.getElementById("title" + slotId));
         clearElement(document.getElementById("duration" + slotId));
         title = document.createTextNode(truncate(video.title, 15));
-        duration = document.createTextNode("" + renderDuration(video.duration));
+        //duration = document.createTextNode("" + renderDuration(video.duration));
         document.getElementById("title" + slotId).appendChild(title);
-        document.getElementById("duration" + slotId).appendChild(duration);
+        //document.getElementById("duration" + slotId).appendChild(duration);
       }
 
       renderPager(currentPage);
@@ -884,6 +807,8 @@ alert("excepcion");
 
     /* Pager */ 
     function renderBrowsePageLater(newPage) {
+      //Added for refresh starting the time to refresh///
+      resetInterval(time.get());      
       return function() {renderBrowsePage(newPage);};
     }
 
@@ -909,113 +834,65 @@ alert("excepcion");
    // approximate char width, based on code used in AdWords (awCreateAdUtil)
 
     function charWidth(ch) {
-
       if (ch <= '\u04f9' ||
-
           ch == '\u05be' ||
-
           (ch >= '\u05d0' && ch <= '\u05ea') ||
-
           ch == '\u05F3' ||
-
           ch == '\u05f4' ||
-
           (ch >= '\u0e00' && ch <= '\u0e7f') ||
-
           (ch >= '\u1e00' && ch <= '\u20af') ||
-
           (ch >= '\u2100' && ch <= '\u213a') ||
-
           (ch >= '\uff61' && ch <= '\uffdc')) {
-
         return 1;
-
       }
-
       return 2;
-
     }
 
    var TRUNCATION_STRING = "...";
 
     function displayLength(string) {
-
       var count = 0;
-
       for (var i = 0; i < string.length; i++) {
-
         var character = string.substr(i, 1);
-
         count += charWidth(character);
-
       }
-
       return count;
-
     }
 
     function truncateByWidth(string, maxLen) {
-
       var count = 0;
-
       var truncated = "";
-
       for (var i = 0; i < string.length && count < maxLen; i++) {
-
         var character = string.substr(i, 1);
-
         truncated += character;
-
         count += charWidth(character);
-
       }
-
       return truncated;
-
     }
 
 
 
     // Truncate string to maxLen, in number of half-width (latin) characters.
-
     //   CJK and other languages include characters that are wider
-
     //   than standard latin characters, so we need to take this into account.
-
     function truncate(string, maxLen) {
-
       if (displayLength(string) > maxLen) {
-
         string = truncateByWidth(string, maxLen - TRUNCATION_STRING.length);
-
         string += TRUNCATION_STRING;
-
       }
-
       return string;
-
     }
 
     function renderDuration(duration) {
-
       minutes = Math.floor(duration / 60);
-
       seconds = (duration % 60) + "";
-
       seconds = seconds.substr(0, 2);
-
       if (seconds.length == 0) {
-
         seconds = "00";
-
       } else if (seconds.length == 1) {
-
         seconds = "0" + seconds;
-
       }
-
       return minutes + ":" + seconds;
-
     }
 
     function renderPager(page) {
@@ -1042,17 +919,46 @@ alert("excepcion");
       } else {
         return "";
       }
-    }	
+    }
+
+    function repaint(){
+               document.getElementById('content').style.height = (cellHeight.get() - document.getElementById('header').offsetHeight - 					document.getElementById('footer').offsetHeight - 6) + 'px';
+    }
+            
+    function init(){
+                repaint();
+                load();
+    }
+    //Added for refresh///
+    function refresh() {
+    	var select = document.getElementById("channellist");
+	changeChannel(select);
+    }
+    
+    //Added for refresh///
+    function resetInterval (value){
+	if (interval != null)
+	{
+		try {
+			clearInterval (interval);
+		}
+		catch(e){
+		}
+	}
+	interval = setInterval('refresh()', value*60000);
+    }
 
 </script>
 </head>
-<body onload="javascript:load();">
+<body onload="init();">
+<div id="header">
 <div id="uppernav" class="hbar">
 
   <table>
+
     <tr>
       <td>
-        <a href="http://www.youtube.com" target="_top"><img
+        <a href="http://www.youtube.com" target="_blank"><img
             height="22" width="51" border="0"
           src="http://img0.gmodules.com/ig/modules/youtube_videos_content/ytlogo_51x22.gif" /></a>
       </td>
@@ -1060,7 +966,10 @@ alert("excepcion");
         <form style="display:inline;">
           <select id="channellist" onchange="changeChannel(this)"></select>
         </form>
-
+      </td>
+      <!--> añadido<-->
+      <td>
+	      <img src="http://demo.ezweb.morfeo-project.org/repository/youtube_search/css/images/view-refresh.png" title="Refrescar" onclick="refresh();">
       </td>
       <td align="right" valign="middle">
         <div id="pager" class="pager">
@@ -1122,6 +1031,7 @@ alert("excepcion");
 
     <div class="videobar" id="videobar">
       <table>
+
         <tr>
 
           <td align=left>
@@ -1133,7 +1043,6 @@ alert("excepcion");
           </td>
           <td width=99%>
             <div id="videoTitle" class="videotitle"></div>
-            <span id="videoDuration" class="videoinfo"></span>
           </td>
 
           <td>
@@ -1142,6 +1051,7 @@ alert("excepcion");
                 <a href="javascript:void(0)" onclick="showInfo()">informacion</a>
               </div>
               <div id="hideLink" class="infowatch" style="display:none;">
+
                 <a href="javascript:void(0)"
                   onclick="closeInfo()">ver</a>
               </div>
@@ -1154,63 +1064,65 @@ alert("excepcion");
                   border="0" width="17" height="17"
                   src="http://img0.gmodules.com/ig/modules/youtube_videos_content/right_17x17.gif"/></a>
             </div>
+
           </td>
         </tr>
       </table>
 
     </div>
   </div>
-
-  <div id="chooseVideos" class="contentpane">
+</div>
+</div>
+  <div id="content" class="contentpane">
     <table id="browse" style="width:100%; height:100%;">
       <tr height="50%" align="center">
+
         <td id="cell0" width="33%">
           <div id="slot0" class="slot">
             <a id="link0" href="javascript:void(0)"></a>
 
             <div id="title0" class="browseitemtitle"></div>
-            <div id="duration0" class="browseitemduration"></div>
           </div>
         </td>
         <td id="cell1" width="33%">
+
           <div id="slot1" class="slot">
             <a id="link1" href="javascript:void(0)"></a>
             <div id="title1" class="browseitemtitle"></div>
-            <div id="duration1" class="browseitemduration"></div>
 
           </div>
         </td>
         <td id="cell2" width="33%">
           <div id="slot2" class="slot">
+
             <a id="link2" href="javascript:void(0)"></a>
             <div id="title2" class="browseitemtitle"></div>
-            <div id="duration2" class="browseitemduration"></div>
           </div>
         </td>
 
       </tr>
       <tr align="center">
         <td>
+
           <div id="slot3" class="slot">
             <a id="link3" href="javascript:void(0)"></a>
             <div id="title3" class="browseitemtitle"></div>
-            <div id="duration3" class="browseitemduration"></div>
           </div>
         </td>
 
         <td>
           <div id="slot4" class="slot">
+
             <a id="link4" href="javascript:void(0)"></a>
             <div id="title4" class="browseitemtitle"></div>
-            <div id="duration4" class="browseitemduration"></div>
           </div>
         </td>
         <td>
           <div id="slot5" class="slot">
 
             <a id="link5" href="javascript:void(0)"></a>
+
             <div id="title5" class="browseitemtitle"></div>
-            <div id="duration5" class="browseitemduration"></div>
           </div>
         </td>
       </tr>
@@ -1218,18 +1130,20 @@ alert("excepcion");
   </div>
 </div>
 
-<div id="searchFooter" class="hbar">
+<div id="footer" class="hbar">
+
   <form name="searchForm" onsubmit="doSearch(this.query.value); return false;">
     <table>
       <tr>
         <td width="100%">
-          <input name="query" id="query" type="text" style="width:100%"/>
+          <input name="query" id="query" class="text_field" type="text" style="width:100%"/>
         </td>
         <td> 
-          <input name="search" value="Buscar" type="button"
+          <input name="search" value="Buscar" class="button" type="button"
             onclick="this.form.onsubmit();"/>
 
         </td>
+
       </tr>
     </table>
   </form>
