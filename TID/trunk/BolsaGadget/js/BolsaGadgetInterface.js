@@ -744,8 +744,8 @@ function displayAlternativeSettings(){
  */
 function startPreferences(){
     preferences.set(to_json({
-		"list": ["n", "s", "o", "l1", "t1", "c1", "c", "v"],
-        "enterprise": ["n", "s", "o", "l1", "t1", "c1", "c", "v"],
+		"list": ["n", "s", "o", "l1", "t1", "c1", "v"],
+        "enterprise": ["n", "s", "o", "l1", "t1", "c1", "v"],
 		    "followUp": ["ABE.MC","ABG.MC","ACS.MC","ACX.MC","ANA.MC","BBVA.MC","BIBE.MC","BKT.MC","BME.MC","BTL.MC","BTO.MC","CIN.MC","CRI.MC","ELE.MC","ENG.MC","FCC.MC","FER.MC","GAM.MC","GAS.MC","GRF.MC","IBLA.MC","IBR.MC","IDR.MC","ITX.MC","MAP.MC","MTS.MC","OHL","POP.MC","REE.MC","REP.MC","SAB.MC","SAN.MC","SYV.MC","TEF.MC","TRE.MC"]
     }));
 }
