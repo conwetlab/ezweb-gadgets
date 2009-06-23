@@ -54,11 +54,11 @@ function refresh(type, _symbols, _tags, indexTab)
 	{
 	    if (s != "")
 		{
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 		}
 	    else
 		{
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 		}
 	}
 	
@@ -110,9 +110,9 @@ function getNamesMarkets(_symbols)
 	for(var i=0; i < _symbols.length; i++)
 	{
 		if (s != "")
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	    else
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	}
 	
 	var t = "ns";
@@ -128,9 +128,9 @@ function getNamesEnterprises(list, value)
 	for(var i=0; i < value.length; i++)
 	{
 		if (s != "")
-		    s += "+" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
 	    else
-		    s += "+" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent("@"+value[i].replace(/ /g, ""));
 	}
 	
 	var t="ns";
@@ -147,9 +147,9 @@ function getNamesEnterprisesSelected(_symbols)
 	for(var i=0; i < _symbols.length; i++)
 	{
 		if (s != "")
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	    else
-		    s += "+" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
+		    s += "%2B" + encodeURIComponent(_symbols[i].replace(/ /g, ""));
 	}
 	
 	var t="ns";
@@ -173,7 +173,7 @@ function getQuoteMarket(symbols, tags)
 	for(var i = 0; i < symbols.length; i++)
 	{
 	    if (s != "")
-		s += "+" + encodeURIComponent(symbols[i]);
+		s += "%2B" + encodeURIComponent(symbols[i]);
 	    else
 		s += encodeURIComponent(symbols[i]);
 	}
@@ -202,7 +202,7 @@ function getQuoteFile(symbols, tags)
     for(var i = 0; i < symbols.length; i++)
 	{
 		if (s != "")
-			s += "+" + encodeURIComponent(symbols[i].replace(/ /g, ""));
+			s += "%2B" + encodeURIComponent(symbols[i].replace(/ /g, ""));
 		else
 			s += encodeURIComponent(symbols[i].replace(/ /g, ""));
     }
@@ -232,7 +232,7 @@ function getQuoteEnterprise(symbols, tags)
     for(var i = 0; i < symbols.length; i++)
 	{
 		if (s != "")
-			s += "+" + encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
+			s += "%2B" + encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
 		else
 			s += encodeURIComponent(symbols[i].replace(/\^/g, "").replace(/@/g, ""));
     }
