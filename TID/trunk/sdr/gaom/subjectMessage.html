@@ -100,19 +100,19 @@ var s_responsable_servicio = EzWebAPI.createRGadgetVariable("responsable_servici
 // Slots callback funcions
 function gmo_no_atendido(value){
 	var messageValue = eval('(' + value + ')');
-	messageValue.subject = document.getElementById('i_gmo').value;
+	messageValue.message = document.getElementById('i_gmo').value;
 	e_messageData.set(messageValue.toJSONString());
 }//gmo_no_atendido
 
 function cliente_incidencia(value){
 	var messageValue = eval('(' + value + ')');
-	messageValue.subject = document.getElementById('i_cliente').value;
+	messageValue.message = document.getElementById('i_cliente').value;
 	e_messageData.set(messageValue.toJSONString());
 }//cliente_incidencia
 
 function responsable_servicio(value){
 	var messageValue = eval('(' + value + ')');
-	messageValue.subject = document.getElementById('i_responsable').value;
+	messageValue.message = document.getElementById('i_responsable').value;
 	e_messageData.set(messageValue.toJSONString());
 }//responsable_servicio
 
