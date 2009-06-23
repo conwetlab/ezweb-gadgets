@@ -246,7 +246,7 @@ InformacionTrafico.prototype.createAlternativeConfig = function(){
  
     if(this.listRoutes.trayectos[this.actualRoute].length==0){
 	var src = "images/backdes.png";
-	this.div.childNodes[1].style.background = 'url(' + this.getResourceURL(src) + ')';
+	this.div.childNodes[0].style.background = 'url(' + this.getResourceURL(src) + ')';
     }
     var divTitle = document.createElement("span");
     divTitle.appendChild(document.createTextNode("Editar cámaras del trayecto"));
