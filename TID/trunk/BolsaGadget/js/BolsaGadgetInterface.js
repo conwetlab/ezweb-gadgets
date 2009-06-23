@@ -84,13 +84,13 @@ BolsaGadget.prototype.init = function(){
     var img = document.createElement("img");
     img.src = urlimage + "view-refresh.png";
     img.addEventListener("click", displayAlternativeInfo, false);
-    img.setAttribute("title", BolsaGadget.getTranslatedLabel("buttonSynchronize"));
+    img.setAttribute("title", this.getTranslatedLabel("buttonSynchronize"));
     header.appendChild(img);
     
     var img = document.createElement("img");
     img.src = urlimage + "config.png";
     img.addEventListener("click", displayAlternativeSettings, false);
-    img.setAttribute("title", BolsaGadget.getTranslatedLabel("buttonPreferences"));
+    img.setAttribute("title", this.getTranslatedLabel("buttonPreferences"));
     header.appendChild(img);
     
     var content = document.createElement("div");
