@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Tira Comica</Name>
-		<Version>0.6</Version>
+		<Version>0.7</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>El gadget muestra una tira comica.</Description>
@@ -42,7 +42,7 @@
 	</Platform.StateProperties>
 
 	<Platform.Wiring>
-		<Event name="imgUrl" type="text" label="title" friendcode="title" />
+		<Event name="imgUrl" type="text" label="image" friendcode="image" />
 	</Platform.Wiring>
 
 	<Platform.Rendering width="5" height="15"/>
