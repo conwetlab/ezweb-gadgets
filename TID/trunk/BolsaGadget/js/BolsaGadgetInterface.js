@@ -56,7 +56,7 @@ var BolsaGadget = function(){
 }
 
 BolsaGadget.prototype = new EzWebGadget();
-BolsaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/BolsaGadget"
+BolsaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/BolsaGadget";
 BolsaGadget.prototype.init = function(){
 
     var preferences = EzWebAPI.createRWGadgetVariable("preferencesUser");
@@ -64,7 +64,7 @@ BolsaGadget.prototype.init = function(){
     if (preferences.get() == "") 
         startPreferences();
     
-    symbols = ["^IBEX", "^IBEXC", "^FTSE", "^GDAXI", "^FCHI", "^SPMIB", "^DJI", "^IXIC", "^HXC"];
+    symbols = ["^IBEX", "^IBEXC", "^FTSE", "^GDAXI", "^FCHI", "^DJI", "^IXIC", "^HXC"];
     
     // Obtenemos los tags de información que serán mostrados para las listas de 
     // empresas y mercados
@@ -744,9 +744,9 @@ function displayAlternativeSettings(){
  */
 function startPreferences(){
     preferences.set(to_json({
-        "list": ["n", "s"],
-        "enterprise": ["n", "s"],
-        "followUp": []
+		"list": ["n", "s", "o", "l1", "t1", "c1", "c", "v"],
+        "enterprise": ["n", "s", "o", "l1", "t1", "c1", "c", "v"],
+		    "followUp": ["ABE.MC","ABG.MC","ACS.MC","ACX.MC","ANA.MC","BBVA.MC","BIBE.MC","BKT.MC","BME.MC","BTL.MC","BTO.MC","CIN.MC","CRI.MC","ELE.MC","ENG.MC","FCC.MC","FER.MC","GAM.MC","GAS.MC","GRF.MC","IBLA.MC","IBR.MC","IDR.MC","ITX.MC","MAP.MC","MTS.MC","OHL","POP.MC","REE.MC","REP.MC","SAB.MC","SAN.MC","SYV.MC","TEF.MC","TRE.MC"]
     }));
 }
 
@@ -1283,16 +1283,14 @@ function removeListAll(){
     var divCenterRight = document.getElementById("centerRightBox" + context.key);
     
     if (context.key == "MarketEnterprise") {
-    
         var ids = ['a', 'a2', 'b', 'b4', 'b6', 'c', 'c1', 'd', 'd2', 'e1', 'e7', 'e8', 'f6', 
-		'g', 'h', 'j', 'k', 'j4', 'k3', 'l', 'l1', 'm3', 'm4', 'o', 'p', 'p2', 'p5', 'p6', 
-		'q', 's', 's1', 's7', 't1', 't6', 't7', 't8', 'v', 'x', 'y'];
+		   'g', 'h', 'j', 'k', 'j4', 'k3', 'l', 'l1', 'm3', 'm4', 'o', 'p', 'p2', 'p5', 'p6', 
+		   'q', 's', 's1', 's7', 't1', 't6', 't7', 't8', 'v', 'x', 'y'];
     }
     else {
-    
         var ids = ['a', 'a2', 'a3', 'b', 'b2', 'b3', 'b4', 'b6', 'c', 'c1', 'c3', 'c6', 'c8',
-		 'd', 'd1', 'd2', 'e', 'e1', 'e7', 'e8', 'e9', 'f6', 'g', 'h', 'j', 'k', 'g1', 'g3',
-		  'g4', 'g5', 'i', 'i5', 'j1', 'j3', 'j4', 'j5', 'j6', 'k1', 'k2', 'k3', 'k4', 'k5',
+		   'd', 'd1', 'd2', 'e', 'e1', 'e7', 'e8', 'e9', 'f6', 'g', 'h', 'j', 'k', 'g1', 'g3',
+		   'g4', 'g5', 'i', 'i5', 'j1', 'j3', 'j4', 'j5', 'j6', 'k1', 'k2', 'k3', 'k4', 'k5',
 		   'l', 'l1', 'l2', 'l3', 'm', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'n4', 'o', 
 		   'p', 'p1', 'p2', 'p5', 'p6', 'q', 'r', 'r1', 'r2', 'r5', 'r6', 'r7', 's1', 's7', 
 		   't1', 't7', 't8', 'v', 'v7', 'w', 'w1', 'w4', 'x', 'y'];
