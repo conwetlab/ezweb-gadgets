@@ -409,7 +409,8 @@ div.styled_select{
     right:0px;
     bottom:0px;
     height:35px;
-    min-width:413px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .settingsImg img {}
