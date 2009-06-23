@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+
+    <!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>GAOM</Vendor>
+		<Name>MARListadoActuaciones</Name>
+		<Version>4.8.2</Version>
+		<Author>Pablo Jimenez, Jose Rio Perandones</Author>
+		<Mail>pjm@tid.es</Mail>
+		<Description>Bandeja de actuaciones de MAR</Description>
+		<ImageURI>http://ezwuc.hi.inet/repository/mar/bandejaMAR.jpg</ImageURI>
+		<WikiURI> </WikiURI>
+	</Catalog.ResourceDescription>
+
+    <!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="urlWebAtencionRemota" type="text" description="URL Web Atencion Remota" default="http://escanda.hi.inet:5775/" label="URL Web Atencion Remota"/>
+        <Preference name="refreshTime" type="text" description="Tiempo de refresco (minutos)" default="5" label="Tiempo de refresco (minutos)"/>
+        <Preference name="userWebMAR" type="text" description="Usuario" default="AdminOF" label="Usuario"/>
+    </Platform.Preferences>
+
+    <!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+        <!--<Context name="user" type="text" concept="user_name"/>-->
+    </Platform.StateProperties>
+
+    <!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+        <Event name="numBoletinOrigen" type="text" label="Numero Boletin Origen" friendcode="boletinId"/>
+        <Event name="edificioActuacion" type="text" label="Edificio" friendcode="address"/>
+		<Event name="destinationPhoneList" type="text" label="destinationPhoneList" friendcode="phone"/>
+    </Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://pablix.hi.inet/repository/sdr/gaom/MARListadoActuaciones4.8.0.html"/>
+	</Platform.Link>
+    
+    <Platform.Rendering width="12" height="25"/>
+
+</Template>

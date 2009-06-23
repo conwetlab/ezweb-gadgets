@@ -1,0 +1,131 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="http://demo.ezweb.morfeo-project.com/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<title>Send Message</title>
+<style>
+#wait{
+	margin-left: 10px;
+	display: inline;
+}
+h2{
+	display: inline;
+	vertical-align: super;
+	margin-right: 10px;
+}
+h3{
+	margin: 5px 0 10px 0;
+}
+iframe{
+	width: 50px; 
+	height: 50px;
+}
+a{
+	color: #225784;
+}
+#header{
+	margin-top: 5px;
+}
+#cover{
+	position: relative;
+}
+#objectFile{
+	z-index: 1;
+	cursor: pointer;
+	color: #225784;
+	opacity:0.6;
+	font-weight:bold
+}
+#objectURL{
+	color: #225784;
+	opacity:0.6;
+   font-weight:bold
+	width: 165px;
+	display:none;
+	position: absolute;
+	z-index: 2;
+}
+#SMSmsg{
+	font-size:11pt;
+	color:#225784;
+	font-weight: bold;
+	vertical-align:super;
+	margin:5px;
+}
+.count{
+	display: none;
+	display: block;
+	font-weight: bold;
+	font-size: 7pt;
+}
+#num_messages, #num_characters{
+	font-size: 8pt;
+}
+#signatureConfig{
+	display: none;
+	margin: 5px 10px;
+	padding: 5px;
+	background: #E6F3F8;
+}
+#signature{
+	color: #225784;
+	opacity:0.6;
+    font-weight:bold;
+	border: 1px solid #238EC2;
+}
+.advice{
+	font-size: 8pt;
+}
+.advice span{
+	font-size: 10pt;
+	font-weight:bold;
+}
+.clear_label{
+	padding-right: 7px;
+	float: left;
+}
+</style>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://www.json.org/json.js"></script>
+<script language="JavaScript">
+
+//Events
+var e_messageData = EzWebAPI.createRWGadgetVariable("messageData");
+
+// Slots
+var s_gmo_no_atendido = EzWebAPI.createRGadgetVariable("gmo_no_atendido", gmo_no_atendido);
+var s_cliente_incidencia = EzWebAPI.createRGadgetVariable("cliente_incidencia", cliente_incidencia);
+var s_responsable_servicio = EzWebAPI.createRGadgetVariable("responsable_servicio", responsable_servicio);
+
+// Slots callback funcions
+function gmo_no_atendido(value){
+	var messageValue = eval('(' + value + ')');
+	messageValue.subject = document.getElementById('i_gmo').value;
+	e_messageData.set(messageValue.toJSONString());
+}//gmo_no_atendido
+
+function cliente_incidencia(value){
+	var messageValue = eval('(' + value + ')');
+	messageValue.subject = document.getElementById('i_cliente').value;
+	e_messageData.set(messageValue.toJSONString());
+}//cliente_incidencia
+
+function responsable_servicio(value){
+	var messageValue = eval('(' + value + ')');
+	messageValue.subject = document.getElementById('i_responsable').value;
+	e_messageData.set(messageValue.toJSONString());
+}//responsable_servicio
+
+</script>
+</head>
+<body>
+<form id="MMSCreationForm" name="MMSCreationForm" >
+<table class="content">
+<tbody>
+<tr class="odd"><td id="i_gmo_label">GMO no atendido: </td><td width="70%"><textarea id="i_gmo" class="text" name="i_gmo" >Tenemos una llamada pendiente tuya. Esperamos atenderte lo antes posible</textarea></td></tr>
+<tr><td id="i_cliente_label">Cliente con incidencia activa > 2 d&iacute;as: </td><td><textarea id="i_cliente" class="text" name="i_cliente" >Telef&oacute;nica est&aacute; trabajando en resolver su incidencia. En breve espacio de tiempo se pondr&aacute; en contacto con usted para notificarle la resoluci&oacute;n</textarea></td></tr>
+<tr class="odd"><td id="i_responsable_label">Responsable servicio centro remoto: </td><td><textarea id="i_responsable" class="text" name="i_responsable" >Hay activas actualmente m&aacute;s de 10 incidencias de severidad superior a 3 con servicio afectado</textarea></td></tr>
+</tbody>
+</table>
+</form>
+</body></html>
