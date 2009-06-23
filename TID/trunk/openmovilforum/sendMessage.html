@@ -147,6 +147,8 @@ var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDes
 var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 // Message
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
+// Full Message
+var fullMessage = EzWebAPI.createRGadgetVariable("fullMessage", setFullMessage);
 // Signature
 var sigprop = EzWebAPI.createRWGadgetVariable('signature');
 
@@ -211,6 +213,35 @@ function setMessage(val){
    }
    return;
 }//setMessage
+
+function setFullMessage(val){
+	parameters = eval('(' + val + ')');
+	
+	var uri_sms = url.get()+"/openmovilforum/sms";
+	var uri_mms = url.get()+"/openmovilforum/mms";
+	
+	e_destinationPhone.set(parameters["to"]);
+	e_message.set(parameters["message"]);
+	if (!parameters['objectURL'] || parameters['objectURL'].length == 0){
+		parameters["message"] = sanitize(parameters["message"]);
+		parameters["TM_LOGIN"] = login.get();
+		parameters["TM_PASSWORD"] = password.get();
+		EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
+	}else{
+		e_objectUrl.set(parameters['objectURL']);
+		e_subject.set(subject);
+
+		document.MMSCreationForm.action=uri_mms;
+		document.MMSCreationForm.elements['login'].value = login.get();
+		document.MMSCreationForm.elements['password'].value = password.get();
+		document.MMSCreationForm.elements['message'].value = parameters["message"];
+		document.MMSCreationForm.elements['subject'].value = parameters["subject"];
+		document.MMSCreationForm.elements['objectURL'].value = parameters['objectURL'];
+		messageSended = true;
+		document.MMSCreationForm.submit();
+		return true;
+	}
+}//setFullMessage
 
 function setDestinationPhone(val){
 	document.MMSCreationForm.elements['to'].value = val;

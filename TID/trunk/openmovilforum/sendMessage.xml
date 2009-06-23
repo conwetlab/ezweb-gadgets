@@ -49,6 +49,7 @@
 	<Slot name="destinationPhone" type="text" label="destinationPhone" friendcode="phone"/>
 	<Slot name="subject" type="text" label="subject" friendcode="subject"/>
 	<Slot name="message" type="text" label="message" friendcode="message"/>
+	<Slot name="fullMessage" type="text" label="full message data" friendcode="messageData"/>
 	<Event name="objectUrlEvent" type="text" label="objectUrl" friendcode="objectUrl"/>
 	<Event name="destinationPhoneEvent" type="text" label="destinationPhone" friendcode="phone"/>
 	<Event name="subjectEvent" type="text" label="subject" friendcode="subject"/>
