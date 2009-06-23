@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Bolsa Gadget</Name>
-    <Version>1.4</Version>
+    <Version>1.5</Version>
     <Author>irodriguez</Author>
     <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget Seguimiento Bolsa:
@@ -16,11 +16,12 @@
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    <Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
+    <Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="default">
+      <Option value="default" name="Default"/>
       <Option value="en" name="English"/>
       <Option value="es" name="Español"/>
     </Preference>
-	<Preference name="time" type="number" label="Time (minutes)" description="Time Refresh(minutes)" default="20"/>
+	<Preference name="time" type="number" label="Time (minutes)" description="Time Refresh(minutes)" default="10"/>
   </Platform.Preferences>
 	
   <!-- EzWeb Gadget Persistent State -->
@@ -36,7 +37,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/BolsaGadget/BolsaGadget.html"/>
+  	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/BolsaGadget/BolsaGadget.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="6" height="24"/>
