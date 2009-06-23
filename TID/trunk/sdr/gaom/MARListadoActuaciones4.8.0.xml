@@ -33,7 +33,7 @@
     </Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://pablix.hi.inet/repository/sdr/gaom/MARListadoActuaciones4.8.0.html"/>
+		<XHTML href="http://ezwuc.hi.inet/repository/sdr/gaom/MARListadoActuaciones4.8.0.html"/>
 	</Platform.Link>
     
     <Platform.Rendering width="12" height="25"/>

@@ -7,7 +7,7 @@
 <Author>pjm</Author>
 <Mail>pjm@tid.es</Mail>
 <Description>Gadget para rellenar el asunto de los mensajes de aviso que se envian desde MAR.</Description>
-<ImageURI>http://pablix.hi.inet/repository/sdr/gaom/subjectMessage.png</ImageURI>
+<ImageURI>http://ezwuc.hi.inet/repository/sdr/gaom/subjectMessage.png</ImageURI>
 <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MMSSender</WikiURI>
 </Catalog.ResourceDescription>
 <!-- EzWeb Gadgets Tags -->
@@ -27,7 +27,7 @@
 <Platform.Context>
 </Platform.Context>
 <Platform.Link>
-	<XHTML href="http://pablix.hi.inet/repository/sdr/gaom/subjectMessage.html"/>
+	<XHTML href="http://ezwuc.hi.inet/repository/sdr/gaom/subjectMessage.html"/>
 </Platform.Link>
 <Platform.Rendering width="8" height="18"/>
 </Template>
