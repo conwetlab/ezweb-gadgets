@@ -4,11 +4,11 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Contacts</Name>
-	  <Version>0.5</Version>
+	  <Version>0.6</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your contacts collections, tag and search your sources, show contacts related to any keyword (also by wiring!).</Description>
-	  <ImageURI>http://mindprod.com/image/icon128/party.png</ImageURI>
+	  <ImageURI>http://ezweb.tid.es/repository/TDe/Agenda/agenda.png</ImageURI>
 	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
 	  <Organization>TDe</Organization>
 	</Catalog.ResourceDescription>
