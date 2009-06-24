@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>FeedList</Name>
-	  <Version>3.23</Version>
+	  <Version>3.25</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
@@ -38,7 +38,7 @@
 	<Platform.Link>
 	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/feedReader/feedList.html"/>
 	</Platform.Link>
-	<Platform.Rendering width="8" height="5"/>
+	<Platform.Rendering width="5" height="12"/>
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
 	</Platform.Context>

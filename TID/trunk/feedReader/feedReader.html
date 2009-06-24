@@ -26,7 +26,7 @@
 	var sentItemUrl = EzWebAPI.createRWGadgetVariable("sentURL");
 	var sentItemTitle = EzWebAPI.createRWGadgetVariable("sentTitle");
 	var sentItemSummary = EzWebAPI.createRWGadgetVariable("sentSummary");
-
+	var showDate = EzWebAPI.createRGadgetVariable ("showDate", changeShowDate);
 	//global vars
 	var lastShown = "item_0";			//item which was unfolded last time
 	var URL;							// Feed URL
@@ -50,7 +50,9 @@
 		sheetLink.href=href;
 		return;
 	}
-	
+	function changeShowDate (value){
+		generateLang();
+	}	
 	//draw a paginator control
 	function setPaginator(initPage){
 		//each page has a maximum of 'items' preference elements
@@ -614,8 +616,13 @@
 			}
 			summary = generateSummary(items[i].description);
 			item_html += "onclick=\"javascript:openItem('item_" + i + "', " + i + ");\" />";
-			item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
-			item_html += startPubDate + items[i].pubDate.value + endTag;
+			if (showDate.get() == 'yes') {
+				item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
+				item_html += startPubDate + items[i].pubDate.value + endTag;
+			}
+			else
+				item_html += startTitle + "style='margin-right:10px' id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
+
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (items[i].link == null) ? startLink + items[i].title + endTag : startLink + "<a href='" + items[i].link +"' target='_black'>"+ items[i].title+"</a>" + endTag;
 			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;

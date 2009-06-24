@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>FeedReader</Name>
-    <Version>3.26</Version>
+    <Version>3.28</Version>
     <Author>abgp</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Feed reader for RSS 2.0 or Atom 1.0 resources. Thanks to this gadget you can access to your favourite feeds from your workspace. Change the feed shown editing the gadgets preferences from the gadget menu or wiring this gadget to any feed source available like the Feed List gadget. This reader also exports information about what you are reading (summary, title...). Try to wire it to any gadget waiting for text (MMS sender, Google Translator...)</Description>
@@ -26,6 +26,10 @@
 		<Option value="red" name="red"/>
 		<Option value="green" name="green"/>
 	</Preference>
+	<Preference name="showDate" type="list" label="showDate" description="showDate" default="no">
+		<Option value="yes" name="yes"/>
+		<Option value="no" name="no"/>
+	</Preference>
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
@@ -43,7 +47,7 @@
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/feedReader/feedReader.html"/>
   </Platform.Link>
-  <Platform.Rendering width="10" height="25"/>
+  <Platform.Rendering width="8" height="25"/>
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
 	</Platform.Context>
