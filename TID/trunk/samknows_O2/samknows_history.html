@@ -1,0 +1,62 @@
+<html>
+<head>
+	<style type="text/css" media="screen">@import "http://www.samknows.com/css/layout.css";</style>
+	<style type="text/css" media="print">@import "http://www.samknows.com/css/print.css";</style>
+	<style type="text/css" media="screen">@import "http://www.samknows.com/css/forms.css";</style>
+	
+	<script src="/ezweb/js/lib/prototype/prototype.js"></script>
+	<script language="JavaScript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="/repository/samknows_O2/samknows.js"></script>
+	<script language="JavaScript">
+	
+		var exchangeCode = EzWebAPI.createRGadgetVariable("exchange_code", makeRequest);
+
+		function callbackError(responseData) {
+			alert("Request error: " + responseData.responseText);
+		}
+
+		function callbackSucess(responseData) {
+			
+			var page = responseData.responseText; 
+			
+			// Extract form subsection:
+			// <form method="POST" action="/broadband/exchange/.*
+			// ...
+			// </form>
+			var i = page.search(/<form method=\"POST\" action=\"\/broadband\/exchange/);
+			if (i >= 0) {
+				var tblData = page.substring(i,page.length);
+				
+				i = tblData.search(/<\/form>/);
+				tblData = tblData.substring(0,i+7);
+				
+				var exchangeContainer = $('exchangeContainer');
+				exchangeContainer.innerHTML = tblData;
+				// Fix links
+				parseLinks();
+				// Fix form link
+				parseForms();
+				// Fix image URI's
+				parseImgs();
+			} else {
+				var exchangeContainer = $('exchangeContainer');
+				exchangeContainer.innerHTML = "Exchange code not found";
+			}
+		}
+		
+		function makeRequest(exchange_code) {
+			if (exchange_code != '') {
+				EzWebAPI.send_get("http://www.samknows.com/broadband/exchange/" + exchange_code, this, callbackSucess, callbackError);
+			}
+		}
+        </script>
+</head>
+
+<body>
+        <div id="containerExample">
+                <div id="exchangeContainer" align="center">
+                </div>
+        </div>
+</body>
+</html>

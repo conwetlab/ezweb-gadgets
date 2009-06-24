@@ -1,0 +1,84 @@
+<html>
+<head>
+	<style type="text/css" media="screen">@import "http://www.samknows.com/css/layout.css";</style>
+	<style type="text/css" media="print">@import "http://www.samknows.com/css/print.css";</style>
+	<style type="text/css" media="screen">@import "http://www.samknows.com/css/forms.css";</style>
+	
+	<script src="/ezweb/js/lib/prototype/prototype.js"></script>
+	<script language="JavaScript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	
+	<script type="text/javascript" language="javascript" src="/repository/samknows_O2/samknows.js"></script>
+	<script language="JavaScript">
+			
+		var exchangeCode = EzWebAPI.createRGadgetVariable("exchange_code", makeRequest);
+
+		function callbackError(responseData) {
+			alert("Request error: " + responseData.responseText);
+		}
+
+		function callbackSucess(responseData) {
+			
+			//var page = responseData.responseText.replace(/[^=]\"\"/g, "\"");
+			
+			var page = responseData.responseText; 
+			var tblgenInfo = '';
+			var lluOperatorPres = '';
+			
+			// Extract tblgenInfo table subsection:
+			// <table class="tblData tblSmallSummary" id="tblgenInfo".*
+			// ...
+			// </table>
+			var i = page.search(/<table class=\"tblData tblSmallSummary\" id=\"tblgenInfo\"/);
+			if (i >= 0) {
+				tblgenInfo = page.substring(i,page.length);
+				i = tblgenInfo.search(/<\/table>/);
+				tblgenInfo = tblgenInfo.substring(0,i+8);
+			}
+			
+			// Extract lluOperatorPres table subsection:
+			// <table class="tblData tblSmallSummary" id="lluOperatorPres".*
+			// ...
+			// </table>
+			i = page.search(/<table class=\"tblData tblSmallSummary\" id=\"lluOperatorPres\"/);
+			if (i >= 0) {
+				lluOperatorPres = page.substring(i,page.length);
+				i = lluOperatorPres.search(/<\/table>/);
+				lluOperatorPres = lluOperatorPres.substring(0,i+8);
+			}
+			
+			var exchangeContainer = $('exchangeContainer');
+			exchangeContainer.innerHTML = '';
+			if (tblgenInfo != '') {
+				exchangeContainer.innerHTML += tblgenInfo;
+			}
+			if (lluOperatorPres != '') {
+				exchangeContainer.innerHTML += lluOperatorPres;
+			}
+			if (exchangeContainer.innerHTML == '') {
+				exchangeContainer.innerHTML = 'Exchange code not found';
+			} else {
+				// Fix links
+				parseLinks();
+				// Fix form link
+				parseForms();
+				// Fix image URI's
+				parseImgs();
+			}
+		}
+		
+		function makeRequest(exchange_code) {
+			if (exchange_code != '') {
+				EzWebAPI.send_get("http://www.samknows.com/broadband/exchange/" + exchange_code, this, callbackSucess, callbackError);
+			}
+		}
+		
+        </script>
+</head>
+
+<body>
+        <div id="containerExample">
+                <div id="exchangeContainer" align="center">
+                </div>
+        </div>
+</body>
+</html>
