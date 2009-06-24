@@ -413,7 +413,7 @@ function init(){
 function generateLang(){
 	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/openmovilforum/languages.xml", "language", "languagePref", init);
 	if (sigprop.get() == '')
-		signature = ' (sent form EzWeb)';
+		signature = ' (sent from EzWeb)';
 	else
 		signature = sigprop.get();
 }
