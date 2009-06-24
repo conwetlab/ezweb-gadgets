@@ -31,6 +31,9 @@
 var word = EzWebAPI.createRGadgetVariable("keyword",setWord);
 var dict = EzWebAPI.createRGadgetVariable("dictionary",setDict);
 
+keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
+diccionaryEvent = EzWebAPI.createRWGadgetVariable('diccionaryEvent');
+
 var actualWord ="";
 var actualDict ="";
 function setDict(value)
@@ -122,6 +125,10 @@ function wordSearch()
 {
 	actualWord = document.sbox.w.value;
 	actualDict = document.sbox.dict.value;
+	
+	keywordEvent.set(actualWord);
+	diccionaryEvent.set(actualDict);
+
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	//$('frame').src=url;
