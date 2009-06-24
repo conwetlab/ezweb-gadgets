@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr Contact Photos</Name>
-    <Version>1.4</Version>
+    <Version>1.41</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -25,7 +25,7 @@
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-     <Event name="urlImage" type="text" label="urlImage" friendcode="imageUrl" />
+     <Event name="urlImage" type="text" label="urlImage" friendcode="image" />
      <Event name="title" type="text" label="title" friendcode="title" />
      <Event name="author" type="text" label="author" friendcode="author" />
   </Platform.Wiring>

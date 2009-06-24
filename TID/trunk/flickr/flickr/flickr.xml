@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>2.5</Version>
+    <Version>2.51</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
@@ -26,10 +26,10 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
-	<Event name="keyword_event" type="text" label="keyword_event" friendcode="keyword_event" />
-    <Event name="title" type="text" label="title of the image" friendcode="title" />
-    <Event name="autor" type="text" label="autor of the image" friendcode="autor" />
-    <Event name="urlImage" type="text" label="url of the image" friendcode="imageUrl" />
+	<Event name="keyword_event" type="text" label="keyword" friendcode="keyword" />
+    <Event name="title" type="text" label="title" friendcode="title" />
+    <Event name="autor" type="text" label="autor" friendcode="autor" />
+    <Event name="urlImage" type="text" label="url" friendcode="image" />
   </Platform.Wiring>
   
   <Platform.Link>
