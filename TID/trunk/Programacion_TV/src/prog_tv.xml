@@ -3,8 +3,8 @@
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>EzWeb</Vendor>
-    <Name>TV programming</Name>
-    <Version>1.2</Version>
+    <Name>Programacion TV</Name>
+    <Version>1.0</Version>
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget para mostrar la programacion de television</Description>
@@ -14,10 +14,6 @@
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-  	<Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
-			<Option value="en" name="English"/>
-			<Option value="es" name="Español"/>
-	 	 </Preference>
   </Platform.Preferences>
 	
   <!-- EzWeb Gadget Persistent State -->
