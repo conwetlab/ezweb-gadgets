@@ -6,7 +6,7 @@ var ProgramacionTV = function() {
 ProgramacionTV.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
 ProgramacionTV.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src"; 
-ProgramacionTV.prototype.imageURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo";
+ProgramacionTV.prototype.imageURL = 'http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo';
 
 ProgramacionTV.prototype.init = function() {
 	
@@ -17,7 +17,6 @@ ProgramacionTV.prototype.init = function() {
 	
 	this.dictionary = new StyledElements.StyledNotebook({'id':'dictionary'});
 	this.dictionary.insertInto(document.body);
-	this.languagePref = EzWebAPI.createRGadgetVariable('languagePref',EzWebExt.bind(function(e){return;},this));
 	this.channelList = [
 		new Channel("tve1", "TVE1", "http://www.miguiatv.com/rss/tve1.xml"),
 		new Channel("la2", "La2", "http://www.miguiatv.com/rss/la2.xml"),
