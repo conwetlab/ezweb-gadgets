@@ -2,6 +2,9 @@ body
 {
 	font-family: Trebuchet MS,Bitstream Vera Sans,Verdana,Helvetica,sans-serif;
 	font-size: 12px;
+	margin:0;
+	padding:0;
+	border:none;
 	
 }
 #translation
