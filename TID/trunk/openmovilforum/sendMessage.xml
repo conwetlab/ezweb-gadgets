@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.157</Version>
+<Version>1.158</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>This gadget provides the capability of sending SMS/MMS messages using Open Movilforum API</Description>
