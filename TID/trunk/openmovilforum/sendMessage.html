@@ -8,6 +8,11 @@
 <link href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 <style>
+body {
+	margin:0;
+	padding:0;
+	overflow-x:hidden;
+}
 #wait{
 	margin-left: 10px;
 	display: inline;
@@ -172,7 +177,7 @@ var translator = null;
 //global variable
 
 var messageSended = false;
-var signature = " (sent from EzWeb)";
+var signature = " (sent by EzWeb)";
 var MESSAGE_SIZE = 160;
 
 //updates base_uri var when user preference is updated
