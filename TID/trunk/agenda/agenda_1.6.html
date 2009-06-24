@@ -86,6 +86,10 @@ input[type="button"]{ color: #225784; border: 1px solid #238EC2; background: #ef
 		height: 19px;
 		margin-bottom:6px;
 		clear:both;
+		line-height: 19px;
+		white-space: nowrap;
+		overflow: hidden;
+		vertical-align: middle;
 	}
 
 	#header_top select, #header_bottom select{
@@ -259,12 +263,12 @@ function loadGrid(){
             {id:'contact',header: translator.getLabel('h_contact'), sortable: true, dataIndex: 'contact'},
             {header: translator.getLabel('h_phone'), sortable: false, dataIndex: 'phone', renderer: renderMobilePhone},
             {header: translator.getLabel('h_email'), sortable: false, dataIndex: 'email', renderer: renderEmail},
-            {id:'address',header: translator.getLabel('h_address'), sortable: false, dataIndex: 'address', width: 200, renderer: renderAddress}
+            {id:'address',header: translator.getLabel('h_address'), sortable: false, dataIndex: 'address', renderer: renderAddress}
         ],
         stripeRows: true,
 		plugins: filters,
         autoExpandColumn: 'contact',
-		autoExpandMin: 100,
+		//autoExpandMin: 100,
         height: height.get()-30,
         width: width.get()
         //title:'Contact List'
