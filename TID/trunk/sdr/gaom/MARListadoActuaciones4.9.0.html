@@ -1,0 +1,348 @@
+<html><head>
+
+    <title>Bandeja de actuaciones - MAR (version 4.7.0)</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<!--<link rel="stylesheet" type="text/css" href="/gadgets/css/ext-all.css" />-->
+	<link rel="stylesheet" type="text/css" href="http://ezwuc.hi.inet/repository/css/ext-all.css" />
+    
+    <SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+    <!--<SCRIPT language="javascript" src="/gadgets/js/adapter/ext/ext-base.js"></SCRIPT>
+    <SCRIPT language="javascript" src="/gadgets/js/ext-all.js"></SCRIPT>-->
+	
+	<script type="text/javascript" src="http://ezwuc.hi.inet/repository/js/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="http://ezwuc.hi.inet/repository/js/ext-all.js"></script>
+    
+    <script language="JavaScript">
+        /* ********************************************************************************************************
+         *  VARIABLES JAVASCRIPT GLOBALES PARA EL FUNCIONAMIENTO DEL GADGET
+         * ********************************************************************************************************/
+        //Objetos globales para la carga de los datos
+        var columnModel = null;
+        var reader = null;
+        var store = null;
+
+        //Otras variables globales
+        var intervalId;
+
+        //Gadget preferences
+        var urlWebAtencionRemota = EzWebAPI.createRGadgetVariable("urlWebAtencionRemota", setUrlWebAtencionRemota);
+        var refreshTime = EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
+        var userWebMAR = EzWebAPI.createRGadgetVariable("userWebMAR", setUserWebMAR);
+		var messageId = EzWebAPI.createRGadgetVariable("messageId", setMessageId);
+		
+        function setUrlWebAtencionRemota() {
+            loadOF();
+        }
+        function setRefreshTime() {
+            var selectedOF = document.getElementById("selectOF").selectedIndex;
+            var selectedTemplate = document.getElementById("selectTemplate").selectedIndex;
+            if ((selectedOF > 0) && (selectedTemplate > 0)) {
+                clearInterval(intervalId);
+                loadData();
+                intervalId = setInterval("loadData()", refreshTime.get() * 60 * 1000);
+            }
+            else {
+                loadOF();
+            }
+        }
+        function setUserWebMAR() {
+            var selectedOF = document.getElementById("selectOF").selectedIndex;
+            var selectedTemplate = document.getElementById("selectTemplate").selectedIndex;
+            if (selectedOF > 0) {
+                document.getElementById('topic-grid').innerHTML = '';
+                clearInterval(intervalId);
+                loadTemplates();
+            }
+            else {
+                loadOF();
+            }
+        }
+		
+		function setMessageId() {
+            return;
+        }
+
+        //Gadget state properties
+        /*var userVar = EzWebAPI.createRGadgetVariable("user", setUser);
+        var userStateProperty = "FCDH_T1";
+        //var userStateProperty = userVar.get();
+        function setUser() {
+            //userStateProperty = userVar.get();
+            userStateProperty = "FCDH_T1";
+        }*/
+
+        //Gadget events
+        var numBoletinOrigen = EzWebAPI.createRWGadgetVariable("numBoletinOrigen");
+        var edificioActuacion = EzWebAPI.createRWGadgetVariable("edificioActuacion");
+		var destinationPhoneList = EzWebAPI.createRWGadgetVariable("to");
+		var messageIdKey = EzWebAPI.createRWGadgetVariable("messageIdKey");
+		
+        /* --------------------------------------------------------------------------------------------------
+            Funciones relacionadas con la tabla dinamica para la visualizacion de la informacion
+           -------------------------------------------------------------------------------------------------- */
+        function loadData() {
+            document.getElementById('topic-grid').innerHTML = '';
+            createGrid();
+        }
+
+        function handleRowClick(grid, rowIndex, e) {
+            numBoletinOrigen.set(store.data.items[rowIndex].get("num_boletin_origen"));
+            edificioActuacion.set(store.data.items[rowIndex].get("EDIFICIO"));
+        }
+
+        function handleRowDblClick(grid, rowIndex, e) {
+            var uri = urlWebAtencionRemota.get().replace(/192.168.5.91/, "192.168.7.91") + "/AsignarTrabajoEzWeb.ezw?idUsuario=" + userWebMAR.get() + "&idActuacion=" + store.data.items[rowIndex].get("ID_ACTUACION");
+            EzWebAPI.send_get(uri, this, successHandler, errorHandlerAssignment);
+        }
+		
+		function handleDataLoaded (store, records, options) {
+			var lista_telefonos = "";
+			for (var i = 0; i< records.length; i++) {
+				var telefono_tmp = records[i].data.TELEFONO_LLAMANTE;
+				if ((telefono_tmp != null) && (telefono_tmp != '--')) {
+					if (i == 0) {
+						lista_telefonos = lista_telefonos + telefono_tmp;
+					} else {
+						lista_telefonos = lista_telefonos + ';' + telefono_tmp;
+					}
+				}
+			}
+			destinationPhoneList.set(lista_telefonos);
+			// Mandamos la clave del mensaje seleccionada como preferencia
+			messageIdKey.set(messageId.get());
+		}
+
+        function createGrid(){
+				store.reader = reader;
+
+            var grid = new Ext.grid.GridPanel({
+                el:'topic-grid',
+                height:190,
+                store: store,
+                cm: columnModel,
+                trackMouseOver:true,
+                loadMask: true,
+                bbar: new Ext.PagingToolbar({
+                    pageSize: 25,
+                    store: store,
+                    displayInfo: true,
+                    displayMsg: 'Displaying topics {0} - {1} of {2}',
+                    emptyMsg: "No topics to display"
+                })
+            });
+
+            var gridView = new Ext.grid.GridView({
+                forceFit: false
+            });
+
+            grid.view = gridView;
+
+            // render it
+            grid.render();
+            grid.on('rowclick', handleRowClick);
+            grid.on('rowdblclick', handleRowDblClick);
+            grid.getSelectionModel().selectFirstRow();
+
+            // trigger the data store load
+            var idOF = document.getElementById("selectOF").options[document.getElementById("selectOF").selectedIndex].value;
+            var idPlantilla = document.getElementById("selectTemplate").options[document.getElementById("selectTemplate").selectedIndex].value;
+            store.proxy.url = urlWebAtencionRemota.get() + '/ListadoTrabajosEzWeb.ezw?idOrgFuncional=' + idOF + '&idUsuario=' + userWebMAR.get() + '&idPlantilla=' + idPlantilla;
+            store.load({params:{start:0, limit:25}});
+        }
+
+        /* --------------------------------------------------------------------------------------------------
+            Funciones relacionadas con la carga de datos
+           -------------------------------------------------------------------------------------------------- */
+        function loadOF() {
+            //Vaciamos la tabla
+            document.getElementById('topic-grid').innerHTML = '';
+
+            //Recuperamos la lista de OF's
+            var uri = urlWebAtencionRemota.get().replace(/192.168.5.91/, "192.168.7.91") + "/CargaDatosEzWeb.ezw?datosSolicitados=0";
+            EzWebAPI.send_get(uri, this, successHandler, errorHandlerOF);
+        }
+
+        function loadTemplates() {
+            //Recuperamos la lista de plantillas del usuario
+            var idOF = document.getElementById("selectOF").options[document.getElementById("selectOF").selectedIndex].value;
+            var uri = urlWebAtencionRemota.get().replace(/192.168.5.91/, "192.168.7.91") + "/CargaDatosEzWeb.ezw?datosSolicitados=1&idUsuario=" + userWebMAR.get() + "&idOrgFuncional=" + idOF;
+            EzWebAPI.send_get(uri, this, successHandler, errorHandlerTemplates);
+        }
+
+        function loadTemplateFields() {
+            var idOF = document.getElementById("selectOF").options[document.getElementById("selectOF").selectedIndex].value;
+            var idPlantilla = document.getElementById("selectTemplate").options[document.getElementById("selectTemplate").selectedIndex].value;
+            var uri = urlWebAtencionRemota.get().replace(/192.168.5.91/, "192.168.7.91") + "/CargaDatosEzWeb.ezw?datosSolicitados=2&idUsuario=" + userWebMAR.get() + "&idOrgFuncional=" + idOF + "&idPlantilla=" + idPlantilla;
+            EzWebAPI.send_get(uri, this, successHandler, errorHandlerTemplateInfo);
+        }
+
+        function successHandler(transport){
+            var XMLDocument = transport.responseXML;
+            var root = XMLDocument.getElementsByTagName("ajax-response").item(0);
+            var datosSolicitados = root.getAttribute("data");
+            if (datosSolicitados == "OF") {
+                cargarDatosCombo(document.getElementById("selectOF"), root, "Seleccione una OF...");
+            }
+            else {
+                if (datosSolicitados == "USER_TEMPLATES") {
+                    cargarDatosCombo(document.getElementById("selectTemplate"), root, "Seleccione una plantilla...");
+                }
+                else {
+                    if (datosSolicitados == "LIST_TEMPLATE_FIELDS") {
+                        modifyGridElements(root);
+                        loadData();
+                        intervalId = setInterval("loadData()", refreshTime.get() * 60 * 1000);
+                    }
+                    else {
+                        if (datosSolicitados == "ASSIGNAMENT_OPERATION_END") {
+                            //Mostramos el mensaje con el resultado de la operacion
+                            alert(root.childNodes[0].childNodes[0].nodeValue);
+
+                            //Referescamos la lista de actuaciones
+                            loadData();
+                        }
+                    }
+                }
+            }
+        }//successHandler
+
+        function errorHandlerOF() {
+            document.getElementById("selectOF").length = 0;
+            document.getElementById("selectOF").options[document.getElementById("selectOF").length] = new Option("Cargando lista OF's...", "");
+
+            alert('No se ha podido recuperar la lista de OF\'s.\n' +
+                  'Consulte con su administrador');
+            return;
+        }//errorHandler
+
+        function errorHandlerTemplates() {
+            document.getElementById("selectTemplate").length = 0;
+            document.getElementById("selectTemplate").options[document.getElementById("selectTemplate").length] = new Option("Cargando plantillas...", "");
+
+            alert('No se ha podido recuperar la lista de plantillas del usuario.\n' +
+                  'Consulte con su administrador');
+            return;
+        }//errorHandler
+
+        function errorHandlerTemplateInfo() {
+            alert('No se ha podido recuperar la plantilla seleccionada.\n' +
+                  'Consulte con su administrador');
+        }
+
+        function errorHandlerAssignment() {
+            alert('No se ha podido asignar la actuacion.\n' +
+                  'Consulte con su administrador');
+        }
+
+        function cargarDatosCombo(selectElement, rootXMLElement, firstOptionText) {
+            //Eliminamos todos los elementos que tuviese
+            selectElement.length = 0;
+
+            //Rellenamos con los datos obtenidos
+            selectElement.options[selectElement.length] = new Option(firstOptionText, "");
+
+            var options = rootXMLElement.childNodes;
+            for (var i = 0; i < options.length; i++) {
+                var value = options[i].getAttribute("optionValue");
+                var text = options[i].getAttribute("optionText");
+                selectElement.options[selectElement.length] = new Option(text, value, false, false);;
+            }
+        }
+
+        function modifyGridElements(rootXMLElement) {
+            //Tenemos que crear el objeto "Reader" para extraer los datos JSON devueltos por el servidor y el "ColumnModel"
+            //que contenga la informacion del formato de la tabla asi como el mapeo para recuperar los datos del almacen.
+            var fieldsDefinitionRecord = null;
+            var templateFields = rootXMLElement.childNodes;
+            var fieldsDefinition = new Array(templateFields.length + 4);
+            var aTemplateField = new Object();
+            aTemplateField.name = "ID_TRABAJO";
+            fieldsDefinition[0] = aTemplateField;
+            for (var i = 0; i < templateFields.length; i++) {
+                aTemplateField = new Object();
+                aTemplateField.name = templateFields[i].getAttribute("fieldId");
+                fieldsDefinition[i + 1] = aTemplateField;
+            }
+            aTemplateField = new Object();
+            aTemplateField.name = "num_boletin_origen";
+            fieldsDefinition[templateFields.length + 1] = aTemplateField;
+            aTemplateField = new Object();
+            aTemplateField.name = "ID_ACTUACION";
+            fieldsDefinition[templateFields.length + 2] = aTemplateField;
+            aTemplateField = new Object();
+            aTemplateField.name = "edificio_actuacion";
+            fieldsDefinition[templateFields.length + 3] = aTemplateField;
+            fieldsDefinitionRecord = Ext.data.Record.create(fieldsDefinition);
+            reader = new Ext.data.JsonReader({root: 'rows',
+                                              totalProperty: 'tableSize'},
+                                             fieldsDefinitionRecord);
+
+            // The column model has information about grid columns dataIndex maps the column to the specific data field in the data store
+            columnModel = null;
+            var columnModelArray = new Array();
+            aTemplateField = new Object();
+            aTemplateField.header = "Id. Trabajo";
+            aTemplateField.dataIndex = "ID_TRABAJO";
+            aTemplateField.width = 100;
+            columnModelArray[0] = aTemplateField;
+            for (var i = 0; i < templateFields.length; i++) {
+                aTemplateField = new Object();
+                aTemplateField.header = templateFields[i].getAttribute("fieldTag");
+                aTemplateField.dataIndex = templateFields[i].getAttribute("fieldId");
+				if (aTemplateField.dataIndex == "EDIFICIO") {
+					aTemplateField.width = 300;
+				} else if (aTemplateField.dataIndex == "COMUN1") {
+					aTemplateField.width = 200;
+				} else {
+					aTemplateField.width = 100;
+				}
+                columnModelArray[i + 1] = aTemplateField;
+            }
+            columnModel = new Ext.grid.ColumnModel(new Object(columnModelArray));
+            columnModel.defaultSortable = true;
+        }
+
+        /* --------------------------------------------------------------------------------------------------
+            Funcion de inicializacion del gadget
+           -------------------------------------------------------------------------------------------------- */
+        function init() {
+            loadOF();
+            createStore();
+        }
+
+        function createStore() {
+            // create the Data Store
+            store = new Ext.data.Store({
+                // load using script tags for cross domain, if the data in on the same domain as
+                // this page, an HttpProxy would be better
+                proxy: new Ext.data.ScriptTagProxy({
+                    url: ''
+                }),
+
+                //The reader that reads the Topic records will be created when the user selects the template
+                reader: null,
+
+                // turn on remote sorting
+                remoteSort: true
+            });
+			
+			store.on('load', handleDataLoaded);
+        }
+
+    </script>
+
+</head><body class="ext-gecko" id="ext-gen6" onload="init();">
+    <div id="layerOfSelection" style="float: left;">
+        <select name="selectOF" id="selectOF" onchange="javascript:loadTemplates();">
+            <option value="">Cargando lista OF's...</option>
+        </select>
+    </div>
+    <div>
+        <select name="selectTemplate" id="selectTemplate" onchange="javascript:loadTemplateFields();">
+            <option value="">Cargando plantillas...</option>
+        </select>
+    </div>
+    <div id="topic-grid"></div>
+</body></html>

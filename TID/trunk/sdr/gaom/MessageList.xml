@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>MessageList</Name>
+	  <Version>1.20</Version>
+	  <Author>pjm</Author>
+	  <Mail>pjm@tid.es</Mail>
+	  <Description>This gadget manages your message collections, tag and search them by keyword (also by wiring!). For example, use it wired with the Message Sender gadget in order to get the message templates for your SMS's</Description>
+	  <ImageURI>http://ezwuc.hi.inet/repository/sdr/gaom/subjectMessage.png</ImageURI>
+	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show messages which are in all tags or in any tags" label="select the messages which are in..." default="and">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="feedList" type="text" label="Message list"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="feedUrl" type="text" label="messageId" friendcode="messageId"/>
+	  <Event name="feedTitle" type="text" label="messageTitle" friendcode="messageTitle"/>
+	  <Event name="message" type="text" label="messageDesc" friendcode="message"/>
+	  <Event name="feedTags" type="text" label="messageTags" friendcode="messageTags"/>	  
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	  <Slot name="feedUrlKey" type="text" label="messageIdKey" friendcode="messageId"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://ezwuc.hi.inet/repository/sdr/gaom/MessageList.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="5" height="12"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>
