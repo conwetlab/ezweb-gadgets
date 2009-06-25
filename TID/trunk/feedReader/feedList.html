@@ -31,6 +31,7 @@ var feedDesc = EzWebAPI.createRWGadgetVariable("feedDesc");
 var feedTags = EzWebAPI.createRWGadgetVariable("feedTags");
 
 var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+var feedUrlKey = EzWebAPI.createRGadgetVariable("feedUrlKey", searchAndSendByUrl);
 
 // feed data structure for managing all feed subscriptions
 var feedStructure;
@@ -348,6 +349,16 @@ function setEvents(url){
 		feedTitle.set(feedStructure[url]['title']);
 		feedDesc.set(feedStructure[url]['desc']);
 		feedTags.set(feedStructure[url]['tags'].toJSON());		
+	}
+}
+
+function searchAndSendByUrl(url){
+	if(url){
+		var urlDecoded = decodeURI(url);
+		feedUrl.set(url);
+		feedTitle.set(feedStructure[urlDecoded]['title']);
+		feedDesc.set(feedStructure[urlDecoded]['desc']);
+		feedTags.set(feedStructure[urlDecoded]['tags'].toJSON());		
 	}
 }
 
