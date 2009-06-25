@@ -22,6 +22,7 @@ var tagList = EzWebAPI.createRWGadgetVariable("tagList");
 //Preferences
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
+var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
 
 //wiring
 var feedUrl = EzWebAPI.createRWGadgetVariable("feedUrl");
@@ -34,7 +35,39 @@ var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
 // feed data structure for managing all feed subscriptions
 var feedStructure;
 var tagStructure;
-
+var feedListSearch = [];
+feedListSearch.numElem = 0;
+feedListSearch.puntero = 0;
+feedListSearch.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1) % this.numElem;
+	return act;
+}
+feedListSearch.add = function(elem){
+	this[this.numElem] = elem;
+	this.numElem +=1;
+}
+feedListSearch.create = function(){
+	this.numElem = 0;
+	this.puntero = 0;
+}
+var listfeedList = [];
+listfeedList.numElem = 0;
+listfeedList.puntero = 0;
+listfeedList.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1)% this.numElem;
+	return act;
+}
+listfeedList.create = function(){
+	var words = [];
+	words = eval("("+feedList.get()+")");;
+	for(i in words){
+		this[this.numElem] = i;
+		this.numElem +=1;
+	}
+	this.puntero = 0;
+}
 //Global vars
 var category = '';					//Selected category used for searchs. Default:'' to list all feeds
 var lastShown = "";					//Last list item unfolded
@@ -60,7 +93,7 @@ function generateLang(){
 function init () {
 	var feeds = feedList.get();
 	var tags = tagList.get();
-
+	resetInterval(time.get());
 	//set operator
 	setOperator(operator.get());
 	
@@ -505,6 +538,7 @@ function doSearch (value){
 
 	//empty select objects
 	deleteQuery();
+	feedListSearch.create();
 	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
 	$('feedOptions').update("<option value=''><strong>"+translator.getLabel('select_feed')+"</strong></option>");
 
@@ -519,6 +553,7 @@ function doSearch (value){
 
 				paintFeedInfo(i, feeds[i]);
 				addFeedToCombo(feeds[i]);
+				feedListSearch.add(feeds[i]);
 			}
 		}
 		//make visible that the select has changed
@@ -533,7 +568,8 @@ function doSearch (value){
 	else{
 		paintFeedEntries('');
 	}
-
+	sendfeed();
+	resetInterval(time.get());
 }
 
 function setOperator(value){
@@ -688,6 +724,24 @@ function manageFeeds(){
 		$("hide_l").style.display = "none";
 	}
 }
+function resetInterval(value){
+	try {
+	    clearInterval(interval);
+	}catch(e){}
+	if(value>0){
+		interval = setInterval (sendfeed,value*60*1000);
+  	}
+}
+
+function sendfeed(){
+
+	if(feedListSearch.numElem != 0){
+		
+		setEvents(feedListSearch.actual());
+	}
+	
+
+}
 
 </script>
 
@@ -810,11 +864,14 @@ function manageFeeds(){
 	#header{
 		position:relative;
 		padding: 5px 5px 0 5px;
+		min-width:168px;
+		overflow:hidden;
 	}
 	#header label{
 		color: #6C6C6C;
 		font-size: 95%;
 		position:relative;
+		width:61px;
 	}
 	
 	#l_filter, #l_feed{
@@ -836,7 +893,7 @@ function manageFeeds(){
 		border: 1px solid #cccccc;
 		background-color:#e9e9e9;
 		width:auto;
-		margin-left:5px;
+		
 	}
 
 	#header_top select{
@@ -854,7 +911,7 @@ function manageFeeds(){
 	}
 
 	#header_top #match{
-		margin-left:10px;
+		margin-right:10px;
 		float:left;
 	}
 
@@ -870,7 +927,7 @@ function manageFeeds(){
 
 	#header_top #search{
 		position: relative;
-		float: right;
+		float: left;
 	}
 	#header #l_search{
 		margin-right: 5px;
@@ -889,7 +946,7 @@ function manageFeeds(){
 	}
 	#header_bottom #options{
 		position: relative;
-		float: left;
+		float: right;
 		text-align: right;
 		min-width: 205px;
 		color:#3274d0;
@@ -906,6 +963,7 @@ function manageFeeds(){
 	#combo_tag{
 		position:relative;
 		float:left;
+		margin-right:10px;
 	}
 	#combo_tag #selected_categories{
 		display:none;
@@ -966,6 +1024,7 @@ function manageFeeds(){
 	#addFeed td.labels, .feed_edition td.labels{
 		width:15%;
 		vertical-align:middle;
+		font-size:10px;
 	}
 	#addFeed td.fields, .feed_edition td.fields{
 		width:80%;
@@ -982,14 +1041,14 @@ function manageFeeds(){
 		border: 1px solid #D5D5D5;
 	}
 	#addFeed .tag_label, .feed_edition .tag_label{
-		font-size:85%;
+		font-size:62%;
 	}
 	#addFeed #buttons, .feed_edition #buttons{
 		text-align:center;
 	}	
 	#addFeed .button, .feed_edition .button{
 		color:#3274D0;
-		font-size:90%;
+		font-size:72%;
 	}
 </style>
 </head>
