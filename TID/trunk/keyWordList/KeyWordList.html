@@ -133,15 +133,17 @@ function init () {
 }
 
 function resizeSelect(){
-	$('feedOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_feed').getWidth()-60) + "px";
+/*	$('feedOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_feed').getWidth()-60) + "px"; */
 }
 
 //filling the select object
 function fillSelectObject(tags){
 	if(tags.length == 0){
 		$('category').style.display = 'none';
+		$('header_top').style.display = 'none';
 	}else{
 		$('category').style.display = 'inline';
+		$('header_top').style.display = '';
 		for(var i=0;i<tags.length;i++){
 			$('category').options[i+1] = new Option(tags[i],tags[i]);
 			$('category').options[i+1].className="option";
@@ -497,11 +499,11 @@ function hide(id){
 }
 
 function removeFeed(id, url) {
-	var	tags = feedStructure[url]['tags'];	
+	var	tags = keyWordStructure[url]['tags'];	
 
 	//remove the feed from the feed structure
-	delete feedStructure[url];
-	feedList.set(feedStructure.toJSON());  
+	delete keyWordStructure[url];
+	keyWordList.set(keyWordStructure.toJSON());  
 
 	if(tags.length > 0){
 		//remove the feed references from tag structure
@@ -573,7 +575,8 @@ function doSearch (value){
 	else{
 		paintFeedEntries('');
 	}
-
+	 sendKeyWord();
+	resetInterval(time.get());
 }
 
 function setOperator(value){
@@ -733,7 +736,7 @@ function resetInterval(value){
 	    clearInterval(interval);
 	}catch(e){}
 
-	interval = setInterval (sendKeyWord,value*1000);
+	interval = setInterval (sendKeyWord,value*60*1000);
   
 }
 
@@ -874,6 +877,8 @@ function sendKeyWord(){
 	#header{
 		position:relative;
 		padding: 5px 5px 0 5px;
+		min-width:230px;
+		overflow:hidden;
 	}
 	#header label{
 		color: #d64d31;
@@ -888,7 +893,7 @@ function sendKeyWord(){
 	}
 
 
-	#header_top, #header_bottom {
+	#header_top, #header_bottom, #search {
 		position:relative;
 		height: 19px;
 		margin-bottom:6px;
@@ -898,13 +903,8 @@ function sendKeyWord(){
 	#header_top select, #header_bottom select{
 		color:#6c6c6c;
 		border: 1px solid #cccccc;
-		background-color:#f9e4c7;
-		width:auto;
-		margin-left:5px;
-	}
-
-	#header_top select{
-		max-width: 150px;
+		background-color:#e9e9e9;
+		width:150px;
 	}
 
 	#header_bottom select{
@@ -918,7 +918,7 @@ function sendKeyWord(){
 	}
 
 	#header_top #match{
-		margin-left:10px;
+		margin-right:10px;
 		float:left;
 	}
 
@@ -932,10 +932,6 @@ function sendKeyWord(){
 	
 	}
 
-	#header_top #search{
-		position: relative;
-		float: right;
-	}
 	#header #l_search{
 		margin-right: 5px;
 		font-size: 90%;
@@ -948,7 +944,7 @@ function sendKeyWord(){
 		background:#f9e4c7;
 		border: 1px solid #cccccc;
 		vertical-align: middle;
-		width: 75px;
+		width: 143px;
 		padding:1px;
 	}
 	#header_bottom #options{
@@ -968,6 +964,7 @@ function sendKeyWord(){
 	#combo_tag{
 		position:relative;
 		float:left;
+		margin-right:10px;
 	}
 	#combo_tag #selected_categories{
 		display:none;
@@ -1029,6 +1026,7 @@ function sendKeyWord(){
 	#addFeed td.labels, .feed_edition td.labels{
 		width:15%;
 		vertical-align:middle;
+		font-size:10px;
 	}
 	#addFeed td.fields, .feed_edition td.fields{
 		width:80%;
@@ -1045,22 +1043,29 @@ function sendKeyWord(){
 		border: 1px solid #D5D5D5;
 	}
 	#addFeed .tag_label, .feed_edition .tag_label{
-		font-size:85%;
+		font-size:62%;
 	}
 	#addFeed #buttons, .feed_edition #buttons{
 		text-align:center;
 	}	
 	#addFeed .button, .feed_edition .button{
-		color:#d64d31;
-		font-size:90%;
+		color:#3274D0;
+		font-size:72%;
 	}
+
 </style>
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
+	<div id="search">
+		<label id="l_search">
+			<a id="search_l" href="javascript:clickSearch()">Search:</a>
+		</label>
+		<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
+	</div>
 	<div id="header_top">
-		<label id="l_filter">Filter:</label>
 		<div id="combo_tag">
+			<label id="l_filter">Filter:</label>
 			<ul id="selected_categories"></ul>
 			<select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select>
 		</div>
@@ -1069,12 +1074,6 @@ function sendKeyWord(){
 			<input type="radio" id="and" name="match" onclick="setOperator('and')"/>
 			<label id="l_any">any</label>
 			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
-		</div>
-		<div id="search">
-			<label id="l_search">
-				<a id="search_l" href="javascript:clickSearch()">search</a>
-			</label>
-			<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
 		</div>
 	</div>
 	<div id="header_bottom">

@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr Contact Photos</Name>
-    <Version>1.41</Version>
+    <Version>1.42</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -17,10 +17,18 @@
   <Platform.Preferences>
     <Preference name="flickr_user" type="text" description="Your username in Flickr" label="Flickr username" default="ezweb2009"/>
     <Preference name="api_key" type="text" description="api_key" label="Flickr Api Key (optional)"/>
- </Platform.Preferences>>
+	<Preference name="photosperpage" type="list" description="Numb 	er of photos per page" label="Photos per page" default='10'>
+		<Option value='5' name='5'/>
+		<Option value='10' name='10'/>
+		<Option value='15' name='15'/>
+		<Option value='20' name='20'/>
+	</Preference>
+
+ </Platform.Preferences>
   
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
+	<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
   </Platform.StateProperties>
   
   <!-- EzWeb Gadget Data Wiring -->
@@ -31,7 +39,8 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>
+	<XHTML href="http://helios.ls.fi.upm.es/gadgets/flickr/flickrContactPhotos/flickr.html"/>
+<!--    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>-->
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>

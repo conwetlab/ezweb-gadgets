@@ -129,15 +129,17 @@ function init () {
 }
 
 function resizeSelect(){
-	$('feedOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_feed').getWidth()-60) + "px";
+	/*$('feedOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_feed').getWidth()-60) + "px";*/
 }
 
 //filling the select object
 function fillSelectObject(tags){
 	if(tags.length == 0){
 		$('category').style.display = 'none';
+		$('header_top').style.display = 'none';
 	}else{
 		$('category').style.display = 'inline';
+		$('header_top').style.display = '';
 		for(var i=0;i<tags.length;i++){
 			$('category').options[i+1] = new Option(tags[i],tags[i]);
 			$('category').options[i+1].className="option";
@@ -875,24 +877,24 @@ function sendfeed(){
 	#header{
 		position:relative;
 		padding: 5px 5px 0 5px;
-		min-width:168px;
+		min-width:230px;
 		overflow:hidden;
 	}
 	#header label{
 		color: #6C6C6C;
 		font-size: 95%;
 		position:relative;
-		width:61px;
+		/*width:61px;*/
 	}
 	
 	#l_filter, #l_feed{
 		float:left;
 		top:3px;
-		width:35px;
+		margin-right:3px;
 	}
 
 
-	#header_top, #header_bottom {
+	#header_top, #header_bottom, #search {
 		position:relative;
 		height: 19px;
 		margin-bottom:6px;
@@ -903,12 +905,8 @@ function sendfeed(){
 		color:#6c6c6c;
 		border: 1px solid #cccccc;
 		background-color:#e9e9e9;
-		width:auto;
+		width:150px;
 		
-	}
-
-	#header_top select{
-		max-width: 150px;
 	}
 
 	#header_bottom select{
@@ -936,10 +934,6 @@ function sendfeed(){
 	
 	}
 
-	#header_top #search{
-		position: relative;
-		float: left;
-	}
 	#header #l_search{
 		margin-right: 5px;
 		font-size: 90%;
@@ -952,7 +946,7 @@ function sendfeed(){
 		background:#e9e9e9;
 		border: 1px solid #cccccc;
 		vertical-align: middle;
-		width: 75px;
+		width: 143px;
 		padding:1px;
 	}
 	#header_bottom #options{
@@ -962,7 +956,6 @@ function sendfeed(){
 		min-width: 205px;
 		color:#3274d0;
 		top:2px;
-		margin-top: 2px;
 	}
 
 	#options div{
@@ -1065,7 +1058,42 @@ function sendfeed(){
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
-<div id="header_top"><label id="l_filter">Filter:</label><div id="combo_tag"><ul id="selected_categories"></ul><select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select></div><div id='match'><label id="l_all">Match all</label> <input type="radio" id="and" name="match" onclick="setOperator('and')"/> <label id="l_any">any</label> <input type="radio" id="or" name="match" onclick="setOperator('or')"/></div><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div><div id="header_bottom"><label id="l_feed">Feed:</label><div id='combo_feed'><select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintFeedEntries('')"><span id="all_l">all feeds</span></div> | <div id="manage" onclick="manageFeeds()"><span id="manage_l">manage feeds</span><span id="hide_l" style="display:none">hide feeds</span></div> | <div id="add_link" onclick="showAddFeed()"><span id="add_l">add feed</span></div></div></div>
+	<div id="search">
+		<label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label>
+		<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
+	</div>
+	<div id="header_top">
+		<label id="l_filter">Filter:</label>
+		<div id="combo_tag">
+			<ul id="selected_categories"></ul>
+			<select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select>
+		</div>
+		<div id='match'>
+			<label id="l_all">Match all</label>
+			<input type="radio" id="and" name="match" onclick="setOperator('and')"/>
+			<label id="l_any">any</label>
+			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
+		</div>
+	</div>
+	<div id="header_bottom">
+		<label id="l_feed">Feed:</label>
+		<div id='combo_feed'>
+			<select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select>
+		</div>
+		<div id="options">
+			<div id="all" onclick="deleteQuery();paintFeedEntries('')">
+				<span id="all_l">all feeds</span>
+			</div> | 
+			<div id="manage" onclick="manageFeeds()">
+				<span id="manage_l">manage feeds</span>
+				<span id="hide_l" style="display:none">hide feeds</span>
+			</div> | 
+			<div id="add_link" onclick="showAddFeed()">
+				<span id="add_l">add feed</span>
+			</div>
+		</div>
+	</div>
+	
 </div>
 <div id="addFeed" style="display:none;">
 	<span id="addFeed_title">New Feed</span>

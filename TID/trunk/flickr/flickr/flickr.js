@@ -3,6 +3,7 @@ var is_iphone = (agent.indexOf('iPhone')!=-1);
 
 var time = EzWebAPI.createRGadgetVariable('time', resetInterval);
 var vkey = EzWebAPI.createRGadgetVariable("keyword", displayMenu);
+var nphotosPref = EzWebAPI.createRGadgetVariable("photosperpage", setNumberOfPhotos);
 var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
 var vdefault = EzWebAPI.createRGadgetVariable("defaultSearch", displayMenu);
 var interval = null;
@@ -10,27 +11,84 @@ var titleevent = EzWebAPI.createRWGadgetVariable ('title');
 var autorevent = EzWebAPI.createRWGadgetVariable ('autor');
 var keywordevent = EzWebAPI.createRWGadgetVariable("keyword_event");
 
+var previousimgs = [];
+var currentimgs = [];
+var nextimgs = [];
+
 function init (){
 	// Creo la cabecera
 	var header = document.createElement ('div');
 	header.setAttribute ('id', 'header');
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
-	img.setAttribute ('title', 'Refresh');
 	img.setAttribute ('src', 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png');
-	img.setAttribute ('onclick', 'displayMenu2();');
-	img.style.cssText = 'cursor: pointer';
-	header.appendChild (img);
+	var a = document.createElement ('a');
+	a.setAttribute ('href', 'http://www.flickr.com');
+	a.style.cssText = 'text-decoration:None; color:white;';
+	a.setAttribute ('target', '_blank');
+	a.setAttribute ('title', 'Flickr');
+	a.appendChild(img);
+	var imgrefresh = document.createElement('img');
+	imgrefresh.setAttribute ('id', 'refreshimg');
+	imgrefresh.setAttribute ('title', 'Refresh');
+	imgrefresh.src ='http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/refresh.png';
+	imgrefresh.setAttribute ('onclick', 'displayMenu2();');
+	imgrefresh.style.cssText = 'cursor: pointer; position:absolute; top:5px; right:5px;';
+	header.appendChild (imgrefresh);
+	header.appendChild (a);
 	// creo el div del contenido
 	var content = document.createElement ('div');
 	content.setAttribute ('id', 'content_div');
-	content.style.cssText = 'margin:0 auto; text-align:center;';
+	content.style.cssText = 'margin:0 auto; text-align:center; overflow:auto; position:absolute; top:40px; bottom:22px';
+	var footer = document.createElement ('div');
+	footer.setAttribute ('id', 'footer_div');
+	footer.style.cssText = 'position:absolute; bottom:0px; left:5px; right:5px; height:22px; text-align:center;';
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/go-first.png';
+	img.setAttribute ('title', 'Go First');
+	img.addEventListener ('click', function (e){setArrays(null,0);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/go-previous.png';
+	img.setAttribute ('title', 'Go Previous');
+	img.addEventListener ('click', function (e){setArrays(null,1);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/go-next.png';
+	img.setAttribute ('title', 'Go Next');
+	img.addEventListener ('click', function (e){setArrays(null,2);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/go-last.png';
+	img.setAttribute ('title', 'Go Last');
+	img.addEventListener ('click', function (e){setArrays(null,3);}, false);
+	footer.appendChild (img);
 
 	document.body.appendChild (header);
 	document.body.appendChild (content);
+	document.body.appendChild (footer);
+	if (nphotosPref.get () == '5')
+		nphotos = 5;
+	if (nphotosPref.get () == '10')
+		nphotos = 10;
+	if (nphotosPref.get () == '15')
+		nphotos = 15;
+	if (nphotosPref.get () == '20')
+		nphotos = 20;
 	keywordevent.set(vdefault.get());
 	displayMenu(vkey.get());
 	resetInterval(time.get())
+}
+function setNumberOfPhotos () {
+	if (nphotosPref.get () == '5')
+		nphotos = 5;
+	if (nphotosPref.get () == '10')
+		nphotos = 10;
+	if (nphotosPref.get () == '15')
+		nphotos = 15;
+	if (nphotosPref.get () == '20')
+		nphotos = 20;
+	displayMenu2();
 }
 function displayMenu2(){
 	displayMenu(vkey.get());
@@ -56,9 +114,9 @@ function displayMenu(keyword) {
 
 function displayOk(resp){
 	var response = resp.responseXML;
-
-	var html = "";
+	// At first, saving the images content into a new structure
 	var items = response.getElementsByTagName("item");
+	var imgs = [];
 	for (var i = 0; i < items.length ; i++) {
 	        if (i==9 && is_iphone)
 		    break;
@@ -78,15 +136,13 @@ function displayOk(resp){
 		}
 		var autor = a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
 		var titulo = t;
-		if (t!="")
-			t = '\''+t+'\' by '+ autor;
-		else
-			t = 'Photo by '+autor;
-
-		html += '<a href="#" onclick="sendImage(\''+urlT+'\',\''+titulo+'\',\''+autor+'\');" title="'+t+'"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
-		//html += '<a href="'+url+'" title="'+t+'" target="_blank"><img src="'+urlT+'" class="t" alt="'+t+'"></a>';
+		img = {title:titulo, autor:autor, url:urlT};
+		imgs[i]=img;
 	}
-	document.getElementById('content_div').innerHTML = html;
+	previousimgs = [];
+	currentimgs = [];
+	nextimgs = [];
+	setArrays (imgs, null);
 }
 
 function sendImage(urlImage_,titulo,autor)
@@ -97,7 +153,6 @@ function sendImage(urlImage_,titulo,autor)
 }
 
 function displayError(res){
-         
 }
 
 function resetInterval (value){
@@ -112,3 +167,94 @@ function resetInterval (value){
 	interval = setInterval('displayMenu2()', value*60000);
 }
 
+function setArrays (imgs, from){
+	// Caso inicial
+	if ((previousimgs.length==0) && (currentimgs.length==0) && (nextimgs.length==0)){ 
+		// Get the number of photos in the current list
+		last = (nphotos<imgs.length) ? nphotos : imgs.length;
+		for (i=0; i<last; i++){
+			img = imgs[i]; // get the first img
+			currentimgs[i] = img; // inserting into currentimgs
+		}
+		// Adding the rest of the imgs in the nextimgs list
+		for (i=last; i<imgs.length; i++){
+			nextimgs [nextimgs.length] = imgs[i];
+		}
+		displayImages();
+		return;
+	}
+	if (from == 0){ // asking for first images
+		// it has all the imgs
+		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
+		last = (nphotos<previousimgs.length) ? nphotos : previousimgs.length;
+		currentimgs = [];
+		nextimgs = [];
+		for (i=0; i<last; i++){
+			img = previousimgs[i]; // get the first img
+			currentimgs[i] = img; // inserting into currentimgs
+		}
+		// Adding the rest of the imgs in the nextimgs list
+		for (i=last; i<previousimgs.length; i++){
+			nextimgs [nextimgs.length] = previousimgs[i];
+		}
+		previousimgs = [];
+		displayImages();
+		return;
+	} 
+	if (from == 1){ // asking for previous images
+		if (previousimgs.length == 0)
+			return;
+		// Moving the currentimgs into the nextimgs list
+		currentimgs = currentimgs.concat(nextimgs);
+		nextimgs = currentimgs;
+		currentimgs = [];
+		currentimgs = previousimgs.slice (previousimgs.length-nphotos, previousimgs.length);
+		previousimgs = previousimgs.slice (0, previousimgs.length-nphotos);
+		displayImages();
+		return;
+	}
+	if (from == 2){ // asking for next images
+		if (nextimgs.length == 0)
+			return;
+		previousimgs = previousimgs.concat(currentimgs);
+		currentimgs = [];
+		last = (nphotos<previousimgs.length) ? nphotos : previousimgs.length;
+		currentimgs = nextimgs.slice (0, last);
+		nextimgs = nextimgs.slice (last, nextimgs.length);	
+		displayImages();
+		return;
+	}
+	if (from == 3){ // asking form last images
+		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
+		nextimgs = [];
+		currentimgs = [];
+		last = previousimgs.length%nphotos;
+		currentimgs = previousimgs.slice(previousimgs.length-last, previousimgs.length);
+		previousimgs = previousimgs.slice(0, previousimgs.length-last);
+		displayImages();
+		return;
+	}
+}
+
+function displayImages () {
+	document.getElementById('content_div').innerHTML = '';
+	for (var i=0;i<currentimgs.length;i++){
+		img = currentimgs[i]; // get the first img
+		// creating link
+		a = document.createElement('a');
+		a.href = '#';
+		a.setAttribute ('onClick', 'sendImage("'+img.url+'","'+img.title+'","'+img.autor+'");"');
+		if (img.title != "")
+			title = '\''+ img.title +'\' by '+ img.autor;
+		else
+		title = 'Photo by ' + img.autor;
+		a.setAttribute ('title', title);
+		// creating image
+		image = document.createElement ('img');
+		image.src = img.url;
+		image.setAttribute ('class', 't');
+		image.setAttribute ('alt', title);
+		a.appendChild(image);
+		document.getElementById('content_div').appendChild(a);
+	}
+}

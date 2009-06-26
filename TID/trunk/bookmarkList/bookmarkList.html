@@ -22,7 +22,7 @@ var tagList = EzWebAPI.createRWGadgetVariable("tagList");
 //Preferences
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
-
+var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
 //wiring
 var bookmarkUrl = EzWebAPI.createRWGadgetVariable("bookmarkUrl");
 var bookmarkTitle = EzWebAPI.createRWGadgetVariable("bookmarkTitle");
@@ -35,6 +35,40 @@ var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
 var bookmarkStructure;
 var tagStructure;
 
+var bookmarkSearch = [];
+bookmarkSearch.numElem = 0;
+bookmarkSearch.puntero = 0;
+bookmarkSearch.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1) % this.numElem;
+	return act;
+}
+bookmarkSearch.add = function(elem){
+	this[this.numElem] = elem;
+	this.numElem +=1;
+}
+bookmarkSearch.create = function(){
+	this.numElem = 0;
+	this.puntero = 0;
+}
+
+var listbookmark = [];
+listbookmark.numElem = 0;
+listbookmark.puntero = 0;
+listbookmark.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1)% this.numElem;
+	return act;
+}
+listbookmark.create = function(){
+	var words = [];
+	words = eval("("+bookmarkList.get()+")");;
+	for(i in words){
+		this[this.numElem] = i;
+		this.numElem +=1;
+	}
+	this.puntero = 0;
+}
 //Global vars
 var category = '';					//Selected category used for searchs. Default:'' to list all bookmarks
 var lastShown = "";					//Last list item unfolded
@@ -60,6 +94,8 @@ function generateLang(){
 function init () {
 	var bookmarks = bookmarkList.get();
 	var tags = tagList.get();
+
+	resetInterval(time.get());
 
 	//set operator
 	setOperator(operator.get());
@@ -95,15 +131,17 @@ function init () {
 }
 
 function resizeSelect(){
-	$('bookmarkOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_bookmark').getWidth()-60) + "px";
+	/*$('bookmarkOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_bookmark').getWidth()-60) + "px";*/
 }
 
 //filling the select object
 function fillSelectObject(tags){
 	if(tags.length == 0){
 		$('category').style.display = 'none';
+		$('header_top').style.display = 'none';
 	}else{
 		$('category').style.display = 'inline';
+		$('header_top').style.display = '';
 		for(var i=0;i<tags.length;i++){
 			$('category').options[i+1] = new Option(tags[i],tags[i]);
 			$('category').options[i+1].className="option";
@@ -277,7 +315,7 @@ function paintBookmarkInfo (index, bookmark)
 	var notes = bookmarkStructure[bookmark]['desc'];
 	var tags = bookmarkStructure[bookmark]['tags'];
 	var html = "<div id='"+index+"' class='bookmark'><div id='title_"+index+"' class=\"bookmark_title\"><a href=\"javascript:setEvents('" + url + "');\">" + title +"</a></div>";
-	html +="<div class='actions'><a href=\"javascript:editBookmark('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeBookmark('"+index+"' , '"+ url + "')\"><img alt='remove' src='hhttp://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	html +="<div class='actions'><a href=\"javascript:editBookmark('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeBookmark('"+index+"' , '"+ url + "')\"><img alt='remove' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
 	html += "<div id='tags_"+index+"' class='bookmark_tags'>";
 	for (var i=0; i<tags.length;i++){
 
@@ -399,6 +437,7 @@ function checkAndStore(url, bookmark, prevUrl){
 	 delete bookmarkStructure[prevUrl];
      bookmarkStructure[url]=bookmark;
      bookmarkList.set(bookmarkStructure.toJSON());
+     listbookmark.create();
 
 }
 
@@ -505,6 +544,7 @@ function doSearch (value){
 
 	//empty select objects
 	deleteQuery();
+	bookmarkSearch.create();
 	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
 	$('bookmarkOptions').update("<option value=''><strong>"+translator.getLabel('select_bookmark')+"</strong></option>");
 
@@ -519,6 +559,7 @@ function doSearch (value){
 
 				paintBookmarkInfo(i, bookmarks[i]);
 				addBookmarkToCombo(bookmarks[i]);
+				bookmarkSearch.add(bookmarks[i]);
 			}
 		}
 		//make visible that the select has changed
@@ -534,6 +575,8 @@ function doSearch (value){
 		paintBookmarkEntries('');
 	}
 
+	sendbookmark();
+	resetInterval(time.get());
 }
 
 function setOperator(value){
@@ -688,7 +731,24 @@ function manageBookmarks(){
 		$("hide_l").style.display = "none";
 	}
 }
+function resetInterval(value){
+	try {
+	    clearInterval(interval);
+	}catch(e){}
+	if(value>0){
+		interval = setInterval (sendbookmark,value*60*1000);
+  	}
+}
 
+function sendbookmark(){
+
+	if(bookmarkSearch.numElem != 0){
+		
+		setEvents(bookmarkSearch.actual());
+	}
+	
+
+}
 </script>
 
 <style type="text/css">
@@ -810,22 +870,24 @@ function manageBookmarks(){
 	#header{
 		position:relative;
 		padding: 5px 5px 0 5px;
+		min-width:230px;
+		overflow:hidden;
 	}
 	#header label{
 		color: #6C6C6C;
 		font-size: 95%;
 		position:relative;
-		width:61px;
+		/*width:61px;*/
 	}
 	
 	#l_filter, #l_bookmark{
 		float:left;
 		top:3px;
-		width:35px;
+		margin-right:3px;
 	}
 
 
-	#header_top, #header_bottom {
+	#header_top, #header_bottom, #search {
 		position:relative;
 		height: 19px;
 		margin-bottom:6px;
@@ -836,26 +898,23 @@ function manageBookmarks(){
 		color:#6c6c6c;
 		border: 1px solid #cccccc;
 		background-color:#e9e9e9;
-		width:auto;
-		margin-left:5px;
-	}
-
-	#header_top select{
-		max-width: 150px;
+		width:150px;
+		
 	}
 
 	#header_bottom select{
-/*		width:100%;*/
+		width:100%;
 		min-width:150px;
 	}
 
 	#combo_tag .option{
 		background-color:#e9e9e9;
 		color: #6c6c6c;
+		
 	}
 
 	#header_top #match{
-		margin-left:10px;
+		margin-right:10px;
 		float:left;
 	}
 
@@ -871,7 +930,7 @@ function manageBookmarks(){
 
 	#header_top #search{
 		position: relative;
-		float: right;
+		float: left;
 	}
 	#header #l_search{
 		margin-right: 5px;
@@ -885,7 +944,7 @@ function manageBookmarks(){
 		background:#e9e9e9;
 		border: 1px solid #cccccc;
 		vertical-align: middle;
-		width: 75px;
+		width: 143px;
 		padding:1px;
 	}
 	#header_bottom #options{
@@ -905,6 +964,7 @@ function manageBookmarks(){
 	#combo_tag{
 		position:relative;
 		float:left;
+		margin-right:10px;
 	}
 	#combo_tag #selected_categories{
 		display:none;
@@ -965,6 +1025,7 @@ function manageBookmarks(){
 	#addBookmark td.labels, .bookmark_edition td.labels{
 		width:15%;
 		vertical-align:middle;
+		font-size:10px;
 	}
 	#addBookmark td.fields, .bookmark_edition td.fields{
 		width:80%;
@@ -981,20 +1042,36 @@ function manageBookmarks(){
 		border: 1px solid #D5D5D5;
 	}
 	#addBookmark .tag_label, .bookmark_edition .tag_label{
-		font-size:85%;
+		font-size:62%;
 	}
 	#addBookmark #buttons, .bookmark_edition #buttons{
 		text-align:center;
 	}	
 	#addBookmark .button, .bookmark_edition .button{
 		color:#D07432;
-		font-size:90%;
+		font-size:72%;
 	}
 </style>
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
-<div id="header_top"><label id="l_filter">Filter:</label><div id="combo_tag"><ul id="selected_categories"></ul><select id="category" name="category" onchange="paintBookmarkEntries(this.value);" ></select></div><div id='match'><label id="l_all">Match all</label> <input type="radio" id="and" name="match" onclick="setOperator('and')"/> <label id="l_any">any</label> <input type="radio" id="or" name="match" onclick="setOperator('or')"/></div><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div><div id="header_bottom"><label id="l_bookmark">Bookmark:</label><div id='combo_bookmark'><select id="bookmarkOptions" name="bookmarkOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintBookmarkEntries('')"><span id="all_l">all bookmarks</span></div> | <div id="manage" onclick="manageBookmarks()"><span id="manage_l">manage bookmarks</span><span id="hide_l" style="display:none">hide bookmarks</span></div> | <div id="add_link" onclick="showAddBookmark()"><span id="add_l">add bookmark</span></div></div></div>
+<div id="search">
+	<label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label>
+	<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
+</div>
+<div id="header_top">
+	<label id="l_filter">Filter:</label>
+	<div id="combo_tag"><ul id="selected_categories"></ul>
+		<select id="category" name="category" onchange="paintBookmarkEntries(this.value);" ></select>
+	</div>
+	<div id='match'>
+		<label id="l_all">Match all</label> 
+		<input type="radio" id="and" name="match" onclick="setOperator('and')"/> 
+		<label id="l_any">any</label>
+		 <input type="radio" id="or" name="match" onclick="setOperator('or')"/>
+	</div>
+</div>
+<div id="header_bottom"><label id="l_bookmark">Bookmark:</label><div id='combo_bookmark'><select id="bookmarkOptions" name="bookmarkOptions" onchange="setEvents(this.value)"></select></div><div id="options"><div id="all" onclick="deleteQuery();paintBookmarkEntries('')"><span id="all_l">all bookmarks</span></div> | <div id="manage" onclick="manageBookmarks()"><span id="manage_l">manage bookmarks</span><span id="hide_l" style="display:none">hide bookmarks</span></div> | <div id="add_link" onclick="showAddBookmark()"><span id="add_l">add bookmark</span></div></div></div>
 </div>
 <div id="addBookmark" style="display:none;">
 	<span id="addBookmark_title">New Bookmark</span>

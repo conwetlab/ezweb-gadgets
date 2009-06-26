@@ -5,12 +5,14 @@
 <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
 
 <style type="text/css">
+	body {overflow:hidden}
 	body,td,div,span,p{font-family:arial,sans-serif;}
+	a {color:#0000cc; }
+	a:visited { color:#551a8b; }a:active { color:#ff0000; }
 	body {margin: 0px;padding: 0px;   background-color: white;   }
 	.t { width: 75px; height: 75px; margin: 0; border:0; padding: 3px; } 
 	.t:hover { padding:1px; border: 2px solid #0063DC; border-right-color: #FF0084; }
 	#logo { width:100px;}
-	.t2 {cursor:pointer;}
 </style>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
@@ -19,6 +21,7 @@
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
+var interval = null;
 var FLICK_API_KEY = "3eafb24b0d5aa817d52f45a27ee4f334";
 var user_id = "";
 
@@ -27,6 +30,13 @@ var api_key = EzWebAPI.createRGadgetVariable("api_key", api_key_handler);
 var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
 var title = EzWebAPI.createRWGadgetVariable("title");
 var author = EzWebAPI.createRWGadgetVariable("author");
+var nphotosPref = EzWebAPI.createRGadgetVariable ('photosperpage', nphotos_handler);
+var nphotos = 0;
+
+var time = EzWebAPI.createRGadgetVariable('time', resetInterval);
+var previousimgs = [];
+var currentimgs = [];
+var nextimgs = [];
 
 function flickr_user_handler (user) {
 	get_user_id();
@@ -36,7 +46,17 @@ function api_key_handler (key) {
 	FLICK_API_KEY = key;
 	get_user_id();
 }
-
+function nphotos_handler(){
+	if (nphotosPref.get () == '5')
+		nphotos = 5;
+	if (nphotosPref.get () == '10')
+		nphotos = 10;
+	if (nphotosPref.get () == '15')
+		nphotos = 15;
+	if (nphotosPref.get () == '20')
+		nphotos = 20;
+	displayImages();
+}
 function get_user_id () {
 	
 	if (flickr_user.get() == ""){
@@ -87,8 +107,8 @@ function get_contact_photos (resp) {
 function show_photos(resp){
 	var response = resp.responseXML;
 
-	var html = "";
 	var items = response.getElementsByTagName("item");
+	imgs = [];
 	for (var i = 0; i < items.length ; i++) {
 	        if (i==9 && is_iphone)
 		    break;
@@ -106,16 +126,105 @@ function show_photos(resp){
 			else if (node.nodeName=="author")
 				var a = node.firstChild.nodeValue;
 		}
-		if (t!="")
-			t2 = '\''+t+'\' by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
-		else 
-			t = 'Photo by '+a.substring(a.indexOf('(')+1, a.lastIndexOf(')'));
-	
-		html += '<img onclick="javascript:send_image(\''+urlT+'\', \''+t+'\', \''+a+'\');" src="'+urlT+'" class="t2" title="'+t2+'" alt="'+t2+'"/>';
+		img	= {title:t, autor:a, url:urlT};
+		imgs[i]=img;
 	}
-	document.getElementById('content_div').innerHTML = html;
+	previousimgs = [];
+	currentimgs = [];
+	nextimgs = [];
+	setArrays (imgs, null);
+}
+function setArrays (imgs, from){
+	// Caso inicial
+	if ((previousimgs.length==0) && (currentimgs.length==0) && (nextimgs.length==0)){ 
+		// Get the number of photos in the current list
+		last = (nphotos<imgs.length) ? nphotos : imgs.length;
+		for (i=0; i<last; i++){
+			img = imgs[i]; // get the first img
+			currentimgs[i] = img; // inserting into currentimgs
+		}
+		// Adding the rest of the imgs in the nextimgs list
+		for (i=last; i<imgs.length; i++){
+			nextimgs [nextimgs.length] = imgs[i];
+		}
+		displayImages();
+		return;
+	}
+	if (from == 0){ // asking for first images
+		// it has all the imgs
+		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
+		last = (nphotos<previousimgs.length) ? nphotos : previousimgs.length;
+		currentimgs = [];
+		nextimgs = [];
+		for (i=0; i<last; i++){
+			img = previousimgs[i]; // get the first img
+			currentimgs[i] = img; // inserting into currentimgs
+		}
+		// Adding the rest of the imgs in the nextimgs list
+		for (i=last; i<previousimgs.length; i++){
+			nextimgs [nextimgs.length] = previousimgs[i];
+		}
+		previousimgs = [];
+		displayImages();
+		return;
+	} 
+	if (from == 1){ // asking for previous images
+		if (previousimgs.length == 0)
+			return;
+		// Moving the currentimgs into the nextimgs list
+		currentimgs = currentimgs.concat(nextimgs);
+		nextimgs = currentimgs;
+		currentimgs = [];
+		currentimgs = previousimgs.slice (previousimgs.length-nphotos, previousimgs.length);
+		previousimgs = previousimgs.slice (0, previousimgs.length-nphotos);
+		displayImages();
+		return;
+	}
+	if (from == 2){ // asking for next images
+		if (nextimgs.length == 0)
+			return;
+		previousimgs = previousimgs.concat(currentimgs);
+		currentimgs = [];
+		last = (nphotos<previousimgs.length) ? nphotos : previousimgs.length;
+		currentimgs = nextimgs.slice (0, last);
+		nextimgs = nextimgs.slice (last, nextimgs.length);	
+		displayImages();
+		return;
+	}
+	if (from == 3){ // asking form last images
+		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
+		nextimgs = [];
+		currentimgs = [];
+		last = previousimgs.length%nphotos;
+		currentimgs = previousimgs.slice(previousimgs.length-last, previousimgs.length);
+		previousimgs = previousimgs.slice(0, previousimgs.length-last);
+		displayImages();
+		return;
+	}
 }
 
+function displayImages () {
+	document.getElementById('content_div').innerHTML = '';
+	for (var i=0;i<currentimgs.length;i++){
+		img = currentimgs[i]; // get the first img
+		// creating link
+		a = document.createElement('a');
+		a.href = '#';
+		a.setAttribute ('onClick', 'sendImage("'+img.url+'","'+img.title+'","'+img.autor+'");"');
+		if (img.title != "")
+			title = '\''+ img.title +'\' by '+ img.autor;
+		else
+		title = 'Photo by ' + img.autor;
+		a.setAttribute ('title', title);
+		// creating image
+		image = document.createElement ('img');
+		image.src = img.url;
+		image.setAttribute ('class', 't');
+		image.setAttribute ('alt', title);
+		a.appendChild(image);
+		document.getElementById('content_div').appendChild(a);
+	}
+}
 function send_image(urlImage_,t,a)
 {
 	urlImage.set(urlImage_.substr(0, urlImage_.length - 6) + urlImage_.substr(urlImage_.length - 4, 4));
@@ -127,15 +236,86 @@ function show_error(res){
  	var msg = 'Sorry, but we cannot show the photos of your contacts. Try it again later...'
 	document.getElementById('content_div').innerHTML = msg;        
 }
+function init(){
+	var header = document.createElement ('div');
+	header.setAttribute ('id', 'header');
+	var img = document.createElement('img');
+	img.setAttribute ('id', 'logo');
+	img.setAttribute ('src', 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.png');
+	var a = document.createElement ('a');
+	a.setAttribute ('href', 'http://www.flickr.com');
+	a.style.cssText = 'text-decoration:None; color:white;';
+	a.setAttribute ('target', '_blank');
+	a.setAttribute ('title', 'Flickr');
+	a.appendChild(img);
+	var imgrefresh = document.createElement('img');
+	imgrefresh.setAttribute ('id', 'refreshimg');
+	imgrefresh.setAttribute ('title', 'Refresh');
+	imgrefresh.src ='http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/refresh.png';
+	imgrefresh.setAttribute ('onclick', 'get_user_id();');
+	imgrefresh.style.cssText = 'cursor: pointer; position:absolute; top:5px; right:5px;';
+	header.appendChild (imgrefresh);
+	header.appendChild (a);
+	// creo el div del contenido
+	var content = document.createElement ('div');
+	content.setAttribute ('id', 'content_div');
+	content.style.cssText = 'margin:0 auto; text-align:center; overflow:auto; position:absolute; top:40px; bottom:22px';
+	var footer = document.createElement ('div');
+var footer = document.createElement ('div');
+	footer.setAttribute ('id', 'footer_div');
+	footer.style.cssText = 'position:absolute; bottom:0px; left:5px; right:5px; height:22px; text-align:center;';
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/go-first.png';
+	img.setAttribute ('title', 'Go First');
+	img.addEventListener ('click', function (e){setArrays(null,0);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/go-previous.png';
+	img.setAttribute ('title', 'Go Previous');
+	img.addEventListener ('click', function (e){setArrays(null,1);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/go-next.png';
+	img.setAttribute ('title', 'Go Next');
+	img.addEventListener ('click', function (e){setArrays(null,2);}, false);
+	footer.appendChild (img);
+	img = document.createElement ('img');
+	img.src = 'http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/go-last.png';
+	img.setAttribute ('title', 'Go Last');
+	img.addEventListener ('click', function (e){setArrays(null,3);}, false);
+	footer.appendChild (img);
+	
+	document.body.appendChild(header);
+	document.body.appendChild(content);
+	document.body.appendChild(footer);
+	if (nphotosPref.get () == '5')
+		nphotos = 5;
+	if (nphotosPref.get () == '10')
+		nphotos = 10;
+	if (nphotosPref.get () == '15')
+		nphotos = 15;
+	if (nphotosPref.get () == '20')
+		nphotos = 20;
+	get_user_id();
+	resetInterval(time.get())
+}
 
+function resetInterval (value){
+	if (interval != null)
+	{
+		try {
+			clearInterval (interval);
+		}
+		catch(e){
+		}
+	}
+	interval = setInterval('get_user_id()', value*60000);
+}
 </script>
 
 </head>
 
-<img id="logo" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png"/>
-
-<body onload="javascript:get_contact_photos();">
-	<div id="content_div" style="margin:0 auto; text-align: center;"></div>
+<body onload="javascript:init();">
 </body>
 
 </html>

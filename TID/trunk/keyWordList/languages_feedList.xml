@@ -3,7 +3,7 @@
 <languages>
 	<language name="en">
 		<label id="l_filter">Filter:</label>
-		<label id="search_l">search</label>
+		<label id="search_l">Search:</label>
 		<label id="all_l">all feeds</label>
 		<label id="manage_l">manage feeds</label>
 		<label id="hide_l">hide feeds</label>
@@ -33,7 +33,7 @@
 	</language>
 	<language name="es">
 		<label id="l_filter">Filtro:</label>
-		<label id="search_l">buscar</label>
+		<label id="search_l">Buscar:</label>
 		<label id="all_l">todos</label>
 		<label id="manage_l">gestionar</label>
 		<label id="hide_l">ocultar</label>
