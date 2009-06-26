@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Search</Name>
-		<Version>1.22</Version>
+		<Version>1.24</Version>
 		<Author>jjmr</Author>
 		<Mail>jjmr@tid.es</Mail>
 		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>
@@ -14,6 +14,12 @@
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
 		<Preference name="text" type="text" description="text shown in front of the text field" label="label for the input box" default="keyword:"/>
+		<Preference name="theme" type="list" label="Color Theme" description="Color Theme" default="blue">
+			<Option value="orange" name="Orange"/>
+			<Option value="green" name="Green"/>
+			<Option value="blue" name="Blue"/>
+			<Option value="red" name="Red"/>
+		</Preference>
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
 	<Platform.StateProperties>
