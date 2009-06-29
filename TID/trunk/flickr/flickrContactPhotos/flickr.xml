@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr Contact Photos</Name>
-    <Version>1.43</Version>
+    <Version>1.44</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -39,8 +39,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-	<XHTML href="http://helios.ls.fi.upm.es/gadgets/flickr/flickrContactPhotos/flickr.html"/>
-<!--    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>-->
+ <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>
