@@ -239,11 +239,13 @@ function setArrays (imgs, from){
 function displayImages () {
 	document.getElementById('content_div').innerHTML = '';
 	for (var i=0;i<currentimgs.length;i++){
-		img = currentimgs[i]; // get the first img
+		var img = currentimgs[i]; // get the first img
 		// creating link
 		a = document.createElement('a');
 		a.href = '#';
-		a.setAttribute ('onClick', 'sendImage("'+img.url+'","'+img.title+'","'+img.autor+'");"');
+		a.addEventListener('click', EzWebExt.bind(function(e){
+			    sendImage(this.url, this.title, this.autor);
+		}, img), false);
 		if (img.title != "")
 			title = '\''+ img.title +'\' by '+ img.autor;
 		else

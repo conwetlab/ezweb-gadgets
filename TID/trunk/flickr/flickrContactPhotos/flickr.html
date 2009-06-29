@@ -16,6 +16,7 @@
 </style>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
 <script>
 
 var agent=navigator.userAgent;
@@ -206,11 +207,13 @@ function setArrays (imgs, from){
 function displayImages () {
 	document.getElementById('content_div').innerHTML = '';
 	for (var i=0;i<currentimgs.length;i++){
-		img = currentimgs[i]; // get the first img
+		var img = currentimgs[i]; // get the first img
 		// creating link
 		a = document.createElement('a');
 		a.href = '#';
-		a.setAttribute ('onClick', 'sendImage("'+img.url+'","'+img.title+'","'+img.autor+'");"');
+	        a.addEventListener('click', EzWebExt.bind(function(e){
+			    send_image(this.url, this.title, this.autor);
+		}, img), false);
 		if (img.title != "")
 			title = '\''+ img.title +'\' by '+ img.autor;
 		else
