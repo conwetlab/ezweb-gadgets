@@ -27,7 +27,6 @@ var WikipediaGadget = function () {
 	EzWebGadget.call (this, {translatable:true});
 }
 WikipediaGadget.prototype = new EzWebGadget();
-//WikipediaGadget.prototype.resourcesURL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/WikipediaGadget"
 WikipediaGadget.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget"
 // Funcion de inicio
 WikipediaGadget.prototype.init = function() {
@@ -108,7 +107,7 @@ function displaySearch (search, context)
     else
 	var tab1 = panelArticle.createTab ({
 			"name":decodeURIComponent(context.value).replace(/_/g, " "),
-			'id':'Search_'+context.value;
+			'id':'Search_'+context.value,
 			closeable:true
 		});
 
@@ -390,7 +389,7 @@ function displayArticle(text)
 	}
 	var tab1 = panelArticle.createTab ({
 		"name":decodeURIComponent(value).replace(/_/g, " "),
-		"id":value;
+		"id":value,
 		closeable:true
 	});
 	tab1.appendChild (div);
@@ -453,7 +452,6 @@ function removeLoadingImage() {
  */
 function displayError (error)
 {
-	alert ('HTTP Error: ' + error.code + error.description);
 	removeLoadingImage();
 }
 /*
