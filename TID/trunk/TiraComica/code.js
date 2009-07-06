@@ -196,25 +196,42 @@ window.addEventListener('load', function() {
 
 	setSource(sourcePreference.get());
 	setBackground(backgroundPreference.get());
+	
 }, true);
 
 
 // PREFERENCES
-var setSource = function(value) {
-	sources[value].reload(
+var setSource = function() {
+	sources[sourcePreference.get()].reload(
 		function() { /* Success */
 			image.setTitle(this.title);
 			image.setSrc(this.image);
 			imgUrlEvent.set(this.image);
 //			frameLoad.show();
+			setRefreshTime();
 		},
 		function() { /* Error */
+			clearRefreshTime();
 			frameError.setMenssage("Ocurrio un error al conectarse a la fuente");
 			frameError.show();
 			frameLoad.hidden();
+			
 		});
 };
 var sourcePreference = EzWebAPI.createRGadgetVariable("source", setSource);
+
+var interval;
+
+var clearRefreshTime = function(){
+	window.clearInterval(interval);
+}
+
+var setRefreshTime = function (){
+        clearRefreshTime();
+        interval = window.setInterval(setSource ,refreshTime.get() * 60 * 1000);
+}
+
+var refreshTime= EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
 
 var setBackground = function(value) {
 	document.body.style.backgroundColor = value;

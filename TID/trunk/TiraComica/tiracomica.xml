@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Tira Comica</Name>
-		<Version>0.7</Version>
+		<Version>0.8</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>El gadget muestra una tira comica.</Description>
@@ -35,6 +35,7 @@
 			<Option value="#DFDFDF"  name="Grey 2"/>
 			<Option value="black" name="Black"/>
 		</Preference>
+		<Preference name="refreshTime" type="number" description="Refresh Time" label="Refresh Time (min)" default="60"/>
 	</Platform.Preferences>
 
 	<!-- EzWeb Gadget Persistent State -->
