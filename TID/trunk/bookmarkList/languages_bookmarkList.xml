@@ -17,7 +17,7 @@
 		<label id="save_l">SAVE</label>
 		<label id="cancel_l">CANCEL</label>
 		<label id="separator_l">comma separated</label>
-		<label id="l_all">Match all</label>
+		<label id="l_all">all</label>
 		<label id="l_any">any</label>
 		<label id="select_tag">select tag</label>
 		<label id="select_bookmark">select bookmark</label>
@@ -46,7 +46,7 @@
 		<label id="save_l">ACEPTAR</label>
 		<label id="cancel_l">CANCELAR</label>
 		<label id="separator_l">separadas por comas</label>
-		<label id="l_all">Cumple todos</label>
+		<label id="l_all">todos</label>
 		<label id="l_any">alguno</label>
 		<label id="select_tag">etiquetas</label>
 		<label id="select_bookmark">marcadores</label>

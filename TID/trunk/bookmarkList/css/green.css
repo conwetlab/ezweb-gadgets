@@ -1,0 +1,139 @@
+body {	
+	
+	background-color:#e4f9cc;
+}
+     
+
+#list {
+	background-color: #ffffff;
+	border-top-color:#d5d5d5;
+	
+}
+.no_bookmarks{
+	color:#6c6c6c;
+}
+#add_link{
+	color: #629B1E;
+}
+
+#imp_exp{
+	color:#629B1E;
+	
+}
+
+#import_b{
+	color:#629B1E;
+}
+
+
+
+#list .bookmark{
+	border-bottom-color:#d5d5d5;
+}
+
+.bookmark .bookmark_title a{
+	color:#629B1E;
+}
+
+.bookmark .bookmark_tags{
+	background-color:#FBF5EF;	
+}
+.bookmark .bookmark_tags:hover{
+	background-color:#e9e9e9;
+}
+.bookmark_tags a{
+	color:#6c6c6c;
+}
+.bookmark_edition .edition{
+	border: 1px solid #d5d5d5;
+	background-color: #e4f9cc;
+}
+.edition .required{
+	color:red;
+}
+.msg{
+	color: red;;
+}
+
+
+#header{
+
+	padding: 5px 5px 0 5px;
+	
+}
+#header label{
+	color: #6C6C6C;
+	/*width:61px;*/
+}
+
+
+
+#header_top select, #header_bottom select{
+	color:#6c6c6c;
+	border-color:#cccccc;
+	background-color:#e9e9e9;
+	
+}
+#header_bottom #options{
+	position: relative;
+	float: right;
+	text-align: right;
+	min-width: 205px;
+	color:#629B1E;
+	top:2px;
+}
+
+#combo_tag .option{
+	background-color:#e9e9e9;
+	color: #6c6c6c;
+	
+}
+
+#l_search a{
+	color: #629b1e;		
+}
+#header #i_search{
+	color: #6C6C6C;
+	background:#e9e9e9;
+	border-color:#cccccc;
+}
+
+
+
+#selected_categories li{
+	background: #e9e9e9;
+	border-color:#cccccc;
+	color: #6C6C6C;
+
+}
+
+
+#selected_categories li.operator{
+	background-color:#E9E9E9;
+	color: #629B1E;
+}
+#addBookmark{
+	background-color:#e4f9cc;
+
+}
+#addBookmark #addBookmark_title{
+	color:#6C6C6C;
+}
+
+#addBookmark td, .bookmark_edition td{
+	color:#629B1E;
+}
+
+
+#addBookmark input, .bookmark_edition input{
+	color:#6C6C6C;
+	border-color:#D5D5D5;
+}
+#addBookmark textarea, .bookmark_edition textarea{
+	color:#777777;
+	border-color:#D5D5D5;
+}
+	
+#addBookmark .button, .bookmark_edition .button{
+	color:#629B1E;
+}

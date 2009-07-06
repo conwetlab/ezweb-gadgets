@@ -13,7 +13,7 @@
 
 <title>Bookmark List</title>
 <script language="javascript">
-
+var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/bookmarkList/";
 //EzWeb vars
 //Properties
 var bookmarkList = EzWebAPI.createRWGadgetVariable("bookmarkList");
@@ -23,6 +23,7 @@ var tagList = EzWebAPI.createRWGadgetVariable("tagList");
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
 var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
+var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
 //wiring
 var bookmarkUrl = EzWebAPI.createRWGadgetVariable("bookmarkUrl");
 var bookmarkTitle = EzWebAPI.createRWGadgetVariable("bookmarkTitle");
@@ -96,13 +97,13 @@ function init () {
 	var tags = tagList.get();
 
 	resetInterval(time.get());
-
+	
 	//set operator
 	setOperator(operator.get());
 	
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
-	
+	setTheme(theme.get());
 	//is import/export operation enabled? (only for Firefox 3)
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
 		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
@@ -622,6 +623,10 @@ function setConfiguration(value){
 	}
 }
 
+function setTheme(value){
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
+}
+
 function addBookmarksFromFile(opml){
 	var outline;
 	var bookmark;
@@ -658,6 +663,55 @@ function addBookmarksFromFile(opml){
 	$('import_form').style.display="none";
 }
 
+function addBookmarksFirefox(filehtml){
+
+	var dt;
+	var bookmark;
+	var url;
+	var tag;
+	var tags_hierachy;
+
+	var file = document.createElement("div");
+    	file.innerHTML = filehtml;
+	var dts = file.getElementsByTagName('dt');
+	for (var i = 0; i<dts.length; i++){
+		bookmark = new Object();
+		dt = dts[i];
+		
+	   if(dt.childNodes.length != 0){	
+		var date = dt.childNodes[0].getAttribute('last_modified');
+		
+		if(date== null){
+			
+		}
+		else{
+		   bookmark.title = dt.childNodes[0].childNodes[0].nodeValue;
+		  
+		   bookmark.descripcion = "";
+		   url = dt.childNodes[0].href;
+		   tags = bookmark.title;
+		   bookmark.tags = new Array();
+		   if(tags && tags !=""){
+		    	tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				bookmark.tags=bookmark.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (bookmark.tags.indexOf("") != -1){
+				bookmark.tags.splice(bookmark.tags.indexOf(""), 1);
+			}
+		    }
+		   checkAndStore(url,bookmark,'');
+		  
+		}
+
+	    }
+
+       }
+	paintBookmarkEntries('');
+	$('import_form').style.display="none";
+}
+
 function toggleImport(){
 	if($('import_form').style.display=="none")
 		$('import_form').style.display="inline";
@@ -674,6 +728,7 @@ function importBookmarks(){
 		var parser = new DOMParser()
 		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
 		addBookmarksFromFile(opml);
+		addBookmarksFirefox(fileContents);
 	}
 }
 
@@ -1052,6 +1107,10 @@ function sendbookmark(){
 		font-size:72%;
 	}
 </style>
+
+<link rel="stylesheet" type="text/css" id="color_theme" />
+
+
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">

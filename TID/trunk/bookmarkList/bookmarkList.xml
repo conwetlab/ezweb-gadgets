@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>Bookmark List</Name>
-	  <Version>1.12</Version>
+	  <Version>1.14</Version>
 	  <Author>Ignacio Rodríguez</Author>
 	  <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 	  <Description>This gadget manages your Bookmarks collections, tag and search your sources, show bookmarks related to any keyword (also by wiring!). Use it wired with the Bookmark Reader gadget in order to get the full functionality</Description>
@@ -22,6 +22,12 @@
 		<Option value="fullList" name="full list"/>
 	</Preference>
  	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="yellow">
+		<Option value="yellow" name="Yellow"/>
+		<Option value="green" name="Green"/>
+		<Option value="blue" name="Blue"/>
+		
+	</Preference>
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
 	<Platform.StateProperties>
