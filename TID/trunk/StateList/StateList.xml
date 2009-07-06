@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>State List</Name>
+	  <Version>0.3</Version>
+	  <Author>Laura García</Author>
+	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
+	  <Description>Gadget que permite el envío de mensajes de texto</Description>
+	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rssList.jpg</ImageURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Bookmark_List</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show bookmarks which are in all tags or in any tags" label="select the bookmarks which are in..." default="and">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+ 	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="blue">
+		<Option value="yellow" name="Yellow"/>
+		<Option value="green" name="Green"/>
+		<Option value="blue" name="Blue"/>
+		
+	</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="messageList" type="text" label="messageList"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <!--Event name="bookmarkUrl" type="text" label="bookmarkUrl" friendcode="BookmarkUrl"/>
+	  <Event name="bookmarkTitle" type="text" label="bookmarkTitle" friendcode="BookmarkTitle"/-->
+	  <Event name="message" type="text" label="message" friendcode="message"/>
+	  <Event name="messageTags" type="text" label="messageTags" friendcode="message"/>
+	  
+	  <Slot name="messageSlot" type="text" label="messageSlot" friendcode="messageSlot"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/StateList/StateList.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="8" height="5"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>

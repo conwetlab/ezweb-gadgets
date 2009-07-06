@@ -11,7 +11,7 @@ body {
 	left:2px;
 	right: 2px;
 	min-width: 300px;
-	background: #EDECEB url(http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/gadgets/ebay/images/ebay.png) no-repeat scroll right center;
+	background: #EDECEB url(../images/ebay.png) no-repeat scroll right center;
 }
 #bottomPanel{
 	top:32px;
