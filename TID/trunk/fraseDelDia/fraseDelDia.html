@@ -120,26 +120,50 @@ var urlSource2 = EzWebAPI.createRGadgetVariable("url2",init);
 var urlSource  = EzWebAPI.createRGadgetVariable("url",init);
 var fontSize   = EzWebAPI.createRGadgetVariable("tam", changeFontSize);
 var colorTheme = EzWebAPI.createRGadgetVariable("color", changeColor);
+var refreshTime= EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
 
 var authorEvent   = EzWebAPI.createRWGadgetVariable('author');
 var sentenceEvent = EzWebAPI.createRWGadgetVariable('sentence');
+
+function formatNumber(num, digits){
+	
+	var result = num;
+	
+	if (num.length < digits){
+	
+		for (var i = 0; i < (digits - num.length); i++){
+			result = '0' + result;
+		}
+	}
+	
+	return result;
+}
+			
 
 // Sentence Object
 
 function daySentence (sentence, author, pubDate, link){
 
-this.sentence = sentence;
-this.author = author;
+	this.sentence = sentence;
+	this.author = author;
 
-if (pubDate != ""){
-	this.pubDate = new Date(Date.parse(pubDate));
-	this.pubDate = this.pubDate.toLocaleDateString();
-}
-else 	{
-	this.pubDate = "";
-}
+	if (pubDate != ""){
+		this.pubDate = new Date(Date.parse(pubDate));		
+			
+		if(language.search(/\s*\ben-?/) != -1){ 	//English date
+			
+			this.pubDate = formatNumber( (this.pubDate.getMonth() + 1).toString(), 2) + '/' +  formatNumber(this.pubDate.getDate(),2) + '/' + this.pubDate.getFullYear().toString().slice(2);
+		}
+		else{ 	//Spanish date
 		
-this.link = link;
+			this.pubDate = this.pubDate.toLocaleDateString().slice(0,6) + this.pubDate.toLocaleDateString().slice(8);
+		}
+	}
+	else 	{
+		this.pubDate = "";
+	}
+		
+	this.link = link;
 
 }
 
@@ -157,6 +181,7 @@ var sentences;
 var items;
 var language;
 var error;
+var interval;
 // Functions
 
 function getColor(){
@@ -453,12 +478,22 @@ function getSource(list, url){
 	}
 }
 
+function clearRefreshTime(){
+	window.clearInterval(interval);
+}
+
+function setRefreshTime(){
+	clearRefreshTime();
+	interval = window.setInterval(init ,refreshTime.get() * 60 * 1000);
+}
+
 function init(){
 	
 	// It refreshs itself each hour
 
 	showImageLoading();
-	window.setInterval(init ,3600000);
+	//window.setInterval(init ,3600000);
+	setRefreshTime();
  	initializeVar();	
 	changeFontSize();
 	changeColor();
@@ -501,6 +536,7 @@ function updateEvents(){
 	
 function errorHandler(value){
 	
+	clearRefreshTime();
 	language = getLanguage  (urlSource.get(),
                                  urlSource2.get(),
                                  value.responseXML);

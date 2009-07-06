@@ -9,7 +9,7 @@
 
 	<Name>Frase Del Dia</Name>
 
-	<Version>1.1</Version>
+	<Version>1.2</Version>
 
 	<Author>AlbertoChavesJiménez</Author>
 
@@ -59,6 +59,8 @@
 		<Option value="gray" 	name="Gris"/>
 		<Option value="yelow" 	name="Amarillo"/>
 	</Preference>
+
+	 <Preference name="refreshTime" type="number" description="Tiempo de refresco" label="Tiempo de refresco (min)" default="60"/>
 
 </Platform.Preferences>
 
