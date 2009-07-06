@@ -13,7 +13,7 @@
 
 <title>Feed List</title>
 <script language="javascript">
-
+var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/keyWordList/";
 //EzWeb vars
 //Properties
 var keyWordList = EzWebAPI.createRWGadgetVariable("keyWordList");
@@ -23,7 +23,7 @@ var tagList = EzWebAPI.createRWGadgetVariable("tagList");
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
 var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
-
+var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
 //wiring
 var keyWordName = EzWebAPI.createRWGadgetVariable("keyWordName");
 var keyWordDesc = EzWebAPI.createRWGadgetVariable("keyWordDesc");
@@ -100,7 +100,7 @@ function init () {
 
 	//set operator
 	setOperator(operator.get());
-	
+	setTheme(theme.get());
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
 	
@@ -621,7 +621,9 @@ function setConfiguration(value){
 		$("hide_l").style.display = "inline";
 	}
 }
-
+function setTheme(value){
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
+}
 function addFeedsFromFile(opml){
 	var outline;
 	var feed;
@@ -1054,6 +1056,7 @@ function sendKeyWord(){
 	}
 
 </style>
+<link rel="stylesheet" type="text/css" id="color_theme" />
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
