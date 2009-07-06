@@ -68,10 +68,40 @@ function URLDecode( url )
    return plaintext;
 }
 
+function parseURL(url) {
+	var a =  document.createElement('a');
+	a.href = url;
+	return {
+	    source: url,
+	    protocol: a.protocol.replace(':',''),
+	    host: a.hostname,
+	    port: a.port,
+	    query: a.search,
+	    params: (function(){
+	        var ret = {},
+	            seg = a.search.replace(/^\?/,'').split('&'),
+	            len = seg.length, i = 0, s;
+	        for (;i<len;i++) {
+	            if (!seg[i]) { continue; }
+	            s = seg[i].split('=');
+	            ret[s[0]] = s[1];
+	        }
+	        return ret;
+	    })(),
+	    file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+	    hash: a.hash.replace('#',''),
+	    path: a.pathname.replace(/^([^\/])/,'/$1'),
+	    relative: (a.href.match(/tp:\/\/[^\/]+(.+)/) || [,''])[1],
+	    segments: a.pathname.replace(/^\//,'').split('/')
+	};
+}
+
+
 //PREFERENCES
 var urlPref = EzWebAPI.createRGadgetVariable("urlPref", setURL);
 var homeUrl = EzWebAPI.createRGadgetVariable("homeUrl", setURL);
 var refreshingTime = EzWebAPI.createRGadgetVariable("refreshingTime", setRefreshingTime);
+var httpVerb = EzWebAPI.createRGadgetVariable("htmlVerb", setHttpVerb);
 //WIRING
 var url = EzWebAPI.createRGadgetVariable("url", setURL);
 var params = EzWebAPI.createRGadgetVariable("parameters", setParams);
@@ -116,13 +146,13 @@ function init(){
 	
 }
 function loadURL(url_){
-
- if(url_ && url_!=""){
-   url_ = URLDecode (url_);
-   var frm = document.getElementById("browser");
-   frm.setAttribute('src',url_);
-	current_url = url_;
- }
+	if (url_ && url_!="") {
+		url_ = URLDecode(url_);
+		/*var frm = document.getElementById("browser");
+		frm.setAttribute('src',url_);
+		current_url = url_; */
+		i_loadURL(url_.replace(/^\s*|\s*$/g,""));
+	}
 }
 
 function setURL(value){
@@ -138,6 +168,11 @@ function refresh(){
 	loadURL(current_url);
 }
 
+function setHttpVerb(value) {
+	document.getElementById('brw_form').setAttribute('method', value);
+	refresh();
+}
+
 function setRefreshingTime(value){
 	if(parseInt(value) > 0){
 		clearInterval(idInterval);
@@ -149,12 +184,31 @@ function goHome(){
 	loadURL(homeUrl.get());
 }
 
+function loadURL(value) {
+	if (!value) return;
+	var frm = document.getElementById('brw_form');
+	var url = parseURL(value);
+
+	for (var k in url.params) {
+		var prm = document.createElement('input');
+		prm.setAttribute('type', 'text');
+		prm.setAttribute('name', k);
+		prm.setAttribute('value', url.params[k]);
+		frm.appendChild(prm);
+	}
+
+	current_url = url.protocol+'://'+url.host+(url.protocol = '' ? ':'+url.protocol : '')+url.path
+	frm.setAttribute('action', current_url);
+	frm.submit();
+}
+
 </script>
 <div id="header">
 	<div id="source" style="display:none"><label>source: </label></div><div id="home" onclick="goHome()">home</div><div id="refresh" onclick="refresh()">refresh</div>
 </div>
 <div id="video">
-<iframe id="browser" frameborder="0" width="100%" height="95%"></iframe>
+<iframe name="browser" id="browser" frameborder="0" width="100%" height="95%"></iframe>
 </div>
+<form id="brw_form" method="get" target="browser" style="display:none"></from>
 </body>
 </html>

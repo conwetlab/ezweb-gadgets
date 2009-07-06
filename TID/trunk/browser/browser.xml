@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Web Browser</Name>
-    <Version>0.3</Version>
+    <Version>0.5</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Gadgets that renders an html page</Description>
@@ -15,6 +15,10 @@
   <Platform.Preferences>
     
   </Platform.Preferences>
+     <Preference name="htmlVerb" type="list" description="HTML verb" label="HTML verb" default="GET">
+       <Option value="GET" name="GET"/>
+       <Option value="POST" name="POST"/>
+     </Preference>
      <Preference name="urlPref" type="text" description="HTML base URL" label="Base URL" />
      <Preference name="homeUrl" type="text" description="Home page URL" label="Home page URL"/>
      <Preference name="refreshingTime" type="text" description="Refreshing interval (minutes)" label="Refresh every... (minutes)" default="0"/>
