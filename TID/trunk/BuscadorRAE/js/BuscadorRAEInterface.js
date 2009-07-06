@@ -298,7 +298,7 @@ BuscadorRAE.prototype.parseContent = function (tab)
 	context = {id:tab.getId(), listoftabs:this.listoftabs};
 	tab.addEventListener ('close', EzWebExt.bind(function(e){
 		for (var i=0;i<this.listoftabs.length;i++) {
-			if (this.listoftabs[i].id == this.id) {
+			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id)) {
 				delete this.listoftabs[i];
 				return;
 			}
