@@ -11,7 +11,7 @@
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-<title>Feed List</title>
+<title>Keyword List</title>
 <script language="javascript">
 var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/keyWordList/";
 //EzWeb vars
@@ -891,7 +891,7 @@ function sendKeyWord(){
 	#l_filter, #l_feed{
 		float:left;
 		top:3px;
-		width:35px;
+		width:52px;
 	}
 
 
@@ -1080,26 +1080,26 @@ function sendKeyWord(){
 		</div>
 	</div>
 	<div id="header_bottom">
-		<label id="l_feed">Feed:</label>
+		<label id="l_feed">Keyword:</label>
 		<div id='combo_feed'>
 			<select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select>
 		</div>
 		<div id="options">
 			<div id="all" onclick="deleteQuery();paintFeedEntries('')">
-				<span id="all_l">all feeds</span>
+				<span id="all_l">all keywords</span>
 			</div>  |
 			<div id="manage" onclick="manageFeeds()">
-				<span id="manage_l">manage feeds</span>
+				<span id="manage_l">manage keywords</span>
 				<span id="hide_l" style="display:none">hide feeds</span>
 			</div> |
 			<div id="add_link" onclick="showAddFeed()">
-				<span id="add_l">add feed</span>
+				<span id="add_l">add keywords</span>
 			</div>
 		</div>
 	</div>
 </div>
 <div id="addFeed" style="display:none;">
-	<span id="addFeed_title">New Feed</span>
+	<span id="addFeed_title">New Keyword</span>
 	<form id="addForm">
 	<table class='edition'>
 	<tr>
