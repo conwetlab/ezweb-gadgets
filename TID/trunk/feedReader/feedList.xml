@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>FeedList</Name>
-	  <Version>3.27</Version>
+	  <Version>3.29</Version>
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
