@@ -393,7 +393,7 @@ function displayArticle(text)
 		closeable:true
 	});
 	tab1.appendChild (div);
-	var context = {id:tab.getId(), listoftabs:this.listoftabs};
+	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
 	tab1.addEventListener ('close', EzWebExt.bind (function(e){
 		for (var i=0;i<this.listoftabs.length;i++)
 			if (this.listoftabs[i].id == this.id)
