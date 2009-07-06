@@ -3,7 +3,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>EzWeb</Vendor>
 		<Name>Wikipedia</Name>
-		<Version>2.3</Version>
+		<Version>2.31</Version>
 		<Author>Ignacio Rodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
@@ -29,7 +29,7 @@
 	    <Option value="pt" name="Portugês"/>
 	    <Option value="nl" name="Nederlands"/>
 	  </Preference>
-	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://demo.ezweb.morfeo-project.org:13001"/>
+	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://helios.ls.fi.upm.es"/>
 	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
 	    <Option value="5" name="5"/>
 	    <Option value="10" name="10"/>
@@ -43,7 +43,7 @@
 	<!-- Indica que variables emplea el gadget para comunicarse con otros gadgets -->
 	<Platform.Wiring>
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
-	  <Slot name="gotokey" type="text" label="keyword" friendcode="gotokey"/>
+	  <Slot name="gotokey" type="text" label="gotokey" friendcode="gotokey"/>
 	  <Event name="url" type="text" label="url" friendcode="url"/>
 	  <Event name="summary" type="text" label="summary" friendcode="summary"/>
 	  <Event name="title" type="text" label="title" friendcode="title"/>
@@ -58,7 +58,7 @@
 	</Platform.Context>
 	<!-- Asocia este template con su implementacion (en html) -->
 	<Platform.Link>
-	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/"/>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/WikipediaGadget/MediaWiki.html"/>
 	</Platform.Link>
 	<!-- Definimos la informacion de presentacion del interfaz ancho y alto -->
 	<Platform.Rendering width='6' height='24'/>
