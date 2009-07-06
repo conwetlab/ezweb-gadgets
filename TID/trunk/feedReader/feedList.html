@@ -13,7 +13,7 @@
 
 <title>Feed List</title>
 <script language="javascript">
-
+var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/feedReader/";
 //EzWeb vars
 //Properties
 var feedList = EzWebAPI.createRWGadgetVariable("feedList");
@@ -23,7 +23,7 @@ var tagList = EzWebAPI.createRWGadgetVariable("tagList");
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
 var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
-
+var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
 //wiring
 var feedUrl = EzWebAPI.createRWGadgetVariable("feedUrl");
 var feedTitle = EzWebAPI.createRWGadgetVariable("feedTitle");
@@ -31,7 +31,6 @@ var feedDesc = EzWebAPI.createRWGadgetVariable("feedDesc");
 var feedTags = EzWebAPI.createRWGadgetVariable("feedTags");
 
 var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
-var feedUrlKey = EzWebAPI.createRGadgetVariable("feedUrlKey", searchAndSendByUrl);
 
 // feed data structure for managing all feed subscriptions
 var feedStructure;
@@ -100,7 +99,8 @@ function init () {
 	
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
-	
+
+	setTheme(theme.get());
 	//is import/export operation enabled? (only for Firefox 3)
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
 		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
@@ -351,16 +351,6 @@ function setEvents(url){
 		feedTitle.set(feedStructure[url]['title']);
 		feedDesc.set(feedStructure[url]['desc']);
 		feedTags.set(feedStructure[url]['tags'].toJSON());		
-	}
-}
-
-function searchAndSendByUrl(url){
-	if(url){
-		var urlDecoded = decodeURI(url);
-		feedUrl.set(url);
-		feedTitle.set(feedStructure[urlDecoded]['title']);
-		feedDesc.set(feedStructure[urlDecoded]['desc']);
-		feedTags.set(feedStructure[urlDecoded]['tags'].toJSON());		
 	}
 }
 
@@ -627,6 +617,9 @@ function setConfiguration(value){
 		$("hide_l").style.display = "inline";
 	}
 }
+function setTheme(value){
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
+}
 
 function addFeedsFromFile(opml){
 	var outline;
@@ -763,6 +756,7 @@ function sendfeed(){
 		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
 		font-size:12px;
 		margin:3px;
+		background-color:#CDDFEF;
 	}
 		
 	a {
@@ -1055,6 +1049,9 @@ function sendfeed(){
 		font-size:72%;
 	}
 </style>
+
+<link rel="stylesheet" type="text/css" id="color_theme" />
+
 </head>
 <body onload="generateLang();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
