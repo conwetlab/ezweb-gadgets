@@ -63,7 +63,7 @@ body {
 	color:#999;
 	color:#dfa203;
 	position:absolute;
-	right:0;
+	right:30px;
 	top:.25em;
 	background:#ffd157;
 }
@@ -149,3 +149,10 @@ a.opacity:hover {
 	-moz-opacity:1;
 	opacity:1;
 }
+
+#reload {
+	cursor: pointer;
+	position: absolute;
+	right: 5px;
+	top: 0.65em;
+	}

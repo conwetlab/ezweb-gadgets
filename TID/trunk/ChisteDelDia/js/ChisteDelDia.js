@@ -37,6 +37,8 @@ Sources = {
 
 function LoadJokeGadget() {
 
+document.getElementById('reload').addEventListener("click", function() {reload();}, false);
+
 var errorFrameObject = {
 	frame: document.getElementById('error_frame'),
 

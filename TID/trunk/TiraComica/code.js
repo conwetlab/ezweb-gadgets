@@ -127,6 +127,15 @@ var frameError = (function() {
 	return frame;
 })();
 
+var refreshImage = document.createElement('img');
+	refreshImage.style.cursor = "pointer";
+	refreshImage.style.position = "absolute";
+	refreshImage.style.left = "5px";
+	refreshImage.style.top = "5px";
+
+	refreshImage.src = "http://demo.ezweb.morfeo-project.org/repository/TiraComica/imgs/reload.png";
+	refreshImage.addEventListener("click", function() {setSource();}, false);
+	
 
 var image = document.createElement('img');
 	image.style.cursor = "pointer";
@@ -186,6 +195,7 @@ var image = document.createElement('img');
 
 
 window.addEventListener('load', function() {
+	document.body.appendChild(refreshImage);
 	document.body.appendChild(image);
 	document.body.appendChild(frameLoad);
 	document.body.appendChild(frameError);

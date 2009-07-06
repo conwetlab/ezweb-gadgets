@@ -88,7 +88,7 @@ body 	{
 
 #footer {
 	bottom: 0.417em;
-	height: 1.7em;
+	height: 1.8em;
 	/*background-color: #A1D8FF;*/
 }
 
@@ -107,9 +107,16 @@ body 	{
 	width: 26px;
 	height: 12px;
 	position: absolute;
-	left: 0.417em;
+	left: 5px;
 	top:0.417em;
 	}
+
+#reload {
+	cursor: pointer;
+        position: absolute;
+        left: 40px;
+        top:0.2em;
+}
 	
 </style>
 
@@ -248,7 +255,8 @@ function hideSentence(){
 
 function showImageLoading(){
 
-	hideWiring();	
+	hideWiring();
+	hideReload();
 	hideArrows();
 	hideSentence();
 	document.getElementById('content').style.backgroundImage = 
@@ -404,6 +412,7 @@ function successHandler (value){
 	
 	updateEvents();
 	showWiring();
+	showReload();
 	paintSentence(sentences[nSentence]);
 }
 
@@ -549,6 +558,7 @@ function errorHandler(value){
 						"");
 
 	hideWiring();
+	hideReload();
 	paintSentence(errorSentence);
 
 }
@@ -674,6 +684,14 @@ function hideWiring(){
 	document.getElementById('wiring').style.display = "none";
 }
 
+function showReload(){
+        document.getElementById('reload').style.display    = "block";
+}
+
+function hideReload(){
+        document.getElementById('reload').style.display = "none";
+}
+
 </script>
  
 
@@ -698,7 +716,8 @@ function hideWiring(){
 </div>
 
 <div id="footer" class="block">
-	<img id="wiring" title="Enviar eventos" src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/avion.png" onclick="updateEvents();"></img>
+	<img id="wiring"  src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/avion.png" onclick="updateEvents();"></img>
+	<img id="reload"  src="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/reload.png" onclick="init();"></img>
 
         <div id="author" onclick="goToLink();"></div>
 </div>
