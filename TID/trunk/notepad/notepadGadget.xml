@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Notepad</Name>
-    <Version>1.2</Version>
+    <Version>1.3</Version>
     <Author>jmartin</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>Add your personal notes, reminders, warnings... and choose the color to show them in your preferences! Take this gadget out of your grid and use it as a sticky note.</Description>
@@ -21,10 +21,12 @@
     <Property name="nota" type="text" label="note"/>
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
-  <Platform.Wiring></Platform.Wiring>
+  <Platform.Wiring>
+	<Slot name="text" type="text" label="text" friendcode="text"/>
+  </Platform.Wiring>
   <Platform.Context>
     <Context name="language" type="text" concept="language"/>
-  </Platform.Context>
+  </Platform.Context> 
   <Platform.Link>
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.html" />
   </Platform.Link>

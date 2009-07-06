@@ -5,6 +5,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <style>
@@ -46,6 +49,11 @@ var nota = EzWebAPI.createRWGadgetVariable("nota");
 var bg = EzWebAPI.createRGadgetVariable("bg", setColorbg);
 var textcolor = EzWebAPI.createRGadgetVariable("textcolor", setColorTexto);
 var language = EzWebAPI.createRGadgetVariable("language", setLanguaje);
+var slotText = EzWebAPI.createRGadgetVariable("text", setSlot);
+
+function setSlot(){
+	document.getElementById('nota').value = slotText.get();
+}
 
 function setLanguaje(lang) {
 	var tSave = 'Save';
@@ -83,7 +91,16 @@ function setColorTexto(color){
 	f.style.color= color;
 }
 function load(){
-	document.getElementById('nota').value = nota.get();
+	var note = nota.get();
+	var slot = slotText.get();
+	
+	if (slot != "" && slot != undefined){
+		document.getElementById('nota').value = slot;
+	}
+	else{
+                document.getElementById('nota').value = note;
+	}
+
 	document.getElementById('nota').style.background = bg.get();
 	document.getElementById('nota').style.color = textcolor.get();
 	document.getElementById('dnota').style.bottom = document.getElementById('bSave').offsetHeight + 'px'
