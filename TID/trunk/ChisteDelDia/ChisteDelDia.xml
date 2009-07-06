@@ -47,6 +47,7 @@
 			<Option value="4" name="Jokes4all.net"/>
 		</Preference>
 		<Preference name="rss_source" type="text" label="RSS Source" description="RSS Source" default="" />
+		<Preference name="refreshTime" type="number" description="Refresh Time" label="Refresh Time (min)" default="60"/>
 	</Platform.Preferences>
 
 	<!-- EzWeb Gadget Persistent State -->

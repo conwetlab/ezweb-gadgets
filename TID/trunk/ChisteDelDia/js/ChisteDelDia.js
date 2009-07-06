@@ -190,12 +190,14 @@ var JokeGadgetModel = {
 			this.updateError);
 	},
 	updateSuccess: function(request) {
-		this.parseRequest(request)
+		setRefreshTime();
+		this.parseRequest(request);
 		this.setFirstJoke();
 		this.loadingEnd();
 		
 	},
 	updateError: function(err) {
+		clearRefreshTime();
 		this.setError(err);
 		this.loadingEnd();
 	},
@@ -302,6 +304,7 @@ var JokeGadgetModel = {
 	
 }
 
+
 nextJoke = function() {
 	JokeGadgetModel.setNextJoke();
 }
@@ -343,9 +346,16 @@ function setColorTheme(color) {
 	document.getElementById('color_theme').href = resourcesURL+'css/'+color+'.css';
 }
 
-function setReloadInterval(time) {
-	window.setInterval(reload, 1000 * time); // Minutes
+function clearRefreshTime() {
+	window.clearInterval(interval);
 }
+
+function setRefreshTime() {
+	clearRefreshTime();
+	interval = window.setInterval(reload, 1000 * 60 * refreshTime.get()); // Minutes
+}
+
+var interval;
 
 // EzWebVars
 language = EzWebAPI.createRGadgetVariable("language", function(){});
@@ -353,6 +363,7 @@ SourceGadget = EzWebAPI.createRGadgetVariable("source", setSourceJokes);
 RssSourceGadget = EzWebAPI.createRGadgetVariable("rss_source", setRssSourceJokes);
 ColorThemeGadget = EzWebAPI.createRGadgetVariable("color_theme", setColorTheme);
 FontSizeGadget = EzWebAPI.createRGadgetVariable("font_size", setFontSize);
+refreshTime = EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
 
 // EzWebEvents
 titleEvent = EzWebAPI.createRWGadgetVariable ('title');
@@ -364,6 +375,6 @@ sourceUrlEvent = EzWebAPI.createRWGadgetVariable ('sourceUrl');
 setFontSize(FontSizeGadget.get());
 setColorTheme(ColorThemeGadget.get());
 setSourceJokes(SourceGadget.get());
-setReloadInterval(60 * 60); // 1 Hour
+setRefreshTime();
 
 }
