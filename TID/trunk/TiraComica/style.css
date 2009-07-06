@@ -4,3 +4,11 @@ body {
 	background:#dfdfdf;
 	overflow:hidden;
 }
+
+.refresh {
+	cursor : "pointer";
+        position : "absolute";
+        left : "5px";
+        top : "5px";
+	z-index: 2;
+}

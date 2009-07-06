@@ -128,11 +128,8 @@ var frameError = (function() {
 })();
 
 var refreshImage = document.createElement('img');
-	refreshImage.style.cursor = "pointer";
-	refreshImage.style.position = "absolute";
-	refreshImage.style.left = "5px";
-	refreshImage.style.top = "5px";
-
+	refreshImage.title = "Refrescar";
+	refreshImage.className = "refresh";
 	refreshImage.src = "http://demo.ezweb.morfeo-project.org/repository/TiraComica/imgs/reload.png";
 	refreshImage.addEventListener("click", function() {setSource();}, false);
 	
