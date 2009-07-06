@@ -396,7 +396,7 @@ function displayArticle(text)
 	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
 	tab1.addEventListener ('close', EzWebExt.bind (function(e){
 		for (var i=0;i<this.listoftabs.length;i++)
-			if (this.listoftabs[i].id == this.id)
+			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id))
 				delete this.listoftabs[i];
 	}, context), true);
 	panelArticle.goToTab(tab1.getId());
