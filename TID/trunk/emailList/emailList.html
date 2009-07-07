@@ -694,7 +694,12 @@ function addEmailsFromThunderbird(ldif){
     		nombre = !nombre ? '' : nombre[0].split(/=/)[1];
 		if(email != ""){
 			NewEmail.email = email;
+			if(nombre != ""){
 			NewEmail.name = nombre;
+			}
+			else{
+			 NewEmail.name = email;
+			}			
 			NewEmail.desc = "";
 			NewEmail.tags = new Array();
 			checkAndStore(email,NewEmail,'');
