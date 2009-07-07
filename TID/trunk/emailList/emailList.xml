@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>Morfeo</Vendor>
+	  <Name>emailList</Name>
+	  <Version>0.4</Version>
+	  <Author>lgarcia</Author>
+	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
+	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
+	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssList.jpg</ImageURI>
+	  <WikiURI>https://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in..." default="and">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="blue">
+		<Option value="yellow" name="Yellow"/>
+		<Option value="green" name="Green"/>
+		<Option value="blue" name="Blue"/>
+		
+	</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="emailList" type="text" label="Email list"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="emailAddress" type="text" label="emailAddress" friendcode="emailAddress"/>
+	  <Event name="emailTitle" type="text" label="emailTitle" friendcode="emailName"/>
+	  <Event name="emailDesc" type="text" label="emailDesc" friendcode="emailDesc"/>
+	  <Event name="emailTags" type="text" label="emailTags" friendcode="emailTags"/>	  
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/emailList/emailList.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="5" height="12"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+</Template>
