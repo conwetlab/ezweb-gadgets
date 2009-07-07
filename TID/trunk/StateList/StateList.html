@@ -94,8 +94,6 @@ function init () {
 	var messages = messageList.get();
 	var tags = tagList.get();
 
-	console.debug("mensajes",messages);
-	console.debug("tags",messages);
 	resetInterval(time.get());
 
 	//set operator
@@ -127,8 +125,7 @@ function init () {
 	}else{
 		messageStructure = new Hash();
 	}
-	console.debug("estructura",messageStructure);
-	console.debug("estructuraTags",tagStructure);
+
 	$('header').style.display='block';
     paintMessageEntries('');
     resizeSelect();
@@ -140,7 +137,7 @@ function resizeSelect(){
 
 //filling the select object
 function fillSelectObject(tags){
-	console.debug("estamos en fill",tags.length);
+
 	if(tags.length == 0){
 		$('category').style.display = 'none';
 		$('header_top').style.display = 'none';
@@ -208,7 +205,7 @@ function paintMessageEntries(category)
 	$('match').style.display = 'inline';
 
 	var compareMessages = function(message1, message2){
-		console.debug(message);
+		
 		if(messageStructure[message1]['desc'].toLowerCase() < messageStructure[message2]['desc'].toLowerCase()) return -1;
 		else if(messageStructure[message1]['desc'].toLowerCase() == messageStructure[message2]['desc'].toLowerCase()) return 0;
 		else if(messageStructure[message1]['desc'].toLowerCase() > messageStructure[message2]['desc'].toLowerCase()) return 1;
