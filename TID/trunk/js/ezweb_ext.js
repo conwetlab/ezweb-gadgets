@@ -600,12 +600,12 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
     var _keyList = []
     var PLATFORM_LANGUAGE = "default";
     var _defaultLanguage = null;
-    var _actualLanguage = null;
+    var _actualLanguage = {};
     
     var _normalInit = function(){
         _languages = languages;
         _defaultLanguage = (_languages[0]) ? _languages[0] : null;
-        _actualLanguage = _defaultLanguage;
+        _actualLanguage = _babel[_defaultLanguage];
         
         for (var i = 0; i < _languages.length; i++) {
             _babel[_languages[i]] = [];
@@ -629,7 +629,7 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
         }
         
         _defaultLanguage = (_languages[0]) ? _languages[0] : null;
-        _actualLanguage = _defaultLanguage;
+        _actualLanguage = _babel[_defaultLanguage];
         
         for (var i = 0; i < _languages.length; i++) {
             _babel[_languages[i]] = [];
@@ -654,7 +654,7 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
     
     var _translateLabel = function(key){
         if (document.getElementById(key)) {
-            document.getElementById(key).innerHTML = (_babel[_actualLanguage][key]) ? _babel[_actualLanguage][key] : "";
+            document.getElementById(key).innerHTML = (_actualLanguage[key]) ? _actualLanguage[key] : "";
         }
     }
     
@@ -717,7 +717,7 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
      * del gadget.
      */
     this.getLabel = function(id){
-        return _babel[_actualLanguage][id];
+        return _actualLanguage[id];
     }
     
     /**
@@ -744,11 +744,14 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
         for (var i = 0; i < _languages.length; i++) {
             if (_languages[i] == _actualLanguage) {
                 isValid = true;
+                break;
             }
         }
         
         if (!isValid) {
-            _actualLanguage = _defaultLanguage;
+            _actualLanguage = _babel[_defaultLanguage];
+        } else {
+            _actualLanguage = _babel[_actualLanguage];
         }
         
         _translate();
