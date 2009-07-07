@@ -615,7 +615,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
                         _langPrefHandler(_langPref.get());
                 else
                         _langPrefHandler(PLATFORM_LANGUAGE);
-		if (onLoad) onLoad();
 		_translate();
     }
     
@@ -648,7 +647,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
 			_langPrefHandler(_langPref.get());
 		else
 			_langPrefHandler(PLATFORM_LANGUAGE);
-		if (onLoad) onLoad();
 		_translate();
     }
     
@@ -675,6 +673,8 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
         }
 		if (onTranslate) onTranslate();
     }
+
+    if (onLoad) onLoad();
 
     if (typeof languages != "string") {
         _normalInit();
