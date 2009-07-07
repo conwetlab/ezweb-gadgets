@@ -1,0 +1,77 @@
+<html>
+<head>
+</head>
+<body>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+<script>
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+function URLDecode( url )
+{
+   // Replace + with ' '
+   // Replace %xx with equivalent character
+   // Put [ERROR] in output if %xx is invalid.
+   var HEXCHARS = "0123456789ABCDEFabcdef"; 
+   var encoded = url;
+   var plaintext = "";
+   var i = 0;
+   while (i < encoded.length) {
+       var ch = encoded.charAt(i);
+        if (ch == "+") {
+	    plaintext += " ";
+	     i++;
+	} else if (ch == "%") {
+		       if (i < (encoded.length-2) 
+		       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
+		       && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
+		          plaintext += unescape( encoded.substr(i,3) );
+		          i += 3;
+		       } else {
+		          alert( 'Bad escape combination near ...' + encoded.substr(i) );
+  		          plaintext += "%[ERROR]";
+		          i++;
+		       }
+	} else {
+	          plaintext += ch;
+		  i++;
+	}
+   } // while
+   
+   return plaintext;
+}
+
+var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
+
+
+function loadVideo(url_){
+
+ if(url_ && url_!=""){
+   url_ = URLDecode (url_);
+   if (!is_iphone){
+     var embed = document.createElement('embed');
+     embed.setAttribute('src',url_);
+     embed.setAttribute('width',"100%");
+     embed.setAttribute('height',"100%");
+     embed.id="rep";
+   }
+   else{ //iphone
+     var embed = document.createElement('a');
+     embed.setAttribute('href',url_);
+     embed.setAttribute('target',"blank");
+   }
+   var divAnt = document.getElementById("video");
+   var divVideo = document.createElement("div");
+   divVideo.id="video";
+   divVideo.appendChild(embed);
+   document.body.replaceChild(divVideo,divAnt);   
+ }
+}
+
+
+</script>
+
+<div id="video"><embed id="rep" width="100%" height="100%" src="http://www.youtube.com/v/d6C0bNDqf3Y&rel=1" type="application/x-shockwave-flash" wmode="opaque"></embed></div>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/css/contenidos/estilos.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/js/jquery_002.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/js/jquery.js"></script>
+ 
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/js/data.js"></script>
+<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/css/jquery.css">
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+
+
+<script languaje="text/javascript">
+
+var urlMultimedia = EzWebAPI.createRWGadgetVariable("urlMultimedia");
+ 
+var musicSelected = false;
+var picturesSelected = false;
+var videoSelected = false;
+
+function selectMusic(){
+if (!musicSelected)  {
+document.getElementById("music").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music-over.png';
+musicSelected = true;
+if (videoSelected){
+selectVideo();
+} else if (picturesSelected){
+selectPictures();
+}
+ 
+document.getElementById("canciones").style.visibility ="visible";
+document.getElementById("imagenes").style.visibility ="hidden";
+document.getElementById("videos").style.visibility ="hidden";
+
+}
+else{
+document.getElementById("music").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music_off.png';
+musicSelected=false;
+
+ 
+
+}
+
+ 
+
+}
+
+function overMusic(){
+
+document.getElementById("music").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music_on.png';
+}
+
+function outMusic(){
+if (!musicSelected)
+document.getElementById("music").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music_off.png';
+else
+document.getElementById("music").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music-over.png';
+}
+
+function selectVideo(){
+ 
+if (!videoSelected)  {
+document.getElementById("video").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video-over.png';
+videoSelected = true;
+
+document.getElementById("canciones").style.visibility ="hidden";
+document.getElementById("imagenes").style.visibility ="hidden";
+document.getElementById("videos").style.visibility ="visible";
+ 
+ if (musicSelected){
+selectMusic();
+} else if (picturesSelected){
+selectPictures();
+}
+
+}
+else{
+document.getElementById("video").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video_off.png';
+videoSelected=false;
+ 
+}
+
+ 
+}
+
+function overVideo(){
+document.getElementById("video").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video_on.png';
+}
+
+function outVideo(){
+if (!videoSelected)
+document.getElementById("video").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video_off.png';
+else
+document.getElementById("video").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video-over.png';
+}
+
+function selectPictures(){
+if (!picturesSelected)  {
+document.getElementById("pictures").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-over.png';
+picturesSelected = true;
+document.getElementById("canciones").style.visibility ="hidden";
+document.getElementById("imagenes").style.visibility ="visible";
+document.getElementById("videos").style.visibility ="hidden";
+
+if (videoSelected){
+selectVideo();
+} else if (musicSelected){
+selectMusic();
+}
+}
+else{
+document.getElementById("pictures").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-off.png';
+picturesSelected=false;
+
+ 
+}
+
+
+ 
+}
+
+function overPictures(){
+document.getElementById("pictures").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-on.png';
+}
+
+function outPictures(){
+if (!picturesSelected)
+document.getElementById("pictures").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-off.png';
+else
+document.getElementById("pictures").src='http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-over.png';
+}
+
+function sendPlay(urlAEnviar) {
+ 
+urlMultimedia.set(urlAEnviar);
+}
+
+
+sendPlay("");
+
+</script>     
+   
+   
+ 
+ 
+</head>
+
+
+
+<body>
+
+<div id="logo">
+	<img src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/texto_pasarela.png" align="left" style="margin-left:20px" alt="Telefonica"/>
+</div>
+
+
+<form action="" onsubmit="return false;">
+<div   class="titleBar">
+<a href="#" onclick="selectMusic()" onmouseover="overMusic();" onmouseout="outMusic();"><img id="music" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/music_off.png" class="imgPeq" /></a>
+ 
+<a href="#" onclick="selectPictures()" onmouseover="overPictures();" onmouseout="outPictures();"><img id="pictures" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/pictures-off.png" class="imgPeq" /></a>
+ 
+<a href="#" onclick="selectVideo()" onmouseover="overVideo();" onmouseout="outVideo();"><img id="video" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/video_off.png" class="imgPeq" /></a>
+  
+<input type="text" class="ac_input" id="CityLocal" style="" value="" size="20" autocomplete="off" />
+<input value="Ok" id="button" onclick="lookupLocal();" type="button" />
+ </div>
+</form>
+
+ <div class="listaRepro" style="visibility:hidden" id="canciones">
+	<table id="lista" cellpadding="4" width="350px">
+		<tr class="fila">
+			<td width="70%"><b>Nombre de cancion</td>
+
+			<td width="15%" style="text-align:center"><b>Duracion</td>
+		 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Morcheeba - Aqualung</td>
+			<td width="15%" style="text-align:center">3:32 
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/musica/aqualung.mp3')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+			<td>Morcheeba - Charango</td>
+			<td style="text-align:center">4:21
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/musica/charango.mp3')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+
+			<td>Morcheeba - Sao Paulo</td>
+			<td style="text-align:center">4:40
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/musica/sao.mp3')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+			<td>Morcheeba - Otherwise</td>
+			<td style="text-align:center">1:42
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/musica/otherwise.mp3')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+
+		 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+			<td>Morcheeba - Undress Me Now</td>
+			<td style="text-align:center">2:52
+      <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/musica/undress.mp3')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+
+	</table>
+</div>
+
+  <div class="listaRepro" style="visibility:hidden" id="imagenes">
+	<table id="lista" cellpadding="4" width="350px">
+		<tr class="fila">
+			<td width="70%"><b>Nombre de imagen</td>
+
+			<td width="15%" style="text-align:center"><b>Resolucion</td>
+		 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Aguila</td>
+			<td width="15%" style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Aguila.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+			<td>Alpinismo</td>
+			<td style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Alpinismo.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+
+			<td>Barco</td>
+			<td style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Barco.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+		 <tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Cachorro</td>
+			<td width="15%" style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Cachorro.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+			<td>Caribe</td>
+			<td style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Caribe.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'">
+
+			<td>Mar</td>
+			<td style="text-align:center">100x200
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/imagenes/Mar.jpg')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+		</tr>
+
+	</table>
+</div>
+
+ <div class="listaRepro" style="visibility:hidden" id="videos">
+<table id="lista" cellpadding="4" width="350px">
+		<tr class="fila">
+			<td width="70%"><b>Nombre de video</td>
+
+			<td width="15%" style="text-align:center"><b>Duracion</td>
+		 
+		</tr>
+		<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Buceo</td>
+			<td width="15%" style="text-align:center">3:32 
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/videos/Buceo.wmv')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+        
+        	<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Geologia</td>
+			<td width="15%" style="text-align:center">3:32 
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/videos/Geologia.wmv')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+        
+        	<tr class="normal" onmouseover="this.className='normalon'"onmouseout="this.className='normal'" >
+			<td width="70%">Avioneta</td>
+			<td width="15%" style="text-align:center">3:32 
+            <a href="javascript:sendPlay('http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/contenidos/videos/avioneta.wmv')"><img class="imagenPlay" width="15px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/play.gif" /></a></td>
+			 
+
+		</tr>
+		 
+	</table>
+</div>
+
+<script language="javascript">
+selectMusic();
+
+</script>
+
+</body>
+</html>
+ 

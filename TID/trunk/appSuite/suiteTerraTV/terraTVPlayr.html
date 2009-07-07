@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+
+	<head>
+		
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	 
+
+		<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+ 
+		<script language ="javascript">
+			
+			var urlvideo = EzWebAPI.createRGadgetVariable("urlvideo", play);
+
+			function play () {
+	
+				video = document.getElementById("playerHtml");
+				
+				videoTemp = urlvideo.get();	
+				if (videoTemp != null && videoTemp != "" && videoTemp != undefined) {			
+					
+					video.URL=videoTemp;
+			 		video.stretchToFit = true;
+					video.controls.play();
+
+				}
+
+			}
+
+		</script>
+
+		<style>
+	
+			body {
+				background-color: #000000;
+			}
+	
+		</style>
+
+		</head>
+	<body>
+    
+		<OBJECT id="playerHtml" name="playerHtml" type="application/x-ms-wmp" URL="" src="" width="400" height="400"   autosize="0" fileName=""/>
+     
+	</body>
+
+	<script language ="javascript">
+		video = document.getElementById("playerHtml");
+		video.URL = "";	
+		video.stretchToFit = true;
+	</script>
+
+</html> 

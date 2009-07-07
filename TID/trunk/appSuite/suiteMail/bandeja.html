@@ -1,0 +1,215 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/css/estilos.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>	
+ 
+
+<script src="http://static.flowplayer.org/js/jquery.mousewheel.js"></script>
+<script src="http://static.flowplayer.org/js/jquery.scrollable-1.0.1.min.js"></script>
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/dragdrop.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/js/ajax.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/js/mails.js"></script>
+
+<script>
+	var mailActual;
+	var limite;
+	
+	function goMail(id){
+		mailActual = id;
+				
+		document.getElementById("de").innerHTML = "<b>De:</b> " + getMailByID(id).de;
+		document.getElementById("asunto").innerHTML = "<b>Asunto:</b> " +getMailByID(id).asunto;
+		document.getElementById("para").innerHTML = "<b>Para:</b> " +getMailByID(id).para;
+		document.getElementById("fecha").innerHTML = "<b>Fecha:</b> " +getMailByID(id).fecha;
+		document.getElementById("cuerpo").innerHTML = getMailByID(id).cuerpo;
+				
+		setEstadoByID(id,'seen');
+		
+		document.getElementById("divMailbox").style.visibility  = "hidden";
+		document.getElementById("iconodown").style.visibility  = "hidden";
+		document.getElementById("divMail").style.visibility  = "visible";
+		
+		ordenMail = getMailByID(mailActual).orderIMAP;
+		markUrlTemp = markUrl+user+"@telefonica.net&pass=&status=seen&order="+ordenMail+"&ran="+getRandom();
+		EzWebAPI.send_get(markUrlTemp, this, nada, nada);
+	}
+	
+	function nada(){
+	}
+	
+	function sendMail(){
+		document.getElementById("divMailbox").style.visibility  = "hidden";
+		document.getElementById("iconodown").style.visibility  = "hidden";
+		document.getElementById("divMail").style.visibility  = "hidden";
+		document.getElementById("divSendMail").style.visibility  = "visible";
+	}
+	
+	function getEvent(idNew) {
+		temp = popData();
+		if (temp != "") {
+			addBuffer(temp);
+			document.getElementById(idNew).value = getBuffer();
+		}
+	} 
+	
+	function setEmailTo(){
+		toValueParam = toValue.get();
+    if(toValueParam!=""){
+    	sendMail();
+      addBuffer(toValueParam);
+      document.getElementById("to").value=getBuffer();
+    }
+    else
+    	mostrarMailbox();
+  }
+
+   
+  function setEmailMessage(){
+		messageValueParam = messageValue.get();
+    if(messageValueParam!=""){
+    	sendMail();
+      document.getElementById("message").value=messageValueParam;
+    }
+    else {
+    	mostrarMailbox();
+    }
+  }
+  
+  
+  var user = EzWebAPI.createRGadgetVariable("user", peticionUser);
+	var toValue = EzWebAPI.createRGadgetVariable("to", setEmailTo);
+	var messageValue = EzWebAPI.createRGadgetVariable("message", setEmailMessage);
+  var limiteMensajes = EzWebAPI.createRGadgetVariable("limiteMensajes", limitarMensajes);
+
+  function limitarMensajes() {
+    limite = limiteMensajes.get();
+    mostrarMailbox();
+  }
+  
+	function peticionUser(){
+		user = user.get();
+		peticionAjax();
+	}
+ 
+</script>
+
+<title>Mail</title>
+
+</head>
+
+<body>
+  <table class="titulo" border=0>
+  	<td width="25%"><img align="right" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/logo.jpg"></td>
+	</table>
+		
+	<div id="divMailbox">
+		<table width="100px" align="right"  border="0">
+			<td><a href="JavaScript:peticionAjax()" title="Recibir" style="color:#ffffff;"><img align="right" width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/bandeja.png"></a></td>
+			<td><a href="JavaScript:sendMail()" title="Nuevo correo" style="color:#ffffff;"><img align="right" width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/nuevo.png"></a></td>
+			<td><img align="right" width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/papelera.png"></td>
+		</table>
+		
+<!-- prev link --> 
+
+		<table id="tableMailBox" border="0">
+	 		<tr>
+				<td align="left" colspan="2" height=30px id="bandeja" bgcolor="#999999" style="font-size:14px;font-weight:bold;"></td>
+			</tr>
+		</table>
+		<!-- root element for scrollable -->
+		<div class="scrollable">
+			<!-- root element for the items -->
+			<div class="items"></div>
+		</div>
+		<img class="iconodown" id="iconodown" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/down.png" />
+		
+ 	</div>
+	
+	<div id="divSendMail" style="visibility:hidden">
+		<table id="tableSendMail">
+			<tr>
+				<td align="right" valign="top">Para</td>
+				<td><input type="text" size="46" id="to" onmouseover="getEvent(this.id)" onchange="setBuffer(this.value)"></input></td>
+			</tr>
+			<tr><td align="right" valign="top">Asunto</td><td ><input type="text" size="46" id="subject"></input></td></tr>
+			<tr><td align="right" valign="top">Mensaje</td><td ><textarea rows="10" cols="35" id="message"></textarea></td></tr>
+		</table>
+		<div class="botones">
+				<a href="javascript:enviar()" title="Enviar"> <img width="22px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/aceptar.png"></a>
+				<a href="javascript:cancelar()" title="Cancelar"><img width="22px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/cancelar.png"></a>
+		</div>
+	</div>
+	
+	<div id="divMail" style="visibility:hidden">
+		<table id="tableMail" class="tableMail">
+			<tr><td id="asunto"></td></tr>
+			<tr><td id="de"></td></tr>
+			<tr><td id="fecha"></td></tr>
+			<tr><td id="para"></td></tr>
+		</table>
+		<div id="cuerpo">
+		</div>
+		<div class="botones">
+			<a href="JavaScript:mostrarMailbox()" title="Volver"><img width="22px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/volver.jpg"></a>
+			<a href="JavaScript:deleteMail()" title="Eliminar"><img width="22px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/eliminar.png"></a>
+			<a href="JavaScript:replyMail()" title="Responder"><img width="22px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteMail/img/responder.jpg"></a>
+		</div>
+	</div>
+<script>
+// execute your scripts when DOM is ready. this is a good habit
+$(function() {		
+		
+	// initialize scrollable 
+	$("div.scrollable").scrollable({vertical:true, size: 3});	
+	
+});
+function agregarMail(deParam,asuntoParam,fechaParam,id){
+		fechaNueva = "fecha";
+		asuntoNuevo = "asunto";
+	  deNuevo = "de";
+		
+	  if( getMailByID(id).estado == "recent"){
+	  	fechaNueva = "fechaN";
+	  	asuntoNuevo = "asuntoN";
+	  	deNuevo = "deN";
+	  }
+	  	
+		theNewItem = document.createElement("div");
+		
+		theNewAItem = document.createElement("a");
+		//theNewAItem.href = "javascript:goMail('" + deParam + "','"+ asuntoParam+"','"+ fechaParam+"',' "+ id+"');";
+		theNewAItem.href = "javascript:goMail('"+id+"');";
+		spanFecha = document.createElement("span");
+		spanFecha.className = fechaNueva;
+		spanFechaTexto = document.createTextNode(fechaParam);
+		spanFecha.appendChild(spanFechaTexto);
+		
+		spanAsunto = document.createElement("span");
+		spanAsunto.className = asuntoNuevo;
+		spanAsuntoTexto = document.createTextNode(asuntoParam);
+		spanAsunto.appendChild(spanAsuntoTexto);
+		
+		spanDe = document.createElement("span");
+		spanDe.className = deNuevo;
+		spanDeTexto = document.createTextNode(deParam+": ");
+		spanDe.appendChild(spanDeTexto);
+		
+		theNewItem.appendChild(theNewAItem);
+		 
+		theNewAItem.appendChild(spanDe);
+		theNewAItem.appendChild(spanAsunto);
+		theNewAItem.appendChild(spanFecha);
+		
+		//theNewItem.onclick = goMail;
+		
+		
+		document.getElementsByClassName("items")[0].appendChild(theNewItem);
+
+	}
+</script>
+</body>
+</html>

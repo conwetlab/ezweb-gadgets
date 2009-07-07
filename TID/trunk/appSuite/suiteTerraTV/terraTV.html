@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+			<link href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteTerraTV/css/widgetTerraTV.css" rel="stylesheet" type="text/css" />
+
+		<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+ 
+		<script>
+	
+ 			var urlvideo = EzWebAPI.createRWGadgetVariable("urlvideo");
+ 
+			function peticion (){
+ 		 
+ 				keyW = document.getElementById("keyword").value;
+ 				feedUrl = "http://ezweb.tid.es:8180/appSuite/getUrls?keyword="+keyW;
+	 			EzWebAPI.send_get(feedUrl, this, displayOk, displayErrorShow);	
+	 
+			}
+	
+			function displayOk (resp) {
+				
+				//alert("displayOk");
+			 	deleteAllRows();
+				response = resp.responseXML;	
+		 
+				for(i = 0; i <response.getElementsByTagName('url').length ; i++) {
+				 
+					item = response.getElementsByTagName('url')[i];
+	      	titleValue = item.getElementsByTagName('title')[0].firstChild.data;  
+	      	refValue = item.getElementsByTagName('ref')[0].firstChild.data;
+			 		imageValue = item.getElementsByTagName('img')[0].firstChild.data; 
+			 		chtitleValue = item.getElementsByTagName('channeltitle')[0].firstChild.data; 
+			 				
+			 		addRow(chtitleValue, imageValue,refValue,titleValue);
+	
+				}
+	
+			}
+	
+			function displayErrorShow(resp){
+	 		
+	 			alert("se ha producido un error en la obtención de los vídeos");
+	 		
+			}
+	
+ 			function deleteAllRows() {
+ 		
+ 				for(var i = document.getElementById("tabla").rows.length; i > 0;i--) {
+ 
+					document.getElementById("tabla").deleteRow(i -1);
+			
+				}
+
+			}
+   
+  		function addRow(chtitle, imag,reference,text){
+   
+  			try {  
+
+    		
+    			tbody = document.getElementById("tabla").getElementsByTagName("TBODY")[0];
+    			row = document.createElement("TR");
+    			
+    			td1 = document.createElement("TD"); td1.rowSpan = 2;
+    			td1.innerHTML =	"<a   href=\"javascript:setValue('" + reference + "')\"class='lista'>"+
+    				 							"<img src='" + imag + "'   class='image'/>" +
+    				 							"</a>" +
+    				 							" ";
+    			
+    			td2 = document.createElement("TD");
+    			td2.innerHTML =	"" +
+    				 							"<span class='estilo'>" + chtitle + "</span>"+
+    				 							"";
+    			 
+   	    	row.appendChild(td1);
+   	    	row.appendChild(td2);
+  				tbody.appendChild(row); 
+  				
+  				row2 = document.createElement("TR");
+    			td21 = document.createElement("TD");
+    			
+    			td21.innerHTML =	"<a   href=\"javascript:setValue('" + reference + "')\"class='lista'><span class ='nombre'>" + text + "</span></a>"+
+    				 								"";
+  			 	row2.appendChild(td21);
+   	    	  
+  				tbody.appendChild(row2); 
+  				
+  				
+  			} 
+  		
+  			catch (er) {
+  				
+  				alert("error" + er.description);
+  		
+  			}
+  		}
+	
+			function setValue(value) {
+		 
+				urlvideo.set(value);
+	
+			}
+		</script>
+
+		<title></title>
+
+	</head>
+
+	<body>
+   
+		 
+		<div id="top" class="top">
+
+		<h1>
+ 
+			<img alt="Terra" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteTerraTV/img/imgLogo.gif"/>
+ 
+		</h1>
+ 
+		<h3>
+			
+			<input  tabindex="1" type="text" name="keyword" id="keyword" />
+			
+		</h3>
+
+		<h4>
+			
+			<a href="javascript:peticion()" title="Buscar" tabindex="2" class="buscaBtn">b&#250;squeda</a>
+		
+		</h4>
+
+		<table class="tabla" id="tabla">
+	
+			<tbody>
+ 
+			</tbody>
+
+		</table>
+ 
+	</body>
+</html>

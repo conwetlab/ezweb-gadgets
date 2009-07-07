@@ -1,0 +1,444 @@
+<!-- 
+  Copyright (c) 2008 Google Inc.
+  
+  You are free to copy and use this sample.
+  License can be found here: http://code.google.com/apis/ajaxsearch/faq/#license
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Raw Searchers - Google AJAX Search API demo</title>
+    
+    <style type="text/css">
+#toolTipBox {
+		display: none;
+	  padding: 4px;
+	  font-size: 12px;
+	  border: black solid 1px;
+	  font-family: Arial, Verdana, Helvetica, sans-serif;
+	  position: absolute;
+	  background-color: #ffffff;
+	  color: 000000;
+	  -moz-border-radius: 15px;
+	  width:80px;
+	  text-align:center;
+	}
+
+    body {
+      background-color: white;
+      color: black;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    td {
+      vertical-align : top;
+    }
+
+    td.search-form {
+      width : 300px;
+    }
+
+    td.search-options {
+      padding-left : 20px;
+    }
+
+    #results .header {
+      font-size : 16px;
+      font-weight : bold;
+      margin-bottom : .25em;
+      margin-top : 1em;
+    }
+
+    #results .gs-result {
+      margin-bottom : .5em;
+    }
+
+    #results div.gs-watermark {
+      display : none;
+    }
+
+
+    </style>
+    
+    <!-- Replace with http://www.google.com/jsapi -->
+     
+
+    <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+    <script src="http://www.google.com/jsapi?key=ABQIAAAAKbGY__d3CNnSQlCsg3y_BRQZCFxWBEeeemGQ836ekfLcPOgJ7RTWsa6cjVyXW5Bl78v9gOfB3W-N0w" type="text/javascript"></script>
+  	<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/dragdrop.js"></script> 
+    <script type="text/javascript">
+    	
+   	var outputDateGadget = EzWebAPI.createRWGadgetVariable("urlSearch");
+    	
+    	
+    //<![CDATA[
+    google.load('search', '1.0');
+    function OnLoad() {
+      new RawSearchControl();
+    }
+
+	function toolTip(event) {
+		//tengo que averiguar el objeto
+		alert(event);
+		/*
+		theObj=me;
+	  theObj.onmousemove=updatePos;
+	  document.getElementById('toolTipBox').innerHTML="Pulse o arrastre para mandar esta búsqueda de Google";
+	  document.getElementById('toolTipBox').style.display="block";
+	  window.onscroll=updatePos; */
+	}
+	
+	function updatePos() {
+	  var ev=arguments[0]?arguments[0]:event;
+	  var x=ev.clientX;
+	  var y=ev.clientY;
+	  diffX=24;
+	  diffY=0;
+	  document.getElementById('toolTipBox').style.top  = y-2+diffY+document.body.scrollTop+ "px";
+	  document.getElementById('toolTipBox').style.left = x-2+diffX+document.body.scrollLeft+"px";
+	  theObj.onmouseout=hideMe;
+	}
+	
+	function hideMe() {
+	  document.getElementById('toolTipBox').style.display="none";
+	}
+
+    /**
+     * The RawSearchControl demonstrates how to use Searcher Objects
+     * outside of the standard GSearchControl. This includes calling
+     * searcher .execute() methods, reacting to search completions,
+     * and if you had previously disabled html generation, how to generate
+     * an html representation of the result.
+     */
+    function RawSearchControl() {
+      // latch on to key portions of the document
+      this.searcherform = document.getElementById("searcher");
+      this.results = document.getElementById("results");
+      this.cursor = document.getElementById("cursor");
+      this.searchform = document.getElementById("searchform");
+
+      // create map of searchers as well as note the active searcher
+      this.activeSearcher = "web";
+      this.searchers = new Array();
+
+      // create and wire up an instance of GwebSearch and one of
+      // GlocalSearch. Note, we disable html generation. We are doing
+      // this so that we can demonstrate how to manually create it if
+      // needed. Note that we register to handle search completion notifications
+      // when searches complete, they are called in the context of this instance
+      // of RawSearchControl and they are passed the searcher that just completed
+
+      // wire up a raw GwebSearch searcher
+      var searcher = new google.search.WebSearch();
+      searcher.setNoHtmlGeneration();
+      searcher.setSearchCompleteCallback(this,
+                                         RawSearchControl.prototype.searchComplete,
+                                         [searcher]
+                                         );
+      this.searchers["web"] = searcher;
+
+      // do the same for local
+     // searcher = new google.search.LocalSearch();
+     // searcher.setNoHtmlGeneration();
+      //searcher.setCenterPoint("98074");
+    //  searcher.setSearchCompleteCallback(this,
+     //                                    RawSearchControl.prototype.searchComplete,
+      //                                   [searcher]
+     //                                    );
+    //  this.searchers["local"] = searcher;
+
+      // now, create a search form and wire up a submit and clear handler
+      this.searchForm = new google.search.SearchForm(true, this.searchform);
+      this.searchForm.setOnSubmitCallback(this,
+                                          RawSearchControl.prototype.onSubmit);
+      this.searchForm.setOnClearCallback(this,
+                                          RawSearchControl.prototype.onClear);
+    }
+
+    /**
+     * figure out which searcher is active by looking at the radio
+     * button array
+     */
+    RawSearchControl.prototype.computeActiveSearcher = function() {
+    //  for (var i=0; i<this.searcherform["searcherType"].length; i++) {
+    //    if (this.searcherform["searcherType"][i].checked) {
+          this.activeSearcher = "web";
+          return;
+     //   }
+    //  }
+    }
+
+    /**
+     * onSubmit - called when the search form is "submitted" meaning that
+     * someone pressed the search button or hit enter. The form is passed
+     * as an argument
+     */
+    RawSearchControl.prototype.onSubmit = function(form) {
+      this.computeActiveSearcher();
+      if (form.input.value) {
+        // if there is an expression in the form, call the active searcher's
+        // .execute method
+        this.searchers[this.activeSearcher].execute(form.input.value);
+      }
+
+      // always indicate that we handled the submit event
+      return false;
+    }
+
+    /**
+     * onClear - called when someone clicks on the clear button (the little x)
+     */
+    RawSearchControl.prototype.onClear = function(form) {
+      this.clearResults();
+    }
+
+    /**
+     * searchComplete - called when a search completed. Note the searcher
+     * that is completing is passes as an arg because thats what we arranged
+     * when we called setSearchCompleteCallback
+     */
+    RawSearchControl.prototype.searchComplete = function(searcher) {
+
+      // always clear old from the page
+      this.clearResults();
+
+      // if the searcher has results then process them
+      if (searcher.results && searcher.results.length > 0) {
+/*
+        // print the result titles
+        var div = createDiv("Result Titles", "header");
+        this.results.appendChild(div);
+        for (var i=0; i<searcher.results.length; i++) {
+          var result = searcher.results[i];
+          var titleLine = result.title;
+
+          // add in lat,lng for local results
+          if (result.GsearchResultClass == GlocalSearch.RESULT_CLASS) {
+            titleLine += " (" + result.lat + ", " + result.lng + ")";
+          }
+          if (result.html) {
+            titleLine += " ** html is present **";
+          }
+          div = createDiv(titleLine);
+          this.results.appendChild(div);
+        }
+*/
+        // now manually generate the html that we disabled
+        // initially and display it
+        var div = createDiv("Resultados de la búsqueda", "header");
+        this.results.appendChild(div);
+        
+        
+        
+        for (var i=0; i<searcher.results.length; i++) {
+          var result = searcher.results[i];
+          searcher.createResultHtml(result);
+          if (result.html) {
+            div = result.html.cloneNode(true);
+          } else {
+            div = createDiv("** failure to create html **");
+          }
+         // alert("test");
+          //añado el sobre
+          elementoIMG = document.createElement("img");
+          //elementoIMG.appendChild (document.createTextNode("test"));
+          elementoIMG.src = "http://demo.ezweb.morfeo-project.org/repository/appSuite/widgetGoogle/img/correo.jpg";
+          elementoIMG.onclick = sendLink; 
+          elementoIMG.onmouseover = toolTip;
+          elementoIMG.onmousedown = setDataLocal;
+          elementoIMG.onmouseup = popData;
+          
+          
+          
+          
+          //"javascript:sendLink('" +  div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].href + "');";   
+         	elementoIMG.rel = div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].href;
+          div.appendChild(elementoIMG); /// cH)
+       
+            
+          //corto el texto de la descripciónSup ahora
+          
+          elementoATexto = div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].innerHTML;
+          elementoATexto = removeHTMLTags(elementoATexto);
+             if (elementoATexto.length > 45) {
+             	 elementoATexto = elementoATexto.substring(0,45) + "...";
+            }
+           div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].innerHTML = elementoATexto;    
+          
+      
+          
+          //corto el texto de la descripción ahora
+          text = div.getElementsByClassName("gs-snippet")[0].innerHTML;
+          text = removeHTMLTags(text);
+          if (text.length > 45)
+          text = text.substring(0,45) + "...";
+          div.getElementsByClassName("gs-snippet")[0].innerHTML = text;
+          
+          this.results.appendChild(div);
+           
+        }
+ 
+        // now, see if we have a cursor, and if so, create the 
+        // cursor control
+        if (searcher.cursor) {
+          var cursorNode = createDiv(null, "gsc-cursor");
+          for (var i=0; i<searcher.cursor.pages.length; i++) {
+            var className = "gsc-cursor-page";
+            if (i == searcher.cursor.currentPageIndex) {
+              className = className + " gsc-cursor-current-page";
+            }
+            var pageNode = createDiv(searcher.cursor.pages[i].label, className);
+            pageNode.onclick = methodClosure(this, this.gotoPage, 
+                                             [searcher, i]); 
+            cursorNode.appendChild(pageNode);
+          }
+          this.cursor.appendChild(cursorNode);
+         // var more = createLink(searcher.cursor.moreResultsUrl,
+           //                     GSearch.strings["more-results"] + "&nbsp;&raquo;",
+             //                   GSearch.LINK_TARGET_SELF,
+               //                 "gsc-trailing-more-results");
+        //  this.cursor.appendChild(more);
+         }
+      }
+    }
+
+    RawSearchControl.prototype.gotoPage = function(searcher, page) {
+      searcher.gotoPage(page);
+    }
+
+ 		function setDataLocal(event){
+ 			
+ 			 
+ 			setData(event.target.rel);
+ 			
+ 		}
+
+    /**
+     * clearResults - clear out any old search results
+     */
+    RawSearchControl.prototype.clearResults = function() {
+      removeChildren(this.results);
+      removeChildren(this.cursor);
+    }
+
+	var theObj="";
+			function toolTip() {
+				 
+		theObj=this;
+		//alert(theObj);
+		//alert(theObj.rel);
+		 
+	  theObj.onmousemove=updatePos;
+	   
+	  document.getElementById('toolTipBox').innerHTML="Para enviar este vínculo, pulse o arrastre sobre un contacto";
+	  document.getElementById('toolTipBox').style.display="block";
+	  window.onscroll=updatePos;
+	  //alert("toolTipEvent3");
+	}
+
+function updatePos() {
+	//alert("updatePos");
+	  var ev=arguments[0]?arguments[0]:event;
+	  var x=ev.clientX;
+	  var y=ev.clientY;
+ 
+	 
+	  diffX=20;
+	  diffY=0;
+	  document.getElementById('toolTipBox').style.top  = y-2+diffY+document.body.scrollTop+ "px";
+	  document.getElementById('toolTipBox').style.left = x-2+diffX+document.body.scrollLeft+"px";
+	  theObj.onmouseout=hideMe;
+	}
+	function hideMe() {
+	  document.getElementById('toolTipBox').style.display="none";
+	}
+
+    /**
+     * Static DOM Helper Functions
+     */
+    function removeChildren(parent) {
+      while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+      }
+    }
+    function createDiv(opt_text, opt_className) {
+      var el = document.createElement("div");
+      if (opt_text) {
+        el.innerHTML = opt_text;
+      }
+      if (opt_className) { el.className = opt_className; }
+      return el;
+    }
+
+    function methodClosure(object, method, opt_argArray) {
+      return function() {
+        return method.apply(object, opt_argArray);
+      }
+    }
+
+     function createLink(href, opt_text, opt_target, opt_className, opt_divwrap) {
+      var el = document.createElement("a");
+      el.href = href;
+      if (opt_text) {
+        el.innerHTML = opt_text;
+      }
+      if (opt_className) {
+        el.className = opt_className;
+      }
+      if (opt_target) {
+        el.target = opt_target;
+      }
+      if (opt_divwrap) {
+        var div = this.createDiv(null, opt_className);
+        div.appendChild(el);
+        el = div;
+      }
+      return el;
+    }
+
+    // register to be called at OnLoad when the page loads
+    google.setOnLoadCallback(OnLoad, true);
+    //]]>
+    function removeHTMLTags(textoAEliminar){
+ 	 
+ 		var strInputCode = textoAEliminar;
+ 	 
+ 	 	strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
+ 		 	return (p1 == "lt")? "<" : ">";
+ 		});
+ 		var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+ 		return strTagStrippedText;
+  
+// 	}	
+}
+
+function sendLink (event) {
+	outputDateGadget.set(event.target.rel);
+ 
+}
+
+
+    </script>
+   
+  </head>
+  <body>
+    <h1>Widget de Google</h1>
+    <form id="searcher">
+      <table>
+        <td class="search-form">
+          <div id="searchform">Loading</div>
+
+        </td>
+     
+      </table>
+    </form>
+	<div id="toolTipBox"></div>
+    <div class="gsc-results">
+      <div id="results"></div>
+      <div id="cursor" class="gsc-cursor-box"></div>
+    </div>
+  </body>
+</html>

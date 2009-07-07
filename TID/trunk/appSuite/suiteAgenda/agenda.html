@@ -1,0 +1,302 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<link href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/css/estilos.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/js/prototype.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/js/scriptaculous.js"></script>
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/dragdrop.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/tooltip.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/js/ajax.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/js/contactos.js"></script>
+
+<script type="text/javascript">
+var contactoActual;
+	var nombreContactoActual;
+	var direccionContactoActual;
+	var telefonoContactoActual;
+	var movilContactoActual;
+	var correoContactoActual;
+	var cumpleContactoActual;
+	var imgContactoActual;
+	var aliasContactoActual;
+	var grupoContactoActual;
+	
+	var nombreContactoNuevo = "";
+	var direccionContactoNuevo= "";
+	var telefonoContactoNuevo= "";
+	var movilContactoNuevo= "";
+	var correoContactoNuevo= "";
+	var cumpleContactoNuevo= "";
+	var imgContactoNuevo= "";
+	var aliasContactoNuevo= "";
+	var grupoContactoNuevo= "";
+  
+  function setCorreo(paramCorreo) {
+	
+	try {
+	var correoDestino = EzWebAPI.createRWGadgetVariable("correoDestino");
+  	correoDestino.set(paramCorreo);
+	} catch (e) {
+	
+ 
+	}	
+	}
+	
+	function setVideoUrl(paramVideoUrl) {
+	var videoUrl = EzWebAPI.createRWGadgetVariable("videoUrl");
+  	videoUrl.set(paramVideoUrl);
+	}
+		
+	function getEvent(usuario){
+		temp = popData();
+		if (temp != ""){
+			setCorreo(usuario);
+			setVideoUrl(temp);
+		}
+	}
+		
+  function cargarXML(){
+		correoDestino = "";
+		videoUrl = "";
+		peticion();
+		document.getElementById("divDatos").style.visibility  = "hidden";
+		document.getElementById("divNuevo").style.visibility = "hidden";
+		document.getElementById("divPrincipal").style.visibility  = "visible";
+	}
+	
+	function verContacto(id){
+		contactoActual = getContactoByID(id).id;
+		
+		document.getElementById("nombre").value = getContactoByID(id).nombre;
+		document.getElementById("direccion").value = getContactoByID(id).direccion;
+		document.getElementById("correo").value = getContactoByID(id).correo;
+		document.getElementById("telefono").value = getContactoByID(id).telefono;
+		document.getElementById("movil").value = getContactoByID(id).movil;
+		document.getElementById("cumple").value = getContactoByID(id).cumple;
+		document.getElementById("imgContacto").src = getContactoByID(id).img;
+		document.getElementById("alias").value = getContactoByID(id).alias;
+		document.getElementById("listaGrupo").value = getContactoByID(id).grupo;
+		
+		document.getElementById("divPrincipal").style.visibility  = "hidden";
+		document.getElementById("divNuevo").style.visibility = "hidden";
+		document.getElementById("divDatos").style.visibility  = "visible";
+	}
+	
+	function saveContact(){
+		nombreContactoActual = document.getElementById("nombre").value;
+		direccionContactoActual = document.getElementById("direccion").value;
+		telefonoContactoActual = document.getElementById("telefono").value;
+		movilContactoActual = document.getElementById("movil").value;
+		correoContactoActual = document.getElementById("correo").value;
+		cumpleContactoActual = document.getElementById("cumple").value;
+		imgContactoActual = document.getElementById("imgContacto").src;
+		aliasContactoActual = document.getElementById("alias").value;
+		grupoContactoActual = document.getElementById("listaGrupo").value;
+		
+		editContact();
+	}
+	
+	function nuevoContacto(){
+		document.getElementById("nombreVacio").value = "";
+		document.getElementById("direccionVacio").value= "";
+		document.getElementById("telefonoVacio").value= "";
+		document.getElementById("movilVacio").value= "";
+		document.getElementById("correoVacio").value= "";
+		document.getElementById("cumpleVacio").value= "";
+		document.getElementById("imgVacio").value= "";
+		document.getElementById("aliasVacio").value= "";
+		
+		document.getElementById("divPrincipal").style.visibility  = "hidden";
+	  document.getElementById("divDatos").style.visibility  = "hidden";
+	  document.getElementById("divNuevo").style.visibility  = "visible";
+	}
+	
+	function saveNuevoContacto(){
+		nombreContactoNuevo = document.getElementById("nombreVacio").value;
+		direccionContactoNuevo = document.getElementById("direccionVacio").value;
+		telefonoContactoNuevo = document.getElementById("telefonoVacio").value;
+		movilContactoNuevo = document.getElementById("movilVacio").value;
+		correoContactoNuevo = document.getElementById("correoVacio").value;
+		cumpleContactoNuevo = document.getElementById("cumpleVacio").value;
+		imgContactoNuevo = document.getElementById("imgVacio").value;
+		grupoContactoNuevo = document.getElementById("listaGrupoNuevo").value;
+		aliasContactoNuevo = document.getElementById("aliasVacio").value;
+		
+		newContact();
+	}
+
+
+</script>
+ 
+</head>
+
+<body style="overflow:hidden" onload=javascript:cargarXML()>
+	<center>
+
+	<table class="titulo" border=0>
+  	<td width="25%"><img align="right" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/logo.jpg"></td>
+	</table>
+	
+	<br>
+	
+	<div id="divPrincipal">
+		<div id="divContactos">
+			<table class="tablaContactos" border="1">
+			<tr>
+				<td width="48px" rowspan="3"><img id="img0" width="48px" name="" class="draggable" onmouseover=""></td>
+				<td height="10px" width="142px" id="grupo0"></td>
+			</tr>
+			<tr> 
+				<td height="10px"><a id="alias0" style="font-size: 13px; color:#000066"></a></td> 
+			</tr>
+			<tr> 
+				<td height="20px">
+					<a id="s0" href="" title="Enviar mail" style="color:#ffffff"><img id="sobre0" src="" width="16px" height="12px" onmousedown="" onmouseup="popData()"/></a>
+					<a id="e0" href="" title="Editar contacto" style="color:#ffffff"><img id="edit0" src="" width="16px" height="12px"/></a>
+				</td>
+			</tr>
+			
+			<tr>
+				<td rowspan="3"><img id="img1" width="48px" name="" class="draggable" onmouseover=""></td>
+				<td height="10px" id="grupo1"></td>
+			</tr>
+			<tr> 
+				<td height="10px"><a id="alias1" style="color:#000066; font-size: 13px"></a></td> 
+			</tr>
+			<tr> 
+				<td height="20px">
+					<a id="s1" href="" title="Enviar mail" style="color:#ffffff"><img id="sobre1" src="" width="16px" height="12px" onmousedown="" onmouseup="popData()"/></a>
+					<a id="e1" href="" title="Editar contacto" style="color:#ffffff"><img id="edit1" src="" width="16px" height="12px"/></a>
+				</td> 
+			</tr>
+			<tr>
+				<td rowspan="3"><img id="img2" width="48px" name="" class="draggable" onmouseover=""></td>
+				<td height="10px" id="grupo2"></td>
+			</tr>
+			<tr> 
+				<td height="10px"><a id="alias2" style="color:#000066; font-size: 13px"></a></td> 
+			</tr>
+			<tr> 
+				<td height="20px">
+					<a id="s2" href="" title="Enviar mail" style="color:#ffffff"><img id="sobre2" src="" width="16px" height="12px" onmousedown="" onmouseup="popData()"/></a>
+					<a id="e2" href="" title="Editar contacto" style="color:#ffffff"><img id="edit2" src="" width="16px" height="12px"/></a>			
+				</td> 
+			</tr>
+			<tr>
+				<td rowspan="3"><img id="img3" width="48px" name="" class="draggable" onmouseover=""></td>
+				<td height="10px" id="grupo3"></td>
+			</tr>
+			<tr> 
+				<td height="10px"><a id="alias3" style="color:#000066; font-size:13px"></a></td> 
+			</tr>
+			<tr> 
+				<td height="20px">
+					<a id="s3" href="" title="Enviar mail" style="color:#ffffff"><img id="sobre3" src="" width="16px" height="12px" onmousedown="" onmouseup="popData()"/></a>
+					<a id="e3" href="" title="Editar contacto" style="color:#ffffff"><img id="edit3" src="" width="16px" height="12px"/></a>		
+				</td> 
+			</tr>
+			</table>
+		</div>
+		<div id="divGrupos">
+			<table class="tablaGrupos" border="1" cellpadding="3">
+				<tr><td colspan="2" align="center" bgcolor="#999999"><b>Grupos</b></td></tr>
+				<tr><td><img src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/gris.png" width="16px" height="16px"></td><td><a>Amigos</a></td></tr>
+				<tr><td><img src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/naranja.png" width="16px" height="16px"></td><td><a>Familia</a></td></tr>
+				<tr><td><img src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/azul.png" width="16px" height="16px"></td><td><a>Trabajo</a></td></tr>
+			</table>
+		</div>
+		<div class="divBotones">
+			<img id="userNew" width="50px" height=50px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/user.jpg" onclick="javascript:nuevoContacto()"></img>
+			<img id="papelera" width="50px" height="50px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/papelera.jpg"></img>
+		</div>
+		<script type="text/javascript">
+	  new Draggable('img0', { 
+	    revert: true 
+	  });
+
+	  new Draggable('img1', { 
+	    revert: true 
+	  });
+	  
+	  new Draggable('img2', { 
+	    revert: true 
+	  });
+	  
+	  new Draggable('img3', { 
+	    revert: true 
+	  });
+	
+	  Droppables.add('papelera', { 
+	    accept: 'draggable',
+	    onDrop: function(origen,destino) { 
+	    	indice = origen.name;
+	      contactoActual = getContactoByID(indice).id;
+	      deleteContact();
+	    }
+	  });
+	</script>
+	</div> 	
+ 	
+ 	<div id="divDatos">
+		<div id="foto"><img id="imgContacto" width="80px" src=""></img></div>
+		<div id="divDatosContacto">
+			<table class="tablaContacto" cellpadding="2">
+				<tr><td width="30%"><b>Nombre:</b></td><td width="70%" ><input id="nombre" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Dirección:</b></td><td><input id="direccion" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>e-Mail:</b></td><td><input id="correo" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Teléfono:</b></td><td><input id="telefono" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Móvil:</b></td><td><input id="movil" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Cumpleaños:</b></td><td><input id="cumple" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Alias:</b></td><td><input id="alias" type="text" style="-moz-opacity:.7" size="25"></input></td></tr>
+				<tr><td><b>Grupo</b></td>
+				<td>
+					<SELECT id="listaGrupo" style="-moz-opacity:.7">
+	  				<OPTION>Amigos
+	  				<OPTION>Trabajo
+	  				<OPTION>Familia
+					</SELECT>
+				</td>
+				</tr>
+			</table>
+		</div>
+		<div class="divBotonesContacto">
+			<a href="javascript:saveContact()" title="Guardar cambios" style="color:#ffffff"><img width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/aceptar.png"></img></a>
+			<a href="javascript:cargarXML()" title="Volver sin guardar" style="color:#ffffff"><img width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/cancelar.png"></img></a>
+		</div>
+	</div>
+ 	
+ 	<div id="divNuevo">
+	 	<div id="divNuevoContacto">
+			<table class="tablaNuevoContacto">
+				<tr><td width="30%"><b>Nombre:</b></td><td width="70%" ><input id="nombreVacio" type="text" size="32" style="-moz-opacity:.7"/></input></td></tr>
+				<tr><td><b>Dirección:</b></td><td><input id="direccionVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>e-Mail:</b></td><td><input id="correoVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Teléfono:</b></td><td><input id="telefonoVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Móvil:</b></td><td><input id="movilVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Cumpleaños:</b></td><td><input id="cumpleVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Alias:</b></td><td><input id="aliasVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Imagen:</b></td><td><input id="imgVacio" type="text" size="32" style="-moz-opacity:.7"></input></td></tr>
+				<tr><td><b>Grupo</b></td>
+				<td>
+					<SELECT id="listaGrupoNuevo" style="-moz-opacity:.7">
+	  				<OPTION>Amigos
+	  				<OPTION>Trabajo
+	  				<OPTION>Familia
+					</SELECT>
+				</td>
+				</tr>
+			</table>
+		</div>
+		<div class="divBotonesContacto">
+			<a href="javascript:saveNuevoContacto()" title="Guardar"style="color:#ffffff"><img width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/aceptar.png"></img></a>
+		  <a href="javascript:cargarXML()" title="Cancelar" style="color:#ffffff"><img width="20px" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/cancelar.png"></img></a>
+		</div>
+	</div>
+	
+ </center>
+</body>
+
+</html>

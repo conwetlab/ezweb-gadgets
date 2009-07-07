@@ -1,0 +1,306 @@
+  .slot {
+
+    cursor:hand;
+
+    cursor:pointer;
+
+    width: 89px;
+
+    display:none;
+
+    text-align: center;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    padding-top:2px;
+
+    vertical-align: middle;
+
+  }
+
+
+	.sobre{
+		margin-left: 30px;
+		padding-top: 4px;
+	}
+	
+  .browseitemtitle {
+
+    margin-left:2px;
+
+    font-size: 8pt;
+
+    text-align: left;
+
+    white-space: nowrap;
+    
+    color: black;
+
+  }
+
+
+body {
+   overflow-x: hidden;
+   font-size: 8pt;
+   font-family: arial,helvetica;
+   
+}
+
+
+  .browseitemduration {
+
+    margin-left:6px;
+
+    font-size: 8pt;
+
+    text-align: left;
+    color: black;
+
+  }
+
+ 
+
+  .infowatch{
+
+    font-size: 8pt;
+
+  }
+
+
+
+  .videotitle {
+
+    font-size: 9pt;
+
+    font-weight: bold;
+
+  }
+
+
+
+  .videoinfolabel {
+
+    font-size: 8pt;
+
+  }
+
+
+
+  .videoinfo {
+
+    font-size: 8pt;
+
+    overflow:scroll;
+
+    font-weight: bold;
+
+  }
+
+
+
+  .description {
+
+    font-size: 8pt;
+
+    overflow:auto;
+
+  }
+
+ 
+
+  .thumb {
+
+    width: 85px;
+
+    height: 64px;
+
+    padding: 1px;
+
+    border: 1px solid #666666;
+
+    text-align: middle;
+
+  }
+
+  
+
+  .player { 
+
+    margin-top:2px; 
+
+    margin-bottom: 2px; 
+
+    width: 100%;
+
+    height:200px;
+
+
+
+  }
+
+
+
+  .videobar{
+
+    background:#F6F6F6 none repeat scroll 0%;
+
+    border: 1px solid #CCCCCC;
+
+    voice-family: "\"}\"";
+
+    voice-family: inherit;
+
+    padding: 2px;
+
+  }
+
+
+
+  .contentpane {
+
+    clear:both;
+
+    margin-top: 2px; 
+
+    padding-left: 2px; 
+
+    padding-right: 2px; 
+
+    font-size: 8pt;
+
+    font-family: arial,helvetica;
+
+    height: 248px;
+
+  }
+
+
+
+  .infopane {
+
+    clear:both;
+
+    font-size: 8pt;
+
+    font-family: arial,helvetica;
+
+    vertical-align: middle;
+
+    border-top: solid 1px #cccccc;
+
+    border-right: solid 1px #cccccc;
+
+    border-left: solid 1px #cccccc;
+
+    height:201;
+
+    overflow:auto;
+
+  }
+
+ 
+
+  .pager {
+
+    font-size: 8pt; 
+
+    margin-top: -2px;
+
+    text-align: right;
+
+    white-space: nowrap; 
+
+    display: none;
+
+  }
+
+
+
+  .hbar {
+
+    width:100%; 
+
+    white-space:nowrap;
+
+    clear:both;
+
+  }
+
+
+
+  .loading {
+
+    visibility:hidden;
+
+    position: absolute; 
+
+    font-family:arial, helvetica; 
+
+    font-size: 8pt; 
+
+    padding:0px;
+
+    margin:0px;
+
+    margin-left:4px;
+
+  }
+
+
+
+  .message {
+
+    text-align: center; 
+
+    display:none; 
+
+    font-family:arial, helvetica; 
+
+    font-size: 10pt;
+
+    padding-top: 30px;
+
+    height: 208px; 
+
+    vertical-align:middle;
+
+    white-space:normal;
+
+  }
+
+
+
+  wbr:after { content: "\00200B" }
+
+
+
+  * html .thumb {
+
+    border: 1px solid white;
+
+  }
+
+
+
+  * html .thumbSpan {
+
+    border: 1px solid #666666;
+
+  }
+
+  	#toolTipBox {
+		display: none;
+	  padding: 4px;
+	  font-size: 12px;
+	  border: black solid 1px;
+	  font-family: Arial, Verdana, Helvetica, sans-serif;
+	  position: absolute;
+	  background-color: #ffffff;
+	  color: 000000;
+	  -moz-border-radius: 15px;
+	  width:80px;
+	  text-align:center;
+	}
+	

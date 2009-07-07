@@ -1,0 +1,218 @@
+.rc_iframe_body {
+	margin: 0px;
+	background: #FFF;	/* general background (minus white lines) */
+	border: 0px solid #FFF;
+	cursor: default;
+}
+.rc_iframe_body .rc_table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+/************ general characteristics ************/
+/* c  Month, Year x  (header) */
+.rc_iframe_body .rc_head_tr td,
+/* << < Today > >>  (navigation bar)*/
+.rc_iframe_body .rc_nav_tr td {
+	padding: 2px;
+	text-align: center;
+	white-space: nowrap;
+}
+/* c  Month, Year x  (header) */
+.rc_iframe_body .rc_head_tr td
+{
+	background: #999999;
+	color: #000;
+	font-weight: bold;
+}
+/* << < Today > >>  (navigation bar)*/
+.rc_iframe_body .rc_nav_tr td
+{
+	background: #FFF;
+	border-bottom: 1px solid #999;
+	color: #06C;
+	text-decoration: none;
+}
+/* Sun Mon Tue Wed Thu Fri Sat, non-special */
+.rc_iframe_body .rc_wd_tr td {
+	border-bottom: 1px solid #999;
+	padding: 2px;
+	text-align: center;
+	color: #000;
+	white-space: nowrap;
+}
+/* days of the month, non-special */
+.rc_iframe_body .rc_cal_tr td {
+	border: 1px solid #FFFFFF;		/* the rest of the "white space" for background */
+	padding: 4px 2px 4px 2px;
+	text-align: right;
+	color: #000;				/* normal day text color */
+	white-space: nowrap;
+	width: 20px;
+}
+/* Wed, June 26, 2008  (footer)  */
+.rc_iframe_body .rc_footer_tr td {
+	border-top: 1px solid #999;
+	padding: 2px;
+	text-align: center;
+	color: #000;
+	white-space: nowrap;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+
+/************ special characteristics ************/
+/* CURRENT SELECTION */
+.rc_iframe_body td.rc_current {
+	color: #000;
+	background: #999;
+	font-weight: bold;
+}
+
+.rc_iframe_body td.rc_marked {
+	color: #000;
+	background: #999999;
+	 
+}
+.rc_iframe_body td.cita {
+	color: #000;
+	background: #999999;
+	 
+}
+.rc_iframe_body td.aviso {
+	color: #000;
+	background: #ff9900;
+	 
+}
+
+.rc_iframe_body td.rc_over {
+	color: #000;
+	background: #333333;
+	 
+}
+
+/* TODAY */
+.rc_iframe_body td.rc_today {
+	font-weight: bold;
+}
+/* WEEKEND  Sun Mon Tue Wed Thu Fri Sat */
+.rc_iframe_body td.rc_weekend_head {
+	color: #f00;
+}
+/* WEEKEND  days of the month  */
+.rc_iframe_body td.rc_weekend_day {
+	color: #f00;
+}
+/* HIGHLIGHTED ROW <tr> */
+/*.rc_iframe_body tr.rc_highlight,*/
+/* HIGHLIGHTED ROW <td> */
+/*.rc_iframe_body tr.rc_highlight td {*/
+/*	border: 0px solid #FFF;*/
+/*	background: inherit;*/
+/*}*/
+/* HIGHLIGHTED DAY <td> */
+.rc_iframe_body tr.rc_highlight td.rc_highlight {
+	background: #CCC;
+	border: 1px solid #CCC;
+}
+
+/* Not implemented */
+.rc_calendar {border: 10px solid #000000;	/* doesn't seem to do anything */}
+.rc_iframe_body .rc_time_tr td {border-top: 0px solid #000000; padding: 2px; text-align: center; color: #000; white-space: nowrap;}
+.rc_iframe_body .rc_hours {width: 20px;}
+.rc_iframe_body .rc_colon_span {}
+.rc_iframe_body .rc_mins {width: 20px;}
+#toolTipBox {
+		display: none;
+	  padding: 10px;
+	  font-size: 14px;
+	  border: black solid 1px;
+	   font-family: Arial, Verdana, Helvetica, sans-serif;
+	  position: absolute;
+	  background-color: #fff;
+	  color: 000000;
+	  -moz-border-radius: 15px;
+	  width:100px;
+	  text-align:center;
+	  font-weight: bold;
+	  z-index:10000;
+	}
+	
+	.titulo{
+		font-family: Arial, Verdana, Helvetica, sans-serif;
+		font-size : 20px;
+		color: #00005a;
+	  	width:400px;
+	  	font-weight: bold;
+	}
+        </style>	
+        
+      <style type="text/css">
+
+body {
+	font-family: Arial, Helvetica, sans-serif;	
+	font-size: 14px;
+	text-align: center;
+}
+.texto {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+.logo {
+	position : absolute;
+	top: 1px;
+	left: 222px;
+}
+.error {
+	position : absolute;
+	top:269px;
+	left :44px;
+	border: 1px;
+	color : red;
+	font-weight: bold;
+}
+
+.textArea {
+padding: 10px;
+}
+
+.cabecera {
+background-color: #999999;
+font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.cajaCalendario {
+	position: absolute;
+	top: 78px;
+	left: 323px;
+}
+
+textarea {
+border-color: #999999;
+} 
+
+.caja td{
+border-width: 0px;
+}
+
+
+
+.cajaTexto {
+	position: absolute;
+	top: 58px;
+	left: 229px;
+	 
+}
+.textoPeq {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+ 

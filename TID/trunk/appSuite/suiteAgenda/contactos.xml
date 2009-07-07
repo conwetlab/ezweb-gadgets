@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xml>
+<contacto id="6">
+<id>6</id>
+<nombre>Juan Jose Gonzalez</nombre>
+<direccion>Emilio Vargas, 3</direccion>
+<telefono/>
+<movil/>
+<cumple/>
+<correo>suiteapp2@telefonica.net</correo>
+<img>http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/juanjo.gif</img>
+<alias>Juanjo</alias>
+<grupo>Amigos</grupo>
+</contacto>
+<contacto id="7">
+<id>7</id>
+<nombre>Enrique Fernandez</nombre>
+<direccion>Madrid</direccion>
+<telefono/>
+<movil/>
+<cumple/>
+<correo>suiteapp@telfonica.net</correo>
+<img>http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/enrique.gif</img>
+<alias>Jefe de Proyecto</alias>
+<grupo>Trabajo</grupo>
+</contacto>
+
+<contacto id="8">
+<id>8</id>
+<nombre>Sergio</nombre>
+<direccion/>
+<telefono/>
+<movil/>
+<cumple/>
+<correo>suiteapp@telefonica.net</correo>
+<img>http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/sergio.gif</img>
+<alias>Ingeniero I+D</alias>
+<grupo>Trabajo</grupo>
+</contacto>
+<contacto id="9">
+<id>9</id>
+<nombre>Cristina</nombre>
+<direccion/>
+<telefono/>
+<movil/>
+<cumple/>
+<correo>suiteapp@telefonica.net</correo>
+<img>http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteAgenda/img/vero.gif</img>
+<alias>"Cris"</alias>
+<grupo>Familia</grupo>
+</contacto>
+</xml>

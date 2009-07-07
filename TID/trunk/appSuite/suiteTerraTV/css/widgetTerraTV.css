@@ -1,0 +1,317 @@
+
+body
+{
+
+background-color: #0f0f0f;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+font-family: tahoma,arial,verdana,sans-serif;
+
+font-size: 11px;
+
+color: #c0c0c0;
+
+list-style-type: none;
+
+list-style-image: none;
+
+list-style-position: outside;
+
+text-decoration: none;
+
+outline-color: -moz-use-text-color;
+
+outline-style: none;
+
+outline-width: medium;
+
+padding-top: 0pt;
+
+padding-right: 0pt;
+
+padding-bottom: 0pt;
+
+padding-left: 0pt;
+
+margin-top: 0pt;
+
+margin-right: 0pt;
+
+margin-bottom: 0pt;
+
+margin-left: 0pt;
+
+ 
+
+}
+
+input 
+
+{
+
+background-color: #070707;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+border-top-width: 1px;
+
+border-right-width-value: 1px;
+
+border-right-width-ltr-source: physical;
+
+border-right-width-rtl-source: physical;
+
+border-bottom-width: 1px;
+
+border-left-width-value: 1px;
+
+border-left-width-ltr-source: physical;
+
+border-left-width-rtl-source: physical;
+
+border-top-style: solid;
+
+border-right-style-value: solid;
+
+border-right-style-ltr-source: physical;
+
+border-right-style-rtl-source: physical;
+
+border-bottom-style: solid;
+
+border-left-style-value: solid;
+
+border-left-style-ltr-source: physical;
+
+border-left-style-rtl-source: physical;
+
+border-top-color: #5d5d5d;
+
+border-right-color-value: #5d5d5d;
+
+border-right-color-ltr-source: physical;
+
+border-right-color-rtl-source: physical;
+
+border-bottom-color: #5d5d5d;
+
+border-left-color-value: #5d5d5d;
+
+border-left-color-ltr-source: physical;
+
+border-left-color-rtl-source: physical;
+
+width: 170px;
+
+height: 17px;
+
+font-size: 14px;
+
+font-weight: normal;
+
+color: #9e9e9e;
+
+float: left;
+
+padding-top: 1px;
+
+padding-right: 3px;
+
+padding-bottom: 0px;
+
+padding-left: 3px;
+
+font-family: tahoma,arial,verdana,sans-serif;
+
+font-size: 11px;
+
+color: #c0c0c0;
+
+list-style-type: none;
+
+list-style-image: none;
+
+list-style-position: outside;
+
+text-decoration: none;
+
+outline-color: -moz-use-text-color;
+
+outline-style: none;
+
+outline-width: medium;
+
+padding-top: 0pt;
+
+padding-right: 0pt;
+
+padding-bottom: 0pt;
+
+padding-left: 0pt;
+
+margin-top: -40px;
+
+margin-right: 0pt;
+
+margin-bottom: 0pt;
+
+margin-left: 140pt;
+
+position: relative;
+
+}
+
+.container{
+	background:url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteTerraTV/img/bgContainer.gif) top left repeat-x;
+	width:300px;
+	margin-left: 20pt;
+	}
+
+img  {
+border:0;
+ 
+}
+
+.buscaBtn {
+
+background-color: transparent;
+
+background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteTerraTV/img/icoBusca.gif);
+
+background-repeat: no-repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+width: 20px;
+
+height: 20px;
+
+float: left;
+
+text-indent: -500000px;
+
+padding-top: 0pt;
+
+padding-right: 0pt;
+
+padding-bottom: 0pt;
+
+padding-left: 0pt;
+
+ 
+
+margin-top: -40px;
+
+margin-right: 0pt;
+
+margin-bottom: 0pt;
+
+margin-left: 278pt;
+
+position: relative;
+}
+
+.top
+
+{
+
+background-color: transparent;
+
+background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteTerraTV/img/bgTopInverted.gif);
+
+background-repeat: repeat-x;
+
+background-attachment: scroll;
+
+background-position: left top;
+
+width: 422px;
+
+float: left;
+
+display: inline;
+
+position: relative;
+
+z-index: 999;
+
+margin-top: 0pt;
+
+margin-right: 0pt;
+
+margin-bottom: 120px;
+
+margin-left: 1px;
+
+}
+
+
+a
+
+{
+
+color: #c0c0c0;
+
+font-size: 14px;
+
+}
+
+a:hover 
+
+{
+
+text-decoration: underline;
+
+}
+
+.imagen {
+
+height : 60px;
+width : 80 px;
+border : 1px;
+
+}
+
+.lista {
+
+margin-left: 30px;
+
+margin-bottom: 20px;
+
+}
+
+.nombre{
+ 
+margin-left: 0px;
+position: relative;
+top: -10px;
+}
+
+.estilo {
+color: #ff7510;
+margin-left: 21px;
+ 
+}
+ 
+td { 
+ 
+}
+
+table { 
+ 
+}

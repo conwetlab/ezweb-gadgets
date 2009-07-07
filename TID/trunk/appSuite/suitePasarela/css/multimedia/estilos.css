@@ -1,0 +1,51 @@
+	body { 
+		background-color: #ffffff; 
+	}
+	
+	#logo {
+		background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/bck_div_pestanas.gif);
+		background-repeat: repeat-x;
+		height: 32px;
+		line-height: 32px;
+	}
+	
+	p{
+		font-family: Arial;
+		font-size: 16px;
+		font-weight: bold;
+		color: #993399;
+		text-align: center;
+	}
+	object { 
+		position: relative;
+		display: block; 
+		top: 20px;
+		left: 20px;
+	}
+	
+	#listaRepro{
+		position:relative;
+		margin: 20px;
+	}
+	
+	#lista{
+		font-size: 12px;
+		font-family: Arial;
+		color: #333;
+		background-color: #F0EFF5;
+		opacity: .7;
+	}
+	.fila{
+		background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/borde.png);
+		background-repeat: repeat-x;
+	}
+		
+	tr.normal{
+		background-color: #F0EFF5;
+	}
+	tr.normalon{
+		background-color: #E0E1E7;
+	}
+	#repro{
+		text-align: center;
+	}

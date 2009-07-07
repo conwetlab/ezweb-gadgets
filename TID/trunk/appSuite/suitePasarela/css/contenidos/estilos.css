@@ -1,0 +1,105 @@
+@charset "utf-8";
+/* CSS Document */
+
+.titleBar {
+	position: relative;
+	top: 10px;
+	left: 10px;
+	padding: 10px 10px 10px 10px;
+	width: 350px;
+	height: 59px;
+border: 0px black solid;
+}
+
+.list {
+	position: relative;
+	top: -10px;
+	left: 70px;
+	
+	width: 350px;
+	height: 159px;
+border: 0px black solid;
+}
+
+.imgPeq {
+ width: 50;
+ height: 50;
+ border:0;
+}
+
+ 
+ 
+a img {
+text-decoration: none;
+border: 0 none;
+}
+
+.ac_input {
+position: relative;
+bottom: 18px;
+  font: bold small 'trebuchet ms',helvetica,sans-serif;
+ 
+}
+
+ 
+
+#button {
+  color:#050;
+  font: bold small 'trebuchet ms',helvetica,sans-serif;
+  position: relative;
+  bottom: 18px;
+}
+
+	body { 
+		background-color: #ffffff; 
+	}
+	
+	#logo {
+		background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/bck_div_pestanas.gif);
+		background-repeat: repeat-x;
+		height: 32px;
+		line-height: 32px;
+	}
+	
+	p{
+		font-family: Arial;
+		font-size: 16px;
+		font-weight: bold;
+		color: #993399;
+		text-align: center;
+	}
+	object { 
+		position: relative;
+		margin-left:60px;
+		display: block; 
+	}
+	
+	.listaRepro{
+		position:absolute;
+		margin: 20px;
+		 
+	}
+	
+	#lista{
+		font-size: 12px;
+		font-family: Arial;
+		color: #333;
+		background-color: #F0EFF5;
+		opacity: .7;
+	}
+	.fila{
+		background-image: url(http://demo.ezweb.morfeo-project.org/repository/appSuite/suitePasarela/img/borde.png);
+		background-repeat: repeat-x;
+	}
+		
+	tr.normal{
+		background-color: #F0EFF5;
+	}
+	tr.normalon{
+		background-color: #E0E1E7;
+	}
+
+.imagenPlay {
+position:relative;
+top: 3px;
+}

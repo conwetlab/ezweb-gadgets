@@ -1,0 +1,115 @@
+	
+	body{
+		background-color: #ffffff;
+		font-family: Arial;
+		font-size : 14px;
+		font-weight: bold;
+		color: #000000;
+		padding-right :10px;
+		padding-left :10px;
+	}
+
+	div {
+		position:absolute;
+		z-index:0;
+	}
+	
+	a{
+		text-decoration:none;
+		font-family: Arial;
+		font-size : 14px;
+		color: #000000;
+		font-weight: bold;
+	}
+	
+	
+	.tablaContactos{
+		width: 240px;
+		height: 220px;
+		font-family: Arial;
+		font-size : 14px;
+		font-weight: bold;
+	}
+	
+	.tablaContactos td{
+		border-width: 0px;
+	}
+	
+	#divContactos{
+		left:20px;
+	}
+
+	#divGrupos{
+		left:280px;
+	}	
+
+	.tablaGrupos{
+		width: 60px;
+		height: 60px;
+	}
+	
+  	.tablaGrupos td{
+		border-width: 0px;
+	}
+	
+	.divBotones{
+		position:absolute;
+		top: 220px;
+		left: 240px;
+		width: 180px;
+		z-index:-10;
+	}
+	
+	
+	#divDatosContacto{
+		position:absolute;
+		top:20px;
+		left: 100px;
+		width:280px;
+		height:250px;
+		text-align:left;
+		font-family : Arial;
+		font-size : 14px;
+		font-width:bold;
+	}
+	
+	.tablaContacto{
+		font-family : Arial;
+		font-size : 14px;
+		font-width:bold;
+	}
+	
+	.divBotonesContacto{
+		position:absolute;
+		top: 250px;
+		left: 200px;
+		width: 180px;
+		text-align: right;
+	}
+
+	.divBotonContacto{
+		position:absolute;
+		top: 250px;
+		left: 180px
+		text-align: right;
+	}
+
+	#divNuevoContacto{
+		left:20px;
+	}
+	
+	.tablaNuevoContacto{
+		font-family : Arial;
+		font-size : 14px;
+		font-width:bold;
+		padding-top:10px;
+		width:380px;
+		height:220px;
+	}
+	
+
+	
+
+	
+	
+	

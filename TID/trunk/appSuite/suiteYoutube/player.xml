@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>SuiteApp</Vendor>
+		<Name>Player Youtube</Name>
+		<Version>1.0</Version>
+		<Author>veroyjose</Author>
+		<Mail>vero@novanotio.es</Mail>
+		<Description>Reproductor de videos de Youtube</Description>
+		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteYoutube/img/tuberep.png</ImageURI>
+		<WikiURI>http://noimage.com</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Slot name="RSSYurl" type="text" label="url" friendcode="youtube_url"/>
+	</Platform.Wiring>
+	<Platform.Context>
+  </Platform.Context>
+	<Platform.Link>
+		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteYoutube/player.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="7" height="28"/>
+</Template>
+
+
+

@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		
+      <link rel="stylesheet" type="text/css"  href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/css/imported.css" />
+
+      <link rel="stylesheet" type="text/css"  href="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/css/propio.css" />
+        
+	 
+        
+<script language="JavaScript" type="text/javascript" >
+	 
+	 		var theObj="";
+	 
+		</script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/js/prototype.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/js/scriptaculous.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/js/dragdrop.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/js/rich_calendar.js"></script>
+		  
+		<script language="JavaScript" type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/js/rc_lang_es.js">
+		 
+		</script>
+
+		<script type="text/javascript">
+			
+	 var outputDateGadget = EzWebAPI.createRWGadgetVariable("meeting");
+
+	function sendLink () {
+	
+		diaText = cal_obj.date.getDate();
+	  tempText = $("textAreaNuevaCita").value;
+		mesText= cal_obj.date.getMonth();
+		anyoText = cal_obj.date.getFullYear();
+
+		if (tempText =="") {
+
+			$("error").innerHTML="Seleccione una cita";
+
+		} else {
+		
+			stringText = "Evento para el " + diaText  + "-" + (mesText+1) + "-"+anyoText + ": " + tempText;
+		 
+			outputDateGadget.set(stringText);
+			 
+ 		}
+	
+	}
+
+	function setDataLocal() {
+		diaText = cal_obj.date.getDate();
+	  tempText = $("textAreaNuevaCita").value;
+		mesText= cal_obj.date.getMonth();
+		anyoText = cal_obj.date.getFullYear();
+
+		if (tempText =="") {
+
+			//$("error").innerHTML="Seleccione una cita";
+
+		} else {
+		
+			stringText = "Evento para el " + diaText  + "-" + (mesText+1) + "-"+anyoText + ": " + tempText;
+		 
+			 setData(stringText);
+			 
+ 		}
+}
+		
+		 
+			
+			function setYear(text)	// adjust for user input errors
+			{	
+				var year = parseInt(text);
+				if (year > 999)
+				{
+					cal_obj.date.setFullYear(year);
+				}
+				else
+				{
+					cal_obj.date.setFullYear(2000 + year);
+				}
+			}
+			function setMonth(text)	// adjust for user input errors
+			{	
+				var month = parseInt(text);
+				cal_obj.date.setMonth(month);
+			}
+			function setDay(text)	// adjust for user input errors
+			{	
+				var day = parseInt(text);
+				cal_obj.date.setDate(day);
+			}
+			function setDate(text)
+			{	
+		 
+				var millisecondsSinceJan_1_1970 = parseInt(text);
+				cal_obj.date.setTime(millisecondsSinceJan_1_1970);
+			}
+			
+			function cal_onchange_dummy(cal, object_code)
+			{
+				if (object_code == 'day')
+				{
+						 
+					  dayTemp = cal.date.getUTCDate();
+					  monthTemp = cal.date.getUTCMonth();
+					  yearTemp =cal.date.getFullYear();
+				 
+					 if (isMarked(dayTemp,monthTemp,yearTemp)){
+								citaTemp = getCita(dayTemp,monthTemp,yearTemp);
+								$("textAreaNuevaCita").value = citaTemp;
+							  stringTemp ="Evento para el " + dayTemp + "/" + monthTemp + "/" + yearTemp + ":" + citaTemp;
+								 
+								//outputMeetingGadget.set(stringTemp);
+							 
+							
+							//EVENTO CLICK	
+						} else {
+						 $("textAreaNuevaCita").value = "";
+						}
+					 
+				 	 
+					cal.show_date();
+					 
+				}
+			}
+			 
+			function toolTip() {
+				 
+		theObj=this;
+		//alert(theObj);
+		//alert(theObj.rel);
+		 
+	  theObj.onmousemove=updatePos;
+	   
+	  document.getElementById('toolTipBox').innerHTML=theObj.rel;
+	  document.getElementById('toolTipBox').style.display="block";
+	  window.onscroll=updatePos;
+	  //alert("toolTipEvent3");
+	}
+function updatePos() {
+	//alert("updatePos");
+	  var ev=arguments[0]?arguments[0]:event;
+	  var x=ev.clientX;
+	  var y=ev.clientY;
+ 
+	 
+	  diffX=24;
+	  diffY=0;
+	  document.getElementById('toolTipBox').style.top  = y-2+diffY+document.body.scrollTop+ "px";
+	  document.getElementById('toolTipBox').style.left = x-2+diffX+document.body.scrollLeft+"px";
+	  theObj.onmouseout=hideMe;
+	}
+	function hideMe() {
+	  document.getElementById('toolTipBox').style.display="none";
+	}
+		</script>
+	</head>
+	<body onLoad="javascript:$('textAreaNuevaCita').value=''" class="rc_iframe_body">
+ 
+			<div id="toolTipBox"></div>
+		<div id="cal1_div" class="cajaCalendario"></div>
+	
+    	<div id="testDivCalendar"></div>
+	
+    	 
+	<script type="text/javascript">
+ 
+			var cal_obj = new RichCalendar();
+	 
+			var div_cal1 = document.getElementById("cal1_div");
+			var div_cal1_pos = RichCalendar.get_obj_pos(div_cal1);
+				
+			cal_obj.auto_close = false;
+			cal_obj.user_onchange_handler = cal_onchange_dummy;
+			
+			
+			cal_obj.show(div_cal1_pos[0], div_cal1_pos[1]);
+			 
+
+		</script>
+ 
+<div class="cajaTexto">
+
+<table class="caja" width="128" border="1" height="238">
+  <tr>
+    <td  height="20" class="cabecera" colspan="3" align="center"> Nueva cita</td>
+  </tr>
+  <tr >
+  <td height="148" colspan="3" ><textarea onkeypress="javascript:setError('')" id="textAreaNuevaCita" name="textarea" cols="12" rows="9" onchange="javascript:testBorrarCita();"> </textarea></td>
+  </tr>
+    
+    <tr>
+    
+    <td width="16" height="22"> <div align="right"><img  class="draggable" id="cita" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/img/gris.png" width="16" height="16" /> 
+    </div></td>
+    <td width="78" class="textoPeq">
+     Nueva cita     </td>
+     <td width="14">
+       <div align="left"><img onclick="javascript:sendLink();" onmousedown="javascript:setDataLocal();" onmouseup=javascript:popData();" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/img/sobre.png" width="16" height="12" />  </div></td>
+  </tr>
+  
+      <tr>
+    
+    <td width="16" height="34"> <div align="right"><img class="draggable"   id="aviso"src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/img/naranja.png" width="16" height="16" /> 
+    </div></td>
+    <td width="78" class="textoPeq">
+     Nuevo aviso     </td>
+     <td width="14">
+       <div align="left"><img   src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/img/bandera.png" width="14" height="15" />  </div></td>
+  </tr>
+</table>
+
+</div>
+
+<div class="logo">
+<img src="http://demo.ezweb.morfeo-project.org/repository/appSuite/suiteCalendario/img/telefonicanet.png"/></div>
+
+
+<script language="javascript">
+
+new Draggable('cita', { revert: true });
+new Draggable('aviso', { revert: true });
+
+ 
+/*
+Droppables.add('droppable_demo', { 
+    accept: 'draggable',
+    hoverclass: 'hover',
+    onDrop: function() { $('droppable_demo').highlight(); }
+  });     
+ */
+</script>
+
+<div class="error" id="error"></div>
+
+</body>
+</html>

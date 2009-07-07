@@ -1,0 +1,243 @@
+	body {
+		background-color: #ffffff; 
+		font-family: Arial;
+		font-size : 14px; 
+		font-weight: bold;
+		color: #000000;
+	}
+	
+	span{
+		font-weight: normal;
+	}
+
+		a  {
+		text-decoration: none;
+		border: 0 none;
+		}
+		
+		a img {
+			text-decoration: none;
+			border: 0 none;
+		}
+		
+		a:link {
+		color: #000;
+		}
+		
+		a:visited {
+		color: #000;
+		}
+		
+		a:hover {
+		color: #000;
+		}
+		
+		a:active {
+		color: #000;
+		}
+	
+	.titulo{
+		font-family: Arial;
+		font-size : 14px;
+		color: #00005a;
+	  width:380px;
+	  font-weight: bold;
+	}
+	
+	#divMailbox{
+		position:absolute;
+		top:50px;
+		left:25px;
+	}
+	
+	#tableMailBox {
+	  width:380px;
+	  height:20px;
+	  font-family: Arial; 
+		font-size : 14px;
+		color: #000000;
+		margin-top:4px;
+	}
+
+	#divSendMail{
+		position:absolute;
+		top:60px;
+	}
+	
+	#tableSendMail {
+	 	width:380px;
+	 	font-family: Arial; 
+		font-size : 14px;
+		color: #6A6A6A;
+		font-weight: bold;
+		align:right;
+	}
+	
+	.botones{
+		position:absolute;
+		right: 8px;
+		top: 240px;
+	}
+	
+	.botones a{
+		text-decoration:none;
+		color: #ffffff;
+	}
+
+	#divMail{
+		position:absolute;
+		top:60px;
+		left: 20px;
+	}
+
+	.tableMail {
+		background-color:#f0f0f0;
+		border : 1px solid #f0f0f0;
+		width:380px;
+		font-family: Arial;
+		font-size : 13px;
+	}
+	
+	.tableMail td{
+		padding:0px;
+	}
+	
+	#cuerpo{
+		overflow-y: scroll; 
+		height:160px; 
+		width:380px; 
+		border : 1px solid #f0f0f0;
+		color:#000000; 
+		font-family: Arial;
+		font-size : 13px;
+		text-align:left;
+		font-weight: normal;
+	}
+
+
+/* root element for scrollable */
+div.scrollable {
+	/* required settings */
+	position:relative;
+	top:0px;
+	overflow:hidden;
+	/* vertical scrollers have typically larger height than width */	
+	height: 190px;
+	width: 360px;
+	/* decoration */
+	padding:0px 10px;
+	border:0px outset #ccc;
+	background-color:#ffffff;
+}
+
+/* root element for scrollable items */
+div.scrollable div.items {	
+	position:absolute;
+	
+	/* this time we have very large space for height */	
+	height:30px;	
+	
+	/* decoration */
+	margin-top:10px;
+}
+
+/* 
+	same settings as in horizontal scroller except that these items 
+	are not floated
+*/
+div.scrollable div.items div {
+
+	width:360px;
+	padding:5px 0px;
+	font-size:12px;
+	font-family: Arial;
+	border:1px outset #ccc;
+	background-color: #f0f0f0;
+	-moz-border-radius:5px;
+	margin-bottom:10px;
+}
+
+/* active item */
+/*div.scrollable div.items div.active {
+	border:1px inset #ccc;		
+	background-color:#fff;
+}
+*/
+div.scrollable div.items div:hover {
+	border:1px inset #ccc;		
+	background-color:#fff;
+}
+
+.asunto {
+text-align: left;
+font-style: italic;
+}
+
+.de{
+text-align: left;
+width: 79px;
+}
+
+.fecha {
+position: absolute;
+left: 300px;
+}
+
+.asuntoN {
+text-align: left;
+font-style: italic;
+font-weight: bold;
+}
+
+.deN{
+text-align: left;
+width: 79px;
+font-weight: bold;
+}
+
+.fechaN {
+position: absolute;
+left: 300px;
+font-weight: bold;
+}
+
+/* this makes it possible to add next button beside scrollable */
+div.scrollable {
+	float:left;		
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.prev, a.next, a.prevPage, a.nextPage {
+	display:block;
+	width:18px;
+	height:18px;
+	background:url(left.png) no-repeat;
+	float:left;
+	margin:43px 10px;
+	cursor:pointer;
+}
+
+/* mouseover state */
+a.prev:hover, a.next:hover, a.prevPage:hover, a.nextPage:hover {
+	background-position:0px -18px;		
+}
+
+/* disabled navigational button */
+a.disabled {
+	visibility:hidden !important;		
+}
+
+/* next button uses another background image */
+a.next, a.nextPage {
+	background-image:url(right.png);
+	clear:right;	
+}
+
+.iconodown{
+	display:block;
+	visibility:visible;
+	text-align:center;
+	position:relative;
+	top:5px;
+	left: 170px;
+}
