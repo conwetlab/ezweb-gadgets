@@ -67,17 +67,22 @@
      
 
     <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/EzWebAPI.js"></script>
+
     <script src="http://www.google.com/jsapi?key=ABQIAAAAKbGY__d3CNnSQlCsg3y_BRQZCFxWBEeeemGQ836ekfLcPOgJ7RTWsa6cjVyXW5Bl78v9gOfB3W-N0w" type="text/javascript"></script>
   	<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/appSuite/commons/js/dragdrop.js"></script> 
     <script type="text/javascript">
     	
    	var outputDateGadget = EzWebAPI.createRWGadgetVariable("urlSearch");
+	var inputText = EzWebAPI.createRGadgetVariable("SlotText",function(value){
+		searchControl.setTextInput(value);
+		searchControl.executeSearch(value);
+	});
     	
     	
     //<![CDATA[
     google.load('search', '1.0');
     function OnLoad() {
-      new RawSearchControl();
+      searchControl = new RawSearchControl();
     }
 
 	function toolTip(event) {
@@ -119,7 +124,6 @@
       this.results = document.getElementById("results");
       this.cursor = document.getElementById("cursor");
       this.searchform = document.getElementById("searchform");
-
       // create map of searchers as well as note the active searcher
       this.activeSearcher = "web";
       this.searchers = new Array();
@@ -156,6 +160,14 @@
                                           RawSearchControl.prototype.onSubmit);
       this.searchForm.setOnClearCallback(this,
                                           RawSearchControl.prototype.onClear);
+
+
+	this.setTextInput = function(textInput){
+		this.searchForm.input.value = textInput;
+	}
+	this.executeSearch = function(value){
+		this.searchForm.execute(value);
+	}
     }
 
     /**
@@ -427,6 +439,7 @@ function sendLink (event) {
   <body>
     <h1>Widget de Google</h1>
     <form id="searcher">
+
       <table>
         <td class="search-form">
           <div id="searchform">Loading</div>
@@ -437,6 +450,7 @@ function sendLink (event) {
     </form>
 	<div id="toolTipBox"></div>
     <div class="gsc-results">
+
       <div id="results"></div>
       <div id="cursor" class="gsc-cursor-box"></div>
     </div>

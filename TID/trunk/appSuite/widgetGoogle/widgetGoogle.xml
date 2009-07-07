@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>tid</Vendor>
 		<Name>Google Search</Name>
-		<Version>1.0</Version>
+		<Version>1.2</Version>
 		<Author>veroyjose</Author>
 		<Mail>vero@novanotio.es</Mail>
 		<Description>Widget Terra</Description>
@@ -20,6 +20,7 @@
 	<!-- EzWeb Gadget Data Wiring -->
 	<Platform.Wiring>
 	<Event name="urlSearch" type="text" label="urlSearch" friendcode="urlSearch"/>
+	<Slot  name="SlotText" type="text" label="SlotText" friendcode="SlotText"/>
 	</Platform.Wiring>
 	<Platform.Context>
   </Platform.Context>
