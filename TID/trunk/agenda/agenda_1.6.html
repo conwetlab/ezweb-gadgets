@@ -26,7 +26,8 @@ input[type="button"]{ color: #225784; border: 1px solid #238EC2; background: #ef
 
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 
 <SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/adapter/ext/ext-base.js"></SCRIPT>
 <SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/ext-all.js"></SCRIPT>
@@ -481,7 +482,9 @@ function doSearch (value){
 }
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/agenda/languages_agenda.xml", "language", null, loadGrid);
+	translator = new EzWebExt.Translator(labels, "language");
+	loadGrid();
+	translator.translate();
 }
 
 
