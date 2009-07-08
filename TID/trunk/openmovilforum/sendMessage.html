@@ -8,11 +8,6 @@
 <link href="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 <style>
-body {
-	margin:0;
-	padding:0;
-	overflow-x:hidden;
-}
 #wait{
 	margin-left: 10px;
 	display: inline;
@@ -32,7 +27,6 @@ iframe{
 a{
 	color: #225784;
 	font-size:10pt;
-	white-space: nowrap;
 }
 #header{
 	margin-top: 5px;
@@ -86,7 +80,6 @@ a{
 }
 .advice{
 	font-size: 8pt;
-	white-space: nowrap;
 }
 .advice span{
 	font-size: 10pt;
@@ -102,7 +95,6 @@ a{
 }
 .pStyle{
 	margin:2px;
-	white-space: nowrap;
 }
 .text{
 	width:100%;
@@ -113,7 +105,8 @@ a{
 }
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/openmovilforum/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <script language="JavaScript">
 function sanitize( text ){
 	var equivalences = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ñ":"n","Ñ":"N",
@@ -155,8 +148,6 @@ var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDes
 var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 // Message
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
-// Full Message
-var fullMessage = EzWebAPI.createRGadgetVariable("fullMessage", setFullMessage);
 // Signature
 var sigprop = EzWebAPI.createRWGadgetVariable('signature');
 
@@ -177,7 +168,7 @@ var translator = null;
 //global variable
 
 var messageSended = false;
-var signature = " (sent by EzWeb)";
+var signature = " (sent from EzWeb)";
 var MESSAGE_SIZE = 160;
 
 //updates base_uri var when user preference is updated
@@ -221,35 +212,6 @@ function setMessage(val){
    }
    return;
 }//setMessage
-
-function setFullMessage(val){
-	parameters = eval('(' + val + ')');
-	
-	var uri_sms = url.get()+"/openmovilforum/sms";
-	var uri_mms = url.get()+"/openmovilforum/mms";
-	
-	e_destinationPhone.set(parameters["to"]);
-	e_message.set(parameters["message"]);
-	if (!parameters['objectURL'] || parameters['objectURL'].length == 0){
-		parameters["message"] = sanitize(parameters["message"]);
-		parameters["TM_LOGIN"] = login.get();
-		parameters["TM_PASSWORD"] = password.get();
-		EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
-	}else{
-		e_objectUrl.set(parameters['objectURL']);
-		e_subject.set(subject);
-
-		document.MMSCreationForm.action=uri_mms;
-		document.MMSCreationForm.elements['login'].value = login.get();
-		document.MMSCreationForm.elements['password'].value = password.get();
-		document.MMSCreationForm.elements['message'].value = parameters["message"];
-		document.MMSCreationForm.elements['subject'].value = parameters["subject"];
-		document.MMSCreationForm.elements['objectURL'].value = parameters['objectURL'];
-		messageSended = true;
-		document.MMSCreationForm.submit();
-		return true;
-	}
-}//setFullMessage
 
 function setDestinationPhone(val){
 	document.MMSCreationForm.elements['to'].value = val;
@@ -416,9 +378,12 @@ function init(){
 }
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/openmovilforum/languages.xml", "language", "languagePref", init);
+	translator = new EzWebExt.Translator(labels, "language", "languagePref");
+	init();
+	translator.translate();
+
 	if (sigprop.get() == '')
-		signature = ' (sent from EzWeb)';
+		signature = ' (sent form EzWeb)';
 	else
 		signature = sigprop.get();
 }
@@ -429,7 +394,7 @@ function clearText(){
 
 </script>
 </head>
-<body onload="generateLang()" >
+<body onload="generateLang();" >
 <form id="MMSCreationForm" name="MMSCreationForm" method="POST" enctype="multipart/form-data" target="uploadFileFrame" onsubmit="return false;">
 
 <p class="pStyle">
