@@ -29,6 +29,7 @@
 		<label id="import_l">import</label>
 		<label id="export_l">export</label>
 		<label id="opml_tip">OPML file</label>
+		<label id="l_bookmark">Message:</label>
 	</language>
 	<language name="es">
 		<label id="l_filter">Filtro:</label>
@@ -58,6 +59,7 @@
 		<label id="import_l">importar</label>
 		<label id="export_l">exportar</label>
 		<label id="opml_tip">fichero OPML</label>
+		<label id="l_bookmark">Mensaje:</label>
 	</language>
 </languages>
 
