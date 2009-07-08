@@ -590,7 +590,7 @@ EzWebExt.ALERT_ERROR = 2;
  * 
  * @constructor
  */
-EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTranslate){
+EzWebExt.Translator = function(languages, labelContext, labelPref, onTranslate){
 
     // PRIVATE AREA
     var _langPref = (labelPref) ? EzWebAPI.createRGadgetVariable(labelPref, _langPrefHandler) : null;
@@ -669,9 +669,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
     else
          _langPrefHandler(PLATFORM_LANGUAGE);
   
-    if (onLoad) onLoad();
-    _translate(); 
-
     // PUBLICS METHODS
     
     /**
