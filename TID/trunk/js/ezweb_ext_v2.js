@@ -604,21 +604,11 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
     
     var _normalInit = function(){
         _languages = languages;
-        _defaultLanguage = (_languages[0]) ? _languages[0] : null;
-        _actualLanguage = _babel[_defaultLanguage];
         
         for (var i = 0; i < _languages.length; i++) {
             _babel[_languages[i]] = [];
         }
-
-        if(_langPref)
-            _langPrefHandler(_langPref.get());
-        else
-            _langPrefHandler(PLATFORM_LANGUAGE);
-        
-        _translate();
     }
-    
 
     var _jsonInit = function(){
         for (var language in languages) {
@@ -627,15 +617,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
 
 	_babel = languages;
         _addKeys();
-
-        _defaultLanguage = (_languages[0]) ? _languages[0] : null;
-        _actualLanguage = _babel[_defaultLanguage];
-        
-        if(_langPref) 
-            _langPrefHandler(_langPref.get());
-        else
-            _langPrefHandler(PLATFORM_LANGUAGE);
-        _translate();
     }
     
     var _translateLabel = function(key){
@@ -670,8 +651,6 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
 		if (onTranslate) onTranslate();
     }
 
-    if (onLoad) onLoad();
-
     if (typeof languages != "object") {
         EzWebExt.alert("Error", "Error al iniciar el traductor", EzWebExt.ALERT_ERROR);
     } 
@@ -681,7 +660,18 @@ EzWebExt.Translator = function(languages, labelContext, labelPref, onLoad, onTra
     else {
         _normalInit();
     }
-    
+
+    _defaultLanguage = (_languages[0]) ? _languages[0] : null;
+    _actualLanguage = _babel[_defaultLanguage];
+
+    if(_langPref)
+         _langPrefHandler(_langPref.get());
+    else
+         _langPrefHandler(PLATFORM_LANGUAGE);
+  
+    if (onLoad) onLoad();
+    _translate(); 
+
     // PUBLICS METHODS
     
     /**
