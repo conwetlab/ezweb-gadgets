@@ -48,14 +48,7 @@ function api_key_handler (key) {
 	get_user_id();
 }
 function nphotos_handler(){
-	if (nphotosPref.get () == '5')
-		nphotos = 5;
-	if (nphotosPref.get () == '10')
-		nphotos = 10;
-	if (nphotosPref.get () == '15')
-		nphotos = 15;
-	if (nphotosPref.get () == '20')
-		nphotos = 20;
+	nphotos = parseInt(nphotosPref.get ());
 	displayImages();
 }
 function get_user_id () {
@@ -291,14 +284,9 @@ var footer = document.createElement ('div');
 	document.body.appendChild(header);
 	document.body.appendChild(content);
 	document.body.appendChild(footer);
-	if (nphotosPref.get () == '5')
-		nphotos = 5;
-	if (nphotosPref.get () == '10')
-		nphotos = 10;
-	if (nphotosPref.get () == '15')
-		nphotos = 15;
-	if (nphotosPref.get () == '20')
-		nphotos = 20;
+
+	nphotos = parseInt(nphotosPref.get ());
+	
 	get_user_id();
 	resetInterval(time.get())
 }

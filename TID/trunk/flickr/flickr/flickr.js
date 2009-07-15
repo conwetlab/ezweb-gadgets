@@ -32,7 +32,7 @@ function init (){
 	imgrefresh.setAttribute ('id', 'refreshimg');
 	imgrefresh.setAttribute ('title', 'Refresh');
 	imgrefresh.src ='http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/refresh.png';
-	imgrefresh.setAttribute ('onclick', 'displayMenu2();');
+	imgrefresh.setAttribute ('onclick', 'setNumberOfPhotos();');
 	imgrefresh.style.cssText = 'cursor: pointer; position:absolute; top:5px; right:5px;';
 	header.appendChild (imgrefresh);
 	header.appendChild (a);
@@ -67,48 +67,25 @@ function init (){
 	document.body.appendChild (header);
 	document.body.appendChild (content);
 	document.body.appendChild (footer);
-	if (nphotosPref.get () == '5')
-		nphotos = 5;
-	if (nphotosPref.get () == '10')
-		nphotos = 10;
-	if (nphotosPref.get () == '15')
-		nphotos = 15;
-	if (nphotosPref.get () == '20')
-		nphotos = 20;
-	keywordevent.set(vdefault.get());
-	displayMenu(vkey.get());
-	resetInterval(time.get())
+
+	nphotos = parseInt(nphotosPref.get ());
+        displayMenu(keywordevent.get(), true);
+
+	resetInterval(time.get());
 }
-function setNumberOfPhotos () {
-	if (nphotosPref.get () == '5')
-		nphotos = 5;
-	if (nphotosPref.get () == '10')
-		nphotos = 10;
-	if (nphotosPref.get () == '15')
-		nphotos = 15;
-	if (nphotosPref.get () == '20')
-		nphotos = 20;
-	displayMenu2();
+
+function setNumberOfPhotos() {
+	nphotos = parseInt(nphotosPref.get ());
+	displayMenu(keywordevent.get());
 }
-function displayMenu2(){
-	displayMenu(vkey.get());
-}
-function displayMenu(keyword) {
-	if (keyword==""){
-		if (vdefault.get()==""){
-			feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags=ezweb&lang=en-us&format=rss_200";
-			keywordevent.set(vdefault.get());
-		}
-		else{
-	        feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+vdefault.get()+"&lang=en-us&format=rss_200";
-			keywordevent.set(vdefault.get());
-		}
-	}
-	else{
-		feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+keyword+"&lang=en-us&format=rss_200";
+
+function displayMenu(keyword, nonPropagate) {
+	
+	keyword = ((keyword != "")?keyword:((vdefault.get()!="")?vdefault.get():"ezweb"));
+
+	feedUrl = "http://api.flickr.com/services/feeds/photos_public.gne?tags="+encodeURIComponent(keyword)+"&lang=en-us&format=rss_200";
+	if (!nonPropagate) 
 		keywordevent.set(keyword);
-	}
-	feedUrl = encodeURI(feedUrl);
 	EzWebAPI.send_get(feedUrl, this, displayOk, displayError);
 }
 
@@ -164,7 +141,9 @@ function resetInterval (value){
 		catch(e){
 		}
 	}
-	interval = setInterval('displayMenu2()', value*60000);
+	interval = setInterval(function(){
+		displayMenu(vkey.get());
+	}, value*60000);
 }
 
 function setArrays (imgs, from){

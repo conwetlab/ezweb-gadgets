@@ -4,18 +4,18 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>2.52</Version>
+    <Version>2.53</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png</ImageURI>
-    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Flickr</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_EzFlickr</WikiURI>
   </Catalog.ResourceDescription>
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
     <!--<Preference name="url" type="text" description="descripcion" label="url" />-->
-    <Preference name="defaultSearch" type="text" description="Search to be done on loading" label="Default keyword to search"  default="ezweb"/>
+    <Preference name="defaultSearch" type="text" description="Search to be done on initial loading" label="Default keyword to search"  default="ezweb"/>
 	<Preference name="photosperpage" type="list" description="Numb 	er of photos per page" label="Photos per page" default='10'>
 		<Option value='5' name='5'/>
 		<Option value='10' name='10'/>
@@ -32,7 +32,7 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
-	<Event name="keyword_event" type="text" label="keyword" friendcode="keyword" />
+    <Event name="keyword_event" type="text" label="keyword" friendcode="keyword" />
     <Event name="title" type="text" label="title" friendcode="title" />
     <Event name="autor" type="text" label="autor" friendcode="autor" />
     <Event name="urlImage" type="text" label="url" friendcode="image" />

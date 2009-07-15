@@ -4,13 +4,13 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr Contact Photos</Name>
-    <Version>1.44</Version>
+    <Version>1.45</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget version provide an engaging visual way to explore the new photos of your contacts in Flickr</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png</ImageURI>
-    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_Mosaico_Flickr</WikiURI>
   </Catalog.ResourceDescription>
   
   <!-- EzWeb Gadgets Tags -->
