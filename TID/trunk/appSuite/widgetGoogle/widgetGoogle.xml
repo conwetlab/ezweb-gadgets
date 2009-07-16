@@ -4,12 +4,12 @@
 	<Catalog.ResourceDescription>
 		<Vendor>tid</Vendor>
 		<Name>Google Search</Name>
-		<Version>1.2</Version>
+		<Version>1.3</Version>
 		<Author>veroyjose</Author>
 		<Mail>vero@novanotio.es</Mail>
 		<Description>Widget Terra</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/appSuite/widgetGoogle/img/google.png</ImageURI>
-		<WikiURI>http://noimage.com</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Google_Search</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>

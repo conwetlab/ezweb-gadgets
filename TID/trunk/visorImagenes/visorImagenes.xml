@@ -4,12 +4,12 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Visor Imágenes</Name>
-		<Version>1.04</Version>
+		<Version>1.05</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Watch your preferred images through this gadget and zoom into them. You should connect a Gadget like Flickr or Jogli to this gadget to watch the sent images.</Description>
 		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/visorImagenes/visorImagenes.png</ImageURI>
-		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorImagenes</WikiURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Visor_Im.C3.A1genes</WikiURI>
 	</Catalog.ResourceDescription>
 
 <!-- EzWeb Gadgets Tags -->

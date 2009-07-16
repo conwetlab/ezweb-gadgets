@@ -9,7 +9,7 @@
     <Mail>jjmr@tid.es</Mail>
     <Description>Add your personal notes, reminders, warnings... and choose the color to show them in your preferences! Take this gadget out of your grid and use it as a sticky note.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
-    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Notepad</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Notepad</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Gadget Historico</Name>
+    <Version>1.0</Version>
+    <Author>Alberto Chaves Jiménez</Author>
+    <Mail>achaves@pegaso.ls.fi.upm.es</Mail>
+    <Description>Guarda texto</Description>
+    <ImageURI>http://hola.com</ImageURI>
+    <WikiURI>ttp://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Historico.C3.ADa</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+    <Property name="texts" type="text" label="text List"/>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+	<Slot name="inText" type="text" label="inText" friendcode="text"/>
+  </Platform.Wiring>
+  <Platform.Context>
+  </Platform.Context> 
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/GadgetHistorico/gadgetHistorico.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="6" height="12"/>
+</Template>

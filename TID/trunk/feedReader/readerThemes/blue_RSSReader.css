@@ -104,11 +104,14 @@
 		
 		#chan_pubDate {
 			display:inline;
+			float:right;
+			margin-right:1%;
 		}
 		
 		#rights_link {
 			font-size: 80%;
 			margin-left: 5px;
+			float:left;
 		}
 		
 		#pages{

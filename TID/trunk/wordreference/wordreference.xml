@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>WordReference</Name>
-    <Version>0.32</Version>
+    <Version>0.33</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
     <Description>Translate any word to a great number of languages using WordReference dictionary. You can enter a word in the input box as well as translate a word given by a connected gadget.</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/wordreference/wordreference.png</ImageURI>
-    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_diccionario</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
@@ -26,8 +26,8 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
 	<Slot name="keyword" type="text" label="Word" friendcode="keyword"/>
-	<Event name="keywordEvent" type="text" label="worf" friendcode="keywordEvent" />
-	<Event name="diccionaryEvent" type="text" label="diccionary" friendcode="diccionaryEvent" />
+	<Event name="keywordEvent" type="text" label="word" friendcode="keywordEvent" />
+	<Event name="diccionaryEvent" type="text" label="dictionary" friendcode="diccionaryEvent" />
   </Platform.Wiring>
   <Platform.Link>
 	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/wordreference/wordreference.html"/>

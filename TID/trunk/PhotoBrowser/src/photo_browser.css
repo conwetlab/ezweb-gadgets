@@ -1,0 +1,83 @@
+
+#header {
+	text-align: right;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-right: 15px;
+}
+
+.main {
+	background: #ffffff;
+	bottom:22px;
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0;
+	height: 192px;
+	overflow-x:auto;
+	overflow-y:auto;
+	text-align:center;
+	top:40px;
+	width: 98%;
+	padding-left: 10px;
+	overflow: auto;
+}
+
+.main_one {
+	background: #ffffff;
+	bottom:22px;
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0;
+	overflow-x:auto;
+	overflow-y:auto;
+	text-align:center;
+	top:40px;
+	width: 98%;
+	height: 72%;
+	padding-left: 10px;
+	overflow: hidden;
+}
+
+#buttons {
+	text-align:center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.standard_img {
+	max-height:75px;
+	max-width:75px;
+	min-width:25px;
+	min-height:25px;
+}
+
+.container {
+	width: 75px;
+	height: 75px;
+	margin: 5px;
+	border-color:#121695;
+	border-style:solid;
+	border-width:2px;
+	padding:1px;
+	float: left;
+}
+
+.big_container {
+	width: 94%;
+	height: 92%;
+	margin: 5px;
+	border-color:#121695;
+	border-style:solid;
+	border-width:2px;
+	float: left;
+	overflow: hidden;
+}
+
+.big_img {
+	max-height:100%;
+	max-width:100%;
+	min-width:50px;
+	min-height:50px;
+}

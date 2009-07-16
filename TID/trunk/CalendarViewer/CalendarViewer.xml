@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Calendar Viewer</Name>
-		<Version>1.9</Version>
+		<Version>1.91</Version>
 		<Author>rmartinez</Author>
 		<Mail>rmartinez@pegaso.ls.fi.upm.es</Mail>
 		<Description>This gadget presents a calendar which gets the events of Google Calendar using the email address of preferences.</Description>
