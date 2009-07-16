@@ -740,9 +740,9 @@ function resetInterval(value){
 	try {
 	    clearInterval(interval);
 	}catch(e){}
-
-	interval = setInterval (sendKeyWord,value*60*1000);
-  
+	if(value > 0){
+		interval = setInterval (sendKeyWord,value*60*1000);
+ 	 }
 }
 
 function sendKeyWord(){
