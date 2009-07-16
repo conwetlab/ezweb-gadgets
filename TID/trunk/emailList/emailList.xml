@@ -1,52 +1,1197 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Template schemaLocation="http://morfeo-project.org/2007/Template">
-<!-- Meta tags define gadgets properties -->
-	<Catalog.ResourceDescription>
-	  <Vendor>Morfeo</Vendor>
-	  <Name>emailList</Name>
-	  <Version>0.5</Version>
-	  <Author>lgarcia</Author>
-	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
-	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
-	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/feedReader/rssList.jpg</ImageURI>
-	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Email_List</WikiURI>
-	</Catalog.ResourceDescription>
-	<!-- EzWeb Gadgets Tags -->
-	<Platform.Preferences>
-	<Preference name="operator" type="list" description="specifies whether to show feeds which are in all tags or in any tags" label="select the feeds which are in..." default="and">
-		<Option value="and" name="all of the selected categories"/>
-		<Option value="or" name="any of the selected categories"/>
-	</Preference>
-	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
-		<Option value="header" name="header"/>
-		<Option value="fullList" name="full list"/>
-	</Preference>
-	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
-	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="blue">
-		<Option value="yellow" name="Yellow"/>
-		<Option value="green" name="Green"/>
-		<Option value="blue" name="Blue"/>
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<title>Email List</title>
+<script language="javascript">
+var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/emailList/";
+//EzWeb vars
+//Properties
+var emailList = EzWebAPI.createRWGadgetVariable("emailList");
+var tagList = EzWebAPI.createRWGadgetVariable("tagList");
+
+//Preferences
+var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
+var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
+var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
+var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
+var formatFileExport = EzWebAPI.createRGadgetVariable("formatFileToExport",setFileToExport);
+//wiring
+var emailAddress = EzWebAPI.createRWGadgetVariable("emailAddress");
+var emailTitle = EzWebAPI.createRWGadgetVariable("emailTitle");
+var emailDesc = EzWebAPI.createRWGadgetVariable("emailDesc");
+var emailTags = EzWebAPI.createRWGadgetVariable("emailTags");
+
+var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+
+// email data structure for managing all email subscriptions
+var emailStructure;
+var tagStructure;
+var emailListSearch = [];
+emailListSearch.numElem = 0;
+emailListSearch.puntero = 0;
+emailListSearch.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1) % this.numElem;
+	return act;
+}
+emailListSearch.add = function(elem){
+	this[this.numElem] = elem;
+	this.numElem +=1;
+}
+emailListSearch.create = function(){
+	this.numElem = 0;
+	this.puntero = 0;
+}
+var listemailList = [];
+listemailList.numElem = 0;
+listemailList.puntero = 0;
+listemailList.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1)% this.numElem;
+	return act;
+}
+listemailList.create = function(){
+	var words = [];
+	words = eval("("+emailList.get()+")");;
+	for(i in words){
+		this[this.numElem] = i;
+		this.numElem +=1;
+	}
+	this.puntero = 0;
+}
+//Global vars
+var category = '';					//Selected category used for searchs. Default:'' to list all emails
+var lastShown = "";					//Last list item unfolded
+var emailDataChanged = false;		//Says if some email data has changed while editing it.
+var selected_categories = [];		//Categories included in the current search
+var current_operator;				//Current operator used for the search (AND/OR)
+var translator;						//language translator
+var formatToExport;			//Specifies the format to export data (OPML || LDIF)
+
+//aux functions
+//check mandatory fields
+function checkFields(id){
+	 return $("url_edit_"+id).value != '' && $("title_edit_"+id).value != ''
+}
+
+//remove starting/ending spaces
+String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
+
+
+function generateLang(){
+	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/emailList/languages_emailList.xml", "language", null, init);
+}
+
+function init () {
+
+	var emails = emailList.get();
+	var tags = tagList.get();
+	resetInterval(time.get());
+	//set operator
+	setOperator(operator.get());
+	
+	//set configuration (header or full list)
+	setConfiguration(configuration.get());
+	setFileToExport(formatFileExport.get());
+	setTheme(theme.get());
+	//is import/export operation enabled? (only for Firefox 3)
+	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
+		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+		if(Prototype.Browser.Gecko && ffversion>=3){
+			$('imp_exp').style.display="block";
+			//translate literals
+			$('import_l').title = translator.getLabel("opml_tip");
+			$('export_l').title = translator.getLabel("opml_tip");
+		}
+	}
+
+	if (tags != '')
+		tagStructure = new Hash(eval("(" +tags+ ")"));
+	else
+		tagStructure =new Hash();
+
+	if(emails != ''){
+		emailStructure =new Hash(eval("(" +emails+ ")" ));
+	}else{
+		emailStructure = new Hash();
+	}
+
+	$('header').style.display='block';
+
+
+    paintEmailEntries('');
+    resizeSelect();
+}
+
+function resizeSelect(){
+	/*$('emailOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_email').getWidth()-60) + "px";*/
+}
+
+//filling the select object
+function fillSelectObject(tags){
+	if(tags.length == 0){
+		$('category').style.display = 'none';
+		$('header_top').style.display = 'none';
+	}else{
+		$('category').style.display = 'inline';
+		$('header_top').style.display = '';
+		for(var i=0;i<tags.length;i++){
+			$('category').options[i+1] = new Option(tags[i],tags[i]);
+			$('category').options[i+1].className="option";
+			$('category').options[i+1].id=tags[i];
+		}
+	}
+}
+
+function inAllSelectedCategories(email){
+	for(var i=0;i<selected_categories.length;i++){
+		if(email['tags'].indexOf(selected_categories[i]) == -1 ){
+			return false;
+		}
+	}
+	return true;
+}
+
+function inAnySelectedCategories(email){
+	for(var i=0;i<selected_categories.length;i++){
+		if(email['tags'].indexOf(selected_categories[i]) != -1 ){
+			return true;
+		}
+	}
+	return false;
+}
+
+function addEmailToCombo(email){
+	var email = emailStructure[email];
+	try {
+		$('feedOptions').add(new Option(email['name'], email), null); // standards compliant; doesn't work in IE
+	}catch(e) {
+		$('feedOptions').add(new Option(email['name'], email)); // IE only
+	}
+}
+
+function removeSelectedCat(category){
+	$(category).remove();
+	paintEmailEntries(category);
+	
+}
+
+function deleteQuery(){
+	selected_categories.clear();
+	$('selected_categories').update();
+}
+
+
+function paintEmailEntries(category)
+{
+	var emails = [];
+	var tags = [];
+
+	$("list").innerHTML ="";
+	//empty select objects
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('feedOptions').update("<option value=''><strong>"+translator.getLabel('select_feed')+"</strong></option>");
+	$('match').style.display = 'inline';
+
+	var compareEmails = function(email1, email2){
+		if(emailStructure[email1]['name'].toLowerCase() < emailStructure[email2]['name'].toLowerCase()) return -1;
+		else if(emailStructure[email1]['name'].toLowerCase() == emailStructure[email2]['name'].toLowerCase()) return 0;
+		else if(emailStructure[email1]['name'].toLowerCase() > emailStructure[email2]['name'].toLowerCase()) return 1;
+	}
+
+	if(category != ''){
+
+		//emails of the categories selected
+		//if the category was already selected, it's a removal of it from the query
+		if(selected_categories.indexOf(category)!=-1){
+			selected_categories.splice(selected_categories.indexOf(category),1);
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'none';
+			}
+		}else{//we want to add it to the query
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'inline';
+			}
+			selected_categories.push(category);
+
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", category);
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/gadgets/emailList/rm_tag.png' alt='remove'/></a>";
+
+			$('selected_categories').appendChild(catElement);
+		}
+
+		//do the query
+		var op = current_operator;
+		var emailKeys = emailStructure.keys();
+		for(var i=0;i<emailKeys.length;i++){
+			var email = emailStructure[emailKeys[i]];
+			//if AND
+			if(op=='and'){
+				if(inAllSelectedCategories(email)){
+					emails.push(emailKeys[i]);
+				}
+			}else{//if OR
+				if(inAnySelectedCategories(email)){
+					emails.push(emailKeys[i]);
+				}
+			}
+		}
+
+		//sort emails alphabetically
+		emails = emails.sort(compareEmails);
+
+		//fill the select objects
+		if(op=='or'){ //all tags must be in the select object but not repited.
+			var tagKeys=tagStructure.keys();
+			for(var i=0;i<tagKeys.length;i++){
+				//if the tag has not been selected yet, add it
+				if(selected_categories.indexOf(tagKeys[i]) == -1)
+					tags.push(tagKeys[i]);
+			}		
+		}
+
+		for (var i=0;i<emails.length;i++)
+		{
+			if(op == 'and'){
+				emailTags = emailStructure[emails[i]]['tags'];
+				for(var j=0;j<emailTags.length;j++){
+					//if the tag has not been selected yet and it isn't in the select object, add it
+					if((selected_categories.indexOf(emailTags[j]) == -1) && (tags.indexOf(emailTags[j]) == -1))
+						tags.push(emailTags[j]);
+				}
+			}
+			//paint email info on the list of emails
+			paintEmailInfo(i, emails[i]);
+			//add the email to the emails combo
+			addEmailToCombo(emails[i]);
+		}
+		//make visible that the select has changed
+		if($('feedOptions').options.length >1){
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
+		}
+
+	}
+	if (emails.length == 0){//if we want all emails
+		deleteQuery();
+
+		if (emailStructure.keys().length > 0){
+			//no category, show all emails and all categories in the combo
+			tags = tagStructure.keys();
+			emails = emailStructure.keys();
+			emails = emails.sort(compareEmails);
+			for(i=0;i<emails.length;i++){
+
+				//paint email info on the list of emails
+				paintEmailInfo(i, emails[i]);
+				//add the email to the emails combo
+				addEmailToCombo(emails[i]);
+			};
+		}else{
+				$("list").update("<span id='no_feeds' class='no_feeds'>"+translator.getLabel('no_feeds')+"</span><a id='add_link' href='javascript:showAddEmail();'>"+translator.getLabel('add_link')+"</a>.");
+		}
+
+	}
+
+	fillSelectObject(tags);	
+	if(selected_categories.length == 0 && $('category').options.length == 1){ //no tags to select
+		$('selected_categories').style.display = 'none';
+		$('match').style.display = 'none';
+	}
+}
+
+function paintEmailInfo (index, email)
+{
+	var email_address = email;
+	var name = emailStructure[email]['name'];
+	var notes = emailStructure[email]['desc'];
+	var tags = emailStructure[email]['tags'];
+	var html = "<div id='"+index+"' class='feed'><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + email_address + "');\">" + name +"</a></div>";
+	html +="<div class='actions'><a href=\"javascript:editEmail('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/emailList/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeEmail('"+index+"' , '"+ email_address + "')\"><img alt='remove' src='http://demo.ezweb.morfeo-project.org/repository/emailList/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	html += "<div id='tags_"+index+"' class='feed_tags'>";
+	for (var i=0; i<tags.length;i++){
+
+		html += "&nbsp; <a href=\"javascript:deleteQuery();paintEmailEntries('" + tags[i] + "');\">"+tags[i]+"</a> &nbsp;";
+	}
+	html += "</div>";
+	html += "<div id='edition_"+index+"' class='feed_edition' style='display:none;'>";
+
+	html += "<table class='edition'>";
+	html += "<tr><td class='labels'>EMAIL</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "<input id='url_edit_"+index+"' type='text' value='"+email_address+"' size='35' name='url' onchange='emailDataChanged=true;'/></td>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "<input id='title_edit_"+index+"' type='text' value='"+name+"' size='35' name='title' onchange='emailDataChanged=true;'/></td>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
+	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='emailDataChanged=true;'>"+notes+"</textarea>";
+	html += "</td></tr>";
+	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
+	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags' onchange='emailDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+	html += "</td></tr>";
+	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateEmail('"+index+"' , '"+email_address+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+email+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
+	html += "</table>";
+
+	html += "</div>";
+	html += "</div>";
+
+	$("list").innerHTML = $("list").innerHTML + html;
+
+}
+
+
+
+function setEvents(email_address){
+	if(email_address){
+		emailAddress.set(email_address);
+		emailTitle.set(emailStructure[email_address]['name']);
+		emailDesc.set(emailStructure[email_address]['desc']);
+		emailTags.set(emailStructure[email_address]['tags'].toJSON());		
+	}
+}
+
+function saveEmail (id, prevEmail) {
+
+     var email = new Object();
+     var email_address = $("url_edit_"+id).value;
+
+     email.name = $("title_edit_"+id).value;
+	 email.desc = $("notes_edit_"+id).value;
+
+	 //sanitize string (empty tags)
+	 var cleaned =$('tags_edit_'+id).value.replace(/,+/g,',');
+	 cleaned = cleaned.replace(/(\s*,\s*)+/g,',');
+     cleaned = cleaned.replace(/^\s*,\s*|\s*,\s*$/g,'');
+	 if(cleaned =="")
+		email.tags = new Array();
+	 else
+		email.tags = cleaned.split(',');
+
+	 var tag;
+	 var tags = email.tags.clone();
+	 var cleanedTags = email.tags.clone();
+	 for(var i=0; i<email.tags.length;i++){
+		tag = email.tags[i];
+		//clean spaces tags
+		tag = tag.trim();
+
+		//remove duplicated tags
+		tags.splice(tags.indexOf(tag),1)
+		if(tags.indexOf(tag) != -1){
+			cleanedTags.splice(cleanedTags.indexOf(tag),1)
+		}
+	 }
+	 email.tags = cleanedTags;
+
+	 checkAndStore(email_address, email, prevEmail);
+	 
+}
+
+function checkAndStore(email_address, email, prevEmail){
+
+	 var prevTags = [];
+	 //if it existed before, store the former tags to compare with the new ones
+	 if (emailStructure[email_address])
+		prevTags = emailStructure[email_address]['tags'];
+
+	 //refresh the structure of tags
+	 //remove the new URL(it may has been created before) from all the related tags
+	 for (var i=0; i< prevTags.length;i++){
+		tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(email_address), 1);
+		if (tagStructure[prevTags[i]].length == 0){ //there is no email in this category: remove it
+			delete tagStructure[prevTags[i]];
+
+		}
+	 }
+
+	 if (prevEmail && (email_address != prevEmail) && emailStructure[prevEmail]){
+		 prevTags = emailStructure[prevEmail]['tags'];
+		 //refresh the structure of tags
+		 //remove the prev URL(it may has been changed) from all the related tags
+		 for (var i=0; i< prevTags.length;i++){
+			tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(prevEmail), 1);
+			if (tagStructure[prevTags[i]].length == 0){ //there is no email in this category: remove it
+				delete tagStructure[prevTags[i]];
+
+			}
+		 }
+	}
+
+	 //add the new URL to all new tags
+	 for (var i=0; i<email.tags.length; i++){
+		if(!tagStructure[email.tags[i]]){
+			tagStructure[email.tags[i]] = new Array();
+
+		}
+		tagStructure[email.tags[i]].push(email_address);
+	 }
+     tagList.set(tagStructure.toJSON());
+
+	 //refresh the structure of emails
+	 delete emailStructure[prevEmail];
+     emailStructure[email_address]=email;
+     emailList.set(emailStructure.toJSON());
+
+}
+
+function addEmail(){
+	if(checkFields('')){
+		saveEmail('' , null);
+		hideAddEmail();
+	}else{
+		$('msg').update('* check required fields');
+	}
+}
+
+function updateEmail(id, email_address){
+	if(checkFields(id)){
+		if(emailDataChanged){
+			saveEmail(id , email_address);
+			//undo the search
+			deleteQuery();
+			paintEmailEntries('');
+		}
+		hide(id);
+	}else{
+		$('msg_'+id).update('* check required fields');
+	}
+}
+
+
+function editEmail(id) {
+
+	if ($('edition_'+id).style.display == "none")
+	{
+		hide(lastShown);
+		show(id);
+		lastShown = id;
+		emailDataChanged = false;
+	}else hide(id);
+}
+
+function show(id){
+	$('edition_'+id).style.display = "block";
+	$('tags_'+id).style.display = "none";
+}
+
+function restoreDefaults(id, email_address){
+	$('url_edit_'+id).value = email_address;
+	$('title_edit_'+id).value = emailStructure[email_address]['name'];
+	$('notes_edit_'+id).value = emailStructure[email_address]['desc'];
+	$('tags_edit_'+id).value = emailStructure[email_address]['tags'].join();
+}
+
+function hide(id){
+	if (id != ""){
+		$('edition_'+id).style.display = "none";
+		$('tags_'+id).style.display = "block";
+		$('msg_'+id).update();
+		lastShown = "";
+	}
+}
+
+function removeEmail(id, email_address) {
+	var	tags = emailStructure[email_address]['tags'];	
+
+	//remove the email from the email structure
+	delete emailStructure[email_address];
+	emailList.set(emailStructure.toJSON());  
+
+	if(tags.length > 0){
+		//remove the email references from tag structure
+		for (var i=0; i<tags.length;i++){
+			tagStructure[tags[i]].splice(tagStructure[tags[i]].indexOf(email_address), 1);
+
+			if (tagStructure[tags[i]].length == 0) //there is no email in this category: remove it
+				delete tagStructure[tags[i]];
+
+		}
+
+		tagList.set(tagStructure.toJSON());
+	}
+	deleteQuery();
+	paintEmailEntries('');
+	
+	if(id == lastShown)
+		lastShown = "";
+
+}
+
+function searchIfEnter(e){
+	var keynum;
+	if(window.event){ // IE
+		keynum = e.keyCode;
+	}else if(e.which){ // Netscape/Firefox/Opera
+		keynum = e.which;
+	}
+	if (keynum == 13){ // enter
+		e.target.blur();
+		doSearch(e.target.value);
+	}
+}
+function clickSearch (){
+	doSearch($('i_search').value);
+}
+
+function doSearch (value){
+
+	//empty select objects
+	deleteQuery();
+	emailListSearch.create();
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('feedOptions').update("<option value=''><strong>"+translator.getLabel('select_feed')+"</strong></option>");
+
+	if(value && value != ""){
+		var emails = emailStructure.keys();
+		var email;
+		$('list').update();
+		for(i=0;i<emails.length;i++){
+			email = emailStructure[emails[i]];
+			//if the keyword is in the title, description, any tag or url show the email
+			if(email.name.match(eval("/"+value+"/i")) || email.desc.match(eval("/"+value+"/i")) || email.tags.join().match(eval("/"+value+"/i")) || emails[i].match(eval("/"+value+"/i"))){
+
+				paintEmailInfo(i, emails[i]);
+				addEmailToCombo(emails[i]);
+				emailListSearch.add(emails[i]);
+			}
+		}
+		//make visible that the select has changed
+		if($('feedOptions').options.length >1){
+			$('feedOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('feedOptions').style.background = '#e9e9e9'}, 1000)
+		}
+		if(!$('list').hasChildNodes())	
+				$('list').update("<span class='no_feeds'>"+translator.getLabel('no_results1')+" - "+value+" - "+translator.getLabel('no_results2')+".</span>");
+		fillSelectObject(tagStructure.keys());
+	}
+	else{
+		paintEmailEntries('');
+	}
+	sendemail();
+	resetInterval(time.get());
+}
+
+function setOperator(value){
+	//WORKAROUND: select and by default
+	if(!value ||value ==""){
+		value = 'and';
+	}
+	//END WA
+	current_operator = value;
+
+	$(current_operator).checked = true;
+
+	if(selected_categories.length > 0){
+		//redo the last search
+		var last_cat = selected_categories[selected_categories.length-1];
+		$('selected_categories').update();
+		for (var i = 0; i<selected_categories.length-1;i++){
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", selected_categories[i]);
+			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/emailList/rm_tag.png' alt='remove'/></a>";
+				$('selected_categories').appendChild(catElement);
+		}
+
+
+		selected_categories.splice(selected_categories.indexOf(last_cat));
+		paintEmailEntries(last_cat);
+	}
+}
+
+function setConfiguration(value){
+	//WORKAROUND: select header by default
+	if(!value ||value =="")
+		value = "header";
+	//END WA
+	if(value == 'header'){
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}else{
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+	}
+}
+function setTheme(value){
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
+}
+
+function setFileToExport(value){
+	 formatToExport = value;
+}
+
+function addEmailsFromFile(opml){
+	var outline;
+	var email;
+	var url;
+	var tags;
+	var tags_hierachy;
+	
+	var outlines = opml.getElementsByTagName('outline');
+	for (var i=0;i<outlines.length;i++){
+		email = new Object();
+		outline=outlines[i];
+		url = outline.getAttribute('email');
+		if(!url) continue;
 		
-	</Preference>
-	</Platform.Preferences>
-	<!-- EzWeb Gadget Persistent State -->
-	<Platform.StateProperties>
-	  <Property name="emailList" type="text" label="Email list"/>
-	  <Property name="tagList" type="text" label="Tag list"/>
-	</Platform.StateProperties>
-	<!-- EzWeb Gadget Data Wiring -->
-	<Platform.Wiring>
-	  <Event name="emailAddress" type="text" label="emailAddress" friendcode="emailAddress"/>
-	  <Event name="emailTitle" type="text" label="emailTitle" friendcode="emailName"/>
-	  <Event name="emailDesc" type="text" label="emailDesc" friendcode="emailDesc"/>
-	  <Event name="emailTags" type="text" label="emailTags" friendcode="emailTags"/>	  
-	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
-	</Platform.Wiring>
-	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/emailList/emailList.html"/>
-	</Platform.Link>
-	<Platform.Rendering width="5" height="12"/>
-	<Platform.Context>
-		<Context name="language" type="text" concept="language"/>
-	</Platform.Context>
-</Template>
+		email.name = outline.getAttribute('text');
+		email.desc = outline.getAttribute('description');
+		if (!email.desc)
+			email.desc = "";
+		tags = outline.getAttribute('category');
+		email.tags = new Array();
+		if(tags && tags !=""){
+			tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				email.tags=email.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (email.tags.indexOf("") != -1){
+				email.tags.splice(email.tags.indexOf(""), 1);
+			}
+		}
+		checkAndStore(url, email, '');
+	}
+	paintEmailEntries('');
+	$('import_form').style.display="none";
+}
+
+function toggleImport(){
+	if($('import_form').style.display=="none")
+		$('import_form').style.display="inline";
+	else
+		$('import_form').style.display="none";
+}
+
+
+function importEmails(){
+	var fileToUpload = document.forms['import_form'].fileToUpload;
+	if (fileToUpload.files.item(0)){
+		toggleImport();
+		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
+	
+		//parsing OPML
+		var parser = new DOMParser()
+		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
+		addEmailsFromFile(opml);
+		addEmailsFromThunderbird(fileContents);
+	}
+}
+function addEmailsFromThunderbird(ldif){
+
+
+	dns = ldif.match(/dn:[^\n]*/g);
+	libreta = {}
+	for (var i = 0; i<dns.length; i++) {
+		NewEmail = new Object();
+    		var email = dns[i].match(/mail=[^,]*/);
+    		email = !email ? '' : email[0].split(/=/)[1];
+    		var nombre = dns[i].match(/cn=[^,]*/);
+    		nombre = !nombre ? '' : nombre[0].split(/=/)[1];
+		if(email != ""){
+			NewEmail.email = email;
+			if(nombre != ""){
+			NewEmail.name = nombre;
+			}
+			else{
+			 NewEmail.name = email;
+			}			
+			NewEmail.desc = "";
+			NewEmail.tags = new Array();
+			checkAndStore(email,NewEmail,'');
+		}
+		
+    
+	}
+	paintEmailEntries('');
+	$('import_form').style.display="none";
+	
+}
+
+
+
+function exportEmails(){
+
+	var email;
+	if (formatToExport == "OPML") {	
+		var opml = '<?xml version="1.0" encoding="UTF-8"?>';
+		opml += '<opml version="2.0">';
+		opml += '<head>';
+		opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+		var currentTime = new Date();
+		opml += '<dateCreated>'+currentTime+'</dateCreated>';
+		opml +=	'</head><body>';
+
+		var keys = emailStructure.keys();
+		for (var i=0;i<keys.length;i++){
+			email = emailStructure[keys[i]];
+			opml +='<outline text="' + email.name + '" name="' + email.name + '" description="'+ email.desc +'" type="email" email="'+ keys[i] +'" category="'+ email.tags +'"/>';
+		}
+		opml += '</body></opml>';
+		var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Feeds', 'menubar=yes');
+	}
+	else if (formatToExport == "LDIF") {
+		var ldif = '';
+		
+		var keys = emailStructure.keys();
+		for (var i=0;i<keys.length;i++){
+			email = emailStructure[keys[i]];
+			if (email.name == "")
+				ldif += "dn: mail=" + keys[i] + "\n";
+			else {
+				ldif += "dn: name=" + email.name + ", mail=" + keys[i] + "\n";
+				ldif += "cn:" + email.name + "\n";
+			}
+			
+			ldif += "mail:" + keys[i] + "\n";
+			ldif += "modifytimestamp: 0Z" + "\n";
+			ldif += "\n";
+		}	
+		
+		var new_window = window.open('data:text/plain,' + encodeURIComponent(ldif),'Feeds', 'menubar=yes');
+	} 
+}
+
+
+function showAddEmail()
+{
+	$("addFeed").style.display = 'block';
+	$("header").style.display = 'none';
+	$("list").update();
+    if($('hide_l').style.display=='inline')
+    	$("container").style.display = "none";
+}
+function hideAddEmail()
+{
+	$('addForm').reset();
+	$('msg').update();
+	$("addFeed").style.display = 'none';
+	$("header").style.display = 'block';
+	deleteQuery();
+	if($('hide_l').style.display=='inline')
+		$("container").style.display = "block";
+	paintEmailEntries('');
+}
+
+function manageEmails(){
+	if($("container").style.display == "none"){
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+	}else{
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}
+}
+function resetInterval(value){
+	try {
+	    clearInterval(interval);
+	}catch(e){}
+	if(value>0){
+		interval = setInterval (sendemail,value*60*1000);
+  	}
+}
+
+function sendemail(){
+
+	if(emailListSearch.numElem != 0){
+		
+		setEvents(emailListSearch.actual());
+	}
+	
+
+}
+
+</script>
+
+<style type="text/css">
+	body {	
+		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+		font-size:12px;
+		margin:3px;
+		background-color:#CDDFEF;
+	}
+		
+	a {
+		text-decoration:none;
+	}
+		
+	a:hover {
+		text-decoration:underline;
+	}
+
+	label a:hover {
+		text-decoration:none;
+	}       
+	
+	#list {
+		background-color: #ffffff;
+		position:relative;
+		border-top:1px solid #d5d5d5;
+		width:100%;
+	}
+	.no_feeds{
+		color:#6c6c6c;
+	}
+	#add_link{
+		color: #3274D0;
+	}
+
+	#imp_exp{
+		color:#3274d0;
+		margin: 5px;
+	}
+
+	#imp_exp #import_link, #imp_exp #export_link {
+		display:inline;
+		font-size:90%;
+		cursor:pointer;
+
+	}
+	#import_b{
+		color:#3274d0;
+		font-size:90%;
+	}
+
+	#import_form{
+		margin-left:5px;
+	}
+
+	#list .feed{
+		border-bottom:1px solid #d5d5d5;
+		padding:5px 5px 2px;
+		position:relative;
+		overflow:hidden;
+	}
+	.feed .content{
+		position:relative;
+		margin-top:10px;
+		overflow:hidden;
+	}
+	.feed .feed_title {
+		margin: 0 60px 5px 0;
+	}
+	.feed .feed_title a{
+		color:#3274d0;
+	}
+	.feed .actions{
+		position:absolute;
+		width:50px;
+		right:0px;
+		top:3px;
+	}
+	.feed .actions img{
+		border:none;
+	}
+	.feed .feed_tags{
+		position:relative;
+		padding:5px;
+		width:auto;
+		float:right;
+		font-size:90%;
+		margin-left:50px;
+		background-color:#eff5fb;
+		-moz-border-radius-topleft:4px;
+		-moz-border-radius-topright:4px;
+		-webkit-border-top-left-radius:4px;
+		-webkit-border-top-right-radius:4px;
+		-moz-border-radius-bottomleft:4px;
+		-moz-border-radius-bottomright:4px;
+		-webkit-border-bottom-left-radius:4px;
+		-webkit-border-bottom-right-radius:4px;
+
+	}
+	.feed .feed_tags:hover {
+		background-color:#e9e9e9;
+	}
+	.feed_tags a{
+		color:#6c6c6c;
+	}
+	.feed_edition .edition{
+		padding:5px;
+		border: 1px solid #d5d5d5;
+		background-color: #e9e9e9;
+	}
+	.edition .required{
+		color:red;
+	}
+	.msg{
+		color: red;
+		font-size:95%;
+	}
+	
+	
+	#header{
+		position:relative;
+		padding: 5px 5px 0 5px;
+		min-width:230px;
+		overflow:hidden;
+	}
+	#header label{
+		color: #6C6C6C;
+		font-size: 95%;
+		position:relative;
+		/*width:61px;*/
+	}
+	
+	#l_filter, #l_feed{
+		float:left;
+		top:3px;
+		margin-right:3px;
+	}
+
+
+	#header_top, #header_bottom, #search {
+		position:relative;
+		height: 19px;
+		margin-bottom:6px;
+		clear:both;
+	}
+
+	#header_top select, #header_bottom select{
+		color:#6c6c6c;
+		border: 1px solid #cccccc;
+		background-color:#e9e9e9;
+		width:150px;
+		
+	}
+
+	#header_bottom select{
+		width:100%;
+		min-width:150px;
+	}
+
+	#combo_tag .option{
+		background-color:#e9e9e9;
+		color: #6c6c6c;
+	}
+
+	#header_top #match{
+		margin-right:10px;
+		float:left;
+	}
+
+	#match input[type=radio]{
+		margin:0;
+		position:relative;
+		top:2px;
+	}
+
+	#match #l_all, #match #l_any{
+	
+	}
+
+	#header #l_search{
+		margin-right: 5px;
+		font-size: 90%;
+	}
+	#l_search a{
+		color: #3274d0;		
+	}
+	#header #i_search{
+		color: #6C6C6C;
+		background:#e9e9e9;
+		border: 1px solid #cccccc;
+		vertical-align: middle;
+		width: 143px;
+		padding:1px;
+	}
+	#header_bottom #options{
+		position: relative;
+		float: right;
+		text-align: right;
+		min-width: 205px;
+		color:#3274d0;
+		top:2px;
+	}
+
+	#options div{
+		cursor:pointer;
+		display:inline;
+		position:relative;
+		font-size: 90%;
+	}
+	#combo_tag{
+		position:relative;
+		float:left;
+		margin-right:10px;
+	}
+	#combo_tag #selected_categories{
+		display:none;
+		float:left;
+		margin: 0 0 0 5px;
+		padding: 0px;
+		vertical-align: middle;
+	}
+
+	#combo_feed{
+		position:relative;
+		float:left;	
+	}
+
+	#selected_categories li{
+		display:inline;
+		background: #e9e9e9;
+		margin-right: 5px;
+		padding: 0px 0px 0px 5px;
+		float:left;
+		border: 1px solid #cccccc;
+		vertical-align: middle;
+		color: #6C6C6C;
+
+	}
+	#selected_categories li span{
+		float:left;
+		position:relative;
+		top:2px;
+	}
+
+	#selected_categories li img{
+		border:none;
+		float:left;
+		margin-left: 5px;
+	}
+
+	#selected_categories li.operator{
+		background-color:#E9E9E9;
+		border: none;
+		color: #3274D0;
+	}
+	#addFeed{
+		background-color:#E9E9E9;
+		padding: 5px;
+	}
+	#addFeed #addFeed_title{
+		font-size: 150%;
+		color:#6C6C6C;
+	}
+	#addFeed table, .feed_edition table{
+		width:100%;
+		margin-top:5px;
+	}
+	#addFeed td, .feed_edition td{
+		color:#3274D0;
+	}
+	#addFeed td.labels, .feed_edition td.labels{
+		width:15%;
+		vertical-align:middle;
+		font-size:10px;
+	}
+	#addFeed td.fields, .feed_edition td.fields{
+		width:80%;
+	}
+
+	#addFeed input, .feed_edition input{
+		width:100%;
+		color:#6C6C6C;
+		border: 1px solid #D5D5D5;
+	}
+	#addFeed textarea, .feed_edition textarea{
+		width:100%;
+		color:#777777;
+		border: 1px solid #D5D5D5;
+	}
+	#addFeed .tag_label, .feed_edition .tag_label{
+		font-size:62%;
+	}
+	#addFeed #buttons, .feed_edition #buttons{
+		text-align:center;
+	}	
+	#addFeed .button, .feed_edition .button{
+		color:#3274D0;
+		font-size:72%;
+	}
+</style>
+
+<link rel="stylesheet" type="text/css" id="color_theme" />
+
+</head>
+<body onload="generateLang();" onresize="resizeSelect();">
+<div id="header" class="header" style="display:none;">
+	<div id="search">
+		<label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label>
+		<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
+	</div>
+	<div id="header_top">
+		<label id="l_filter">Filter:</label>
+		<div id="combo_tag">
+			<ul id="selected_categories"></ul>
+			<select id="category" name="category" onchange="paintEmailEntries(this.value);" ></select>
+		</div>
+		<div id='match'>
+			<label id="l_all">Match all</label>
+			<input type="radio" id="and" name="match" onclick="setOperator('and')"/>
+			<label id="l_any">any</label>
+			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
+		</div>
+	</div>
+	<div id="header_bottom">
+		<label id="l_feed">Email:</label>
+		<div id='combo_feed'>
+			<select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select>
+		</div>
+		<div id="options">
+			<div id="all" onclick="deleteQuery();paintEmailEntries('')">
+				<span id="all_l">all emails</span>
+			</div> | 
+			<div id="manage" onclick="manageEmails()">
+				<span id="manage_l">manage emails</span>
+				<span id="hide_l" style="display:none">hide feeds</span>
+			</div> | 
+			<div id="add_link" onclick="showAddEmail()">
+				<span id="add_l">add email</span>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div id="addFeed" style="display:none;">
+	<span id="addFeed_title">New Contact</span>
+	<form id="addForm">
+	<table class='edition'>
+	<tr><td class="labels">EMAIL</td>
+		<td><span class="required">*</span></td>
+		<td class="fields"><input id='url_edit_' type='text' value='' size='35' name='url'/></td>
+	</tr>
+	<tr><td id="title_l" class="labels">NAME</td>
+		<td><span class="required">*</span></td>
+		<td class="fields"><input id='title_edit_' type='text' value='' size='35' name='title'/></td>
+	</tr>
+	<tr><td id="notes_l" class="labels">NOTES</td>
+		<td></td>
+		<td class="fields"><textarea id='notes_edit_' rows='4' cols='35' size='300' name='notes'></textarea></td>
+	</tr>
+	<tr><td id="tags_l" class="labels">TAGS</td>
+		<td></td>
+		<td class="fields"><input id='tags_edit_' type='text' value='' size='35' autocomplete='OFF' name='tags'/><label id="separator_l" class="tag_label">comma separated</label></td>
+	</tr>
+	<tr>
+		<td id="buttons" colspan="3"><div id="msg" class="msg"></div>
+			<a id="save_l" class="button" href="javascript:addEmail();">SAVE</a> | <a id="cancel_l" class="button" href="javascript:hideAddEmail();">CANCEL</a></td>
+	</tr>
+	</table>
+	</form>
+</div>
+<div id="container" style="display:none">
+<div id="imp_exp" style="display:none"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div> / <div id="export_link" onclick="exportEmails()"><span id="export_l" title="OPML file">export</span></div>
+<form id="import_form" style="display:none">
+	<input type="file" name="fileToUpload" />
+	<label id="b_import"><a id="import_b" href="javascript:importEmails()">upload</a></label>
+</div>
+</form>
+<div id="list">
+</div>
+</div>
+</body>
+</html>
