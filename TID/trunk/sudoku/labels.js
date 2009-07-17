@@ -1,0 +1,1 @@
+var labels = {"en":{"save":"Save","reveal":"Reveal numbers","hint":"Show hint","try":"Try this","save_alert":"Do you want to save the current game?","new":"New game"},"es":{"save":"Guardar","reveal":"Resolver","hint":"Ayuda","try":"Este","save_alert":"¿Deseas guardar la partida?","new":"Nuevo"}};

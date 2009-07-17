@@ -1,0 +1,1 @@
+var labels = {"en":{"search_l":"search","artist_l":"Artist: ","artist_s_l":"artist","player_l":"player","album_l":"select album"},"es":{"search_l":"buscar","artist_l":"Artista: ","artist_s_l":"artista","player_l":"reproductor","album_l":"elegir album"}};
