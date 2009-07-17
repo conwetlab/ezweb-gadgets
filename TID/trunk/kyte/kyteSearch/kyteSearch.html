@@ -167,7 +167,8 @@ h3{
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="/repository/kyte/kyteSearch/md5.js"></script>
 <script src="/ezweb/js/lib/prototype/prototype.js" language="JavaScript"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/kyte/kyteSearch/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <script>
 
 /*** AUXILIAR FUNCTIONS *****/
@@ -839,7 +840,10 @@ h3{
 	}
 	
 	function generateLang(){
-		translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/kyte/kyteSearch/languages.xml", "language", null, init);
+
+		translator = new EzWebExt.Translator(labels, "language");
+		init();
+		translator.translate();
 	}
 </script>
 </head>

@@ -7,7 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/swfobject/swfobject.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/checkplayer/checkplayer.js"></script>
 
@@ -50,8 +51,13 @@ Function.prototype.bind = function(obj) {
 
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/radioStation/languages.xml", "language", "languagePref", init);
+
+	translator = new EzWebExt.Translator(labels, "language","languagePref");
+	init();
+	translator.translate();
+
 }
+
 
 function init () {
 

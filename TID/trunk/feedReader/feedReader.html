@@ -11,6 +11,8 @@
   <link id="style" rel='stylesheet' type='text/css' href='' />
   <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
   <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/feedReader/labelsReader.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
 
   <script type="text/javascript" language="javascript">
@@ -513,7 +515,10 @@
 	//GLOBAL FUNCTIONS
 
 	function generateLang(){
-		translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/feedReader/languages_feedReader.xml", "language", null, init);
+		translator = new EzWebExt.Translator(labels, "language");
+		init();
+		translator.translate();
+		
 	}
 
 	function init(){

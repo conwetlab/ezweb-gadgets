@@ -10,7 +10,8 @@
 
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <style type="text/css">@import url(http://demo.ezweb.morfeo-project.org/repository/tasklist/css/default.css);</style>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <style type="text/css">@import url(http://demo.ezweb.morfeo-project.org/repository/tasklist/jscalendar-1.0/calendar-blue.css);</style>
@@ -540,7 +541,11 @@
 	}
 
 	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/tasklist/languages.xml", "language" ,"languagePref",load,null);
+
+	translator = new EzWebExt.Translator(labels, "language","languagePref");
+	init();
+	translator.translate();
+	
 	}
 	function init(){
 		//t.translate();

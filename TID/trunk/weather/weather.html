@@ -1,4 +1,4 @@
-<!-- 
+<-- 
 * This code is licensed under terms shown on this link:
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 -->
@@ -12,7 +12,8 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <LINK id="style" rel="StyleSheet" href="" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -384,8 +385,11 @@
 	}
 	
 	function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/weather/languages.xml", "language" , null, load,translate);
+		translator = new EzWebExt.Translator(labels, "language");
+		init();
+		translator.translate();
 	}
+
 	
 	function _changeTheme(value){
 		

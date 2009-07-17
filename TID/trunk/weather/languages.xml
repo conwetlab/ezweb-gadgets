@@ -19,7 +19,6 @@
 		<label id="_hum">Hum</label>
 		<label id="_ppcp">PPcp</label>
 		<label id="_current weather">Current Weather</label>
-		<label id="_humidity">Humidity</label>
 		<label id="_probability of precipitation">Probability of precipitation</label>
 		<label id="_forecast">Forecast</label>
 		<label id="_more">More details...</label>
@@ -84,7 +83,6 @@
 		<label id="_hum">Hum</label>
 		<label id="_ppcp">PPcp</label>
 		<label id="_current weather">Tiempo Actual</label>
-		<label id="_humidity">Humedad</label>
 		<label id="_probability of precipitation">Probabiliad de precipitación</label>
 		<label id="_forecast">Previsión</label>
 		<label id="_more">Más detalles...</label>

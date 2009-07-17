@@ -8,7 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/emailList/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
 <title>Email List</title>
@@ -89,8 +90,13 @@ String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
 
 
 function generateLang(){
-	translator = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/emailList/languages_emailList.xml", "language", null, init);
+
+	translator = new EzWebExt.Translator(labels, "language");
+	init();
+	translator.translate();
+	
 }
+
 
 function init () {
 

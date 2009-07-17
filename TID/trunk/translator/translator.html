@@ -9,7 +9,9 @@
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
     <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-    <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
+
+   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/translator/labels.js"></script>
+   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
     <script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
@@ -135,7 +137,10 @@
     }
     
    function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/translator/languages.xml", "language" , null, load);
+
+	translator = new EzWebExt.Translator(labels, "language");
+	init();
+	translator.translate();
    }
     
     function trans()

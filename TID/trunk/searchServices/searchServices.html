@@ -11,8 +11,8 @@
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext.js"></script>
-
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/searchServices/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
 <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/searchServices/default.css" type="text/css" />
 
 <!-- CREATION OF EZWEB VARIABLE -->
@@ -435,7 +435,11 @@
   		
   }
   function generateLang(){
-		t = new EzWebExt.Translator("http://demo.ezweb.morfeo-project.org/repository/searchServices/languages.xml", "language" , null, load);
+
+	translator = new EzWebExt.Translator(labels, "language");
+	init();
+	translator.translate();
+	
   }
   
 </script>
