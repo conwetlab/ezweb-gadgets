@@ -39,6 +39,7 @@
 
 	<!-- EzWeb Gadget Persistent State -->
 	<Platform.StateProperties>
+		<Property name='wordSearch' type='text' label='wordSearch'/>
 	</Platform.StateProperties>
 
 	<Platform.Wiring>

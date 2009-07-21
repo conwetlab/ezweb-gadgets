@@ -107,6 +107,9 @@ function init () {
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
 	setTheme(theme.get());
+
+	//doSearch(keyword.get());
+
 	//is import/export operation enabled? (only for Firefox 3)
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
 		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
@@ -545,6 +548,8 @@ function clickSearch (){
 }
 
 function doSearch (value){
+
+	if(!value)return;
 
 	//empty select objects
 	deleteQuery();

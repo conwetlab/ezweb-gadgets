@@ -38,6 +38,8 @@ var addressEvent = new EzWebAPI.createRWGadgetVariable("addressEvent");
 var utmCoordEvent = new EzWebAPI.createRWGadgetVariable("utmCoordEvent");
 var addressValue = null;
 var utmValue = null;
+var addressSearch = new EzWebAPI.createRWGadgetVariable("addressSearch");
+var utmCoordSearch = new EzWebAPI.createRWGadgetVariabel("utmCoordSearch");
 
 function _initialize() {
 	if (GBrowserIsCompatible()) {
@@ -47,6 +49,8 @@ function _initialize() {
 		map.addControl(new GScaleControl());
 		map.setCenter(new GLatLng(34, 0), 1);
 		geocoder = new GClientGeocoder();
+		_addressHandler(addressSearch.get());
+		_utmHandler(utmCoordSearch.get());
 	}
 }
 
@@ -55,10 +59,11 @@ function _addressHandler(add) {
 	if ((add == null || add == undefined)) {
 	  return;
 	}
-
+	
 	if (geocoder) {
 		geocoder.getLatLng(add, function(point) {
                         addressEvent.set(add);
+			addressSearch.set(add);
 			if (!point) {
 				//_initialize();
 				return;
@@ -82,9 +87,11 @@ function _addressHandler(add) {
 
 function _utmHandler(utm) {
 	utmValue = utm;
+	
 	if ((utm == null || utm == undefined)) {
 		return;
 	}
+	utmCoordSearch.set(utm);
         utmCoordEvent.set(utm);
 	var values = utm.split(",");
 	if(values.length>=2){

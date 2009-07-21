@@ -16,6 +16,8 @@
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
+	  <Property name="addressSearch" type="text" label="addressSearch"/>
+	  <Property name="utmCoordSearch" type="text" label="utmCoordSearch"/>
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>

@@ -22,6 +22,7 @@ function sendEventMarket(market, info)
 // GET Company WHEN EVENT SLOT IS DETEDTED
 function getCompany()
 {
+    if(!preferences.get())return;
     var preferencesAux = eval("(" + preferences.get() + ')');
     var tagsAux = preferencesAux.enterprise;
     var t = "";
@@ -34,6 +35,7 @@ function getCompany()
 // GET MARKET WHEN EVENT SLOT IS DETEDTED
 function getMarket()
 {
+    if(!preferences.get())return;
     var preferencesAux = eval("(" + preferences.get() + ')');
     var tagsAux = preferencesAux.list;
     var t = "";

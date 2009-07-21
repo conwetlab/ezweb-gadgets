@@ -18,19 +18,27 @@
 	
 	var params = {};
 	function setUrl(value){
+		if(value){
 		params['url'] = encodeURIComponent(value);
 		initBookmark();
+		}
 	}
 	function setTitle(value){
+		if(value){
 		params['title'] = encodeURIComponent(value);
 		initBookmark();
+		}
 	}
 	function setDescription(value){
+		if(value){
 		params['description'] = encodeURIComponent(value);
 		initBookmark();
+		}
 	}
 	function setTags(value){
 		//Si se recibe un array JSON se evaluara, si no, los tags seran directamente los que vengan por slot en un string
+
+		if(!value)return;
 		try{
 			arrayTags = value.evalJSON()
 			params['tags'] = arrayTags;
@@ -119,6 +127,16 @@
 		// ## Meneame ##
 		$('meneame').href = "http://meneame.net/submit.php";
 		$('meneame').title = "Meneame";
+
+		// Obtención de Slot
+		/*
+		setUrl(url.get());
+		setTitle(title.get());
+		setDescription(description.get());
+		setTags(tags.get());
+
+		*/
+		
 	}
 </script>
 </head>

@@ -22,7 +22,7 @@ BuscadorRAE.prototype.init = function() {
 	this.definition = EzWebAPI.createRWGadgetVariable('definition');
 	this.keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
 	this.keyword = EzWebAPI.createRGadgetVariable ('keyword', EzWebExt.bind(this.setKeyword,this));
-
+	this.wordSearch = EzWebAPI.createRWGadgetVariable('wordSearch');
 	
 	var header = document.createElement ('div');
 	header.setAttribute ('id', 'header');
@@ -84,6 +84,7 @@ BuscadorRAE.prototype.init = function() {
 	document.body.appendChild (content);
 
 	this.dictionary.insertInto(document.getElementById('content'));
+	this.setKeyWord(this.wordSearch.get());
 }
 
 BuscadorRAE.prototype.repaint = function () {
@@ -175,6 +176,7 @@ BuscadorRAE.prototype.getSearch = function (word, bus)
 {
     this.value = word;
 	this.keywordEvent.set(this.value);
+	this.wordSearch.set(this.value);
     var value2 = encodeURIComponent(word.toLowerCase());
     if (value2 == '')
 	return;

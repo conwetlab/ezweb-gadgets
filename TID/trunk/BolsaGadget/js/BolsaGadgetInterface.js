@@ -107,6 +107,9 @@ BolsaGadget.prototype.init = function(){
 	
     alternatives.showAlternative(alternativeList[0]);
     getQuoteMarket(symbols, tags);	
+//  getCompany(companyNameSlot.get());
+//  getMarket(marketNameSlot.get());
+
 }
 
 
