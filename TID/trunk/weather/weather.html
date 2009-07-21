@@ -35,7 +35,9 @@
 	var units = EzWebAPI.createRGadgetVariable("units", setUnits);
 	
 	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
+	var citySearch = EzWebAPI.createRWGadgetVariable("citySearch");
 	var actualTheme = "blue";
+
 	function setTheme(value){
 		//WORKAROUND: select blue by default
 		if(!value ||value =="")
@@ -77,6 +79,7 @@
 	function setDefaultCity(value){
 		$('city').value = value;
 		if(defaultCity.get()!="")
+			
 			searchCity(defaultCity.get());
 	}	
 	function setUnits(unit)
@@ -112,17 +115,21 @@
 		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+theme.get()+"/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
+		searchCity(citySearch.get());
+
 
 	}
 	function setCitySlot(city)
 	{
 		//$('city').value = city;
 		document.getElementById('city').value = city;
+		
 		searchCity(city);		
 	}
 	
   function searchCity(city)
   {
+	citySearch.set(city);
 	if(city!=""){
 		$('loading').style.visibility = 'visible';
 		$('citiesList').style.visibility = 'hidden';
@@ -386,7 +393,7 @@
 	
 	function generateLang(){
 		translator = new EzWebExt.Translator(labels, "language");
-		init();
+		load();
 		translator.translate();
 	}
 

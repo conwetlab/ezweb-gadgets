@@ -38,6 +38,11 @@ devices["device9"] = deviceData;
 deviceData = ["ESR-COSLADA-4","11111111","Fernandez Perez, Rodrigo","192.6.7.3","esr1","conmutacion","DSL","ADSL","FS","Calle de Paris 37, 28820 Coslada"];
 devices["device10"] = deviceData;
 
+if(!deviceId.get())return;
+_deviceHandler(deviceId.get());
+if(!deviceStatus.get())return;
+_statusHandler(deviceStatus.get());
+
 function _statusHandler(status){
 workingStatus = status;
 }

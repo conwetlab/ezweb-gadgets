@@ -120,6 +120,8 @@
 	
 			function init ()
 			{
+				if(!urlSlot.get()) return;
+				setNewImage(urlSlot.get());
 				//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
 				//document.getElementById('image_container').style.height = document.getElementById('content').offsetHeight + 'px';
 			}

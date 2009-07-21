@@ -25,6 +25,9 @@ users["917294723"] = user;
 user = ["Alberto","Garcia Casas","34788114L","Camarena, 2, 4 A, Madrid","36.00","3"];
 users["917744331"] = user;
 
+if(!phoneNumber.get())return;
+_phoneHandler(phoneNumber.get());
+
 function _phoneHandler(phone){
 if (phone!=null && phone!=undefined){
 var content="";

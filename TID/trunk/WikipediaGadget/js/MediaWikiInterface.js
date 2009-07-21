@@ -8,6 +8,11 @@ var url = EzWebAPI.createRWGadgetVariable ("url");
 var titleEvent = EzWebAPI.createRWGadgetVariable("title");
 var imageEvent = EzWebAPI.createRWGadgetVariable("image");
 var listoftabs = [];
+
+//Properties
+
+var keywordSearch = EzWebAPI.createRWGadgetVariable("keywordSearch");
+var gotokeySearch = EzWebAPI.createRWGadgetVariable("gotokeySearch");
 // Url for Api, wiki, and images
 var urlbaseApi = '';
 var urlbaseWiki = '';
@@ -39,7 +44,11 @@ WikipediaGadget.prototype.init = function() {
 	// Insertamos las pestanas en el content
 	panelArticle.insertInto (document.getElementById('content'));
 	goArticle('Main_Page');
-}
+	if(!keywordSearch.get()) return;
+	goSearchWiring(keywordSearch.get());
+	if(!gotokeySearch.get()) return;
+	setGoArticleWiring(gotokeySearch.get());
+}	
 
 WikipediaGadget.prototype.repaint = function(){
 	panelArticle.repaint();
@@ -75,6 +84,7 @@ function setHowMany() {
 function goSearchInputText()
 {
 	value = document.getElementById('text_search').value;
+	keywordSearch.set(value);
 	var pagesearch = 0;
 	if (value != '')
 	{
@@ -83,9 +93,10 @@ function goSearchInputText()
 	}
 }
 // Coge el valor de la busqueda por wiring
-function goSearchWiring()
+function goSearchWiring(value)
 {
-	value = keyword.get();
+	//value = keyword.get();
+	keywordSearch.set(value);
 	var pagesearch = 0;
 	if (value != '')
 	{
@@ -287,6 +298,7 @@ function goArticleInputText()
 		document.getElementById ('wrapperarticle').innerHTML = '';
 	}
 	var value1 = document.getElementById ('text_search').value;
+	gotokeySearch.set(value1);
 	if (value1 != '')
 	{
 		addLoadingImage();
@@ -295,7 +307,7 @@ function goArticleInputText()
 		getArticle (value);
 	}
 }
-function setGoArticleWiring ()
+function setGoArticleWiring (value1)
 {
 	if (document.getElementById('wrapperarticle')==null)
 	{
@@ -308,7 +320,8 @@ function setGoArticleWiring ()
 	{
 		document.getElementById ('wrapperarticle').innerHTML = '';
 	}
-	var value1 = gotokey.get();
+	//var value1 = gotokey.get();
+	gotokeySearch.set(value1);
 	if (value1 != '')
 	{
 		addLoadingImage();

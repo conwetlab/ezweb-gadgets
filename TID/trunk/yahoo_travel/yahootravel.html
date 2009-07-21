@@ -77,6 +77,8 @@ img{
 
 var travel = EzWebAPI.createRGadgetVariable("travel",configuretravel);
 
+if(!travel.get())return;
+configuretravel(travel.get());
 
 function configuretravel(idtravel){
 

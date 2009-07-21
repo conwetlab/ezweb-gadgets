@@ -44,6 +44,8 @@ function URLDecode( url )
 
 var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
 
+if(!url.get())return;
+loadVideo(url.get());
 
 function loadVideo(url_){
 

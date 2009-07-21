@@ -39,7 +39,10 @@
 	   </Preference>
 	</Platform.Preferences>
 	<!-- Indica que informacion debe ser persistente en el estado del gadget-->
-	<Platform.StateProperties> </Platform.StateProperties>
+	<Platform.StateProperties>
+		<Property name="keywordSearch" type="text" label="keywordSearch"/>
+		<Property name="gotokeySearch" type="text" label="gotokeySearch"/>
+	</Platform.StateProperties>
 	<!-- Indica que variables emplea el gadget para comunicarse con otros gadgets -->
 	<Platform.Wiring>
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>

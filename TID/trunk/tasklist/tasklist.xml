@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
@@ -47,7 +47,7 @@
   <Platform.Wiring>
         <Slot name="taskRecive" type="text" label="Description" friendcode="taskDescription"/>
         <Event name="taskSend" type="text" label="Description" friendcode="taskDescription"/>
-		<Slot name="dateRecive" type="text" label="Date" friendcode="date"/>
+	<Slot name="dateRecive" type="text" label="Date" friendcode="date"/>
         <Event name="dateSend" type="text" label="Date" friendcode="date"/>
   </Platform.Wiring>
   <Platform.Context>
