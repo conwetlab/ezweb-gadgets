@@ -22,11 +22,14 @@ body    {
 	}
 
 #thead 	{
-	position: absolute;
-	top: 0;
-	height: 25px;
-	width: 100%;
-	overflow: hidden;
+	height:28px;
+	line-height:18px;
+	overflow:hidden;
+	position:absolute;
+	top:0;
+	vertical-align:top;
+	white-space:nowrap;
+	width:100%;	
 	}
 	
 #tbody	{
@@ -60,5 +63,6 @@ button	{
 	border: 1px solid black;
 	-moz-border-radius: 4px;
 	height: 18px;
+	padding:0;
 }
 
