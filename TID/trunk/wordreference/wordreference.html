@@ -83,7 +83,7 @@ function callbackSucess(responseData) {
 	var bodyAux = body.replace(/<body/, "<div").replace(/body>/,"div>");
 	$('content').innerHTML = bodyAux;
 	document.body.scrollTop=0;
-	document.sbox.w.value = this.value;//added 
+	//document.sbox.w.value = this.value;
 	document.sbox.action="javascript:wordSearch()";
 	document.sbox.w.onkeydown = function() {};
 	actualDict = document.sbox.dict.value;
