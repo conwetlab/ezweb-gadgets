@@ -89,7 +89,7 @@ String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
 
 function generateLang(){
 
-	translator = new EzWebExt.Translator(labelsList, "language");
+	translator = new EzWebExt.Translator(labels, "language");
 	init();
 	translator.translate();
 
