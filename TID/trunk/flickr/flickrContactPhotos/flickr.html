@@ -49,6 +49,7 @@ function api_key_handler (key) {
 }
 function nphotos_handler(){
 	nphotos = parseInt(nphotosPref.get ());
+	get_user_id();
 	displayImages();
 }
 function get_user_id () {

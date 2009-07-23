@@ -202,14 +202,16 @@ function setObjectUrl(val){
 
 function setSubject(val){
 	document.MMSCreationForm.elements['subject'].value = val;
+	e_subject.set(val);
 }//setSubject
 
 function setMessage(val){
-	if (document.MMSCreationForm.elements['message'].value != '') {
+   if (document.MMSCreationForm.elements['message'].value != '') {
  	  document.MMSCreationForm.elements['message'].value += '\n' + val;
    } else {
   	  document.MMSCreationForm.elements['message'].value = val;
    }
+   e_message.set(val);
    return;
 }//setMessage
 
@@ -383,7 +385,7 @@ function generateLang(){
 	translator.translate();
 
 	if (sigprop.get() == '')
-		signature = ' (sent form EzWeb)';
+		signature = ' (sent from EzWeb)';
 	else
 		signature = sigprop.get();
 }

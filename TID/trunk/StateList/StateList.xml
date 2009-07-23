@@ -21,7 +21,7 @@
 		<Option value="header" name="header"/>
 		<Option value="fullList" name="full list"/>
 	</Preference>
- 	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+ 	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="0"/>
 	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="blue">
 		<Option value="yellow" name="Yellow"/>
 		<Option value="green" name="Green"/>

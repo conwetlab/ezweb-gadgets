@@ -25,6 +25,7 @@ var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
 var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
 var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
+var formatFileExport = EzWebAPI.createRGadgetVariable("formatFileToExport",setFileToExport);
 //wiring
 var bookmarkUrl = EzWebAPI.createRWGadgetVariable("bookmarkUrl");
 var bookmarkTitle = EzWebAPI.createRWGadgetVariable("bookmarkTitle");
@@ -78,7 +79,7 @@ var bookmarkDataChanged = false;		//Says if some bookmark data has changed while
 var selected_categories = [];		//Categories included in the current search
 var current_operator;				//Current operator used for the search (AND/OR)
 var translator;						//language translator
-
+var formatToExport;
 //aux functions
 //check mandatory fields
 function checkFields(id){
@@ -634,7 +635,9 @@ function setConfiguration(value){
 function setTheme(value){
 	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
 }
-
+function setFileToExport(value){
+	 formatToExport = value;
+}
 function addBookmarksFromFile(opml){
 	var outline;
 	var bookmark;
@@ -743,7 +746,8 @@ function importBookmarks(){
 function exportBookmarks(){
 
 	var bookmark;
-	
+	var date = new Date();
+	if (formatToExport == "OPML") {	
 	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
 	opml += '<opml version="2.0">';
 	opml += '<head>';
@@ -759,7 +763,30 @@ function exportBookmarks(){
 	}
 	opml += '</body></opml>';
 	var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Bookmarks', 'menubar=yes');
- 
+ 	}
+	else if (formatToExport == "HTML") {
+		var html = '<!DOCTYPE NETSCAPE-Bookmark-file-1>';
+		html+='<!-- This is an automatically generated file.';
+		html+='It will be read and overwritten.';
+    		html+='DO NOT EDIT! -->';
+		html+='<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">';
+		html+='<TITLE>Bookmarks</TITLE>';
+		html+='<H1>Bookmarks Menu</H1>';
+		html+='<DL><p> ';
+		
+		var keys = bookmarkStructure.keys();
+		for (var i=0;i<keys.length;i++){
+			bookmark = bookmarkStructure[keys[i]];
+
+			html+='<DT><A HREF="'+keys[i]+'" ADD_DATE="'+date.toLocaleString()+'"LAST_MODIFIED="'+date.toLocaleString()+'">'+bookmark.title+'</A>';
+			
+		}	
+		html+='</DL><p>';
+		var new_window = window.open('data:text/plain,' + encodeURIComponent(ldif),'Feeds', 'menubar=yes');
+	} 
+
+
+
 }
 
 

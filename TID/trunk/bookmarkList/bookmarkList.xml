@@ -21,12 +21,16 @@
 		<Option value="header" name="header"/>
 		<Option value="fullList" name="full list"/>
 	</Preference>
- 	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="30"/>
+ 	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="0"/>
 	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="yellow">
 		<Option value="yellow" name="Yellow"/>
 		<Option value="green" name="Green"/>
 		<Option value="blue" name="Blue"/>
 		
+	</Preference>
+	<Preference name="formatFileToExport" type="list" description="specifies what format of file will be used to export emails" label="Format file to export" default="OPML">
+		<Option value="OPML" name="OPML"/>
+		<Option value="HTML" name="HTML"/>
 	</Preference>
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
