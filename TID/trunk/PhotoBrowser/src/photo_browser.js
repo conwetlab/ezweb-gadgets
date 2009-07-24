@@ -92,19 +92,23 @@ PhotoBrowser.prototype.init = function(){
 
 PhotoBrowser.prototype.start = function() {
 	
-		// Initialize list
+		this.setNumberOfPhotos(this.nphotosPref.get ());
+		// Get url value
+		this.realizeGet();
+}
+
+PhotoBrowser.prototype.realizeGet = function(){
+	// Initialize list
 		this.img_list = [];
 		
 		this.main.innerHTML = "";
-		// Get url value
-		var html_source = this.url.get();
+	var html_source = this.url.get();
 		// Get html source
 		EzWebAPI.send_get(
 			html_source,
 			this, 
 			this.onSuccess, 
-			this.error);		
-		
+			this.error);	
 }
 
 PhotoBrowser.prototype.onSuccess = function(response) {
@@ -155,6 +159,8 @@ PhotoBrowser.prototype.onSuccess = function(response) {
 PhotoBrowser.prototype.displayImages = function() {
 	this.main.innerHTML = "";
 	var img_aux = [];
+	this.nphotos = parseInt(this.nphotosPref.get ());
+
 	var div1 = document.createElement('div');
 	
 	for (var i=0;i<this.current_imgs.length;i++) {
@@ -230,26 +236,16 @@ PhotoBrowser.prototype.error = function(response,e) {
 
 PhotoBrowser.prototype.setNumberOfPhotos  = function() {
 	if (this.nphotosPref.get() == '1') {
-		this.nphotos = 1;
+		
 		EzWebExt.addClassName(this.main, "main_one");
 	}
-	if (this.nphotosPref.get() == '5') {
-		this.nphotos = 5;
+	else{
 		EzWebExt.addClassName(this.main, "main");
 	}
-	if (this.nphotosPref.get() == '10') {
-		this.nphotos = 10;
-		EzWebExt.addClassName(this.main, "main");
-	}
-	if (this.nphotosPref.get() == '15') {
-		this.nphotos = 15;
-		EzWebExt.addClassName(this.main, "main");
-	}
-	if (this.nphotosPref.get() == '20') {
-		this.nphotos = 20;
-		EzWebExt.addClassName(this.main, "main");
-	}
-	this.start();
+	this.nphotos = parseInt(this.nphotosPref.get ());
+
+	this.realizeGet();
+
 }
 
 PhotoBrowser.prototype.setArrays = function(code){
