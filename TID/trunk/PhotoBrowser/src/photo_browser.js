@@ -133,14 +133,14 @@ PhotoBrowser.prototype.onSuccess = function(response) {
 				}
 				else {
 					this.img_list.push({
-					'src': this.url.get() + result[1],
+					'src': this.url.get()+"/"+ result[1],
 					'title': this.tag_list[i].title
 					});
 				}
 			}
 			else {
 				this.img_list.push({
-					'src': this.url.get() + result[1],
+					'src': this.url.get()+"/"+ result[1],
 					'title': this.tag_list[i].title
 				});
 			}
