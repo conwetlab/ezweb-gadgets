@@ -53,6 +53,7 @@ EbayGadget.prototype.setItemImage = function(value){
 
 EbayGadget.prototype.changeResults = function(){
     this.ebay.setMaxEntries();
+    this.alert("chavalote");
     this.ebay.repaint();
 }
 
@@ -583,7 +584,7 @@ function Ebay (props) {
 	}
 
 	this.repaint = function() {
-	    removeChildren(bottomPanel);
+	    //removeChildren(bottomPanel);
 	    notebook.removeTab(mainTab.getId());
 	    this.currentPage = 1;
 	    this.index = 0;
