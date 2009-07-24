@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Map Viewer</Name>
-    <Version>1.41</Version>
+    <Version>1.5</Version>
     <Author>fabio</Author>
     <Mail>fabio@tid.es</Mail>
     <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada</Description>
