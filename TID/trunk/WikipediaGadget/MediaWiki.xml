@@ -3,7 +3,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>EzWeb</Vendor>
 		<Name>Wikipedia</Name>
-		<Version>2.31</Version>
+		<Version>2.4</Version>
 		<Author>Ignacio Rodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
