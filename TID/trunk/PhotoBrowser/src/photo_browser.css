@@ -7,7 +7,7 @@
 }
 
 .main {
-	background: #ffffff;
+	//background: #ffffff;
 	bottom:22px;
 	margin-bottom:0;
 	margin-left:auto;
@@ -24,7 +24,7 @@
 }
 
 .main_one {
-	background: #ffffff;
+	//background: #ffffff;
 	bottom:22px;
 	margin-bottom:0;
 	margin-left:auto;
@@ -63,14 +63,20 @@
 	padding:1px;
 	float: left;
 }
+.container:hover {
+    background:yellow;
+    border: 1px solid orange;
+    cursor:pointer;
+    
+}
 
 .big_container {
 	width: 94%;
 	height: 92%;
 	margin: 5px;
-	border-color:#121695;
-	border-style:solid;
-	border-width:2px;
+	//border-color:#121695;
+	//border-style:solid;
+	//border-width:2px;
 	float: left;
 	overflow: hidden;
 }
