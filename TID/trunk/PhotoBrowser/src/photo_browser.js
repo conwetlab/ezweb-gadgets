@@ -172,6 +172,21 @@ PhotoBrowser.prototype.displayImages = function() {
 		img.addEventListener("click", EzWebExt.bind(function(e){
 				this.self.dispatchEvents(this.link, this.title);
 		}, context), false);
+
+		var nphotos = this.nphotos;
+
+		img.addEventListener("load", function() {
+			var tam = this.height;
+			if (nphotos == 1) {
+				this.style.paddingTop = (div1.offsetHeight/2) - (tam/2);
+			}
+			else {
+				if (tam > 75) {
+					tam = 75;
+				}
+				this.style.paddingTop = 37.5 - (tam/2);
+			}
+		}, false);
 		
 		var div = document.createElement('div');
 		if (this.nphotos == 1) {
@@ -188,19 +203,7 @@ PhotoBrowser.prototype.displayImages = function() {
 		}
 	}
 	
-	// Get paddingTops and align the images
-	for (var j=0;j<img_aux.length;j++) {
-		var tam = img_aux[j].height;
-		if (this.nphotos == 1) {
-			img_aux[j].style.paddingTop = (div1.offsetHeight/2) - (tam/2);
-		}
-		else {
-			if (tam > 75) {
-				tam = 75;
-			}
-			img_aux[j].style.paddingTop = 37.5 - (tam/2);
-		}
-	}
+	
 }
 
 
