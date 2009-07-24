@@ -563,7 +563,7 @@ function doSearch (value){
 		for(i=0;i<messages.length;i++){
 			message = messageStructure[messages[i]];
 			//if the keyword is in the title, description, any tag or url show the bookmark
-			if(message.message.match(eval("/"+value+"/i")) || message.tags.join().match(eval("/"+value+"/i")) || messages[i].match(eval("/"+value+"/i"))){
+			if(message.desc.match(eval("/"+value+"/i")) || message.tags.join().match(eval("/"+value+"/i")) || messages[i].match(eval("/"+value+"/i"))){
 
 				paintMessageInfo(i, messages[i]);
 				addMessageToCombo(messages[i]);
