@@ -84,7 +84,7 @@ BuscadorRAE.prototype.init = function() {
 	document.body.appendChild (content);
 
 	this.dictionary.insertInto(document.getElementById('content'));
-	this.setKeyWord(this.wordSearch.get());
+	this.setKeyword(this.wordSearch.get());
 }
 
 BuscadorRAE.prototype.repaint = function () {
