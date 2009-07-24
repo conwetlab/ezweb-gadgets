@@ -18,7 +18,7 @@ PhotoBrowser.prototype.init = function(){
 	this.nphotosPref = EzWebAPI.createRGadgetVariable("photosperpage", EzWebExt.bind(function(e){
 		this.setNumberOfPhotos();
 	},this));
-	this.nphotos = this.nphotosPref.get(); // Default photos number
+// 	this.nphotos = this.nphotosPref.get(); // Default photos number
 	this.img_list = [];
 	this.tag_list = [];
 	this.current_imgs = [];
@@ -32,7 +32,7 @@ PhotoBrowser.prototype.init = function(){
 	this.header.setAttribute('id','header');
 	document.body.appendChild(this.header);
 	this.refresh = document.createElement('img');
-	this.refresh.setAttribute('src',this.images_url + "refresh");
+	this.refresh.setAttribute('src',this.images_url + "refresh.png");
 	this.refresh.setAttribute('title', 'Refresh');
 	this.header.appendChild(this.refresh);
 	
@@ -48,16 +48,16 @@ PhotoBrowser.prototype.init = function(){
 	this.buttons = document.createElement('div');
 	this.buttons.setAttribute('id','buttons');
 	this.go_next = document.createElement('img');
-	this.go_next.setAttribute('src',this.images_url + "go-next");
+	this.go_next.setAttribute('src',this.images_url + "go-next.png");
 	this.go_next.setAttribute('title', 'Go Next');
 	this.go_previous = document.createElement('img');
-	this.go_previous.setAttribute('src',this.images_url + "go-previous");
+	this.go_previous.setAttribute('src',this.images_url + "go-previous.png");
 	this.go_previous.setAttribute('title', 'Go Previous');
 	this.go_first = document.createElement('img');
-	this.go_first.setAttribute('src',this.images_url + "go-first");
+	this.go_first.setAttribute('src',this.images_url + "go-first.png");
 	this.go_first.setAttribute('title', 'Go First');
 	this.go_last = document.createElement('img');
-	this.go_last.setAttribute('src',this.images_url + "go-last");
+	this.go_last.setAttribute('src',this.images_url + "go-last.png");
 	this.go_last.setAttribute('title', 'Go Last');
 	this.buttons.appendChild(this.go_first);
 	this.buttons.appendChild(this.go_previous);
