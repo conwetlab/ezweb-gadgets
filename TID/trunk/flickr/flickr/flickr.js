@@ -8,7 +8,7 @@ var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
 var vdefault = EzWebAPI.createRGadgetVariable("defaultSearch", displayMenu);
 var interval = null;
 var titleevent = EzWebAPI.createRWGadgetVariable ('title');
-var autorevent = EzWebAPI.createRWGadgetVariable ('autor');
+var autorevent = EzWebAPI.createRWGadgetVariable ('author');
 var keywordevent = EzWebAPI.createRWGadgetVariable("keyword_event");
 
 var previousimgs = [];

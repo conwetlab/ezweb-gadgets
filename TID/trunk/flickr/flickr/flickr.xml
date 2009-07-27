@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>2.53</Version>
+    <Version>2.54</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
@@ -34,7 +34,7 @@
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
     <Event name="keyword_event" type="text" label="keyword" friendcode="keyword" />
     <Event name="title" type="text" label="title" friendcode="title" />
-    <Event name="autor" type="text" label="autor" friendcode="autor" />
+    <Event name="author" type="text" label="author" friendcode="author" />
     <Event name="urlImage" type="text" label="url" friendcode="image" />
   </Platform.Wiring>
   
