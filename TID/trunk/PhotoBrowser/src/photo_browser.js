@@ -207,6 +207,10 @@ PhotoBrowser.prototype.displayImages = function() {
 			div.appendChild(img);
 			this.main.appendChild(div);
 		}
+		div.addEventListener("click",EzWebExt.bind(function(e){
+			PhotoBrowser.dispatchEvents(this.link, this.title);
+		}, context), false);
+		
 	}
 	
 	
