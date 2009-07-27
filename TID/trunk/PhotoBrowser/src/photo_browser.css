@@ -63,11 +63,10 @@
 	padding:1px;
 	float: left;
 }
-.container:hover {
+div.container:hover {
     background:yellow;
     border: 1px solid orange;
     cursor:pointer;
-    
 }
 
 .big_container {
