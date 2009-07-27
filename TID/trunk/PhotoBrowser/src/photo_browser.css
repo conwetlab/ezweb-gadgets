@@ -80,6 +80,11 @@ div.container:hover {
 	overflow: hidden;
 }
 
+div.big_container:hover {
+    background:yellow;
+    border-color: orange;
+    cursor:pointer;
+}
 .big_img {
 	max-height:100%;
 	max-width:100%;
