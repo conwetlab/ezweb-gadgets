@@ -151,7 +151,8 @@ function loadURL(url_){
 		/*var frm = document.getElementById("browser");
 		frm.setAttribute('src',url_);
 		current_url = url_; */
-		i_loadURL(url_.replace(/^\s*|\s*$/g,""));
+		loadURLForm(url_.replace(/^\s*|\s*$/g,""));
+		
 	}
 }
 
@@ -184,10 +185,13 @@ function goHome(){
 	loadURL(homeUrl.get());
 }
 
-function loadURL(value) {
+function loadURLForm(value) {
+
 	if (!value) return;
 	var frm = document.getElementById('brw_form');
 	var url = parseURL(value);
+
+	frm.innerHTML="";
 
 	for (var k in url.params) {
 		var prm = document.createElement('input');
@@ -197,9 +201,24 @@ function loadURL(value) {
 		frm.appendChild(prm);
 	}
 
-	current_url = url.protocol+'://'+url.host+(url.protocol = '' ? ':'+url.protocol : '')+url.path
+	var video = document.getElementById('video');
+	video.innerHTML ="";
+
+	var ifrm = document.createElement('iframe');
+	ifrm.setAttribute('id', 'browser');
+	ifrm.setAttribute('name', 'browser');
+	ifrm.setAttribute('frameborder', "0");
+	ifrm.setAttribute('width', "100%");
+	ifrm.setAttribute('height', "95%");
+
+	video.appendChild(ifrm);
+
+	current_url = url.protocol+'://'+url.host+(url.protocol = '' ? ':'+url.protocol : '')+url.path;
 	frm.setAttribute('action', current_url);
+	frm.setAttribute('target', 'browser');
 	frm.submit();
+
+
 }
 
 </script>
