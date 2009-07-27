@@ -3,6 +3,7 @@
 <languages>
 	<language name="en">
 		<label id="l_filter">Filter:</label>
+		<label id="l_feed">Keyword:</label>
 		<label id="search_l">Search:</label>
 		<label id="all_l">all keywords</label>
 		<label id="manage_l">manage keywords</label>
@@ -33,6 +34,7 @@
 	</language>
 	<language name="es">
 		<label id="l_filter">Filtro:</label>
+		<label id="l_feed">Palabra:</label>
 		<label id="search_l">Buscar:</label>
 		<label id="all_l">todos</label>
 		<label id="manage_l">gestionar</label>
