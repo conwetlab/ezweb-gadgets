@@ -25,9 +25,6 @@ users["917294723"] = user;
 user = ["Alberto","Garcia Casas","34788114L","Camarena, 2, 4 A, Madrid","36.00","3"];
 users["917744331"] = user;
 
-if(!phoneNumber.get())return;
-_phoneHandler(phoneNumber.get());
-
 function _phoneHandler(phone){
 if (phone!=null && phone!=undefined){
 var content="";
@@ -43,6 +40,9 @@ document.getElementById("info").innerHTML=content;
 address.set(users[phone][3]);
 }
 }
+
+if(phoneNumber.get()) _phoneHandler(phoneNumber.get());
+
 </script>
 </head>
 <body style="font-family: Arial; font-size: 14px; text-align: left; width: 100%; margin: 0px;">
