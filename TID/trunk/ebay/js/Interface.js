@@ -32,7 +32,6 @@ var EbayGadget = function() {
     this.itemTitle = EzWebAPI.createRWGadgetVariable("title");
     this.itemBid = EzWebAPI.createRWGadgetVariable("bid");
     this.itemImage = EzWebAPI.createRWGadgetVariable("image");
-    this.wordSearch = EzWebAPI.createRWGadgetVariable("wordSearch");
 }
 
 EbayGadget.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
@@ -53,7 +52,6 @@ EbayGadget.prototype.setItemImage = function(value){
 
 EbayGadget.prototype.changeResults = function(){
     this.ebay.setMaxEntries();
-    this.alert("chavalote");
     this.ebay.repaint();
 }
 
@@ -114,13 +112,11 @@ EbayGadget.prototype.init = function() {
 		this.goSearch({g_queryKeywords: "wii"});
 		}, this)
 	});
-	this.searchKeyword(this.wordSearch.get());
 
 }
 
 EbayGadget.prototype.setInput = function() {
     input.value = this.keyword.get();
-    this.wordSearch.set(input.value);
 }
 
 /**
@@ -695,7 +691,6 @@ function Ebay (props) {
 /*Get the text to look for before calling goSearch()*/
 goSearchInputText = function() {
     var value = document.getElementById('text_search').value;
-    this.wordSearch.set(value);
     if (tabArray[value] != undefined) {
 	notebook.goToTab(tabArray[value].getId());
     }
