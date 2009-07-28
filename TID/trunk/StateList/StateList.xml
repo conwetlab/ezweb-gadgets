@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>State List</Name>
-	  <Version>0.4</Version>
+	  <Version>0.7</Version>
 	  <Author>Laura García</Author>
 	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 	  <Description>Gadget que permite el envío de mensajes de texto</Description>
@@ -44,7 +44,7 @@
 	  <Slot name="messageSlot" type="text" label="messageSlot" friendcode="messageSlot"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/StateList/StateList.html"/>
+		<XHTML href="http://localhost/gadgets/StateList/StateList.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="8" height="5"/>
 	<Platform.Context>

@@ -34,7 +34,7 @@ var messageSlot = EzWebAPI.createRGadgetVariable("messageSlot", doSearch);
 // bookmark data structure for managing all bookmark subscriptions
 var messageStructure;
 var tagStructure;
-
+var interval = null;
 var messageSearch = [];
 messageSearch.numElem = 0;
 messageSearch.puntero = 0;
@@ -633,6 +633,96 @@ function setTheme(value){
 	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
 }
 
+
+function addStateFromFile(opml){
+	var outline;
+	var state;
+	var message;
+	var tags;
+	var tags_hierachy;
+	
+	var outlines = opml.getElementsByTagName('outline');
+	for (var i=0;i<outlines.length;i++){
+		state = new Object();
+		outline=outlines[i];
+		message = outline.getAttribute('message');
+		if(!message) continue;
+		
+		state.desc = outline.getAttribute('message');
+		if (!state.desc)
+			state.desc = "";
+		tags = outline.getAttribute('category');
+		state.tags = new Array();
+		if(tags && tags !=""){
+			tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				state.tags=state.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (state.tags.indexOf("") != -1){
+				state.tags.splice(state.tags.indexOf(""), 1);
+			}
+		}
+		checkAndStore(message, state, '');
+	}
+	paintMessageEntries('');
+	$('import_form').style.display="none";
+	
+}
+
+function toggleImport(){
+	if($('import_form').style.display=="none")
+		$('import_form').style.display="inline";
+	else
+		$('import_form').style.display="none";
+}
+
+
+function importState(){
+	var fileToUpload = document.forms['import_form'].fileToUpload;
+	if (fileToUpload.files.item(0)){
+		toggleImport();
+		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
+
+		//parsing OPML
+		var parser = new DOMParser()
+		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
+		
+		addStateFromFile(opml);
+		
+	}
+}
+
+
+
+
+function exportState(){
+	var state;
+	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
+	opml += '<opml version="2.0">';
+	opml += '<head>';
+	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+	var currentTime = new Date();
+	opml += '<dateCreated>'+currentTime+'</dateCreated>';
+	opml +=	'</head><body>';
+
+	var keys = messageStructure.keys();
+	for (var i=0;i<keys.length;i++){
+		state = messageStructure[keys[i]];
+		opml +='<outline message="' + state.desc + '" category="' + state.tags + '"/>';
+		
+	}
+	opml += '</body></opml>';
+	paintMessageEntries('');
+	
+	
+	var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Messages', 'menubar=yes');
+}
+
+
+
+
+
 function showAddMessage()
 {
 	$("addBookmark").style.display = 'block';
@@ -664,6 +754,7 @@ function manageMessages(){
 		$("hide_l").style.display = "none";
 	}
 }
+
 function resetInterval(value){
 	try {
 	    clearInterval(interval);
@@ -1030,13 +1121,13 @@ function sendmessage(){
 </div>
 <div id="container" style="display:none">
 <div id="imp_exp" style="display:none">
-	<div id="import_link" ><span id="import_l" title="OPML file">import</span>
+	<div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span>
 	</div> /
-	 <div id="export_link"><span id="export_l" title="OPML file">export</span>
+	 <div id="export_link" onclick="exportState()"><span id="export_l" title="OPML file">export</span>
 	</div>
 	<form id="import_form" style="display:none">
 		<input type="file" name="fileToUpload" />
-		<label id="b_import"><a id="import_b">upload</a></label>
+		<label id="b_import"><a id="import_b" href="javascript:importState()">upload</a></label>
 	</div>
 </form>
 <div id="list">
