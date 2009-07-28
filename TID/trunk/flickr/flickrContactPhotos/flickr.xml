@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr Contact Photos</Name>
-    <Version>1.47</Version>
+    <Version>1.48</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -15,7 +15,7 @@
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    <Preference name="flickr_user" type="text" description="Your username in Flickr" label="Flickr username" default="ezweb2009"/>
+    <Preference name="flickr_user" type="text" description="Your username in Flickr" label="Flickr username"/>
     <Preference name="api_key" type="text" description="api_key" label="Flickr Api Key (optional)"/>
 	<Preference name="photosperpage" type="list" description="Numb 	er of photos per page" label="Photos per page" default='10'>
 		<Option value='5' name='5'/>
