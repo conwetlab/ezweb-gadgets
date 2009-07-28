@@ -74,9 +74,10 @@ function get_user_id () {
 function set_user_id (resp) {
 	var response = resp.responseXML;
 	var user = response.getElementsByTagName("user")[0];
-		
+
 	if (!user){
-		var msg = 'Your username is not valid. Please, try again.'
+		var msg = response.childNodes[0].childNodes[1].attributes[1].nodeValue;
+		//var msg = 'Your username is not valid. Please, try again.'
 		document.getElementById('content_div').innerHTML = msg;        
 		return;
 	}
@@ -191,7 +192,7 @@ function setArrays (imgs, from){
 		nextimgs = [];
 		currentimgs = [];
 		last = previousimgs.length%nphotos;
-		currentimgs = previousimgs.slice(previousimgs.length-last, previousimgs.length);
+		currentimgs = previousimgs.slice(previousimgs.length-((last == 0)? nphotos:last));
 		previousimgs = previousimgs.slice(0, previousimgs.length-last);
 		displayImages();
 		return;
