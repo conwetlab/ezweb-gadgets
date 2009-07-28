@@ -39,7 +39,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-	  <XHTML href="http://localhost/gadgets/flickr/flickrContactPhotos/flickr.html"/>
+	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrContactPhotos/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>
