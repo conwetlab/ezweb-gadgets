@@ -457,17 +457,15 @@ function show_messages (resp) {
 	var response = resp.responseText;
 	all_messages = eval ('(' + response + ')');
 	
-	var contentTextArea = document.getElementById("containerTextArea");
-	
 	var content = document.getElementById('container');
 	content.innerHTML = get_login_links(true);
 	
 	var header_text = document.createElement("h3");
 	header_text.appendChild(document.createTextNode('What are you doing?'));
-	contentTextArea.appendChild(header_text);
+	content.appendChild(header_text);
 	
 	var textarea_cont = document.createElement("div");
-	contentTextArea.appendChild(textarea_cont);	
+	content.appendChild(textarea_cont);	
 	
 	var msg_textarea = document.createElement("textarea");
 	msg_textarea.id = 'status';
@@ -484,7 +482,7 @@ function show_messages (resp) {
 	
 	var bottom_cont = document.createElement("div");
 	bottom_cont.className = 'bottom_cont';
-	contentTextArea.appendChild(bottom_cont);
+	content.appendChild(bottom_cont);
 	
 	var clear_button = document.createElement("input");
 	clear_button.className = 'button';
@@ -502,9 +500,6 @@ function show_messages (resp) {
 	update_button.onclick = update_edited_message;
 	bottom_cont.appendChild(update_button);
 	
-	content.appendChild(contentTextArea);
-	
-
 	var messages_container = document.createElement("div");
 	messages_container.id = 'message_container';
 	content.appendChild(messages_container);	
@@ -1068,9 +1063,9 @@ function select_tab (next_tab) {
 ////////////////////////
 
 function resize_height (){
-	var round = 45;
+	var round = 30;
 	if (document.getElementById('container').offsetTop == 0){
-		round += 45;
+		round += 30;
 	}
 	document.getElementById('container').style.height = (window.frameElement.getHeight() - document.getElementById('container').offsetTop  - round) + "px";
 }
