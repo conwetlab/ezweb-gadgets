@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Visor Datos de Cliente</Name>
+    <Version>1.01</Version>
+    <Author>miglesia</Author>
+    <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
+    <Description>Este gadget presenta la informacion relativa a un cliente el cual ha efectuado un pedido o reclamación</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/visorUsuarios/datosCliente.jpg</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosUsuario</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Event name="address" type="text" label="Address" friendcode = "address" />
+    <Event name="firstname" type="text" label="customer first name" friendcode = "firstname" />
+    <Event name="surname" type="text" label="customer surname" friendcode = "surname" />
+    <Slot name="phoneNumber" type="text" label="customer id" friendcode = "phone" />
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/visorUsuarios/visorDatosCliente.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="13"/>
+</Template>
