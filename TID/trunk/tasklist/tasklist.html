@@ -25,7 +25,7 @@
   var groupByDate = false;
   var barHidden = true;
   var finished = true;
-  var t = null;
+  var translator = null;
   
   var tasklist = EzWebAPI.createRWGadgetVariable("tasklist");
   var taskRecive = EzWebAPI.createRGadgetVariable("taskRecive",setTaskNote);
@@ -66,7 +66,7 @@
   function setDate(value)
   {
 		$('addBar').show();
-		$('barHeader').innerHTML = t.getLabel('ocultar');
+		$('barHeader').innerHTML = translator.getLabel('ocultar');
 		barHidden = false;
 		$('fecha').value=value;
 	
@@ -74,7 +74,7 @@
   function setTaskNote(value)
   {
 		$('addBar').show();
-		$('barHeader').innerHTML = t.getLabel('ocultar');
+		$('barHeader').innerHTML = translator.getLabel('ocultar');
 		barHidden = false;
 		$('tarea').value=value;
 	
@@ -109,8 +109,8 @@
     <!-- Code needed here -->
 	if(jsonTasklist.length==0){
 		$('addBar').show();
-		$('barHeader').innerHTML = t.getLabel('ocultar');
-		$('addButton').value = t.getLabel('addButton');
+		$('barHeader').innerHTML = translator.getLabel('ocultar');
+		$('addButton').value = translator.getLabel('addButton');
 
 		barHidden = false;
 	}
@@ -118,7 +118,7 @@
 	$('fecha').value="";
 	$('buttonpicker').style.background = "#ffcccc";
 	
-	$('calendario').setAttribute( "title",t.getLabel('seleccionarFecha'));
+	$('calendario').setAttribute( "title",translator.getLabel('seleccionarFecha'));
 	titles();
 
   }
@@ -127,11 +127,11 @@
 		anchorTags = document.getElementsByTagName("img");
 		for(var i = 0; i < anchorTags.length; i++) {
 			if(anchorTags[i].title=="modificar")
-				anchorTags[i].setAttribute("title", t.getLabel('titulomodificar'));
+				anchorTags[i].setAttribute("title", translator.getLabel('titulomodificar'));
 			else if (anchorTags[i].title=="eliminar")
-				anchorTags[i].setAttribute("title", t.getLabel('tituloeliminar'));
+				anchorTags[i].setAttribute("title", translator.getLabel('tituloeliminar'));
 			else if (anchorTags[i].title=="enviar")
-				anchorTags[i].setAttribute("title", t.getLabel('tituloenviar'));
+				anchorTags[i].setAttribute("title", translator.getLabel('tituloenviar'));
 		}
 	}
 
@@ -208,11 +208,11 @@
 				
 				$('addButton').onclick = function () {addtask(id);	};
 				if (barHidden) {
-					$('barHeader').innerHTML = t.getLabel('addtask');
+					$('barHeader').innerHTML = translator.getLabel('addtask');
 				}else
 				{
-					$('addButton').innerHTML = t.getLabel('addButton');
-					$('barHeader').innerHTML = t.getLabel('ocultar');
+					$('addButton').innerHTML = translator.getLabel('addButton');
+					$('barHeader').innerHTML = translator.getLabel('ocultar');
 				}
 
 			}
@@ -250,8 +250,8 @@
 	{
 
 		$('addBar').show();
-		$('addButton').innerHTML = t.getLabel('modificar');
-		$('barHeader').innerHTML = t.getLabel('ocultar');
+		$('addButton').innerHTML = translator.getLabel('modificar');
+		$('barHeader').innerHTML = translator.getLabel('ocultar');
 		$('addButton').onclick = function () {editTask(id);};
 			
 			//****posibilidad de 'recolorear' solo 1
@@ -419,8 +419,8 @@
 	function barHandler() {
 		if (barHidden) {
 			$('addBar').show();
-			$('barHeader').innerHTML = t.getLabel('ocultar');
-			$('addButton').innerHTML = t.getLabel('addButton');
+			$('barHeader').innerHTML = translator.getLabel('ocultar');
+			$('addButton').innerHTML = translator.getLabel('addButton');
 			//$('tarea').value="";
 			//$('fecha').value="";
 			$('addButton').onclick = function () {addtask();};
@@ -430,7 +430,7 @@
 		}
 		else {
 			$('addBar').hide();
-			$('barHeader').innerHTML = t.getLabel('addtask');
+			$('barHeader').innerHTML = translator.getLabel('addtask');
 			barHidden = true;
 			listToHtml();
 		}
@@ -543,12 +543,12 @@
 	function generateLang(){
 
 	translator = new EzWebExt.Translator(labels, "language","languagePref");
-	init();
+	//init();
 	translator.translate();
 	
 	}
 	function init(){
-		//t.translate();
+		t.translate();
 	}
 
 	
