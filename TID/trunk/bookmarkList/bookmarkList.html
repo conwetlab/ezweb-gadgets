@@ -107,6 +107,7 @@ function init () {
 	
 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
+	setFileToExport(formatFileExport.get());
 	setTheme(theme.get());
 
 	//doSearch(keyword.get());
@@ -782,7 +783,7 @@ function exportBookmarks(){
 			
 		}	
 		html+='</DL><p>';
-		var new_window = window.open('data:text/plain,' + encodeURIComponent(ldif),'Feeds', 'menubar=yes');
+		var new_window = window.open('data:text/plain,' + encodeURIComponent(html),'Bookmarks', 'menubar=yes');
 	} 
 
 
