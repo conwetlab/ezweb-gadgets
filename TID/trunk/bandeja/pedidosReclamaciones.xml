@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Pedidos-Reclamaciones</Name>
+    <Version>1.02</Version>
+    <Author>miglesia</Author>
+    <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
+    <Description>Este gadget presenta una lista de los pedidos y reclamaciones registrados por usuarios y la informacion relativa a ellos</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/bandeja/pedidos.png</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BandejaDeAverias</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Event name="telefono" type="text" label="customer id" friendcode = "phone"/>
+    <Event name="servicio" type="text" label="hired service" friendcode = "service"/>
+    <Event name="descripcion" type="text" label="ticket description" friendcode = "text"/>
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/bandeja/pedidosReclamaciones.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="20" height="13"/>
+</Template>
