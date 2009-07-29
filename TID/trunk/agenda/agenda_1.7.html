@@ -1,0 +1,513 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Agenda</title>
+
+<style type="text/css">
+a.bluelink:hover {color:#242060;}
+a.redlink {color:#9a030d;}
+a.redlink:hover {color:#740209;}
+a.greenlink {color:#2c9715;}
+a.greenlink:hover {color:#17500b;}
+div.bluelink {color:#242060;cursor: pointer;}
+div.bluelink:hover {color:#242060;cursor: pointer;}
+div.redlink {color:#9a030d;cursor: pointer;}
+div.redlink:hover {color:#9a030d;cursor: pointer;}
+div.greenlink {color:#2c9715;cursor: pointer;}
+div.greenlink:hover {color:#2c9715;cursor: pointer;}
+.x-grid3-row-alt {background-color:#EAEAEA !important;}
+input[type="button"]{ color: #225784; border: 1px solid #238EC2; background: #eff7fa; display: inline; margin-top:5px;}
+</style>
+
+
+
+<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/resources/style.css" />
+
+<SCRIPT language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></SCRIPT>
+
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/adapter/ext/ext-base.js"></SCRIPT>
+<SCRIPT language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/ext-all.js"></SCRIPT>
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/menu/EditableItem.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/menu/RangeMenu.js"></script>
+
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/GridFilters.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/Filter.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/StringFilter.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/DateFilter.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/ListFilter.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/NumericFilter.js"></script>
+<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/agenda/grid-filter/ux/grid/filter/BooleanFilter.js"></script>
+
+<style type="text/css">
+	.x-grid3-hd-row td.ux-filtered-column {   
+		font-style: italic;  
+		font-weight: bold;
+	}
+	
+	body {	
+		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+		font-size:12px;
+	}
+		
+	a {
+		text-decoration:none;
+	}
+		
+	a:hover {
+		text-decoration:underline;
+	}
+	
+	#header{
+		position:relative;
+		padding: 5px 5px 0 5px;
+	}
+	#header label{
+		color: #6C6C6C;
+		font-size: 95%;
+		position:relative;
+		float:left;
+	}
+	
+	#l_contact {
+		color: #6C6C6C;
+		font-size: 95%;
+		position:relative;
+		float:left;
+		font-weight: bold;
+	}
+
+
+	#header_top, #header_bottom {
+		position:relative;
+		height: 19px;
+		margin-bottom:6px;
+		clear:both;
+		line-height: 19px;
+		white-space: nowrap;
+		overflow: hidden;
+		vertical-align: middle;
+	}
+
+	#header_top select, #header_bottom select{
+		color:#ffffff;
+		border: 0px;
+		background-color:#6c6c6c;
+		width:auto;
+		margin-left:5px;
+		vertical-align: top;
+	}
+
+	#header_top select{
+		max-width: 150px;
+	}
+
+	#combo_tag .option{
+		background-color:#6c6c6c;
+		color: #ffffff;
+	}
+	#combo_tag option:hover{
+		bacground-color:black;
+	}
+
+	#header_top #match{
+		margin-left:10px;
+		float:left;
+	}
+
+	#match input[type=radio]{
+		margin:0;
+		vertical-align:middle;
+	}
+
+	#match #l_all, #match #l_any{
+		vertical-align:middle;
+	
+	}
+
+	#header_top #search{
+		position: relative;
+		float: right;
+	}
+	#header #l_search, #header #l_refresh{
+		margin-right: 5px;
+		font-size: 90%;
+	}
+	#l_search a, #l_refresh a{
+		color: #3274d0;
+		margin-left:10px;
+	}
+	#header #i_search{
+		color: #ffffff;
+		font-size: 90%;
+		background:#6C6C6C;
+		border: 1px solid #6C6C6C;
+		padding:1px;
+	}
+
+</style>
+<script language="JavaScript">
+
+var _phoneLiteral = new Array('Business Phone','Mobile Phone','Phone','Home Phone 2','Business Phone 2');
+var _addressLiteral = new Array('Business Address','Home Address');
+var _emailLiteral = new Array('Email 2','Email 1', 'Email 3');
+
+//IMPORTANT: user preference stores openmms_url base uri. It must be set by user
+var openagenda_url = EzWebAPI.createRGadgetVariable("openagenda_url", setBaseURI);
+// Source Phone
+var login = EzWebAPI.createRGadgetVariable("login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("password", setPass);
+// Context
+var height = EzWebAPI.createRGadgetVariable("height", setHeight);
+var width = EzWebAPI.createRGadgetVariable("width", setWidth);
+// Data
+var mobilephone = EzWebAPI.createRWGadgetVariable("phone");
+var email = EzWebAPI.createRWGadgetVariable("email");
+var address = EzWebAPI.createRWGadgetVariable("address");
+
+// Slots
+// Search Keyword
+var search_keyword = EzWebAPI.createRGadgetVariable("search", slotSearch);
+
+var translator;
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+	return;
+}//setBaseURI
+    
+function renderMobilePhone(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	var htmlCode = "";
+	for(var i = 0; i < value.length; i++){
+		var phone = value[i];
+		var phoneLiteral = _phoneLiteral[i];
+		if (phone!=null && phone.length>0){
+			htmlCode += String.format(
+				'<div class="bluelink" title="{1}" onclick="javascript:selectMobilePhone(\'{0}\');">{0}</div>',
+				phone,phoneLiteral);
+		}
+	}
+	return htmlCode;
+	
+}
+
+function renderEmail(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+	var htmlCode = "";
+	for(var i = 0; i < value.length; i++){
+		var email = value[i];
+		var emailLiteral = _emailLiteral[i];
+		if (email!=null && email.length>0){
+			htmlCode += String.format(
+				'<div class="greenlink" title="{1}" onclick="javascript:selectEmail(\'{0}\');">{0}</div>',
+				email,emailLiteral);
+		}
+	}
+	return htmlCode;
+}
+
+function renderAddress(value){
+	if(value==null || value.length==0){
+		return "";
+	}
+			
+	var htmlCode = "";
+	for(var i = 0; i < value.length; i++){
+		var address = value[i];
+		var addressLiteral = _addressLiteral[i];
+		if (address!=null && address.length>0){
+			htmlCode += String.format(
+				'<div class="redlink" title="{1}" onclick="javascript:selectAddress(\'{0}\');">{0}</div>',
+				address, addressLiteral);
+		}
+	}
+	return htmlCode;
+}
+
+var store;
+var grid;
+var filters;
+
+function loadGrid(){
+
+	$('header').style.display='block';
+	
+	//Ext.grid.filter.StringFilter.prototype.icon = 'http://demo.ezweb.morfeo-project.org/repository/agenda/ext-2.2.1/examples/grid-filtering/img/find.png';
+	
+    // create the data store
+    store = new Ext.data.SimpleStore({
+        fields: [
+           {name: 'contact'},
+           {name: 'phone'},
+           {name: 'email'},
+           {name: 'address'}
+        ]
+    });
+
+	store.setDefaultSort('contact', 'ASC');
+	
+	filters = new Ext.ux.grid.GridFilters({
+	  local : true,
+	  filters:[
+	    {type: 'string',  dataIndex: 'contact'}
+	]});
+	
+    // create the Grid
+    grid = new Ext.grid.GridPanel({
+        store: store,
+        columns: [
+            {id:'contact',header: translator.getLabel('h_contact'), sortable: true, dataIndex: 'contact'},
+            {header: translator.getLabel('h_phone'), sortable: false, dataIndex: 'phone', renderer: renderMobilePhone},
+            {header: translator.getLabel('h_email'), sortable: false, dataIndex: 'email', renderer: renderEmail},
+            {id:'address',header: translator.getLabel('h_address'), sortable: false, dataIndex: 'address', renderer: renderAddress}
+        ],
+        stripeRows: true,
+		plugins: filters,
+        autoExpandColumn: 'contact',
+		//autoExpandMin: 100,
+        height: height.get()-30,
+        width: width.get()
+        //title:'Contact List'
+    });
+
+    grid.render('grid');
+
+    grid.getSelectionModel().selectFirstRow();
+    
+    var source = login.get();
+    if(source != null && source != ''){
+		$('l_contact').textContent = translator.getLabel('l_looking') + translator.getLabel('l_contact') + login.get();
+		$('l_contact').style.display='block';
+		$('l_refresh').style.display='block';
+		$('search').style.display='block';
+		$('l_configure').style.display='none';
+		getAgenda();
+    } else {
+		$('l_contact').textContent = translator.getLabel('l_configure');
+		$('l_configure').style.display='block';
+		$('search').style.display='none';
+		$('l_contact').style.display='none';
+		$('l_refresh').style.display='block';
+	}
+}//loadGrid
+
+function setHeight(val){
+	if (grid) {
+		grid.setHeight(val-30);
+	}
+	return;
+}//setOriginNumber
+
+function setWidth(val){
+	if (grid) {
+		grid.setWidth(val);
+	}
+	return;
+}//setOriginNumber
+
+function setOriginNumber(val){
+	getAgenda();
+	return;
+}//setOriginNumber
+
+function setPass(){
+	return;
+}//setPass
+function getAgenda(){
+	var source = login.get();
+	var passwd = password.get();
+	
+	if (source==null || source.length <= 0) {
+		alert('Source Telephone Number is empty!!!. Please, fill it in order to look up the agenda');
+	} else if (passwd==null || passwd.length <= 0) {
+		alert('Password is empty!!!. Please, fill it in order to look up the agenda');
+	} else {
+		$('l_contact').textContent = translator.getLabel('l_looking') + translator.getLabel('l_contact') + login.get() + "...";
+		$('l_contact').style.display='block';
+		$('l_refresh').style.display='block';
+		$('search').style.display='block';
+		$('l_configure').style.display='none';
+		//grid.setTitle("Looking up " + login.get() + " Contact List...");
+		var uri = openagenda_url.get();
+		uri += '?login=' + source;
+		uri += '&password=' + passwd;
+		EzWebAPI.send_get(uri, this, successGetAgendaHandler, errorGetAgendaHandler);
+	}
+	return;
+}//getAgenda
+
+function successGetAgendaHandler(resp){
+	var agenda = eval( '(' + resp.responseText + ')');
+	$('l_contact').textContent = translator.getLabel('l_contact') + login.get();
+	//grid.setTitle(login.get() + " " + 'Contact List');
+	var contacts = new Array();
+	if (agenda == 0) {
+	   contacts[0] = new Array();
+	   contacts[0][0] = 'Juan Jose Jimenez Ruiz';
+	   contacts[0][1] = new Array('619817347');
+	   contacts[0][2] = new Array('jhierro@tid.es');
+	   contacts[0][3] = new Array('Emilio Vargas 6, Madrid, Spain');
+	   contacts[1] = new Array();
+	   contacts[1][0] = 'Pedro A. Martinez Sanz';
+       contacts[1][1] = new Array('639839273');
+       contacts[1][2] = new Array('pacebes@tid.es');
+       contacts[1][3] = new Array('c/ mayor alcala de henares spain');
+	   contacts[2] = new Array();
+	   contacts[2][0] = 'Pablo Sanchez Gil';
+       contacts[2][1] = new Array('658068996');
+       contacts[2][2] = new Array('pjm@tid.es');
+       contacts[2][3] = new Array('c/ alcala 513 madrid spain');	
+	   contacts[3] = new Array();
+	   contacts[3][0] = 'Marcos Rodriguez Gil';
+       contacts[3][1] = new Array('639958596');
+       contacts[3][2] = new Array('mru@tid.es');
+       contacts[3][3] = new Array('c/ ulises 26 madrid spain');
+	} else {	
+	for(var i = 0; i < agenda.length; i++){
+		var contact = new Array();
+		var name = agenda[i][3];
+		if(agenda[i][1]!=null && agenda[i][1].length>0){
+			if (name!=null && name.length>0){
+				name += ", ";
+			}
+			name += agenda[i][1];
+		}
+		contact.push(name); //Contact
+		var _phones = new Array(agenda[i][9], agenda[i][11], agenda[i][14], agenda[i][16], agenda[i][18]);
+		contact.push(_phones); //Phone's
+		/*contact.push(agenda[i][11]); //Mobile Phone
+		contact.push(agenda[i][18]); //Business Phone
+		contact.push(agenda[i][16]); //Home Phone*/
+		var _emails = new Array(agenda[i][6], agenda[i][7], agenda[i][8]);
+		contact.push(_emails); //Email's
+		/*contact.push(agenda[i][8]); //E-mail*/
+		/*contact.push(agenda[i][36].replace(/\x24/g, ", ")); //Address*/
+		var _work_address = '';
+		if (agenda[i][28] != null && agenda[i][28].length>0){
+			_work_address += agenda[i][28];
+		}
+		if (agenda[i][29] != null && agenda[i][29].length>0){
+			_work_address += " " + agenda[i][29];
+		}
+		if (agenda[i][30] != null && agenda[i][30].length>0){
+			_work_address += " " + agenda[i][30];
+		}
+		if (agenda[i][31] != null && agenda[i][31].length>0){
+			_work_address += " " + agenda[i][31];
+		}
+		if (agenda[i][32] != null && agenda[i][32].length>0){
+			_work_address += " " + agenda[i][32];
+		}
+		var _home_address = '';
+		if (agenda[i][36] != null && agenda[i][36].length>0){
+			_home_address += agenda[i][36];
+		}
+		if (agenda[i][37] != null && agenda[i][37].length>0){
+			_home_address += " " + agenda[i][37];
+		}
+		if (agenda[i][38] != null && agenda[i][38].length>0){
+			_home_address += " " + agenda[i][38];
+		}
+		if (agenda[i][39] != null && agenda[i][39].length>0){
+			_home_address += " " + agenda[i][39];
+		}
+		if (agenda[i][40] != null && agenda[i][40].length>0){
+			_home_address += " " + agenda[i][40];
+		}
+		var _addresses = new Array(
+			// Work Adress
+			_work_address,
+			// Home Adress
+			_home_address
+			);
+		contact.push(_addresses); //Phone's
+		contacts.push(contact);
+	}
+	}
+	store.loadData(contacts);
+	return;
+}//successGetAgendaHandler
+
+function errorGetAgendaHandler(resp){
+	lock = false;
+	$('l_contact').textContent = translator.getLabel('l_looking_error') + translator.getLabel('l_contact') + login.get();
+	//grid.setTitle("Error looking up " + login.get() + " Contact List");
+	var myData = [];
+	store.loadData(myData);
+	return;
+}//errorGetAgendaHandler
+
+function selectMobilePhone(val){
+	mobilephone.set(val);
+}
+
+function selectEmail(val){
+	email.set(val);
+}
+
+function selectAddress(val){
+	address.set(val);
+}
+
+function searchIfEnter(e){
+	var keynum;
+	if(window.event){ // IE
+		keynum = e.keyCode;
+	}else if(e.which){ // Netscape/Firefox/Opera
+		keynum = e.which;
+	}
+	if (keynum == 13){ // enter
+		e.target.blur();
+		doSearch(e.target.value);
+	}
+}
+
+function clickSearch (){
+	doSearch($('i_search').value);
+}
+
+function slotSearch (slot_value){
+	$('i_search').value = slot_value; 
+	doSearch($('i_search').value);
+}
+
+function doSearch (value){
+	var _grid_filters = filters.getFilter(0);
+	_grid_filters.setValue(value);
+	if (value == '') {
+		_grid_filters.setActive(false);
+	} else {
+		_grid_filters.setActive(true);
+	}
+}
+
+function generateLang(){
+	translator = new EzWebExt.Translator(labels, "language");
+	loadGrid();
+	translator.translate();
+}
+
+
+</script>
+
+</head>
+
+<body onload="generateLang();">
+<div id="header" class="header" style="display:none;">
+<div id="header_top"><label id="l_contact">Contact List</label><label id="l_configure">ppp</label><label id="l_refresh"><a id="refresh_l" href="javascript:getAgenda()">refresh</a></label><div id="search"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/></div></div>
+</div>
+<div id="grid" style="clear:both;"></div>
+<!--div id="buttons" align="center"><input name="refresh" value="Refresh" type="button" onclick="getAgenda()"/></div-->
+</body>
+</html>
