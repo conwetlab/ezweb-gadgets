@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.96</Version>
+    <Version>0.97</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Enter a place to see the weather forecast for the following days. in your preferences you can choose, whether to see either a full or a brief description, the set of units, the number of days to be forecasted, etc.</Description>
@@ -52,7 +52,8 @@
 		<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/weather/weather.html"/>
+	  <XHTML href="http://pallas.ls.fi.upm.es/gadgets/weather/weather.html"/>
+   <!-- <XHTML href="http://demo.ezweb.morfeo-project.org/repository/weather/weather.html"/>-->
   </Platform.Link>
   <Platform.Rendering width="11" height="19"/>
 </Template>
