@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>EzWeb</Vendor>
     <Name>Photo Browser</Name>
-    <Version>1.24</Version>
+    <Version>1.25</Version>
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget que muestra las imagenes de una pagina html</Description>
@@ -42,7 +42,7 @@
     <XHTML href="http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/src/photo_browser.html"/>
   </Platform.Link>
   
-  <Platform.Rendering width="10" height="10"/>
+  <Platform.Rendering width="7" height="18"/>
   <Platform.Context>
   		<Context name="user" type="text" concept="user_name"/>
 		<Context name="language" type="text" concept="language"/>
