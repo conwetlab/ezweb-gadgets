@@ -746,6 +746,7 @@ function importBookmarks(){
 
 function exportBookmarks(){
 
+
 	var bookmark;
 	var date = new Date();
 	if (formatToExport == "OPML") {	
@@ -779,10 +780,10 @@ function exportBookmarks(){
 		for (var i=0;i<keys.length;i++){
 			bookmark = bookmarkStructure[keys[i]];
 
-			html+='<DT><A HREF="'+keys[i]+'" ADD_DATE="'+date.toLocaleString()+'"LAST_MODIFIED="'+date.toLocaleString()+'">'+bookmark.title+'</A>';
+			html+='<DT><A HREF="'+ keys[i] +'" ADD_DATE="'+ date.toLocaleString() +'"LAST_MODIFIED="'+ date.toLocaleString() +'">'+bookmark.title+'</A></DT>';
 			
 		}	
-		html+='</DL><p>';
+		html+='</p></DL>';
 		var new_window = window.open('data:text/plain,' + encodeURIComponent(html),'Bookmarks', 'menubar=yes');
 	} 
 
@@ -1196,12 +1197,19 @@ function sendbookmark(){
 	</form>
 </div>
 <div id="container" style="display:none">
-<div id="imp_exp" style="display:none"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div> / <div id="export_link" onclick="exportBookmarks()"><span id="export_l" title="OPML file">export</span></div>
-<form id="import_form" style="display:none">
-	<input type="file" name="fileToUpload" />
-	<label id="b_import"><a id="import_b" href="javascript:importBookmarks()">upload</a></label>
+<div id="imp_exp" style="display:none">
+	<div id="import_link" onclick="toggleImport()">
+		<span id="import_l" title="OPML file">import</span>
+	</div>  
+	<div id="export_link" onclick="exportBookmarks()">
+		<span id="export_l" title="OPML file">export</span>
+	</div>
+	<form id="import_form" style="display:none">
+		<input type="file" name="fileToUpload" />
+		<label id="b_import"><a id="import_b" href="javascript:importBookmarks()">upload</a></label>
+
+	</form>
 </div>
-</form>
 <div id="list">
 </div>
 </div>
