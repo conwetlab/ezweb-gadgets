@@ -1,0 +1,98 @@
+body {
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:13px;
+}
+
+.frame {
+	min-width:290px;
+}
+
+#notices.frame {
+	position:absolute;
+	top:0;
+	left:5px;
+	right:5px;
+	background: #FFFFCC none repeat scroll 0 0;
+}
+
+#notices.frame .error {
+	color: #C21010;
+	font-size: 12px;
+	margin-left: 1em;
+	margin-right: .3em;
+}
+
+#notices.frame .error {
+	color: #C21010;
+	font-size: 12px;
+	margin-left: 1em;
+	margin-right: .3em;
+}
+
+#send_photo #logout {
+	color:#0063DC;
+	float:right;
+	cursor:pointer;
+}
+
+#send_photo h1 {
+	font-weight:bolder;
+	color:#FF0084;
+	font-size:18px;
+}
+
+#send_photo label {
+	margin:0 1em;
+	font-weight:bolder;
+	color:#333;
+}
+
+#send_photo p {
+	margin:0;
+	padding:0;
+	display:block;
+}
+
+#send_photo .buttoms {
+	text-align:center;
+}
+
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+.buttom {
+	background: #0063DC none repeat scroll 0 0;
+	-moz-border-radius: 4px;
+	border:medium none;
+	color:#FFFFFF;
+	cursor:pointer;
+	font-family:inherit;
+	font-size:14px;
+	font-weight:bold;
+	padding:6px 8px;
+	white-space:nowrap;
+}
+
+span.butom:hover {
+	background-color: #197F07;
+}
+
+.box {
+	margin:5px;
+	padding:5px;
+	font-size:14px;
+	background: #F1F6FB none repeat scroll 0 0;
+}
+
+.box p {
+//	background: #F1F6FB none repeat scroll 0 0;
+}
+
+.text {
+	
+}

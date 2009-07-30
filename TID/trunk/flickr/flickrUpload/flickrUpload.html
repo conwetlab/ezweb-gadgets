@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+		<script language="javascript" src="http://www.json.org/json2.js"></script>
+		<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrUpload/md5.js"></script>
+		<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrUpload/flickr.js"></script>
+		<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/flickr/flickrUpload/app.js"></script>
+		<script language="javascript">
+
+		var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/flickr/flickrUpload/";
+
+		function loadCSS(archive) {
+			var head= document.getElementsByTagName('head')[0];
+			var style= document.createElement('link');
+			style.type= 'text/css';
+			style.media= 'screen';
+			style.rel= 'stylesheet';
+			style.href= resourcesURL+archive;
+			head.appendChild(style);
+		}
+
+		loadCSS('style.css');
+		</script>
+	</head>
+<body></body>
+</html>
