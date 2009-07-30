@@ -9,13 +9,14 @@ function createMailboxList()
 	}
 
     var auxAccounts = eval('('+accounts.get()+')');
+    var auxMailboxList = mailboxList;
     mailboxList = {};
 
     for (var i = 0; i < auxAccounts.length; i++)
 	{
 	    mailboxList[auxAccounts[i].account] = {}
 	    mailboxList[auxAccounts[i].account]["list-mails"] = new Array();
-	    mailboxList[auxAccounts[i].account]["state"] = "closed";
+	    mailboxList[auxAccounts[i].account]["state"] = auxMailboxList[auxAccounts[i].account]["state"];
 	    mailboxList[auxAccounts[i].account]["name"] = auxAccounts[i].name;
 
 	}
