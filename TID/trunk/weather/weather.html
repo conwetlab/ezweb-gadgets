@@ -138,8 +138,11 @@
 	}
   }
   
-  function callbackError(responseData) {
+  function callbackError(responseData, exception) {
 	//alert("Request error: " + responseData.responseText);
+	if (exception) {
+		alert(exception.lineNumber + ": " +exception.message);
+	}
 	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
 	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
