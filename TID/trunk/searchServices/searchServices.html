@@ -125,7 +125,7 @@
   	var lng ="";
   	var params ="";
   	if(latX.length==0){
-  		$('results').innerHTML = t.getLabel('_noResults');
+  		$('results').innerHTML = translator.getLabel('_noResults');
   		$('loading').hide();
 	 	$('service').hide();
   		$('results').show();
@@ -140,7 +140,7 @@
   	var q = encodeURIComponent($('q').value);
   	var r = $('r').value;
   	if(r!="" && (isNaN(r) || (r<0))){
-	  		alert(t.getLabel("_errorRadius"));
+	  		alert(translator.getLabel("_errorRadius"));
 	  		//alert("Introduzca un radio valido");
 	  		return;
   	}else if (r==""){
@@ -179,7 +179,7 @@
 	  	var r = $('r').value;
 	  	var latlonrad = "";
 	  	if(r!="" && (isNaN(r) || (r<0))){
-	  		//alert(t.getLabel("_errorRadius");
+	  		//alert(translator.getLabel("_errorRadius");
 	  		alert("Introduzca un numero valido");
 	  	}
 
@@ -269,9 +269,9 @@
   	html += "<span class='resHeader'>";
   	if(xml.getElementsByTagName('os:totalResults').length >0){
 		results = xml.getElementsByTagName('os:totalResults')[0].firstChild.nodeValue;
-	 	html += t.getLabel("_results")+ ": "+results;
+	 	html += translator.getLabel("_results")+ ": "+results;
 	}else{
-		html += t.getLabel("_noResults");
+		html += translator.getLabel("_noResults");
 	}
 	html += "</span>";
   	if (entries.length==0){
@@ -303,10 +303,10 @@
   	
   	
   	if(previousUrl!="")
-  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+t.getLabel("_prev")+"</label> &laquo;</a> ";
+  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+translator.getLabel("_prev")+"</label> &laquo;</a> ";
 	html += actualPage;
   	if(nextUrl!="")
-  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+t.getLabel("_next")+"</label></a>";
+  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+translator.getLabel("_next")+"</label></a>";
   	html +="</div>";
   	html += "<ul>";
   	for(i=0;i<entries.length;i++)
@@ -335,10 +335,10 @@
  	
  	html +="<div class='pages'>";
   	if(previousUrl!="")
-  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+t.getLabel("_prev")+"</label> &laquo;</a> ";
+  		html += "<a href='javascript:showPage(\""+previousUrl+"\")'><label>"+translator.getLabel("_prev")+"</label> &laquo;</a> ";
 	html += actualPage;
   	if(nextUrl!="")
-  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+t.getLabel("_next")+"</label></a>";
+  		html += " <a href='javascript:showPage(\""+nextUrl+"\")'>&raquo; <label>"+translator.getLabel("_next")+"</label></a>";
   	html +="</div>";
   	
   	$('results').innerHTML = html;
@@ -370,7 +370,7 @@
   
   		var entries = xml.getElementsByTagName('entry');
   		var entry = entries[nEntry];
-  		var html = "<div class='return'><a href='javascript:showResults()'>"+t.getLabel("_back")+"</a></div>";
+  		var html = "<div class='return'><a href='javascript:showResults()'>"+translator.getLabel("_back")+"</a></div>";
   		
   	  	//ID
   		var id = entry.getElementsByTagName('id')[0].firstChild.nodeValue;
@@ -421,7 +421,7 @@
 	  			}
 			}
   		}
-  		html += "<div class='return'><a href='javascript:showResults()'>"+t.getLabel("_back")+"</a></div>";
+  		html += "<div class='return'><a href='javascript:showResults()'>"+translator.getLabel("_back")+"</a></div>";
   		
   		$('service').innerHTML = html;
   		$('errors').hide();
