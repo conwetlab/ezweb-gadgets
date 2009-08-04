@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Gadget Historico</Name>
-    <Version>1.0</Version>
+    <Version>1.01</Version>
     <Author>Alberto Chaves Jiménez</Author>
     <Mail>achaves@pegaso.ls.fi.upm.es</Mail>
     <Description>Guarda texto</Description>
-    <ImageURI>http://hola.com</ImageURI>
-    <WikiURI>ttp://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Historico.C3.ADa</WikiURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/GadgetHistorico/gadgetHistorico.png</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Historico.C3.ADa</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>

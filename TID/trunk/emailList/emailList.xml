@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>emailList</Name>
-	  <Version>0.4</Version>
+	  <Version>0.41</Version>
 	  <Author>lgarcia</Author>
 	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>

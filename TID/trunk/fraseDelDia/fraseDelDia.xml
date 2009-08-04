@@ -4,23 +4,14 @@
 <!-- Informacion relativa al gadget -->
 
 <Catalog.ResourceDescription>
-
 	<Vendor>Morfeo</Vendor>
-
 	<Name>Frase Del Dia</Name>
-
-	<Version>1.2</Version>
-
+	<Version>1.21</Version>
 	<Author>AlbertoChavesJiménez</Author>
-
 	<Mail>achaves@pegaso.ls.fi.upm.es</Mail>
-
 	<Description>Muestra la frase del dia</Description>
-
 	<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/fraseDelDia.png</ImageURI>
-
 	<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Slogan_del_d.C3.ADa</WikiURI>
-
 </Catalog.ResourceDescription>
  	           
 <!-- Preferencias -->

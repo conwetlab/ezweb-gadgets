@@ -4,7 +4,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>Localizame</Name>
-<Version>1.5.2</Version>
+<Version>1.5.21</Version>
 <Author>pjm</Author>
 <Mail>pjm@tid.es</Mail>
 <Description>This gadget provides access to the 'Localizame' service that allows us to locate our friends through an HTTP interface. Location comes as a descriptive text indicating the rough position of the user (street, town and postal code), and also as an event containing UTM coordinates, that can be linked with another gadget to show that coordinates in a map. Error margin can vary from 200 meters in a city to 5/20 km in the countryside. To use this service you must send "CLAVE" in an SMS message to number 424. You will receive another SMS message with the password that will allow you to use the service during the following 30 minutes. This API is available for all movistar subscribers in Spain.</Description>

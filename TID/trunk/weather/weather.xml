@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.98</Version>
+    <Version>0.99</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Enter a place to see the weather forecast for the following days. in your preferences you can choose, whether to see either a full or a brief description, the set of units, the number of days to be forecasted, etc.</Description>

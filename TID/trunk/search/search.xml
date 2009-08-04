@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Search</Name>
-		<Version>1.24</Version>
+		<Version>1.25</Version>
 		<Author>jjmr</Author>
 		<Mail>jjmr@tid.es</Mail>
 		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>

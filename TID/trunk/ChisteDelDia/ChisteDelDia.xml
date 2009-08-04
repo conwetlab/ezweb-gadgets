@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Chiste del día</Name>
-		<Version>0.6</Version>
+		<Version>0.61</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget que muestra un chiste cada día.</Description>

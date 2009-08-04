@@ -3,7 +3,7 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>Mobile Agenda</Name>
-<Version>1.7.2</Version>
+<Version>1.7.21</Version>
 <Author>pjm</Author>
 <Mail>pjm@tid.es</Mail>
 <Description>This gadget fetchs your contacts from the Copiagenda service through the Open Movilforum API. To sign up for Copiagenda in order to copy automatically your SIM card contacts, send the word "Alta" to 224422. To use Copiagenda service, you need a key which can be obtained by sending your chosen key (6-14 chars) by SMS to 22770 (free of charge, only for Movistar clients). After that, enter your key and your telephone number in the gadget's preferences and start to use your contacts!. For example, you can connect the Mobile Agenda to the Message Sender gadget in order to choose the contacts to whom you want to send an SMS/MMS.</Description>

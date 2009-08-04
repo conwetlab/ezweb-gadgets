@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 	  <Vendor>Morfeo</Vendor>
 	  <Name>RadioStation</Name>
-	  <Version>0.21</Version>
+	  <Version>0.22</Version>
 	  <Author>abgp-jjmr</Author>
 	  <Mail>jjmr@tid.es</Mail>
 	  <Description>Listen to your favourite music on RadioStation. You can choose any artist to listen either a set of hits or a specific album and watch a video related to the chosen song. Choose between the full mode and the mini mode to save room. Connect this gadget to Wikipedia gadget to see more information about the artist or one of his albums and share what music you are listening to! connect Radiostation to Twitter and publish your state automatically. This gadget uses Jogli services (www.jogli.com) and Youtube API.</Description>

@@ -157,7 +157,10 @@ function loadURL(url_){
 }
 
 function setURL(value){
-	real_url = value;
+	if (value.indexOf('http')!=0)
+		real_url = 'http://'+value;
+	else
+		real_url = alue;
 	loadURL(real_url + params.get());
 }
 

@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Configuracion de Red</Name>
-		<Version>1.0</Version>
+		<Version>1.01</Version>
 		<Author>miglesia</Author>
 		<Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget presenta un diagrama con la localizacion de la averia en el servicio</Description>
