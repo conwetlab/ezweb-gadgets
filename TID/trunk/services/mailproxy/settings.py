@@ -1,13 +1,11 @@
-from os import path 
-from django.utils.translation import ugettext_lazy as _
+# Django settings for SavaneAdaptor project.
+from os import path
 
-DEBUG = False 
+BASEDIR = path.dirname (path.abspath(__file__))
+
+
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-APPEND_SLASH=False
-
-BASEDIR = path.dirname(path.abspath(__file__))
-APPEND_SLASH = False
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -23,22 +21,15 @@ DATABASE_HOST = ''             # Set to empty string for localhost. Not used wit
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
-# http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
-# although not all variations may be possible on all operating systems.
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = 'Europe/Madrid'
-DATE_FORMAT = 'd/m/Y'
 
 # Language code for this installation. All choices can be found here:
-# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
-
-LANGUAGES = (
-    ('es', _('Spanish')),
-    ('en', _('English')),
-    ('pt', _('Portuguese')),
-)
 
 SITE_ID = 1
 
@@ -48,12 +39,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = path.join(BASEDIR, 'media')
+MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/ezweb/'
+MEDIA_URL = ''
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -61,7 +52,7 @@ MEDIA_URL = '/ezweb/'
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '15=7f)g=)&spodi3bg8%&4fqt%f3rpg%b$-aer5*#a*(rqm79e'
+SECRET_KEY = 'u+%h=23h-kypi+%31-y)x$^yv$3lc8pt5wm+f)hays14(fvl2v'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -71,17 +62,18 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.doc.XViewMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    path.join(BASEDIR, 'templates'),
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+	# path.join(BASEDIR, 'savane/templates'),
 )
 
 INSTALLED_APPS = (
@@ -89,20 +81,4 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.admin',
-    'imap',
 )
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-AUTH_PROFILE_MODULE = 'user.UserProfile'
-
-#Authentication
-AUTHENTICATION_BACKENDS = (  
-#'authentication.ldapaccess.LDAPBackend',
-'django.contrib.auth.backends.ModelBackend',  
-)
-#LDAP Backend
-#AD_LDAP_URL = 'ldap://host:port'
-#AD_SEARCH_DN = 'uid=%s,ou=OUExample,o=OExample'
-
