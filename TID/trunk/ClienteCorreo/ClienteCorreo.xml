@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Cliente Correo</Name>
-		<Version>1.0</Version>
+		<Version>1.5</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo</Description>
@@ -23,6 +23,15 @@
 
 	<Platform.Wiring>
 		<Slot name="emailDetails" type="text" label="emailDetails" friendcode="emailDetails"/>
+		<Slot name="emails" type="text" label="emails" friendcode="email"/>
+		<Slot name="subject" type="text" label="subject" friendcode="subject"/>
+		<Slot name="text" type="text" label="text" friendcode="text"/>
+		<Event name="fromEvent" type="text" label="from" friendcode="email"/>
+		<Event name="recipientsEvent" type="text" label="recipients" friendcode="email"/>
+		<Event name="subjectEvent" type="text" label="subject" friendcode="subject"/>
+		<Event name="textEvent" type="text" label="text" friendcode="text"/>
+		<Event name="dateEvent" type="text" label="date" friendcode="date"/>
+		<Event name="sizeEvent" type="text" label="size" friendcode="size"/>
 	</Platform.Wiring>
 
 	<Platform.Link>
@@ -33,6 +42,7 @@
 
 	<Platform.Context>
 		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="language"   type="text" concept="language"/>
 		<Context       name="user"       type="text" concept="user_name"/>
 		<!--<Context       name="language"   type="text" concept="language"/>-->
 		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
