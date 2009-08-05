@@ -2,6 +2,7 @@ import os
 import re
 import email
 from protocols.imap_utils.encoding import *
+from struct import pack
 
 def wrap(text, width):
     return reduce(lambda line, word, width=width: '%s%s%s' %
@@ -127,7 +128,13 @@ def parseMail(message):
                     if not filename:
                         filename = 'part-%03d' % (counter)
                         counter += 1
-                    result["files"].append({"filename": filename, "size": part.get_payload(decode=True).__sizeof__()})
+                    filecontent = part.get_payload(decode=True)
+                    size = 0
+                    try:
+                        size = (len(filecontent) * len(pack("c", filecontent[0])))
+                    except:
+                        pass
+                    result["files"].append({"filename": filename, "size": size})
     else:
         if msg.get_content_type() == "text/plain":
             result["text_plain"] += wrap(get_part_content(msg), 80)
@@ -190,7 +197,12 @@ def parseFile(message, fileid):
                         result["filename"] = filename
                         result["data"] = part.get_payload(decode=True)
                         result["content_type"] = part.get_content_type()
-                        result["size"] = result["data"].__sizeof__()
+                        size = 0
+                        try:
+                            size = (len(result["data"]) * len(pack("c", result["data"][0])))
+                        except:
+                            pass
+                        result["size"] = size
                         break
                     
     return result

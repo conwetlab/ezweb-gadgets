@@ -85,8 +85,8 @@ class File(Resource):
                     return HttpResponse(json_encode(mail), mimetype='application/json; charset=UTF-8', status=http_error)
                 else:
                     myfile = mail["file"][0]
-                    response = HttpResponse(myfile["data"], mimetype = "application/force-download," + myfile["content_type"] + ",application/download", status=http_error)
-                    response["Content-Disposition"] = "attachment; filename=" + `myfile["filename"]`
+                    response = HttpResponse(myfile["data"], mimetype = myfile["content_type"], status=http_error)
+                    response["Content-Disposition"] = "attachment; filename=\"" + myfile["filename"] + "\""
                     response["Content-Description"] = "File Transfer"
                     response["Content-Length"] = myfile["size"]
                     return response
