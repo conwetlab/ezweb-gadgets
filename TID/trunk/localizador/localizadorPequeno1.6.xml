@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
@@ -7,7 +7,7 @@
     <Version>1.6</Version>
     <Author>fabio</Author>
     <Mail>fabio@tid.es</Mail>
-    <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada. Este gadget utiliza el API de Google Maps, por lo que est� sujeto a las condiciones de licencia descritas en http://code.google.com/intl/en/apis/maps/terms.html</Description>
+    <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada. Este gadget utiliza el API de Google Maps, por lo que está sujeto a las condiciones de licencia descritas en http://code.google.com/intl/en/apis/maps/terms.html</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/localizador/google_maps.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/MapViewer</WikiURI>
   </Catalog.ResourceDescription>
