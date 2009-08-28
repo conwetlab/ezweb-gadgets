@@ -123,8 +123,8 @@
 			$('destLang').value = _languages.to;
 		}else
 		{
-			$('srcLang').value = t.getLabel('_value');
-			$('destLang').value = t.getLabel('_value')=="es"? "en":"es";
+			$('srcLang').value = translator.getLabel('_value');
+			$('destLang').value = translator.getLabel('_value')=="es"? "en":"es";
 		}
 		trans();
 		
@@ -145,7 +145,7 @@
     
     function trans()
     {
-    	$('translate').value = t.getLabel('_translate');
+    	$('translate').value = translator.getLabel('_translate');
     	
     }
     
