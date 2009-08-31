@@ -55,10 +55,9 @@ function loadplan(idplan){
 }
 
 function searchResults(place){
-
-        var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/tripSearch?appid=YahooDemo&query="+ place);
+	var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/tripSearch?appid=YahooDemo&query="+ place);
 	EzWebAPI.send_get(url,this,searchOk, searchFail);
- }
+}
 
 function searchOk(res){
 //extract the search result information

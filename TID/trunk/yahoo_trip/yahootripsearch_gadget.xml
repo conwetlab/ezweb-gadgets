@@ -8,7 +8,7 @@
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>buscador de planes de viajes de yahoo</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/yahoo_trip/trip_search.gif</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/yahoo_trip/yahoo_trip_1.12/trip_search.gif</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/YahooTripSearch</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -23,7 +23,7 @@
     <Event name="travel" type="text" label="travel" friendcode="yahoo_travel"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/yahoo_trip/yahootripsearch.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/yahoo_trip/yahoo_trip_1.12/yahootripsearch.html"/>
   </Platform.Link>
   <Platform.Rendering width="6" height="26"/>
 </Template>

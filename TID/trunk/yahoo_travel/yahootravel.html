@@ -80,10 +80,9 @@ var travel = EzWebAPI.createRGadgetVariable("travel",configuretravel);
 if(travel.get()) configuretravel(travel.get());
 
 function configuretravel(idtravel){
-
-        var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/getTrip?appid=YahooDemo&id="+ idtravel);
+	var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/getTrip?appid=YahooDemo&id="+ idtravel);
 	EzWebAPI.send_get(url,this,configureOk, configureFail);
- }
+}
 
 function configureOk(res){
 //extract the result information

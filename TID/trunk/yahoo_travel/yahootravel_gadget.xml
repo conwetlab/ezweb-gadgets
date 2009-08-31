@@ -8,7 +8,7 @@
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>muestra un plan de viaje mediante yahoo</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/yahoo_travel/yahoo_travel.gif</ImageURI>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/yahoo_travel.gif</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/YahooTravel</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -22,7 +22,7 @@
     <Slot name="travel" type="text" label="travel" friendcode="yahoo_travel"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/yahoo_travel/yahootravel.html"/>
+    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/yahootravel.html"/>
   </Platform.Link>
   <Platform.Rendering width="6" height="26"/>
 </Template>
