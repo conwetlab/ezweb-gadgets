@@ -47,9 +47,7 @@ img {
 var poi = EzWebAPI.createRGadgetVariable("poi", searchResults);
 var travel = EzWebAPI.createRWGadgetVariable("travel");
 
-
-if(!poi.get())return;
-searchResults(poi.get());
+if(poi.get()) searchResults(poi.get());
 
 function loadplan(idplan){
 
