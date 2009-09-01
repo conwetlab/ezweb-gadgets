@@ -50,13 +50,13 @@ class view:
                 response = mmsender.SendMMSWithFile(login, password, objectFile.value, objectFile.filename, subject, to, message)
 
             if response.find('Tu mensaje ha sido enviado')>=0:
-                print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/tick.gif'/><script>window.parent.clearFields()</script></body></html>"
+                print "<html><head><style type='text/css'>body,html {margin:0;padding:0;}</style></head><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/tick.gif'/><script>window.parent.clearFields()</script></body></html>"
                 return
-            print "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
+            print "<html><head><style type='text/css'>body,html {margin:0;padding:0;}</style></head><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
         except Exception, e:
             web.ctx.status = "500 Internal Server Error"
             web.ctx.headers = [('Content-Type', 'text/html')]
-            web.ctx.output = "<html><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
+            web.ctx.output = "<html><head><style type='text/css'>body,html {margin:0;padding:0;}</style></head><body><img src='http://demo.ezweb.morfeo-project.org/omf/static/cross.gif'/></body></html>"
             
                 
         
