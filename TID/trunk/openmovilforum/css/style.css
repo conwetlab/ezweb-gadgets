@@ -1,0 +1,103 @@
+h2{
+	display: inline;
+	vertical-align: super;
+	margin-right: 10px;
+}
+h3{
+	margin: 5px 0 10px 0;
+}
+iframe{
+	width: 27px; 
+	height: 25px;
+	margin: 6px 3px 0 0;
+}
+a{
+	color: #225784;
+	font-size:10pt;
+}
+#header{
+	margin-top: 5px;
+}
+#cover{
+	position: relative;
+}
+#objectFile{
+	z-index: 1;
+	cursor: pointer;
+	color: black;
+	opacity:0.8;
+	font-weight:bold
+}
+#objectURL{
+	color: black;
+	opacity:0.8;
+   	font-weight:bold
+	width: 165px;
+	display:none;
+	position: absolute;
+	z-index: 2;
+}
+#SMSmsg{
+	font-size:11pt;
+	color:#225784;
+	font-weight: bold;
+	//vertical-align:super;
+	margin:3px;
+}
+#wait{
+	margin-left: 3px;
+}
+.count{
+	//display: none;
+	//display: block;
+	font-weight: bold;
+	font-size: 7pt;
+}
+#num_messages, #num_characters{
+	font-size: 8pt;
+}
+#signatureConfig{
+	display: none;
+	margin: 5px 10px;
+	padding: 5px;
+	background: #E6F3F8;
+	font-size: 9pt;
+	text-align: justify;
+	color:black;
+}
+#signature{
+	color: black;
+	opacity:0.8;
+    font-weight:normal;
+	border: 1px solid #238EC2;
+}
+.advice{
+	font-size: 8pt;
+}
+.advice span{
+	font-size: 10pt;
+	font-weight:bold;
+}
+.clear_label{
+	font-size:8pt;
+	padding-right:4px;
+}
+.edit_label{
+	font-size:8pt;
+}
+.labelStyle{
+	font-size:10pt;
+	font-weight:bold;
+}
+.pStyle{
+	margin:2px;
+}
+.text{
+	width:100%;
+}
+#buttonSend{
+	float:right;
+	margin-top:8px;
+	margin-right:3px;
+	opacity:0.8;
+}

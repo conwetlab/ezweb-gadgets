@@ -1,0 +1,27 @@
+html{
+	background-color:#F8E7E6;
+}
+#signatureConfig{
+	background: #F8E7E6;
+}
+textarea, .text {
+	border-color:#BF0000;
+	color:black;
+	opacity:0.8;
+	font-weight:normal;
+}
+#signature{
+	border: 1px solid #BF0000;
+}
+table {
+	color:#AF0000;
+}
+.labelStyle{
+	color:#AF0000;
+}
+.advice, .count, .clear_label, .edit_label, #back_label{
+	color:#AF0000;
+}
+
+
+
