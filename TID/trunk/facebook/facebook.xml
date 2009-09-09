@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Facebook</Name>
+    <Version>0.9.0</Version>
+    <Author>pjm</Author>
+    <Mail>pjm@tid.es</Mail>
+    <Description>Gadget to share a link on Facebook</Description>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.0/facebook_logo.png</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/ezwebgadgets/wiki/Facebook</WikiURI>
+    <Organization></Organization>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences></Platform.Preferences>
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties></Platform.StateProperties>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Slot name="image_slot" type="text" label="Image Url" friendcode="image"/>
+	<Event name="image_event" type="text" label="Image Url" friendcode="image"/>
+	<Slot name="video_slot" type="text" label="Video Url" friendcode="youtube_url"/>
+	<Event name="video_event" type="text" label="Video Url" friendcode="video_url"/>
+	<!--Slot name="link_slot" type="text" label="Link" friendcode="url"/>
+	<Event name="link_event" type="text" label="Link" friendcode="url"/-->
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.0/facebook_2.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="7" height="26"/>
+  <MenuColor></MenuColor>
+</Template>
+

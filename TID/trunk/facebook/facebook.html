@@ -1,0 +1,161 @@
+<html>
+<head>
+
+<style>
+#header{
+	padding: 3px 0;
+}
+
+#header div{
+	font-size: 75%;
+	display:inline;
+	margin: 0 5px;
+}
+
+#header #source label{
+	color: #274463;
+}
+
+#header a, #header .link{
+	color: #2D6F9C;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#header #source a {
+
+}
+#header div.param{
+	display: inline-table;
+	margin: 0 3px;
+	padding: 1px;
+}
+
+.param input{
+	font-size:85%;
+}
+.param label{
+	display:block;
+	font-size:90%;
+	font-weight:bold;
+}
+#header div.event{
+	background: #DEDEDE;
+}
+button{
+	vertical-align:bottom;
+}
+form, body {
+	margin: 0;
+}
+form{
+	display: inline;
+	margin: 0 5px;
+}
+</style>
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script>
+
+var agent=navigator.userAgent;
+var is_iphone = (agent.indexOf('iPhone')!=-1);
+
+function URLDecode( url )
+{
+   // Replace + with ' '
+   // Replace %xx with equivalent character
+   // Put [ERROR] in output if %xx is invalid.
+   var HEXCHARS = "0123456789ABCDEFabcdef"; 
+   var encoded = url;
+   var plaintext = "";
+   var i = 0;
+   while (i < encoded.length) {
+       var ch = encoded.charAt(i);
+        if (ch == "+") {
+	    plaintext += " ";
+	         i++;
+		 } else if (ch == "%") {
+		        if (i < (encoded.length-2) 
+			       && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 
+			              && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1 ) {
+				                plaintext += unescape( encoded.substr(i,3) );
+						          i += 3;
+							         } else {
+								           alert( 'Bad escape combination near ...' + encoded.substr(i) );
+									             plaintext += "%[ERROR]";
+										               i++;
+											              }
+												      } else {
+												                plaintext += ch;
+														  i++;
+														  }
+   } // while
+   
+   return plaintext;
+}
+
+//PREFERENCES
+var urlPref = "http://www.facebook.com/sharer.php"
+
+
+//WIRING
+var u_event = EzWebAPI.createRWGadgetVariable("u_event");
+var u_slot = EzWebAPI.createRGadgetVariable("u_slot",u_slot_handler);
+
+function u_slot_handler (value){
+	if (value && value != ""){
+		loadURL(urlPref + '?u=' + value);
+	}
+}
+
+
+//GLOBAL
+var current_url;
+
+function init(){
+	resizeIframe()
+	//the url comes from the urlPref or homeUrl preferences
+	loadURL(urlPref);
+}
+
+function resizeIframe(){
+	iframe = document.getElementById("browser");
+	//header = document.getElementById("header");
+	iframe.height = window.innerHeight; // - header.offsetHeight; 
+}
+
+function loadURL(url_){
+	if(url_ && url_!=""){
+		url_ = URLDecode (url_);
+		var frm = document.getElementById("browser");
+		frm.setAttribute('src',url_);
+		current_url = url_;
+	}
+}
+
+</script>
+</head>
+<body onload="init()" onresize="resizeIframe()">
+<!--div id="header">
+	<div id="source" style="display:none"><label>source: </label></div>
+	<div id="home" onclick="goHome()" class="link">home</div>
+	<div id="refresh" onclick="refresh()" class="link">refresh</div>
+	
+	<div id="show_link" onclick="showVariables()" class="link">show variables</div>
+	<div id="hide_link" onclick="hideVariables()" style="display:none" class="link">hide variables</div>
+	
+	<form id="parameters" name="parameters" style="display:none" onsubmit="return false;">
+	
+		<div class="param"><label>u</label><input size="9" type="text" name="u_event" id="u_event" /></div>
+	
+	
+	
+		<button id="send" type="button"  onclick="sendParameters()">send</button>
+	
+	</form>
+</div-->
+<div id="video">
+<iframe id="browser" frameborder="0" width="100%"></iframe>
+</div>
+</body>
+</html>

@@ -1,0 +1,432 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+  margin:0;
+  padding:0;
+  font-size: 11px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+body {
+  overflow-x: hidden;
+}
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+fieldset,img { 
+  border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+  font-style:normal;
+  font-weight:normal;
+}
+ol,ul {
+  list-style:none;
+}
+caption,th {
+  text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-size:100%;
+  font-weight:normal;
+}
+q:before,q:after {
+  content:'';
+}
+abbr,acronym { border:0;
+}
+
+textarea {
+  border: 1px solid #BDC7D8;
+  padding: 3px;
+}
+
+a {
+  color: #3B5998;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.c {
+  clear:both;
+}
+
+.fbbutton {
+  background-color: #5c74a3;
+  border: 1px solid #0c2253;
+  color: #fff;
+  margin: 3px;
+}
+
+#login-bt {
+	display:block;
+	text-align:center;
+}
+
+#login {
+	display:block;
+	text-align:center;
+}
+
+#auth {
+  padding-top: 25px;
+  text-align: center;
+}
+
+.box {
+  padding: 3px 5px;
+}
+
+/** TOP INFO BAR */
+.infobar {
+  background-color: #3b5998;
+  color: #fff;
+}
+
+.infobar a {
+  color: #fff;
+}
+
+/** SECOND BAR */
+.evillayouttable {
+  width: 100%;
+}
+
+.evillayouttable td {
+  vertical-align: top;
+}
+
+#profilepic {
+  width: 50px;
+}
+
+#status {
+  padding: 1px 5px;
+  width: 100%;
+}
+
+#share_buttons {
+  padding: 1px 55px;
+}
+
+
+#statusbox {
+  padding: 3px 5px;
+  background-color: #f2f2f2;
+  border: 1px solid #b4b4b4;
+}
+
+#imagebox , #videobox, #linkbox{
+  padding: 3px 0px;
+  background-color: #f2f2f2;
+  border: none;
+  display: none;
+}
+
+#statustable {
+  margin-top: 2px;
+  width:100%;
+}
+
+#statuscell {
+  width: 100%; 
+  background-color: white; 
+  border-color: #AEAEAE #BBBBBB #BBBBBB; 
+  border-style: solid; 
+  border-width: 1px;
+  vertical-align: top;
+}
+
+#statusbuffer {
+  padding: 2px;
+}
+
+#statusinput {
+  border: none;
+  -outline-color: -moz-use-text-color;
+/*  outline-style: none;
+  outline-width: medium;
+  overflow: hidden;*/
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  width: 100%;
+  height: 35px;
+  font-size: 12px;
+  color:gray;
+}
+
+#imageinput, #videoinput , #linkinput{
+  border: none;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  width: 100%;
+  height: 14px;
+  font-size: 12px;
+}
+
+#statusbuttonbg {
+  background: #5C74A3 url(/static/buttonbg.gif) no-repeat scroll right 10px;
+  position:absolute;
+  right:10px;
+}
+
+#statusbutton {
+  background: transparent url(/static/buttonbg.gif) no-repeat scroll left 0px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  height: 20px;
+  line-height: 14px;
+  margin: 0;
+  padding: 0 5px 1px 7px;
+}
+
+/** notifications stuff */
+
+#notificationsbar {
+  height: 21px;
+  bottom: 0;
+  right: 0;
+  margin-right: 10px;
+  position: fixed;
+}
+
+#notificationsbuffer {
+  height: 21px;
+  padding-left: 10px;
+  text-align: right;
+  background-color: #e5e5e5;
+  border-top: 1px solid #b5b5b5;
+  border-left: 1px solid #b5b5b5;
+  border-right: 1px solid #b5b5b5;
+}
+
+#notifications {
+  border-top: 1px solid #fff;
+  padding-top: 2px;
+}
+
+#notifications img {
+  padding-left: 1px;
+  vertical-align: middle;
+}
+
+#notifications_legacy {
+  padding-top: 1px;
+}
+
+#notifications_legacy img {
+  vertical-align: middle;
+}
+
+.notification-item {
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+
+/** FEED STUFF */
+
+#feed {
+  padding: 7px 5px;
+}
+
+#feed table {
+  width: 100%;
+}
+
+.itempic {
+  vertical-align: top;
+  width: 35px;
+}
+
+.itempic img {
+  width: 35px;
+  height: 35px;
+}
+
+.item {
+  vertical-align: top;
+  padding-left: 5px;
+}
+
+.itemcontent {
+  font-size: 12px;
+}
+
+.itemstamp {
+  font-size: 10px;
+  color: #777;
+}
+
+.photoupdate {
+  border: 1px solid #CCCCCC;
+  padding: 2px;
+  margin: 0px;
+  /*float: left;*/
+  width: 20px;
+}
+
+.photoupdate img {
+  width: 20px;
+}
+
+.commentlist {
+  padding: 3px;
+}
+
+.commentlist table {
+  background-color: #ECEFF5;
+  margin-top: 3px;
+  width: 100%;
+}
+
+.commentlist table td {
+  padding: 3px;
+}
+
+.commentpic {
+  vertical-align: top;
+  width: 25px;
+}
+
+.commentpic img {
+  width: 25px;
+  height: 25px;
+}
+
+.postcommentprompt {
+  padding: 2px 0 0 2px;
+}
+
+.feedseparator {
+  width: 100%;
+  height: 1px;
+  margin: 9px 2px;
+  background-color: #eee;
+}
+
+.transitem {
+  filter: alpha(opacity=50);
+  -khtml-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+
+.UIButton_Text{background-color:transparent;border:none;cursor:pointer;display:inline;font-size:11px;font-weight:bold;line-height:14px;margin:0;overflow:visible;padding:0;width:auto}
+
+.closeButton{
+	background-color:transparent;
+	border:none;
+	cursor:pointer;
+	display:inline;
+	font-size:11px;
+	font-weight:bold;
+	line-height:14px;
+	margin-left:5px;
+	overflow:visible;
+	padding:0;
+	width:auto}
+
+.UIComposer{margin-bottom:10px;position:relative;z-index:11}
+.UIComposer_Upload_Iframe{height:1px;left:0;position:absolute;top:-1000px;width:1px}
+.UIComposer_Pic, .UIComposer_PicRounded{left:0;position:absolute}
+.UIComposer_Prompt{color:#696969;display:block;font-size:13px;font-weight:bold;margin-bottom:5px;padding-left:1px}
+.UIComposer_Content{padding:0 7px}
+.UIComposer_InputArea{background:#fff;border:1px solid #bbb;border-top-color:#aeaeae}
+.UIComposer_InputShadow{border-top:1px solid #e8e8e8;padding:2px 5px 3px}
+.UIComposer_InputShadow .DOMControl_placeholder{line-height:21px}
+.UIComposer .UIComposer_TextArea{border:none;font-size:13px;height:21px;margin:0;outline:none;overflow:hidden;padding:0;resize:none;vertical-align:bottom;width:100%}
+.UIComposer_AttachmentTitle{color:#666;font-weight:bold;padding-left:22px;background:no-repeat left center}
+.UIComposer_AttachmentArea{display:block;background:#fff;border:1px solid #bbb;border-top-color:#aeaeae;margin-top:6px}
+.UIComposer_AttachmentArea .app_content{overflow:auto;overflow-y:hidden}
+.UIComposer_AttachmentArea_Shadow{overflow:hidden;border-top:1px solid #e8e8e8;padding:3px 4px 4px 4px}
+.UIComposer_AttachmentArea_Header{line-height:18px;overflow:hidden;padding-bottom:4px;border-bottom:1px solid #dfdfdf;zoom:1}
+.UIComposer_AttachmentArea_CloseButton{background:no-repeat -150px -83px;float:right;height:18px;width:18px}
+.UIComposer_AttachmentArea_CloseButton:hover{background-position:-168px -83px}
+.UIComposer_AttachmentArea_Cache{overflow:hidden;padding-top:4px}
+.UIComposer_AttachmentArea_Loader{padding:6px 0;text-align:center}
+.UIComposer_Attachment_Cached{zoom:1;display:none}
+.UIComposer_ButtonArea{height:24px;margin-bottom:0;padding-top:7px;position:relative}
+.UIComposer_ButtonArea ul{display:block;list-style:none;margin:0;padding:0}
+.UIComposer_Buttons{position:absolute;right:0}
+.UIComposer_Buttons li{float:right}
+.UIComposer_SubmitButton{margin-left:5px}
+.UIComposer_Attachments li{float:left}
+.UIComposer_AttachmentPrompt{color:#999;font-weight:bold;line-height:24px;padding-right:4px}
+.UIComposer_ButtonArea .UIButton_Text{font-size:13px;line-height:16px}
+.UIComposer_Buttons .UIActionMenu .UITooltip_Wrap{background-position:right bottom;bottom:25px}
+.UIComposer_ButtonArea .UIActionMenu_Wrap{height:23px}
+.UIComposer_ButtonArea .UIActionMenu_Menu{top:24px}
+.UIComposer_More .UIActionMenu_Wrap{padding-left:5px}
+.UIComposer_More .UITooltip_Wrap{bottom:25px;left:2px}
+.UIComposer_More .UIActionMenu_Menu{border:1px solid #444;background:#eee;display:block;padding:3px 0;width:150px}
+.UIComposer_MoreItem{color:#111;cursor:pointer;display:block;height:22px;line-height:22px;overflow:hidden;padding:0 10px 0 28px;position:relative}
+.UIComposer_MoreItem:hover{background-color:#333;color:#fff}
+.UIComposer_MoreIcon{background:no-repeat -16px center;display:block;height:16px;left:0;margin:3px 0 0 6px;position:absolute;top:0;width:16px}
+.UIComposer_MoreItem:hover .UIComposer_MoreIcon{background-position:0 center}
+.UIComposer_AttachmentArea_CloseButton{background-image:url(/rsrc.php/z9WEN/hash/6w95fo9x.gif)}
+.UIComposer_STATE_PIC_OUTSIDE .UIComposer_UIContentBox{margin-left:60px}
+.UIComposer_STATE_PIC_INSIDE .UIComposer_Pic{padding:0}
+.UIComposer_STATE_PIC_INSIDE .UIComposer_InputArea{padding-left:60px}
+.UIComposer_STATE_INPUT_DISABLED .Mentions_Input,
+.UIComposer_STATE_INPUT_DISABLED .UIComposer_InputArea,
+.UIComposer_STATE_INPUT_DISABLED .UIComposer_InputShadow,
+.UIComposer_STATE_INPUT_DISABLED .UIComposer_TextArea{background-color:#ddd}
+.UIComposer_STATE_INPUT_FOCUSED .Mentions_Input{min-height:36px}
+.ie6 .UIComposer_STATE_INPUT_FOCUSED .Mentions_Input{height:36px;overflow:visible}
+.UIComposer_STATE_INPUT_FOCUSED .UIComposer_TextArea{height:36px}
+.UIComposer_STATE_ATTACHMENT_AREA .UIComposer_AttachmentList,
+.UIComposer_STATE_ATTACHMENT_LOADED .UIComposer_AttachmentArea_Loader{display:none}
+.UIComposer_STATE_ATTACHMENT_AREA .UIComposer_AttachmentArea,
+.UIComposer_STATE_ATTACHMENT_LOADED .UIComposer_Attachment_Visible{display:block}
+.UIComposer_STATE_LOC_ACTIVATED .UIComposer_LocationButton .UIActionButton{background-position:3px -310px}
+.UIButton{background-image:url(/rsrc.php/z2Q0Z/hash/8uxvl48y.gif);border-style:solid;border-width:1px;display:-moz-inline-box;display:inline-block;outline:none;padding:3px 6px 4px;vertical-align:bottom}
+.UIButton:hover,
+.UIButton:active{text-decoration:none}
+.UIButton_Large{padding:4px 8px 6px}
+.UIButton_Large .UIButton_Text{font-size:13px;line-height:16px}
+.UIButton_Gray{background-color:#eaeae9;border-color:#888}
+.UIButton_Gray:active{background-color:#ddd;background-image:none}
+.UIButton_Gray .UIButton_Text{color:#333;text-shadow:none}
+.UIButton_Blue{background-color:#5b74a8;background-position:0 -48px;border-color:#26446E #152F5F #0c2253}
+.UIButton_Blue:active{background-color:#516899;background-image:none}
+.UIButton_Blue .UIButton_Text{color:#fff;text-shadow:0 1px 0 #3e5a88}
+.UIButton_Green{background-color:#69a74e;background-position:0 -96px;border-color:#386F24 #236013 #16540a}
+.UIButton_Green:active{background-color:#609946;background-image:none}
+.UIButton_Green .UIButton_Text{color:#fff;text-shadow:0 1px 0 #4d8835}
+.UIButton_Suppressed{background:transparent;border-color:transparent}
+.ie6 .UIButton_Suppressed,
+.UIButton_Suppressed:hover{background-image:url(/rsrc.php/z2Q0Z/hash/8uxvl48y.gif);border-color:#888}
+.UIButton_Suppressed:active{background-color:#ddd;background-image:none}
+.UIButton_Disabled,
+.UIButton_Disabled:active{background-color:#f2f2f2;background-image:none;border-color:#b8b8b8}
+.UIButton_Disabled .UIButton_Text,
+.UIButton_Disabled:active .UIButton_Text{color:#b8b8b8;text-shadow:none}
+.UIButton_Depressed{background-color:#7d7d7d;background-image:none;border-color:#525252}
+.UIButton_Depressed .UIButton_Text{color:#fff}
+.UIActionButton{margin:5px}
+.UIActionButton_SuppressMargin{margin:0}
+span.UIButton_Icon,img.UIButton_Icon{display:block;height:16px !important;margin:-2px 5px 0 0;/* @noflip */float:left;width:16px !important}
+span.UIButton_IconNoSpriteMap{background-image:url(/rsrc.php/z2Q0Z/hash/8uxvl48y.gif)}
+a.UIActionButton_SuppressText{padding:3px 0 4px 4px}
+.UIActionButton_SuppressText .UIButton_Icon{margin:0}
+.UIActionButton .UITooltip_Wrap{bottom:25px;margin-left:0}
+span.UIFormButton{padding:0}
+span.UIFormButton .UIButton_Text{padding:3px 6px 4px}
+.ff3 span.UIFormButton .UIButton_Text{padding:2px 4px 3px}
+.ff3 span.UIFormButton_Large .UIButton_Text{padding:2px 5px 3px}
+.ie7 span.UIFormButton .UIButton_Text{padding:2px 7px 2px}
+.ie7 span.UIFormButton_Large{padding:0}
+.ie7 span.UIFormButton_Large .UIButton_Text{padding-top:1px}
+.ie6 span.UIFormButton .UIButton_Text{padding:2px 0 2px}
+.ie6 span.UIFormButton_Large .UIButton_Text{padding:1px 0 2px}
+.spritemap_icons{background-image:url(/rsrc.php/zAI1B/hash/3xy1aj04.png);background-repeat:no-repeat;display:inline-block;height:16px;width:16px}
+.ie6 .spritemap_icons{background-image:url(/rsrc.php/zCEA6/hash/52mrwk2g.gif);background-repeat:no-repeat;height:16px;width:16px}
+
+
