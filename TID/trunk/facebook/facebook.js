@@ -195,7 +195,7 @@ function onPermsAction(perms) {
 };
 
 function showAppPermissionPage () {
-  _appPermissionPage = window.open('/repository/facebook/facebook_authorization.html?appPermissionPage', 'ezwebFacebookPermissionPage',
+  _appPermissionPage = window.open('http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.0/facebook_authorization.html?appPermissionPage', 'ezwebFacebookPermissionPage',
       'width=505,height=450,' +
       'scrollbars=yes,titlebar=no,menubar=no,location=no,status=no');
 };
