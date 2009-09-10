@@ -69,6 +69,10 @@ function loadURL(url_){
 		//FB.Connect.streamPublish('jau', attachment, null, null, 'What do you think?', null, true);
 		
 		$('#imageinput').val(url_);
+		$('#videoinput').val('');
+		$('#linkinput').val('');
+		$('#videobox').hide();
+		$('#linkbox').hide();
 		$('#imagebox').show();
 		//FB.Connect.showShareDialog(url_);
 		/*url_ = URLDecode (url_);
@@ -83,6 +87,10 @@ function loadVideoURL(url_){
 		url_ = URLDecode (url_);
 		_attachment = {'media': [{'type': 'video', 'video_src': url_, 'preview_img': 'http://u.univision.com/contentroot/uol/art/systemimages/v2/Portal/portal_rotating_stage/video_play_icon_L.gif'}]};
 		$('#videoinput').val(url_);
+		$('#imageinput').val('');
+		$('#linkinput').val('');
+		$('#imagebox').hide();
+		$('#linkbox').hide();
 		$('#videobox').show();
 	}
 }
@@ -92,6 +100,10 @@ function loadLinkURL(url_){
 		url_ = URLDecode (url_);
 		_attachment = {'href':url_};
 		$('#linkinput').val(url_);
+		$('#imageinput').val('');
+		$('#videoinput').val('');
+		$('#imagebox').hide();
+		$('#videobox').hide();
 		$('#linkbox').show();
 	}
 }

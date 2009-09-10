@@ -26,6 +26,11 @@ function setStatus() {
 	
 	var linkedStatus;
 	
+	if (_status_init_ready) {
+		alert('Please, enter a status message');
+		return;
+	}
+	
 	if ($('#imageinput').val() != '') {
 		_attachment = {'media': [{'type': 'image', 'src': $('#imageinput').val(), 'href':$('#imageinput').val()}]};
 	} else if ($('#videoinput').val() != '') {
