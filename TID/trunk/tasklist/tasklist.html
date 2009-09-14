@@ -542,15 +542,11 @@
 
 	function generateLang(){
 
-	translator = new EzWebExt.Translator(labels, "language","languagePref");
-	//init();
-	translator.translate();
+		translator = new EzWebExt.Translator(labels, "language","languagePref");
+		load();
+		translator.translate();	
 	
 	}
-	function init(){
-		t.translate();
-	}
-
 	
 </script>
 
