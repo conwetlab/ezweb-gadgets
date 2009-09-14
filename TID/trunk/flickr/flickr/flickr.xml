@@ -1,22 +1,21 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
-    <Name>My Flickr Photos</Name>
-    <Version>0.4</Version>
-    <Author>lmayllon</Author>
-    <Mail>luismarcos.ayllon@panel.es</Mail>
-    <Description>This gadget provides an engaging visual way to manage your own photos in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.com/repository/flickr/myFlickrPhotos/img/flickr.png</ImageURI>
+    <Name>Flickr</Name>
+    <Version>2.54</Version>
+    <Author>jjmr</Author>
+    <Mail>jjmr@tid.es</Mail>
+    <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
+    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_EzFlickr</WikiURI>
   </Catalog.ResourceDescription>
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-	<Preference name="user" type="text" description="Your username in Flickr" label="Username"/>
-    <!--Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/-->
-    <!--Preference name="defaultSearch" type="text" description="Search to be done on initial loading" label="Default keyword to search"  default="ezweb"/-->
+    <!--<Preference name="url" type="text" description="descripcion" label="url" />-->
+    <Preference name="defaultSearch" type="text" description="Search to be done on initial loading" label="Default keyword to search"  default="ezweb"/>
 	<Preference name="photosperpage" type="list" description="Numb 	er of photos per page" label="Photos per page" default='10'>
 		<Option value='5' name='5'/>
 		<Option value='10' name='10'/>
@@ -27,20 +26,20 @@
   
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
-	<Property name="auth_token" type="text" label="auth_token"/>
+	<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
   </Platform.StateProperties>
   
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-    <!--Slot name="keyword" type="text" label="keyword" friendcode="keyword" /-->
-    <!--Event name="keyword_event" type="text" label="keyword" friendcode="keyword" /-->
+    <Slot name="keyword" type="text" label="keyword" friendcode="keyword" />
+    <Event name="keyword_event" type="text" label="keyword" friendcode="keyword" />
     <Event name="title" type="text" label="title" friendcode="title" />
-    <!--Event name="author" type="text" label="author" friendcode="author" /-->
+    <Event name="author" type="text" label="author" friendcode="author" />
     <Event name="urlImage" type="text" label="url" friendcode="image" />
   </Platform.Wiring>
   
   <Platform.Link>
-	<XHTML href="http://demo.ezweb.morfeo-project.com/repository/flickr/myFlickrPhotos/flickr.html"/>
+	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/flickr/flickr/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>
