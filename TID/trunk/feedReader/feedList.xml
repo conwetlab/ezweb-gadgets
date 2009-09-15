@@ -8,7 +8,7 @@
 	  <Author>abgp</Author>
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
-	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/feedReader/feedReader_3.31/rssList.jpg</ImageURI>
+	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/rssList.jpg</ImageURI>
 	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -43,7 +43,7 @@
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/feedReader/feedReader_3.31/feedList.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/feedList.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="5" height="12"/>
 	<Platform.Context>
