@@ -11,8 +11,8 @@
   <link id="style" rel='stylesheet' type='text/css' href='' />
   <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
   <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-  <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/feedReader/labelsReader.js"></script>
-  <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+  <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/labelsReader.js"></script>
+  <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 
   <script type="text/javascript" language="javascript">
 	//EzWeb vars
@@ -46,7 +46,7 @@
 		if(!value ||value =="")
 			value = "blue";
 		//END WA
-		var href = "http://demo.ezweb.morfeo-project.org/repository/feedReader/readerThemes/"+value+"_RSSReader.css";
+		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/readerThemes/"+value+"_RSSReader.css";
 		var sheetLink=$('style');
 		sheetLink.href=href;
 		return;
@@ -629,9 +629,9 @@
 
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (items[i].link == null) ? startLink + items[i].title + endTag : startLink + "<a href='" + items[i].link +"' target='_black'>"+ items[i].title+"</a>" + endTag;
-			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
-			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
-			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://demo.ezweb.morfeo-project.org/repository/feedReader/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
+			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
+			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
+			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
 			item_html += endTag;
 
 			item_html += "</li>";
@@ -834,10 +834,10 @@
         <div id="chan_pubDate"></div><a id="rights_link" href="javascript:toggleRights()" style="display:none">Copyright Notice</a>
         <div id="chan_copyright" style="display:none"></div>
         <a id="chan_image_link" href=""></a>
-        <div id="pages" style="display:none"><span id="prev_pages"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/left-arrow.png" alt="<<"/></span><div id="paginator"></div><span id="next_pages"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/right-arrow.png" alt=">>"/></span></div>
+        <div id="pages" style="display:none"><span id="prev_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/left-arrow.png" alt="<<"/></span><div id="paginator"></div><span id="next_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/right-arrow.png" alt=">>"/></span></div>
 	</div>
         <div id="chan_items"></div>
     </div>
-	<div id="loading"><img src="http://demo.ezweb.morfeo-project.org/repository/feedReader/loading.gif" alt="Esperando feed..."/></div>
+	<div id="loading"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/loading.gif" alt="Esperando feed..."/></div>
 </body>
 </html>
