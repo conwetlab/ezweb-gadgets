@@ -330,7 +330,7 @@ function setGoArticleWiring (value1)
 		getArticle (value);
 	}
 }
-// Displays Article
+// Displays Articleg
 function displayArticle(text)
 {
 	for (var i=0; i<listoftabs.length;i++) {
@@ -385,7 +385,24 @@ function displayArticle(text)
 		}
 		
 	}
-	var images = document.getElementsByTagName ('img');
+	var tab1 = panelArticle.createTab ({
+		"name":decodeURIComponent(value).replace(/_/g, " "),
+		"id":value,
+		closeable:true
+	});
+	tab1.appendChild (div);
+
+	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
+	tab1.addEventListener ('close', EzWebExt.bind (function(e){
+		for (var i=0;i<this.listoftabs.length;i++)
+			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id))
+				delete this.listoftabs[i];
+	}, context), true);
+	panelArticle.goToTab(tab1.getId());
+	listoftabs[listoftabs.length] = ({title:value, id:tab1.getId()})
+
+	summary.set(div.innerHTML);
+	var images = div.getElementsByTagName ('img');
 	for (var i=0; i<images.length; i++)
 	{
 		for (var j=0; j<images[i].attributes.length;j++)
@@ -400,21 +417,8 @@ function displayArticle(text)
 			
 		}
 	}
-	var tab1 = panelArticle.createTab ({
-		"name":decodeURIComponent(value).replace(/_/g, " "),
-		"id":value,
-		closeable:true
-	});
-	tab1.appendChild (div);
-	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
-	tab1.addEventListener ('close', EzWebExt.bind (function(e){
-		for (var i=0;i<this.listoftabs.length;i++)
-			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id))
-				delete this.listoftabs[i];
-	}, context), true);
-	panelArticle.goToTab(tab1.getId());
-	listoftabs[listoftabs.length] = ({title:value, id:tab1.getId()})
 	removeLoadingImage();
+
 }
 function setImageEvent (url)
 {

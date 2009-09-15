@@ -120,6 +120,7 @@ function onSuccessDescription(response)
  */
 function getArticle(value)
 {
+	url.set('http://'+urlbaseWiki+'.wikipedia.org/wiki/'+value);
     var urlRequest = urladaptor.get() + '/MediaWikiAdaptor/'+ urlbaseWiki + '/content/' + encodeURIComponent(value.replace(/ /g, '_'));
     EzWebAPI.send_get(urlRequest, this, onSuccessArticle, onError);
 }
