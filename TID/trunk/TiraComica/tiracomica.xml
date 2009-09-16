@@ -3,7 +3,7 @@
 	<!-- Gadget Meta-Info -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Tira Comica</Name>
+		<Name>Tira Cómica</Name>
 		<Version>0.8</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
@@ -47,4 +47,7 @@
 	</Platform.Wiring>
 
 	<Platform.Rendering width="5" height="15"/>
+
+	<Platform.Context>
+	</Platform.Context>
 </Template>
