@@ -5,14 +5,14 @@
 <html><head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
-<link id="css_style" href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/labels.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/labels.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script language="JavaScript">
 function sanitize( text ){
 	var equivalences = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ñ":"n","Ñ":"N",
@@ -199,14 +199,14 @@ function removeSendingMessage(){
 
 function successSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/tick.gif";
+	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/tick.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 	clearFields();
 }
 
 function errorSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/cross.gif";
+	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/cross.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 }
 
@@ -335,7 +335,7 @@ function clearText(){
 <a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
 <a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
 <a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a><br/>
-<div id="wait" style="display:none"><img src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.1/sending28x28blue.gif"/></div>
+<div id="wait" style="display:none"><img src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/sending28x28blue.gif"/></div>
 <img id="SMSmsg" style="display:none" />
 <iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
 <input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/>
