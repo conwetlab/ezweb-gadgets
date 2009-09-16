@@ -530,15 +530,15 @@
 		URL = decodeURI(feedUrl.get());
 		if(!URL || URL == ""){
 			URL = decodeURI(feedUrlPref.get());
-			if (URL && URL != "")
-			{
-			
+			if (URL && URL != ""){
 			   var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
 			   EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
 			}
-		}//if the slot isn't empy, wait for initial wiring propagation
-
-
+		} else {
+			 //if the slot isn't empy, get value and process Feed
+			 var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+			 EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
+		}	
 	}
 	
 	//shows the Feed content in the browser
