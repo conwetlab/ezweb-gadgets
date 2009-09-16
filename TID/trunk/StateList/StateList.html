@@ -142,8 +142,7 @@ function resizeSelect(){
 function fillSelectObject(tags){
 
 	if(tags.length == 0){
-		$('category').style.display = 'none';
-		$('header_top').style.display = 'none';
+		return;
 	}else{
 		$('category').style.display = 'inline';
 		$('header_top').style.display = '';
@@ -269,11 +268,11 @@ function paintMessageEntries(category)
 		for (var i=0;i<messages.length;i++)
 		{
 			if(op == 'and'){
-				messageTags = messageStructure[messages[i]]['tags'];
-				for(var j=0;j<messageTags.length;j++){
+				messageTagsAux = messageStructure[messages[i]]['tags'];
+				for(var j=0;j<messageTagsAux.length;j++){
 					//if the tag has not been selected yet and it isn't in the select object, add it
-					if((selected_categories.indexOf(messageTags[j]) == -1) && (tags.indexOf(messageTags[j]) == -1))
-						tags.push(messageTags[j]);
+					if((selected_categories.indexOf(messageTagsAux[j]) == -1) && (tags.indexOf(messageTagsAux[j]) == -1))
+						tags.push(messageTagsAux[j]);
 				}
 			}
 			//paint bookmark info on the list of bookmarks
@@ -588,7 +587,7 @@ function doSearch (value){
 }
 
 function setOperator(value){
-	//WORKAROUND: select and by default
+	//WORKAROUND: select and by desfault
 	if(!value ||value ==""){
 		value = 'and';
 	}
@@ -701,7 +700,7 @@ function exportState(){
 	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
 	opml += '<opml version="2.0">';
 	opml += '<head>';
-	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+	opml += '<title>'+translator.getLabel('opml_tip')+'</title>';
 	var currentTime = new Date();
 	opml += '<dateCreated>'+currentTime+'</dateCreated>';
 	opml +=	'</head><body>';
