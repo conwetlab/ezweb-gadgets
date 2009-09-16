@@ -16,7 +16,10 @@ function createMailboxList()
 	{
 	    mailboxList[auxAccounts[i].account] = {}
 	    mailboxList[auxAccounts[i].account]["list-mails"] = new Array();
-	    mailboxList[auxAccounts[i].account]["state"] = auxMailboxList[auxAccounts[i].account]["state"];
+		if(auxMailboxList[auxAccounts[i].account]){
+			if (auxMailboxList[auxAccounts[i].account].state){
+				mailboxList[auxAccounts[i].account]["state"] = auxMailboxList[auxAccounts[i].account]["state"];}
+		}
 	    mailboxList[auxAccounts[i].account]["name"] = auxAccounts[i].name;
 
 	}

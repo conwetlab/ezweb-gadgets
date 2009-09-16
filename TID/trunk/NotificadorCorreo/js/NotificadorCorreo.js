@@ -730,8 +730,11 @@ function createAccount(key)
     document.getElementById("accountsMailList").appendChild(name);
     document.getElementById("accountsMailList").appendChild(children);
     
-    if(mailboxList[key]["state"] == "opened")
-	openFolder(key);
+	if(mailboxList[key]["state"]){
+		if(mailboxList[key]["state"] == "opened"){
+		openFolder(key);
+		}
+	}
     
 }
 
@@ -745,7 +748,7 @@ function getMailDetails(key, emailIndex)
 	{
 	    if(auxAccounts[i].account == key)
 		{
-			to.set(key);
+			to.set(key);ope
 			to_username.set(auxAccounts[i].username);
 			from.set(mailboxList[key]["list-mails"][emailIndex].from.mail);
 			from_name.set(mailboxList[key]["list-mails"][emailIndex].from.name);
