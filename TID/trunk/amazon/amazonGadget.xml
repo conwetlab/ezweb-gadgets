@@ -4,8 +4,8 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Amazon</Name>
-    <Version>1.1</Version>
-    <Author>jmartin</Author>
+    <Version>1.2</Version>
+    <Author>jmartin, modified by rps</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>Amazon product search</Description>
     <ImageURI>http://demo.ezweb.morfeo-project.org/repository/amazon/amazon.jpg</ImageURI>

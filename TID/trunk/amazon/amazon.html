@@ -28,15 +28,24 @@ img{
 </head>
 <body>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="/repository/amazon/js/signAmazonURLs.js"></script>
+<script language="javascript" src="/repository/amazon/js/sha2.js"></script>
+<script language="javascript" src="/repository/amazon/js/sha256.js"></script>
 <script>
 var vtitle = EzWebAPI.createRGadgetVariable("keyword", searchResults);
 
 searchResults(vtitle.get());
 
+var url = "";
+var encodedURL;
 function searchResults(title){
+	
+        url = encodeURI("http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&Keywords="+ title +"&SearchIndex=All");
 
-        var url=encodeURI("http://ecs.amazonaws.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=1VK3V6F9870HX6VTS5R2&Operation=ItemSearch&Keywords="+ title +"&SearchIndex=All");
-	EzWebAPI.send_get(url,this,searchOk, searchFail);
+	var encoder = new URLAmazonEncoder();
+	encodedURL = encoder.encode(url);
+
+	EzWebAPI.send_get(encodedURL,this,searchOk, searchFail);
  }
 
 function searchOk(res){
@@ -46,28 +55,41 @@ function searchOk(res){
 	
 	divres = document.getElementById("resultados");
 	items = xml.getElementsByTagName('Item');
-	divres.innerHTML="";
-	for (i = 0; i < items.length; i++){ 
-		item = items[i];
-		url = item.getElementsByTagName("DetailPageURL")[0].firstChild.nodeValue;
-		itematt = item.getElementsByTagName('ItemAttributes')[0];
-		title = itematt.getElementsByTagName("Title")[0].firstChild.nodeValue;
-		product = itematt.getElementsByTagName("ProductGroup")[0].firstChild.nodeValue;
-		
-		newdiv = document.createElement('div');
-		newdiv.className = "res";
-		newdiv.innerHTML= "<div class='title'>" + title + "</div><div class='product'>" + product + "</div> " + "<a href='" + url + "' target='_blank'><small>detalles</small></a>";
-		divres.appendChild(newdiv);
+	if (items.length > 0) {
+		divres.innerHTML="";
+		for (i = 0; i < items.length; i++){ 
+			item = items[i];
+			url = item.getElementsByTagName("DetailPageURL")[0].firstChild.nodeValue;
+			itematt = item.getElementsByTagName('ItemAttributes')[0];
+			title = itematt.getElementsByTagName("Title")[0].firstChild.nodeValue;
+			product = itematt.getElementsByTagName("ProductGroup")[0].firstChild.nodeValue;
+			
+			newdiv = document.createElement('div');
+			newdiv.className = "res";
+			newdiv.innerHTML= "<div class='title'>" + title + "</div><div class='product'>" + product + "</div> " + "<a href='" + url + "' target='_blank'><small>detalles</small></a>";
+			divres.appendChild(newdiv);
 		 
+		}
 	}
 }
 
 function searchFail(res){
-	
+	if (url != "") {
+		divres = document.getElementById("resultados");
+		divres.innerHTML="";
+		newdiv = document.createElement('div');
+		newdiv.className = "res";
+		newdiv.innerHTML = "<div class='error'>Error al buscar.";
+//		newdiv.innerHTML += "<br>Respuesta:<br>" + res + "<br>URL:<br>" + url + "<br>encoded URL:<br>" + encodedURL;
+		newdiv.innerHTML += "</div> ";
+		divres.appendChild(newdiv);
+	}
 }
 
 </script>
 <img src="http://g-ecx.images-amazon.com/images/G/01/gno/images/general/navAmazonLogoFooter._V28232323_.gif"/>
-<div id="resultados">A la espera...</div>
+<div id="resultados">A la espera...<br>
+Para obtener resultados es necesario conectar el gadget para pasarle el texto a buscar (keyword).</div>
 </body>
 </html>
+
