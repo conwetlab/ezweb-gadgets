@@ -8,7 +8,7 @@
     <Author>jmartin, modified by rps</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>Amazon product search</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/amazon/amazon.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/amazon/amazon.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Amazon</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -22,7 +22,7 @@
     <Slot name="keyword" type="text" label="keyword" friendcode="keyword" description="Keyword to search in Amazon"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/amazon/amazon.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/amazon/amazon.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="26"/>
 </Template>
