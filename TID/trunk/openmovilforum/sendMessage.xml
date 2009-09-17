@@ -45,8 +45,8 @@
 	</Preference>
 	<Preference name="automaticSend" type="list" label="Send autom. when" description="Send message automatically when filling selected fields" default="none">
 		<Option value="none" name="Never"/>
-		<Option value="sms" name="Destination nº &amp; Text Message"/>
-		<Option value="mms" name="Destination nº, Subject, URL &amp; Text Message"/>
+		<Option value="sms" name="SMS: Destination nº &amp; Text Message"/>
+		<Option value="mms" name="MMS: Destination nº, Subject, URL &amp; Text Message"/>
 	</Preference>
 </Platform.Preferences>
 <!-- EzWeb Gadget Persistent State -->
