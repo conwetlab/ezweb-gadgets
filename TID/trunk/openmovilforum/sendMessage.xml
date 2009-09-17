@@ -3,11 +3,11 @@
 <Catalog.ResourceDescription>
 <Vendor>Morfeo</Vendor>
 <Name>MessageSender</Name>
-<Version>1.2.2</Version>
+<Version>1.2.3</Version>
 <Author>jjmr</Author>
 <Mail>jjmr@tid.es</Mail>
 <Description>This gadget provides the capability of sending SMS/MMS messages using Open Movilforum API</Description>
-<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/sendMessage.png</ImageURI>
+<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/sendMessage.png</ImageURI>
 <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MMSSender</WikiURI>
 </Catalog.ResourceDescription>
 <!-- EzWeb Gadgets Tags -->
@@ -43,6 +43,11 @@
 		<Option value="blue" name="Blue"/>
 		<Option value="red" name="Red"/>
 	</Preference>
+	<Preference name="automaticSend" type="list" label="Send autom. when" description="Send message automatically when filling selected fields" default="none">
+		<Option value="none" name="Never"/>
+		<Option value="sms" name="Destination nº & Text Message"/>
+		<Option value="mms" name="Destination nº, Subject, URL & Text Message"/>
+	</Preference>
 </Platform.Preferences>
 <!-- EzWeb Gadget Persistent State -->
 <Platform.StateProperties>
@@ -64,7 +69,7 @@
 	<Context name="language" type="text" concept="language"/>
 </Platform.Context>
 <Platform.Link>
-	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/sendMessage.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/sendMessage.html"/>
 </Platform.Link>
 <Platform.Rendering width="4" height="22"/>
 </Template>

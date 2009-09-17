@@ -5,13 +5,13 @@
 <html><head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
-<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/labels.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/labels.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script language="JavaScript">
 function sanitize( text ){
@@ -56,6 +56,9 @@ var subject = EzWebAPI.createRGadgetVariable("subject", setSubject);
 var message = EzWebAPI.createRGadgetVariable("message", setMessage);
 // Signature
 var sigprop = EzWebAPI.createRWGadgetVariable('signature');
+// Full Message
+var fullMessage = EzWebAPI.createRGadgetVariable("fullMessage", setFullMessage);
+
 
 //Events
 var e_objectUrl = EzWebAPI.createRWGadgetVariable("objectUrlEvent");
@@ -69,6 +72,7 @@ var subjectStatus = EzWebAPI.createRGadgetVariable("subjectStatus", function(){}
 var urlfileStatus = EzWebAPI.createRGadgetVariable("urlfileStatus", function(){});
 var messageStatus = EzWebAPI.createRGadgetVariable("messageStatus", function(){});
 var theme = EzWebAPI.createRGadgetVariable("theme", changeTheme);
+var automaticSend  = EzWebAPI.createRGadgetVariable("automaticSend", function(){});
 
 var translator = null;
 
@@ -99,6 +103,7 @@ function changeTheme(value){
 function setSubject(val){
 	document.MMSCreationForm.elements['subject'].value = val;
 	e_subject.set(val);
+	checkAutomaticSend();
 }//setSubject
 
 function setMessage(val){
@@ -108,13 +113,33 @@ function setMessage(val){
   	  document.MMSCreationForm.elements['message'].value = val;
    }
    e_message.set(val);
+   checkAutomaticSend();
    return;
 }//setMessage
 
+
+
 function setDestinationPhone(val){
 	document.MMSCreationForm.elements['to'].value = val;
+	checkAutomaticSend();
 }//setDestinationPhone
 
+function checkAutomaticSend(){
+	var autoSend = automaticSend.get();
+	var objectURL = document.MMSCreationForm.elements['objectURL'].value;
+	var objectFile = document.MMSCreationForm.elements['objectFile'].value;	
+	if (autoSend == 'sms' &&
+		document.MMSCreationForm.elements['to'].value != '' && 
+		document.MMSCreationForm.elements['message'].value != '') {
+		validate();	
+	} else if (autoSend == 'mms'&&
+		document.MMSCreationForm.elements['to'].value != '' && 
+		document.MMSCreationForm.elements['message'].value != '' &&
+		document.MMSCreationForm.elements['subject'].value != '' &&
+		(objectURL.length > 0 || objectFile.length > 0)	) {
+		validate();
+	}		
+}
 
 function updateCharacters(){
 	if (document.MMSCreationForm.elements['objectURL'].value!="" || document.MMSCreationForm.elements['objectFile'].value!=""){
@@ -150,7 +175,7 @@ function setObjectUrl(val){
 	file.onchange=function(){document.getElementById('objectURL').value=document.getElementById('objectFile').value;document.getElementById("objectURL").style.display="none"};
 	objectFileParentNode.appendChild(file);
 	document.getElementById("objectURL").style.display="block";
-	
+	checkAutomaticSend();
 }//setObjectUrl
 
 function clearFields(){
@@ -199,19 +224,19 @@ function removeSendingMessage(){
 
 function successSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/tick.gif";
+	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/tick.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 	clearFields();
 }
 
 function errorSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/cross.gif";
+	document.getElementById("SMSmsg").src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/cross.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 }
 
 
-function validate(f){
+function validate(){
 	var uri_mms = url.get()+"/openmovilforum/mms";
 	var uri_sms = url.get()+"/openmovilforum/sms";
 	var to = document.MMSCreationForm.elements['to'].value;
@@ -274,6 +299,39 @@ function validate(f){
 	return false;
 }
 
+function setFullMessage(val){
+	parameters = eval('(' + val + ')');
+	
+	var uri_sms = url.get()+"/openmovilforum/sms";
+	var uri_mms = url.get()+"/openmovilforum/mms";
+	
+	e_destinationPhone.set(parameters["to"]);
+	e_message.set(parameters["message"]);
+	if (!parameters['objectURL'] || parameters['objectURL'].length == 0){
+		parameters["message"] = sanitize(parameters["message"]);
+		parameters["TM_LOGIN"] = login.get();
+		parameters["TM_PASSWORD"] = password.get();
+		document.MMSCreationForm.elements['to'].value = parameters["to"];
+		document.MMSCreationForm.elements['message'].value = parameters["message"];
+		EzWebAPI.send_post(uri_sms, parameters, this, successSMS, errorSMS);
+		//successSMS();
+	}else{
+		e_objectUrl.set(parameters['objectURL']);
+		e_subject.set(parameters["subject"]);
+
+		document.MMSCreationForm.action=uri_mms;
+		document.MMSCreationForm.elements['login'].value = login.get();
+		document.MMSCreationForm.elements['password'].value = password.get();
+		document.MMSCreationForm.elements['message'].value = parameters["message"];
+		document.MMSCreationForm.elements['subject'].value = parameters["subject"];
+		document.MMSCreationForm.elements['objectURL'].value = parameters['objectURL'];
+		messageSended = true;
+		document.MMSCreationForm.submit();
+		return true;
+	}
+}//setFullMessage
+
+
 function showSignature(){
 	document.getElementById('MMSCreationForm').style.display="none";
 	document.getElementById('signatureConfig').style.display="block";
@@ -335,7 +393,7 @@ function clearText(){
 <a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
 <a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
 <a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a><br/>
-<div id="wait" style="display:none"><img src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.2/sending28x28blue.gif"/></div>
+<div id="wait" style="display:none"><img src="/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.3/sending28x28blue.gif"/></div>
 <img id="SMSmsg" style="display:none" />
 <iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
 <input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/>
