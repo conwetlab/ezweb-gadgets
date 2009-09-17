@@ -239,7 +239,9 @@
 		for (i=0;i<jsonTasklist.length;i++)
 		{
 			if (jsonTasklist[i].id == id){
-				clearTimeout(jsonTasklist[i].taskTimeout);
+				if (jsonTasklist[i].taskTimeout != null) {
+					clearTimeout(jsonTasklist[i].taskTimeout);
+				}
 				
 				delete jsonTasklist[i];
 				
@@ -273,6 +275,9 @@
 				jsonTasklist[i].nota = $('tarea').value;
 				jsonTasklist[i].fecha = $('fecha').value;
 				jsonTasklist[i].prioridad = $('buttonpicker').style.backgroundColor;
+				if (jsonTasklist[i].taskTimeout != null) {
+					clearTimeout(jsonTasklist[i].taskTimeout);
+				}
 				jsonTasklist[i].taskTimeout = getTimeout(id,$('fecha').value);
 			}
 		}
