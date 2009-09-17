@@ -273,8 +273,8 @@
 				jsonTasklist[i].nota = $('tarea').value;
 				jsonTasklist[i].fecha = $('fecha').value;
 				jsonTasklist[i].prioridad = $('buttonpicker').style.backgroundColor;
-				
-				}
+				jsonTasklist[i].taskTimeout = getTimeout(id,$('fecha').value);
+			}
 		}
 		//sortbydate();
 		sort();
