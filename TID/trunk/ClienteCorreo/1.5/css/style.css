@@ -793,6 +793,10 @@ table.layout {
 	color: #888888;
 }
 
+.headerrow .row.hidden {
+    display: none !important;
+}
+
 /* CSS Tiny MCE */
 
 .defaultSkin .mceIframeContainer {

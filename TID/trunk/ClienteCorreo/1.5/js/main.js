@@ -8,8 +8,7 @@ var ClienteCorreo = function() {
 }
 
 ClienteCorreo.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
-
-ClienteCorreo.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/ClienteCorreo/";
+ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ClienteCorreo/1.5/";
 
 /******************** OVERWRITE METHODS **************************/
 
@@ -314,13 +313,6 @@ ClienteCorreo.prototype._createUserInterface = function() {
     this.form_send["cc"] = cc_text;
     this.form_send["bcc"] = bcc_text;
         
-    row = document.createElement("div");
-	EzWebExt.addClassName(row, "row");
-	EzWebExt.addClassName(row, "send");
-	row.appendChild(this._createCell(document.createTextNode(_("Subject") + ":"), "title"));
-	row.appendChild(this._createCell(subject_text, "value"));
-	headerrow.appendChild(row);
-	
 	row = document.createElement("div");
 	EzWebExt.addClassName(row, "row");
 	EzWebExt.addClassName(row, "send");
@@ -354,8 +346,8 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		this._resizeTinyMCE();
 		closeDetails.style.display = "block";
 		e.target.style.display = "none";
-		this.form_send["cc"].removeClassName("hidden");
-		this.form_send["bcc"].removeClassName("hidden");
+		EzWebExt.removeClassName(this.form_send["row_cc"], "hidden");
+		EzWebExt.removeClassName(this.form_send["row_bcc"], "hidden");
 		this.form_send["multi_selector"].show();
 	}, this), false);
 	
@@ -366,8 +358,8 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		this._resizeTinyMCE();
 		openDetails.style.display = "block";
 		e.target.style.display = "none";
-		this.form_send["cc"].addClassName("hidden");
-		this.form_send["bcc"].addClassName("hidden");
+		EzWebExt.addClassName(this.form_send["row_cc"], "hidden");
+		EzWebExt.addClassName(this.form_send["row_bcc"], "hidden");
 		this.form_send["multi_selector"].hidden();
 	}, this), false);
 	
@@ -375,20 +367,29 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	row.appendChild(closeDetails);
 	headerrow.appendChild(row);
 	
-	row = document.createElement("div");
-	EzWebExt.addClassName(row, "row");
-	EzWebExt.addClassName(row, "send");
-	cc_text.addClassName("hidden");
-	row.appendChild(this._createCell(document.createTextNode(_("Cc") + ":"), "title"));
-	row.appendChild(this._createCell(cc_text, "value"));
-	headerrow.appendChild(row);
+	row_cc = document.createElement("div");
+	EzWebExt.addClassName(row_cc, "row");
+	EzWebExt.addClassName(row_cc, "send");
+	EzWebExt.addClassName(row_cc, "hidden");
+	row_cc.appendChild(this._createCell(document.createTextNode(_("Cc") + ":"), "title"));
+	row_cc.appendChild(this._createCell(cc_text, "value"));
+	this.form_send["row_cc"] = row_cc;
+	headerrow.appendChild(row_cc);
 	
-	row = document.createElement("div");
+	var row_bcc = document.createElement("div");
+	EzWebExt.addClassName(row_bcc, "row");
+	EzWebExt.addClassName(row_bcc, "send");
+	EzWebExt.addClassName(row_bcc, "hidden");
+	row_bcc.appendChild(this._createCell(document.createTextNode(_("Bcc") + ":"), "title"));
+	row_bcc.appendChild(this._createCell(bcc_text, "value"));
+	this.form_send["row_bcc"] = row_bcc;
+	headerrow.appendChild(row_bcc);
+
+    row = document.createElement("div");
 	EzWebExt.addClassName(row, "row");
 	EzWebExt.addClassName(row, "send");
-	bcc_text.addClassName("hidden");
-	row.appendChild(this._createCell(document.createTextNode(_("Bcc") + ":"), "title"));
-	row.appendChild(this._createCell(bcc_text, "value"));
+	row.appendChild(this._createCell(document.createTextNode(_("Subject") + ":"), "title"));
+	row.appendChild(this._createCell(subject_text, "value"));
 	headerrow.appendChild(row);
 	
 	row = document.createElement("div");
