@@ -130,7 +130,8 @@ function checkAutomaticSend(){
 	var objectFile = document.MMSCreationForm.elements['objectFile'].value;	
 	if (autoSend == 'sms' &&
 		document.MMSCreationForm.elements['to'].value != '' && 
-		document.MMSCreationForm.elements['message'].value != '') {
+		document.MMSCreationForm.elements['message'].value != '' &&
+		objectURL.length <= 0 && objectFile.length <= 0) {
 		validate();	
 	} else if (autoSend == 'mms'&&
 		document.MMSCreationForm.elements['to'].value != '' && 
