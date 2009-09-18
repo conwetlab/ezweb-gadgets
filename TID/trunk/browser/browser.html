@@ -108,7 +108,7 @@ var params = EzWebAPI.createRGadgetVariable("parameters", setParams);
 //PROPERTIES
 var source = EzWebAPI.createRWGadgetVariable("source");
 var sourceUrl = EzWebAPI.createRWGadgetVariable("sourceUrl");
-;
+
 //GLOBAL
 var real_url;
 var current_url;
@@ -118,8 +118,12 @@ function init(){
 	real_url = url.get();
 	if (!real_url || real_url==""){
 		real_url = urlPref.get();
-		if (!params.get())
-			loadURL(homeUrl.get());
+		if (!params.get()){
+			if ((homeUrl.get()) && (homeUrl.get().indexOf('http') != 0))
+				loadURL('http://'+homeUrl.get());
+			else
+				loadURL(homeUrl.get());
+		}
 	}
 	//else -> wait the wiring propagation
 
@@ -146,7 +150,7 @@ function init(){
 	
 }
 function loadURL(url_){
-	if (url_ && url_!="") {
+	if (url_ && url_!="" && url_!="http://") {
 		url_ = URLDecode(url_);
 		/*var frm = document.getElementById("browser");
 		frm.setAttribute('src',url_);
@@ -160,7 +164,7 @@ function setURL(value){
 	if (value.indexOf('http')!=0)
 		real_url = 'http://'+value;
 	else
-		real_url = alue;
+		real_url = value;
 	loadURL(real_url + params.get());
 }
 
@@ -185,7 +189,10 @@ function setRefreshingTime(value){
 }
 
 function goHome(){
-	loadURL(homeUrl.get());
+	if ((homeUrl.get()) && (homeUrl.get().indexOf('http') != 0))
+		loadURL('http://'+homeUrl.get());
+	else
+		loadURL(homeUrl.get());
 }
 
 function loadURLForm(value) {

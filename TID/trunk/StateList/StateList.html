@@ -8,13 +8,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/StateList/labels.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/labels.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
 <title>Bookmark List</title>
 <script language="javascript">
-var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/StateList/";
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/";
 //EzWeb vars
 //Properties
 var messageList = EzWebAPI.createRWGadgetVariable("messageList");
@@ -230,7 +230,7 @@ function paintMessageEntries(category)
 
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", category);
-			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/bookmarkList/bookmarkList_1.15/images/rm_tag.png' alt='remove'/></a>";
 
 			$('selected_categories').appendChild(catElement);
 		}
@@ -322,7 +322,7 @@ function paintMessageInfo (index, message)
 	var title_aux = title;
 	var tags = messageStructure[message]['tags'];
 	var html = "<div id='"+index+"' class='bookmark'><div id='title_"+index+"' class=\"bookmark_title\"><a href=\"javascript:setEvents('" + mess + "');\">" + title_aux.substr(0,50) +"</a></div>";
-	html +="<div class='actions'><a href=\"javascript:editMessage('" + index + "')\"><img alt='edit' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeMessage('"+index+"' , '"+ title + "')\"><img alt='remove' src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	html +="<div class='actions'><a href=\"javascript:editMessage('" + index + "')\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/bookmarkList/bookmarkList_1.15/images/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeMessage('"+index+"' , '"+ title + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/bookmarkList/bookmarkList_1.15/images/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
 	html += "<div id='tags_"+index+"' class='bookmark_tags'>";
 	for (var i=0; i<tags.length;i++){
 
@@ -603,7 +603,7 @@ function setOperator(value){
 		for (var i = 0; i<selected_categories.length-1;i++){
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", selected_categories[i]);
-			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/bookmarkList/bookmarkList_1.15/images/rm_tag.png' alt='remove'/></a>";
 				$('selected_categories').appendChild(catElement);
 		}
 

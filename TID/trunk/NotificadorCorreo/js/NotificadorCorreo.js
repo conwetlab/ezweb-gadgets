@@ -1,4 +1,4 @@
-var imgsrc = "http://demo.ezweb.morfeo-project.org/repository/NotificadorCorreo/images/";
+var imgsrc = "http://ezweb.tid.es/repository/ezweb-gadgets/NotificadorCorreo/NotificadorCorreo_1.4/images/";
 var time = EzWebAPI.createRGadgetVariable("time", resetInterval);
 var size = 0;
 var popup = null;
@@ -28,7 +28,7 @@ var NotificadorCorreo = function()
 }
 
 NotificadorCorreo.prototype = new EzWebGadget();
-NotificadorCorreo.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/NotificadorCorreo";
+NotificadorCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/NotificadorCorreo/NotificadorCorreo_1.4";
 NotificadorCorreo.prototype.init = function(){
 
     var alternativeMails = alternatives.createAlternative({defaultEffect:'None'});

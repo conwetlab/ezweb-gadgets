@@ -8,7 +8,7 @@
 	  <Author>Laura García</Author>
 	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 	  <Description>Gadget que permite el envío de mensajes de texto</Description>
-	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rssList.jpg</ImageURI>
+	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/bookmarkList/bookmarkList_1.15/images/rssList.jpg</ImageURI>
 	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Bookmark_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -44,7 +44,7 @@
 	  <Slot name="messageSlot" type="text" label="messageSlot" friendcode="messageSlot"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://localhost/gadgets/StateList/StateList.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/StateList.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="8" height="5"/>
 	<Platform.Context>

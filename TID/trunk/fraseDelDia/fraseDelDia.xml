@@ -10,7 +10,7 @@
 	<Author>AlbertoChavesJiménez</Author>
 	<Mail>achaves@pegaso.ls.fi.upm.es</Mail>
 	<Description>Muestra la frase del dia</Description>
-	<ImageURI>http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/images/fraseDelDia.png</ImageURI>
+	<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/fraseDelDia.png</ImageURI>
 	<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Slogan_del_d.C3.ADa</WikiURI>
 </Catalog.ResourceDescription>
  	           
@@ -74,7 +74,7 @@
 <!-- Link al codigo -->
 <Platform.Link>
 
-	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/fraseDelDia/fraseDelDia.html"/>
+	<XHTML href=">http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/fraseDelDia.html"/>
 
 </Platform.Link>
 
