@@ -11,7 +11,7 @@ var InformacionTrafico = function(){
 
 /* Extend from EzWebGadget */
 InformacionTrafico.prototype = new EzWebGadget();
-InformacionTrafico.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/InformacionTrafico/";
+InformacionTrafico.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.7/";
 
 InformacionTrafico.prototype.init = function(){
 
