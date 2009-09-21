@@ -8,8 +8,8 @@
 	  <Author>Laura García</Author>
 	  <Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 	  <Description>Gadget que permite el envío de mensajes de texto</Description>
-	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/bookmarkList/bookmarkList_1.15/images/rssList.jpg</ImageURI>
-	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Bookmark_List</WikiURI>
+	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/images/rssList.jpg</ImageURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_State_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
