@@ -7,7 +7,7 @@ body{
 	overflow : hidden;
 }
 #header{
-	background: #E6ECFF url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikibar2.png) no-repeat scroll right center;
+	background: #E6ECFF url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikibar2.png) no-repeat scroll right center;
 	padding-left:0px;
 	height:30px;
 	border:1px solid #CCC;
@@ -56,7 +56,7 @@ body{
 
 
 #content{
-	background: #EEE url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikipedia-logo.png) no-repeat scroll center center;
+	background: #EEE url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikipedia-logo.png) no-repeat scroll center center;
 	overflow: auto;
 	width: 100%;
 	position:absolute;
@@ -66,7 +66,7 @@ body{
 	right:3px;
 }
 #footer {
-	background: #E6ECFF url(http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/Wikibar1.png) no-repeat scroll right center;
+	background: #E6ECFF url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikibar1.png) no-repeat scroll right center;
 	padding-left:0px;
 	height:30px;
 	border:1px solid #CCC;
