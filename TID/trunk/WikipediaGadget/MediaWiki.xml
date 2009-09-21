@@ -29,7 +29,7 @@
 	    <Option value="pt" name="Portugês"/>
 	    <Option value="nl" name="Nederlands"/>
 	  </Preference>
-	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://helios.ls.fi.upm.es"/>
+	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://ezweb.tid.es"/>
 	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
 	    <Option value="5" name="5"/>
 	    <Option value="10" name="10"/>
