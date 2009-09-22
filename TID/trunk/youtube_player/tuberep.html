@@ -42,6 +42,7 @@ function URLDecode( url )
    return plaintext;
 }
 
+var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadVideo);
 var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
 
 if(url.get()) loadVideo(url.get());

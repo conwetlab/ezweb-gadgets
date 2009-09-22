@@ -4,18 +4,18 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Player</Name>
-    <Version>1.4</Version>
+    <Version>1.5</Version>
     <Author>jmartin</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>Use this gadget to see your favourite videos from Youtube. Remember that, as any other gadget, you can resize the Youtube video player gadget in order to be adapted to your workspace. In order to be able to select the video to play this gadget requires the wiring connection with the Youtube Search gadget, also available in the catalogue. Try it!</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/youtube_player/tuberep.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.5/tuberep.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.5/tuberepIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/TubeRep</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    
+    <Preference name="urlPref" type="text" description="Default Video URL" label="Default Video" default="http://www.youtube.com/watch?v=ut6KvKFCxSI" />
   </Platform.Preferences>
-  <!--<Preference name="url" type="text" description="descripcion" label="url" />-->
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
   </Platform.StateProperties>
@@ -24,7 +24,7 @@
     <Slot name="RSSYurl" type="text" label="video url" friendcode="youtube_url"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_player/tuberep.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.5/tuberep.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="26"/>
 </Template>
