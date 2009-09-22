@@ -26,6 +26,6 @@
   <Platform.Link>
     <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.5/tuberep.html"/>
   </Platform.Link>
-  <Platform.Rendering width="7" height="26"/>
+  <Platform.Rendering width="7" height="32"/>
 </Template>
 
