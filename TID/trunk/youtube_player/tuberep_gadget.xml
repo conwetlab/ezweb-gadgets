@@ -14,7 +14,7 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    <Preference name="urlPref" type="text" description="Default Video URL" label="Default Video" default="http://www.youtube.com/watch?v=ut6KvKFCxSI" />
+    <Preference name="urlPref" type="text" description="Default Video URL" label="Default Video" default="http://www.youtube.com/v/ut6KvKFCxSI" />
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
