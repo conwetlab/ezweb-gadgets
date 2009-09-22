@@ -19,16 +19,19 @@ def get_part_content(part):
             return part.get_payload()
 
 def mime_decode(mime_):
-    mime = mime_.replace("\r", "")
-    result = ""
-    if mime != None and mime != "":
-        aux = email.header.decode_header(mime)
-        for i in range(len(aux)):
-            if aux[i][1] != None:
-                result = result + aux[i][0].decode(aux[i][1]).encode("utf8")
-            else:
-                result = result + aux[i][0].encode("utf8")
-    return result
+    try:
+        mime = mime_.replace("\r", "")
+        result = ""
+        if mime != None and mime != "":
+            aux = email.header.decode_header(mime)
+            for i in range(len(aux)):
+                if aux[i][1] != None:
+                    result = result + aux[i][0].decode(aux[i][1]).encode("utf8")
+                else:
+                    result = result + aux[i][0].encode("utf8")
+        return result
+    except:
+        return mime_
 
 # encoding
 

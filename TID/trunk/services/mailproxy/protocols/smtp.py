@@ -60,8 +60,32 @@ class SMTPClient:
         except:
     	    pass
     	    
+    def _getMessagePart(self, message, message_html):
+        if message != None and message_html != None:
+            msg = MIMEMultipart('alternative')
+            msg.attach(MIMEText(message, 'plain'))
+            msg.attach(MIMEText(message_html, 'html'))
+        else:
+            if message == None and message_html == None:
+                message = ""
+        
+            if (message != None):
+                msg = MIMEText(message, 'plain')
+            elif (message_html != None):
+                msg = MIMEText(message_html, 'html')
+        
+        return msg
+    	    
     def sendMail(self, subject, message, message_html, from_mail, to_mails, cc_mails, bcc_mails, attachments):
-        msg = MIMEMultipart('mixed')
+        
+        msg_text = self._getMessagePart(message, message_html)
+        
+        if len(attachments["files"]) > 0:
+            msg = MIMEMultipart('mixed')
+            msg.attach(msg_text)
+        else:
+            msg = msg_text
+        
         msg['Subject'] = subject
         msg['From'] = from_mail
         
@@ -71,20 +95,6 @@ class SMTPClient:
             msg['Cc'] = ", ".join(cc_mails)
         if (len(bcc_mails) > 0):
             msg['Bcc'] = ", ".join(bcc_mails)
-	
-        if message != None and message_html != None:
-            msgtext = MIMEMultipart('alternative')
-            msg.attach(msgtext)
-        else:
-            msgtext = msg
-
-        if (message != None):
-            part1 = MIMEText(message, 'plain')
-            msgtext.attach(part1)
-        
-        if (message_html != None):
-            part2 = MIMEText(message_html, 'html')
-            msgtext.attach(part2)
         
         ############# Attach files #############
         for filename in attachments["files"]:
