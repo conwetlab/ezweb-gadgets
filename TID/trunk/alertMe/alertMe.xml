@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>AlertMe</Name>
-    <Version>0.10</Version>
+    <Version>0.20</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail> 
     <Description>This gadget allow add tasks their estimated dates to a to-do list and classify them by priority using a configurable color code. The gadget sends the event description and date automatically at the task expiration time</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/alertMe/alertMe_0.10/todo.gif</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/alertMe/alertMe_0.20/todo.gif</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#alertMe</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -54,7 +54,7 @@
 		<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/alertMe/alertMe_0.10/alertMe.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/alertMe/alertMe_0.20/alertMe.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 	
