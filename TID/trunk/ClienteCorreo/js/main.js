@@ -348,6 +348,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		e.target.style.display = "none";
 		EzWebExt.removeClassName(this.form_send["row_cc"], "hidden");
 		EzWebExt.removeClassName(this.form_send["row_bcc"], "hidden");
+		EzWebExt.removeClassName(this.form_send["row_att"], "hidden");
 		this.form_send["multi_selector"].show();
 	}, this), false);
 	
@@ -360,6 +361,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		e.target.style.display = "none";
 		EzWebExt.addClassName(this.form_send["row_cc"], "hidden");
 		EzWebExt.addClassName(this.form_send["row_bcc"], "hidden");
+		EzWebExt.addClassName(this.form_send["row_att"], "hidden");
 		this.form_send["multi_selector"].hidden();
 	}, this), false);
 	
@@ -367,7 +369,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	row.appendChild(closeDetails);
 	headerrow.appendChild(row);
 	
-	row_cc = document.createElement("div");
+	var row_cc = document.createElement("div");
 	EzWebExt.addClassName(row_cc, "row");
 	EzWebExt.addClassName(row_cc, "send");
 	EzWebExt.addClassName(row_cc, "hidden");
@@ -392,13 +394,15 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	row.appendChild(this._createCell(subject_text, "value"));
 	headerrow.appendChild(row);
 	
-	row = document.createElement("div");
-	EzWebExt.addClassName(row, "row");
-	EzWebExt.addClassName(row, "send");
-	EzWebExt.addClassName(row, "attach");
-	row.appendChild(this._createCell(document.createTextNode(_("Attachments") + ":"), "title"));	
-	row.appendChild(this._createCell(attach_div, "value"));
-	headerrow.appendChild(row);
+	var row_att = document.createElement("div");
+	EzWebExt.addClassName(row_att, "row");
+	EzWebExt.addClassName(row_att, "send");
+	EzWebExt.addClassName(row_att, "attach");
+	EzWebExt.addClassName(row_att, "hidden");
+	row_att.appendChild(this._createCell(document.createTextNode(_("Attachments") + ":"), "title"));	
+	row_att.appendChild(this._createCell(attach_div, "value"));
+	this.form_send["row_att"] = row_att;
+	headerrow.appendChild(row_att);
 	
 	var form = document.createElement("form");
 	form.enctype = "multipart/form-data";
@@ -433,7 +437,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	attach.appendChild(attach_img);
 	
 	form.appendChild(attach);
-	row.appendChild(form);
+	row_att.appendChild(form);
 	
 	this.form_send["multi_selector"].hidden();
 	
@@ -2167,7 +2171,7 @@ tinyMCE.init({
 	// General options
 	mode : "textareas",
 	theme : "advanced",
-	plugins : "safari, blockquote",
+	plugins : "safari",
 
 	// Theme options
 	theme_advanced_buttons1 : 
