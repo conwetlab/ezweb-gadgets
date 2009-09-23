@@ -42,7 +42,7 @@
 			<Option value="RU" name="Russia"/>
 			<Option value="TW" name="Taiwan"/>
 		</Preference>
-		<Preference name="searchPref" type="text" description="Default Search Keyword" label="Default Search" default="ezweb" />
+		<Preference name="searchPref" type="text" description="Default Search Keyword" label="Default Search" />
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
