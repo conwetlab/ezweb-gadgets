@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Search</Name>
-    <Version>2.41</Version>
+    <Version>2.5</Version>
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Search videos and movies from youtube, using the drop-list or searching with any string. NOTE: The movies selection in the drop-list provides some extra ad-hoc meta-information useful to wire with other gadgets as a great example of use</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/youtube_search/tubesearch.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/tubesearch.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_YouTube_Video_Search</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -42,6 +42,7 @@
 			<Option value="RU" name="Russia"/>
 			<Option value="TW" name="Taiwan"/>
 		</Preference>
+		<Preference name="searchPref" type="text" description="Default Search Keyword" label="Default Search" default="ezweb" />
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
@@ -59,7 +60,7 @@
 	
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/youtube_search/tube_iptv_search.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/tube_iptv_search.html"/>
   </Platform.Link>
   <Platform.Context>
     <GadgetContext name="height" type="text" concept="heightInPixels"/>
