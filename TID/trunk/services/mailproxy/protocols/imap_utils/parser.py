@@ -16,7 +16,7 @@ def wrap(text, width):
 
 def parseMailbox(mailbox):
     
-    mailbox_regexp = re.compile('\s*\((.*)\)\s+"(.+)"\s+("(.+)"|(.+))\s*')
+    mailbox_regexp = re.compile('\s*\((.*)\)\s+("(.+)"|(.+))\s+("(.+)"|(.+))\s*')
 
     result = {}
     result["flags"] = []
@@ -28,12 +28,14 @@ def parseMailbox(mailbox):
     if match != None:
         if (match.group(1) != None):
             result["flags"] = match.group(1).split(" ")
-        if (match.group(2) != None):
-            result["separator"] = match.group(2)
-        if (match.group(4) != None):
-            result["name"] = imapUTF7Decode(match.group(4))
-        elif (match.group(5) != None):
-            result["name"] = imapUTF7Decode(match.group(5))
+        if (match.group(3) != None):
+            result["separator"] = match.group(3)
+        elif (match.group(4) != None):
+            result["separator"] = match.group(4)
+        if (match.group(6) != None):
+            result["name"] = imapUTF7Decode(match.group(6))
+        elif (match.group(7) != None):
+            result["name"] = imapUTF7Decode(match.group(7))
                  
     return result
 
