@@ -249,7 +249,7 @@ function URLEncode( url )
 	var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
 	var defaultChannel = EzWebAPI.createRGadgetVariable("channel", changeDefaultChannel);
 	var region = EzWebAPI.createRGadgetVariable("region", changeRegion);
-	var searchPref = EzWebAPI.createRGadgetVariable("searchPref", doSearch);
+	var searchPref = EzWebAPI.createRGadgetVariable("searchPref", doSearchPref);
 	var searchKeyword = EzWebAPI.createRWGadgetVariable("searchKeyword");
 	var searchChannel = EzWebAPI.createRWGadgetVariable("searchChannel");
 	//Added to refresh the videos on gadget///
@@ -557,6 +557,14 @@ function changeRegion(value){
 	  }
 		return url;
 
+    }
+    
+    function doSearchPref(query) {
+    	if (query == "") {
+    		changeDefaultChannel(defaultChannel.get());
+    	} else {
+    		doSearch(query);
+    	}
     } 
 	
 	// Does a search by requesting the RSS feed for the query from YT
