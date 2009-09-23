@@ -19,7 +19,7 @@ ClienteCorreo.prototype.init = function() {
 	this.CONFIG_ALTERNATIVE     = 2;
 	this.MAIN_TAB               = 1;
 
-    this.MAILPROXY_URL          = "http://demo.ezweb.morfeo-project.org/mailproxy/";
+    this.MAILPROXY_URL          = "http://ezweb.tid.es/mailproxy/";
 	this.INTERVAL_SIZE          = 20;
 	
 	// Search constants
