@@ -748,7 +748,7 @@ function getMailDetails(key, emailIndex)
 	{
 	    if(auxAccounts[i].account == key)
 		{
-			to.set(key);ope
+			to.set(key);
 			to_username.set(auxAccounts[i].username);
 			from.set(mailboxList[key]["list-mails"][emailIndex].from.mail);
 			from_name.set(mailboxList[key]["list-mails"][emailIndex].from.name);
