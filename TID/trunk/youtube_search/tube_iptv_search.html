@@ -710,11 +710,14 @@ alert("excepcion");
 
     //This function is used to update the default channel selected on preferences
     function changeDefaultChannel(value){
-	//Added to change the selected channel to show
-	var select = document.getElementById("channellist");
-	//Changing the value of select
-	select.selectedIndex = value;
-	changeChannel(select);
+    	// Only change channel if searchPref has not value
+    	if (searchPref.get() == "") {
+			//Added to change the selected channel to show
+			var select = document.getElementById("channellist");
+			//Changing the value of select
+			select.selectedIndex = value;
+			changeChannel(select);
+		}
     }
 
 
