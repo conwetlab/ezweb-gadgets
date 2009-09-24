@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Facebook</Name>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Gadget to share a link on Facebook</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.0/facebook_logo.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/facebook_logo.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/ezwebgadgets/wiki/Facebook</WikiURI>
     <Organization></Organization>
   </Catalog.ResourceDescription>
@@ -26,7 +26,7 @@
 	<Event name="link_event" type="text" label="Link" friendcode="url"/-->
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.0/facebook_2.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/facebook_2.html"/>
   </Platform.Link>
   <Platform.Rendering width="8" height="30"/>
   <MenuColor></MenuColor>
