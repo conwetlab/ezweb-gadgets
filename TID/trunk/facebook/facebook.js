@@ -78,20 +78,14 @@ function setStatus() {
 	$('#videobox').hide();
 	$('#linkinput').val('');
 	$('#linkbox').hide();
-	if (_attachment == null) {
-		_api.users_setStatus(status, false, true,
-			function() {
-				onStatusSet(listItem, postTime, linkedStatus);
-			}
-		);
-	} else {
-		FB.Connect.streamPublish(status, _attachment, null, null, '',
-			function() {
-				onStatusSet(listItem, postTime, linkedStatus);
-			},
-			true
-		);
-	}
+	// Post the status, image or video to the users's stream
+	FB.Connect.streamPublish(status, _attachment, null, null, '',
+		function() {
+			onStatusSet(listItem, postTime, linkedStatus);
+		},
+		true
+	);
+
 };
 
 function onStatusSet (listItem, postTime, status) {
