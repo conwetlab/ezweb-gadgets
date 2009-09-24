@@ -425,8 +425,8 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	'<b><a href="' + profileUrl + '" target="_blank">' +
 	name + '</a></b>&nbsp;' + messageHtml + "</div>";
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
-	if (comments && comments.count > 0 && comments.comment_list) {
-		if () {
+	if (comments && comments.count > 0) {
+		if (!comments.comment_list) {
 			rowHtml += '<a href="http://www.facebook.com" target="_blank">' +
 				comments.count + ' comment' + ((comments.count > 1) ? 's' : '');
 		} else {
