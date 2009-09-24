@@ -426,14 +426,19 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	name + '</a></b>&nbsp;' + messageHtml + "</div>";
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
 	if (comments && comments.count > 0 && comments.comment_list) {
-		rowHtml += '<a href="javascript:;" onclick="toggleComments(\'' + id + '\')">';
-		rowHtml += '<span id="comments-show-' + id + '">';
-		rowHtml += comments.count;
-		rowHtml += ' comment' + ((comments.count > 1) ? 's' : '');
-		rowHtml += '</span>';
-		rowHtml += '<span id="comments-hide-' + id + '" style="display:none">';
-		rowHtml += 'hide comment' + ((comments.count > 1) ? 's' : '');
-		rowHtml += '</span>';
+		if () {
+			rowHtml += '<a href="http://www.facebook.com" target="_blank">' +
+				comments.count + ' comment' + ((comments.count > 1) ? 's' : '');
+		} else {
+			rowHtml += '<a href="javascript:;" onclick="toggleComments(\'' + id + '\')">';
+			rowHtml += '<span id="comments-show-' + id + '">';
+			rowHtml += comments.count;
+			rowHtml += ' comment' + ((comments.count > 1) ? 's' : '');
+			rowHtml += '</span>';
+			rowHtml += '<span id="comments-hide-' + id + '" style="display:none">';
+			rowHtml += 'hide comment' + ((comments.count > 1) ? 's' : '');
+			rowHtml += '</span>';
+		}
 	} else {
 		rowHtml += '<a href="http://www.facebook.com" target="_blank">' +
 		'no comments';
