@@ -189,6 +189,12 @@ function onAppPermissionResult(result){
 	getFacebookFeed();
 }
 
+function refresh(){
+	$('#login').html('Getting your Facebook feed...');
+	$('#login').show();
+	getFacebookFeed();
+}
+
 function onPermsAction(perms) {
   window.opener.onSessionReady();
 };
