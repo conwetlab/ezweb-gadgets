@@ -372,7 +372,8 @@ function processStream() {
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic, messageHtml,
 			humanReadableDuration, streamItem.comments, profileMap);
-		} else if (!streamItem.attachment || !streamItem.attachment.media) {
+		} else if (!streamItem.attachment || !streamItem.attachment.media || !streamItem.attachment.media.length) {
+			// We have an empty media Object -> We have a simple status message
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic,
 			replaceUrls(streamItem.message),
