@@ -425,7 +425,7 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	'<b><a href="' + profileUrl + '" target="_blank">' +
 	name + '</a></b>&nbsp;' + messageHtml + "</div>";
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
-	if (comments && comments.count > 0) {
+	if (comments && comments.count > 0 && comments.comment_list) {
 		rowHtml += '<a href="javascript:;" onclick="toggleComments(\'' + id + '\')">';
 		rowHtml += '<span id="comments-show-' + id + '">';
 		rowHtml += comments.count;
