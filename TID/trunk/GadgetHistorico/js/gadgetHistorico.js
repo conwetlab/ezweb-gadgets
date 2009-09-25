@@ -4,7 +4,7 @@ var inText = EzWebAPI.createRGadgetVariable("inText", function(){pushElement(arr
 //Property EzWeb
 var textProperty = EzWebAPI.createRWGadgetVariable("texts");
 
-var srcImg = "http://demo.ezweb.morfeo-project.org/repository/GadgetHistorico/images/";
+var srcImg = "http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.10/images/";
 var arrayElems = new Array(); 		//Array
 var arrayResult = new Array();		//Search Result
 var tableSearch = false;
