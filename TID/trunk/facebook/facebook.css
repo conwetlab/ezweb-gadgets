@@ -49,8 +49,7 @@ a:hover {
 }
 
 .c {
-  clear:both;
-  display:inline;
+  margin-left:40px;
 }
 
 .fbbutton {
@@ -273,18 +272,19 @@ a:hover {
 .itemstamp {
   font-size: 10px;
   color: #777;
+  clear: both;
 }
 
 .photoupdate {
   border: 1px solid #CCCCCC;
   padding: 2px;
   margin: 0px;
-  /*float: left;*/
-  width: 20px;
+  float: left;
+  width: 30px;
 }
 
 .photoupdate img {
-  width: 20px;
+  width: 30px;
 }
 
 .commentlist {
