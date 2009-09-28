@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Input Text Box</Name>
+		<Version>1.0</Version>
+		<Author>rps</Author>
+		<Mail>rps@tid.es</Mail>
+		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>
+		<ImageURI>http://rps-laptop.hi.inet/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.0/search.png</ImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Input_Text_Box</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+		<Preference name="theme" type="list" label="Color Theme" description="Backgruound color theme" default="blue">
+			<Option value="orange" name="Orange"/>
+			<Option value="green" name="Green"/>
+			<Option value="blue" name="Blue"/>
+			<Option value="red" name="Red"/>
+		</Preference>
+		<Preference name="boxlabel" type="text" description="text shown in front of the text field" label="Label for the input box" default="keyword:"/>
+		<Preference name="buttonlabel" type="text" description="text shown in the button" label="Label for the data post button" default="post"/>
+		<Preference name="buttonisvisible" type="list" description="show the post button" label="Is the post button visible?" default="true">
+			<Option value="true" name="True"/>
+			<Option value="false" name="False"/>
+		</Preference>
+		<Preference name="onaddedtext" type="list" description="how the text is added" label="On added text, existing text" default="iscleaned">
+			<Option value="iscleaned" name="is cleaned"/>
+			<Option value="prefixes" name="prefixes added text"/>
+			<Option value="concatenates" name="concatenates after added text"/>
+		</Preference>
+		<Preference name="additionoftext" type="list" description="external addition of text is permited/discarted" label="If the text has been modified, addition of text is" default="discarted">
+			<Option value="permited" name="permited"/>
+			<Option value="discarted" name="discarted"/>
+		</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+		<Event name="postedText" type="text" label="Posted text" friendcode="keyword"/>
+		<Slot name="addText" type="text" label="Add text" friendcode="keyword"/>
+		<Slot name="addTextThenPost" type="text" label="Add text then post" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://rps-laptop.hi.inet/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.0/inputtextbox.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="7" height="5"/>
+</Template>

@@ -1,0 +1,129 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link id="css_style" href="http://rps-laptop.hi.inet/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.0/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
+<title>Send Keyword</title>
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="JavaScript">
+
+//Preferences
+var boxlabel = EzWebAPI.createRGadgetVariable("boxlabel", changeBoxText);
+var theme = EzWebAPI.createRGadgetVariable("theme", changeTheme);
+var buttonlabel = EzWebAPI.createRGadgetVariable("buttonlabel", changeButtonText);
+var buttonisvisible = EzWebAPI.createRGadgetVariable("buttonisvisible", showButton);
+var onaddedtext = EzWebAPI.createRGadgetVariable("onaddedtext", changeOnAddedText);
+var additionoftext = EzWebAPI.createRGadgetVariable("additionoftext", changeAdditionOfText);
+
+//keyword to Send
+var keyword = EzWebAPI.createRWGadgetVariable("postedText");
+
+//Input Text
+var addtext = EzWebAPI.createRGadgetVariable("addText", addText);
+var addtextthenpost = EzWebAPI.createRGadgetVariable("addTextThenPost", addTextThenPost);
+
+//Functions
+function changeBoxText(value){
+	document.getElementById("text_l").innerHTML = value;
+}
+
+function changeButtonText(value){
+	buttonlabel = value;
+	if (document.getElementById("button").style.visibility != "hidden") {
+		document.getElementById("button").value = buttonlabel;
+	}
+}
+
+function showButton(value) {
+	if (value == "false") {
+		document.getElementById("button").style.visibility = "hidden";
+		document.getElementById("button").value = "";
+		document.getElementById("button").style.width = "0px";
+	} else {
+		document.getElementById("button").style.visibility = "visible";
+		document.getElementById("button").style.width = "";
+		document.getElementById("button").value = buttonlabel;
+	}
+}
+
+var textHasChanged = false;
+function textChanged()
+{
+	if (!document.KeywordCreationForm.elements['keyword'].value == '')
+		textHasChanged = true;
+	else 
+		textHasChanged = false;
+}
+
+function addText(value) {
+	var text = document.KeywordCreationForm.elements['keyword'].value;
+	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '') {
+		if (onaddedtext == "iscleaned") {
+			document.KeywordCreationForm.elements['keyword'].value = value;
+		} else if (onaddedtext == "prefixes") {
+			document.KeywordCreationForm.elements['keyword'].value += value;
+		} else if (onaddedtext == "concatenates"){
+			document.KeywordCreationForm.elements['keyword'].value = value + text;
+		}
+	}
+}
+
+function addTextThenPost(value) {
+	addText(value);
+	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
+	{
+		sendKeyword();
+	}
+}
+
+function changeTheme(value){
+	var link = document.getElementById('css_style').href.replace(/style\.css$/, value+'.css');
+	document.getElementById('css_theme').href = link;
+}
+
+function changeOnAddedText(value){
+	onaddedtext = value;
+}
+
+function changeAdditionOfText(value) {
+	additionoftext = value;
+}
+
+function sendKeyword(){
+	var val = document.KeywordCreationForm.elements['keyword'].value;
+	if (val && val !="")
+		keyword.set(val);
+}
+
+
+function init() {
+	changeBoxText(boxlabel.get());
+	changeButtonText(buttonlabel.get());
+	changeTheme(theme.get());
+	changeOnAddedText(onaddedtext.get());
+	
+}
+
+
+</script>
+
+</head>
+<body onload="init();">
+<form name="KeywordCreationForm" onsubmit="sendKeyword(this.form);return false;">
+<table class="content">
+<tbody>
+<tr class="odd">
+  <td style="width:10px"><label id="text_l">Keyword: </label></td>
+  <td style="width:100%"><input name="keyword" type="text" id="text" class="text" onchange="textChanged()"></td>
+  <td id="button_td" style="width:15%"><input id="button" name="create" value="search" onclick="textHasChanged = false; sendKeyword(this.form)" type="button"></td>
+</tr>
+</tbody>
+</table>
+</form>
+</body>
+</html>
