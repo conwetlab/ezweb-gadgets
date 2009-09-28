@@ -382,7 +382,17 @@ function processStream() {
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
 			'<img src="' + photo.src + '" border="0" />' +
-			'</a></div><div class="c">' + photo.name + photo.description + photo.caption +'</div>';
+			'</a></div><div class="c">';
+			if (photo.name) {
+				messageHtml += '<div class="c_name">' + photo.name + '</div>';
+			}
+			if (photo.description) {
+				messageHtml += '<div class="c_description">' + photo.description + '</div>';
+			}
+			if (photo.caption) {
+				messageHtml += '<div class="c_caption">' + photo.caption + '</div>';
+			}
+			messageHtml += '</div>';
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic, replaceUrls(streamItem.message),
 			messageHtml, humanReadableDuration, streamItem.comments, profileMap);
