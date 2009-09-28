@@ -35,7 +35,7 @@ function setStatus() {
 		_attachment = {'media': [{'type': 'image', 'src': $('#imageinput').val(), 'href':$('#imageinput').val()}]};
 	} else if ($('#videoinput').val() != '') {
 		_attachment = {'media': [{'type': 'video', 'video_src': $('#videoinput').val(),
-			'preview_img': getVideoThumnail($('#videoinput').val())}]};
+			'preview_img': getVideoThumbnail($('#videoinput').val())}]};
 	} else if ($('#linkinput').val() != '') {
 		_attachment = {'href': $('#linkinput').val()};
 	}
@@ -375,7 +375,7 @@ function processStream() {
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
 			'<img src="' + photo.src + '" border="0" />' +
-			'</a></div><div class="c"></div>';
+			'</a></div><div class="c">Prueba fsdñflsdñlfksñ</div>';
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic, messageHtml,
 			humanReadableDuration, streamItem.comments, profileMap);
@@ -424,8 +424,8 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	rowHtml += '</a></td>';
 	rowHtml += '<td class="item">';
 	rowHtml += '<div class="itemcontent">' +
-	'<b><a href="' + profileUrl + '" target="_blank">' +
-	name + '</a></b>&nbsp;' + messageHtml + "</div>";
+	'<span class="itemTitle"><a href="' + profileUrl + '" target="_blank">' +
+	name + '</a></span>&nbsp;' + messageHtml + "</div>";
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
 	if (comments && comments.count > 0) {
 		if (!comments.comment_list) {
@@ -533,7 +533,7 @@ function closeLinkForm() {
 	$('#linkbox').hide();
 }
 
-function getVideoThumnail(url) {
+function getVideoThumbnail(url) {
 	if (url.indexOf(YOUTUBE_VIDEO) == 0) {
 		var youTubeVideoId;
 		if (url.indexOf('?') > 0) {

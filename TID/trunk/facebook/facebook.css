@@ -259,6 +259,10 @@ a:hover {
   font-size: 12px;
 }
 
+.itemTitle {
+  font-weight: bold;			
+}
+
 .itemstamp {
   font-size: 10px;
   color: #777;
