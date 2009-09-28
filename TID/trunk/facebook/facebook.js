@@ -382,7 +382,7 @@ function processStream() {
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
 			'<img src="' + photo.src + '" border="0" />' +
-			'</a></div><div class="c">' + photo.name + photo.description + photo.caption'</div>';
+			'</a></div><div class="c">' + photo.name + photo.description + photo.caption +'</div>';
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic, replaceUrls(streamItem.message),
 			messageHtml, humanReadableDuration, streamItem.comments, profileMap);
