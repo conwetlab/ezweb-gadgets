@@ -10,6 +10,7 @@ var is_iphone = (agent.indexOf('iPhone')!=-1);
 var defKey = EzWebAPI.createRGadgetVariable('defaultKey', setKeyByDefault);
 var time = EzWebAPI.createRGadgetVariable('time', resetInterval);
 var nphotosPref = EzWebAPI.createRGadgetVariable("photosperpage", setNumberOfPhotos);
+var photosRec = EzWebAPI.createRGadgetVariable("photosfromserver", setNumberOfPhotosRec);
 
 /* Properties */
 var auth_token = EzWebAPI.createRWGadgetVariable("auth_token");
@@ -65,7 +66,21 @@ function resetInterval (value){
 
 function setNumberOfPhotos() {
 	if (hasAccess() && isNormal()) {
-		displayLastPhotos(); 
+		if (!last_key.get()){
+			displayDefaultPhotos();
+		} else {
+			displayLastPhotos();
+		} 
+	}
+}
+
+function setNumberOfPhotosRec() {
+	if (hasAccess() && isNormal()) {
+		if (!last_key.get()){
+			displayDefaultPhotos();
+		} else {
+			displayLastPhotos();
+		}  
 	}
 }
 
@@ -203,23 +218,9 @@ function displayOk(resp){
 		    break;
 		}
 		var photo = resp.photos.photo[i];
-		// Get the username from nsid
-		if (!id2user[photo.owner]){
-			id2user[photo.owner] = photo.owner;
-			getAuthorName(photo.owner);
-		}
-		photo.author = photo.owner;
 		// Get the photo urls (original and thumbs)
-		if (photo.url_o){
-			photo.url = photo.url_o;
-		} else {
-			photo.url = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
-		}
-		if (photo.url_sq){
-			photo.urlThumb = photo.url_sq;
-		} else {
-			photo.urlThumb = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_s.jpg";
-		}
+		photo.url = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
+		photo.urlThumb = "http://farm" + photo.farm + ".static.flickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_s.jpg";
 		imgsFromServer[i] = photo;
 	}
 	previousimgs = [];
@@ -235,8 +236,21 @@ function displayError(res){
 function propagateGadgetEvents(photo_)
 {
 	titleEvent.set (photo_.title);
-	authorEvent.set (id2user[photo_.author]);
 	urlImage.set (photo_.url);
+
+	if (!id2user[photo_.owner]){
+		flickr.people.getInfo(photo_.owner,
+			function(resp) {
+				id2user[resp.person.nsid] = resp.person.username._content;
+				authorEvent.set(resp.person.username._content);
+			},
+			function(resp) {
+				displayError("Ocurrio un error al conectar con flikr");
+			}
+		);
+	} else {
+		authorEvent.set (id2user[photo_.owner]);
+	}
 }
 
 // Create the data structures
@@ -316,55 +330,45 @@ function displayImages () {
 	for (var i=0;i<currentimgs.length;i++){
 		var img = currentimgs[i]; // get the first img
 
-		// photo title
-		var title = '';
-		if (img.title != ""){
-			title += '\''+ img.title +'\' by '+ img.author;
-		} else {
-			title += 'Photo by ' + img.author;
-		}
-
 		// creating image
 		var image = document.createElement ('img');
 		image.src = img.urlThumb;
 		image.setAttribute ('id', img.id);
 		image.setAttribute ('class', 't');
-		image.setAttribute ('alt', title);
+		if (img.title){
+			image.setAttribute ('alt', img.title);
+		}
 
 		// creating link
 		var a = document.createElement('a');
 		a.href = '#';
-		a.setAttribute ('title', title);
-		a.addEventListener('click', EzWebExt.bind(function(e){
-			propagateGadgetEvents(this);
-		}, img), false);
+		if (img.title){
+			a.setAttribute ('title', img.title);
+		}
+
 		var context = {image:image, jsonImg:img, link:a};
+
+		a.addEventListener('click', EzWebExt.bind(function(e){
+			propagateGadgetEvents(this.jsonImg);	
+		}, context), false);
+
 		var eventHander = EzWebExt.bind(function(e) {
 			var title = '';
-			if (this.jsonImg.title != ""){
-				title += '\''+ this.jsonImg.title +'\' by '+ id2user[this.jsonImg.author];
-			} else {
-				title += 'Photo by ' + id2user[this.jsonImg.author];
+			if (id2user[this.jsonImg.owner]){
+				if (this.jsonImg.title != ''){
+					title += '\''+ this.jsonImg.title +'\' by '+ id2user[this.jsonImg.owner];
+				} else {
+					title += 'Photo by ' + id2user[this.jsonImg.owner];
+				}
+				this.image.setAttribute ('alt', title);
+				this.link.setAttribute ('title', title);
+				EzWebAPI.platform.Event.stopObserving(this.link,'mouseover');							
 			}
-			this.image.setAttribute ('alt', title);
-			this.link.setAttribute ('title', title);
-			EzWebAPI.platform.Event.stopObserving(this.link,'mouseover');
 		}, context);
 		a.addEventListener('mouseover', eventHander, false);
 		a.appendChild(image);
 		document.getElementById('content_div').appendChild(a);
 	}
-}
-
-function getAuthorName (id_) {
-	flickr.people.getInfo(id_,
-		function(resp) {
-			id2user[resp.person.nsid] = resp.person.username._content;
-		},
-		function(resp) {
-			displayError("Ocurrio un error al conectar con flikr");
-		}
-	);
 }
 
 function isValidEmail(email_) {

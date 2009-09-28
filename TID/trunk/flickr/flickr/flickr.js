@@ -156,7 +156,7 @@ flickr.photos.getMyPhotos = function(onSuccess, onError) {
 flickr.photos.search = function(photoKey, peopleKey, groupKey, onSuccess, onError) {
 	var params = new Object();
 	params.machine_tag_mode = 'any';
-	params.extras = 'url_sq,url_o';
+	params.per_page = photosRec.get();
 	if (photoKey){
 		params.tags = photoKey;
 	}
