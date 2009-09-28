@@ -35,7 +35,7 @@ function setStatus() {
 		_attachment = {'media': [{'type': 'image', 'src': $('#imageinput').val(), 'href':$('#imageinput').val()}]};
 	} else if ($('#videoinput').val() != '') {
 		_attachment = {'media': [{'type': 'video', 'video_src': $('#videoinput').val(),
-			'preview_img': 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/video_play_icon_L.gif'}]};
+			'preview_img': getVideoThumnail($('#videoinput').val())}]};
 	} else if ($('#linkinput').val() != '') {
 		_attachment = {'href': $('#linkinput').val()};
 	}
@@ -87,6 +87,7 @@ function setStatus() {
 	);
 
 };
+
 
 function onStatusSet (listItem, postTime, status) {
 	_attachment = null;
@@ -200,7 +201,7 @@ function onPermsAction(perms) {
 };
 
 function showAppPermissionPage () {
-  _appPermissionPage = window.open('http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/facebook_authorization.html?appPermissionPage', 'ezwebFacebookPermissionPage',
+  _appPermissionPage = window.open('http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/facebook_authorization.html?appPermissionPage', 'ezwebFacebookPermissionPage',
       'width=505,height=450,' +
       'scrollbars=yes,titlebar=no,menubar=no,location=no,status=no');
 };
@@ -532,20 +533,38 @@ function closeLinkForm() {
 	$('#linkbox').hide();
 }
 
+function getVideoThumnail(url) {
+	if (url.indexOf(YOUTUBE_VIDEO) == 0) {
+		var youTubeVideoId;
+		if (url.indexOf('?') > 0) {
+			youTubeVideoId = url.substring(YOUTUBE_VIDEO.length,url.indexOf('?'));
+		} else if (url.indexOf('&') > 0) {
+			youTubeVideoId = url.substring(YOUTUBE_VIDEO.length,url.indexOf('&'));
+		} else {
+			youTubeVideoId = url.substring(YOUTUBE_VIDEO.length,YOUTUBE_VIDEO.length+11);
+		} 
+		return 'http://img.youtube.com/vi/' + youTubeVideoId + '/default.jpg';
+	} else {
+		return 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/video_play_icon_L.gif';
+	}
+}
+
 
 ONE_WEEK_SEC = 7 * 24 * 60 * 60;
 
 IMAGES = {
-  MAIL: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/mail.gif',
-  EVENT: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/event.gif',
-  FRIEND_REQ: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/friendreq.gif',
-  GROUP: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/group.gif',
-  POKE: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/poke.gif',
-  SHARE: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/share.gif',
-  VIDEO: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/video.gif',
-  PHOTO: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/photo.gif',
-  LINK: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.1/static/images/link.gif'
+  MAIL: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/mail.gif',
+  EVENT: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/event.gif',
+  FRIEND_REQ: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/friendreq.gif',
+  GROUP: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/group.gif',
+  POKE: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/poke.gif',
+  SHARE: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/share.gif',
+  VIDEO: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/video.gif',
+  PHOTO: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/photo.gif',
+  LINK: 'http://ezweb.tid.es/repository/ezweb-gadgets/facebook/facebook_0.9.2/static/images/link.gif'
 };
+
+YOUTUBE_VIDEO = "http://www.youtube.com/v/";
 
 TIME_VALUES = [
   { name: 'year', duration: 31556926 },
