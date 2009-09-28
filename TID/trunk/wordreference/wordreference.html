@@ -52,7 +52,6 @@ function setDict(value)
 	}*/
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	//$('frame').src=url;
-	diccionaryEvent.set(actualDict);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	
 }
@@ -81,6 +80,7 @@ function callbackSucess(responseData) {
 	var body = content.substring(content.indexOf('<body'),content.indexOf('</body>')+('</body>').length);
 	var bodyTag = document.getElementsByTagName('body')[0];
 	var bodyAux = body.replace(/<body/, "<div").replace(/body>/,"div>");
+	diccionaryEvent.set(bodyAux);
 	$('content').innerHTML = bodyAux;
 	document.body.scrollTop=0;
 	//document.sbox.w.value = this.value;
