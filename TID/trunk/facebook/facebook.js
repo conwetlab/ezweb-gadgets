@@ -23,6 +23,7 @@ _userPicSquareLogo = '';
 function setStatus() {
 	var postTime = (new Date()).getTime() / 1000;
 	var status = $('#statusinput').val();
+	var statusMod = replaceUrls($('#statusinput').val());
 	
 	var linkedStatus;
 	
@@ -41,21 +42,21 @@ function setStatus() {
 	}
 	
 	if (_attachment == null) {
-		linkedStatus = replaceUrls($('#statusinput').val());
+		linkedStatus = "";
 	} else if ($('#imageinput').val() != '') {
-		linkedStatus = replaceUrls($('#statusinput').val()) +
+		linkedStatus = 
 			'<div class="photoupdate">' +
 			'<a href="' + _attachment.media[0].href + '" target="_blank">' +
 			'<img src="' + _attachment.media[0].src + '" border="0" />' +
 			'</a></div><div class="c"></div>';
 	} else if ($('#videoinput').val() != '') {
-		linkedStatus = replaceUrls($('#statusinput').val()) +
+		linkedStatus = 
 			'<div class="photoupdate">' +
 			'<a href="' + _attachment.media[0].video_src + '" target="_blank">' +
 			'<img src="' + _attachment.media[0].preview_img + '" border="0" />' +
 			'</a></div><div class="c"></div>';
 	} else if ($('#linkinput').val() != '') {
-		linkedStatus = replaceUrls($('#statusinput').val()) +
+		linkedStatus = 
 			'<div class="photoupdate">' +
 			'<a href="' + _attachment.href + '" target="_blank">' +
 			$('#statusinput').val() +
@@ -66,7 +67,7 @@ function setStatus() {
 	$(listItem).addClass('transitem');
 	listItem.innerHTML = 
 		createFeedRow(
-			'newitem',_userName, _userUrl, _userPicUrl, linkedStatus,
+			'newitem',_userName, _userUrl, _userPicUrl, statusMod, linkedStatus,
 			'posting...', null, null);
 	$('#feedlist').prepend(listItem);
 	$('#statusinput').val("What's on your mind?");
@@ -81,7 +82,7 @@ function setStatus() {
 	// Post the status, image or video to the users's stream
 	FB.Connect.streamPublish(status, _attachment, null, null, '',
 		function() {
-			onStatusSet(listItem, postTime, linkedStatus);
+			onStatusSet(listItem, postTime, statusMod, linkedStatus);
 		},
 		true
 	);
@@ -89,13 +90,13 @@ function setStatus() {
 };
 
 
-function onStatusSet (listItem, postTime, status) {
+function onStatusSet (listItem, postTime, status, attachmentHtml) {
 	_attachment = null;
 	$(listItem).removeClass('transitem');
 	var duration = ((new Date()).getTime() / 1000) - postTime;
 	listItem.innerHTML = 
 		createFeedRow(
-			'newitem', _userName, _userUrl, _userPicUrl, status,
+			'newitem', _userName, _userUrl, _userPicUrl, status, attachmentHtml
 			formatDuration(duration), null, null);
 };
   
@@ -371,19 +372,19 @@ function processStream() {
 		var listItem = document.createElement('li');
 
 		if (photo) {
-			var messageHtml = replaceUrls(streamItem.message) +
+			var messageHtml =
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
 			'<img src="' + photo.src + '" border="0" />' +
-			'</a></div><div class="c">Prueba fsdñflsdñlfksñ</div>';
+			'</a></div><div class="c">Prueba descripcion</div>';
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
-			profile.name, profile.url, profile.pic, messageHtml,
-			humanReadableDuration, streamItem.comments, profileMap);
+			profile.name, profile.url, profile.pic, replaceUrls(streamItem.message),
+			messageHtml, humanReadableDuration, streamItem.comments, profileMap);
 		} else if (!streamItem.attachment || !streamItem.attachment.media || !streamItem.attachment.media.length) {
 			// We have an empty media Object -> We have a simple status message
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic,
-			replaceUrls(streamItem.message),
+			replaceUrls(streamItem.message), "",
 			humanReadableDuration, streamItem.comments, profileMap);
 		}
 
@@ -413,7 +414,7 @@ function logout() {
 	});
 };
 
-function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comments, profileMap) {
+function createFeedRow(id, name, profileUrl, picUrl, message, attachmentHtml, duration, comments, profileMap) {
 	var rowHtml = '<div>';
 	rowHtml += '<table>';
 	rowHtml += '<tbody>';
@@ -425,7 +426,8 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	rowHtml += '<td class="item">';
 	rowHtml += '<div class="itemcontent">' +
 	'<div class="itemUser"><a href="' + profileUrl + '" target="_blank">' +
-	name + '</a></div><div class="itemTitle">' + messageHtml + "</div></div>";
+	name + '</a></div><div class="itemTitle">' + message + "</div></div>";
+	rowHtml += attachmentHtml;
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
 	if (comments && comments.count > 0) {
 		if (!comments.comment_list) {
