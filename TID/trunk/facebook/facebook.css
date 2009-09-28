@@ -259,8 +259,12 @@ a:hover {
   font-size: 12px;
 }
 
-.itemTitle {
+.itemUser {
   font-weight: bold;			
+}
+
+.itemTitle {
+  			
 }
 
 .itemstamp {

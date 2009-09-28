@@ -424,8 +424,8 @@ function createFeedRow(id, name, profileUrl, picUrl, messageHtml, duration, comm
 	rowHtml += '</a></td>';
 	rowHtml += '<td class="item">';
 	rowHtml += '<div class="itemcontent">' +
-	'<span class="itemTitle"><a href="' + profileUrl + '" target="_blank">' +
-	name + '</a></span>&nbsp;' + messageHtml + "</div>";
+	'<div class="itemUser"><a href="' + profileUrl + '" target="_blank">' +
+	name + '</a></div><div class="itemTitle">' + messageHtml + "</div></div>";
 	rowHtml += '<div class="itemstamp">' + duration + ' · ';
 	if (comments && comments.count > 0) {
 		if (!comments.comment_list) {
