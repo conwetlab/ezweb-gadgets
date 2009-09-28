@@ -50,6 +50,7 @@ a:hover {
 
 .c {
   clear:both;
+  display:inline;
 }
 
 .fbbutton {
@@ -260,11 +261,13 @@ a:hover {
 }
 
 .itemUser {
-  font-weight: bold;			
+  font-weight: bold;
+  display:inline;			
 }
 
 .itemTitle {
-  			
+  display:inline;
+  margin-left:5px;
 }
 
 .itemstamp {

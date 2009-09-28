@@ -352,13 +352,19 @@ function processStream() {
 				if (media.type == 'photo' || media.type == 'link') {
 					photo = {
 						src: media.src,
-						href: media.href
+						href: media.href,
+						name: streamItem.attachment.name,
+						description: streamItem.attachment.description,
+						caption: streamItem.attachment.caption
 					};
 					break;
 				} else if (media.type == 'video') {
 					photo = {
 						src: media.video.preview_img,
-						href: media.video.source_url
+						href: media.video.source_url,
+						name: streamItem.attachment.name,
+						description: streamItem.attachment.description,
+						caption: streamItem.attachment.caption
 					};
 					break;
 				}
@@ -376,7 +382,7 @@ function processStream() {
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
 			'<img src="' + photo.src + '" border="0" />' +
-			'</a></div><div class="c">Prueba descripcion</div>';
+			'</a></div><div class="c">' + photo.name + photo.description + photo.caption'</div>';
 			listItem.innerHTML = createFeedRow(streamItem.post_id,
 			profile.name, profile.url, profile.pic, replaceUrls(streamItem.message),
 			messageHtml, humanReadableDuration, streamItem.comments, profileMap);
