@@ -1,6 +1,6 @@
 html
 {
-	background-color: aliceBlue;
+	background-color: #EFEFFF;
 }
 body
 {
@@ -38,13 +38,17 @@ body
 	/*font-family:verdana;*/
 	font-size:large;
 	margin-top:5px;
+	font-weight:bold;
+	text-align:center;
 	
 }
 
 .today .colleft .icon
 {
-		float:left;
-		text-align:center;
+	float:left;
+	text-align:center;
+	font-size:12px;
+	text-align:center;
 }
 
 .colleft
@@ -182,12 +186,18 @@ width:100%;
 	font-size:small;
 	font-weight:normal;
 	/*text-align:center;*/
-	max-width:409px;
+	max-width:599px;
 	/*text-decoration:underline;*/
 	margin-left:16px;
 	margin-top:0px;
+
 }
 
+.cityName{
+	color:blue;
+	font-weight:bold;
+	text-decoration:underline;
+}
 
 .other
 {
@@ -256,5 +266,7 @@ input,button,select
 
 #header
 {
-	margin-left:15px;
+	padding-left:15px;
+	border-bottom: 1px solid #AAA;
+	height:36px;
 }

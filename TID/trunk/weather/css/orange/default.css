@@ -38,12 +38,17 @@ body
 	/*font-family:verdana;*/
 	font-size:large;
 	margin-top:5px;
+	font-weight:bold;
+	text-align:center;
 	
 }
 
 .today .colleft .icon
 {
-		float:left;
+	float:left;
+	text-align:center;
+	font-size:12px;
+	text-align:center;
 
 }
 
@@ -187,6 +192,11 @@ body
 
 }
 
+.cityName{
+	color:orange;
+	font-weight:bold;
+	text-decoration:underline;
+}
 
 .other
 {
@@ -194,7 +204,6 @@ body
 	cursor: pointer;
 	margin-left: 5px;
 }
-
 
 .colright
 {
@@ -245,6 +254,8 @@ input,button,select
 
 #header
 {
-	margin-left:15px;
+	padding-left:15px;
+	border-bottom: 1px solid #AAA;
+	height:36px; 
 }
 

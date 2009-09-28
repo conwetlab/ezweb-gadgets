@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Weather</Name>
-    <Version>0.99</Version>
+    <Version>1.0</Version>
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Enter a place to see the weather forecast for the following days. in your preferences you can choose, whether to see either a full or a brief description, the set of units, the number of days to be forecasted, etc.</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/weather/weather_icon.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/weather_icon.jpg</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_meteorol.C3.B3gico</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -52,8 +52,7 @@
 		<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-	  <!--XHTML href="http://pallas.ls.fi.upm.es/gadgets/weather/weather.html"/-->
-   	<XHTML href="http://demo.ezweb.morfeo-project.org/repository/weather/weather.html"/>
+   	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/weather.html"/>
   </Platform.Link>
   <Platform.Rendering width="11" height="19"/>
 </Template>

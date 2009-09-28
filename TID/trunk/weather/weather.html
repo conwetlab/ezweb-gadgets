@@ -11,9 +11,9 @@
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/xml2json.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/weather/labels.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+<script type="text/javascript" language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/xml2json.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/labels.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <LINK id="style" rel="StyleSheet" href="" type="text/css" />
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
@@ -36,7 +36,7 @@
 	
 	var theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
 	var citySearch = EzWebAPI.createRWGadgetVariable("citySearch");
-	var actualTheme = "blue";
+	var actualTheme = theme.get();
 
 	function setTheme(value){
 		//WORKAROUND: select blue by default
@@ -48,7 +48,7 @@
 		if(fullinfo)
 			css ="default";
 
-		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+value+"/"+css+".css";
+		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/"+value+"/"+css+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		return;
@@ -112,7 +112,7 @@
 		if(fullinfo)
 			value ="default";
 			
-		var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+theme.get()+"/"+value+".css";
+		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/"+theme.get()+"/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		searchCity(citySearch.get());
@@ -220,15 +220,15 @@ function callbackSucessInfo(responseData){
 		aux.push(json.weather.dayf.day);
 		json.weather.dayf.day = aux;
 	}
-		var html = "<div class='city' id='cityHeader'><span class='cityName' id='_cityName'>"+json.weather.cc.obst+"</span><span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
+		var html = "<div class='city' id='cityHeader'><span class='cityName' id='_cityName'>"+json.weather.cc.obst+"</span><span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
 			html += "<div id='full' class='full'>";
 			
 			//html += "<div class='city'>"+json.weather.cc.obst+"</div>";
 			html += "<div class='today'>";
 			html += "<table><tr><td>";
 				html += "<div id='colleft' class='colleft' title='Current Weather'>";
-					html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
-					html += "<div class='datoscc'>";
+					html += "<table><tr><td><div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
+					html += "</td><td><div class='datoscc'>";
 						html += "<div class='it'></div>";
 						html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
 						html += "<div class='it'><div class='infoI' id='_hi'>"+translator.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
@@ -242,7 +242,7 @@ function callbackSucessInfo(responseData){
 						var date = new Date();
 						html += "<div class='it'><div class='infoI'><span id='_update' style='font-style:italic'>"+translator.getLabel('_update')+"</span></div><div class='infoD' style='font-style:italic'>"+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear()+"</div></div>";
 						html += "<div class='it'><div class='infoI' id='_less' style='cursor:pointer;text-decoration:underline;' onClick='hideFullInfo()'>Less details...</div></div>";
-					html += "</div>";
+					html += "</td></tr></table></div>";
 					//html += "</td></tr></table>";	
 				html += "</div>";
 			html += "</td><td valign='top' style='width:100%;' >";
@@ -406,7 +406,7 @@ function _changeTheme(value){
 	if(!value || value =="")
 		value = "default2";
 	
-	var href = "http://demo.ezweb.morfeo-project.org/repository/weather/css/"+actualTheme+"/"+value+".css";
+	var href = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/"+actualTheme+"/"+value+".css";
 	var sheetLink=document.getElementById('style');
 	sheetLink.href=href;
 	return;
@@ -433,7 +433,7 @@ function hideFullInfo()
 <div id="header">
 <form name="searchform" action="javascript:searchCity(document.searchform.city.value);">
 <label id="_city">City</label><input id="city" type="text" name="city"/><button id="_search" type="submit">Search</button>
-<img id="loading" src='http://demo.ezweb.morfeo-project.org/repository/weather/loading.gif'/>
+<img id="loading" src='http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/loading.gif'/>
 <select id="citiesList" style="max-width:141px;">
 </select>
 </form>
