@@ -50,6 +50,7 @@ a:hover {
 
 .c {
   margin-left:40px;
+  margin-top:2px;
 }
 
 .fbbutton {
@@ -281,6 +282,7 @@ a:hover {
   margin: 0px;
   float: left;
   width: 30px;
+  margin:5px 0 0;
 }
 
 .photoupdate img {
