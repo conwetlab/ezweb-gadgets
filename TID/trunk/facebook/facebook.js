@@ -96,7 +96,7 @@ function onStatusSet (listItem, postTime, status, attachmentHtml) {
 	var duration = ((new Date()).getTime() / 1000) - postTime;
 	listItem.innerHTML = 
 		createFeedRow(
-			'newitem', _userName, _userUrl, _userPicUrl, status, attachmentHtml
+			'newitem', _userName, _userUrl, _userPicUrl, status, attachmentHtml,
 			formatDuration(duration), null, null);
 };
   
