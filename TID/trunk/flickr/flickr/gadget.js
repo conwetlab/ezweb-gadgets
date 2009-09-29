@@ -38,11 +38,8 @@ var mutex = {};
 
 /* Variable handlers */
 function setKeyByDefault (value){
-	if (!hasAccess()) {
-		return;	
-	}
-	if (!last_key.get()){
-		displayDefaultPhotos();
+	if (hasAccess()) {
+		displayPhotos();	
 	}
 }
 
@@ -51,21 +48,56 @@ function resetInterval (value){
 		return;	
 	}
 
-	if (interval != null)
+	if (interval !== null)
 	{
 		try {
 			clearInterval (interval);
 		}catch(e){}
 	}
 	interval = setInterval(function(){
-		if (hasAccess() && isNormal()){		
-			displayLastPhotos(); 
+		if (hasAccess()){		
+			displayPhotos(); 
 		}
 	}, value*60000);
 }
 
 function setNumberOfPhotos() {
-	if (hasAccess() && isNormal()) {
+	if (hasAccess()) {
+		displayPhotos();	
+	}
+}
+
+function setNumberOfPhotosRec() {
+	if (hasAccess()) {
+		displayPhotos();	
+	}
+}
+
+
+function photoKeywordHandler (key_) {
+	if (hasAccess()){
+		displayFromPhoto(key_);	
+	}
+}
+
+
+function peopleKeywordHandler (key_) {
+	if (hasAccess()){
+		displayFromPeople(key_);	
+	}
+}
+
+
+function groupKeywordHandler (key_) {
+	if (hasAccess()) {
+		displayFromGroup(key_);
+	}
+}
+
+
+/* Gadget functionality	*/ 
+function displayPhotos () {
+	if (hasAccess()) {
 		if (!last_key.get()){
 			displayDefaultPhotos();
 		} else {
@@ -74,86 +106,36 @@ function setNumberOfPhotos() {
 	}
 }
 
-function setNumberOfPhotosRec() {
-	if (hasAccess() && isNormal()) {
-		if (!last_key.get()){
-			displayDefaultPhotos();
-		} else {
-			displayLastPhotos();
-		}  
-	}
-}
-
-
-function photoKeywordHandler (key_) {
-	if (hasAccess() && isTheNextEvent('photo')){
-		displayFromPhoto(key_);	
-	}
-}
-
-
-function peopleKeywordHandler (key_) {
-	if (hasAccess() && isTheNextEvent('people')){
-		displayFromPeople(key_);	
-	}
-}
-
-
-function groupKeywordHandler (key_) {
-	if (hasAccess() && isTheNextEvent('group')) {
-		displayFromGroup(key_);
-	}
-}
-
-
-/* Gadget functionality	*/ 
-function displayLastPhotos () {
-	if (last_key.get() == 'people') {
-		displayFromPeople(peopleKeySlot.get());
-	} else if (last_key.get() == 'group') {
-		displayFromGroup(groupKeySlot.get());
-	} else if (last_key.get() == 'photo') {
-		displayFromPhoto(photokeySlot.get());
-	} 
-}
-
 function displayDefaultPhotos () {
-	// With last_key, the event will show the photos
 	if (!last_key.get()){
-		
-		// Without initial event, all events must be normal
-		normalizeAllEvents();	
-
 		// User property is used by default
 		if (defKey.get()){
 			displayFromPhoto (defKey.get());
 		} else {
-			// If there is no user property, photos tagged by 'interestingness' 
- 			// will be shown by default			
+			// If there is no user property
 			displayFromPhoto ('interestingness');
 		}
 		// Next time, the photos by default will be shown again	
 		last_key.set('');
-	} else {
-		// Data from input, there is no slot (but there is event)
-		if (last_key.get() == 'photo'){
-			if (!photokeySlot.get() && photoKey.get()){
-				photoKeywordHandler (photoKey.get());						
-			} 
-		} else if (last_key.get() == 'people') {
-			if (!peopleKeySlot.get() && peopleKey.get()){
-				peopleKeywordHandler (peopleKey.get());						
-			} 
-		} else {
-			if (!groupKeySlot.get() && groupKey.get()){
-				groupKeywordHandler (groupKey.get());						
-			} 
-		}
-
-	
-	}
+	}	
 }
 
+// Display the last shown photos
+function displayLastPhotos () {
+	switch (last_key.get()){
+		case 'photo':
+			displayFromPhoto(photoKey.get());
+			break;
+		case 'people':	 
+			displayFromPeople(peopleKey.get());
+			break;
+		case 'group':
+			displayFromGroup(groupKey.get());
+			break;
+		default:
+			break;
+	}
+}
 
 // Search photos by tags
 function displayFromPhoto (key_) {
@@ -170,6 +152,10 @@ function displayFromPeople (key_) {
 		// By email
 		flickr.people.findByEmail (key_, 
 			function(resp) {
+				if (!resp.user){
+					frameNotices.info('User not found');
+					return;
+				}
 				var nsid = resp.user.nsid;
 				flickr.photos.search (null, nsid, null, displayOk, displayError);
 			}, 
@@ -181,6 +167,10 @@ function displayFromPeople (key_) {
 		// By username
 		flickr.people.findByUsername (key_,  
 			function(resp) {
+				if (!resp.user){
+					frameNotices.info('User not found');
+					return;
+				}
 				var nsid = resp.user.nsid;
 				flickr.photos.search (null, nsid, null, displayOk, displayError);
 			}, 
@@ -199,6 +189,10 @@ function displayFromGroup (key_) {
 	flickr.groups.search (key_, 
 		function(resp) {
 			// Gets the first one
+			if (resp.groups.group.length === 0){
+				frameNotices.info('Group not found');
+				return;
+			}
 			var nsid = resp.groups.group[0].nsid;
 			flickr.photos.search (null, null, nsid, displayOk, displayError);		
 		},
@@ -256,8 +250,8 @@ function propagateGadgetEvents(photo_)
 // Create the data structures
 function setArrays (imgs, from){
 	// Initial case
-	var nphotos = parseInt(nphotosPref.get ());
-	if ((previousimgs.length==0) && (currentimgs.length==0) && (nextimgs.length==0)){ 
+	var nphotos = parseInt(nphotosPref.get(),10);
+	if ((previousimgs.length === 0) && (currentimgs.length === 0) && (nextimgs.length === 0)){ 
 		// Get the number of photos in the current list
 		last = (nphotos<imgs.length) ? nphotos : imgs.length;
 		for (i=0; i<last; i++){
@@ -271,7 +265,7 @@ function setArrays (imgs, from){
 		displayImages();
 		return;
 	}
-	if (from == 0){ // asking for first images
+	if (from === 0){ // asking for first images
 		// it has all the imgs
 		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
 		last = (nphotos<previousimgs.length) ? nphotos : previousimgs.length;
@@ -290,7 +284,7 @@ function setArrays (imgs, from){
 		return;
 	} 
 	if (from == 1){ // asking for previous images
-		if (previousimgs.length == 0)
+		if (previousimgs.length === 0)
 			return;
 		// Moving the currentimgs into the nextimgs list
 		currentimgs = currentimgs.concat(nextimgs);
@@ -302,7 +296,7 @@ function setArrays (imgs, from){
 		return;
 	}
 	if (from == 2){ // asking for next images
-		if (nextimgs.length == 0)
+		if (nextimgs.length === 0)
 			return;
 		previousimgs = previousimgs.concat(currentimgs);
 		currentimgs = [];
@@ -316,7 +310,7 @@ function setArrays (imgs, from){
 		previousimgs = previousimgs.concat(currentimgs.concat(nextimgs));
 		nextimgs = [];
 		currentimgs = [];
-		last = ((previousimgs.length%nphotos) == 0) ? nphotos : previousimgs.length%nphotos;
+		last = ((previousimgs.length%nphotos) === 0) ? nphotos : previousimgs.length%nphotos;
 		currentimgs = previousimgs.slice(previousimgs.length-last, previousimgs.length);
 		previousimgs = previousimgs.slice(0, previousimgs.length-last);
 		displayImages();
@@ -355,7 +349,7 @@ function displayImages () {
 		var eventHander = EzWebExt.bind(function(e) {
 			var title = '';
 			if (id2user[this.jsonImg.owner]){
-				if (this.jsonImg.title != ''){
+				if (this.jsonImg.title){
 					title += '\''+ this.jsonImg.title +'\' by '+ id2user[this.jsonImg.owner];
 				} else {
 					title += 'Photo by ' + id2user[this.jsonImg.owner];
@@ -372,51 +366,6 @@ function displayImages () {
 }
 
 function isValidEmail(email_) {
-	var filter = /^(\w+(?:\.\w+)*)@((?:\w+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+	var filter = /^(\w+(?:\.\w+)*)@((?:\w+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 	return filter.test(email_);
-}
-
-// Event control
-function isTheNextEvent (ev) {
-	// At the beginning
-	if (mutex[ev] == 'init' || mutex[ev] == 'empty'){
-		if (!last_key.get()){
-			// The gadget has no initial state (No stop events)
-			for (var event in mutex){
-				mutex[event] = 'normal';
-			}
-		} else if (last_key.get() != ev) {
-			// It is not the last search
-			mutex[ev] = 'stopped';
-		} else {
-			// It is the last search
-			for (var event in mutex){
-				if (mutex[event] == 'stopped' || mutex[event] == 'empty'){
-					mutex[event] = 'normal';
-				} else if (mutex[event] == 'init'){
-					mutex[event] = 'stop';
-				}
-			}
-			mutex[ev] = 'normal';
-		}
-	} else if (mutex[ev] == 'stop'){ // The event has been stopped
-		mutex[ev] = 'normal';
-		return false;
-	} 
-	
-	return mutex[ev] == 'normal';
-}
-
-function isNormal () {
-	var res = true;
-	for (var event in mutex){
-		res = res && (mutex[event] == 'normal');
-	}
-	return res;
-}
-
-function normalizeAllEvents () {
-	for (var event in mutex){
-		mutex[event] = 'normal';
-	}
 }

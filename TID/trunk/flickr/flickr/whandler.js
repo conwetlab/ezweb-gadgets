@@ -16,7 +16,7 @@ var frameNotices = (function() {
 		err.innerHTML = msg;
 		frame.appendChild(err);
 		setTimeout("frameNotices.clean()", 5000);
-	}
+	};
 
 	frame.info = function(msg) {
 		frame.clean();
@@ -27,12 +27,12 @@ var frameNotices = (function() {
 		frame.setAttribute("class", "popup");
 		frame.appendChild(info);
 		setTimeout("frameNotices.clean()", 5000);
-	}
+	};
 
 	frame.clean = function() {
 		frame.innerHTML = '';
 		frame.setAttribute("class", "frame");
-	}
+	};
 
 	return frame;
 })();
@@ -78,10 +78,10 @@ var frameLogin = (function() {
 
 	frame.show = function() {
 		frame.style.display = '';
-	}
+	};
 	frame.hidden = function() {
 		frame.style.display = 'none';
-	}
+	};
 
 	return frame;
 })();
@@ -102,10 +102,10 @@ var frameInitSession = (function() {
 
 	frame.show = function() {
 		frame.style.display = '';
-	}
+	};
 	frame.hidden = function() {
 		frame.style.display = 'none';
-	}
+	};
 
 	return frame;
 })();
@@ -117,7 +117,7 @@ var headerLayer = (function() {
 	header.setAttribute ('id', 'header');
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
-	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/flickr.png');
+	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/flickr.png');
 	var a = document.createElement ('a');
 	a.setAttribute ('href', 'http://www.flickr.com');
 	a.setAttribute ('target', '_blank');
@@ -126,12 +126,12 @@ var headerLayer = (function() {
 	var imglogout = document.createElement('img');
 	imglogout.setAttribute ('id', 'logout_photo');
 	imglogout.setAttribute ('title', 'Logout');
-	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/logout.png';
+	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/logout.png';
 	imglogout.setAttribute ('onclick', 'logout();');
 	var imgrefresh = document.createElement('img');
 	imgrefresh.setAttribute ('id', 'refreshimg');
 	imgrefresh.setAttribute ('title', 'Refresh');
-	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/refresh.png';
+	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/refresh.png';
 	imgrefresh.setAttribute ('onclick', 'setNumberOfPhotos();');
 	header.appendChild (imgrefresh);
 	header.appendChild (imglogout);
@@ -139,10 +139,10 @@ var headerLayer = (function() {
 
 	header.show = function() {
 		this.style.display = '';
-	}
+	};
 	header.hidden = function() {
 		this.style.display = 'none';
-	}
+	};
 
 	return header;
 })();
@@ -210,10 +210,10 @@ var searchLayer = (function() {
 
 	form.show = function() {
 		this.style.display = '';
-	}
+	};
 	form.hidden = function() {
 		this.style.display = 'none';
-	}
+	};
 
 	return form;
 })();
@@ -226,15 +226,15 @@ var contentLayer = (function() {
 
 	content.show = function() {
 		this.style.display = '';
-		displayDefaultPhotos();
+		displayPhotos();
 		resetInterval(time.get());
-	}
+	};
 	content.hidden = function() {
 		this.style.display = 'none';
 		try {
 			clearInterval (interval);
 		}catch(e){}
-	}
+	};
 
 	return content;
 })();
@@ -245,38 +245,38 @@ var footerLayer = (function() {
 	var footer = document.createElement ('div');
 	footer.setAttribute ('id', 'footer_div');
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/go-first.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-first.png';
 	img.setAttribute ('title', 'Go First');
 	img.addEventListener ('click', function (e){setArrays(null,0);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/go-previous.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-previous.png';
 	img.setAttribute ('title', 'Go Previous');
 	img.addEventListener ('click', function (e){setArrays(null,1);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/go-next.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-next.png';
 	img.setAttribute ('title', 'Go Next');
 	img.addEventListener ('click', function (e){setArrays(null,2);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.3/img/go-last.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-last.png';
 	img.setAttribute ('title', 'Go Last');
 	img.addEventListener ('click', function (e){setArrays(null,3);}, false);
 	footer.appendChild (img);
 
 	footer.show = function() {
 		this.style.display = '';
-	}
+	};
 	footer.hidden = function() {
 		this.style.display = 'none';
-	}
+	};
 
 	return footer;
 })();
 
 function error(msg) {
-	frameNotices.error(msg)
+	frameNotices.error(msg);
 }
 
 function showFlickrLogin() {
@@ -310,20 +310,6 @@ function showPhotos() {
 /* Window Load Event (MAIN) */
 window.addEventListener('load', function() {
 	
-	//access.set('private');
-
-	// Sets the mutex to control the first event propagation
-	mutex = {photo: 'empty', people: 'empty', group: 'empty'};
-	if (photokeySlot.get()){
-		mutex['photo']	= 'init';
-	}
-	if (peopleKeySlot.get()){
-		mutex['people']	= 'init';
-	}
-	if (groupKeySlot.get()){
-		mutex['group'] = 'init';
-	}
-
 	document.body.appendChild(frameNotices);
 	document.body.appendChild(frameLogin);
 	document.body.appendChild(frameInitSession);

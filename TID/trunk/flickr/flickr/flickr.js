@@ -4,21 +4,6 @@
 */
 
 var Url = function(url) {
-		var getParams = function(decode){
-			var ret = {},
-			seg = a.search.replace(/^\?/,'').split('&'),
-			len = seg.length, i = 0, s;
-			for (;i<len;i++) {
-				if (!seg[i]) { continue; }
-				s = seg[i].split('=');
-				if (!decode){
-					ret[s[0]] = s[1];	
-				}else{
-					ret[s[0]] = decodeURI(s[1]);	
-				}
-			}
-			return ret;
-		};
 		var a =  document.createElement('a');
 		a.href = url;
 		this.source = url;
@@ -26,7 +11,17 @@ var Url = function(url) {
 		this.host = a.hostname;
 		this.port = a.port;
 		this.query = a.search;
-		this.params = getParams();
+		this.params = (function(){
+			var ret = {},
+			seg = a.search.replace(/^\?/,'').split('&'),
+			len = seg.length, i = 0, s;
+			for (;i<len;i++) {
+				if (!seg[i]) { continue; }
+				s = seg[i].split('=');
+				ret[s[0]] = decodeURI(s[1]);	
+			}
+			return ret;
+		})();
 		this.file = (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1];
 		this.hash = a.hash.replace('#','');
 		this.path = a.pathname.replace(/^([^\/])/,'/$1');
@@ -51,11 +46,12 @@ flickr.rest_url = 'http://flickr.com/services/rest/?';
 
 flickr.signParams = function(params) {
 	var keys = [];
-	for (var key in params)
+	var key = null;
+	for (key in params)
 		keys.push(key);
 	keys.sort();
 	var sign = this.shared_secret;
-	for (var key in keys)
+	for (key in keys)
 		sign += keys[key]+params[keys[key]];
 	return MD5(sign);
 };
@@ -212,7 +208,4 @@ flickr.groups.search = function(groupKey_, onSuccess_, onError_) {
 		params.auth_token = auth_token.get();		
 		flickr.restCall('flickr.groups.search', 'GET', params, onSuccess_, onError_);
 	}
-}
-
-
-
+};

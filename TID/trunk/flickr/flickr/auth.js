@@ -7,12 +7,12 @@ function login() {
 	frob = null;
 	getFrob(
 		function(value){
-			frob = value
+			frob = value;
 			showInitSession();
 		},
 		function(err){
 			error(err);
-			showFlickrLogin()
+			showFlickrLogin();
 		}
 	);
 }
@@ -80,14 +80,14 @@ function validateToken(onSuccess, onError)
 		function(token, perms, user)
 		{
 			if (perms != 'write'){
-				onError("El token no tiene permisos de escritura")
+				onError("El token no tiene permisos de escritura");
 			}else{
-				onSuccess(token, user)
+				onSuccess(token, user);
 			}
 		},
 		function(e)
 		{
-			onError(e)
+			onError(e);
 		}
 	);
 }
@@ -136,7 +136,7 @@ function checkToken(token, onSuccess, onError)
 		},
 		function(resp)
 		{
-			onError('Ocurrio un error al conectar con flikr')
+			onError('Ocurrio un error al conectar con flikr');
 		}
 	);
 }
