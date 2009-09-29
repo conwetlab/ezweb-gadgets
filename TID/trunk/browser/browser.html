@@ -31,6 +31,35 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script>
 
+var languages = {"en":{
+					"home":"Home",
+					"refresh":"Refresh"
+				},
+				"es":{
+					"home":"Inicio",
+					"refresh":"Actualizar"
+				}};
+
+var _ = function(key) {
+	if (document.getElementById(key)){
+		element = document.getElementById(key);
+		element.innerHTML= "";
+
+		if (languages[language.get()] && languages[language.get()][key]){
+			element.appendChild(document.createTextNode(languages[language.get()][key]));
+		}
+		else {
+			element.appendChild(document.createTextNode(key));
+		}
+	}
+};
+
+var language = EzWebAPI.createRGadgetVariable("language", function(){
+	_("refresh");
+	_("home");
+	});
+
+
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
@@ -233,7 +262,7 @@ function loadURLForm(value) {
 
 </script>
 <div id="header">
-	<div id="source" style="display:none"><label>source: </label></div><div id="home" onclick="goHome()">home</div><div id="refresh" onclick="refresh()">refresh</div>
+	<div id="source" style="display:none"><label>source: </label></div><div id="home" onclick="goHome()">Home</div><div id="refresh" onclick="refresh()">Refresh</div>
 </div>
 <div id="video">
 <iframe name="browser" id="browser" frameborder="0" width="100%" height="95%"></iframe>
