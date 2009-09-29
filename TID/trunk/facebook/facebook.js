@@ -360,8 +360,8 @@ function processStream() {
 					break;
 				} else if (media.type == 'video') {
 					photo = {
-						src: media.video.preview_img,
-						href: media.video.source_url,
+						src: media.src,
+						href: media.href,
 						name: streamItem.attachment.name,
 						description: streamItem.attachment.description,
 						caption: streamItem.attachment.caption
