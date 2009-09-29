@@ -8,7 +8,7 @@
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Search Services</Description>
-       <ImageURI>http://demo.ezweb.morfeo-project.org/repository/notepad/notepad.jpg</ImageURI>
+       <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/searchServices/searchServices_0.22/logo.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -38,7 +38,7 @@
 	<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/searchServices/searchServices.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/searchServices/searchServices_0.22/searchServices.html"/>
   </Platform.Link>
   <Platform.Rendering width="11" height="19"/>
 </Template>
