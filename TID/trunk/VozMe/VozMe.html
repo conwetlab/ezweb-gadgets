@@ -4,12 +4,87 @@
 	<title>VozMe Gadget</title>
 	
 	<link rel="stylesheet" type="text/css" href="http://demo.ezweb.morfeo-project.org/repository/VozMe/css/style.css"></link>
-	<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
+	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
+	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 	// <![CDATA[
 		var text = EzWebAPI.createRGadgetVariable("text", function(text){
 					document.getElementById('formulario').text.value= text;
 				});
+
+		var languages = {"en":{
+							"goto": "go to VozMe.com",
+							"languageLabel":"Language",
+							"genre":"Genre",
+							"male":"Male",
+							"female":"Female",
+							"writeto":"Write to the text...",
+							"en":"English",
+							"es":"Spanish",
+							"it":"Italian",
+							"pt":"Portuguese",
+							"ca":"Catalan",
+							"ok":"Ok",
+							"errorMsg":"The text field can not be avoid",
+							"play":"Play"
+						},
+						"es":{
+							"goto":"ir a VozMe.com",
+							"languageLabel":"Idioma",
+							"genre":"Género",
+							"male":"Masculino",
+							"female":"Femenino",
+							"writeto":"Escribir el texto ...",
+							"en":"Inglés",
+							"es":"Español",
+							"it":"Italiano",
+							"pt":"Portugués",
+							"ca":"Catalán",
+							"ok":"Aceptar",
+							"errorMsg":"El campo texto no puede estar vacío",
+							"play":"Reproducir"
+						},
+						"pt":{
+							"goto": "go to VozMe.com",
+							"languageLabel":"Language",
+							"genre":"Genre",
+							"male":"Male",
+							"female":"Female",
+							"writeto":"Write to the text...",
+							"en":"English",
+							"es":"Spanish",
+							"it":"Italian",
+							"pt":"Portuguese",
+							"ca":"Catalan",
+							"ok":"Ok",
+							"errorMsg":"The text field can not be avoid",
+							"play":"Play"
+						}};
+
+		var _ = function(key) {
+			if (languages[language.get()] && languages[language.get()][key]) {
+				return languages[language.get()][key];
+			}
+			else {
+				return key;
+			}
+		};
+
+		var _attribute = function(key, value){
+			if (document.getElementById(value)){
+				element = document.getElementById(value);
+				element.setAttribute(key, _(value));
+			}
+		};
+
+		var _child = function(value){
+			if (document.getElementById(value)){
+				element = document.getElementById(value);
+				element.innerHTML = ""; 
+				element.appendChild(document.createTextNode(_(value)));
+			}
+		};
+
 		var language = EzWebAPI.createRGadgetVariable("language", function(){
 					var lang = language.get();
 
@@ -24,6 +99,23 @@
 							document.getElementById('language').value="pt";
 							break;
 					}
+					
+
+					_attribute("title", "goto");
+					_child("languageLabel");
+					_child("genre");
+					_child("male");
+					_child("female");
+					_child("writeto");
+					_child("en");
+					_child("es");
+					_child("it");
+					_child("pt");
+					_child("ca");
+					_child("ok");
+					_child("errorMsg");
+					_attribute("value", "play");
+
 			});
 			
 		this.over= false;
@@ -59,11 +151,11 @@
 		}
 		function changeSrc(){
 			
-				document.getElementById('b_close').src = "http://demo.ezweb.morfeo-project.org/repository/VozMe/img/ibclosehover.png";
+				document.getElementById('b_close').src = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/ibclosehover.png";
 			
 		}
 		function changeSrcInit(){
-				document.getElementById('b_close').src = "http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png";
+				document.getElementById('b_close').src = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/bclose.png";
 		}
 	// ]]>
 	</script>
@@ -72,39 +164,39 @@
 <body>
 	<div id="line"></div>
 	<div id="head">
-		<h1><a href="http://vozme.com" title="ir a VozMe.com"><img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/logo.png" alt="VozMe Gadget"/></a></h1>
+		<h1><a id="goto" href="http://vozme.com" title="ir a VozMe.com"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/logo.png" alt="VozMe Gadget"/></a></h1>
 	</div>
 	<div id="body">
 		<form id="formulario" action="http://vozme.com/text2voice.php" method="post" target="iPlay" onSubmit="return comprobarCampos(this);">
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td>
-						<label>Idioma</label>:
+						<label id="languageLabel">Idioma</label>:
 						<select id="language" name="lang">
-							<option value="en">English</option>
-							<option value="es">Spanish</option>
-							<option value="it">Italian</option>
-							<option value="pt">Portuguese</option>
-							<option value="ca">Catalan</option>
+							<option id="en" value="en">English</option>
+							<option id="es" value="es">Spanish</option>
+							<option id="it" value="it">Italian</option>
+							<option id="pt" value="pt">Portuguese</option>
+							<option id="ca" value="ca">Catalan</option>
 						</select>
 					</td>
 					<td style="text-align:right">
-						<label>Genero</label>:
+						<label id="genre">Genero</label>:
 						<select name="gn">
-							<option value="ml" selected="selected">Male</option>
-							<option value="fm">Female</option>
+							<option id="male" value="ml" selected="selected">Male</option>
+							<option id="female" value="fm">Female</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<label>Escriba el Texto ...</label><br/>
+						<label id="writeto" >Escriba el Texto ...</label><br/>
 						<textarea name="text" style="width:100%;"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align:right">
-						<input type="submit" value="Reproducir"/>
+						<input id="play" type="submit" value="Reproducir"/>
 					</td>
 				</tr>
 			</table>
@@ -114,7 +206,7 @@
 	<div id="playerFrame" class="contenedor" style="visibility:hidden">
 		<div class="centrado">
 		<div id="player" class="contenido">
-			<img id="b_close" src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
+			<img id="b_close" src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
 			<iframe name="iPlay" id="iPlay" frameborder="0"></iframe>
 		</div>
 		</div>
@@ -122,11 +214,11 @@
 	<div id="divError" class="contenedor" style="visibility:hidden">
 		<div class="centrado">
 		<div id="divMessage" class="contenido">
-			<p> El campo texto no puede estar vacío </p>
+			<p id="errorMsg"> El campo texto no puede estar vacío </p>
 			<!--p style="text-align:center; margin-top:1.8em"-->
 				<!--span class="boton aceptar" onclick="closeError()">Aceptar</span-->
 				<button  onclick="closeError()">
-					<img src="http://demo.ezweb.morfeo-project.org/repository/VozMe/img/ok.png">
+					<img src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/ok.png">
 					
 				Aceptar</button>
 			<!--/p-->
