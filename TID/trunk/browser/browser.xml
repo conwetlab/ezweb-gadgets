@@ -8,7 +8,7 @@
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Gadgets that renders an html page</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.5/browser.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.6/browser.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/browser</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -39,7 +39,7 @@
 	</Platform.Context> 
 
   <Platform.Link>
-	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.5/browser.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.6/browser.html"/>
   </Platform.Link>
   <Platform.Rendering width="15" height="26"/>
 </Template>
