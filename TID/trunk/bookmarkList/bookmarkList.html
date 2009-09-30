@@ -533,6 +533,7 @@ function removeBookmark(id, url) {
 
 }
 
+
 function searchIfEnter(e){
 	var keynum;
 	if(window.event){ // IE
@@ -753,7 +754,7 @@ function exportBookmarks(){
 	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
 	opml += '<opml version="2.0">';
 	opml += '<head>';
-	opml += '<title>'+translator.getLabel('opml_tip')+'</title>';
+	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
 	var currentTime = new Date();
 	opml += '<dateCreated>'+currentTime+'</dateCreated>';
 	opml +=	'</head><body>';
