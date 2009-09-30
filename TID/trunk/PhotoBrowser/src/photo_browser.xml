@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>EzWeb</Vendor>
     <Name>Photo Browser</Name>
-    <Version>1.25</Version>
+    <Version>1.28</Version>
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget que muestra las imagenes de una pagina html</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/images/photo_logo.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/PhotoBrowser/PhotoBrowser_1.28/images/photo_logo.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_programaci.C3.B3n_televisi.C3.B3n</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -18,12 +18,14 @@
 		<Option value="en" name="English"/>
 		<Option value="es" name="Español"/>
 	</Preference>
-	<Preference name="photosperpage" type="list" description="Numb  er of photos per page" label="Photos per page" default="10">
+	<Preference name="photosperpage" type="list" description="Number of photos per page" label="Photos per page" default="10">
 		<Option value="1" name="1"/>
 		<Option value="5" name="5"/>
 		<Option value="10" name="10"/>
 		<Option value="15" name="15"/>
 		<Option value="20" name="20"/>
+	</Preference>
+	<Preference name="default_url" type="text" label="Default Url" description="Default Url" default="http://ezweb.morfeo-project.org/">
 	</Preference>
   </Platform.Preferences>
 	
@@ -39,7 +41,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/src/photo_browser.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/PhotoBrowser/PhotoBrowser_1.28/src/photo_browser.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="18"/>

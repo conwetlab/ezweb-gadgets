@@ -1,4 +1,3 @@
-
 var PhotoBrowser = function() {
     /* Call to the parent constructor */
     EzWebGadget.call(this, {translatable: true});
@@ -6,13 +5,17 @@ var PhotoBrowser = function() {
 
 PhotoBrowser.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-PhotoBrowser.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/src"; 
-PhotoBrowser.prototype.imageURL = 'http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/images';
+PhotoBrowser.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/PhotoBrowser/PhotoBrowser_1.28/src"; 
+PhotoBrowser.prototype.imageURL = 'http://ezweb.tid.es/repository/ezweb-gadgets/PhotoBrowser/PhotoBrowser_1.28/images'; 
 
 PhotoBrowser.prototype.init = function(){
 
-	this.images_url = "http://demo.ezweb.morfeo-project.org/repository/PhotoBrowser/images/"
+	this.images_url = "http://ezweb.tid.es/repository/ezweb-gadgets/PhotoBrowser/PhotoBrowser_1.28/images/"
 	this.url = EzWebAPI.createRGadgetVariable("url", EzWebExt.bind(this.start,this));
+	this.default_url = EzWebAPI.createRGadgetVariable("default_url", EzWebExt.bind(this.setDefault,this));
+	this.is_default = true;
+	this.html_source = "";
+	this.is_refresh = false;
 	this.linkEvent = EzWebAPI.createRWGadgetVariable("link");
 	this.titleEvent = EzWebAPI.createRWGadgetVariable("title");
 	this.nphotosPref = EzWebAPI.createRGadgetVariable("photosperpage", EzWebExt.bind(function(e){
@@ -69,6 +72,7 @@ PhotoBrowser.prototype.init = function(){
 
 	// Events
 	this.refresh.addEventListener("click", EzWebExt.bind(function(e){
+				this.is_refresh = true;
 				this.start();
 			}, this), false);
 			
@@ -87,14 +91,22 @@ PhotoBrowser.prototype.init = function(){
 	this.go_last.addEventListener("click", EzWebExt.bind(function(e){
 				this.setArrays(3);
 			}, this), false);
+			
+	//this.start();
 	
 }
+
+PhotoBrowser.prototype.setDefault = function(){
+	this.is_default = true;
+	this.start();
+}
+
 
 PhotoBrowser.prototype.start = function() {
 	
 		this.setNumberOfPhotos(this.nphotosPref.get ());
 		// Get url value
-		this.realizeGet();
+		//this.realizeGet();
 }
 
 PhotoBrowser.prototype.realizeGet = function(){
@@ -102,13 +114,24 @@ PhotoBrowser.prototype.realizeGet = function(){
 		this.img_list = [];
 		
 		this.main.innerHTML = "";
-	var html_source = this.url.get();
+	if (!this.is_refresh) {
+	
+		if (this.is_default) {
+			this.html_source = this.default_url.get();
+		}
+		else {
+			this.html_source = this.url.get();
+		}
+	} else {
+		if (this.is_default) {
+			// the user has changed the default url and the number of photos
+			this.html_source = this.default_url.get();
+		}
+	}
+	this.is_default = false;
+	this.is_refresh = false;
 		// Get html source
-		EzWebAPI.send_get(
-			html_source,
-			this, 
-			this.onSuccess, 
-			this.error);	
+		EzWebAPI.send_get(this.html_source, this, this.onSuccess, this.error);
 }
 
 PhotoBrowser.prototype.onSuccess = function(response) {
@@ -149,6 +172,7 @@ PhotoBrowser.prototype.onSuccess = function(response) {
 				});
 			}
 		}
+		var parada = 0;
 	}
 	
 	this.setArrays(null);
@@ -245,6 +269,9 @@ PhotoBrowser.prototype.setNumberOfPhotos  = function() {
 	}
 	else{
 		EzWebExt.addClassName(this.main, "main");
+	}
+	if (this.nphotos != parseInt(this.nphotosPref.get())) {
+		this.is_refresh = true;
 	}
 	this.nphotos = parseInt(this.nphotosPref.get ());
 
