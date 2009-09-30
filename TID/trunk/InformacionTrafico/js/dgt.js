@@ -2,6 +2,8 @@
 //////////// Class InformacionTrafico /////
 ///////////////////////////////////////////
 
+var language = EzWebAPI.createRGadgetVariable("language", function(){});
+
 var InformacionTrafico = function(){
     /* Call to the parent constructor */
   
@@ -11,7 +13,7 @@ var InformacionTrafico = function(){
 
 /* Extend from EzWebGadget */
 InformacionTrafico.prototype = new EzWebGadget();
-InformacionTrafico.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.7/";
+InformacionTrafico.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.8/";
 
 InformacionTrafico.prototype.init = function(){
 
@@ -126,7 +128,7 @@ InformacionTrafico.prototype._createUserInterface = function(){
     var mainContent =  document.createElement("div");
     this.divSelects = document.createElement("div");
     EzWebExt.addClassName(this.divSelects, "selectRoad");
-    this.divSelects.appendChild(this._createHeaderButton("images/back.png", "Volver a edición de cámaras", EzWebExt.bind(function() { 
+    this.divSelects.appendChild(this._createHeaderButton("images/back.png", _("Volver a edición de cámaras"), EzWebExt.bind(function() { 
 	this.createAlternativeConfig();
 	this.showAlternative(this.EDIT_VIEW);
     }, this)));
@@ -150,19 +152,19 @@ InformacionTrafico.prototype._createUserInterface = function(){
     content_button_options.style.width = '100px';
     content_button_options.style.margin = "0 auto";
     var src;
-    content_button_options.appendChild(this._createHeaderButton("images/anterior.png", "Anterior", EzWebExt.bind(function() { 
+    content_button_options.appendChild(this._createHeaderButton("images/anterior.png", _("Anterior"), EzWebExt.bind(function() { 
 	if(!this.listRoutes.esVacia()){
 	    this.content_img.setAttribute("src",this.getPrevCam(this.content_img._srcOld));
 	}
 	
     }, this)));
     
-    this.divPlay = this._createHeaderButton("images/play.png", "Play", EzWebExt.bind(function() {
+    this.divPlay = this._createHeaderButton("images/play.png", _("Reproducir"), EzWebExt.bind(function() {
 	this.getPlay();
     }, this));
     
     content_button_options.appendChild(this.divPlay);
-    content_button_options.appendChild(this._createHeaderButton("images/siguiente.png", "Siguiente", EzWebExt.bind(function() { 
+    content_button_options.appendChild(this._createHeaderButton("images/siguiente.png", _("Siguiente"), EzWebExt.bind(function() { 
 	if(!this.listRoutes.esVacia()){
 	    this.content_img.setAttribute("src",this.getNextCam(this.content_img._srcOld));
 	}
@@ -181,7 +183,7 @@ InformacionTrafico.prototype._createUserInterface = function(){
 	this.nameRoute.set(this.actualRoute);
 
 	},this), false);
-    	div.setAttribute("title","Enviar eventos");
+    	div.setAttribute("title",_("Enviar eventos"));
     	content_button_options.appendChild(div);
 	menu_options.appendChild(content_button_options);
     
@@ -191,13 +193,13 @@ InformacionTrafico.prototype._createUserInterface = function(){
     content_button_route.style.width = '100px';
     content_button_route.style.margin = "0 auto 0 20px";
     
-    content_button_route.appendChild(this._createHeaderButton("images/add.png", "Añadir Trayecto", EzWebExt.bind(function() { 
+    content_button_route.appendChild(this._createHeaderButton("images/add.png", _("Añadir Trayecto"), EzWebExt.bind(function() { 
 	this.createAlternativeRoute();
 	this.showAlternative(this.CREATE_VIEW);
 	
     }, this)));
 
-    content_button_route.appendChild(this._createHeaderButton("images/configure.png", "Modificar Trayecto", EzWebExt.bind(function() { 
+    content_button_route.appendChild(this._createHeaderButton("images/configure.png", _("Modificar Trayecto"), EzWebExt.bind(function() { 
 	this.actualRoute = this.form_in_config["route"].getValue();
 
 	if(!this.listRoutes.esVacia()){
@@ -232,14 +234,14 @@ InformacionTrafico.prototype.createAlternativeConfig = function(){
     this.camsContent.innerHTML = "";
     this.div = document.createElement("div");
 
-    this.div.appendChild(this._createHeaderButton("images/back.png", "Volver a vista principal", EzWebExt.bind(function() { 
+    this.div.appendChild(this._createHeaderButton("images/back.png", _("Volver a vista principal"), EzWebExt.bind(function() { 
 	this.getFirstCam();
     }, this)));
-    this.div.appendChild(this._createHeaderButton("images/add.png", "Añadir nueva cámara", EzWebExt.bind(function() { 
+    this.div.appendChild(this._createHeaderButton("images/add.png", _("Añadir nueva cámara"), EzWebExt.bind(function() { 
 	this.createAlternativeSelectCam();
 	this.showAlternative(this.ADD_VIEW);
     }, this))); 
-    this.div.appendChild(this._createHeaderButton("images/delete.png", "Borrar trayecto", EzWebExt.bind(function() { 
+    this.div.appendChild(this._createHeaderButton("images/delete.png", _("Borrar trayecto"), EzWebExt.bind(function() { 
 	this.deleteRoute();	
 	this.getFirstCam();
     }, this)));
@@ -249,7 +251,7 @@ InformacionTrafico.prototype.createAlternativeConfig = function(){
 	this.div.childNodes[0].style.background = 'url(' + this.getResourceURL(src) + ')';
     }
     var divTitle = document.createElement("span");
-    divTitle.appendChild(document.createTextNode("Editar cámaras del trayecto"));
+    divTitle.appendChild(document.createTextNode(_("Editar cámaras del trayecto")));
     EzWebExt.addClassName(divTitle,"tituloModificar");
     this.div.appendChild(divTitle);
     this.camsContent.appendChild(this.div);
@@ -272,14 +274,14 @@ InformacionTrafico.prototype.createAlternativeRoute = function(){
     var tr = document.createElement("tr");
     var td = document.createElement("td");
     var divtitle = document.createElement("div");
-    divtitle.appendChild(document.createTextNode("Crear trayecto nuevo"));
+    divtitle.appendChild(document.createTextNode(_("Crear trayecto nuevo")));
     EzWebExt.addClassName(divtitle,"tituloCrear");
     tdTitulo.appendChild(divtitle);
     trTitulo.appendChild(tdTitulo);
     table.appendChild(trTitulo);
     
     var div = document.createElement("div");
-    div.innerHTML = '<label id="trayecto">Trayecto</label>';
+    div.innerHTML = '<label id="trayecto">'+_("Trayecto")+'</label>';
     var inputName = document.createElement("input");
     inputName.type = "text";
     inputName.value = "Nombre";
@@ -296,7 +298,7 @@ InformacionTrafico.prototype.createAlternativeRoute = function(){
     EzWebExt.addClassName(spanAccept,"boton");
 
     // Botones aceptar y cancelar //
-    spanAccept.appendChild(document.createTextNode("Aceptar"));
+    spanAccept.appendChild(document.createTextNode(_("Aceptar")));
     spanAccept.style.backgroundImage = 'url(' + this.getResourceURL("images/accept.png") + ')';
     spanAccept.addEventListener("click",EzWebExt.bind(function(){
 	self.addRoute(this.inputName);
@@ -306,7 +308,7 @@ InformacionTrafico.prototype.createAlternativeRoute = function(){
     div.appendChild(spanAccept);
     var spanCancel = document.createElement("span");
     EzWebExt.addClassName(spanCancel,"boton");
-    spanCancel.appendChild(document.createTextNode("Cancelar"));
+    spanCancel.appendChild(document.createTextNode(_("Cancelar")));
     spanCancel.style.backgroundImage = 'url(' + this.getResourceURL("images/cancel.png") + ')';
     spanCancel.addEventListener("click",EzWebExt.bind(function(){
 	this.showAlternative(this.PRINCIPAL_VIEW);
@@ -324,7 +326,7 @@ InformacionTrafico.prototype.createAlternativeSelectCam = function(){
     this.roadsContent.innerHTML= "";
     var titulo = document.createElement("div");
     EzWebExt.addClassName(titulo,"tituloAlternative");
-    titulo.appendChild(document.createTextNode("Seleccionar cámaras del trayecto"));
+    titulo.appendChild(document.createTextNode(_("Seleccionar cámaras del trayecto")));
     this.roadsContent.appendChild(titulo);
     this.roadsContent.appendChild(this.divSelects);
     this.roadsContent.appendChild(this.divCams);
@@ -604,7 +606,7 @@ InformacionTrafico.prototype.addRoute = function (spanText){
 	this.actualRoute = spanText.value;
     }
     else{
-	this.alert("El nombre del trayecto ya existe");
+	this.alert(_("El nombre del trayecto ya existe"));
     }
     
 }
@@ -740,7 +742,7 @@ InformacionTrafico.prototype._createSelectCamsRoute = function(listPhotos,listNa
 	EzWebExt.addClassName(delButton,"botonCancel");
 	EzWebExt.addClassName(delButton,"cancelar");
 	EzWebExt.addClassName(text,"descripcion");
-	delButton.setAttribute("title","Eliminar imagen");
+	delButton.setAttribute("title",_("Eliminar imagen"));
 	
 	img.setAttribute("src",listPhotos[i]);
 
