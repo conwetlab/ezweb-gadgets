@@ -66,11 +66,51 @@
     <!-- Replace with http://www.google.com/jsapi -->
      
 
+	<script language="javascript" src="http://ezweb.tid.es/repository/appSuite/widgetGoogle/widgetGoogle_1.4/js/json2.js"></script>
     <script language="javascript" src="http://ezweb.tid.es/repository/appSuite/commons/js/EzWebAPI.js"></script>
-
     <script src="http://www.google.com/jsapi?key=ABQIAAAAKbGY__d3CNnSQlCsg3y_BRQZCFxWBEeeemGQ836ekfLcPOgJ7RTWsa6cjVyXW5Bl78v9gOfB3W-N0w" type="text/javascript"></script>
   	<script type="text/javascript" src="http://ezweb.tid.es/repository/appSuite/commons/js/dragdrop.js"></script> 
     <script type="text/javascript">
+	var language = EzWebAPI.createRGadgetVariable("language", function(){
+		_child("searchformLabel");
+		return;
+	});
+
+	var languages = {"en":{
+						"toolTipBox":"If you want to send this link, click or drag on a contact",
+						"searchformLabel":"Loading...",
+						"Search Results":"Search Results",
+						"** failure to create html **":"** failure to create html **"
+					},
+					"es":{
+						"toolTipBox":"Para enviar este link, presione o arrastre sobre un contacto",
+						"searchformLabel":"Cargando...",
+						"Search Results":"Resultados de la búsqueda",
+						"** failure to create html **":"** Fallo al crear el html **"
+					},
+					"pt":{
+						"toolTipBox":"If you want to send this link, click or drag on a contact",
+						"searchformLabel":"Loading...",
+						"Search Results":"Search Results",
+						"** failure to create html **":"** failure to create html **"
+					}};
+
+	var _ = function(key) {
+		if (languages[language.get()] && languages[language.get()][key]) {
+			return languages[language.get()][key];
+		}
+		else {
+			return key;
+		}
+	};
+
+	var _child = function(value){
+		if (document.getElementById(value)){
+			element = document.getElementById(value);
+			element.innerHTML = ""; 
+			element.appendChild(document.createTextNode(_(value)));
+		}
+	};
     	
    	var outputDateGadget = EzWebAPI.createRWGadgetVariable("urlSearch");
 	var inputText = EzWebAPI.createRGadgetVariable("SlotText",function(value){
@@ -78,9 +118,12 @@
 		searchControl.executeSearch(value);
 	});
     	
-    	
-    //<![CDATA[
-    google.load('search', '1.0');
+  	//<![CDATA[
+	if (language.get() == "pt")
+    	google.load('search', '1.0', {"language" : "pt-PT"});
+	else
+		google.load('search', '1.0', {"language" : language.get()});
+
     function OnLoad() {
       searchControl = new RawSearchControl();
     }
@@ -240,7 +283,7 @@
 */
         // now manually generate the html that we disabled
         // initially and display it
-        var div = createDiv("Resultados de la búsqueda", "header");
+        var div = createDiv(_("Search Results"), "header");
         this.results.appendChild(div);
         
         
@@ -251,13 +294,15 @@
           if (result.html) {
             div = result.html.cloneNode(true);
           } else {
-            div = createDiv("** failure to create html **");
+            div = createDiv(_("** failure to create html **"));
           }
          // alert("test");
           //añado el sobre
           elementoIMG = document.createElement("img");
           //elementoIMG.appendChild (document.createTextNode("test"));
-          elementoIMG.src = "http://ezweb.tid.es/repository/appSuite/widgetGoogle/widgetGoogle_1.3/img/correo.jpg";
+          elementoIMG.src = "http://ezweb.tid.es/repository/appSuite/widgetGoogle/widgetGoogle_1.4/img/correo.jpg";
+
+			
           elementoIMG.onclick = sendLink; 
           elementoIMG.onmouseover = toolTip;
           elementoIMG.onmousedown = setDataLocal;
@@ -345,7 +390,7 @@
 		 
 	  theObj.onmousemove=updatePos;
 	   
-	  document.getElementById('toolTipBox').innerHTML="Para enviar este vínculo, pulse o arrastre sobre un contacto";
+	  document.getElementById('toolTipBox').innerHTML=_("toolTipBox");
 	  document.getElementById('toolTipBox').style.display="block";
 	  window.onscroll=updatePos;
 	  //alert("toolTipEvent3");
@@ -432,26 +477,25 @@ function sendLink (event) {
  
 }
 
-
-    </script>
-   
+  </script>
+  
   </head>
   <body>
-    <form id="searcher">
+	<form id="searcher">
 
-      <table>
-        <td class="search-form">
-          <div id="searchform">Loading</div>
+	  <table>
+	    <td class="search-form">
+	      <div id="searchform"><span id="searchformLabel">Loading...</span></div>
 
-        </td>
-     
-      </table>
-    </form>
+	    </td>
+	 
+	  </table>
+	</form>
 	<div id="toolTipBox"></div>
-    <div class="gsc-results">
+	<div class="gsc-results">
 
-      <div id="results"></div>
-      <div id="cursor" class="gsc-cursor-box"></div>
-    </div>
+	  <div id="results"></div>
+	  <div id="cursor" class="gsc-cursor-box"></div>
+	</div>
   </body>
 </html>
