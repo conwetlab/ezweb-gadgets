@@ -289,11 +289,11 @@
   		if(pageLinks[i].tagName=="link"){
 			//previous
 	  		if(pageLinks[i].attributes[1]!=undefined && pageLinks[i].attributes[1].firstChild.nodeValue=="previous"){
-	  			previousUrl = pageLinks[i].attributes[0].firstChild.nodeValue;
+	  			previousUrl = encodeURIComponent(pageLinks[i].attributes[0].firstChild.nodeValue);
 	  		}
   			//next
 	  		if(pageLinks[i].attributes[1]!=undefined && pageLinks[i].attributes[1].firstChild.nodeValue=="next"){
-	  			nextUrl = pageLinks[i].attributes[0].firstChild.nodeValue;	
+	  			nextUrl = encodeURIComponent(pageLinks[i].attributes[0].firstChild.nodeValue);	
 	  		}
   		}
   	}
