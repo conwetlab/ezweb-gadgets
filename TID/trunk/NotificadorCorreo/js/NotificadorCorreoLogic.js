@@ -42,10 +42,15 @@ function getRecentMails()
 			  port: configs[i].port,
 			  connection: configs[i].connection}
 
-	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/20/", "config=" + 
+	    NotificadorCorreo.sendPost("http://antares.ls.fi.upm.es:12000/mailproxy/imap/recent/1/0/", "config=" + 
 			      encodeURIComponent(to_json(config)), 
-			      onSuccessGetSize, 
+			      onSuccessGetRecentMails, 
 			      onError);
+
+/*	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/0/", "config=" + 
+			      encodeURIComponent(to_json(config)), 
+			      onSuccessGetRecentMails, 
+			      onError); */
 	}
 }
 
