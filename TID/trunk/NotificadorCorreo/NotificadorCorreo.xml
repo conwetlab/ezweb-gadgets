@@ -18,7 +18,7 @@
 			<Option value="en" name="English"/>
 			<Option value="es" name="Español"/>
 	 	 </Preference>
-		<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(minutes)" default="1"/>
+		<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(minutes)" default="5"/>
 	</Platform.Preferences>
 
 <!-- EzWeb Gadget Persistent State -->

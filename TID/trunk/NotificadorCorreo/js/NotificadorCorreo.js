@@ -807,16 +807,17 @@ function reload() {
 
 function resetInterval(value) 
 {
-	if (interval != null) 
-	    {
-		try 
-		    {
+	if (interval != null){
+		try {
 			clearInterval(interval);
-		    }
-		catch(e) {}
-	    }
+		}
+		catch(e){
+		}
+	}
 
-	interval = setInterval("reload()",value * 60000);
+	if (time.get() >= 1){
+		interval = setInterval("reload()",value * 60000);
+	}
 }
     
 
