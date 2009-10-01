@@ -42,15 +42,10 @@ function getRecentMails()
 			  port: configs[i].port,
 			  connection: configs[i].connection}
 
-	    NotificadorCorreo.sendPost("http://antares.ls.fi.upm.es:12000/mailproxy/imap/recent/1/0/", "config=" + 
+	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/0/", "config=" + 
 			      encodeURIComponent(to_json(config)), 
 			      onSuccessGetRecentMails, 
 			      onError);
-
-/*	    NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/0/", "config=" + 
-			      encodeURIComponent(to_json(config)), 
-			      onSuccessGetRecentMails, 
-			      onError); */
 	}
 }
 
@@ -78,56 +73,6 @@ function onError(transport)
 	    removeLoadingImage();
 	    displayMailList();
 	}
-}
-
-
-
-function onSuccessGetSize(transport)
-{
-    try{
-	var response = eval("("+transport.responseText+')');
-	if(response.size > 0)
-	    {
-		var enc = false;
-		var configs = eval("("+accounts.get()+")");
-
-		for(var i=0; (i < configs.length) && (!enc); i++)
-		    {
-			var account = ((response.account)?response.account:"");
-			to_username.set(account);
-			newMails.set(response.size);
-
-			if(configs[i].account == account)
-			    {
-				var config = {account: configs[i].account, 
-					      username: configs[i].username,
-					      password: configs[i].password,
-					      host: configs[i].serverMail,
-					      port: configs[i].port,
-					      connection: configs[i].connection}
-
-				NotificadorCorreo.sendPost("http://demo.ezweb.morfeo-project.org/mailproxy/imap/recent/1/"+response.size+"/", "config=" + 
-						  encodeURIComponent(to_json(config)), 
-						  onSuccessGetRecentMails, 
-						  onError);
-				enc = true;
-			    }
-		    }
-
-	    }
-	else
-	    {
-		mailboxList[response.account]["list-mails"] = new Array();
-		removeLoadingImage();
-		displayMailList();
-	    }
-    }
-    catch (e) 
-	{
-	    removeLoadingImage();
-	    alert(e.message);
-	}
-	
 }
 
 function onSuccessGetRecentMails(transport) {
