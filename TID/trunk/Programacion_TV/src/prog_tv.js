@@ -5,8 +5,8 @@ var ProgramacionTV = function() {
 
 ProgramacionTV.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-ProgramacionTV.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src"; 
-ProgramacionTV.prototype.imageURL = 'http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/logo';
+ProgramacionTV.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/src"; 
+ProgramacionTV.prototype.imageURL = 'http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/logos/logo';
 
 ProgramacionTV.prototype.init = function() {
 	
@@ -17,6 +17,10 @@ ProgramacionTV.prototype.init = function() {
 	
 	this.dictionary = new StyledElements.StyledNotebook({'id':'dictionary'});
 	this.dictionary.insertInto(document.body);
+	//this.languagePref = EzWebAPI.createRGadgetVariable('languagePref',EzWebExt.bind(function(e){return;},this));
+	this.languageCtx = EzWebAPI.createRGadgetVariable('language', EzWebExt.bind(function(){}, this));
+	this.language = this.languageCtx.get();
+	
 	this.channelList = [
 		new Channel("tve1", "TVE1", "http://www.miguiatv.com/rss/tve1.xml"),
 		new Channel("la2", "La2", "http://www.miguiatv.com/rss/la2.xml"),
@@ -45,9 +49,10 @@ ProgramacionTV.prototype.init = function() {
 	];
 	
 	//this.NUMBER_OF_CHANNELS = 24;
-	this.channelsCounter = 0;
+	this.channelsCounter = 0;	 
 
-	this.mainTab = this.dictionary.createTab({'name':'Cadenas',closeable:false})
+
+	this.mainTab = this.dictionary.createTab({'name':_("Channels"),closeable:false})
 	var div = document.createElement('div');
 	// Creamos la vista con todos los logos
 	for (var i=0;i<this.channelList.length;i++) {
@@ -62,7 +67,8 @@ ProgramacionTV.prototype.init = function() {
 	}
 
 	this.mainTab.appendChild(div);
-	this.currentTab = this.dictionary.createTab({'name':'¿Qué hay ahora?',closeable:false});
+	
+	this.currentTab = this.dictionary.createTab({'name':_("What's on TV now?"),closeable:false});
 	this.dictionary.goToTab(this.mainTab.getId());
 	this.currentDiv = document.createElement('div');
 	this.currentTab.appendChild(this.currentDiv);
@@ -85,13 +91,12 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 	}
 	this.channelsCounter = 0;
 	// Creo el titulo
-	//alert("actualizando");
 	this.currentDiv.innerHTML = '';
 	var div1 = document.createElement('div');
 	EzWebExt.addClassName(div1, "cadena");
 	this.currentDiv.appendChild(div1);
 	var p = document.createElement('p');
-	p.appendChild(document.createTextNode('¿Qué hay ahora?'));
+	p.appendChild(document.createTextNode(_("What's on TV now?")));
 	div1.appendChild(p);
 	
 	// Div que contendra la tabla
@@ -102,7 +107,8 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 	this.currentDiv.appendChild(div2);
 	
 	// 6 es el numero de canales principales para mostrar su informacion actual
-	for (var channel=0; channel<6;channel++) {
+	for (var i=0; i<6;i++) {
+		var channel = this.channelList[i];
 		var tr = document.createElement('tr');
 		table.appendChild(tr);
 		var td1 = document.createElement('td');
@@ -112,31 +118,28 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 		EzWebExt.addClassName(td2, "hora");
 		EzWebExt.addClassName(td3, "programa");
 
-		img.src = this.imageURL + this.channelList[channel].getId() + ".jpg";
+		img.src = this.imageURL + channel.getId() + ".jpg";
+/*		img.addEventListener('click', EzWebExt.bind(function(){
+			this.show();
+		},this.channelList[channel]),false);*/
+		
 		img.addEventListener('click', EzWebExt.bind(function(){
 			this.show();
-		},this.channelList[channel]),false);
+		},channel),false);
+		
+		
 		td1.appendChild (img);
 		
-		td2.appendChild(document.createTextNode(this.channelList[channel].getCurrentTime()));
-		td3.appendChild(document.createTextNode(this.channelList[channel].getCurrentTitle()));
+		td2.appendChild(document.createTextNode(channel.getCurrentTime()));
+		td3.appendChild(document.createTextNode(channel.getCurrentTitle()));
 		
-		var context = {self:this, channel:this.channelList[channel]};
+		var context = {self:this, channel:channel};
 		td3.addEventListener("click", EzWebExt.bind(function(e){
-			this.self.showDescription(e.clientX, e.clientY, this.channel.getCurrentDescription(), 
+		this.self.showDescription(e.clientX, e.clientY, this.channel.getCurrentDescription(), 
 									this.channel.getCurrentTime(), this.channel.getCurrentTitle(),
 									this.channel.getName());
 		}, context), false);
-		
-/*
-			
-			this.self.descriptionEvent.set(this.channel.getCurrentDescription());
-			this.self.titleEvent.set(this.channel.getCurrentTitle());
-			this.self.timeEvent.set(this.channel.getCurrentTime());
-			this.self.channelEvent.set(this.self.channelList[channel][0]);
-*/			
-		
-		
+					
 		tr.appendChild(td1);
 		tr.appendChild(td2);
 		tr.appendChild(td3);
@@ -233,10 +236,13 @@ Channel.prototype.show = function() {
 		this.tab = ProgramacionTV.newTab(this.name);
 		this.tab.addEventListener("close", EzWebExt.bind(function(){
 			this.tab = null;
+			this.lista_trs = [];
 		}, this));
 	}
-	ProgramacionTV.showTab(this.tab);
 	this.draw();
+	this.lista_trs = [];
+	ProgramacionTV.showTab(this.tab);
+
 }
 
 Channel.prototype.update = function() {
@@ -299,11 +305,11 @@ Channel.prototype.draw = function () {
 	
 	for (var i=0; i<this.programs.length; i++) {
 		if (i == 0) {
-			var p = document.createElement('p');
+/*			var p = document.createElement('p');
 
 			p.appendChild(document.createTextNode(this.programs[i].title));
 			div1.appendChild(p);
-			this.tab.appendChild(div1);
+			this.tab.appendChild(div1); */
 			// Caso de que no contenga mas que el titulo
 			if (this.programs.length == 1) {
 				var p2 = document.createElement('p');
@@ -355,7 +361,7 @@ Channel.prototype.draw = function () {
 			this.lista_trs.push(tr);
 		}
 	}
-		this.getCurrent();
+	this.getCurrent();
 }
 
 // Getters
@@ -551,8 +557,9 @@ Channel.prototype.getCurrent = function() {
 		id_actual = i - 2;
 	}
 	try {
-		var tr_actual = this.lista_trs[id_actual];
-		tr_actual.setAttribute('class', 'actual');
+		//tr_actual.setAttribute('class', 'actual');
+		this.lista_trs[id_actual].removeAttribute("class");
+		EzWebExt.appendClassName(this.lista_trs[id_actual],'actual');
 	}
 	catch(e){}
 }

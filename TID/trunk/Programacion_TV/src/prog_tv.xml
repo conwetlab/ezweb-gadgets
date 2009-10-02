@@ -3,12 +3,12 @@
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>EzWeb</Vendor>
-    <Name>Programacion TV</Name>
-    <Version>1.01</Version>
+    <Name>TV programming</Name>
+    <Version>1.22</Version>
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget para mostrar la programacion de television</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/logos/tv_logo.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/logos/tv_logo.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_programaci.C3.B3n_televisi.C3.B3n</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -29,12 +29,13 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/Programacion_TV/src/prog_tv.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/src/prog_tv.html"/>
   </Platform.Link>
   
-  <Platform.Rendering width="6" height="20"/>
+  <Platform.Rendering width="10" height="10"/>
   <Platform.Context>
   		<Context name="user" type="text" concept="user_name"/>
+		<Context name="language" type="text" concept="language"/>
 		<GadgetContext name="height" type="text" concept="heightInPixels"/>
 		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
   </Platform.Context>   
