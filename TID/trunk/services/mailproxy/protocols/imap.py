@@ -113,6 +113,8 @@ class IMAP4Client:
         message_list = search_response[1][0].split(" ")
         self.size = len(message_list)
         message_list.reverse()
+        if end == 0:
+            end = self.size
         
         fetch_response = self.imap.fetch(",".join([str(i) for i in message_list[(begin-1):end]]), "(UID RFC822.SIZE FLAGS BODY[HEADER.FIELDS (DATE FROM TO CC BCC SUBJECT CONTENT-TYPE)])")
 	
