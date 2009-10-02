@@ -8,7 +8,7 @@
 	  <Author>Ignacio Rodríguez</Author>
 	  <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 	  <Description>This gadget manages your Bookmarks collections, tag and search your sources, show bookmarks related to any keyword (also by wiring!). Use it wired with the Bookmark Reader gadget in order to get the full functionality</Description>
-	  <ImageURI>http://demo.ezweb.morfeo-project.org/repository/bookmarkList/images/rssList.jpg</ImageURI>
+	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/repository/bookmarkList/bookmarkList_1.15/images/rssList.jpg</ImageURI>
 	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Bookmark_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -48,7 +48,7 @@
 	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/bookmarkList/bookmarkList.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/repository/bookmarkList/bookmarkList_1.15/bookmarkList.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="8" height="5"/>
 	<Platform.Context>
