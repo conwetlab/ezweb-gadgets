@@ -313,6 +313,12 @@ function paintMessageEntries(category)
 		$('selected_categories').style.display = 'none';
 		$('match').style.display = 'none';
 	}
+
+	messageSearch.create();
+	for(var i=0; i < messages.length;i++){
+		messageSearch.add(messages[i]);
+	}
+
 }
 
 function paintMessageInfo (index, message)
