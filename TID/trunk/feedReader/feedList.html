@@ -141,8 +141,7 @@ function resizeSelect(){
 //filling the select object
 function fillSelectObject(tags){
 	if(tags.length == 0){
-		$('category').style.display = 'none';
-//		$('header_top').style.display = 'none';
+		return;
 	}else{
 		$('category').style.display = 'inline';
 //		$('header_top').style.display = '';
@@ -265,7 +264,7 @@ function paintFeedEntries(category)
 		for (var i=0;i<feeds.length;i++)
 		{
 			if(op == 'and'){
-				feedTags = feedStructure[feeds[i]]['tags'];
+				var feedTags = feedStructure[feeds[i]]['tags'];
 				for(var j=0;j<feedTags.length;j++){
 					//if the tag has not been selected yet and it isn't in the select object, add it
 					if((selected_categories.indexOf(feedTags[j]) == -1) && (tags.indexOf(feedTags[j]) == -1))
@@ -286,7 +285,7 @@ function paintFeedEntries(category)
 	}
 	if (feeds.length == 0){//if we want all feeds
 		deleteQuery();
-
+	
 		if (feedStructure.keys().length > 0){
 			//no category, show all feeds and all categories in the combo
 			tags = tagStructure.keys();
@@ -298,6 +297,7 @@ function paintFeedEntries(category)
 				paintFeedInfo(i, feeds[i]);
 				//add the feed to the feeds combo
 				addFeedToCombo(feeds[i]);
+
 			};
 		}else{
 				$("list").update("<span id='no_feeds' class='no_feeds'>"+translator.getLabel('no_feeds')+"</span><a id='add_link' href='javascript:showAddFeed();'>"+translator.getLabel('add_link')+"</a>.");
@@ -310,6 +310,12 @@ function paintFeedEntries(category)
 		$('selected_categories').style.display = 'none';
 		$('match').style.display = 'none';
 	}
+
+	feedListSearch.create();
+	for(var i=0; i < feeds.length; i++){
+		feedListSearch.add(feeds[i]);
+	}
+	
 
 	if(selected_categories.length == 0 && tags.length == 0){
 		$('header_top').style.display = 'none';
@@ -747,7 +753,7 @@ function resetInterval(value){
 	    clearInterval(interval);
 	}catch(e){}
 	if(value>0){
-		interval = setInterval (sendfeed,value*60*1000);
+		interval = setInterval ("sendfeed()",value*60*1000);
   	}
 }
 
