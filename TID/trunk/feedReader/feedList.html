@@ -142,10 +142,10 @@ function resizeSelect(){
 function fillSelectObject(tags){
 	if(tags.length == 0){
 		$('category').style.display = 'none';
-		$('header_top').style.display = 'none';
+//		$('header_top').style.display = 'none';
 	}else{
 		$('category').style.display = 'inline';
-		$('header_top').style.display = '';
+//		$('header_top').style.display = '';
 		for(var i=0;i<tags.length;i++){
 			$('category').options[i+1] = new Option(tags[i],tags[i]);
 			$('category').options[i+1].className="option";
@@ -227,7 +227,7 @@ function paintFeedEntries(category)
 
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", category);
-			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category.split("'").join("\\'")+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/rm_tag.png' alt='remove'/></a>";
 
 			$('selected_categories').appendChild(catElement);
 		}
@@ -310,6 +310,12 @@ function paintFeedEntries(category)
 		$('selected_categories').style.display = 'none';
 		$('match').style.display = 'none';
 	}
+
+	if(selected_categories.length == 0 && tags.length == 0){
+		$('header_top').style.display = 'none';
+	} else {
+		$('header_top').style.display = '';
+	}
 }
 
 function paintFeedInfo (index, feed)
@@ -318,28 +324,28 @@ function paintFeedInfo (index, feed)
 	var title = feedStructure[feed]['title'];
 	var notes = feedStructure[feed]['desc'];
 	var tags = feedStructure[feed]['tags'];
-	var html = "<div id='"+index+"' class='feed'><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url + "');\">" + title +"</a></div>";
-	html +="<div class='actions'><a href=\"javascript:editFeed('" + index + "')\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	var html = "<div id='"+index+"' class='feed'><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url.split("'").join("\\'") + "');\">" + title +"</a></div>";
+	html +="<div class='actions'><a href=\"javascript:editFeed('" + index + "')\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url.split("'").join("\'") + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
 	html += "<div id='tags_"+index+"' class='feed_tags'>";
 	for (var i=0; i<tags.length;i++){
 
-		html += "&nbsp; <a href=\"javascript:deleteQuery();paintFeedEntries('" + tags[i] + "');\">"+tags[i]+"</a> &nbsp;";
+		html += "&nbsp; <a href=\"javascript:deleteQuery();paintFeedEntries('" + tags[i].split("'").join("\\'") + "');\">"+tags[i]+"</a> &nbsp;";
 	}
 	html += "</div>";
 	html += "<div id='edition_"+index+"' class='feed_edition' style='display:none;'>";
 
 	html += "<table class='edition'>";
 	html += "<tr><td class='labels'>URL</td><td><span class='required'>*</span></td><td class='fields'>";
-	html += "<input id='url_edit_"+index+"' type='text' value='"+url+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
+	html += "<input id='url_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(url)+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
-	html += "<input id='title_edit_"+index+"' type='text' value='"+title+"' size='35' name='title' onchange='feedDataChanged=true;'/></td>";
+	html += "<input id='title_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(title)+"' size='35' name='title' onchange='feedDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
 	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='feedDataChanged=true;'>"+notes+"</textarea>";
 	html += "</td></tr>";
 	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
-	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags' onchange='feedDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+	html += "<input id='tags_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(tags.join())+"' size='35' autocomplete='OFF' name='tags' onchange='feedDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
 	html += "</td></tr>";
-	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
+	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url.split("'").join("\\'")+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed.split("'").join("\\'")+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
 	html += "</table>";
 
 	html += "</div>";
