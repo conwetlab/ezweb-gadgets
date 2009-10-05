@@ -7,7 +7,7 @@
 	</script>
 
 	<script language="javascript">
-		var resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/";
+		var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/";
 		function loadJS(archive) {
 			var head= document.getElementsByTagName('head')[0];
 			var script= document.createElement('script');
@@ -39,7 +39,7 @@
 <div id="joke_frame">
 	<div id="head">
 		<a id="joke_frame_title" target="blank"></a>
-		<img id="reload" title="Refrescar" src="http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/images/reload.png"></img>
+		<img id="reload" title="Refrescar" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/images/reload.png"></img>
 		<table id="joke_frame_menu">
 			<tr>
 				<td id="left_buttom" class="buttom left" onclick="lastJoke()"></td>
@@ -53,7 +53,8 @@
 			<tr>
 				<td>
 					<div id="joke_frame_text"></div>
-					<p style="text-align:right;"><strong>–</strong> <a id="joke_frame_source" target="blank"></a></p>
+					<!--<p id="joke_frame_date" style=text-align:right; ></p> -->
+					<p style=text-align:right;><span id="joke_frame_date" style=text-align:right;></span><strong> –</strong> <a id="joke_frame_source" target="blank"></a></p>
 				</td>
 			</tr>
 		</table>

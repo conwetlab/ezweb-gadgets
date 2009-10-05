@@ -4,16 +4,16 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Chiste del día</Name>
-		<Version>0.61</Version>
+		<Version>0.62</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget que muestra un chiste cada día.</Description>
-		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/icon.png</ImageURI>       <!--CHANGE -->
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/icon.png</ImageURI>       <!--CHANGE -->
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Chiste_del_d.C3.ADa</WikiURI>
 	</Catalog.ResourceDescription>
 
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/ChisteDelDia/ChisteDelDia.html"/> <!--CHANGE -->
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/ChisteDelDia.html"/>
 	</Platform.Link>
 
 	<!-- EzWeb Gadgets Preferences -->
@@ -41,8 +41,8 @@
 
 		<Preference name="source" type="list" label="Joke Sources" description="Sources of jokes" default="1">
 			<Option value="0" name="RSS Source"/>
-			<Option value="1" name="Chistes.com"/>
-			<Option value="2" name="Chisteweb.com"/>
+			<Option value="1" name="Chisteweb.com"/>
+			<Option value="2" name="Chistes.com"/>
 			<Option value="3" name="Comedy Central"/>
 			<Option value="4" name="Jokes4all.net"/>
 		</Preference>

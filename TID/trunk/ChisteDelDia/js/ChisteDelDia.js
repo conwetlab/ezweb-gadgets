@@ -1,23 +1,23 @@
 
 Sources = {
-	1:{
-		name:'Chistes.com',
-		link:'http://www.chistes.com/',
-		url:'http://www.chistes.com/XML/ChisteDelDia.xml.asp',
-		filters: {
-			title: function(value) {
-				return value.replace(/^\s*\[.*\]\s*-\s*/,'');
-			}
-		}
-	},
-
-	2: {
+	1: {
 		name:'Chisteweb.com',
 		link:'http://www.chisteweb.com/',
 		url:'http://www.chisteweb.com/feed',
 		filters: {
 			text: function(value) {
 				return value.replace(/\n/g,"<br />");
+			}
+		}
+	},
+	
+	2:{
+		name:'Chistes.com',
+		link:'http://www.chistes.com/',
+		url:'http://www.chistes.com/XML/ChisteDelDia.xml.asp',
+		filters: {
+			title: function(value) {
+				return value.replace(/^\s*\[.*\]\s*-\s*/,'');
 			}
 		}
 	},
@@ -59,6 +59,7 @@ var jokeFrameObject = {
 	jokeLink:   document.getElementById('joke_frame_link'),
 	jokeTitle:  document.getElementById('joke_frame_title'),
 	jokeSource: document.getElementById('joke_frame_source'),
+	jokeDate:	document.getElementById('joke_frame_date'),
 	jokeFrameMenu: document.getElementById('joke_frame_menu'),
 	jokeLeftButtom: document.getElementById('left_buttom'),
 	jokeRightButtom: document.getElementById('right_buttom'),
@@ -90,8 +91,12 @@ var jokeFrameObject = {
 		this.jokeTitle.innerHTML = value;
 		this.jokeTitle.setAttribute('title', value);
 	},
+	setJokeDate: function(value) {
+		this.jokeDate.innerHTML = value;
+	},
 	setSourceName: function(value) {
 		this.jokeSource.innerHTML = value;
+		this.jokeSourceName = value;
 	},
 	setSourceLink: function(value) {
 		this.jokeSource.setAttribute('href', value);
@@ -146,6 +151,7 @@ var jokeGadgetUI = {
 			setJokeLink(src.getJokeLink());
 			setJokeText(src.getJokeText());
 			setJokeTitle(src.getJokeTitle());
+			setJokeDate(src.getJokeDate());
 
 			titleEvent.set(src.getJokeTitle());
 			textEvent.set(src.getJokeText());
@@ -290,6 +296,24 @@ var JokeGadgetModel = {
 		return text
 	},
 	
+	getJokeDate: function() {
+		var text = this.getItemsValueOfTag('pubDate')
+		if (this.filters.text) {
+			text = this.filters.text(text);
+		}
+		if (jokeFrameObject.jokeSourceName == "Comedy Central") {
+			var date = new Date();
+			var elements = text.split('-');
+			date.setFullYear(elements[0]);
+			date.setMonth(elements[1]-1);
+			date.setDate(elements[2]);
+		}
+		else {
+			var date = new Date(text);
+		}
+		return this.getDate(date) + '/' + this.getMonth(date) + '/' + date.getFullYear();
+	},
+	
 	
 	getItemsValueOfTag: function(tag) {
 		return this.getItem(this.jokeNum)
@@ -302,8 +326,23 @@ var JokeGadgetModel = {
 	getItems: function() {
 		return this.xmlDoc.getElementsByTagName('channel')[0]
 			.getElementsByTagName('item');
-	}
+	},
 	
+	getDate: function(date) {
+		day = date.getDate();
+		if (day < 10) 
+			return '0' + day;
+		else
+			return day;
+	},
+	
+	getMonth: function(date) {
+		month = date.getMonth() + 1;
+		if (month < 10) 
+			return '0' + month;
+		else
+			return month;
+	}
 }
 
 
