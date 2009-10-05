@@ -230,7 +230,7 @@ function paintMessageEntries(category)
 
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", category);
-			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/images/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category.split("'").join("\\'")+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/images/rm_tag.png' alt='remove'/></a>";
 
 			$('selected_categories').appendChild(catElement);
 		}
@@ -332,7 +332,7 @@ function paintMessageInfo (index, message)
 	html += "<div id='tags_"+index+"' class='bookmark_tags'>";
 	for (var i=0; i<tags.length;i++){
 
-		html += "&nbsp; <a href=\"javascript:deleteQuery();paintMessageEntries('" + tags[i] + "');\">"+tags[i]+"</a> &nbsp;";
+		html += "&nbsp; <a href=\"javascript:deleteQuery();paintMessageEntries('" + tags[i].split("'").join("\\'") + "');\">"+tags[i]+"</a> &nbsp;";
 	}
 	html += "</div>";
 	html += "<div id='edition_"+index+"' class='bookmark_edition' style='display:none;'>";
@@ -639,7 +639,7 @@ function setOperator(value){
 		for (var i = 0; i<selected_categories.length-1;i++){
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", selected_categories[i]);
-			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/images/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i].split("'").join("\\'")+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/StateList/StateList_0.71/images/rm_tag.png' alt='remove'/></a>";
 				$('selected_categories').appendChild(catElement);
 		}
 
