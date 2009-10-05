@@ -344,12 +344,36 @@ function paintFeedInfo (index, feed)
 	html += "<tr><td class='labels'>URL</td><td><span class='required'>*</span></td><td class='fields'>";
 	html += "<input id='url_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(url)+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
-	html += "<input id='title_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(title)+"' size='35' name='title' onchange='feedDataChanged=true;'/></td>";
+
+	var td = document.createElement("td");
+	var input = document.createElement("input");
+	input.id="title_edit_"+index;
+	input.setAttribute("type", "text");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "title");
+	input.setAttribute("onchange", 'feedDataChanged=true;');
+	input.setAttribute("value", title); 
+	td.appendChild(input);
+	html += td.innerHTML;
+
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
 	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='feedDataChanged=true;'>"+notes+"</textarea>";
 	html += "</td></tr>";
 	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
-	html += "<input id='tags_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(tags.join())+"' size='35' autocomplete='OFF' name='tags' onchange='feedDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+
+	var td = document.createElement("td");
+	var input = document.createElement("input");
+	input.id="tags_edit_"+index;
+	input.setAttribute("type", "text");
+	input.setAttribute("autocomplete", "OFF");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "tags");
+	input.setAttribute("onchange", 'feedDataChanged=true;');
+	input.setAttribute("value", tags.join()); 
+	td.appendChild(input);
+	html += td.innerHTML;
+
+	html += "<label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
 	html += "</td></tr>";
 	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url.split("'").join("\\'")+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed.split("'").join("\\'")+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
 	html += "</table>";

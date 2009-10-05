@@ -342,14 +342,36 @@ function paintMessageInfo (index, message)
 	html += "<input id='url_edit_"+index+"' type='text' value='"+url+"' size='35' name='url' onchange='bookmarkDataChanged=true;'/></td>";
 	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
 	html += "<input id='title_edit_"+index+"' type='text' value='"+title+"' size='35' name='title' onchange='bookmarkDataChanged=true;'/></td>";
-	html += "</tr>*/
+	html += "</tr>; */
 	html += "<tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
+
+	var td = document.createElement("td");
+	var input = document.createElement("input");
+	input.id="notes_edit_hidden_"+index;
+	input.setAttribute("type", "hidden");
+	input.setAttribute("value", title); 
+	td.appendChild(input);
+	html += td.innerHTML;
+
 	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='messageDataChanged=true;'>"+title+"</textarea>";
 	html += "</td></tr>";
 	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
-	html += "<input id='tags_edit_"+index+"' type='text' value='"+tags.join()+"' size='35' autocomplete='OFF' name='tags' onchange='messageDataChanged=true;'/><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+
+	var td = document.createElement("td");
+	var input = document.createElement("input");
+	input.id="tags_edit_"+index;
+	input.setAttribute("type", "text");
+	input.setAttribute("autocomplete", "OFF");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "tags");
+	input.setAttribute("onchange", 'messageDataChanged=true;');
+	input.setAttribute("value", tags.join()); 
+	td.appendChild(input);
+	html += td.innerHTML;
+
+	html += "<label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
 	html += "</td></tr>";
-	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateMessage('"+index+"' , '"+mess+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+message+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
+	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateMessage('"+index+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
 	html += "</table>";
 
 	html += "</div>";
@@ -463,10 +485,10 @@ function addMessage(){
 	}
 }
 
-function updateMessage(id, messageDesc){
+function updateMessage(id){
 	if(checkFields(id)){
 		if(messageDataChanged){
-			saveMessage(id ,messageDesc);
+			saveMessage(id ,document.getElementById("notes_edit_hidden_"+id).value);
 			//undo the search
 			deleteQuery();
 			paintMessageEntries('');
@@ -494,7 +516,8 @@ function show(id){
 	$('tags_'+id).style.display = "none";
 }
 
-function restoreDefaults(id, messageDesc){
+function restoreDefaults(id){
+	messageDesc = document.getElementById('notes_edit_hidden_'+id).value;
 	/*$('url_edit_'+id).value = url;
 	$('title_edit_'+id).value = bookmarkStructure[url]['title'];*/
 	$('notes_edit_'+id).value = messageStructure[messageDesc]['desc'];
