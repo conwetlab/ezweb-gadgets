@@ -1,10 +1,9 @@
 <html>
 <head>
 </head>
-<body>
+<body onload="init();">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script>
-
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
@@ -44,12 +43,15 @@ function URLDecode( url )
 
 var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadVideo);
 var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
+var urlEvent = EzWebAPI.createRWGadgetVariable ("url");
+var language = EzWebAPI.createRGadgetVariable("language", function(){return;});
 
 if(url.get()) loadVideo(url.get());
 
 function loadVideo(url_){
 
  if(url_ && url_!=""){
+ 	 init();
    url_ = URLDecode (url_);
    if (!is_iphone){
 	 var object = document.createElement('object');
@@ -86,9 +88,28 @@ function loadVideo(url_){
  }
 }
 
+function init(){
+	var div = document.getElementById("sendEvent");
+	div.innerHTML = "";
+	var img = document.createElement("img");
+	img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
+	img.style.marginBottom="3px";
+	img.style.cursor="pointer";
+	url_ = URLDecode (urlPref.get());
+	img.setAttribute("onclick", "sendEvent('"+url_+"');");
+	if (language.get() != "es")
+		img.setAttribute("title", "Send Event");
+	else
+		img.setAttribute("title", "Enviar Evento");
+	div.appendChild(img);
+}
+
+function sendEvent(_url){
+	urlEvent.set(_url);
+}
 
 </script>
-
+<div id="sendEvent"></div>
 <div id="video">
 <object width="100%" height="100%">
 <param name="movie" value="http://www.youtube.com/v/H6-l7OUlS5k&rel=1">
