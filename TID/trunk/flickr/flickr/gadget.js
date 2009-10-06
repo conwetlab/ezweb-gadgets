@@ -29,12 +29,12 @@ var authorEvent = EzWebAPI.createRWGadgetVariable ('author');
 var urlImage = EzWebAPI.createRWGadgetVariable("urlImage");
 
 /* Global variables */
-var interval = null;
-var previousimgs = [];
-var currentimgs = [];
-var nextimgs = [];
-var id2user = {};
-var mutex = {};
+var interval = null;     // Automatic refreshment
+var translator = null;   // Language translator
+var previousimgs = [];   // Previous images of the pagination 
+var currentimgs = [];    // Current images of the pagination
+var nextimgs = [];       // Next images of the pagination
+var id2user = {};        // Information about user [nsid -> username] 
 
 /* Variable handlers */
 function setKeyByDefault (value){
@@ -153,14 +153,14 @@ function displayFromPeople (key_) {
 		flickr.people.findByEmail (key_, 
 			function(resp) {
 				if (!resp.user){
-					frameNotices.info('User not found');
+					frameNotices.info(translator.getLabel('unotfound'));
 					return;
 				}
 				var nsid = resp.user.nsid;
 				flickr.photos.search (null, nsid, null, displayOk, displayError);
 			}, 
 	 		function(resp) {
-				frameNotices.info('User not found');
+				frameNotices.info(translator.getLabel('unotfound'));
 			}		
 		);
 	} else {
@@ -168,14 +168,14 @@ function displayFromPeople (key_) {
 		flickr.people.findByUsername (key_,  
 			function(resp) {
 				if (!resp.user){
-					frameNotices.info('User not found');
+					frameNotices.info(translator.getLabel('unotfound'));
 					return;
 				}
 				var nsid = resp.user.nsid;
 				flickr.photos.search (null, nsid, null, displayOk, displayError);
 			}, 
 	 		function(resp) {
-				frameNotices.info('User not found');
+				frameNotices.info(translator.getLabel('unotfound'));
 			}		
 		);
 	}
@@ -190,14 +190,14 @@ function displayFromGroup (key_) {
 		function(resp) {
 			// Gets the first one
 			if (resp.groups.group.length === 0){
-				frameNotices.info('Group not found');
+				frameNotices.info(translator.getLabel('gnotfound'));
 				return;
 			}
 			var nsid = resp.groups.group[0].nsid;
 			flickr.photos.search (null, null, nsid, displayOk, displayError);		
 		},
  		function(resp) {
-			frameNotices.info('Group not found');
+			frameNotices.info(translator.getLabel('gnotfound'));
 		}		
 	);
 }
@@ -239,7 +239,7 @@ function propagateGadgetEvents(photo_)
 				authorEvent.set(resp.person.username._content);
 			},
 			function(resp) {
-				displayError("Ocurrio un error al conectar con flikr");
+				displayError(translator.getLabel('flickrerror'));
 			}
 		);
 	} else {
@@ -342,11 +342,11 @@ function displayImages () {
 
 		var context = {image:image, jsonImg:img, link:a};
 
-		a.addEventListener('click', EzWebExt.bind(function(e){
+		a.addEventListener('click', (function(e){
 			propagateGadgetEvents(this.jsonImg);	
-		}, context), false);
+		}).bind(context), false);
 
-		var eventHander = EzWebExt.bind(function(e) {
+		var eventHander = (function(e) {
 			var title = '';
 			if (id2user[this.jsonImg.owner]){
 				if (this.jsonImg.title){
@@ -358,7 +358,7 @@ function displayImages () {
 				this.link.setAttribute ('title', title);
 				EzWebAPI.platform.Event.stopObserving(this.link,'mouseover');							
 			}
-		}, context);
+		}).bind(context);
 		a.addEventListener('mouseover', eventHander, false);
 		a.appendChild(image);
 		document.getElementById('content_div').appendChild(a);

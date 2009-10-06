@@ -44,10 +44,18 @@ var frameLogin = (function() {
 	var box = document.createElement('div');
 	box.setAttribute("id", "fbox");
 	box.setAttribute("class", "box text");
-	box.innerHTML = "<p>Para poder acceder a fotografias privadas es necesario que primero se registre en Flickr.</p>\
-	<p>Si no desea registrarse, presione el boton <em>Continue</em> y podrá seguir accediendo al contenido público \
-	<p>Al presionar el boton <em>Login</em> comenzará el proceso de registro. Para ello, se abrirá una nueva ventana \
-	en la que podrá aceptar las credenciales, y al terminar deberá regresar al gadget para porder continuar.</p>";
+	
+	var box_t1 = document.createElement('p');
+	box_t1.setAttribute("id", "fbox_text1");
+	box.appendChild(box_t1);
+	
+	var box_t2 = document.createElement('p');
+	box_t2.setAttribute("id", "fbox_text2");
+	box.appendChild(box_t2);
+	
+	var box_t3 = document.createElement('p');
+	box_t3.setAttribute("id", "fbox_text3");
+	box.appendChild(box_t3);
 	frame.appendChild(box);
 
 	var button_layer = document.createElement('div');
@@ -55,7 +63,7 @@ var frameLogin = (function() {
 	button_layer.setAttribute("class", "flickr_buttons");
 	
 	var cbutton = document.createElement('span');
-	cbutton.innerHTML = "Continue";
+	cbutton.setAttribute('id', 'continue_button');
 	cbutton.setAttribute('class', 'buttom accept');
 	cbutton.addEventListener('click', 
 		function (ev){
@@ -64,7 +72,7 @@ var frameLogin = (function() {
 		}, true);
 
 	var lbutton = document.createElement('span');
-	lbutton.innerHTML = "Login";
+	lbutton.setAttribute('id', 'login_button');
 	lbutton.setAttribute('class', 'buttom accept');
 	lbutton.addEventListener('click', 
 		function (ev){
@@ -91,11 +99,14 @@ var frameInitSession = (function() {
 	
 	var box = document.createElement('div');
 	box.setAttribute("class", "box text");
-	box.innerHTML = "<p>Despues de aceptar las credenciales en la ventana que se acaba de abrir, regrese a esta ventana y continue con el <em>Inicio de Sesión</em></p>";
+	
+	var box_text = document.createElement('p');
+	box_text.setAttribute("id", "fbox_text");
+	box.appendChild(box_text);
 	frame.appendChild(box);
 
 	var butom = document.createElement('span');
-	butom.innerHTML = "Iniciar Sessión";
+	butom.setAttribute('id', 'session_button');
 	butom.setAttribute('class', 'buttom right accept');
 	butom.addEventListener('click', initSession, true);
 	frame.appendChild(butom);
@@ -117,7 +128,7 @@ var headerLayer = (function() {
 	header.setAttribute ('id', 'header');
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
-	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/flickr.png');
+	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/flickr.png');
 	var a = document.createElement ('a');
 	a.setAttribute ('href', 'http://www.flickr.com');
 	a.setAttribute ('target', '_blank');
@@ -125,13 +136,11 @@ var headerLayer = (function() {
 	a.appendChild(img);
 	var imglogout = document.createElement('img');
 	imglogout.setAttribute ('id', 'logout_photo');
-	imglogout.setAttribute ('title', 'Logout');
-	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/logout.png';
+	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/logout.png';
 	imglogout.setAttribute ('onclick', 'logout();');
 	var imgrefresh = document.createElement('img');
 	imgrefresh.setAttribute ('id', 'refreshimg');
-	imgrefresh.setAttribute ('title', 'Refresh');
-	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/refresh.png';
+	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/refresh.png';
 	imgrefresh.setAttribute ('onclick', 'setNumberOfPhotos();');
 	header.appendChild (imgrefresh);
 	header.appendChild (imglogout);
@@ -164,7 +173,7 @@ var searchLayer = (function() {
 		if (searchText){
 			var searchOps = document.getElementById('searchOps');
 			var opt = searchOps.options[searchOps.selectedIndex].value;
-			if (opt == 'photo'){
+			if (opt == 'photos'){
 				displayFromPhoto(searchText);
 			} else if (opt == 'people'){
 				peopleKeywordHandler(searchText);
@@ -189,7 +198,7 @@ var searchLayer = (function() {
 	
 	var boCol = document.createElement('td');
 	var buttom = document.createElement('span');
-	buttom.innerHTML = "Buscar";
+	buttom.setAttribute('id', 'search_button');
 	buttom.setAttribute('class', 'buttom');
 	buttom.addEventListener('click', searchPhotos, true);
 	boCol.appendChild(buttom);
@@ -197,9 +206,9 @@ var searchLayer = (function() {
 	var seCol = document.createElement('td');
 	var list = document.createElement('select');
 	list.setAttribute('id', 'searchOps');
-	addItemToList (list, 'opphoto', 'Fotografias', 'photo', true);
-	addItemToList (list, 'oppeople', 'Personas', 'people');
-	addItemToList (list, 'opgroup', 'Grupos', 'group');
+	addItemToList (list, 'opphoto', '', 'photos', true);
+	addItemToList (list, 'oppeople', '', 'people');
+	addItemToList (list, 'opgroup', '', 'groups');
 	seCol.appendChild(list);
 
 	row.appendChild(inCol);
@@ -226,7 +235,9 @@ var contentLayer = (function() {
 
 	content.show = function() {
 		this.style.display = '';
-		displayPhotos();
+		// When the gadget is loaded, only the defaulf photos have to be shown
+		last_key.set('');
+		displayDefaultPhotos();
 		resetInterval(time.get());
 	};
 	content.hidden = function() {
@@ -245,23 +256,23 @@ var footerLayer = (function() {
 	var footer = document.createElement ('div');
 	footer.setAttribute ('id', 'footer_div');
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-first.png';
-	img.setAttribute ('title', 'Go First');
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-first.png';
+	img.setAttribute ('id', 'gofirst');
 	img.addEventListener ('click', function (e){setArrays(null,0);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-previous.png';
-	img.setAttribute ('title', 'Go Previous');
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-previous.png';
+	img.setAttribute ('id', 'goprevious');
 	img.addEventListener ('click', function (e){setArrays(null,1);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-next.png';
-	img.setAttribute ('title', 'Go Next');
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-next.png';
+	img.setAttribute ('id', 'gonext');
 	img.addEventListener ('click', function (e){setArrays(null,2);}, false);
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.31/img/go-last.png';
-	img.setAttribute ('title', 'Go Last');
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-last.png';
+	img.setAttribute ('id', 'golast');
 	img.addEventListener ('click', function (e){setArrays(null,3);}, false);
 	footer.appendChild (img);
 
@@ -309,7 +320,17 @@ function showPhotos() {
 
 /* Window Load Event (MAIN) */
 window.addEventListener('load', function() {
-	
+	generateLang();
+}, true);
+
+// Translator
+function generateLang(){
+	translator = new EzWebExt.Translator(labels, "language");
+	init();
+	translator.translate();
+}
+
+function init (){
 	document.body.appendChild(frameNotices);
 	document.body.appendChild(frameLogin);
 	document.body.appendChild(frameInitSession);
@@ -317,7 +338,16 @@ window.addEventListener('load', function() {
 	document.body.appendChild(searchLayer);
 	document.body.appendChild(contentLayer);
 	document.body.appendChild(footerLayer);
-
+	
+	// Translate some special elements 
+	document.getElementById('logout_photo').setAttribute ('title', translator.getLabel('logout'));
+	document.getElementById('refreshimg').setAttribute ('title', translator.getLabel('refresh'));
+	renameItemsInList(document.getElementById('searchOps'));
+	document.getElementById('gofirst').setAttribute ('title', translator.getLabel('gofirst'));
+	document.getElementById('goprevious').setAttribute ('title', translator.getLabel('goprevious'));
+	document.getElementById('gonext').setAttribute ('title', translator.getLabel('gonext'));
+	document.getElementById('golast').setAttribute ('title', translator.getLabel('golast'));
+	
 	frameLogin.hidden();
 	frameInitSession.hidden();
 	headerLayer.hidden();
@@ -326,7 +356,7 @@ window.addEventListener('load', function() {
 	footerLayer.hidden();
 
 	authenticate();
-}, true);
+}
 
 /* DOM utils */
 function addItemToList(list, id, text, value, selected) {
@@ -339,6 +369,13 @@ function addItemToList(list, id, text, value, selected) {
         	list.add(option);
 	} catch (e) {
         	list.appendChild(option);
+	}
+}
+
+function renameItemsInList(list_) {
+	for (var i = 0; i < list_.options.length ; i++) {
+		var opt = list_.options[i];
+		opt.text = translator.getLabel(opt.value);
 	}
 }
 

@@ -80,14 +80,14 @@ function validateToken(onSuccess, onError)
 		function(token, perms, user)
 		{
 			if (perms != 'write'){
-				onError("El token no tiene permisos de escritura");
+				onError(translator.getLabel('tokenerror'));
 			}else{
 				onSuccess(token, user);
 			}
 		},
 		function(e)
 		{
-			onError(e);
+			// onError(e); Nothing to do?
 		}
 	);
 }
@@ -102,7 +102,7 @@ function getFrob(onSuccess, onError)
 			onSuccess(frob);
 		},
 		function(resp) {
-			onError("Ocurrio un error al conectar con flikr");
+			onError(translator.getLabel('flickrerror'));
 		}
 	);
 }
@@ -119,7 +119,7 @@ function getToken(frob, onSuccess, onError)
 		},
 		function(resp)
 		{
-			onError('Ocurrio un error al conectar con flikr');
+			onError(translator.getLabel('flickrerror'));
 		}
 	);
 }
@@ -136,7 +136,7 @@ function checkToken(token, onSuccess, onError)
 		},
 		function(resp)
 		{
-			onError('Ocurrio un error al conectar con flikr');
+			onError(translator.getLabel('flickrerror'));
 		}
 	);
 }
