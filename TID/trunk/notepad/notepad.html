@@ -92,15 +92,7 @@ function setColorTexto(color){
 }
 function load(){
 	var note = nota.get();
-	var slot = slotText.get();
-	
-	if (slot != "" && slot != undefined){
-		document.getElementById('nota').value = slot;
-	}
-	else{
-                document.getElementById('nota').value = note;
-	}
-
+	document.getElementById('nota').value = note;
 	document.getElementById('nota').style.background = bg.get();
 	document.getElementById('nota').style.color = textcolor.get();
 	document.getElementById('dnota').style.bottom = document.getElementById('bSave').offsetHeight + 'px'
