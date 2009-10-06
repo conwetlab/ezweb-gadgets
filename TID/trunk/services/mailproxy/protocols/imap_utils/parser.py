@@ -80,6 +80,8 @@ def parseMailHeader(header):
     msg = email.message_from_string(header[1])
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
+    if msg.has_key("received"):
+        print msg["received"]
     if msg.has_key("date"):
         result["date"] = mime_decode(msg["date"])
     if msg.has_key("from"):

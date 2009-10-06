@@ -4,19 +4,25 @@ import email.header
 import quopri
 
 def get_part_content(part):
+    payload = part.get_payload()
     try:
-        content = quopri.decodestring(part.get_payload())
+        if (part.has_key("content-transfer-encoding")):
+            payload = payload.decode(part.get("content-transfer-encoding"))
+    except:
+        pass
+    try:
+        content = quopri.decodestring(payload)
         if part.get_content_charset() != None and part.get_content_charset() != "":
             content = content.decode(part.get_content_charset()).encode("utf8")
         return content
     except:
         try:
-            content = part.get_payload()
+            content = payload
             if part.get_content_charset() != None and part.get_content_charset() != "":
                 content = content.decode(part.get_content_charset()).encode("utf8")
             return content
         except:
-            return part.get_payload()
+            return payload
 
 def mime_decode(mime_):
     try:
