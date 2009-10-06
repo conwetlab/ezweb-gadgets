@@ -7,6 +7,7 @@ def ParseaRespuesta (codigo) :
         Retorna: La lista de contactos o 0 en caso de error"""
 
     Contactos =[]
+    ContactosPapelera =[]
     delimitadorContacto = '"Title"'
     
     if codigo[:7]!= delimitadorContacto :
@@ -18,13 +19,19 @@ def ParseaRespuesta (codigo) :
     indice = codigo.find ('\n"')
     while indice!=-1 :
         contacto = (codigo [1:indice-2]).split('"\t"')
-        Contactos.append (contacto)
+        if (contacto[len(contacto)-1].find('PAPELERA') == -1):
+            Contactos.append (contacto)
+        else:
+            ContactosPapelera.append (contacto)
         codigo = codigo [indice+1:]
         indice = codigo.find ('\n"')
     else :
         indice = codigo.find ('\n')
         contacto = (codigo [1:indice-2]).split('"\t"')
-        Contactos.append (contacto)
+        if (contacto[len(contacto)-1].find('PAPELERA') == -1):
+            Contactos.append (contacto)
+        else:
+            ContactosPapelera.append (contacto)
 
     return Contactos
 
