@@ -21,7 +21,7 @@
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
-	<Event name="url" type="text" label="video url" friendcode="youtube_url"/>
+		<Event name="url" type="text" label="video url" friendcode="youtube_url"/>
     <Slot name="RSSYurl" type="text" label="video url" friendcode="youtube_url"/>
   </Platform.Wiring>
   <!-- EzWeb Gadget Context -->
@@ -30,7 +30,7 @@
 	</Platform.Context>
 
   <Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/tuberep.html"/> 
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/tuberep.html"/> -->
   </Platform.Link>
   <Platform.Rendering width="7" height="32"/>
 </Template>
