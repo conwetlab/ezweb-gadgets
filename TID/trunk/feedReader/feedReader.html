@@ -527,18 +527,12 @@
 		//set style
 		_changeTheme(theme.get());
 		//set feed
-		URL = decodeURI(feedUrl.get());
-		if(!URL || URL == ""){
-			URL = decodeURI(feedUrlPref.get());
-			if (URL && URL != ""){
-			   var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
-			   EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
-			}
-		} else {
-			 //if the slot isn't empy, get value and process Feed
-			 var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
-			 EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
-		}	
+		URL = decodeURI(feedUrlPref.get());
+		if (URL && URL != ""){
+		   var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
+		   EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
+		}
+	
 	}
 	
 	//shows the Feed content in the browser
