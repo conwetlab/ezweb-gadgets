@@ -13,7 +13,7 @@
 </Catalog.ResourceDescription>
 <!-- EzWeb Gadgets Tags -->
 <Platform.Preferences>
-<Preference name="opensms_url" type="text" description="Open MovilForum Localizame URI" default="http://coco.hi.inet:6002/PruebaServletEzWeb/localiza" label="Service URI"/>
+<Preference name="opensms_url" type="text" description="Open MovilForum Localizame URI" default="http://localhost:8180/OpenMovilforumServices/localiza" label="Service URI"/>
 <Preference name="tm_login" type="text" description="Source Telephone Number" label="Source Telephone Number"/>
 <Preference name="tm_password" type="password" description="Password" label="Password"/>
 </Platform.Preferences>
