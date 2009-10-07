@@ -147,11 +147,9 @@ function wordSearch()
 function load()
 {
 	actualDict = dict.get();
-	if(word.get()==""){
-		var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w=";
-		EzWebAPI.send_get(url, this, callbackSucess, callbackError);
-		//$('frame').src=url;
-	}
+	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w=";
+	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
+	$('frame').src=url;
 }  
 </script>
 </head>
