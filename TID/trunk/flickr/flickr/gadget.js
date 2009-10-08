@@ -342,9 +342,9 @@ function displayImages () {
 
 		var context = {image:image, jsonImg:img, link:a};
 
-		a.addEventListener('click', (function(e){
+		Event.observe(a, 'click', (function(e){
 			propagateGadgetEvents(this.jsonImg);	
-		}).bind(context), false);
+		}).bind(context));
 
 		var eventHander = (function(e) {
 			var title = '';
@@ -356,10 +356,10 @@ function displayImages () {
 				}
 				this.image.setAttribute ('alt', title);
 				this.link.setAttribute ('title', title);
-				EzWebAPI.platform.Event.stopObserving(this.link,'mouseover');							
+				Event.stopObserving(this.link,'mouseover');							
 			}
 		}).bind(context);
-		a.addEventListener('mouseover', eventHander, false);
+		Event.observe(a, 'mouseover', eventHander);
 		a.appendChild(image);
 		document.getElementById('content_div').appendChild(a);
 	}

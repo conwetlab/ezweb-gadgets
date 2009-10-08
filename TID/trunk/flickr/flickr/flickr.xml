@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>3.43</Version>
+    <Version>3.45</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/flickr.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/flickrIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/flickr.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/flickrIPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_EzFlickr</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -53,7 +53,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/flickr.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="22"/>

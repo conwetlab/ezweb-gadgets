@@ -65,20 +65,20 @@ var frameLogin = (function() {
 	var cbutton = document.createElement('span');
 	cbutton.setAttribute('id', 'continue_button');
 	cbutton.setAttribute('class', 'buttom accept');
-	cbutton.addEventListener('click', 
+	Event.observe(cbutton, 'click', 
 		function (ev){
 			access.set('public');
 			showPhotos();		
-		}, true);
+		});
 
 	var lbutton = document.createElement('span');
 	lbutton.setAttribute('id', 'login_button');
 	lbutton.setAttribute('class', 'buttom accept');
-	lbutton.addEventListener('click', 
+	Event.observe(lbutton, 'click', 
 		function (ev){
 			access.set('private');		
 			login();		
-		}, true);
+		});
 
 	button_layer.appendChild(cbutton);
 	button_layer.appendChild(lbutton);
@@ -108,7 +108,7 @@ var frameInitSession = (function() {
 	var butom = document.createElement('span');
 	butom.setAttribute('id', 'session_button');
 	butom.setAttribute('class', 'buttom right accept');
-	butom.addEventListener('click', initSession, true);
+	Event.observe(butom, 'click', initSession);
 	frame.appendChild(butom);
 
 	frame.show = function() {
@@ -128,7 +128,7 @@ var headerLayer = (function() {
 	header.setAttribute ('id', 'header');
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
-	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/flickr.png');
+	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/flickr.png');
 	var a = document.createElement ('a');
 	a.setAttribute ('href', 'http://www.flickr.com');
 	a.setAttribute ('target', '_blank');
@@ -136,11 +136,11 @@ var headerLayer = (function() {
 	a.appendChild(img);
 	var imglogout = document.createElement('img');
 	imglogout.setAttribute ('id', 'logout_photo');
-	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/logout.png';
+	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/logout.png';
 	imglogout.setAttribute ('onclick', 'logout();');
 	var imgrefresh = document.createElement('img');
 	imgrefresh.setAttribute ('id', 'refreshimg');
-	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/refresh.png';
+	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/refresh.png';
 	imgrefresh.setAttribute ('onclick', 'setNumberOfPhotos();');
 	header.appendChild (imgrefresh);
 	header.appendChild (imglogout);
@@ -186,21 +186,21 @@ var searchLayer = (function() {
 	var inp = document.createElement('input');
 	inp.setAttribute ('id', 'query');
 	inp.setAttribute ("type", "text");
-	inp.addEventListener('keypress', 
+	Event.observe(inp, 'keypress', 
 		function (ev){
 			var ENTER_CODE = 13;		
 			var code = ev.keyCode ? ev.keyCode : ev.which;
 			if (code == ENTER_CODE) {
 				searchPhotos();	
 			}
-		}, true);
+		});
 	inCol.appendChild(inp);
 	
 	var boCol = document.createElement('td');
 	var buttom = document.createElement('span');
 	buttom.setAttribute('id', 'search_button');
 	buttom.setAttribute('class', 'buttom');
-	buttom.addEventListener('click', searchPhotos, true);
+	Event.observe(buttom, 'click', searchPhotos);
 	boCol.appendChild(buttom);
 
 	var seCol = document.createElement('td');
@@ -256,24 +256,24 @@ var footerLayer = (function() {
 	var footer = document.createElement ('div');
 	footer.setAttribute ('id', 'footer_div');
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-first.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/go-first.png';
 	img.setAttribute ('id', 'gofirst');
-	img.addEventListener ('click', function (e){setArrays(null,0);}, false);
+	Event.observe (img, 'click', function (e){setArrays(null,0);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-previous.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/go-previous.png';
 	img.setAttribute ('id', 'goprevious');
-	img.addEventListener ('click', function (e){setArrays(null,1);}, false);
+	Event.observe (img, 'click', function (e){setArrays(null,1);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-next.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/go-next.png';
 	img.setAttribute ('id', 'gonext');
-	img.addEventListener ('click', function (e){setArrays(null,2);}, false);
+	Event.observe (img, 'click', function (e){setArrays(null,2);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.43/img/go-last.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.45/img/go-last.png';
 	img.setAttribute ('id', 'golast');
-	img.addEventListener ('click', function (e){setArrays(null,3);}, false);
+	Event.observe (img, 'click', function (e){setArrays(null,3);});
 	footer.appendChild (img);
 
 	footer.show = function() {
@@ -318,10 +318,7 @@ function showPhotos() {
 	footerLayer.show();
 }
 
-/* Window Load Event (MAIN) */
-window.addEventListener('load', function() {
-	generateLang();
-}, true);
+/* MAIN */
 
 // Translator
 function generateLang(){
