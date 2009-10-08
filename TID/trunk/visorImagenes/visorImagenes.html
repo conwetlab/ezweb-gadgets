@@ -78,16 +78,9 @@
 				overflow:auto;
 				position:absolute;
 				top:31px;
-				width:100%;
-			}
-			
-			#content #image_container {
-				width:100%;
-				height:100%;
 				text-align:center;
-				overflow: auto;
 			}
-			
+						
 			.error {
 				width:10px;
 				height:15px;
@@ -109,43 +102,63 @@
 		<script type="text/javascript" language="javascript">	
         				
 			var MAX_ZOOM = 200;
-			var MIN_ZOOM = 10;
+			var MIN_ZOOM = 5;
 			var DEFAULT_ZOOM = 100;
-			var INC = 10;
+			var INC = 5;
 			
 			var actualZoom = DEFAULT_ZOOM;
 			
 			var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
+			var firstTime = true;
+			var height = EzWebAPI.createRGadgetVariable("height", function() {
+				setSize(actualZoom);
+			});
 			var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
 	
 			function init ()
 			{
-				if(!urlSlot.get()) return;
-				setNewImage(urlSlot.get());
+				//if(!urlSlot.get()) return;
+				//setNewImage(urlSlot.get());
 				//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
 				//document.getElementById('image_container').style.height = document.getElementById('content').offsetHeight + 'px';
 			}
 						
 			function setNewImage(value)
 			{
-				if (value != "" && value != undefined && value != null){
-					document.getElementById('image').src = value;
+				if (!firstTime) {
+					if (value != "" && value != undefined && value != null) {
+						document.getElementById('image').src = value;
 					//document.getElementById('label').innerHTML = value;
 					//setSize(DEFAULT_ZOOM);
 					
+					}
+					else {
+						document.getElementById('image').src = urlSlot.get();
+						
+					}
+				} else {
+					firstTime = false;
 				}
-				else{
-					document.getElementById('image').src = urlSlot.get();
-					
-				}	
 			}
 			
 			function setSize(value)
 			{
+				value = value - 5;
 				var content = document.getElementById('content');
-				var container = document.getElementById('image_container');
 				var image = document.getElementById('image');
-				image.style.width = value + '%';
+				
+				var r_image = image.offsetWidth/image.offsetHeight;
+				var r_gadget = content.offsetWidth/content.offsetHeight;
+				
+				if (r_image >= r_gadget) {
+					image.style.width = value + '%';
+					image.style.height = 'auto';
+				} else {
+					image.style.height = value + '%';
+					image.style.width = 'auto';
+				}
+				
+				
 			}
 
 			function expandZoom()
@@ -208,14 +221,14 @@
 	</head>
 	<body onload="init();">
 		<div id="header">
-			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-out.png"></img></div>
-			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-in.png"></img></div>
-			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/zoom-best-fit.png"></img></div>
-			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://demo.ezweb.morfeo-project.org/repository/visorImagenes/images/run.png"></img></div>
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-best-fit.png"></img></div>
+			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/run.png"></img></div>
 
 		</div>
 		<div id="content">
-			<div id="image_container"><img id="image" src="" onload="defaultZoom();"></img></div>
+			<img id="image" src="" onload="defaultZoom();"></img>
 		</div>
 		<!--<div id="default_footer" class="footer">
 			<div id="label">Esperando una imagen ...</div>
