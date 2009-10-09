@@ -8,7 +8,8 @@
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Watch your preferred images through this gadget and zoom into them. You should connect a Gadget like Flickr or Jogli to this gadget to watch the sent images.</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/visorImagenes.png</ImageURI>
+		<!-- <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/visorImagenes.png</ImageURI> -->
+		<ImageURI>https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/visorImagenes.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Visor_Im.C3.A1genes</WikiURI>
 	</Catalog.ResourceDescription>
 
@@ -26,7 +27,8 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/visorImagenes.html"/>
+		<!-- <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/visorImagenes.html"/> -->
+		<XHTML href="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/visorImagenes.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="7" height="30"/>
