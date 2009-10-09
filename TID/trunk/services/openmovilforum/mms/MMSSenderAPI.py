@@ -1,5 +1,3 @@
-# -*- coding: cp1252 -*-
-
 # (C) Copyright 2009 Telefonica Investigacion y Desarrollo S.A.Unipersonal (Telefonica I+D)
 # Todos los derechos reservados
 # Basada en la librería MMSSenderAPI.py de Open Movilforum: open@open.movilforum.com
