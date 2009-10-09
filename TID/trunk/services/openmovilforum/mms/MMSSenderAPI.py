@@ -1,23 +1,17 @@
 # -*- coding: cp1252 -*-
 
-#objetivo.>  Copyright©   Este programa es software libre: usted puede redistribuirlo y/o
+# (C) Copyright 2009 Telefonica Investigacion y Desarrollo S.A.Unipersonal (Telefonica I+D)
+# Todos los derechos reservados
+# Basada en la librería MMSSenderAPI.py de Open Movilforum: open@open.movilforum.com
 
-#modificarlo bajo los términos de la Licencia Pública General GNU publicada por la Fundación para el 
-
-#Software Libre, ya sea la versión 3 de la Licencia, o (a su elección) cualquier versión posterior. 
-
-#Este programa se distribuye con la esperanza de que sea útil, pero SIN GARANTÍA ALGUNA; ni siquiera
-
-#la garantía implícita MERCANTIL o de APTITUD PARA UN PROPÓSITO DETERMINADO. Consulte los detalles 
-
-#de la Licencia Pública General GNU para obtener una información más detallada. Debería haber recibido
-
-#una copia de la Licencia Pública General GNU junto a este programa.
-
-#En caso contrario, consulte <http://www.gnu.org/licenses/>.
-
-#Basada en la librería MMSSenderAPI.py de Open Movilforum: open@open.movilforum.com
-
+# Este programa es software libre: usted puede redistribuirlo y/o modificarlo bajo los términos 
+# de la Licencia Pública General GNU publicada por la Fundación para el Software Libre, ya sea la
+# versión 3 de la Licencia, o (a su elección) cualquier versión posterior.
+# Este programa se distribuye con la esperanza de que sea útil, pero SIN GARANTÍA ALGUNA; ni siquiera
+# la garantía implícita MERCANTIL o de APTITUD PARA UN PROPÓSITO DETERMINADO. Consulte los detalles
+# de la Licencia Pública General GNU para obtener una información más detallada. Debería haber recibido
+# una copia de la Licencia Pública General GNU junto a este programa. En caso contrario, 
+# consulte <http://www.gnu.org/licenses/>.
 
 import httplib, urllib, urlparse
 import urllib2
@@ -32,7 +26,6 @@ class MMSSender :
     login = ''
     user = ''
     cookie = ''
-    server = 'espaciopersonal.movistar.es/authenticate'
 
     def Login(self, login, pwd) :
         """Performs login to MMS service
@@ -43,51 +36,39 @@ class MMSSender :
 
         # We try to access http://multimedia.movistar.es/
         headers = {"User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection" :  "Keep-Alive"}
-        conn=httplib.HTTPSConnection(self.server)
-        conn.request ("GET", "/", None, headers)
-        resp=conn.getresponse()
-        if resp.status == 302 :
+        req = urllib2.Request('https://espaciopersonal.movistar.es/authenticate', None, headers)
+        obj = urllib2.urlopen(req)
+        
+        if obj.code == 200 :
 
             ## We are redirected and receive a cookie
             cookieSession = ''
-            headresp=resp.getheaders()
-            #print headresp
-            for n in headresp :
-                if n[0] == 'set-cookie' :
-                    cookieSession = n[1]
-                    cookieSession = cookieSession.replace("; Path=/","")
-                    cookieSession = cookieSession.replace("; path=/","")
+            
+            cookieSession = obj.info().getheader('set-cookie')
+            cookieSession = cookieSession.replace("; Path=/","")
+            cookieSession = cookieSession.replace("; path=/","")
 
             #print cookieSession
             if cookieSession != '':
                 # Sending login data
+                referer = 'https://espaciopersonal.movistar.es/authenticate'
                 params = urllib.urlencode ({'TM_ACTION': 'LOGIN', 'variant': 'mensajeria', 'locale': 'sp-SP', 'client': 'html-msie-7-winxp', 'directMessageView': '', 'uid': '', 'uidl': '', 'folder': '', 'remoteAccountUID': '', 'login': '1', 'TM_LOGIN': login, 'TM_PASSWORD': pwd})
-                headers = {"Content-type":"application/x-www-form-urlencoded", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection" :  "Keep-Alive"}
-                conn=httplib.HTTPSConnection(self.server)
+
                 cookieList = cookieSession.split('=')
-                url = '/do/dologin;jsessionid='+cookieList[-1]
+                headers = {"Referer":referer, "Cookie": "JSESSIONID="+cookieList[-1],"Content-type":"application/x-www-form-urlencoded", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection" :  "Keep-Alive"}
+                url = 'https://espaciopersonal.movistar.es/do/dologin'
+                req = urllib2.Request(url,params, headers)
                 self.user = cookieList[-1]
-                conn.request ("POST", url, params, headers)
-                resp=conn.getresponse()
-                headresp=resp.getheaders()
+                obj = urllib2.urlopen(req)
+                self.cookie = cookieSession
 
-                moreCookies = ''
-                for n in headresp :
-                    if n[0] == 'set-cookie' :
-                        moreCookies = n[1]
-
-                cookieList = moreCookies.split(';')
-                moreCookies = cookieList[0]  # We use only the first part
-                moreCookies = moreCookies.replace(',', ';')
-
-                self.cookie = cookieSession + '; ' + moreCookies
                 #print 'Cookie: ' + self.cookie
 
                 headers2 = {"Accept": "*/*", "Accept-Encoding": "gzip, deflate", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection": "Keep-Alive", "Cookie": self.cookie}
-                conn2=httplib.HTTPSConnection(self.server)
-                conn2.request("GET", '/do/multimedia/create?l=sp-SP&v=mensajeria', None, headers2)
-                resp2=conn2.getresponse()
-                conn2.close()
+                url = 'https://espaciopersonal.movistar.es/do/multimedia/create?l=sp-SP&v=mensajeria'
+                req = urllib2.Request(url, None, headers2)
+                obj = urllib2.urlopen(req)
+                obj.close()
             
         return self.user
 
@@ -99,6 +80,7 @@ class MMSSender :
         req.add_header('User-Agent','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051111 Firefox/1.5 BAVM/1.0.0')
         obj = opener.open(req).read()
         self.InsertFile(obj, name)
+        obj.close()
 	
 
     def InsertFile(self, contents, name) :
@@ -124,11 +106,12 @@ class MMSSender :
         contentType = "multipart/form-data; boundary="+separator
         headers = {"Content-type": contentType, "Accept-Language": "es", "Accept": "*/*", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection": "Keep-Alive", "Accept-Encoding": "gzip, deflate", "Cache-Control": "no-cache", "Cookie": self.cookie}
 
-        conn=httplib.HTTPSConnection(self.server)
-        conn.request ("POST", "/do/multimedia/uploadEnd", data, headers)
-        resp=conn.getresponse()
-        response = resp.read()
-        conn.close()
+        url = 'https://espaciopersonal.movistar.es/do/multimedia/uploadEnd'
+        req = urllib2.Request(url, data, headers)
+        obj = urllib2.urlopen(req)
+        
+        response = obj.read()
+        obj.close()
         return response
 
 
@@ -165,12 +148,13 @@ class MMSSender :
         referer = 'https://espaciopersonal.movistar.es/do/multimedia/show'
         headers = {"Content-Type": contentType, "Accept-Language": "es", "Accept": "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-ms-application, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-ms-xbap, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection": "Keep-Alive", "Accept-Encoding": "gzip, deflate", "Cache-Control": "no-cache", "Cookie": self.cookie, "Referer": referer, "Connection": "Keep-Alive", "UA-CPU": "x86"}
 
-        conn=httplib.HTTPSConnection(self.server)
-        conn.request ("POST", "/do/multimedia/send?l=sp-SP&v=mensajeria", data, headers)
-        resp=conn.getresponse()
-        response = resp.read()
+        url = 'https://espaciopersonal.movistar.es/do/multimedia/send?l=sp-SP&v=mensajeria'
+        req = urllib2.Request(url, data, headers)
+        obj = urllib2.urlopen(req)
         
-        conn.close()
+        response = obj.read()
+        
+        obj.close()
         return response
 
     def Logout(self) :
@@ -179,13 +163,13 @@ class MMSSender :
         #print 'Logging out...'
         
         paramsLogout = urllib.urlencode ({'TM_ACTION': 'LOGOUT'})
-
         headersLogout = {"Content-type":"application/x-www-form-urlencoded", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection" :  "Keep-Alive", "Cookie": self.cookie}
-        connLogout=httplib.HTTPSConnection(self.server)
-        connLogout.request ("POST", "/do/logout?l=sp-SP&v=mensajeria",paramsLogout, headersLogout)
-        respLogout=connLogout.getresponse()
 
-        connLogout.close()
+        url = 'https://espaciopersonal.movistar.es/do/logout?l=sp-SP&v=mensajeria'
+        req = urllib2.Request(url, paramsLogout, headersLogout)
+        obj = urllib2.urlopen(req)
+        
+        obj.close()
         
     def SendMMSWithURL(self, login, pwd, objURL, subject, dest, msg):
         self.user = self.Login(login, pwd)
