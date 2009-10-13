@@ -1,0 +1,243 @@
+<!-- Este fichero esta creado solamente para hacer pruebas -->
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Visor Imagenes</title>
+  <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+		<style type="text/css">
+			
+			html {
+				margin:0px;
+				padding:0px;
+				height:100%;
+				width:100%;
+			}
+			
+			body {
+				margin:0px;
+				padding:0px;
+				height:100%;
+				width:100%;
+				font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
+				font-size:14px;
+				overflow-y:hidden;
+			}
+						
+			#header {
+				background:#dddddd;
+				padding-left:2px;
+				height:7%;
+				border-bottom:1px solid #888888;
+				overflow:hidden;
+				min-height:30px;
+			}
+			
+			#header .image {
+				cursor:pointer;
+				margin-bottom:3px;
+				padding:3px 10px 0px 2px;
+				width:23px;
+				height:23px;
+				display:block;
+				float:left;
+			}
+
+			#header .right {
+				float:right;
+				position:relative;
+				right:-1px;
+				top:2px;
+			}
+			
+			#header .text {
+				margin-top:3px;
+				margin-right:4px;
+				margin-left:4px;
+				float:left;
+			}
+			
+			#header .button {
+				margin-bottom:3px;
+				padding:3px 0px 0px 0px;
+				float:left;
+				overflow:hidden;
+			}
+			
+			#header #group {
+				width:120px;
+			}
+			
+			#content  {
+				width:100%;
+				bottom:0;
+				overflow:auto;
+				position:absolute;
+				top:31px;
+				text-align:center;
+			}
+						
+			.error {
+				width:10px;
+				height:15px;
+				display:block;
+				margin:7px 0px 0px 5px;
+				float:left;
+				font-size:12px;
+				color:red;
+				overflow:hidden;
+			}
+			
+			#error {
+				font-family:"Bookman Old Style";
+				color:red;
+				font-style:italic;
+				display:none;
+			}
+		</style>
+		<script type="text/javascript" language="javascript">	
+        				
+			var MAX_ZOOM = 200;
+			var MIN_ZOOM = 5;
+			var DEFAULT_ZOOM = 100;
+			var INC = 5;
+			
+			var actualZoom = DEFAULT_ZOOM;
+			
+			var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
+			var firstTime = true;
+			var height = EzWebAPI.createRGadgetVariable("height", function() {
+				setSize(actualZoom);
+			});
+			var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
+	
+			function init ()
+			{
+				document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
+				//if(!urlSlot.get()) return;
+				//setNewImage(urlSlot.get());
+				//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
+				//document.getElementById('image_container').style.height = document.getElementById('content').offsetHeight + 'px';
+			}
+						
+			function setNewImage(value)
+			{
+				if (!firstTime) {
+					if (value != "" && value != undefined && value != null) {
+						document.getElementById('image').src = value;
+					//document.getElementById('label').innerHTML = value;
+					//setSize(DEFAULT_ZOOM);
+					
+					}
+					else {
+						document.getElementById('image').src = urlSlot.get();
+						
+					}
+				} else {
+					firstTime = false;
+					document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
+				}
+			}
+			
+			function setSize(value)
+			{
+				value = value - 5;
+				var content = document.getElementById('content');
+				var image = document.getElementById('image');
+				
+				var r_image = image.offsetWidth/image.offsetHeight;
+				var r_gadget = content.offsetWidth/content.offsetHeight;
+				
+				if (r_image >= r_gadget) {
+					image.style.width = value + '%';
+					image.style.height = 'auto';
+				} else {
+					image.style.height = value + '%';
+					image.style.width = 'auto';
+				}
+				
+				
+			}
+
+			function expandZoom()
+			{
+				setSize((((actualZoom + INC) < MAX_ZOOM)?(actualZoom+=INC):(actualZoom=MAX_ZOOM)))
+			}
+			
+			function reduceZoom()
+			{
+				setSize((((actualZoom - INC) > MIN_ZOOM)?(actualZoom-=INC):(actualZoom=MIN_ZOOM)))
+			}
+			
+			function defaultZoom()
+			{
+				setSize(actualZoom = DEFAULT_ZOOM);
+			}
+			
+			function nextImage()
+			{
+				if (actualImage < (selectedImages.length-1))
+				{
+					setSelectedImage(++actualImage);
+				}
+			}
+
+			function sentURL()
+			{
+				urlEvent.set (urlSlot.get());
+			}
+/*
+  var dragging = false;
+  var x = 0;
+  var y = 0;
+
+  document.addEventListener("mousedown",startDragScroll,false);
+  
+  document.addEventListener("mouseup",stopDragScroll,false);
+
+  document.addEventListener("mousemove",dragScroll,false);
+
+  function startDragScroll(e){
+    if (e.button == 0) {
+      dragging=true;
+      x=e.clientX;
+      y=e.clientY;
+    }
+  }
+
+  function stopDragScroll(e){ 
+    dragging=false;
+  }
+
+  function dragScroll(e) {
+    if (dragging) {
+      document.getElementById("image_container").scrollTop += y-e.clientY;
+      document.getElementById("image_container").scrollLeft += x-e.clientX;
+    }
+  }*/
+		</script>
+	</head>
+	<body onload="init();">
+		<div id="header">
+		<!--	<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-best-fit.png"></img></div>
+			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/run.png"></img></div> -->
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-best-fit.png"></img></div>
+			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/run.png"></img></div>
+		</div>
+		<div id="content">
+			<img id="image" src="" onload="defaultZoom();"></img>
+		</div>
+		<!--<div id="default_footer" class="footer">
+			<div id="label">Esperando una imagen ...</div>
+		</div>-->
+	</body>
+</html>
