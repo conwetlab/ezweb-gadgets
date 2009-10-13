@@ -78,7 +78,6 @@ class MMSSender :
         req.add_header('User-Agent','Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051111 Firefox/1.5 BAVM/1.0.0')
         obj = opener.open(req).read()
         self.InsertFile(obj, name)
-        obj.close()
 	
 
     def InsertFile(self, contents, name) :
@@ -92,14 +91,27 @@ class MMSSender :
 
         #print 'Inserting file... ' + objURL
 
-        separator="---------------------------7d8219060180"
+        separator='---------------------------7d8219060180'
 
         # generating object data 
         filenamePart = '--' + separator + '\r\nContent-Disposition: form-data; name="file"; filename="' + name + '"\r\nContent-Type: ' + contentType + '\r\n\r\n'
+        if (isinstance(filenamePart, (unicode))):
+            u_filenamePart = filenamePart
+        else:
+            u_filenamePart = unicode(filenamePart, "latin1")
 
         final = '\r\n--' + separator + '--\r\n'
-
-        data = filenamePart + contents + final
+        if (isinstance(final, (unicode))):
+            u_final = final
+        else:
+            u_final = unicode(final, "latin1")
+        
+        if (isinstance(contents, (unicode))):
+            u_contents = contents
+        else:
+            u_contents = unicode(contents, "latin1")
+        
+        data = (u_filenamePart + u_contents + u_final).encode("latin1")
 
         contentType = "multipart/form-data; boundary="+separator
         headers = {"Content-type": contentType, "Accept-Language": "es", "Accept": "*/*", "User-Agent" : "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)", "Connection": "Keep-Alive", "Accept-Encoding": "gzip, deflate", "Cache-Control": "no-cache", "Cookie": self.cookie}
