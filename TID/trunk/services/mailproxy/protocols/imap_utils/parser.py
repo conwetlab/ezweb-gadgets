@@ -83,7 +83,7 @@ def parseMailHeader(header):
     if msg.has_key("received"):
         print msg["received"]
     if msg.has_key("date"):
-        result["date"] = mime_decode(msg["date"])
+        result["date"] = get_date(msg["date"])
     if msg.has_key("from"):
         mails = parseMailList(msg["from"])
         if (len(mails) > 0):
@@ -148,7 +148,7 @@ def parseMail(message):
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
     if msg.has_key("date"):
-        result["date"] = mime_decode(msg["date"])
+        result["date"] = get_date(msg["date"])
     if msg.has_key("from"):
         mails = parseMailList(msg["from"])
         if (len(mails) > 0):

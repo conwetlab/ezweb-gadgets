@@ -2,6 +2,29 @@ import binascii
 import codecs
 import email.header
 import quopri
+import time
+import rfc822
+import re
+
+def get_date(date):
+    # Las expresiones regulares resuelven algunos errores para servidores que no siguen el estandar
+    try:
+        regexp = re.compile("(.*\s*)((\+|\-)(\d\d)\:(\d\d))(\s*.*)")
+        match = regexp.match(date)
+        if match != None:
+            date = match.group(1) + match.group(3) + match.group(4) + match.group(5)
+    except:
+        pass
+        
+    try:        
+        regexp = re.compile("(.*\s+)((\S+)(\+|\-)(\d\d\d\d))(\s*.*)")
+        match = regexp.match(date)
+        if match != None:
+            date = match.group(1) + match.group(4) + match.group(5) + match.group(6) + " (" + match.group(3) + ")"
+    except:
+        pass
+
+    return time.strftime("%a, %d %b %Y %H:%M:%S %z", time.gmtime(rfc822.mktime_tz(rfc822.parsedate_tz(date))))
 
 def get_part_content(part):
     payload = part.get_payload()
