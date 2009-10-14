@@ -27,12 +27,14 @@ function setNewImage(value)
 {
 	if (!firstTime) {
 		if (value != "" && value != undefined && value != null) {
+			alert("uno");
 			document.getElementById('image').src = value;
 		//document.getElementById('label').innerHTML = value;
 		//setSize(DEFAULT_ZOOM);
 		
 		}
 		else {
+			alert("dos");
 			document.getElementById('image').src = urlSlot.get();
 			
 		}
