@@ -16,6 +16,7 @@ function init ()
 {
 	document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
 	alert(document.getElementById('image').src);
+	alert("en init");
 	//if(!urlSlot.get()) return;
 	//setNewImage(urlSlot.get());
 	//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
@@ -36,6 +37,7 @@ function setNewImage(value)
 			
 		}
 	} else {
+		alert("en first time");
 		firstTime = false;
 		document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
 	}
