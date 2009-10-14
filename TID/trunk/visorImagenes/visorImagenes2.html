@@ -146,7 +146,7 @@
 			
 			function setSize(value)
 			{
-				value = value - 5;
+				var value_t = value - 5;
 				var content = document.getElementById('content');
 				var image = document.getElementById('image');
 				
@@ -154,13 +154,12 @@
 				var r_gadget = content.offsetWidth/content.offsetHeight;
 				
 				if (r_image >= r_gadget) {
-					image.style.width = value + '%';
+					image.style.width = value_t + '%';
 					image.style.height = 'auto';
 				} else {
-					image.style.height = value + '%';
+					image.style.height = value_t + '%';
 					image.style.width = 'auto';
 				}
-				
 				
 			}
 
