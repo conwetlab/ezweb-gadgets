@@ -48,8 +48,8 @@ function setSize(value)
 	var content = document.getElementById('content');
 	var image = document.getElementById('image');
 	
-	var r_image = image.offsetWidth/image.offsetHeight;
-	var r_gadget = content.offsetWidth/content.offsetHeight;
+	var r_image = trunc(image.offsetWidth/image.offsetHeight,2);
+	var r_gadget = trunc(content.offsetWidth/content.offsetHeight,2);
 	
 	if (r_image >= r_gadget) {
 		image.style.width = value_t + '%';
@@ -88,6 +88,17 @@ function sentURL()
 {
 	urlEvent.set (urlSlot.get());
 }
+
+// Trunca el número 'num' a 'ndec' decimales.
+function trunc(num, ndec) {
+  var fact = Math.pow(10, ndec); // 10 elevado a ndec
+
+  /* Se desplaza el punto decimal ndec posiciones,
+    se trunca el número y se vuelve a colocar
+    el punto decimal en su sitio. */
+  return parseInt(num * fact) / fact;
+} 
+
 /*
   var dragging = false;
   var x = 0;
