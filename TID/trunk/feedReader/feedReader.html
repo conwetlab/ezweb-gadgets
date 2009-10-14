@@ -171,20 +171,27 @@
 		if(!dateElement){
 			this.value = "";
 		}else{
-			var msec = Date.parse(dateElement.childNodes[0].nodeValue);
 			var date = new Date();
-			date.setTime(msec);
+			var msec = Date.parse(dateElement.childNodes[0].nodeValue);
+			if (isNaN(msec)) 
+				msec = Date.parse(dateElement.childNodes[0].nodeValue.replace('Z', '+0000'));
+			
+			if (isNaN(msec)) {
+				this.value = "";
+			} else {
+				date.setTime(msec);
 
-			var format = translator.getLabel('dateFormat')
-			format = format.replace("MM",m_names[date.getMonth()]);
-			format = format.replace("DD",date.getDate());
-			format = format.replace("YYYY",date.getFullYear());
+				var format = translator.getLabel('dateFormat')
+				format = format.replace("MM",m_names[date.getMonth()]);
+				format = format.replace("DD",date.getDate());
+				format = format.replace("YYYY",date.getFullYear());
 
-			this.value = format + ", " +date.getHours()+":";
-			if(date.getMinutes()<10){
-				this.value += "0"+date.getMinutes()
-			}else{
-				this.value += date.getMinutes();
+				this.value = format + ", " +date.getHours()+":";
+				if(date.getMinutes()<10){
+					this.value += "0"+date.getMinutes()
+				}else{
+					this.value += date.getMinutes();
+				}
 			}
 		}
 	}
@@ -222,6 +229,9 @@
 		this.guid = new RSS2Guid(itemxml.getElementsByTagNameNS(xmlns,"guid")[0]);
 		this.source = new RSS2Source(itemxml.getElementsByTagNameNS(xmlns,"source")[0]);
 		this.pubDate = new RSS2PubDate(itemxml.getElementsByTagNameNS(xmlns,"pubDate")[0]);
+		if (itemxml.getElementsByTagNameNS(xmlns,"pubDate")[0] == null) {//in case of RDF
+			this.pubDate = new AtomPubDate(itemxml.getElementsByTagName("dc:date")[0]);
+		}
 	}
 
 	//objects inside the RSS2Channel object
@@ -340,6 +350,9 @@
 		this.category = new RSS2Category(chanElement.getElementsByTagNameNS(xmlns,"category")[0]);
 		this.image = new RSS2Image(chanElement.getElementsByTagNameNS(xmlns,"image")[0]);
 		this.pubDate = new RSS2PubDate(chanElement.getElementsByTagNameNS(xmlns,"pubDate")[0]);
+		if (chanElement.getElementsByTagNameNS(xmlns,"pubDate")[0] == null) {//in case of RDF, date is deffined outside the channel
+			this.pubDate = new AtomPubDate(chanElement.getElementsByTagName("dc:date")[0]);
+		}
 	}
 
 //******************ATOM1.0 PARSER***************************
@@ -360,7 +373,7 @@
 			var time = date_time[1].split(":");
 
 			var format = translator.getLabel('dateFormat')
-			format = format.replace("MM",m_names[parseInt(date[1])-1]);
+			format = format.replace("MM",m_names[Number(date[1])-1]);
 			format = format.replace("DD",date[2]);
 			format = format.replace("YYYY",date[0]);
 
@@ -561,8 +574,7 @@
 				}
 				else
 					$("rights_link"). display = "none";
-			}
-					
+			}	
 		}
 
 		//show the image
