@@ -8,7 +8,7 @@
 		<Author>miglesia</Author>
 		<Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget presenta un diagrama con la localizacion de la averia en el servicio</Description>
-		<ImageURI>http://demo.ezweb.morfeo-project.org/repository/configuracionRed/red.png</ImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/configuracionRed/configuracionRed_1.01/red.png</ImageURI>
 		<WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/ConfiguracionDeRed</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -24,7 +24,7 @@
 		<Event name="deviceStatus" type="text" label="deviceStatus" friendcode="deviceStatus" />
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/configuracionRed/configuracionRed.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/configuracionRed/configuracionRed_1.01/configuracionRed.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="7" height="13"/>
 </Template>
