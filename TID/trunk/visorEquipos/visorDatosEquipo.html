@@ -6,9 +6,115 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Visor de datos de equipo</title>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.01/css/generic.css""/>
+<style type="text/css">
+		#info {
+			width: 100%;
+			height:100%;
+			overflow:hidden;
+		}
+	
+		#div_info {
+			overflow:auto;
+			background-color:#FFFFFF;
+			border:2px solid #437BC8;
+			margin:5px;
+			padding:3px;
+			-moz-border-radius:5px;
+		}
+
+		table {
+			width:100%;
+			margin-bottom:5px;
+		}
+		
+		.moreInfo{
+			text-decoration:underline;
+		}
+		
+		#title{
+			font-family: Arial; 
+			font-size: 22px; 
+			font-weight: bold; 
+			margin-left:5px; 
+			margin-top: 5px; 
+			margin-bottom: 5px; 
+			color: #000077;
+	}
+</style>
+
+<!-- Styles IE 6 and IE7 -->
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.01/css/ie6.0.3.css""/><![endif]-->
+<!--[if lte IE 6]>
+<style type="text/css">
+	body{
+		background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.01/css/images/background.png) repeat-x scroll left top;
+		color: #000000;
+		margin:0px;
+		padding:0px;
+	}
+	
+	#info {
+		margin:0px;
+		padding:0px;
+		width: 100%;
+		height:100%;
+		overflow:hidden;
+
+	}
+
+	#div_info {
+		width: 100%;
+		height:100%;
+		border: none;
+		margin:0px;
+		padding:0px;
+		background-color:transparent;
+		
+	}
+	
+	table {
+		width:100%;
+		height:100%;
+		margin-bottom:0px;
+	}
+	
+	th {
+    font-size: 11px;
+    color: #000000;
+    font-weight: bold;
+    border: none;
+    margin:0px;
+		padding:0px;
+	}
+	
+	tr {
+		border: none;
+		padding:0px;
+		margin:0px;
+	}
+	
+	td {
+		border: none;
+		font-size: 9px;
+		padding:0px;
+		margin:0px;
+	}
+
+	#title{
+		font-family: Arial; 
+		font-size: 22px; 
+		font-weight: bold;
+		margin: 0px;
+		padding:0px;
+		color: #000077;
+	}
+</style>
+<![endif]-->
+
 <script>
 var deviceId = EzWebAPI.createRGadgetVariable("equipo",_deviceHandler);
 var deviceStatus = EzWebAPI.createRGadgetVariable("estado",_statusHandler);
@@ -39,29 +145,31 @@ deviceData = ["ESR-COSLADA-4","11111111","Fernandez Perez, Rodrigo","192.6.7.3",
 devices["device10"] = deviceData;
 
 function _statusHandler(status){
-workingStatus = status;
+	workingStatus = status;
 }
 
 function _deviceHandler(device){
-if (device!=null && device!=undefined){
-var content="";
-content+="<p id='title' style=\"font-family: Arial; font-size: 22px; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: #000077;\">Datos del Equipo</p>";
-content+="<table style=\"font-family: Arial; font-size: 12px; padding: 1px;\" >";
-content+="<tr><th align='left'>Propiedad del Equipo</th><th align='left'>Valor</th></tr>";
-content+="<tr><td>Codigo del Equipo:</td><td>"+devices[device][0]+"</td></tr>";
-content+="<tr><td>Estado:</td><td>"+workingStatus+"</td></tr>";
-content+="<tr><td>Codigo del Responsable:</td><td>"+devices[device][1]+"</td></tr>";
-content+="<tr><td>Nombre del Responsable:</td><td>"+devices[device][2]+"</td></tr>";
-content+="<tr><td>IP:</td><td>"+devices[device][3]+"</td></tr>";
-content+="<tr><td>Nombre:</td><td>"+devices[device][4]+"</td></tr>";
-content+="<tr><td>Area:</td><td>"+devices[device][5]+"</td></tr>";
-content+="<tr><td>Tipo:</td><td>"+devices[device][6]+"</td></tr>";
-content+="<tr><td>Especificador:</td><td>"+devices[device][7]+"</td></tr>";
-content+="<tr><td>Modelo:</td><td>"+devices[device][8]+"</td></tr>";
-content+="<tr><td>Direccion:</td><td>"+devices[device][9]+"</td></tr></table>";
-document.getElementById("info").innerHTML=content;
-address.set(devices[device][9]);
-}
+	if (device!=null && device!=undefined){
+		var content="";
+		content+="<div id='div_info'><p id='title'>Datos del Equipo</p>";
+		content+="<table>";
+		content+="<tr><th align='left'>Propiedad del Equipo</th><th align='left'>Valor</th></tr>";
+		content+="<tr><td class='moreInfo'>Código del Equipo:</td><td>"+devices[device][0]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Estado:</td><td>"+workingStatus+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Código del Responsable:</td><td>"+devices[device][1]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Nombre del Responsable:</td><td>"+devices[device][2]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>IP:</td><td>"+devices[device][3]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Nombre:</td><td>"+devices[device][4]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Área:</td><td>"+devices[device][5]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Tipo:</td><td>"+devices[device][6]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Especificador:</td><td>"+devices[device][7]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Modelo:</td><td>"+devices[device][8]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Dirección:</td><td>"+devices[device][9]+"</td></tr></table></div>";
+		if (document.getElementById("info")){
+			document.getElementById("info").innerHTML=content;
+			address.set(devices[device][9]);
+		}
+	}
 }
 
 </script>

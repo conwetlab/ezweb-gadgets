@@ -8,7 +8,7 @@
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta la informacion relativa a un cliente el cual ha efectuado un pedido o reclamación</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/visorUsuarios/datosCliente.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/datosCliente.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosUsuario</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -25,7 +25,7 @@
     <Slot name="phoneNumber" type="text" label="customer id" friendcode = "phone" />
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/visorUsuarios/visorDatosCliente.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/visorDatosCliente.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>

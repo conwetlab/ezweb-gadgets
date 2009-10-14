@@ -6,9 +6,121 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <title>Visor de datos de usuario</title>
+
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/generic.css""/>
+<style type="text/css">
+		#info {
+			width: 100%;
+			height:100%;
+			overflow:hidden;
+		}
+	
+		#div_info {
+			overflow:auto;
+			background-color:#FFFFFF;
+			border:2px solid #437BC8;
+			margin:5px;
+			padding:3px;
+			-moz-border-radius:5px;
+		}
+
+		table {
+			width:100%;
+			margin-bottom:5px;
+		}
+		
+		.moreInfo{
+			text-decoration:underline;
+		}
+		
+		th{
+			text-align:left;
+			padding: 0px;
+		}
+		
+		#title{
+			font-family: Arial; 
+			font-size: 22px; 
+			font-weight: bold; 
+			margin-left:5px; 
+			margin-top: 5px; 
+			margin-bottom: 5px; 
+			color: #000077;
+	}
+</style>
+
+<!-- Styles IE 6 and IE7 -->
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/ie6.0.3.css""/><![endif]-->
+<!--[if lte IE 6]>
+<style type="text/css">
+	body{
+		background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/images/background.png) repeat-x scroll left top;
+		color: #000000;
+		margin:0px;
+		padding:0px;
+	}
+	
+	#info {
+		margin:0px;
+		padding:0px;
+		width: 100%;
+		height:100%;
+		overflow:hidden;
+
+	}
+
+	#div_info {
+		width: 100%;
+		height:100%;
+		border: none;
+		margin:0px;
+		padding:0px;
+		background-color:transparent;
+		
+	}
+	
+	table {
+		width:100%;
+		height:100%;
+		margin-bottom:0px;
+	}
+	
+	th {
+    font-size: 11px;
+    color: #000000;
+    font-weight: bold;
+    border: none;
+    margin:0px;
+		padding:0px;
+	}
+	
+	tr {
+		border: none;
+		padding:0px;
+		margin:0px;
+	}
+	
+	td {
+		border: none;
+		font-size: 9px;
+		padding:0px;
+		margin:0px;
+	}
+
+	#title{
+		font-family: Arial; 
+		font-size: 22px; 
+		font-weight: bold;
+		margin: 0px;
+		padding:0px;
+		color: #000077;
+	}
+</style>
+<![endif]-->
+
 <script>
 var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
 var address = EzWebAPI.createRWGadgetVariable("address");
@@ -30,26 +142,28 @@ user = ["Alberto","Garcia Casas","34788114L","Camarena, 2, 4 A, Madrid","36.00",
 users["917744331"] = user;
 
 function _phoneHandler(phone){
-if (phone!=null && phone!=undefined){
-var content="";
-content+="<p id='title' style=\"font-size: 22px; font-weight: bold; color: #000077; margin-top: 5px; margin-bottom: 5px;\">Tabla de Datos de Cliente</p><table style=\"padding: 1px;\">";
-content+="<tr><th>Datos del Usuario</th><th>Valor</th></tr>";
-content+="<tr><td>Nombre</td><td>"+users[phone][0]+"</td></tr>";
-content+="<tr><td>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
-content+="<tr><td>DNI</td><td>"+users[phone][2]+"</td></tr>";
-content+="<tr><td>Direccion</td><td>"+users[phone][3]+"</td></tr>";
-content+="<tr><td>Factura media</td><td>"+users[phone][4]+"</td></tr>";
-content+="<tr><td>Antiguedad</td><td>"+users[phone][5]+"</td></tr></table>";
-document.getElementById("info").innerHTML=content;
-address.set(users[phone][3]);
-firstname.set(users[phone][0]);
-surname.set(users[phone][1]);
-}
+	if (phone!=null && phone!=undefined){
+		var content="";
+		content+="<div id='div_info'><p id='title'>Tabla de Datos de Cliente</p><table>";
+		content+="<tr><th>Datos del Usuario</th><th>Valor</th></tr>";
+		content+="<tr><td class='moreInfo'>Nombre</td><td>"+users[phone][0]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>DNI</td><td>"+users[phone][2]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Dirección</td><td>"+users[phone][3]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Factura media</td><td>"+users[phone][4]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Antiguedad</td><td>"+users[phone][5]+"</td></tr></table></div>";
+			if(document.getElementById("info")){
+				document.getElementById("info").innerHTML=content;
+				address.set(users[phone][3]);
+				firstname.set(users[phone][0]);
+				surname.set(users[phone][1]);
+			}
+	}
 }
 
 </script>
 </head>
-<body style="font-family: Arial; font-size: 14px; text-align: left; width: 100%; margin: 0px;">
+<body>
 <div id='info'><i>A la espera de seleccionar una averia...</i></div>
 </body>
 </html>
