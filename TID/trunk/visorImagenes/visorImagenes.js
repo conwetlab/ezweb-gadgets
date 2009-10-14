@@ -49,16 +49,14 @@ function setSize(value)
 	var image = document.getElementById('image');
 	
 	var r_image = image.offsetWidth/image.offsetHeight;
-	var r_gadget = content.offsetWidth/content.offsetHeight;
+	var r_gadget = content.width/content.height;
 	
 	if (r_image >= r_gadget) {
 		image.style.width = value_t + '%';
 		image.style.height = 'auto';
 	} else {
-		//image.style.height = value_t + '%';
-		//image.style.width = 'auto';
-		image.height = value_t + '%';
-		image.width = 'auto';
+		image.style.height = value_t + '%';
+		image.style.width = 'auto';
 	}
 	
 }
