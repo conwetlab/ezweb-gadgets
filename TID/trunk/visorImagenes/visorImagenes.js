@@ -41,7 +41,7 @@ function setNewImage(value)
 
 function setSize(value)
 {
-	document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
+	//document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
 	//alert(document.getElementById('image').src);
 	
 	var value_t = value - 5;
