@@ -27,19 +27,16 @@ function setNewImage(value)
 {
 	if (!firstTime) {
 		if (value != "" && value != undefined && value != null) {
-			alert("uno");
 			document.getElementById('image').src = value;
 		//document.getElementById('label').innerHTML = value;
 		//setSize(DEFAULT_ZOOM);
 		
 		}
 		else {
-			alert("dos");
 			document.getElementById('image').src = urlSlot.get();
 			
 		}
 	} else {
-		alert("en first time");
 		firstTime = false;
 		document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
 	}
@@ -58,8 +55,10 @@ function setSize(value)
 		image.style.width = value_t + '%';
 		image.style.height = 'auto';
 	} else {
-		image.style.height = value_t + '%';
-		image.style.width = 'auto';
+		//image.style.height = value_t + '%';
+		//image.style.width = 'auto';
+		image.height = value_t + '%';
+		image.width = 'auto';
 	}
 	
 }
