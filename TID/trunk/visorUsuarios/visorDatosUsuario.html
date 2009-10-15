@@ -10,117 +10,47 @@
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <title>Visor de datos de usuario</title>
 
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/generic.css""/>
 <style type="text/css">
+		body{
+			margin:0px;
+			padding:0px;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/background.png) repeat-x scroll left top;
+		}
+
 		#info {
-			width: 100%;
-			height:100%;
-			overflow:hidden;
+			margin:0px;
+			padding:0px;
 		}
 	
 		#div_info {
-			overflow:auto;
-			background-color:#FFFFFF;
+			margin:4px;
+			padding:5px;
 			border:2px solid #437BC8;
-			margin:5px;
-			padding:3px;
+			background-color:white;
 			-moz-border-radius:5px;
 		}
 
-		table {
-			width:100%;
-			margin-bottom:5px;
-		}
-		
 		.moreInfo{
 			text-decoration:underline;
 		}
 		
 		th{
 			text-align:left;
-			padding: 0px;
+		}
+		
+		td{
+			font-size:12px;
+			padding-left:5px;
 		}
 		
 		#title{
-			font-family: Arial; 
-			font-size: 22px; 
-			font-weight: bold; 
-			margin-left:5px; 
-			margin-top: 5px; 
-			margin-bottom: 5px; 
-			color: #000077;
+			color:#000077;
+			font-size:22px;
+			font-weight:bold;
+			margin:0px;
+			padding:0px;
 	}
 </style>
-
-<!-- Styles IE 6 and IE7 -->
-<!--[if IE]><link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/ie6.0.3.css""/><![endif]-->
-<!--[if IE]>
-<style type="text/css">
-	body{
-		background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/css/images/background.png) repeat-x scroll left top;
-		color: #000000;
-		margin:0px;
-		padding:0px;
-	}
-	
-	#info {
-		margin:0px;
-		padding:0px;
-		width: 100%;
-		height:100%;
-		overflow:hidden;
-
-	}
-
-	#div_info {
-		width: 100%;
-		height:100%;
-		border: none;
-		margin:0px;
-		padding:0px;
-		background-color:transparent;
-		
-	}
-	
-	table {
-		width:100%;
-		height:100%;
-		margin-bottom:0px;
-	}
-	
-	th {
-    font-size: 11px;
-    color: #000000;
-    font-weight: bold;
-    border: none;
-    margin:0px;
-		padding:0px;
-	}
-	
-	tr {
-		border: none;
-		padding:0px;
-		margin:0px;
-	}
-	
-	td {
-		border: none;
-		font-size: 9px;
-		padding:0px;
-		margin:0px;
-	}
-
-	#title{
-		font-family: Arial; 
-		font-size: 22px; 
-		font-weight: bold;
-		margin: 0px;
-		padding:0px;
-		color: #000077;
-	}
-</style>
-<![endif]-->
-
 
 <script>
 var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
