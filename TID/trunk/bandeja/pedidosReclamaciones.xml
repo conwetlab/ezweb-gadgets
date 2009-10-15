@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Pedidos-Reclamaciones</Name>
-    <Version>1.02</Version>
+    <Version>1.03</Version>
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta una lista de los pedidos y reclamaciones registrados por usuarios y la informacion relativa a ellos</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/bandeja/bandeja_1.01/pedidos.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/pedidosReclamaciones/pedidosReclamaciones_1.03/pedidos.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BandejaDeAverias</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -24,7 +24,7 @@
     <Event name="descripcion" type="text" label="ticket description" friendcode = "text"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/ezweb-gadgets/bandeja/bandeja_1.01/pedidosReclamaciones.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/pedidosReclamaciones/pedidosReclamaciones_1.03/pedidosReclamaciones.html"/>
   </Platform.Link>
   <Platform.Rendering width="20" height="13"/>
 </Template>
