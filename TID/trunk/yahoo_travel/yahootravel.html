@@ -135,7 +135,7 @@ function configureOk(res){
 			}
 			
 			if (item.getElementsByTagName("Url")[0].firstChild != null){
-				itemurl = item.getElementsByTagName("Url")[0].firstChild.nodeValue;
+				itemurl = "http://travel.yahoo.com/" + item.getElementsByTagName("Url")[0].firstChild.nodeValue;
 			}
 			else{
 				itemurl = "";
