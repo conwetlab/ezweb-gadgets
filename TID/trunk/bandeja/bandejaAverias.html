@@ -7,14 +7,19 @@
 <title>Bandeja de Averias</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/css/generic.css"/>
+
 <style>
+		body{
+			margin:0px;
+			padding:0px;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/background.png) repeat-x scroll left top;
+		}
 		#innerTaskList {
 			overflow:auto;
 			border: 2px solid #437BC8;
 			background-color: #ffffff;
-			margin:5px;
-			padding:4px;
+			margin:4px;
+			padding:5px;
 			-moz-border-radius:5px;
 		}
 		table {
@@ -22,48 +27,6 @@
 		}
 </style>
 
-<!-- Styles Internet Explorer -->
-<!--[if IE]><link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/css/ie6.0.3.css""/><![endif]-->
-<!--[if IE]>
-<style>
-		body{
-			padding:0px;
-			margin:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/css/images/background.png) repeat-x scroll left top;
-			
-		}
-		#taskListTable{
-			margin:0px;
-			padding:0px;
-		}
-
-		#innerTaskList {
-			overflow:auto;
-			height:100%;
-			margin:1px;
-			padding:4px;
-			-moz-border-radius:5px;
-		}
-		table {
-			border-style: none;
-			margin:0px;
-			padding:0px;
-		}
-		
-		td{
-			text-align:center;
-			vertical-align:middle;
-			font-size:10px;
-			background-color:#FFFFFF;
-		}
-		
-		th{
-			font-size:11px;
-			font-weight:bold;
-			background-color: rgb(0, 0, 119)
-		}
-</style>
-<![endif]-->
 <script>
 var phoneNumber = EzWebAPI.createRWGadgetVariable("telefono");
 var serviceHired = EzWebAPI.createRWGadgetVariable("servicio");
