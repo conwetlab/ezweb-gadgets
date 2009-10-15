@@ -14,11 +14,7 @@ var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
 
 function init ()
 {
-	alert("en init");
-	//if(!urlSlot.get()) return;
-	//setNewImage(urlSlot.get());
-	//document.getElementById('content').style.height = (document.getElementById('content').parentNode.offsetHeight - document.getElementById('header').offsetHeight - document.getElementById('default_footer').offsetHeight) + 'px';
-	//document.getElementById('image_container').style.height = document.getElementById('content').offsetHeight + 'px';
+
 }
 			
 function setNewImage(value)
@@ -26,13 +22,9 @@ function setNewImage(value)
 	if (!firstTime) {
 		if (value != "" && value != undefined && value != null) {
 			document.getElementById('image').src = value;
-		//document.getElementById('label').innerHTML = value;
-		//setSize(DEFAULT_ZOOM);
-		
 		}
 		else {
 			document.getElementById('image').src = urlSlot.get();
-			
 		}
 	} else {
 		firstTime = false;
@@ -40,10 +32,7 @@ function setNewImage(value)
 }
 
 function setSize(value)
-{
-	//document.getElementById('image').src = "http://tugues.primera-clase.com/wp-content/uploads/2007/02/balon-de-la-copa-america.jpg";
-	//alert(document.getElementById('image').src);
-	
+{	
 	var value_t = value - 5;
 	var content = document.getElementById('content');
 	var image = document.getElementById('image');
@@ -98,33 +87,3 @@ function trunc(num, ndec) {
     el punto decimal en su sitio. */
   return parseInt(num * fact) / fact;
 } 
-
-/*
-  var dragging = false;
-  var x = 0;
-  var y = 0;
-
-  document.addEventListener("mousedown",startDragScroll,false);
-  
-  document.addEventListener("mouseup",stopDragScroll,false);
-
-  document.addEventListener("mousemove",dragScroll,false);
-
-  function startDragScroll(e){
-    if (e.button == 0) {
-      dragging=true;
-      x=e.clientX;
-      y=e.clientY;
-    }
-  }
-
-  function stopDragScroll(e){ 
-    dragging=false;
-  }
-
-  function dragScroll(e) {
-    if (dragging) {
-      document.getElementById("image_container").scrollTop += y-e.clientY;
-      document.getElementById("image_container").scrollLeft += x-e.clientX;
-    }
-  }*/

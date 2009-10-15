@@ -6,121 +6,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-  <title>Visor Imagenes</title>
-  <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-		<style type="text/css">
-			
-			html {
-				margin:0px;
-				padding:0px;
-				height:100%;
-				width:100%;
-			}
-			
-			body {
-				margin:0px;
-				padding:0px;
-				height:100%;
-				width:100%;
-				font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
-				font-size:14px;
-				overflow-y:hidden;
-			}
-						
-			#header {
-				background:#dddddd;
-				padding-left:2px;
-				height:7%;
-				border-bottom:1px solid #888888;
-				overflow:hidden;
-				min-height:30px;
-			}
-			
-			#header .image {
-				cursor:pointer;
-				margin-bottom:3px;
-				padding:3px 10px 0px 2px;
-				width:23px;
-				height:23px;
-				display:block;
-				float:left;
-			}
-
-			#header .right {
-				float:right;
-				position:relative;
-				right:-1px;
-				top:2px;
-			}
-			
-			#header .text {
-				margin-top:3px;
-				margin-right:4px;
-				margin-left:4px;
-				float:left;
-			}
-			
-			#header .button {
-				margin-bottom:3px;
-				padding:3px 0px 0px 0px;
-				float:left;
-				overflow:hidden;
-			}
-			
-			#header #group {
-				width:120px;
-			}
-			
-			#content  {
-				width:100%;
-				bottom:0;
-				overflow:auto;
-				position:absolute;
-				top:31px;
-				text-align:center;
-			}
-						
-			.error {
-				width:10px;
-				height:15px;
-				display:block;
-				margin:7px 0px 0px 5px;
-				float:left;
-				font-size:12px;
-				color:red;
-				overflow:hidden;
-			}
-			
-			#error {
-				font-family:"Bookman Old Style";
-				color:red;
-				font-style:italic;
-				display:none;
-			}
-		</style>
-		<script language='JavaScript' src='https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/visorImagenes.js'> </script>
-	<!--	<script type="text/javascript" language="javascript">	
-        				
-
-		</script> -->
-	</head>
-	<body onload="init();">
+  	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+  	<title>Visor Imagenes</title>
+  	<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<script language='JavaScript' src='http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenes.js'> </script>
+	
+</head>
+	<body>
 		<div id="header">
-		<!--	<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-out.png"></img></div>
-			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-in.png"></img></div>
-			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/zoom-best-fit.png"></img></div>
-			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.06/images/run.png"></img></div> -->
-			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-out.png"></img></div>
-			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-in.png"></img></div>
-			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/zoom-best-fit.png"></img></div>
-			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="https://svn.morfeo-project.org/ezweb-gadgets/TID/trunk/visorImagenes/images/run.png"></img></div>
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-out.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-in.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-best-fit.png"></img></div>
+			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/run.png"></img></div>
 		</div>
 		<div id="content">
 			<img id="image" src="" onload="defaultZoom();"></img>
 		</div>
-		<!--<div id="default_footer" class="footer">
-			<div id="label">Esperando una imagen ...</div>
-		</div>-->
+		<link rel="stylesheet" type="text/css" href='http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenes.css'> </link>
 	</body>
 </html>
