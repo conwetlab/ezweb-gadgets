@@ -4,9 +4,31 @@
 -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
+<title>Bandeja de Pedidos-Reclamaciones</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script><title>Bandeja de Averias</title>
+<style>
+		body{
+			margin:0px;
+			padding:0px;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/background.png) repeat-x scroll left top;
+		}
+		#innerTaskList {
+			overflow:auto;
+			border: 2px solid #437BC8;
+			background-color: #ffffff;
+			margin:4px;
+			padding:5px;
+			-moz-border-radius:5px;
+		}
+		table {
+			border-style: none;
+			font-family:Arial;
+			font-size:14px;
+			text-align:center;
+		}
+</style>
 
 <script>
 var phoneNumber = EzWebAPI.createRWGadgetVariable("telefono");
@@ -20,8 +42,10 @@ serviceHired.set(rows[row*5+4].innerHTML);
 ticketDesc.set(rows[row*5+3].innerHTML);
 }
 </script></head><body>
+<div id="innerTaskList">
 <!-- This table will disappear in following version -->
-<table style="margin: 0px; padding: 0px; font-family: Arial; font-size: 14px; text-align: center; width: 100%;" cellspacing="0">
+<div id='taskListTable'>
+<table cellspacing="0">
 <tbody><tr>
 <th id="th0" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 12%;">Identificador</th>
 <th id="th1" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 12%;">Id Cliente</th>
@@ -71,14 +95,5 @@ ticketDesc.set(rows[row*5+3].innerHTML);
 <td style="border: 1px outset rgb(221, 221, 221);">El usuario ve la television pixelada</td>
 <td style="border: 1px outset rgb(221, 221, 221);">TV</td>
 </tr>
-<!--
-<tr>
-<td class="breakDown" onclick="sendData(6)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">reclamación-8</td>
-<td style="border: 1px outset rgb(221, 221, 221);">917744331</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Garcia Casas, Alberto</td>
-<td style="border: 1px outset rgb(221, 221, 221);">El usuario no es capaz de navegar por Internet</td>
-<td style="border: 1px outset rgb(221, 221, 221);">TV</td>
-</tr>
--->
-</tbody></table>
+</tbody></table></div></div>
 </body></html>
