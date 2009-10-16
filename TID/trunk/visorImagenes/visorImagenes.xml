@@ -9,6 +9,7 @@
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Watch your preferred images through this gadget and zoom into them. You should connect a Gadget like Flickr or Jogli to this gadget to watch the sent images.</Description>
 		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenes.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenesIPhone.png</iPhoneImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Visor_Im.C3.A1genes</WikiURI>
 	</Catalog.ResourceDescription>
 
