@@ -1,0 +1,220 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Send SMS</title>
+
+<style>
+	body{
+		margin:0px;
+		padding:0px;
+		font-family:Arial,Verdana,Helvetica, Sans-Serif;
+		font-size:11px;
+		margin:5px;
+		overflow:hidden;
+	}
+	
+	form{
+		overflow:hidden;
+	}
+	
+	legend{
+		padding: 0 2px;
+		font-weight: bold;
+		color:#282828;
+		font-size:12px;
+	}
+	
+	fieldset {
+		-moz-background-clip:border;
+		-moz-background-inline-policy:continuous;
+		-moz-background-origin:padding;
+  	margin-bottom: 10px;
+  	border-style:solid none none;
+		border-width:1px medium medium;
+		border-color:#238EC2;
+		margin-top:0px;
+		margin-left:0px;
+		margin-right:0px;
+		padding:0px;
+		background:transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/sendSMS/sendSMS_1.5.3/fieldset.gif) repeat-x scroll left bottom;
+		overflow:hidden;
+	}
+
+	label {
+  	display: inline-block;
+  	line-height: 1.8;
+	  vertical-align: top;
+		color:#282828;
+	}
+	
+	fieldset ol {
+  	margin: 0px;
+  	padding: 0px;
+	}
+
+	fieldset li {
+		-moz-background-clip:border;
+		-moz-background-inline-policy:continuous;
+		-moz-background-origin:padding;
+		list-style-image:none;
+		list-style-position:outside;
+		list-style-type:none;
+		padding:5px 10px 7px;
+	  margin: 0;
+		background:transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/sendSMS/sendSMS_1.5.3/divider.gif) repeat-x scroll left bottom;
+		min-width:241px;
+		overflow:hidden;
+
+	}
+	
+	label {
+	  width:83px; /* Width of labels */
+	}
+
+	input, textarea, select {
+		font-family:inherit;
+		font-size:100%;
+		margin:0;
+		padding:1px;
+	}
+	
+	#send{
+		border:1px solid #238EC2;
+		width:45px;
+		font-size:11px;
+	}
+	
+	center{
+		min-width:241px;
+		overflow:hidden;
+	}
+
+</style>
+
+<!--[if IE]>
+<style>
+	fieldset li {
+		white-space:nowrap;
+	}
+</style>
+<![endif]-->
+
+
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="JavaScript">
+var width = EzWebAPI.createRGadgetVariable("width", repaint);
+//IMPORTANT: user preference stores opensms_url base uri. It must be set by user
+var opensms_url = EzWebAPI.createRGadgetVariable("opensms_url", setBaseURI);
+// TM_LOGIN = numero de telefono del remitente del SMS
+var tm_login = EzWebAPI.createRGadgetVariable("tm_login", setOriginNumber);
+var password = EzWebAPI.createRGadgetVariable("tm_password", setPass);
+// Destination Phone
+var destinationPhone = EzWebAPI.createRGadgetVariable("destinationPhone", setDestinationPhone);
+// Message to Send
+var messageBody = EzWebAPI.createRGadgetVariable("message", setMessageBody);
+
+// Repaint gadget
+function repaint(){
+	var phone = document.getElementById("text");
+	var text = document.getElementById("message");
+	var fieldset = document.getElementById("field"); 
+
+	// width li - (padding li * 2 + width label + 10) 
+	phone.style.width = phone.parentNode.offsetWidth-113;
+	text.style.width = text.parentNode.offsetWidth-113;
+}
+
+
+//updates base_uri var when user preference is updated
+function setBaseURI(){
+return;
+}//setBaseURI
+
+function setOriginNumber(){
+return;
+}//setOriginNumber
+
+function setPass(){
+return;
+}//setPass
+
+function setDestinationPhone(val){
+    document.SMSCreationForm.elements['to'].value = val;
+}//setDestinationPhone
+
+function setMessageBody(val){
+    if (document.SMSCreationForm.elements['message'].value != '') {
+	document.SMSCreationForm.elements['message'].value += '\n' + val ;
+    } else {
+	document.SMSCreationForm.elements['message'].value = val ;
+    }
+}//setMessageBody
+
+
+
+function successCreationHandler(resp){
+    var response = eval('(' + resp.responseText + ')');
+    if (response.result == 'OK') {
+    alert('SMS sent successfully !!!');
+    } else {
+    alert(response.result);
+    }
+    return;
+}//successCreationHandler
+
+function errorCreationHandler(error){
+    alert('An error occurred while sending SMS.\nPlease, Contact admin.');
+    return;
+}//errorCreationHandler
+
+function createSMS(f){
+    //var uri = "https://opensms.movistar.es/aplicacionpost/loginEnvio.jsp";
+    var uri = opensms_url.get();
+    var to = document.SMSCreationForm.elements['to'].value;
+    var message = document.SMSCreationForm.elements['message'].value;
+
+    if (to.length <= 0) {
+    alert('Destination number is mandatory. Please, fill it in order to send a new SMS');
+    } else if (message.length <= 0) {
+    alert('Message is empty!!!. Please, fill it in order to send a new SMS');
+    }  else {
+    var parameters ="TM_ACTION=AUTHENTICATE" + 
+    "&TM_LOGIN=" + tm_login.get() + 
+    "&TM_PASSWORD=" + password.get() +
+    "&to=" + to +
+    "&message=" + message;
+    EzWebAPI.send_post(uri, parameters, this, successCreationHandler, errorCreationHandler);
+}
+
+return;
+
+}
+
+</script>
+
+</head>
+<body>
+<form name="SMSCreationForm" action="return false">
+	<fieldset id="field">
+		<legend>Send SMS</legend>
+		<ol>
+			<li>
+				<label>Phone</label>
+				<input name="to" type="text" id="text" class="text">
+			</li>
+			<li>
+				<label>Text</label>
+				<textarea id="message" rows="3" maxlength="256"></textarea>
+			</li>
+		</ol>
+	</fieldset>
+	<center>
+				<input id="send" name="create" value="Send" onclick="createSMS(this.form)" type="button">
+	</center>
+</form>
+</body>
+</html>
