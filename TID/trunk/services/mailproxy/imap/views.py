@@ -11,7 +11,19 @@ class FolderCollection(Resource):
         if request.POST.has_key('config'):
             config = simplejson.loads(request.POST['config'])
             if (config.__class__ == {}.__class__) and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password"):
-                folderList = getFolderList(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"))
+                folderList = getFolderList(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), False)
+                http_error = 200
+                if (folderList.__class__ == {}.__class__) and folderList.has_key("error"):
+                    http_error = commons.error.getHTTPError(folderList["error"])
+                return HttpResponse(json_encode(folderList), mimetype='application/json; charset=UTF-8', status=http_error)
+        return HttpResponse(commons.error.getErrorInfo(commons.error.CONFIG), mimetype='application/json; charset=UTF-8', status=commons.error.getHTTPError(commons.error.CONFIG))
+        
+class FolderCollectionWidthInfo(Resource):
+    def create(self, request):
+        if request.POST.has_key('config'):
+            config = simplejson.loads(request.POST['config'])
+            if (config.__class__ == {}.__class__) and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password"):
+                folderList = getFolderList(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), True)
                 http_error = 200
                 if (folderList.__class__ == {}.__class__) and folderList.has_key("error"):
                     http_error = commons.error.getHTTPError(folderList["error"])

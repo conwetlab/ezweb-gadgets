@@ -99,13 +99,13 @@ def parseMailHeader(header):
 
 def parseMail(message):
 
-    regexp1 = re.compile(".*UID\s+(\d+)\s+RFC822\.SIZE\s+(\d+)\s+.*") #FLAGS\s+\(([^)]*)\).*")
+    regexp1 = re.compile(".*UID\s+(\d+)\s+RFC822\.SIZE\s+(\d+)\s+FLAGS\s+\(([^)]*)\).*")
     match = regexp1.match(message[0])
 
     result = {}
     result["uid"] = int(match.group(1))
     result["size"] = int(match.group(2))
-    #result["flags"] = match.group(3).split(" ")
+    result["flags"] = match.group(3).split(" ")
 
     msg = email.message_from_string(message[1])
     

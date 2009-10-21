@@ -62,6 +62,27 @@ class IMAP4Client:
             self.error = commons.error.IMAP_MAILBOX_LIST
             return False
     
+    def getFolderListWidthInfo(self):
+        folders = self.imap.list()
+        self.response = []
+
+        if (folders[0] == "OK"):
+            for i in range(len(folders[1])):
+                self.response.append(parseMailbox(folders[1][i]))
+                for j in range(len(self.response)):
+                    folder_info = self.imap.status(self.response[j]["name"], "(MESSAGES RECENT UNSEEN)")
+                    
+                    if (folder_info[0] == "OK"):
+                        folder_info = ((folder_info[1][0].split('(')[1]).split(')')[0]).split(" ")
+                        self.response[j]["info"] = {"messages": folder_info[1], "recent": folder_info[3], "unseen": folder_info[5]}
+                    else:
+                        # Error al ontener la informacion
+                        pass
+            return True
+        else:
+            self.error = commons.error.IMAP_MAILBOX_LIST
+            return False
+    
     def getFolderInfo(self, foldername):
         folder_info = self.imap.status(foldername, "(MESSAGES RECENT UNSEEN)")
         self.response = []
@@ -116,7 +137,7 @@ class IMAP4Client:
         if end == 0:
             end = self.size
         
-        fetch_response = self.imap.fetch(",".join([str(i) for i in message_list[(begin-1):end]]), "(UID RFC822.SIZE FLAGS BODY[HEADER.FIELDS (DATE FROM TO CC BCC SUBJECT CONTENT-TYPE)])")
+        fetch_response = self.imap.fetch(",".join([str(i) for i in message_list[(begin-1):end]]), "(UID RFC822.SIZE FLAGS BODY.PEEK[HEADER.FIELDS (DATE FROM TO CC BCC SUBJECT CONTENT-TYPE)])")
 	
         if (fetch_response[0] != "OK"):
             self.error = commons.error.IMAP_FETCH
@@ -149,13 +170,21 @@ class IMAP4Client:
         
         message_id = search_response[1][0]
         
-        fetch_response = self.imap.fetch(message_id, "(UID RFC822.SIZE RFC822)")
-
+        fetch_response = self.imap.fetch(message_id, "(UID RFC822.SIZE FLAGS BODY.PEEK[])")
+        
         if (fetch_response[0] != "OK"):
             self.error = commons.error.IMAP_FETCH
             return False
-	
+
         msg = parseMail(fetch_response[1][0])
+
+        # Marcar el correo como leido
+        msg["flags_updated"] = False
+        if not msg["flags"].__contains__("\\Seen"):
+            store_response = self.imap.store(message_id, "+FLAGS", "\\Seen")
+            if (store_response[0] == "OK"):
+                msg["flags_updated"] = True
+        
         self.response.append(msg)
         return True
             
@@ -226,12 +255,15 @@ class IMAP4Client:
             self.error = commons.error.IMAP_FILE
             return False
                 
-def getFolderList(account, host, port, connection, username, password):
+def getFolderList(account, host, port, connection, username, password, widthinfo):
     ok = True
     imap = IMAP4Client(host, port, connection, username, password)
     ok = imap.login()
     if ok:
-        ok = imap.getFolderList()
+        if not widthinfo:
+            ok = imap.getFolderList()
+        else:
+            ok = imap.getFolderListWidthInfo()
     imap.logout()
     if ok:
         return {"folderList": imap.response, "account": account}
