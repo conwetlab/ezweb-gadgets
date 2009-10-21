@@ -1,5 +1,15 @@
 var languages = {
     en: {
+        "inbox": "Inbox",
+        "trash": "Trash",
+        "junk": "Spam",
+        "spam": "Spam",
+        "sent": "Sent",
+        "drafts": "Drafts",
+        "borradores": "Drafts",
+        "todos": "All",
+        "enviados": "Sent",
+        "papelera": "Trash"
     },
     es: {
         "Subject": "Asunto",
@@ -8,7 +18,9 @@ var languages = {
         "For or Cc": "Para o Cc",
         "Body": "Cuerpo del mensaje",
         "Synchronize": "Sincronizar",
+        "Mailbox": "Bandeja de correo",
         "Send email": "Enviar email",
+        "Send email to ": "Enviar email a ",
         "Settings": "Configurar",
         "Search options": "Opciones de búsqueda",
         "To": "Para",
@@ -56,14 +68,26 @@ var languages = {
         "The max size for attachment files is": "El tamañano máximo para los ficheros adjuntos es",
         "Delete": "Borrar",
         "Send events": "Enviar eventos",
-        "Name": "Nombre"
+        "Name": "Nombre",
+        "inbox": "Bandeja de entrada",
+        "trash": "Papelera",
+        "junk": "Correo basura",
+        "spam": "Correo basura",
+        "sent": "Enviados",
+        "drafts": "Borradores",
+        "borradores": "Borradores",
+        "todos": "Todos",
+        "enviados": "Enviados",
+        "papelera": "Papelera"
     }
 };
 
+var language = EzWebAPI.createRGadgetVariable('language', EzWebExt.bind(function(){}, this));
+
 var _ = function(key) {
-    var language = ClienteCorreo.language;
-    if (languages[language] && languages[language][key]) {
-        return languages[language][key];
+    var lang = language.get();
+    if (languages[lang] && languages[lang][key]) {
+        return languages[lang][key];
     }
     else {
         return key;

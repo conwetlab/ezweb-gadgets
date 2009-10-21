@@ -60,6 +60,14 @@ body {
 	width: 210px;
 }
 
+#header_right .input.disabled .styled_text_field  {
+    background: #f0f0f0;
+}
+
+#header_right .input.disabled .styled_text_field div input {
+    color: #888888;
+}
+
 #header_right .input .styled_text_field input {
 	padding-left:25px;
 }
@@ -93,6 +101,11 @@ body {
 	-moz-border-radius-bottomright:4px;
 }
 
+#search_options_menu.disabled {
+    background: #f0f0f0;
+    color: #888888;
+}
+
 #search_options_menu .option {
 	width:100%;
 	height: 22px;
@@ -109,6 +122,10 @@ body {
 	position: relative;
 	top: -1px;
 	cursor: pointer;
+}
+
+#search_options_menu.disabled .option, #search_options_menu.disabled .option input, #search_options_menu.disabled .option .text {
+	cursor: default !important;
 }
 
 #content {
@@ -768,33 +785,36 @@ table.layout {
 .pagination span.info {
 }
 
-#loading_background {
-	position: absolute;
-    	top: 0px;
-    	left: 0px;
-    	z-index: 3000;
-    	background: none;
-    	filter: alpha(opacity=60);
-    	-moz-opacity: .60;
-    	opacity: .60;
-    	width: 100%;
-    	height: 100%;
-}
-
 #loading_image {
 	position: absolute;
-	z-index: 3001;
-	top: 10px;
-    	right: 230px;
+	z-index: 1111111;
+	top: 9px;
+    right: 45px;
 } 
 
 .italic {
 	font-style: italic;
-	color: #888888;
+	color: #444444;
 }
 
 .headerrow .row.hidden {
     display: none !important;
+}
+
+img.disabled {
+	cursor: default !important;
+}
+
+.title, .value, .alternative_title {
+    cursor: default;
+}
+
+.config_content .row {
+    cursor: default !important;
+}
+
+.config_content .row  button, .config_content .row  select {
+    cursor: pointer;
 }
 
 /* CSS Tiny MCE */

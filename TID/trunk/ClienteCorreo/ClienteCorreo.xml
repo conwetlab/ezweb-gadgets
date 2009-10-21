@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Cliente Correo</Name>
-		<Version>1.5</Version>
+		<Version>1.6</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo</Description>
@@ -14,6 +14,15 @@
 
 	<!-- EzWeb Gadgets Preferences -->
 	<Platform.Preferences>
+	    <Preference name="refresh_time" type="list" label="Refresh time" description="Refresh time" default="10">
+			<Option value="0"  name="Never"/>
+			<Option value="5"  name="5 min."/>
+			<Option value="10" name="10 min."/>
+			<Option value="15" name="15 min."/>
+			<Option value="30" name="30 min."/>
+			<Option value="45" name="45 min."/>
+			<Option value="60" name="60 min."/>
+		</Preference>
 	</Platform.Preferences>
 
 	<!-- EzWeb Gadget Persistent State -->
@@ -44,11 +53,8 @@
 		<!-- Normal EzWeb Gadget Data Context needed -->
 		<Context       name="language"   type="text" concept="language"/>
 		<Context       name="user"       type="text" concept="user_name"/>
-		<!--<Context       name="language"   type="text" concept="language"/>-->
-		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
-		<!-- Usually not needed
-		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
-		-->
+   		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+	    <GadgetContext name="width"      type="text" concept="widthInPixels"/>
 		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
 	</Platform.Context> 
 </Template>
