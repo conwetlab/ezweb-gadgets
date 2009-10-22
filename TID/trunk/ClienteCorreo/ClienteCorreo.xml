@@ -8,7 +8,7 @@
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.5/images/correo.png</ImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/images/correo.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_lector_de_correo</WikiURI>
 	</Catalog.ResourceDescription>
 
@@ -44,7 +44,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.5/ClienteCorreo.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/ClienteCorreo.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="10" height="24"/>

@@ -8,7 +8,7 @@ var ClienteCorreo = function() {
 }
 
 ClienteCorreo.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
-ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.5/";
+ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/";
 
 /******************** OVERWRITE METHODS **************************/
 
