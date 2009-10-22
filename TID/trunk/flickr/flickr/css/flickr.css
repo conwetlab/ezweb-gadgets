@@ -61,20 +61,16 @@ a:active {
 .t { 
 	width: 75px; 
 	height: 75px; 
-	margin: 0; 
-	border:0; 
+	margin: 0px; 
+	border: 0px; 
 	padding: 3px; 
 } 
 
 
 .t:hover { 
-	padding:1px; 
+	padding: 1px; 
 	border: 2px solid #0063DC; 
 	border-right-color: #FF0084; 
-}
-
-.t.selected { 
-	background-color: #0063DC; 
 }
 
 .frame {
@@ -145,7 +141,7 @@ a:active {
 	font-family:inherit;
 	font-size:14px;
 	font-weight:bold;
-	padding:5px 5px;
+	padding:3px;
 	white-space:nowrap;
 	margin: 1px;
 }
@@ -162,78 +158,20 @@ span.butom:hover {
 }
 
 #content_div {
-	margin:0 auto; 
+	position:absolute; 
 	text-align:center; 
 	overflow:auto; 
-	position:absolute; 
+	margin:0 auto; 
 	top:80px; 
 	bottom:22px;
-	padding: 1px;
+	padding:1px;
 }
 
 #footer_div {
-	position:absolute; 
-	bottom:0px; 
-	left:5px; 
-	right:5px; 
-	height:22px; 
 	text-align:center;
+	position:absolute; 
+	width: 100%;
+	bottom:0px; 
+	height:22px;
+	padding:1px; 
 }
-
-
-.window_menu{
-    position: absolute;
-    top: 2px;
-    right: 2px;
-//    width: 100%;
-//    height: 100%;
-    bottom: 2px;
-    left: 2px;
-    z-index: 3;
-    //-moz-opacity: 0.6;
-    //opacity: 0.6;
-    background: white;
-    background-repeat: no-repeat;
-    background-position: center center;
-    border: 2px solid #0b8fff;
-
-}
-
-.window_menu .window_top {
-  position:relative;
-  margin:2px 2px 20px 2px;
-}
-
-.window_menu .window_title {
-  font-size: 16px;
-  color: #2D6F9C;
-  font-weight: bold;
-  margin-left: 10px;
-}
-
-.window_menu .closebutton {
-  position: absolute;
-  right: 2px;
-}
-.window_menu .window_content {
-  clear: both;
-  margin:20px;
-}
-.window_menu .window_content img{
-  margin-right: 5px;
-  vertical-align: bottom;
-}
-.window_msg {
-  display: inline;
-  text-align: center;
-}
-.window_msg_error{
-  font-size: 90%;
-  color: red;
-}
-
-.window_menu .window_bottom {
-  margin:20px 18px 10px 18px;
-  text-align: center;
-}
-

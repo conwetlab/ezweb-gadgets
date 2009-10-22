@@ -326,16 +326,19 @@ function displayImages () {
 
 		// creating image
 		var image = document.createElement ('img');
+		Element.extend(image);
 		image.src = img.urlThumb;
 		image.setAttribute ('id', img.id);
-		image.setAttribute ('class', 't');
+		image.addClassName ('t');
 		if (img.title){
 			image.setAttribute ('alt', img.title);
 		}
 
 		// creating link
 		var a = document.createElement('a');
+		Element.extend(a);
 		a.href = '#';
+		a.addClassName ('tl');
 		if (img.title){
 			a.setAttribute ('title', img.title);
 		}
@@ -363,6 +366,8 @@ function displayImages () {
 		a.appendChild(image);
 		document.getElementById('content_div').appendChild(a);
 	}
+	// Only in IE
+	resizeContent();
 }
 
 function isValidEmail(email_) {
