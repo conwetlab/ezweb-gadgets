@@ -2,6 +2,8 @@
 ////////// Class ClienteCorreo //////////////
 /////////////////////////////////////////////
 
+// TODO Actualmente los correos se muestran en un "object", probar a mostrarlo en una instancia nueva de tiny MCE
+
 var ClienteCorreo = function() {
 	/* Call to the parent constructor */
 	EzWebGadget.call(this, {translatable: false, useWidthVar: true});
@@ -14,8 +16,8 @@ ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gad
 
 ClienteCorreo.prototype.init = function() {
 	// Constants
-	this.MULTIPLE_CALLS         = true; // Si vale false, se realiza una única petición para solocitar al servidor la lista de directorios y 
-	                                    // la información de cada uno de ellos, no se recomienda ya que la petición es muy pesada
+	this.MULTIPLE_CALLS         = false; // Si vale false, se realiza una única petición para solocitar al servidor la información asociada a cada uno directorio (llamada más pesada)
+	                                     // Si vale true, se realiza una petición por directorio (más sobrecarga en red)
 	
 	this.MAIN_ALTERNATIVE       = 0;
 	this.SEND_ALTERNATIVE       = 1;
@@ -73,9 +75,6 @@ ClienteCorreo.prototype.disableGeneralUID = function() {
     this.maintab.setDisabled(true);
     this.hpaned.getLeftPanel().setDisabled(true);
     this.refresh_button.setDisabled(true);
-    //this.mailbox_button.setDisabled(true);
-    //this.send_button.setDisabled(true);
-    //this.config_button.setDisabled(true);
     this.send_mail_button.setDisabled(true);
     this.save_config_button.setDisabled(true);
     this.search_input.setDisabled(true);
@@ -86,13 +85,9 @@ ClienteCorreo.prototype.enableGeneralUID = function() {
     this.maintab.setDisabled(false);
     this.hpaned.getLeftPanel().setDisabled(false);
     this.refresh_button.setDisabled(false);
-    //this.mailbox_button.setDisabled(false);
-    //this.send_button.setDisabled(false);
-    //this.config_button.setDisabled(false);
     this.send_mail_button.setDisabled(false);
     this.save_config_button.setDisabled(false);
-    this.search_input.setDisabled(false);
-    
+    this.search_input.setDisabled(false); 
 }
 
 ClienteCorreo.prototype.repaint = function() {
@@ -148,7 +143,7 @@ ClienteCorreo.prototype._resizeTinyMCE = function() {
     			document.getElementById(editor_id + "_tbl").style.width = "100%";
     		}
     		if (document.getElementById(editor_id + "_ifr"))
-    			document.getElementById(editor_id + "_ifr").style.height = (editor.parentNode.offsetHeight - 51) + "px";
+    			document.getElementById(editor_id + "_ifr").style.height = (editor.parentNode.offsetHeight - 32) + "px";
     	} 
 }
 
@@ -1241,7 +1236,7 @@ ClienteCorreo.prototype.getFolders = function() {
 	if (AccountsManager.isConfigured()) {
 		this.disableGeneralUID();
 		this.sendPost(
-			this.MAILPROXY_URL + "imap/mailbox/all" + ((!this.MULTIPLE_CALLS)?"/info":""),
+			this.MAILPROXY_URL + "imap/mailbox/all",
 			"config=" + encodeURIComponent(Utils.toJSON(AccountsManager.getInAccount().getConfig())),
 			this.onSuccessGetFolders,
 			this.onError,
@@ -1265,6 +1260,20 @@ ClienteCorreo.prototype.getFolderInfo = function(full_name) {
 		        );
 	        }
 	    }
+	}
+}
+
+ClienteCorreo.prototype.getAllFoldersInfo = function() {
+	if (AccountsManager.isConfigured()) {
+		this.disableGeneralUID();
+		this.sendPost(
+			this.MAILPROXY_URL + "imap/mailbox",
+			"config=" + encodeURIComponent(Utils.toJSON(AccountsManager.getInAccount().getConfig())) + 
+			     "&mailbox=" + encodeURIComponent("*"),
+			this.onSuccessGetAllFoldersInfo,
+			function(){},
+			function(){}
+		);
 	}
 }
 
@@ -1405,6 +1414,19 @@ ClienteCorreo.prototype.onSuccessGetFolderInfo = function(transport) {
     }
 }
 
+ClienteCorreo.prototype.onSuccessGetAllFoldersInfo = function(transport) {
+    var response = eval("(" + transport.responseText + ")");
+    var account = AccountsManager.getInAccount();
+	if ((account != null) && account.compareTo(response["account"])) {
+	    var folderList = response["folder"];
+	    for (var i=0; i<folderList.length; i++) {
+	        if (folderList[i]["info"]) {
+                this._renameFolder(folderList[i]["name"], folderList[i]["info"]["unseen"]);
+            }
+        }
+    }
+}
+
 ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
     var response = eval("(" + transport.responseText + ")");
     var account = AccountsManager.getInAccount();
@@ -1412,36 +1434,51 @@ ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
 	    var folderList = response["folderList"];
 		document.getElementById("content_left").innerHTML = "";
 		account.clearMailboxList();
-				
-		var priorityFolders = ["inbox", "drafts", "sent", "junk", "spam","trash"];
 		
-		for (var i=priorityFolders.length-1; i>=0; i--) {
-		    // Ponemos en la parte superior de la lista los directorios prioritarios
-		    var index = -1;
-		    for (var j=0; j<folderList.length; j++) {
-		        if (folderList[j].name.toLowerCase() == priorityFolders[i].toLowerCase()) {
-		            index = j;
-		            break;
+		// Ordenamos alfabeticamente los directorios teniendo en cuenta que algunos son prioritarios
+		
+		var priorityFolders = ["papelera", "trash", "spam", "junk", "enviados", "sent", "borradores", "drafts", "inbox"];
+		
+		for (var i=0; i<folderList.length; i++) {
+		    var full_name = folderList[i].name;
+		    var separator = folderList[i].separator;
+			var name = full_name.split(separator)[full_name.split(separator).length-1];
+			folderList[i]["short_name"] = name;
+			folderList[i]["sort_name"] = account.getFolderName(name);
+		}
+		
+		folderList.sort(function(a, b) {
+		    var aSeparators = a.name.split(a.separator).length;
+		    var bSeparators = b.name.split(b.separator).length;
+		    if (aSeparators > bSeparators) {
+		         return 1;
+		    }
+		    else if (aSeparators < bSeparators) {
+		        return -1;
+		    } else {
+		        var aPriority = Utils.getIndexElement(priorityFolders, a.short_name, true);
+		        var bPriority = Utils.getIndexElement(priorityFolders, b.short_name, true);
+		        
+		        if (aPriority > bPriority) {
+		            return -1;
+		        }
+		        else if (aPriority < bPriority) {
+		            return 1;
+		        }
+		        else {    
+		            return Utils.compareStrings(a.sort_name, b.sort_name);
 		        }
 		    }
-		    if (index > 0) {
-		        var folder = folderList[index];
-		        folderList.splice(index,1);
-		        //folderList = folderList.slice(0,index).concat(folderList.slice(index+1, folderList.length)); // Sustituido por el splice
-		        folderList.unshift(folder);
-		    }
-		}
+		});
+		
+		// Fin ordenacion
 		
 		for (var i=0; i<folderList.length; i++) {
 			var full_name = folderList[i].name;
 			var separator = folderList[i].separator;
-			var name = full_name.split(separator)[full_name.split(separator).length-1];
+			var name = folderList[i].short_name;
 			var parent = full_name.substr(0,full_name.length-name.length-separator.length);
 			var flags = folderList[i].flags;
-			var counter = 0;
-			if (folderList[i]["info"]) {
-			    counter = parseInt(folderList[i].info.unseen);
-			}
 			var open = account.addMailbox({
 				full_name: full_name,
 				flags: flags,
@@ -1449,7 +1486,7 @@ ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
 				parent: parent,
 				separator: separator,
 				state:  "closed",
-				counter: counter
+				counter: 0
 			});
 		    
 		    this._createFolder(full_name);
@@ -1484,6 +1521,9 @@ ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
 		    for (var i=0; i<folderList.length; i++) {
 		        this.getFolderInfo(folderList[i].name);
 		    }
+		}
+		else {
+	        this.getAllFoldersInfo();
 		}
 	}
 	else {
@@ -1601,7 +1641,7 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 		    this.form_send["multi_selector"].reset();
 		    tinyMCE.get(this.form_send["message"].id).setContent(text);
 		    this.showAlternative(this.SEND_ALTERNATIVE);
-		    // TODO Falta reenviar adjuntos (es un marron)
+		    // TODO Falta reenviar adjuntos
 	    }, this));
 	
 	    forward_button.insertInto(row);
@@ -2044,7 +2084,7 @@ Account.prototype.addMailbox = function(mailbox) {
     // Devuelve true si el mailbox debe estar desplegado en el arbol de directorios
     mailbox["icon"] = this._getFolderIcon(mailbox.name, false);
     mailbox["icon_selected"] = this._getFolderIcon(mailbox.name, true);
-    mailbox["name"] = this._getFolderName(mailbox.name);
+    mailbox["name"] = this.getFolderName(mailbox.name);
 	this.mailboxList[mailbox["full_name"]] = mailbox;
 	if (this.oldState[mailbox["full_name"]] && (this.oldState[mailbox["full_name"]].state == "opened")) {
 	    return true;
@@ -2091,7 +2131,7 @@ Account.prototype.getConfig = function() {
 }
 
 
-Account.prototype._getFolderName = function(name) {
+Account.prototype.getFolderName = function(name) {
     var nameList = ["inbox", "trash", "junk", "spam", "sent", "drafts", "borradores", "todos", "enviados", "papelera"];
     var b = Utils.containElement(nameList, name, true);
     if (b) {
@@ -2327,7 +2367,6 @@ SearchInput.prototype.setDisabled = function(disable) {
     if (disable) {
         this.setImage(this.disable_image);
         this.img.title = "";
-        //this.input.inputElement.disable();
         EzWebExt.addClassName(this.img, "disabled");
         EzWebExt.addClassName(this.search_options_menu, "disabled");
         EzWebExt.addClassName(this.uid, "disabled");
@@ -2335,7 +2374,6 @@ SearchInput.prototype.setDisabled = function(disable) {
     else {
         this.setImage(this.enable_image);
         this.setTitle(this.title);
-        //this.input.inputElement.enable();
         EzWebExt.removeClassName(this.img, "disabled");
         EzWebExt.removeClassName(this.search_options_menu, "disabled");
         EzWebExt.removeClassName(this.uid, "disabled");
@@ -2562,6 +2600,18 @@ Timer.prototype.setTimeInMinutes = function(minutes) {
 var Utils = function() {
 }
 
+Utils.prototype.compareStrings = function(a, b) {
+	if (a == b) {
+	    return 0;
+	}
+	else if (a > b) {
+	    return 1;
+	}
+	else {
+	    return -1;
+	}
+}
+
 Utils.prototype.evalMailList = function(mails) {
 	if (mails.length == 1 && mails[0] == "")
 		return true;
@@ -2574,14 +2624,18 @@ Utils.prototype.evalMailList = function(mails) {
 }
 
 Utils.prototype.containElement = function(list, element, ignoreCase) {
+	return Utils.getIndexElement(list, element, ignoreCase) >= 0;
+}
+
+Utils.prototype.getIndexElement = function(list, element, ignoreCase) {
 	for (var i=0; i<list.length; i++) {
 		if ((!ignoreCase && (list[i] == element)) || 
 			(ignoreCase && (list[i].toUpperCase() == element.toUpperCase()))) {
 			
-			return true;
+			return i;
 		}
 	}
-	return false;
+	return -1;
 }
 
 Utils.prototype.stopEvent = function(e) {
@@ -2668,7 +2722,7 @@ tinyMCE.init({
 	// General options
 	mode : "textareas",
 	theme : "advanced",
-	plugins : "safari",
+	//plugins : "safari",
 
 	// Theme options
 	theme_advanced_buttons1 : 
@@ -2683,8 +2737,6 @@ tinyMCE.init({
 	theme_advanced_buttons4 : "",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : false,
 	
 	oninit : EzWebExt.bind(ClienteCorreo._initTinyMCE, ClienteCorreo),
 });

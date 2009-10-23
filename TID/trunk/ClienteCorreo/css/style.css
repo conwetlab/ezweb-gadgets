@@ -820,19 +820,10 @@ img.disabled {
 /* CSS Tiny MCE */
 
 .defaultSkin .mceIframeContainer {
-	border-bottom:1px solid #888888 !important;
 	border-top:1px solid #888888 !important;
 }
 
 .defaultSkin table.mceLayout {
 	border:1px solid #888888 !important;
 	-moz-border-radius: 4px !important;
-}
-
-.defaultSkin table.mceLayout tr.mceFirst td {
-	border:none !important;
-}
-
-.defaultSkin table.mceLayout tr.mceLast td {
-	border:none !important;
 }
