@@ -77,13 +77,16 @@ class IMAP4Client:
                         self.response[j]["info"] = {"messages": folder_info[1], "recent": folder_info[3], "unseen": folder_info[5]}
                     else:
                         # Error al ontener la informacion
-                        pass
+                        self.response[j]["info"] = {"messages": 0, "recent": 0, "unseen": 0}
             return True
         else:
             self.error = commons.error.IMAP_MAILBOX_LIST
             return False
     
     def getFolderInfo(self, foldername):
+        if foldername == "*":
+            return self.getFolderListWidthInfo()
+            
         folder_info = self.imap.status(foldername, "(MESSAGES RECENT UNSEEN)")
         self.response = []
         if (folder_info[0] == "OK"):
@@ -255,15 +258,12 @@ class IMAP4Client:
             self.error = commons.error.IMAP_FILE
             return False
                 
-def getFolderList(account, host, port, connection, username, password, widthinfo):
+def getFolderList(account, host, port, connection, username, password):
     ok = True
     imap = IMAP4Client(host, port, connection, username, password)
     ok = imap.login()
     if ok:
-        if not widthinfo:
-            ok = imap.getFolderList()
-        else:
-            ok = imap.getFolderListWidthInfo()
+        ok = imap.getFolderList()
     imap.logout()
     if ok:
         return {"folderList": imap.response, "account": account}

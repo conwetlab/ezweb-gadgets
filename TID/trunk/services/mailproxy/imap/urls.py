@@ -3,17 +3,13 @@ from imap.views import *
 
 urlpatterns = patterns('imap.views',
         
-    # Info from specific folder
+    # Info from specific folder (* for all folders)
     (r'^/mailbox[/]?$', 
         FolderInfo(permitted_methods=('POST',))),
-
+    
     # All folders
     (r'^/mailbox/all[/]?$', 
         FolderCollection(permitted_methods=('POST',))),
-        
-    # All folders width info
-    (r'^/mailbox/all/info[/]?$', 
-        FolderCollectionWidthInfo(permitted_methods=('POST',))),
     
     # Mails from specific folder
     (r'^/mailbox/messages/(?P<begin>[\d]+)/(?P<end>[\d]+)[/]?$', 
