@@ -8,18 +8,87 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/labelsList.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/labelsList.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
 <title>Feed List</title>
-<script language="javascript">
-var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/";
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/default.css"/>
+<script language='javascript'>var ie = false</script>
+
+
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/default_ie.css"/>
+<script language='javascript'>ie = true</script>
+<![endif]-->
+
+<script language='javascript'>
+
+var Translator = function() {
+}
+
+Translator.prototype.getLabel = function(value){
+	return value
+}
+var translator = new Translator();
+
+var repaint = function(){
+	var header = $('header');
+	var content = $('container');
+	var addFeed = $('addFeed');
+	var urlInput = $('url_edit_');
+	var titleInput = $('title_edit_');	
+	var notesInput = $('notes_edit_');	
+	var tagsInput = $('tags_edit_');
+
+	if(!ie){
+		content.style.width = header.offsetWidth-3+'px';
+	}
+	else{
+			if (document.body.clientWidth > 410){
+				header.style.width = 'auto';
+				addFeed.style.width= 'auto';
+				}
+			else{
+				header.style.width = '410px';
+				addFeed.style.width= '410px';
+				}
+			content.style.width = header.offsetWidth+'px';
+	}
+	if(urlInput){
+		if (urlInput.parentNode.offsetWidth > 0){
+			urlInput.style.width=urlInput.parentNode.offsetWidth-113+"px";
+			titleInput.style.width= titleInput.parentNode.offsetWidth-113+"px";
+			notesInput.style.width= notesInput.parentNode.offsetWidth-113+"px";
+			tagsInput.style.width= tagsInput.parentNode.offsetWidth-113+"px";
+		}
+	}
+
+	var keys = (feedStructure)?feedStructure.keys():[];
+	for (var i=0;i<keys.length;i++){
+		var edition = $('edition_'+i);
+		urlInput = $('url_edit_'+i);
+		titleInput = $('title_edit_'+i);	
+		notesInput = $('notes_edit_'+i);	
+		tagsInput = $('tags_edit_'+i);
+		if(urlInput){
+			if(edition.offsetWidth > 0){
+				var n = (ie)?130:113;
+				urlInput.style.width= edition.offsetWidth-n+"px";
+				titleInput.style.width= edition.offsetWidth-n+"px";
+				notesInput.style.width= edition.offsetWidth-n+"px";
+				tagsInput.style.width= edition.offsetWidth-n+"px";
+			}
+		}
+	}
+}
+
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/";
 //EzWeb vars
 //Properties
 var feedList = EzWebAPI.createRWGadgetVariable("feedList");
 var tagList = EzWebAPI.createRWGadgetVariable("tagList");
-
+var width = EzWebAPI.createRGadgetVariable("width", repaint);
 //Preferences
 var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
@@ -32,6 +101,7 @@ var feedDesc = EzWebAPI.createRWGadgetVariable("feedDesc");
 var feedTags = EzWebAPI.createRWGadgetVariable("feedTags");
 
 var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+
 
 // feed data structure for managing all feed subscriptions
 var feedStructure;
@@ -90,10 +160,10 @@ String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
 
 function generateLang(){
 
-	translator = new EzWebExt.Translator(labels, "language");
+	translator = new EzWebExt.Translator(labels, "language", null, null);
 	init();
-	translator.translate();
-
+//	translator.translate();
+	repaint();
 }
 
 function init () {
@@ -102,10 +172,8 @@ function init () {
 	resetInterval(time.get());
 	//set operator
 	setOperator(operator.get());
-	
-	//set configuration (header or full list)
+ 	//set configuration (header or full list)
 	setConfiguration(configuration.get());
-
 	setTheme(theme.get());
 	//is import/export operation enabled? (only for Firefox 3)
 	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
@@ -132,6 +200,7 @@ function init () {
 	$('header').style.display='block';
     paintFeedEntries('');
     resizeSelect();
+    
 }
 
 function resizeSelect(){
@@ -220,13 +289,13 @@ function paintFeedEntries(category)
 			}
 		}else{//we want to add it to the query
 			if(selected_categories.length == 0){
-				$('selected_categories').style.display = 'inline';
+				$('selected_categories').style.display = 'inline-block';
 			}
 			selected_categories.push(category);
 
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", category);
-			catElement.innerHTML = "<span>"+category+"</span><a href=\"javascript:removeSelectedCat('"+category.split("'").join("\\'")+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<a class='closeTag' href=\"javascript:removeSelectedCat('"+EzWebExt.escapeXML(category)+"');\">"+category+"</a>";
 
 			$('selected_categories').appendChild(catElement);
 		}
@@ -330,8 +399,9 @@ function paintFeedInfo (index, feed)
 	var title = feedStructure[feed]['title'];
 	var notes = feedStructure[feed]['desc'];
 	var tags = feedStructure[feed]['tags'];
-	var html = "<div id='"+index+"' class='feed'><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url.split("'").join("\\'") + "');\">" + title +"</a></div>";
-	html +="<div class='actions'><a href=\"javascript:editFeed('" + index + "')\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url.split("'").join("\'") + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div>";
+	var html = "<div id='"+index+"' class='feed'>";
+	html += "<div><table><tr><td style=\"text-align:left;\"><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url.split("'").join("\\'") + "');\">" + title +"</a></div></td>";
+	html += "<td style=\"text-align:right;\"><div class='actions'><a href=\"javascript:editFeed('" + index + "');repaint();\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url.split("'").join("\'") + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div></td></tr></table></div>";
 	html += "<div id='tags_"+index+"' class='feed_tags'>";
 	for (var i=0; i<tags.length;i++){
 
@@ -341,9 +411,9 @@ function paintFeedInfo (index, feed)
 	html += "<div id='edition_"+index+"' class='feed_edition' style='display:none;'>";
 
 	html += "<table class='edition'>";
-	html += "<tr><td class='labels'>URL</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "<tr><td class='labels'>URL<span class='required'>*</span></td><td class='fields'>";
 	html += "<input id='url_edit_"+index+"' type='text' value='"+EzWebExt.escapeXML(url)+"' size='35' name='url' onchange='feedDataChanged=true;'/></td>";
-	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"</td><td><span class='required'>*</span></td><td class='fields'>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("title_l")+"<span class='required'>*</span></td><td class='fields'>";
 
 	var td = document.createElement("td");
 	var input = document.createElement("input");
@@ -356,10 +426,10 @@ function paintFeedInfo (index, feed)
 	td.appendChild(input);
 	html += td.innerHTML;
 
-	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td></td><td class='fields'>";
+	html += "</tr><tr><td class='labels'>"+translator.getLabel("notes_l")+"</td><td class='fields'>";
 	html += "<textarea id='notes_edit_"+index+"' rows='4' cols='35' size='300' name='notes' onchange='feedDataChanged=true;'>"+notes+"</textarea>";
 	html += "</td></tr>";
-	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td></td><td class='fields'>";
+	html += "<tr><td class='labels'>"+translator.getLabel("tags_l")+"</td><td class='fields'>";
 
 	var td = document.createElement("td");
 	var input = document.createElement("input");
@@ -373,16 +443,16 @@ function paintFeedInfo (index, feed)
 	td.appendChild(input);
 	html += td.innerHTML;
 
-	html += "<label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
+	html += "</td></tr><tr><td colspan='2'><label class='tag_label'>"+translator.getLabel('separator_l')+"</label>";
 	html += "</td></tr>";
-	html += "<tr><td id='buttons' colspan='3'><div id='msg_"+index+"' class ='msg'></div><a class='button' href=\"javascript:updateFeed('"+index+"' , '"+url.split("'").join("\\'")+"');\">"+translator.getLabel("save_l")+"</a> | <a class='button' href=\"javascript:restoreDefaults('"+index+"','"+feed.split("'").join("\\'")+"');hide('"+index+"');\">"+translator.getLabel("cancel_l")+"</a></td></tr>";
+	html += "<tr><td colspan='2' style=\"text-align:center;\"><div id='msg_"+index+"' class ='msg'></div><button class='button' onClick=\"javascript:updateFeed('"+index+"' , '"+url.split("'").join("\\'")+"');repaint();\">"+translator.getLabel("save_l")+"</button><button class='button' onClick=\"restoreDefaults('"+index+"','"+feed.split("'").join("\\'")+"');hideElement('"+index+"');repaint();\">"+translator.getLabel("cancel_l")+"</button></td></tr>";
 	html += "</table>";
 
 	html += "</div>";
 	html += "</div>";
 
 	$("list").innerHTML = $("list").innerHTML + html;
-
+	repaint();
 }
 
 
@@ -497,7 +567,7 @@ function updateFeed(id, url){
 			deleteQuery();
 			paintFeedEntries('');
 		}
-		hide(id);
+		hideElement(id);
 	}else{
 		$('msg_'+id).update('* check required fields');
 	}
@@ -508,11 +578,11 @@ function editFeed(id) {
 
 	if ($('edition_'+id).style.display == "none")
 	{
-		hide(lastShown);
+		hideElement(lastShown);
 		show(id);
 		lastShown = id;
 		feedDataChanged = false;
-	}else hide(id);
+	}else hideElement(id);
 }
 
 function show(id){
@@ -527,7 +597,7 @@ function restoreDefaults(id, url){
 	$('tags_edit_'+id).value = feedStructure[url]['tags'].join();
 }
 
-function hide(id){
+function hideElement(id){
 	if (id != ""){
 		$('edition_'+id).style.display = "none";
 		$('tags_'+id).style.display = "block";
@@ -631,10 +701,11 @@ function setOperator(value){
 		//redo the last search
 		var last_cat = selected_categories[selected_categories.length-1];
 		$('selected_categories').update();
-		for (var i = 0; i<selected_categories.length-1;i++){
+		for (var i = 0; i<selected_categories.length-1;i++){	
 			var catElement = document.createElement("li");
 			catElement.setAttribute("id", selected_categories[i]);
-			catElement.innerHTML = "<span>"+selected_categories[i]+"</span><a href=\"javascript:removeSelectedCat('"+selected_categories[i]+"')\"><img src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/rm_tag.png' alt='remove'/></a>";
+			catElement.innerHTML = "<a class='closeTag' href=\"javascript:removeSelectedCat('"+EzWebExt.escapeXML(selected_categories[i])+"');\">"+selected_categories[i]+"</a>";
+			
 				$('selected_categories').appendChild(catElement);
 		}
 
@@ -658,9 +729,11 @@ function setConfiguration(value){
 		$("manage_l").style.display = "none";
 		$("hide_l").style.display = "inline";
 	}
+	repaint();
 }
 function setTheme(value){
-	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';		
+	repaint();
 }
 
 function addFeedsFromFile(opml){
@@ -701,7 +774,7 @@ function addFeedsFromFile(opml){
 
 function toggleImport(){
 	if($('import_form').style.display=="none")
-		$('import_form').style.display="inline";
+		$('import_form').style.display="block";
 	else
 		$('import_form').style.display="none";
 }
@@ -743,22 +816,38 @@ function exportFeeds(){
 
 function showAddFeed()
 {
+
+	$('url_edit_').value = '';
+	$('title_edit_').value = '';
+	$('notes_edit_').value = '';
+	$('tags_edit_').value = '';
 	$("addFeed").style.display = 'block';
 	$("header").style.display = 'none';
 	$("list").update();
     if($('hide_l').style.display=='inline')
     	$("container").style.display = "none";
+ 	repaint();
 }
 function hideAddFeed()
 {
-	$('addForm').reset();
-	$('msg').update();
-	$("addFeed").style.display = 'none';
-	$("header").style.display = 'block';
-	deleteQuery();
-	if($('hide_l').style.display=='inline')
-		$("container").style.display = "block";
-	paintFeedEntries('');
+	try {
+		$('url_edit_').value = '';
+		$('title_edit_').value = '';
+		$('notes_edit_').value = '';
+		$('tags_edit_').value = '';
+		//$('addForm').reset();
+		$('msg').update();
+		$("addFeed").style.display = 'none';
+		$("header").style.display = 'block';
+		deleteQuery();
+		if($('hide_l').style.display=='inline')
+			$("container").style.display = "block";
+		paintFeedEntries('');
+	}
+	catch(e) {
+		alert(e.lineNumber + ": " + e.message);
+	}
+	return false;
 }
 
 function manageFeeds(){
@@ -766,11 +855,14 @@ function manageFeeds(){
 		$("container").style.display = "block";
 		$("manage_l").style.display = "none";
 		$("hide_l").style.display = "inline";
+		repaint();
+
 	}else{
 		$("container").style.display = "none";
 		$("manage_l").style.display = "inline";
 		$("hide_l").style.display = "none";
 	}
+
 }
 function resetInterval(value){
 	try {
@@ -793,327 +885,18 @@ function sendfeed(){
 
 </script>
 
-<style type="text/css">
-	body {	
-		font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
-		font-size:12px;
-		margin:3px;
-		background-color:#CDDFEF;
-	}
-		
-	a {
-		text-decoration:none;
-	}
-		
-	a:hover {
-		text-decoration:underline;
-	}
-
-	label a:hover {
-		text-decoration:none;
-	}       
-	
-	#list {
-		background-color: #ffffff;
-		position:relative;
-		border-top:1px solid #d5d5d5;
-		width:100%;
-	}
-	.no_feeds{
-		color:#6c6c6c;
-	}
-	#add_link{
-		color: #3274D0;
-	}
-
-	#imp_exp{
-		color:#3274d0;
-		margin: 5px;
-	}
-
-	#imp_exp #import_link, #imp_exp #export_link {
-		display:inline;
-		font-size:90%;
-		cursor:pointer;
-
-	}
-	#import_b{
-		color:#3274d0;
-		font-size:90%;
-	}
-
-	#import_form{
-		margin-left:5px;
-	}
-
-	#list .feed{
-		border-bottom:1px solid #d5d5d5;
-		padding:5px 5px 2px;
-		position:relative;
-		overflow:hidden;
-	}
-	.feed .content{
-		position:relative;
-		margin-top:10px;
-		overflow:hidden;
-	}
-	.feed .feed_title {
-		margin: 0 60px 5px 0;
-	}
-	.feed .feed_title a{
-		color:#3274d0;
-	}
-	.feed .actions{
-		position:absolute;
-		width:50px;
-		right:0px;
-		top:3px;
-	}
-	.feed .actions img{
-		border:none;
-	}
-	.feed .feed_tags{
-		position:relative;
-		padding:5px;
-		width:auto;
-		float:right;
-		font-size:90%;
-		margin-left:50px;
-		background-color:#eff5fb;
-		-moz-border-radius-topleft:4px;
-		-moz-border-radius-topright:4px;
-		-webkit-border-top-left-radius:4px;
-		-webkit-border-top-right-radius:4px;
-		-moz-border-radius-bottomleft:4px;
-		-moz-border-radius-bottomright:4px;
-		-webkit-border-bottom-left-radius:4px;
-		-webkit-border-bottom-right-radius:4px;
-
-	}
-	.feed .feed_tags:hover {
-		background-color:#e9e9e9;
-	}
-	.feed_tags a{
-		color:#6c6c6c;
-	}
-	.feed_edition .edition{
-		padding:5px;
-		border: 1px solid #d5d5d5;
-		background-color: #e9e9e9;
-	}
-	.edition .required{
-		color:red;
-	}
-	.msg{
-		color: red;
-		font-size:95%;
-	}
-	
-	
-	#header{
-		position:relative;
-		padding: 5px 5px 0 5px;
-		min-width:215px;
-		overflow:hidden;
-	}
-	#header label{
-		color: #6C6C6C;
-		font-size: 95%;
-		position:relative;
-		/*width:61px;*/
-	}
-	
-	#l_filter, #l_feed{
-		float:left;
-		top:3px;
-		margin-right:3px;
-		width:30px;
-	}
-
-
-	#header_top, #header_bottom, #search {
-		position:relative;
-		height: 19px;
-		margin-bottom:6px;
-		clear:both;
-	}
-
-	#header_top select, #header_bottom select{
-		color:#6c6c6c;
-		border: 1px solid #cccccc;
-		background-color:#e9e9e9;
-		width:133px;
-		margin-left:5px;
-	}
-
-	#header_bottom select{
-		width:100%;
-		min-width:150px;
-	}
-
-	#combo_tag .option{
-		background-color:#e9e9e9;
-		color: #6c6c6c;
-	}
-
-	#header_top #match{
-		float:left;
-	}
-
-	#match input[type=radio]{
-		margin:0;
-		position:relative;
-		top:2px;
-	}
-
-	#match #l_all, #match #l_any{
-	
-	}
-
-	#header {
-		font-size: 95%;
-	}
-	
-	#l_search{
-		float:left;
-		top:3px;
-		margin-right:15px;
-		width:30px;
-	}
-	
-	#l_search a{
-		color: #3274d0;		
-	}
-	#header #i_search{
-		color: #6C6C6C;
-		background:#e9e9e9;
-		border: 1px solid #cccccc;
-		vertical-align: middle;
-		width: 146px;
-		padding:1px;
-		margin-left:-7px;
-	}
-	#header_bottom #options{
-		position: relative;
-		float: right;
-		text-align: right;
-		min-width: 205px;
-		color:#3274d0;
-		top:2px;
-	}
-
-	#options div{
-		cursor:pointer;
-		display:inline;
-		position:relative;
-		font-size: 95%;
-	}
-	#combo_tag{
-		position:relative;
-		float:left;
-		margin-right:10px;
-	}
-	#combo_tag #selected_categories{
-		display:none;
-		float:left;
-		margin: 0 0 0 5px;
-		padding: 0px;
-		vertical-align: middle;
-	}
-
-	#combo_feed{
-		position:relative;
-		float:left;	
-		width:83%;
-	}
-
-	#selected_categories li{
-		display:inline;
-		background: #e9e9e9;
-		margin-right: 5px;
-		padding: 0px 0px 0px 5px;
-		float:left;
-		border: 1px solid #cccccc;
-		vertical-align: middle;
-		color: #6C6C6C;
-
-	}
-	#selected_categories li span{
-		float:left;
-		position:relative;
-		top:2px;
-	}
-
-	#selected_categories li img{
-		border:none;
-		float:left;
-		margin-left: 5px;
-	}
-
-	#selected_categories li.operator{
-		background-color:#E9E9E9;
-		border: none;
-		color: #3274D0;
-	}
-	#addFeed{
-		background-color:#E9E9E9;
-		padding: 5px;
-	}
-	#addFeed #addFeed_title{
-		font-size: 150%;
-		color:#6C6C6C;
-	}
-	#addFeed table, .feed_edition table{
-		width:100%;
-		margin-top:5px;
-	}
-	#addFeed td, .feed_edition td{
-		color:#3274D0;
-	}
-	#addFeed td.labels, .feed_edition td.labels{
-		width:15%;
-		vertical-align:middle;
-		font-size:10px;
-	}
-	#addFeed td.fields, .feed_edition td.fields{
-		width:80%;
-	}
-
-	#addFeed input, .feed_edition input{
-		width:100%;
-		color:#6C6C6C;
-		border: 1px solid #D5D5D5;
-	}
-	#addFeed textarea, .feed_edition textarea{
-		width:100%;
-		color:#777777;
-		border: 1px solid #D5D5D5;
-	}
-	#addFeed .tag_label, .feed_edition .tag_label{
-		font-size:62%;
-	}
-	#addFeed #buttons, .feed_edition #buttons{
-		text-align:center;
-	}	
-	#addFeed .button, .feed_edition .button{
-		color:#3274D0;
-		font-size:72%;
-	}
-</style>
-
-<link rel="stylesheet" type="text/css" id="color_theme" />
+<link rel="stylesheet" type="text/css" id="color_theme"/>
 
 </head>
-<body onload="generateLang();" onresize="resizeSelect();">
+<body onload="generateLang();repaint();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
 	<div id="search">
 		<label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label>
 		<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
 	</div>
 	<div id="header_top">
-		<label id="l_filter">Filter:</label>
+		<label id="l_filter">Filter</label>
 		<div id="combo_tag">
-			<ul id="selected_categories"></ul>
 			<select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select>
 		</div>
 		<div id='match'>
@@ -1122,9 +905,10 @@ function sendfeed(){
 			<label id="l_any">any</label>
 			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
 		</div>
+		<ul id="selected_categories"></ul>
 	</div>
 	<div id="header_bottom">
-		<label id="l_feed">Feed:</label>
+		<label id="l_feed">Feed</label>
 		<div id='combo_feed'>
 			<select id="feedOptions" name="feedOptions" onchange="setEvents(this.value)"></select>
 		</div>
@@ -1143,40 +927,46 @@ function sendfeed(){
 	</div>
 	
 </div>
+
 <div id="addFeed" style="display:none;">
-	<span id="addFeed_title">New Feed</span>
-	<form id="addForm">
-	<table class='edition'>
-	<tr><td class="labels">URL</td>
-		<td><span class="required">*</span></td>
-		<td class="fields"><input id='url_edit_' type='text' value='' size='35' name='url'/></td>
-	</tr>
-	<tr><td id="title_l" class="labels">TITLE</td>
-		<td><span class="required">*</span></td>
-		<td class="fields"><input id='title_edit_' type='text' value='' size='35' name='title'/></td>
-	</tr>
-	<tr><td id="notes_l" class="labels">NOTES</td>
-		<td></td>
-		<td class="fields"><textarea id='notes_edit_' rows='4' cols='35' size='300' name='notes'></textarea></td>
-	</tr>
-	<tr><td id="tags_l" class="labels">TAGS</td>
-		<td></td>
-		<td class="fields"><input id='tags_edit_' type='text' value='' size='35' autocomplete='OFF' name='tags'/><label id="separator_l" class="tag_label">comma separated</label></td>
-	</tr>
-	<tr>
-		<td id="buttons" colspan="3"><div id="msg" class="msg"></div>
-			<a id="save_l" class="button" href="javascript:addFeed();">SAVE</a> | <a id="cancel_l" class="button" href="javascript:hideAddFeed();">CANCEL</a></td>
-	</tr>
-	</table>
-	</form>
+		<fieldset>
+			<legend id="addFeed_title">New Feed</legend>
+			<div>
+				<ol>
+					<li>
+							<label><span>URL</span><em>*</em></label>
+							<input id='url_edit_' type='text' value='' size='35' name='url'/>
+					</li>
+					<li>
+							<label><span id="title_l">Title</span><em>*</em></label>
+							<input id='title_edit_' type='text' value='' size='35' name='title'/>
+					</li>
+					<li>
+							<label><span id="notes_l">Notes</span></label>
+							<textarea id='notes_edit_' rows='4' cols='35' size='300' name='notes'></textarea>
+					</li>
+					<li>
+							<label><span id="tags_l">Tags</span></label>
+							<input id='tags_edit_' type='text' value='' size='35' autocomplete='OFF' name='tags'/>
+							<span id="separator_l" class="tag_label">comma separated</span>
+							<span id="msg" class="msg"></span>
+					</li>						
+				</ol>
+			<div>		</fieldset>
+		<center>
+			<button id="save_l" onClick="addFeed();repaint();">Save</button>						
+			<button id="cancel_l" onClick="hideAddFeed();repaint();">Cancel</button>
+		</center>
 </div>
-<div id="container" style="display:none">
-<div id="imp_exp" style="display:none"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div> / <div id="export_link" onclick="exportFeeds()"><span id="export_l" title="OPML file">export</span></div>
-<form id="import_form" style="display:none">
-	<input type="file" name="fileToUpload" />
-	<label id="b_import"><a id="import_b" href="javascript:importFeeds()">upload</a></label>
-</div>
+
+<div id="container" style="display:none;">
+<div id="imp_exp" style="display:none;"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div>|<div id="export_link" onclick="exportFeeds()"><span id="export_l" title="OPML file">export</span></div>
+<form id="import_form" style="display:none;white-space:nowrap;">
+	<input style="width:230px;" type="file" name="fileToUpload" />
+	<button id="import_b" href="javascript:importFeeds()">upload</button>
 </form>
+</div>
+
 <div id="list">
 </div>
 </div>

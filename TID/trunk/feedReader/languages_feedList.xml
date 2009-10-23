@@ -2,7 +2,7 @@
 <!DOCTYPE languages SYSTEM "http://antares.ls.fi.upm.es/ezwebext/v1.0/languages.dtd">
 <languages>
 	<language name="en">
-		<label id="l_filter">Filter:</label>
+		<label id="l_filter">Filter</label>
 		<label id="search_l">search</label>
 		<label id="all_l">all feeds</label>
 		<label id="manage_l">manage feeds</label>
@@ -11,9 +11,9 @@
 		<label id="no_feeds">There are no feeds. Perhaps you'd like to </label>
 		<label id="add_link">add a new one</label>
 		<label id="addFeed_title">New Feed</label>
-		<label id="title_l">TITLE</label>
-		<label id="notes_l">NOTES</label>
-		<label id="tags_l">TAGS</label>
+		<label id="title_l">Title</label>
+		<label id="notes_l">Notes</label>
+		<label id="tags_l">Tags</label>
 		<label id="save_l">SAVE</label>
 		<label id="cancel_l">CANCEL</label>
 		<label id="separator_l">comma separated</label>
@@ -41,9 +41,9 @@
 		<label id="no_feeds">No tienes ningún feed. Puedes </label>
 		<label id="add_link">añadir uno nuevo</label>
 		<label id="addFeed_title">Nuevo Feed</label>
-		<label id="title_l">TÍTULO</label>
-		<label id="notes_l">NOTAS</label>
-		<label id="tags_l">ETIQUETAS</label>
+		<label id="title_l">Título</label>
+		<label id="notes_l">Notas</label>
+		<label id="tags_l">Etiquetas</label>
 		<label id="save_l">ACEPTAR</label>
 		<label id="cancel_l">CANCELAR</label>
 		<label id="separator_l">separadas por comas</label>
