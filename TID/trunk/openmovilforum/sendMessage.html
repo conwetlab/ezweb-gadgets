@@ -444,17 +444,20 @@ function validateDate(json) {
 <input id="objectURL" name="objectURL" type="text" size="20"/>
 </p>
 <p class="pStyle">
-<label id="message_label" class="labelStyle">Message: </label>
-<span id="characters" class="count"><span id="num_characters">160</span> <span id="chars_left">chars left,</span></span>
-<span id="messages" class="count"><span id="num_messages">1</span> <span>SMS</span></span>
+<table style="width:100%;"><tr><td style="padding:0px;">
+	<span style="width:100%;">
+		<label id="message_label" class="labelStyle" style="float:left;">Message: </label>
+		<span id="characters" class="count" style="float:left;">><span id="num_characters">160</span> <span id="chars_left">chars left,</span></span>
+		<span id="messages" class="count"><span id="num_messages">1</span> <span>SMS</span></span>
+	</span>
+<td></tr><table>
 <textarea id="message" name="message" class="text" onblur="updateCharacters()" onkeyup="updateCharacters()"></textarea><br/>
 <a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
 <a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
 <a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a><br/>
 <div id="wait" style="display:none"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sending28x28blue.gif"/></div>
-<img id="SMSmsg" style="display:none" />
+<table style="width:100%;"><tr><td style="text-align:left"><img id="SMSmsg" style="display:none" /></td><td style="text-align:right;"><input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/></td></tr></table>
 <iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
-<input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/>
 </p>
 
 
