@@ -455,9 +455,18 @@ function validateDate(json) {
 <a href="javascript:clearText()" id="cleartext_label" class="clear_label">clear text</a>
 <a href="javascript:document.MMSCreationForm.reset()" id="clearall_label" class="clear_label">clear all fields</a>
 <a href="javascript:showSignature()" id="editsign_label" class="edit_label">edit signature</a><br/>
-<div id="wait" style="display:none"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sending28x28blue.gif"/></div>
-<table style="width:100%;"><tr><td style="text-align:left"><img id="SMSmsg" style="display:none" /></td><td style="text-align:right;"><input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/></td></tr></table>
-<iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
+<table style="width:100%;">
+<tr>
+	<td style="text-align:left">
+		<img id="SMSmsg" style="display:none" />
+		<div id="wait" style="display:none"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sending28x28blue.gif"/></div>
+		<iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
+	</td>
+	<td style="width:60px;text-align:right;">
+		<input name="create" id="buttonSend" value="send" type="button" onclick="validate()"/>
+	</td>
+</tr>
+</table>
 </p>
 
 
