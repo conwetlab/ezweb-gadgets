@@ -11,12 +11,12 @@ body{
 }
 #header, #container{
 	-moz-border-radius:5px;
-	background:white url(http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/images/fieldset.png) repeat-x scroll left bottom;
+	background:white;
 	display:block;
-	border-top:1px solid darkBlue;
-	border-left:1px solid darkBlue;
-	border-right:2px solid darkBlue;
-	border-bottom:2px solid darkBlue;
+	border-top:1px solid #DDD;
+	border-left:1px solid #DDD;
+	border-right:2px solid #DDD;
+	border-bottom:2px solid #DDD;
 	margin:1px 2px 2px 1px;
 	overflow:hidden;
 }
@@ -33,13 +33,13 @@ label{
 }
 
 #search{
-	border-bottom:1px solid #929DCC;
+	border-bottom:1px solid #DDD;
 	padding:5px 10px 7px;
   margin: 0px;
 }
 
 #header_top{
-  border-bottom:1px solid #929DCC;
+  border-bottom:1px solid #DDD;
 	padding:5px 10px 7px;
   margin: 0;
 }
@@ -133,7 +133,7 @@ label{
 	display:inline;
 	position:relative;
 	font-size: 95%;
-	color:#424999;
+	color:#DDD;
 	font-weight:bold;
 }
 
@@ -146,7 +146,7 @@ label{
 	display:inline;
 	position:relative;
 	font-size: 95%;
-	color:#424999;
+	color:#DDD;
 	font-weight:bold;
 	padding:3px;
 }
@@ -157,18 +157,18 @@ label{
 	padding-right:5px;
 	padding-top:3px;
 	text-align:right;
-	border-bottom:1px solid #929DCC;
+	border-bottom:1px solid #DDD;
 }
 
 #list{
-  border-bottom:1px solid #929DCC;
+  border-bottom:1px solid #DDD;
 	padding:0;
 	margin: 0;
-	background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/images/fieldset.png) repeat-x scroll bottom left;
+	background:white;
 }
 
 #list .feed{
-	border-bottom:1px solid #929DCC;
+	border-bottom:1px solid #DDD;
 	overflow:hidden;
 }
 .feed .content{
@@ -178,13 +178,13 @@ label{
 .feed_title {
 	display:inline;
 	margin:0 0 0 6px;
-	text-decoration:underline;
+	text-decoration:none;
 }
 .feed_title a{
 	color:#1C2151;
 	font-weight:bold;
 	font-size:12px;
-	text-decoration:underline;
+	text-decoration:none;
 }
 
 .feed table{
@@ -276,7 +276,7 @@ label{
 		list-style-type:none;
 		padding:5px 10px 7px;
 	  margin: 0;
-	  border-bottom:1px solid #929DCC;
+	  border-bottom:1px solid #DDD;
 	  
 }
 
@@ -309,7 +309,7 @@ label{
 	-moz-border-radius-bottomright:5px;
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
-	background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/images/fieldset2.png) repeat-x scroll bottom left;
+	background:white;
 	border-color:darkBlue;
 	border-style:solid;
 	border-width:1px 2px 2px 1px;

@@ -8,17 +8,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/labelsList.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/labelsList.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
 <title>Feed List</title>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/default.css"/>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/css/default.css"/>
 <script language='javascript'>var ie = false</script>
 
 
 <!--[if IE]>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/css/default_ie.css"/>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/css/default_ie.css"/>
 <script language='javascript'>ie = true</script>
 <![endif]-->
 
@@ -83,7 +83,7 @@ var repaint = function(){
 	}
 }
 
-var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/";
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/";
 //EzWeb vars
 //Properties
 var feedList = EzWebAPI.createRWGadgetVariable("feedList");
@@ -94,6 +94,7 @@ var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
 var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
 var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
 var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
+var background = EzWebAPI.createRGadgetVariable("background",setBackground);
 //wiring
 var feedUrl = EzWebAPI.createRWGadgetVariable("feedUrl");
 var feedTitle = EzWebAPI.createRWGadgetVariable("feedTitle");
@@ -401,7 +402,7 @@ function paintFeedInfo (index, feed)
 	var tags = feedStructure[feed]['tags'];
 	var html = "<div id='"+index+"' class='feed'>";
 	html += "<div><table><tr><td style=\"text-align:left;\"><div id='title_"+index+"' class=\"feed_title\"><a href=\"javascript:setEvents('" + url.split("'").join("\\'") + "');\">" + title +"</a></div></td>";
-	html += "<td style=\"text-align:right;\"><div class='actions'><a href=\"javascript:editFeed('" + index + "');repaint();\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url.split("'").join("\'") + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.32/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div></td></tr></table></div>";
+	html += "<td style=\"text-align:right;\"><div class='actions'><a href=\"javascript:editFeed('" + index + "');repaint();\"><img alt='edit' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/edit.png' title='"+translator.getLabel('edit_l')+"'/></a>&nbsp;<a href=\"javascript:removeFeed('"+index+"' , '"+ url.split("'").join("\'") + "')\"><img alt='remove' src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/remove.png' title='"+translator.getLabel('remove_l')+"'/></a></div></td></tr></table></div>";
 	html += "<div id='tags_"+index+"' class='feed_tags'>";
 	for (var i=0; i<tags.length;i++){
 
@@ -456,6 +457,10 @@ function paintFeedInfo (index, feed)
 }
 
 
+
+function setBackground(value){
+	setTheme(theme.get());
+}
 
 function setEvents(url){
 	if(url){
@@ -731,9 +736,17 @@ function setConfiguration(value){
 	}
 	repaint();
 }
+
 function setTheme(value){
 	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';		
+	if (!parseInt(background.get())){
+		document.getElementById('background_color').href = resourcesURL+'css/white.css';		
+	}
+	else{
+		document.getElementById('background_color').href = "";
+	}
 	repaint();
+
 }
 
 function addFeedsFromFile(opml){
@@ -886,7 +899,7 @@ function sendfeed(){
 </script>
 
 <link rel="stylesheet" type="text/css" id="color_theme"/>
-
+<link rel="stylesheet" type="text/css" id="background_color"/>
 </head>
 <body onload="generateLang();repaint();" onresize="resizeSelect();">
 <div id="header" class="header" style="display:none;">
