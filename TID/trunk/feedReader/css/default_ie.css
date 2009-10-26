@@ -17,7 +17,7 @@ body{
 		border-left:1px solid darkBlue;
 		border-right:2px solid darkBlue;
 		border-bottom:2px solid darkBlue;
-		margin:5px;
+		margin:1px 2px 2px 1px;
 		overflow:hidden;
 	}
 	
@@ -27,7 +27,7 @@ body{
   	line-height: 1.8;
 	  vertical-align: top;
 		color:#282828;
-		width:84px;
+		width:50px;
 		font-weight:bold;
 		cursor:pointer;
 		
@@ -51,13 +51,12 @@ body{
 		padding: 0px;
 		vertical-align: middle;
 	}
-	
 	#selected_categories li{
 		display:inline;
 		background: #E0E0E0;
-		margin-top:3px;
-		margin-bottom:3px;
-		margin-right: 5px;
+		margin-top:1px;
+		margin-bottom:1px;
+		margin-right: 7px;
 		padding:1px 0 1px 5px;
 		border: 1px solid #999999;
 		color: #666666;
@@ -106,7 +105,7 @@ body{
 	}
 	
 	#l_filter{
-		width:84px;
+		width:50px;
 	}
 	
 	#combo_tag{
@@ -116,6 +115,7 @@ body{
 	
 	#match {
 		display:inline;
+		white-space:nowrap;
 	}
 	
 	#match label{
@@ -189,6 +189,7 @@ body{
 	
 	.feed table{
 		width:100%;
+		margin:0;
 	}
 	
 	.actions{
@@ -200,7 +201,7 @@ body{
 	}
 
 	.feed .feed_tags{
-		padding:2px 2px 4px 2px;
+		padding:2px 2px 2px 2px;
 		font-size:90%;
 		text-align:right;
 	}
@@ -241,7 +242,7 @@ body{
 		color:#282828;
 		font-weight:bold;
 		vertical-align:middle;
-		width:84px;
+		width:50px;
 		font-size:12px;
 	}
 
@@ -282,7 +283,7 @@ body{
   	line-height: 1.8;
 	  vertical-align: top;
 		color:#282828;
-		width:84px;
+		width:50px;
 	}
 	
 #addFeed em{
@@ -370,4 +371,23 @@ select{
 input[type=text],textarea{
 	background-color:#E9E9E9;
 	border:1px solid darkBlue;
+	font-size:11px;
+}
+
+input[type=radio]{
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	padding-bottom:0;
+	padding-left:0;
+	padding-right:0;
+	padding-top:0px;
+}
+
+#no_feeds{
+	padding-left:5px;
+	padding-top:1px:
+	padding-bottom:1px;
+	padding-right:3px;
 }

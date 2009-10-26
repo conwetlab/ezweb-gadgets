@@ -45,22 +45,22 @@ var repaint = function(){
 		content.style.width = header.offsetWidth-3+'px';
 	}
 	else{
-			if (document.body.clientWidth > 410){
+			if (document.body.clientWidth > 345){
 				header.style.width = 'auto';
 				addFeed.style.width= 'auto';
 				}
 			else{
-				header.style.width = '410px';
-				addFeed.style.width= '410px';
+				header.style.width = '345px';
+				addFeed.style.width= '345px';
 				}
 			content.style.width = header.offsetWidth+'px';
 	}
 	if(urlInput){
 		if (urlInput.parentNode.offsetWidth > 0){
-			urlInput.style.width=urlInput.parentNode.offsetWidth-113+"px";
-			titleInput.style.width= titleInput.parentNode.offsetWidth-113+"px";
-			notesInput.style.width= notesInput.parentNode.offsetWidth-113+"px";
-			tagsInput.style.width= tagsInput.parentNode.offsetWidth-113+"px";
+			urlInput.style.width=urlInput.parentNode.offsetWidth-83+"px";
+			titleInput.style.width= titleInput.parentNode.offsetWidth-83+"px";
+			notesInput.style.width= notesInput.parentNode.offsetWidth-83+"px";
+			tagsInput.style.width= tagsInput.parentNode.offsetWidth-83+"px";
 		}
 	}
 
@@ -73,7 +73,7 @@ var repaint = function(){
 		tagsInput = $('tags_edit_'+i);
 		if(urlInput){
 			if(edition.offsetWidth > 0){
-				var n = (ie)?130:113;
+				var n = (ie)?100:83;
 				urlInput.style.width= edition.offsetWidth-n+"px";
 				titleInput.style.width= edition.offsetWidth-n+"px";
 				notesInput.style.width= edition.offsetWidth-n+"px";
@@ -289,7 +289,7 @@ function paintFeedEntries(category)
 			}
 		}else{//we want to add it to the query
 			if(selected_categories.length == 0){
-				$('selected_categories').style.display = 'inline-block';
+				$('selected_categories').style.display = 'inline';
 			}
 			selected_categories.push(category);
 
@@ -780,7 +780,7 @@ function toggleImport(){
 }
 
 function importFeeds(){
-	var fileToUpload = document.forms['import_form'].fileToUpload;
+	var fileToUpload = document.getElementById('fileToUpload');
 	if (fileToUpload.files.item(0)){
 		toggleImport();
 		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
@@ -896,6 +896,7 @@ function sendfeed(){
 	</div>
 	<div id="header_top">
 		<label id="l_filter">Filter</label>
+		<ul id="selected_categories"></ul>
 		<div id="combo_tag">
 			<select id="category" name="category" onchange="paintFeedEntries(this.value);" ></select>
 		</div>
@@ -905,7 +906,6 @@ function sendfeed(){
 			<label id="l_any">any</label>
 			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
 		</div>
-		<ul id="selected_categories"></ul>
 	</div>
 	<div id="header_bottom">
 		<label id="l_feed">Feed</label>
@@ -961,10 +961,10 @@ function sendfeed(){
 
 <div id="container" style="display:none;">
 <div id="imp_exp" style="display:none;"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div>|<div id="export_link" onclick="exportFeeds()"><span id="export_l" title="OPML file">export</span></div>
-<form id="import_form" style="display:none;white-space:nowrap;">
-	<input style="width:230px;" type="file" name="fileToUpload" />
-	<button id="import_b" href="javascript:importFeeds()">upload</button>
-</form>
+<div id="import_form" style="display:none;white-space:nowrap;">
+	<input style="width:230px;" type="file" id="fileToUpload" />
+	<button id="import_b" onclick="importFeeds();">upload</button>
+</div>
 </div>
 
 <div id="list">
