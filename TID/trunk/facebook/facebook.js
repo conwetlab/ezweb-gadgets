@@ -346,28 +346,38 @@ function processStream() {
 		var streamItem = streamList[i];
 
 		var photo = null;
+		var link = null;
 		if (streamItem.attachment.media) {
-			for (var m = 0; m < streamItem.attachment.media.length; m++) {
-				var media = streamItem.attachment.media[m];
-				if (media.type == 'photo' || media.type == 'link') {
-					photo = {
-						src: media.src,
-						href: media.href,
-						name: streamItem.attachment.name,
-						description: streamItem.attachment.description,
-						caption: streamItem.attachment.caption
-					};
-					break;
-				} else if (media.type == 'video') {
-					photo = {
-						src: media.src,
-						href: media.href,
-						name: streamItem.attachment.name,
-						description: streamItem.attachment.description,
-						caption: streamItem.attachment.caption
-					};
-					break;
+			if (streamItem.attachment.media.length) {
+				for (var m = 0; m < streamItem.attachment.media.length; m++) {
+					var media = streamItem.attachment.media[m];
+					if (media.type == 'photo' || media.type == 'link') {
+						photo = {
+							src: media.src,
+							href: media.href,
+							name: streamItem.attachment.name,
+							description: streamItem.attachment.description,
+							caption: streamItem.attachment.caption
+						};
+						break;
+					} else if (media.type == 'video') {
+						photo = {
+							src: media.src,
+							href: media.href,
+							name: streamItem.attachment.name,
+							description: streamItem.attachment.description,
+							caption: streamItem.attachment.caption
+						};
+						break;
+					}
 				}
+			} else {
+				link = {
+					href: streamItem.attachment.href,
+					name: streamItem.attachment.name,
+					description: streamItem.attachment.description,
+					caption: streamItem.attachment.caption
+				};
 			}
 		}
 
@@ -377,7 +387,25 @@ function processStream() {
 		var profile = profileMap['p' + streamItem.actor_id];
 		var listItem = document.createElement('li');
 
-		if (photo) {
+		if (link) {
+			var messageHtml =
+			'<div class="photoupdate">' +
+			'<a href="' + link.href + '" target="_blank">' +
+			'</a></div><div class="c">';
+			if (link.name) {
+				messageHtml += '<div class="c_name">' + link.name + '</div>';
+			}
+			if (link.description) {
+				messageHtml += '<div class="c_description">' + link.description + '</div>';
+			}
+			if (link.caption) {
+				messageHtml += '<div class="c_caption">' + link.caption + '</div>';
+			}
+			messageHtml += '</div>';
+			listItem.innerHTML = createFeedRow(streamItem.post_id,
+			profile.name, profile.url, profile.pic, replaceUrls(streamItem.message),
+			messageHtml, humanReadableDuration, streamItem.comments, profileMap);
+		} else if (photo) {
 			var messageHtml =
 			'<div class="photoupdate">' +
 			'<a href="' + photo.href + '" target="_blank">' +
