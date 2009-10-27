@@ -13,16 +13,17 @@ var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
 
 function init ()
 {
-
 }
 			
 function setNewImage(value)
 {
 	if (value != "" && value != undefined && value != null) {
-		document.getElementById('image').src = value;
+		document.getElementById('picture').src = value;
+		document.getElementById('picture').style.display = "inline";
 	}
 	else {
-		document.getElementById('image').src = urlSlot.get();
+		document.getElementById('picture').src = urlSlot.get();
+		document.getElementById('picture').style.display = "inline";
 	}
 }
 
@@ -30,9 +31,17 @@ function setSize(value)
 {	
 	var value_t = value;
 	var content = document.getElementById('content');
-	var image = document.getElementById('image');
+	var header = document.getElementById('header');
+	var image = document.getElementById('picture');
 	var r_image = trunc(image.offsetWidth/image.offsetHeight,2);
 	var r_gadget = trunc(content.offsetWidth/content.offsetHeight,2);
+
+	content.style.height = (document.body.offsetHeight-31) + "px";
+	content.style.width = document.body.offsetWidth + "px";
+	
+	if(ie)
+		header.style.width = document.body.offsetWidth + "px";
+
 	
 	if (r_image >= r_gadget) {
 		image.style.width = value_t + '%';
@@ -43,7 +52,8 @@ function setSize(value)
 	}
 	
 	content.style.overflow = "auto";
-	if (image.offsetHeight <= content.offsetHeight){
+	if ((image.offsetHeight <= content.offsetHeight) && 
+			(image.offsetWidth <= content.offsetWidth)){
 		content.style.overflow = "hidden";
 	}	
 }
@@ -63,13 +73,6 @@ function defaultZoom()
 	setSize(actualZoom = DEFAULT_ZOOM);
 }
 
-function nextImage()
-{
-	if (actualImage < (selectedImages.length-1))
-	{
-		setSelectedImage(++actualImage);
-	}
-}
 
 function sentURL()
 {

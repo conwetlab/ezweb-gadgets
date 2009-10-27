@@ -60,11 +60,6 @@ body {
 }
 
 #content  {
-	width:100%;
-	bottom:0;
-	overflow:auto;
-	position:absolute;
-	top:31px;
 	text-align:center;
 }
 			
@@ -85,3 +80,4 @@ body {
 	font-style:italic;
 	display:none;
 }
+
