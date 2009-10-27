@@ -11,7 +11,6 @@ body{
 }
 #header, #container{
 	-moz-border-radius:5px;
-	background:white;
 	display:block;
 	border-top:1px solid #DDD;
 	border-left:1px solid #DDD;
@@ -164,7 +163,6 @@ label{
   border-bottom:1px solid #DDD;
 	padding:0;
 	margin: 0;
-	background:white;
 }
 
 #list .feed{
@@ -309,7 +307,6 @@ label{
 	-moz-border-radius-bottomright:5px;
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
-	background:white;
 	border-color:darkBlue;
 	border-style:solid;
 	border-width:1px 2px 2px 1px;
