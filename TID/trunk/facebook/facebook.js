@@ -388,12 +388,17 @@ function processStream() {
 		var listItem = document.createElement('li');
 
 		if (link) {
-			var messageHtml =
-			'<div class="photoupdate">' +
-			'<a href="' + link.href + '" target="_blank">' +
-			'</a></div><div class="c">';
+			var messageHtml = '<div class="c">';
 			if (link.name) {
-				messageHtml += '<div class="c_name">' + link.name + '</div>';
+				messageHtml += '<div class="c_name">';
+				if (link.href) {
+					messageHtml += '<a href="' + link.href + '" target="_blank">';
+				}
+				messageHtml += link.name;
+				if (link.href) {
+					messageHtml += '</a>';
+				}
+				messageHtml += '</div>';
 			}
 			if (link.description) {
 				messageHtml += '<div class="c_description">' + link.description + '</div>';
