@@ -6,7 +6,6 @@ var INC = 5;
 var actualZoom = DEFAULT_ZOOM;
 
 var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
-var firstTime = true;
 var height = EzWebAPI.createRGadgetVariable("height", function() {
 	setSize(actualZoom);
 });
@@ -19,24 +18,19 @@ function init ()
 			
 function setNewImage(value)
 {
-	if (!firstTime) {
-		if (value != "" && value != undefined && value != null) {
-			document.getElementById('image').src = value;
-		}
-		else {
-			document.getElementById('image').src = urlSlot.get();
-		}
-	} else {
-		firstTime = false;
+	if (value != "" && value != undefined && value != null) {
+		document.getElementById('image').src = value;
+	}
+	else {
+		document.getElementById('image').src = urlSlot.get();
 	}
 }
 
 function setSize(value)
 {	
-	var value_t = value - 5;
+	var value_t = value;
 	var content = document.getElementById('content');
 	var image = document.getElementById('image');
-	
 	var r_image = trunc(image.offsetWidth/image.offsetHeight,2);
 	var r_gadget = trunc(content.offsetWidth/content.offsetHeight,2);
 	
@@ -48,6 +42,10 @@ function setSize(value)
 		image.style.width = 'auto';
 	}
 	
+	content.style.overflow = "auto";
+	if (image.offsetHeight <= content.offsetHeight){
+		content.style.overflow = "hidden";
+	}	
 }
 
 function expandZoom()
