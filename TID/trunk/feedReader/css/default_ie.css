@@ -388,3 +388,6 @@ input[type=radio]{
 	padding-bottom:1px;
 	padding-right:3px;
 }
+#search_l{
+	text-decoration:none;
+}
