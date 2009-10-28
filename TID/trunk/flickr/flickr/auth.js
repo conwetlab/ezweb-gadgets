@@ -112,10 +112,14 @@ function getToken(frob, onSuccess, onError)
 	flickr.auth.getToken(frob,
 		function(resp)
 		{
-			var user  = resp.auth.user;
-			var perms = resp.auth.perms._content;
-			var token = resp.auth.token._content;
-			onSuccess(token, perms, user);
+			if (!resp.auth.user){
+				onError(translator.getLabel('flickrerror'));
+			} else {
+				var user  = resp.auth.user;
+				var perms = resp.auth.perms._content;
+				var token = resp.auth.token._content;
+				onSuccess(token, perms, user);				
+			}
 		},
 		function(resp)
 		{
@@ -129,10 +133,14 @@ function checkToken(token, onSuccess, onError)
 	flickr.auth.checkToken(token,
 		function(resp)
 		{
-			var user  = resp.auth.user;
-			var perms = resp.auth.perms._content;
-			var token = resp.auth.token._content;
-			onSuccess(token, perms, user);
+			if (!resp.auth.user){
+				onError(translator.getLabel('flickrerror'));
+			} else {
+				var user  = resp.auth.user;
+				var perms = resp.auth.perms._content;
+				var token = resp.auth.token._content;
+				onSuccess(token, perms, user);
+			}
 		},
 		function(resp)
 		{
