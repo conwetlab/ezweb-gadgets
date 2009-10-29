@@ -17,26 +17,26 @@
   }
 			
   #header {
-	height: 40px;
+		height: 30px;
   }
 
   #footer {
-	height:30px;
-	padding:2px 0px;
+		height:30px;
+		padding:2px 0px 2px 0px;
   }
 
 
   .slot {
     cursor:hand;
     cursor:pointer;
-    width: 90%;
     display:none;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     padding-top:2px;
     vertical-align: middle;
-  }
+    overflow:hidden;
+  } 
 
 
 
@@ -84,7 +84,6 @@
  
 
   .thumb {
-    width: 100%;
     padding: 1px;
     border: 1px solid #666666;
     text-align: center;
@@ -118,6 +117,7 @@
     font-size: 8pt;
     font-family: arial,helvetica;
     background:#ffffff;
+    overflow:auto;
   }
 
 
@@ -196,11 +196,20 @@
 </style>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js">
-</script><script>
+</script>
+
+<script>
+var ie = false;
+</script>
+<!--[if IE]>
+<script>
+ie = true;
+</script>
+<![endif-->
+<script>
 
 var lock = EzWebExt.createLockVariable();
 var cellHeight = EzWebAPI.createRGadgetVariable("height", function(value){repaint();});
-
 
 function URLEncode( url )
 {
@@ -373,7 +382,8 @@ function load(){
     createChannels(region.get());
     currentChannelId = parseInt(defaultChannel.get());
     rebuildChannelList();
-    document.getElementById("channellist").onchange();   
+    changeChannel(document.getElementById("channellist"));
+//    document.getElementById("channellist").onchange();   
 }
 
 function createChannels(region){
@@ -609,7 +619,8 @@ function changeRegion(value){
         newChannelId = channels.length - 1; 
       }
       document.getElementById(channelNodeId(newChannelId)).selected = true;
-      document.getElementById("channellist").onchange();
+      changeChannel(document.getElementById("channellist"));
+//      document.getElementById("channellist").onchange();
     }
 	
 	// Handle channel change from UI or Search
@@ -661,8 +672,17 @@ function changeRegion(value){
 
     function handleChannelXml(response) {
 
-      var items = response.responseXML.getElementsByTagName("item");
-      videos = new Array();
+		if(ie){    
+	    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+			xmlDoc.async = false;
+			xmlDoc.loadXML(response.responseText);
+			var items = xmlDoc.getElementsByTagName("item");
+		}
+		else{
+	    var items = response.responseXML.getElementsByTagName("item");
+		}
+
+     videos = new Array();
 try{
       for (var i = 0; i < items.length && 
           videos.length <= MAX_SEARCH_RESULTS; i++) {
@@ -702,7 +722,7 @@ try{
       } else {
         goToNewState(GS_NORESULTS);
       }
-
+			repaint();
 }catch (e){
 alert("excepcion");
 }
@@ -762,15 +782,15 @@ alert("excepcion");
         currentPage = lastPage;
       } 
 
-      if(miniMode) {
-        document.getElementById("cell0").style.width = "50%";
-        document.getElementById("cell1").style.width = "50%";
-        document.getElementById("cell2").style.width = "0px";
-      } else {
-        document.getElementById("cell0").style.width = "33%";
-        document.getElementById("cell1").style.width = "33%";
-        document.getElementById("cell2").style.width = "33%";
-      }
+			if(miniMode) {
+					document.getElementById("cell0").style.width = "50%";
+					document.getElementById("cell1").style.width = "50%";
+					document.getElementById("cell2").style.width = "0px";
+			} else {
+					document.getElementById("cell0").style.width = "33%";
+					document.getElementById("cell1").style.width = "33%";
+					document.getElementById("cell2").style.width = "33%";
+			} 
       
       // Fill the slots
       for (var i = 0; i < videosPerPage(); i++) {
@@ -786,8 +806,8 @@ alert("excepcion");
 
         // set up slot
         document.getElementById("slot" + slotId).style.display = "block";
-        document.getElementById("slot" + slotId).onclick = loadVideoLater(video);
-        
+				document.getElementById("slot" + slotId).onclick = loadVideoLater(video);
+
         // insert thumb
         var thumb = document.createElement("img");
         thumb.id = "thumb" + i;
@@ -812,6 +832,7 @@ alert("excepcion");
       }
 
       renderPager(currentPage);
+      repaint();
       goToNewState(GS_BROWSE); 
     }
 
@@ -830,7 +851,7 @@ alert("excepcion");
       } else {
         var link = document.createElement('a');
         link.href = "#";
-        link.onclick = renderBrowsePageLater(page);
+				link.onclick = renderBrowsePageLater(page);
         link.appendChild(node);
         inner = link;
       }
@@ -932,12 +953,28 @@ alert("excepcion");
     }
 
     function repaint(){
-               document.getElementById('content').style.height = (cellHeight.get() - document.getElementById('header').offsetHeight - 					document.getElementById('footer').offsetHeight - 6) + 'px';
+	    document.getElementById('content').style.overflow = "hidden";
+			document.getElementById('content').style.height = (cellHeight.get() - document.getElementById('header').offsetHeight - document.getElementById('footer').offsetHeight - 6) + 'px';
+			document.getElementById('content').style.width = (document.body.offsetWidth - 4) + 'px';
+			if(miniMode)
+				var width = (document.getElementById('content').offsetWidth /  2) - 20;
+			else
+				var width = (document.getElementById('content').offsetWidth / 3) - 20;
+
+			var images = document.getElementsByTagName("img");
+			for(var i=0; i<images.length;i++){
+				if(images[i].className.search("thumb") > -1){
+					images[i].style.width=((width > 86)?width:86)+'px';
+					images[i].style.height="auto";
+				}
+			}
+			document.getElementById('content').style.overflow = "auto";
     }
             
     function init(){
-                repaint();
-                load();
+			repaint();
+		  load();
+		  repaint();
     }
     //Added for refresh///
     function refresh() {
@@ -963,21 +1000,18 @@ alert("excepcion");
 <body onload="init();">
 <div id="header">
 <div id="uppernav" class="hbar">
-
   <table>
-
     <tr>
       <td>
         <a href="http://www.youtube.com" target="_blank"><img
             height="22" width="51" border="0"
-          src="http://img0.gmodules.com/ig/modules/youtube_videos_content/ytlogo_51x22.gif" /></a>
+          src="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/css/images/ytlogo.png" /></a>
       </td>
       <td width="100%">
         <form style="display:inline;">
           <select id="channellist" onchange="changeChannel(this)"></select>
         </form>
       </td>
-      <!--> añadido<-->
       <td>
 	      <img src="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/css/images/view-refresh.png" style="cursor:pointer;" title="Refrescar" onclick="refresh();"/>
       </td>
@@ -1086,15 +1120,14 @@ alert("excepcion");
   <div id="content" class="contentpane">
     <table id="browse" style="width:100%; height:100%;">
       <tr height="50%" align="center">
-
-        <td id="cell0" width="33%">
+        <td id="cell0">
           <div id="slot0" class="slot">
             <a id="link0" href="javascript:void(0)"></a>
 
             <div id="title0" class="browseitemtitle"></div>
           </div>
         </td>
-        <td id="cell1" width="33%">
+        <td id="cell1">
 
           <div id="slot1" class="slot">
             <a id="link1" href="javascript:void(0)"></a>
@@ -1102,7 +1135,7 @@ alert("excepcion");
 
           </div>
         </td>
-        <td id="cell2" width="33%">
+        <td id="cell2">
           <div id="slot2" class="slot">
 
             <a id="link2" href="javascript:void(0)"></a>
@@ -1112,7 +1145,7 @@ alert("excepcion");
 
       </tr>
       <tr align="center">
-        <td>
+        <td id="cell3">
 
           <div id="slot3" class="slot">
             <a id="link3" href="javascript:void(0)"></a>
@@ -1120,14 +1153,14 @@ alert("excepcion");
           </div>
         </td>
 
-        <td>
+        <td id="cell4">
           <div id="slot4" class="slot">
 
             <a id="link4" href="javascript:void(0)"></a>
             <div id="title4" class="browseitemtitle"></div>
           </div>
         </td>
-        <td>
+        <td id="cell5">
           <div id="slot5" class="slot">
 
             <a id="link5" href="javascript:void(0)"></a>
@@ -1141,7 +1174,6 @@ alert("excepcion");
 </div>
 
 <div id="footer" class="hbar">
-
   <form name="searchForm" onsubmit="doSearch(this.query.value); return false;">
     <table>
       <tr>

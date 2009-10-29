@@ -23,20 +23,23 @@ body.locked {
 }
 
 #header {
+	background-color:#EEE;
+	border-bottom:1px solid #AAA;
 	display: block;
 	overflow: hidden;
 	width:100%;
 }
 
 #content {
-    display: block;
-    overflow: auto;
+	display: block;
+	overflow: auto;
 	background: none;
 }
 
 #footer {
+	background-color:#EEE;
+	border-top:1px solid #AAA;
 	display: block;
-	background: none;
 	overflow:hidden;
 	width:100%;
 }
@@ -44,6 +47,7 @@ body.locked {
 .button, button {
 	padding-top: 0px;
 	padding-bottom: 0px;
+	margin-left:2px;
 }
 
 .text_field {
