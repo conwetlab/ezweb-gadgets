@@ -846,9 +846,7 @@ function select_tab (next_tab, isUpdate_) {
 	delete all_messages;
 	all_messages = new Object();
 	
-	if (authorization == ''){
-		restart_connection();
-	} else {
+	if (authorization != ''){
 		// Changes to the selected tab
 		if (current_tab.id == 'me_tab'){
 			get_messages (isUpdate_);
