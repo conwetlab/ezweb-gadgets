@@ -1,5 +1,5 @@
 body {
-	background: #9AE4E8 url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/bg.gif) repeat fixed left top;
+	background: #9AE4E8 url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/bg.gif) repeat fixed left top;
 	font-family:'Lucida Grande',sans-serif;
 	margin: 5px;
 }
@@ -26,7 +26,7 @@ h3 {
 #tab_table {
 	margin: 0 auto;
 	height:auto;
-	width: 98%;
+	width: 100%;
 	table-layout: auto;
 }
 
@@ -63,31 +63,32 @@ h3 {
 	background: #FFFFFF none repeat scroll 0 0;
 	text-align: left;
 	overflow: auto;
-	padding: 10px 10px 10px;
+	padding: 0px 10px;
 	min-height: 100px;
 }
 
 .bottom_cont {
 	text-align: right;
 	width: 100%;
-	margin-top: 5px;
-	margin-bottom: 10px;
+	margin: 5px 0px;
 }
 
 .disabled_button{
-	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
+	width: 95px;
 	border: 1px solid #CECECE;
 	margin-left: 5px;
 	padding: 0.25em 1em;
-	font-size: 14px;
 	color: #CECECE;
+	font-size: 14px;
 	cursor: default;
 }
 
 .button{
-	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
+	width: 95px;
 	border: 1px solid #CECECE;
 	margin-left: 5px;
 	padding: 0.24em;
@@ -97,7 +98,7 @@ h3 {
 }
 
 .button:hover{
-	background: transparent url(http://demo.ezweb.morfeo-project.org/repository/twitter/images/round-btn-hover.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn-hover.gif) repeat scroll 0 0;
 }
 
 #container .message_container {
