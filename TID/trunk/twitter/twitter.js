@@ -256,7 +256,7 @@ function show_update_error(res){
 }
 
 function show_duplicated_message_error(){
-	var msg = 'Sorry, the sent message is duplicated. The message have not been posted.';
+	var msg = 'Sorry, the sent message is duplicated. The message has not been posted.';
 	show_error(msg);
 	
 	setTimeout("close_notification()",10000);
