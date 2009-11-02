@@ -3,6 +3,9 @@
 <style>
 body{
 	margin:0px;
+	padding:0px;
+	width:100%;
+	height:100%;
 	overflow:hidden;
 }
 
@@ -22,9 +25,6 @@ var is_iphone = (agent.indexOf('iPhone')!=-1);
 
 function URLDecode( url )
 {
-   // Replace + with ' '
-   // Replace %xx with equivalent character
-   // Put [ERROR] in output if %xx is invalid.
    var HEXCHARS = "0123456789ABCDEFabcdef"; 
    var encoded = url;
    var plaintext = "";
@@ -58,25 +58,31 @@ var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadVideo);
 var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
 var urlEvent = EzWebAPI.createRWGadgetVariable ("url");
 var language = EzWebAPI.createRGadgetVariable("language", function(){return;});
+var videoId = "http://www.youtube.com/v/H6-l7OUlS5k&rel=1";
+
+function sendEvent(url_){
+	urlEvent.set(url_);
+}
 
 function loadVideo(url_){
 
  if(url_ && url_!=""){
- 	 init();
+
    url_ = URLDecode (url_);
    if (!is_iphone){
 	 var object = document.createElement('object');
+	 object.id = "videoId";
   	 object.setAttribute('width',"100%");
      object.setAttribute('height',"100%");
 	 var param = document.createElement('param');
 	 param.name = "movie";
 	 param.value = url_;
-	 object.appendChild(param);
+	 object.appendChild(p);
 	 param = document.createElement('param');
 	 param.name = "wmode";
 	 param.value = "transparent";
-	 object.appendChild(param);
-
+	 object.appendChild(p);
+  
      var embed = document.createElement('embed');
      embed.setAttribute('src',url_);
      embed.setAttribute('width',"100%");
@@ -84,7 +90,7 @@ function loadVideo(url_){
      embed.setAttribute('wmode',"transparent");
 	 embed.setAttribute('type',"application/x-shockwave-flash");
      embed.id="rep";
-     object.appendChild(embed);
+     
    }
    else{ //iphone
      var object = document.createElement('a');
@@ -94,9 +100,26 @@ function loadVideo(url_){
    var divAnt = document.getElementById("video");
    var divVideo = document.createElement("div");
    divVideo.id="video";
-   divVideo.appendChild(object);
-   document.body.replaceChild(divVideo,divAnt);   
+   divVideo.appendChild(em);
+   divVideo.appendChild(obj);
+   document.body.replaceChild(divVideo,divAnt);
+   
+   	var div = document.getElementById("sendEvent");
+	div.innerHTML = "";
+	var img = document.createElement("img");
+	img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
+	img.onclick = function(){sendEvent(url_)};
+	
+	img.style.marginBottom="3px";
+	img.style.cursor="pointer";
+	if (language.get() != "es")
+		img.setAttribute("title", "Send Event");
+	else
+		img.setAttribute("title", "Enviar Evento");
+	div.appendChild(img);
+      
  }
+	
 }
 
 function init(){
@@ -108,23 +131,21 @@ function init(){
 	img.style.marginBottom="3px";
 	img.style.cursor="pointer";
 	url_ = URLDecode (urlPref.get());
-	img.setAttribute("onclick", "sendEvent('"+url_+"');");
+	img.onclick = function(){sendEvent(url_)};
 	if (language.get() != "es")
 		img.setAttribute("title", "Send Event");
 	else
 		img.setAttribute("title", "Enviar Evento");
 	div.appendChild(img);
+	videoId = "http://www.youtube.com/v/H6-l7OUlS5k&rel=1";
 }
 
-function sendEvent(_url){
-	urlEvent.set(_url);
-}
 
 </script>
 
 <div id="sendEvent"></div>
 <div id="video">
-	<object width="100%" height="100%">
+	<object id="videoId" width="100%" height="100%">
 		<param name="movie" value="http://www.youtube.com/v/H6-l7OUlS5k&rel=1">
 		<param name="wmode" value="transparent">
 		<embed id="rep" width="100%" height="100%" src="http://www.youtube.com/v/H6-l7OUlS5k&rel=1" type="application/x-shockwave-flash" wmode="transparent"></embed>
