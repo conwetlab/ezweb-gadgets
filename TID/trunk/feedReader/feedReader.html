@@ -8,13 +8,62 @@
 <head>
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
   <title>Feed Reader</title>
+  <script>
+  	var ie=false;
+  </script>
   <link id="style" rel='stylesheet' type='text/css' href='' />
-  <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+  <!--[if IE]>
+	<script>
+  		ie=true;
+  	</script> 	
+  	<link id="style" rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/ie.css' />
+  <![endif]-->
+  <link id="style" rel='stylesheet' type='text/css' href='' />
+  <script type="text/javascript" language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/prototype.js"></script>
   <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-  <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/labelsReader.js"></script>
+  <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/labelsReader.js"></script>
   <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
-
+	
   <script type="text/javascript" language="javascript">
+  	// document.getElementsByClassName not works on IE
+  	
+	if(typeof(document.getElementsByClassName) != 'function') {
+	  	document.getElementsByClassName = function (cn) {
+			var rx = new RegExp("\\b" + cn + "\\b"), allT = document.getElementsByTagName("*"), allCN = [], i = 0, a;
+				while (a = allT[i++]) {
+				  if (a.className && a.className.indexOf(cn) + 1) {
+					if(a.className===cn){ allCN[allCN.length] = a; continue;   }
+					rx.test(a.className) ? (allCN[allCN.length] = a) : 0;
+				  }
+				}
+			return allCN;
+		}
+	}  
+  
+	function getElementsByTagNameNS(domElem, strNsURI, lName) {
+		if(domElem.getElementsByTagNameNS) {
+			return domElem.getElementsByTagNameNS(strNsURI, lName);
+		}else {
+			// for IE ns is stored in tagUrn property
+		
+			// ugh!! ugly hack for IE which does not understand default namespace
+			if(strNsURI == "http://www.w3.org/1999/xhtml") {
+				strNsURI = "";
+			}
+		
+			var arrElems = domElem.getElementsByTagName(lName);
+			var allElems = new Array();
+			for(var i = 0, len = arrElems.length; i < len; i++) {
+				var elem = arrElems[i];
+				if(elem.namespaceURI == strNsURI) {
+					allElems.push(elem);
+				}
+			}
+			return allElems;
+		}
+	};
+  
+  
 	//EzWeb vars
 	var onClick = EzWebAPI.createRGadgetVariable("onClick", _DoClick);
 	var feedUrl = EzWebAPI.createRGadgetVariable("feedUrl", _Handler);
@@ -28,6 +77,9 @@
 	var sentItemTitle = EzWebAPI.createRWGadgetVariable("sentTitle");
 	var sentItemSummary = EzWebAPI.createRWGadgetVariable("sentSummary");
 	var showDate = EzWebAPI.createRGadgetVariable ("showDate", changeShowDate);
+	var height = EzWebAPI.createRGadgetVariable("height", repaint);
+	var width = EzWebAPI.createRGadgetVariable("width", repaint);	
+	
 	//global vars
 	var lastShown = "item_0";			//item which was unfolded last time
 	var URL;							// Feed URL
@@ -38,6 +90,12 @@
 	var itemsPerPage;					//items per page
 	var maxShownPages = 4;				//num of pages shown on the paginator
 
+	function repaint(value){
+		resizeItemsDiv();
+		resizeImagesObjects();
+		if(ie) resizeHeader();		
+		return;
+	}
 
 	//aux functions
 	//set style
@@ -46,7 +104,7 @@
 		if(!value ||value =="")
 			value = "blue";
 		//END WA
-		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/readerThemes/"+value+"_RSSReader.css";
+		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/"+value+"_RSSReader.css";
 		var sheetLink=$('style');
 		sheetLink.href=href;
 		return;
@@ -63,13 +121,29 @@
 			$('paginator').update();
 			if((initPage + maxShownPages) < pages){
 				$('next_pages').style.display = "inline";
-				$('next_pages').onclick = function(e){e.stop;setPaginator(this.initPage + maxShownPages)}.bind(context);
+				$('next_pages').onclick = function(e){
+								if(!e)
+									e = window.event;
+								if(e.stop)
+									e.stop;							
+								else
+									e.cancelBubble = true;
+								setPaginator(this.initPage + maxShownPages)
+								}.bind(context);
 			}else{
 				$('next_pages').style.display = "none";
 			}
 			if(initPage > 0){
 				$('prev_pages').style.display = "inline";
-				$('prev_pages').onclick = function(e){e.stop;setPaginator(this.initPage - maxShownPages)}.bind(context);
+				$('prev_pages').onclick = function(e){
+								if(!e)
+									e = window.event;
+								if(e.stop)
+									e.stop;							
+								else
+									e.cancelBubble = true;
+								setPaginator(this.initPage - maxShownPages)
+								}.bind(context);
 			}else{
 				$('prev_pages').style.display = "none";
 			}
@@ -81,14 +155,26 @@
 				pag.id = "c_pag_"+id;
 				pag.className="pag";
 				var context = {'index':i * itemsPerPage};
-				pag.onclick = function(e){e.stop;selectItems(this.index);
+				pag.onclick = function(e){
+								if(!e)
+									e = window.event;				
+								if(e.stop)
+									e.stop;							
+								else
+									e.cancelBubble = true;
+								selectItems(this.index);
+				
 								var current = $$('.current_page');
 								if(current.length > 0){
 									current[0].removeClassName('current_page');
 								}
-								$(e.target).addClassName('current_page');
+								if(e.target)
+									$(e.target).addClassName('current_page');
+								else
+									$(e.srcElement).addClassName('current_page');
+								resizeImagesObjects();
 							  }.bind(context);									
-				pag.update(i+1);
+				pag.appendChild(document.createTextNode(i+1));
 				$('paginator').appendChild(pag);
 				$('pages').style.width = ($('paginator').getWidth() + $('next_pages').getWidth() * 2 + 4) + "px";
 				id++;
@@ -219,17 +305,17 @@
 		var tmpElement = null;
 		for (var i=0; i<properties.length; i++)
 		{
-			tmpElement = itemxml.getElementsByTagNameNS(xmlns,properties[i])[0];
+			tmpElement = getElementsByTagNameNS(itemxml, xmlns,properties[i])[0];
 			if (tmpElement && tmpElement.childNodes.length > 0)
 				this[properties[i]] = tmpElement.childNodes[0].nodeValue;
 		}
 
-		this.category = new RSS2Category(itemxml.getElementsByTagNameNS(xmlns,"category")[0]);
-		this.enclosure = new RSS2Enclosure(itemxml.getElementsByTagNameNS(xmlns,"enclosure")[0]);
-		this.guid = new RSS2Guid(itemxml.getElementsByTagNameNS(xmlns,"guid")[0]);
-		this.source = new RSS2Source(itemxml.getElementsByTagNameNS(xmlns,"source")[0]);
-		this.pubDate = new RSS2PubDate(itemxml.getElementsByTagNameNS(xmlns,"pubDate")[0]);
-		if (itemxml.getElementsByTagNameNS(xmlns,"pubDate")[0] == null) {//in case of RDF
+		this.category = new RSS2Category(getElementsByTagNameNS(itemxml, xmlns,"category")[0]);
+		this.enclosure = new RSS2Enclosure(getElementsByTagNameNS(itemxml, xmlns,"enclosure")[0]);
+		this.guid = new RSS2Guid(getElementsByTagNameNS(itemxml, xmlns,"guid")[0]);
+		this.source = new RSS2Source(getElementsByTagNameNS(itemxml, xmlns,"source")[0]);
+		this.pubDate = new RSS2PubDate(getElementsByTagNameNS(itemxml, xmlns,"pubDate")[0]);
+		if (getElementsByTagNameNS(itemxml, xmlns,"pubDate")[0] == null) {//in case of RDF
 			this.pubDate = new AtomPubDate(itemxml.getElementsByTagName("dc:date")[0]);
 		}
 	}
@@ -256,19 +342,25 @@
 		if (imgElement == null) {
 			this.url = "";
 			this.link = "";
-			this.width = "";
-			this.height = "";
+			this.width = "auto";
+			this.height = "50px";
 			this.description = "";
 		} else {
 			imgAttribs = new Array("url","title","link","width","height","description");
 			var tmpElement = null;
 			for (var i=0; i<imgAttribs.length; i++) {
-				tmpElement = imgElement.getElementsByTagNameNS(xmlns,imgAttribs[i])[0];
+				tmpElement = getElementsByTagNameNS(imgElement, xmlns,imgAttribs[i])[0];					
 				if (tmpElement != null)
-					this[imgAttribs[i]] = tmpElement.textContent;
+					this[imgAttribs[i]] = tmpElement.childNodes[0].nodeValue;
 				else
 				 this[imgAttribs[i]] = "";
-			}
+			} 
+			this.width = "auto";
+			if ((this.height== "") || 
+				(parseInt(this.height) > 50)) 
+				this.height = "50px";
+			else 
+				this.height+='px';
 		}
 	}
 
@@ -330,7 +422,8 @@
 
 		var chanElement = rssxml.getElementsByTagName("channel")[0];
 		xmlns = chanElement.namespaceURI;
-		itemElements = rssxml.getElementsByTagNameNS(xmlns,"item");
+		itemElements = getElementsByTagNameNS(rssxml, xmlns,"item");
+		
 		if (itemElements.length == 0){//the structure can be specified through RDF, so the items can be defined outside the channel
 			itemElements = rssxml.getElementsByTagName("item");
 		}
@@ -342,17 +435,17 @@
 		var tmpElement = null;
 		for (var i=0; i<properties.length; i++)
 		{
-			tmpElement = chanElement.getElementsByTagNameNS(xmlns,properties[i])[0];
+			tmpElement = getElementsByTagNameNS(chanElement, xmlns,properties[i])[0];
 			if (tmpElement && tmpElement.childNodes.length > 0)
 				eval("this."+properties[i]+"=tmpElement.childNodes[0].nodeValue");
 		}
 
-		this.category = new RSS2Category(chanElement.getElementsByTagNameNS(xmlns,"category")[0]);
-		this.image = new RSS2Image(chanElement.getElementsByTagNameNS(xmlns,"image")[0]);
-		this.pubDate = new RSS2PubDate(chanElement.getElementsByTagNameNS(xmlns,"pubDate")[0]);
-		if (chanElement.getElementsByTagNameNS(xmlns,"pubDate")[0] == null) {//in case of RDF, date is deffined outside the channel
+		this.category = new RSS2Category(getElementsByTagNameNS(chanElement, xmlns,"category")[0]);
+		this.image = new RSS2Image(getElementsByTagNameNS(chanElement, xmlns,"image")[0]);
+		this.pubDate = new RSS2PubDate(getElementsByTagNameNS(chanElement, xmlns,"pubDate")[0]);
+		if (getElementsByTagNameNS(chanElement, xmlns,"pubDate")[0] == null) {//in case of RDF, date is deffined outside the channel
 			this.pubDate = new AtomPubDate(chanElement.getElementsByTagName("dc:date")[0]);
-		}
+		}		
 	}
 
 //******************ATOM1.0 PARSER***************************
@@ -384,6 +477,7 @@
 	//object containing the Atom entry
 	function AtomEntry(itemxml)
 	{
+
 		this.title;
 		this.link;
 		this.description;
@@ -397,16 +491,17 @@
 		var rss_properties = new Array("title", "description");
 		var tmpElement = null;
 		for (var i=0; i<properties.length; i++)
-		{
-			tmpElement = itemxml.getElementsByTagNameNS(xmlns,properties[i])[0];
+		{	
+			tmpElement = getElementsByTagNameNS(itemxml, xmlns,properties[i])[0];
 			if (tmpElement && tmpElement.childNodes.length > 0)
 				this[rss_properties[i]] = tmpElement.childNodes[0].nodeValue;
 		}
 
-		this.link = new AtomLink(itemxml.getElementsByTagNameNS(xmlns,"link")[0]).href;
-		this.category = new AtomCategory(itemxml.getElementsByTagNameNS(xmlns,"category")[0]).term;
+		this.link = new AtomLink(getElementsByTagNameNS(itemxml, xmlns,"link")[0]).href;
+		this.category = new AtomCategory(getElementsByTagNameNS(itemxml, xmlns,"category")[0]).term;
 		//this.author = new AtomAuthor(itemxml.getElementsByTagName("category")[0]).name;
-		this.pubDate = new AtomPubDate(itemxml.getElementsByTagNameNS(xmlns,"updated")[0]);
+		this.pubDate = new AtomPubDate(getElementsByTagNameNS(itemxml, xmlns,"updated")[0]);
+	
 	}
 
 	//objects inside the AtomFeed object
@@ -419,8 +514,8 @@
 		}
 		//atom logo haven't got any of this attributes
 		this.link = "";
-		this.width = "";
-		this.height = "";
+		this.width = "auto";
+		this.height = "50px";
 		this.description = "";
 	}
 
@@ -499,7 +594,7 @@
 
 		var feedElement = rssxml.getElementsByTagName("feed")[0];
 		xmlns = feedElement.namespaceURI;
-		itemElements = rssxml.getElementsByTagNameNS(xmlns,"entry");
+		itemElements = getElementsByTagNameNS(rssxml, xmlns,"entry");
 
 		if (itemElements.length == 0){//the structure can be specified through RDF, so the entries can be defined outside the feed
 			itemElements = rssxml.getElementsByTagName("entry");
@@ -513,15 +608,15 @@
 		var tmpElement = null;
 		for (var i=0; i<properties.length; i++)
 		{
-			tmpElement = feedElement.getElementsByTagNameNS(xmlns,properties[i])[0];
+			tmpElement = getElementsByTagNameNS(feedElement, xmlns,properties[i])[0];
 			if (tmpElement && tmpElement.childNodes.length > 0)
 				eval("this."+rss_properties[i]+"=tmpElement.childNodes[0].nodeValue");
 		}
 
-		this.category = new AtomCategory(feedElement.getElementsByTagNameNS(xmlns,"category")[0]).term;
-		this.image = new AtomLogo(feedElement.getElementsByTagNameNS(xmlns,"logo")[0]);
-		this.pubDate = new AtomPubDate(feedElement.getElementsByTagNameNS(xmlns,"updated")[0]);
-		this.link = new AtomLink(feedElement.getElementsByTagNameNS(xmlns,"link")[0]).href;
+		this.category = new AtomCategory(getElementsByTagNameNS(feedElement, xmlns,"category")[0]).term;
+		this.image = new AtomLogo(getElementsByTagNameNS(feedElement, xmlns,"logo")[0]);
+		this.pubDate = new AtomPubDate(getElementsByTagNameNS(feedElement, xmlns,"updated")[0]);
+		this.link = new AtomLink(getElementsByTagNameNS(feedElement, xmlns,"link")[0]).href;
 	}
 
 	//GLOBAL FUNCTIONS
@@ -579,15 +674,16 @@
 
 		//show the image
 		$("chan_image_link").innerHTML = "";
-		if (feed.image.url != null)
+		if (feed.image.url != "")
 		{
 			$("chan_image_link").href = feed.image.link;
-			$("chan_image_link").innerHTML = imageTag
-				+" alt='"+feed.image.description
-				+"' width='"+feed.image.width
-				+"' height='"+feed.image.height
-				+"' src='"+feed.image.url
-				+"' "+"/>";
+			var image = document.createElement("img");
+			image.setAttribute("alt", feed.image.description);
+			image.style.width = feed.image.width;
+			image.style.height = feed.image.height;
+			image.src = feed.image.url;
+			$("chan_image_link").appendChild(image);
+			$("chan_image_link").style.display="block";
 		}
 		
 		//show the paginator
@@ -604,8 +700,6 @@
 	
 		var item_html;
 		//default values for html tags used
-		var startItemTag = "<li ";
-		var endItemTag = "</li>"
 		var startPubDate = "<div class='item_date'>"
 		var startTitle = "<div class='item_title' ";
 		var startLink = "<div class='item_link'>";
@@ -613,19 +707,26 @@
 		var endTag = "</div>";
 	
 		//populate the items
-		document.getElementById("chan_items").innerHTML = "<ul>";
+		document.getElementById("chan_items").innerHTML = "";
 		var summary;
+		var ul = document.createElement("ul");
+		document.getElementById("chan_items").appendChild(ul);
 		for (var i=0; i<items.length; i++)
 		{
-			item_html = startItemTag;
-			item_html += "id=\"li_item_"+i+"\"";
+		    var li = document.createElement('li');
+		    li.setAttribute('id', "li_item_"+i);
 			if (i % 2 !=0){
-				item_html += "class=\"item odd\"";
-			}else{
-				item_html += "class=\"item\"";
+				li.className = "item odd";
+			} else {
+				li.className = "item";
 			}
 			summary = generateSummary(items[i].description);
-			item_html += "onclick=\"javascript:openItem('item_" + i + "', " + i + ");\" />";
+			if(ie)
+				li.onclick="javascript:openItem('item_" + i + "', " + i + ");";
+			else
+				li.setAttribute("onclick", "javascript:openItem('item_" + i + "', " + i + ");")
+			
+			item_html = "";
 			if (showDate.get() == 'yes') {
 				item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
 				item_html += startPubDate + items[i].pubDate.value + endTag;
@@ -635,15 +736,13 @@
 
 			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
 			item_html += (items[i].link == null) ? startLink + items[i].title + endTag : startLink + "<a href='" + items[i].link +"' target='_black'>"+ items[i].title+"</a>" + endTag;
-			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
-			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
-			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
+			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
+			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
+			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
 			item_html += endTag;
 
-			item_html += "</li>";
-			document.getElementById("chan_items").innerHTML += item_html;
-
-
+			li.innerHTML = item_html;
+			ul.appendChild(li);
 		}
 		document.getElementById("chan_items").innerHTML += "</ul>";
 		
@@ -681,7 +780,10 @@
 		e.cancelBubble = true;
 		if (e.stopPropagation) e.stopPropagation();
 
-		aux =e.target.id.split('_'); 
+		if (e.target) 
+			aux =e.target.id.split('_');
+		else
+			aux =e.srcElement.id.split('_');
 		id = aux[aux.length-1];
 		summary = $('title_'+id).title;
 		sentItemSummary.set(summary);
@@ -699,7 +801,10 @@
 		e.cancelBubble = true;
 		if (e.stopPropagation) e.stopPropagation();
 
-		aux =e.target.id.split('_'); 
+		if(e.target)
+			aux =e.target.id.split('_');
+		else 
+			aux =e.srcElement.id.split('_');
 		id = aux[aux.length-1];
 		title = $('title_'+id).innerHTML;
 		sentItemTitle.set(title);
@@ -727,6 +832,17 @@
 
 
 			}
+		}
+		if(xml.childNodes.length == 0){
+			if (document.implementation.createDocument) {
+				var parser = new DOMParser()
+				xml = parser.parseFromString(response.responseText, "application/xhtml+xml")
+			// MSIE
+			} else if (window.ActiveXObject) {
+				xml = new ActiveXObject("Microsoft.XMLDOM")
+				xml.async="false"
+				xml.loadXML(response.responseText)
+			}	
 		}
 
 		//RSS or Atom
@@ -779,7 +895,13 @@
 	function show(id) 
 	{
 		document.getElementById(id).style.display = "block";
-		document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
+		//document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
+		var elements = document.getElementById('li_'+id).getElementsByTagName("div");
+		for(var i=0; i < elements.length; i++){
+			if(elements[i].className == "item_title"){
+				elements[i].style.display="none";
+			}
+		} 
 	}
 
 	function hide(id) 
@@ -787,7 +909,13 @@
 		if (id != null && id != ""){
 			if (document.getElementById(id) != null) { 
 				document.getElementById(id).style.display = "none";
-				document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "block";
+				//document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "block";
+				var elements = document.getElementById('li_'+id).getElementsByTagName("div");
+				for(var i=0; i < elements.length; i++){
+					if(elements[i].className == "item_title"){
+						elements[i].style.display="block";
+					}
+				} 
 			}
 		}
 	}
@@ -810,8 +938,12 @@
 				show(id);
 			}
 			lastShown = id;
+			resizeImagesObjects();
+			
+			
 		}
 		else hide(id);
+		if(ie) resizeHeader();
 	}
 	
 	function toggleRights()
@@ -826,7 +958,69 @@
 
 	function resizeItemsDiv(){
 		//10px of margin-top/bottom of channel_items and channel margin-top
-		$('chan_items').style.height = (window.innerHeight - ($('chan_header').getHeight() + 30)) + "px";
+		$('chan_items').style.height = (height.get() - ($('chan_header').getHeight() + 30)) + "px";
+	}
+	
+	
+	function getOriginalWidthOfImg(img_element)
+	{
+		var t = document.createElement("img")
+		t.src = (img_element.getAttribute ? img_element.getAttribute("src") : false) || img_element.src;
+		return t.width;
+	}
+
+	
+	function resizeImagesObjects(){
+		var images = $('chan_items').getElementsByTagName("img");
+		for(var i=0; i < images.length; i++){
+			if((images[i].id.search("urlSender") < 0) && (images[i].id.search("titleSender") < 0) && 
+				(images[i].id.search("tipSender") < 0)){
+				var srcAux = images[i].src; 
+				images[i].src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png";
+				images[i].removeAttribute('complete');
+				images[i].src = srcAux;
+			}
+		}
+		resizeHeader();
+		if(ie) return;
+		var images = $('chan_items').getElementsByTagName("img");
+		for(var i=0; i < images.length; i++){
+			if((images[i].id.search("urlSender") < 0) && (images[i].id.search("titleSender") < 0) && 
+				(images[i].id.search("tipSender") < 0)){
+				if (images[i].offsetWidth > $('chan_header').getWidth()){
+					images[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
+				}
+				else{
+					if(getOriginalWidthOfImg(images[i]) > ($('chan_header').getWidth() - 50)){
+						images[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
+					}
+					else{
+						images[i].style.width=getOriginalWidthOfImg(images[i])+'px';
+					}
+				}
+				images[i].style.height="auto";
+			}
+		}
+		
+		var embeds = $('chan_items').getElementsByTagName("embed");
+		for(var i=0; i < embeds.length; i++){
+			if (embeds[i].offsetWidth > $('chan_header').getWidth()){
+				embeds[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
+			}
+			else{
+				if(embeds[i].width > ($('chan_header').getWidth() - 50)){
+					embeds[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
+				}
+				else{
+					embeds[i].style.width = embeds[i].width + 'px';
+				}
+			}
+		}	
+	}
+	
+	function resizeHeader(){
+		if($('chan_items').offsetWidth > 0)
+			$('chan_header').style.width = ($('chan_items').offsetWidth) + 'px';
 	}
   </script>
 
@@ -834,16 +1028,38 @@
 </head>
 <body onload="generateLang();" onresize="resizeItemsDiv()";>
     <div id="chan" style="display:none">
-	<div id="chan_header">
-	<a id="chan_image_link" href="" target="_blank"></a>
-        <div id="chan_title"><a id="chan_link" href=""></a></div>
-        <div id="chan_pubDate"></div><a id="rights_link" href="javascript:toggleRights()" style="display:none">Copyright Notice</a>
-        <div id="chan_copyright" style="display:none"></div>
-        <a id="chan_image_link" href=""></a>
-        <div id="pages" style="display:none"><span id="prev_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/left-arrow.png" alt="<<"/></span><div id="paginator"></div><span id="next_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/right-arrow.png" alt=">>"/></span></div>
+		<div id="chan_header">
+		<a id="chan_image_link" href="" target="_blank"></a>
+	        <div id="chan_title">
+	        	<a id="chan_link" href=""></a>
+	        </div>
+        <table class="info">
+        	<tr>
+        		<td style="width:33%;">
+        			<a id="rights_link" href="javascript:toggleRights()" style="display:none">Copyright Notice</a>	        
+        			<div id="chan_copyright" style="display:none"></div>
+        		</td>
+				<td style="text-align:center;width:33%;">
+	        		<div id="pages" style="display:none">
+	        			<span id="prev_pages">
+	        				<img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/left-arrow.png" alt="<<"/>
+	        			</span>
+	        			<div id="paginator"></div>
+	        			<span id="next_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/right-arrow.png" alt=">>"/>
+	        			</span>
+	        	
+					</div>
+				</td>
+				<td style="width:33%;">
+					<div id="chan_pubDate"></div>
+				<td>
+        	</tr>
+        </table>
 	</div>
-        <div id="chan_items"></div>
+	<div id="chan_items"></div>
     </div>
-	<div id="loading"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.31/loading.gif" alt="Esperando feed..."/></div>
+	<div id="loading">
+		<img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/loading.gif" alt="Esperando feed..."/>
+	</div>
 </body>
 </html>

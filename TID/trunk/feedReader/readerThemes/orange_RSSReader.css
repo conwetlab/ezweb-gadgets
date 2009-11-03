@@ -3,6 +3,9 @@
 			background-color: #ffffff;
 			font-family:"Trebuchet MS","Bitstream Vera Sans",Verdana,Helvetica,sans-serif;
 			font-size:12px;
+			margin:0px 10px 0px 10px;
+			padding:0px;
+			overflow-y:hidden;
 		}
 		
 		a {
@@ -32,6 +35,8 @@
 		
 		#chan {
 			margin-top: 10px;
+			margin-left:0px;
+			margin-right:0px;
 		}
 		
 		#chan_title, .msg{
@@ -50,15 +55,18 @@
 			overflow:hidden;
 		}
 
-		#chan_items li {
+		#chan_items .item {
 			list-style:none;
+			list-style-type:none;
+			list-style-image:none;
 			margin:0px;
 			border-bottom: 1px solid #ff6400;
 			padding:5px;
 			background:#feefe5;
 			cursor: pointer;
-			position: relative;
-
+		}
+		ul li{
+			list-style:none;			
 		}
 		#chan_items li.odd{
 			background:#ffffff;
@@ -66,7 +74,9 @@
 
 		.item_title {
 			color:#000000;
-			margin-right:110px;
+			margin:0px;
+			border:0px;
+			padding:0px;
 		}
 
 		.item_date {
@@ -93,12 +103,17 @@
 		#chan_items ul{		
 			border-top:1px solid #ff6400;
 			margin:0px;
+			padding:0px;
+			
 		}
-		.item { 
+		.item {
+			margin:0px;
+			border:0px;
+			padding:0px;
 		}
 
 		#chan_pubDate, #chan_copyright {
-			font-size: 90%;
+			font-size: 11px;
 			margin-left:5px;
 			color: #828299;
 		}
@@ -110,7 +125,7 @@
 		}
 		
 		#rights_link {
-			font-size: 80%;
+			font-size: 11px;
 			margin-left: 5px;
 			float:left;
 		}		
@@ -126,7 +141,7 @@
 
 		#paginator .pag{
 			margin: 0 2px;
-			font-size:90%;
+			font-size:11px;
 			cursor:pointer;
 			color:#ff6400;
 		}
@@ -158,3 +173,10 @@
 			text-align:center;
 			margin-top: 15%;
 		}
+
+		.info{
+			width:100%;
+			margin:0px;
+			padding:0px;
+		}
+		
