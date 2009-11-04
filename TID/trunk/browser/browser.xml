@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Web Browser</Name>
-    <Version>0.6</Version>
+    <Version>0.7</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Gadgets that renders an html page</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.6/browser.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.7/browser.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/browser</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -36,10 +36,11 @@
 	<!-- EzWeb Context -->
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
 	</Platform.Context> 
 
   <Platform.Link>
-	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.6/browser.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.7/browser.html"/>
   </Platform.Link>
   <Platform.Rendering width="15" height="26"/>
 </Template>

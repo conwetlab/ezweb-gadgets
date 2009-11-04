@@ -2,8 +2,11 @@
 <head>
 
 <style>
+body{
+	overflow:hidden;
+}
 #header{
-	height: 5%;
+	height:19px;
 }
 
 #header div{
@@ -125,7 +128,8 @@ function parseURL(url) {
 	};
 }
 
-
+// CONTEXT
+var height = EzWebAPI.createRGadgetVariable("height", repaint);
 //PREFERENCES
 var urlPref = EzWebAPI.createRGadgetVariable("urlPref", setURL);
 var homeUrl = EzWebAPI.createRGadgetVariable("homeUrl", setURL);
@@ -142,6 +146,15 @@ var sourceUrl = EzWebAPI.createRWGadgetVariable("sourceUrl");
 var real_url;
 var current_url;
 var idInterval;
+
+
+function repaint(){
+	var heightHeader = document.getElementById("header").offsetHeight;
+	if(height.get() > (heightHeader))
+		document.getElementById("video").style.height = (height.get() - 2*heightHeader) + 'px';
+}
+
+
 
 function init(){
 	real_url = url.get();
@@ -241,23 +254,22 @@ function loadURLForm(value) {
 	}
 
 	var video = document.getElementById('video');
-	video.innerHTML ="";
+	video.innerHTML ='<iframe name=\"browser\" id=\"browser\" frameborder=\"0\" width=\"100%\" height=\"100%\"></iframe>';
 
+/*
 	var ifrm = document.createElement('iframe');
 	ifrm.setAttribute('id', 'browser');
 	ifrm.setAttribute('name', 'browser');
 	ifrm.setAttribute('frameborder', "0");
 	ifrm.setAttribute('width', "100%");
-	ifrm.setAttribute('height', "95%");
+	ifrm.setAttribute('height', "95%"); */
 
-	video.appendChild(ifrm);
+//	video.appendChild(ifrm); 
 
 	current_url = url.protocol+'://'+url.host+(url.protocol = '' ? ':'+url.protocol : '')+url.path;
 	frm.setAttribute('action', current_url);
 	frm.setAttribute('target', 'browser');
 	frm.submit();
-
-
 }
 
 </script>
@@ -265,8 +277,8 @@ function loadURLForm(value) {
 	<div id="source" style="display:none"><label>source: </label></div><div id="home" onclick="goHome()">Home</div><div id="refresh" onclick="refresh()">Refresh</div>
 </div>
 <div id="video">
-<iframe name="browser" id="browser" frameborder="0" width="100%" height="95%"></iframe>
+<iframe name="browser" id="browser" frameborder="0" width="100%" height="100%"></iframe>
 </div>
-<form id="brw_form" method="get" target="browser" style="display:none"></from>
+<form id="brw_form" method="get" target="browser" style="display:none"></form>
 </body>
 </html>
