@@ -5,13 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link id="style" rel="StyleSheet" href="http://demo.ezweb.morfeo-project.org/repository/translator/default.css" type="text/css" />
+    <link rel="StyleSheet" href="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/default.css" type="text/css" />
+    <link id="style" rel="StyleSheet" href="" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
     <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/translator/labels.js"></script>
-   <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+   <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/labels.js"></script>
+   <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
     <script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
@@ -26,11 +27,11 @@
 	var _languages = {'from':'','to':''};
 	
 	function setTheme(value){
-		//WORKAROUND: select blue by default
+		//WORKAROUND: select the theme by default
 		if(!value ||value =="")
-			value = "blue";
+			value = theme.get();
 		//END WA
-		var href = "http://demo.ezweb.morfeo-project.org/repository/translator/css/"+value+".css";
+		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/css/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		return;
@@ -75,24 +76,13 @@
 				}
 			});
 		}
+		setTheme(theme.get());
 		
 	}
 
 	//google.setOnLoadCallback(initialize);
 
     </script>
-<style>
-.divStyle{
-	float:left;
-	height:30px;
-	overflow:hidden;
-	white-space:nowrap;
-	
-
-}
-
-
-</style>
     <script type="text/javascript">
     
     function load(){
@@ -151,8 +141,9 @@
     
     </script>
 
-</head><body onLoad="generateLang()">
-	 <table class="full">
+</head>
+<body onLoad="generateLang()">
+	 <table id="full" class="full">
 
 		<tr>
 			<td class="text">
@@ -162,15 +153,15 @@
 		<tr>
 			<td class="languages">
 				<div class="divStyle">
-					<span id="_from" class="item">From </span>
+					<label id="_from" class="item">From </label>
 					<select id="srcLang"></select>
 				</div>
 				<div class="divStyle">
-					<span id="_to" class="item" style="margin-right:0.5em">To </span>
+					<label id="_to" class="item">To </label>
 					<select id="destLang"></select>
 				</div>
 				<div class="divStyle">
-					<span id="_swap" onClick="swap()" class="action">Swap</span>
+					<label id="_swap" onClick="swap()" class="action">Swap</label>
 					<input id="translate" type="button" value="Translate" onClick="initialize()"/>
 				</div>
 			</td>

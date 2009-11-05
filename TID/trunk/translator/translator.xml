@@ -8,7 +8,7 @@
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail>
     <Description>Translate any given text to a great number of languages using the Google translator engine.</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/translator/translator.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/translator.jpg</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_traductor</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -34,7 +34,7 @@
   	<Context name="language" type="text" concept="language"/>	
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/translator/translator.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/translator.html"/>
   </Platform.Link>
   <Platform.Rendering width="5" height="12"/>
 </Template>
