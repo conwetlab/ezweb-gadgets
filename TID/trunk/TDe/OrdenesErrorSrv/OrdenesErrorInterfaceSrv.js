@@ -61,7 +61,7 @@ Ordenes.prototype.resourcesURL = "http://ezweb-ares.hi.inet/repository/TDe/Orden
 Ordenes.prototype.init = function() {
 	
 	var serviceURI = 'http://trabucco.hi.inet:8080/tdenewgui/es.tid.spci.gui.TDEGui/AsyncErrorService';
-	EzWebAPI.send_post(serviceURI, this, success, error);
+	EzWebAPI.send_get(serviceURI, this, success, error);
 }
 
 /* Instanciate the Gadget class */
