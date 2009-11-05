@@ -4,13 +4,12 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Voice Error Queue Srv</Name>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 		<Author>pjm</Author>
 		<Mail>pjm@tid.es</Mail>
 		<Description>Voice Error Queue</Description>
 		<ImageURI>http://www.telecoms.com/wp-content/uploads/2009/04/fixed.jpg</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb</WikiURI>
-		<Organization>TDe</Organization>
 	</Catalog.ResourceDescription>
 
 	<!-- EzWeb Gadgets Tags -->
