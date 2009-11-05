@@ -26,7 +26,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML	href="http://ezweb-ares.hi.inet/repository/TDe/OrdenesErrorSrv/OrdenesError.html" />
+		<XHTML	href="http://ezweb-ares.hi.inet/repository/TDe/OrdenesErrorSrv/OrdenesErrorSrv.html" />
 	</Platform.Link>
 
 	<Platform.Rendering width="30" height="20" />
