@@ -33,7 +33,7 @@ var headers = [
 	"errorDate",
 	"code",
 	"description",
-	"errorComment",
+	//"errorComment",
 	"reseller"];
 			
 /*var datos = [['133670-20090529-OR001996',	'IN PROCESS',	'orderConfirmation',	'27/07/2009.00:00:00', '',	'',		'4030799',	'05/06/2009.11:14:27',	'-1',	'Not accepted (5210) \'\''],
