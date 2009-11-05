@@ -67,10 +67,9 @@ Ordenes.prototype.init = function() {
 /* Instanciate the Gadget class */
 Ordenes = new Ordenes();
 
-function sendEvent(id,desc){
+function sendEvent(id, desc){
 	orderId.set(id);
-
-	description.set(datos[desc][0]+": "+datos[desc][9]);
+	description.set(desc);
 }
 
 function success(resp){
@@ -103,11 +102,13 @@ function success(resp){
 			}
 					
 			for(i=0;i<headers.length;i++){
-					if(i==1){
-						textinfo += "<td><span class='send' onclick='sendEvent(\""+serviceResult.data[j][i]+"\","+j+")'>"+serviceResult.data[j][i]+"<span></td>";	
-					}else{
-						textinfo += "<td>"+serviceResult.data[j][i]+"</td>";
-					}
+				var cellData = eval('serviceResult.data[j].' + headers[i]);
+				var descData = eval('serviceResult.data[j].' + headers[9]);
+				if(i==1){
+					textinfo += "<td><span class='send' onclick='sendEvent(\""+cellData+"\","+descData+")'>"+cellData+"<span></td>";	
+				}else{
+					textinfo += "<td>"+cellData+"</td>";
+				}
 			}
 			textinfo +"</tr>";
 			
