@@ -69,7 +69,7 @@ Ordenes = new Ordenes();
 
 function sendEvent(id, desc){
 	orderId.set(id);
-	description.set(desc);
+	description.set(id + ':' + desc);
 }
 
 function success(resp){
@@ -105,7 +105,7 @@ function success(resp){
 				var cellData = eval('serviceResult.data[j].' + headers[i]);
 				var descData = eval('serviceResult.data[j].' + headers[9]);
 				if(i==1){
-					textinfo += "<td><span class='send' onclick='sendEvent(\""+cellData+"\","+descData+")'>"+cellData+"<span></td>";	
+					textinfo += "<td><span class='send' onclick='sendEvent(\""+EzWebExt.escapeXML(cellData)+"\",\""+EzWebExt.escapeXML(descData)+"\")'>"+cellData+"<span></td>";	
 				}else{
 					textinfo += "<td>"+cellData+"</td>";
 				}
