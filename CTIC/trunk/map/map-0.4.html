@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!--
+
+    Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+
+    This file is part of the generic Map Gadget for the EzWeb Platform
+
+    Map Gadget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Map Gadget is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Map Gadget. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Map</title>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="http://idi.fundacionctic.org/ezweb/gadgets/map/css/style.css" />
+
+    <script type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+    <script type="text/javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+    <!-- The language for the API is customizable. Rigth now, it is Spanish [es]-->
+    <!-- Change the API Key if you want to use it outside http://localhost-->  
+    <script type="text/javascript" src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA&hl=es"></script>
+  
+    <script type="text/javascript" src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js"></script>
+
+    <script type="text/javascript" src="http://idi.fundacionctic.org/ezweb/gadgets/map/js/map.js"></script>
+  </head>
+  <body onload="init();">
+    <div id="map"></div>
+  </body>
+</html>
