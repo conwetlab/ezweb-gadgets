@@ -55,7 +55,7 @@
     <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/TeRRAS/terras-0.4.html"/>
   </Platform.Link>
 
-  <Platform.Rendering width="15" height="15"/>
+  <Platform.Rendering width="7" height="30"/>
 
   <!-- EzWeb Gadget Data Context -->
   <Platform.Context>
