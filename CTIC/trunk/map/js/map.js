@@ -318,6 +318,7 @@ function _geojsonHandler(geojson){
 
 
 function _wgs84CoordHandler(wgs84coord) {
+    mgr.clearMarkers();
     var values = wgs84coord.split(",");
     _wgs84Handler(values, null, null, null);
 }
