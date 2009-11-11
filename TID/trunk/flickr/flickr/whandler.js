@@ -141,7 +141,7 @@ var headerLayer = (function() {
 	header.setAttribute ('id', 'header');
 	var img = document.createElement('img');
 	img.setAttribute ('id', 'logo');
-	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/flickr.png');
+	img.setAttribute ('src', 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/flickr.png');
 	var a = document.createElement ('a');
 	a.setAttribute ('href', 'http://www.flickr.com');
 	a.setAttribute ('target', '_blank');
@@ -149,14 +149,14 @@ var headerLayer = (function() {
 	a.appendChild(img);
 	var imglogout = document.createElement('img');
 	imglogout.setAttribute ('id', 'logout_photo');
-	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/logout.png';
+	imglogout.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/logout.png';
 	Event.observe(imglogout, 'click', 
 		function (ev){
 			logout();	
 		});
 	var imgrefresh = document.createElement('img');
 	imgrefresh.setAttribute ('id', 'refreshimg');
-	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/refresh.png';
+	imgrefresh.src ='http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/refresh.png';
 	Event.observe(imgrefresh, 'click', 
 		function (ev){
 			setNumberOfPhotos();	
@@ -278,22 +278,22 @@ var footerLayer = (function() {
 	var footer = document.createElement ('div');
 	footer.setAttribute ('id', 'footer_div');
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/go-first.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/go-first.png';
 	img.setAttribute ('id', 'gofirst');
 	Event.observe (img, 'click', function (e){setArrays(null,0);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/go-previous.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/go-previous.png';
 	img.setAttribute ('id', 'goprevious');
 	Event.observe (img, 'click', function (e){setArrays(null,1);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/go-next.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/go-next.png';
 	img.setAttribute ('id', 'gonext');
 	Event.observe (img, 'click', function (e){setArrays(null,2);});
 	footer.appendChild (img);
 	img = document.createElement ('img');
-	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.5/img/go-last.png';
+	img.src = 'http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/go-last.png';
 	img.setAttribute ('id', 'golast');
 	Event.observe (img, 'click', function (e){setArrays(null,3);});
 	footer.appendChild (img);

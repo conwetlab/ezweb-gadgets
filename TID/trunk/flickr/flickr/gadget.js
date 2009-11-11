@@ -44,7 +44,7 @@ function setKeyByDefault (value){
 }
 
 function resetInterval (value){
-	if (!hasAccess()) {
+	if (!hasAccess() || isNaN(parseInt(value))) {
 		return;	
 	}
 
@@ -54,11 +54,16 @@ function resetInterval (value){
 			clearInterval (interval);
 		}catch(e){}
 	}
-	interval = setInterval(function(){
-		if (hasAccess()){		
-			displayPhotos(); 
-		}
-	}, value*60000);
+	
+	if (value <= 0){
+		interval = null;
+	} else {
+		interval = setInterval(function(){
+			if (hasAccess()){		
+				displayPhotos(); 
+			}
+		}, value*60000);		
+	}
 }
 
 function setNumberOfPhotos() {
