@@ -78,8 +78,8 @@ body
 .item td
 {
 	text-align: center;
-	text-align:center;
 	background:white none repeat scroll 0 0;
+	vertical-align:middle;
 }
 
 .item .hd

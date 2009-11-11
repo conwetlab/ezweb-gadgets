@@ -15,6 +15,10 @@
 <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/labels.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <LINK id="style" rel="StyleSheet" href="" type="text/css" />
+<!-- Styles for IE navigator -->
+<!--[if IE]>
+<link id="style" rel="StyleSheet" href="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/ie.css" type="text/css" />
+<![endif]-->
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
 	var json=null;
@@ -112,9 +116,10 @@
 		if(fullinfo)
 			value ="default";
 			
+		
 		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/"+theme.get()+"/"+value+".css";
 		var sheetLink=document.getElementById('style');
-		sheetLink.href=href;
+		sheetLink.href=href; 
 		searchCity(citySearch.get());
 
 
@@ -143,6 +148,7 @@
 	/*if (exception) {
 		alert(exception.lineNumber + ": " +exception.message);
 	}*/
+	$('errors').style.display="block";
 	$('errors').innerHTML = "Service Unavailable: "+responseData.responseText;
 	$('errors').style.color = "Red";
 	$('loading').style.visibility = 'hidden';
@@ -160,16 +166,22 @@
 			
 			var option = document.createElement('option');
 			option.setAttribute('value', id);
-			option.onclick = function (){sendId(this.value);};
 			option.appendChild(document.createTextNode(city));
 			
 
 			$('citiesList').appendChild(option);
 			
         } 
+  if($('citiesList').options.length > 0) 
+  	$('citiesList').onchange = function(){sendIdSelect();}
+  	
 	if($('citiesList').options[0])
 		sendId($('citiesList').options[0].value);
 
+  }
+  
+  function sendIdSelect(element){
+  	sendId($('citiesList').options[$('citiesList').selectedIndex].value);
   }
   
   function sendId(idCity)
@@ -220,112 +232,19 @@ function callbackSucessInfo(responseData){
 		aux.push(json.weather.dayf.day);
 		json.weather.dayf.day = aux;
 	}
-		var html = "<div class='city' id='cityHeader'><span class='cityName' id='_cityName'>"+json.weather.cc.obst+"</span><span id='_other' class='other' onClick='showHeader()'>(other city)</span><span id='_refresh' class='other' onClick='refresh()'>Refresh</span><img id='loading_2' src='http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/loading.gif'/><span id='_hide' class='other' onClick='HideHeader()'></div>";
-			html += "<div id='full' class='full'>";
-			
-			//html += "<div class='city'>"+json.weather.cc.obst+"</div>";
-			html += "<div class='today'>";
-			html += "<table><tr><td>";
-				html += "<div id='colleft' class='colleft' title='Current Weather'>";
-					html += "<table><tr><td><div class='icon'><img src='"+info.ccicon+"'/><div id='"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_dateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
-					html += "</td><td><div class='datoscc'>";
-						html += "<div class='it'></div>";
-						html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
-						html += "<div class='it'><div class='infoI' id='_hi'>"+translator.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_low'>"+translator.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_pressure'>"+translator.getLabel('_pressure')+"</div><div class='infoD'>"+json.weather.cc.bar.r+" "+info['unitp']+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_wind'>"+translator.getLabel('_wind')+"</div><div class='infoD'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t) + "</div></div>";
-						html += "<div class='it'><div class='infoI' id='_humidity'>"+translator.getLabel('_humidity')+"</div><div class='infoD'>"+json.weather.cc.hmid+"%</div></div>";
-						html += "<div class='it'><div class='infoI' id='_visibility'>"+translator.getLabel('_visibility')+"</div><div class='infoD'>"+json.weather.cc.vis+"%</div></div>";
-						html += "<div class='it'><div class='infoI' id='_sunrise'>"+translator.getLabel('_sunrise')+"</div><div class='infoD'>"+json.weather.loc.sunr+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_sunset'>"+translator.getLabel('_sunset')+"</div><div class='infoD'>"+json.weather.loc.suns+"</div></div>";
-						var date = new Date();
-						html += "<div class='it'><div class='infoI'><span id='_update' style='font-style:italic'>"+translator.getLabel('_update')+"</span></div><div class='infoD' style='font-style:italic'>"+date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear()+"</div></div>";
-						html += "<div class='it'><div class='infoI' id='_less' style='cursor:pointer;text-decoration:underline;' onClick='hideFullInfo()'>Less details...</div></div>";
-					html += "</td></tr></table></div>";
-					//html += "</td></tr></table>";	
-				html += "</div>";
-			html += "</td><td valign='top' style='width:100%;' >";
-				html += "<div class='colright'>";
-					html += "<table class='item' width='100%'>";
-					html += "<tr><th id='_day-night'>"+translator.getLabel('_day-night')+"</th><th id='_hum' title='Humidity'>"+translator.getLabel('_hum')+"</th><th id='_ppcp' title='Probability of precipitation'>"+translator.getLabel('_ppcp')+"</th><th id='_wind2' title='Wind'>"+translator.getLabel('_wind2')+"</th></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[0].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[0].hmid+"%</td><td>"+json.weather.dayf.day[0].part[0].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[0].wind.t)+"</div></td></tr>";
-					html += "<tr><td><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[0].part[1].icon+".png'/></td><td>"+json.weather.dayf.day[0].part[1].hmid+"%</td><td>"+json.weather.dayf.day[0].part[1].ppcp+"%</td><td><div>"+json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']+"</div><div>"+translateDirection(json.weather.dayf.day[0].part[1].wind.t)+"</div></td></tr>";
-					html += "</table>";
-				html += "</div>";
-			html += "</td></tr></table>";
-			html += "</div>";
-		
-		
-			html += "<table class='infoNext'><tr>";
-			for(i=1;i<json.weather.dayf.day.length;i++)
-			{
-				html += "<td class='header'><div id='"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
-				
-			}	
-			html += "</tr>";
-			for(i=1;i<json.weather.dayf.day.length;i++)
-			{
-				html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'><div class='it'><div class='infoI' id='_hi2'>"+translator.getLabel('_hi')+"</div><div class='infoD'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_low2'>"+translator.getLabel('_low')+"</div><div class='infoD'>"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div><div class='it'><div class='infoI' id='_ppcp'>PPcp</div><div class='infoD'>"+json.weather.dayf.day[0].part[0].ppcp+"%</div></div></div></div></td>";
-				
-			}
-			
-		
-			
-			html+= "</tr></table>";
-		
-		html +="</div>";
 	
-		html +="<div id='short' class='short'>";
-			html += "<div class='today'>";
-			html += "<table><tr><td>";
-				html += "<div id='colleft' class='colleft' title='Current Weather'>";
-				html += "<table border='0'><tr><td>";
-					html += "<div class='icon'><img src='"+info.ccicon+"'/><div id='s"+json.weather.dayf.day[0]['t']+"' class='it'></div><div id='_sdateDT' class='it'>"+json.weather.dayf.day[0]['dt']+"</div></div>";
-					html += "</td><td>";
-					html += "<div class='datoscc'>";
-						html += "<div class='it'></div>";
-						html += "<div class='it'><div class='tmp'>"+ json.weather.cc.tmp+"&ordm;"+info['unit']+"</div><div></div></div>";
-						html += "<div class='it'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div>";
-						html += "<div class='it'>Hum "+json.weather.cc.hmid+"%</div>";
-						html += "<div class='it'>"+json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t)+"</div>";
-						html += "<div class='it'><div id='_more' style='cursor:pointer;text-decoration:underline;' onClick='showFullInfo()'>More details...</div></div>";
-					html += "</div>";
-					html += "</td></tr></table>";
-				html += "</div>";
-			html += "</td>";
-			html += "</div>";
-			html += "<td>";
-				html += "<table class='infoNext'><tr>";
-				for(i=1;i<json.weather.dayf.day.length;i++)
-				{
-					html += "<td class='header'><div id='s"+json.weather.dayf.day[i]['t']+"' class='datestr'>"+json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']+"</div></td>";
-					
-				}	
-				html += "</tr>";
-				for(i=1;i<json.weather.dayf.day.length;i++)
-				{
-					html += "<td class='day'><div class='nextDay'><div class='icon'><img src='http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png'/></div><div class='info'>";
-					html += "<div class='it'><div class='infoI'>"+json.weather.dayf.day[i].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[i].low+"&ordm;"+info['unit']+"</div></div>";
-					html += "<div class='it'><span class='infoI' id='_ppcp'>PPcp</span>"+json.weather.dayf.day[i].part[0].ppcp+"%</div>";
-					html += "<div class='it'>"+json.weather.dayf.day[i].part[0].wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.dayf.day[i].part[0].wind.t)+"</div></td>";
-					//html += "<div class='it'>"+json.weather.dayf.day[0].hi+"&ordm;"+info['unit']+ "/"+json.weather.dayf.day[0].low+"&ordm;"+info['unit']+"</div>";
-				}
-				html+= "</tr></table>";	
-			html += "</td></tr></table>";
-		html +="</div>";		
-	
-	
-
-	$('infoTiempo').innerHTML = html;
+	$('infoTiempo').innerHTML = "";
+	$('infoTiempo').appendChild(setHeader(json));
+	$('infoTiempo').appendChild(setShortInfo(json, info));
+$('infoTiempo').appendChild(setFullInfo(json, info));	
 	if (fullinfo){
 		$('full').show();
 		$('short').hide();
 	}else{
 		$('short').show();
 		$('full').hide();
-	}
-	
+	} 
+
 	$('loading').style.visibility = 'hidden';
 	$('loading_2').style.visibility = 'hidden';
 	$('header').hide();
@@ -342,11 +261,591 @@ function callbackSucessInfo(responseData){
 	translator.translate();
 	//translate();
 	$('errors').innerHTML ="";
+	$('errors').style.display="none";
 	
 			
 	
 }
+
+function setHeader(json){
+	var result = document.createElement("div");
+	result.className = 'city'; 
+	result.id = 'cityHeader'; 
+
+	// City Name
+	var span = document.createElement("span");
+	span.id="_cityName";
+	span.className = "cityName";
+	span.appendChild(document.createTextNode(json.weather.cc.obst));
+	result.appendChild(span);
+
+	// Other Cities
+	span = document.createElement("span");
+	span.id = "_other";
+	span.className = "other";
+	span.onclick = function(){showHeader();};	
+	span.appendChild(document.createTextNode("(other city)"));
+	result.appendChild(span);
+	
+	// Refresh
+	span = document.createElement("span");
+	span.id = "_refresh";
+	span.className = "other";
+	span.onclick = function(){refresh();};	
+	span.appendChild(document.createTextNode("Refresh"));
+	result.appendChild(span);
+	
+	var image = document.createElement("img");
+	image.id="loading_2";
+	image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/loading.gif";
+	result.appendChild(image);	
+
+	// Refresh
+	span = document.createElement("div");
+	span.id = "_hide";
+	span.className = "other";
+	span.onclick = function(){HideHeader();};	
+	result.appendChild(span);
+
+	return result;			
+}
+
+function setShortInfo(json, info){
+	var result = document.createElement("div");
+	result.id = "short";
+	result.className = "short";
+	
+	var today = document.createElement ("div");
+	today.className = "today";
+	
+	var table = document.createElement ("table");
+	var tbody = document.createElement ("tbody");
+	table.appendChild(tbody);
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	
+	var colleft = document.createElement ("div");
+	colleft.id = "colleft";
+	colleft.className = "colleft";
+	colleft.setAttribute("title", "Current Weather");
+	
+	var table2 = document.createElement ("table");
+	var tbody2 = document.createElement ("tbody");
+	table2.appendChild(tbody2);
+	var tr2 = tbody2.insertRow(-1);
+	var td2 = tr2.insertCell(-1);	
+
+	var icon = document.createElement ("div");
+	icon.className = "icon";
+	var image = document.createElement ("img");
+	image.src = info.ccicon;
+	icon.appendChild(image);
+	
+	var it = document.createElement ("div");
+	it.className = "it";
+	it.id = 's'+json.weather.dayf.day[0]['t'];
+	icon.appendChild(it);
+	
+	it = document.createElement ("div");
+	it.className = "it";
+	it.id = '_sdateDT';
+	it.appendChild(document.createTextNode(json.weather.dayf.day[0]['dt']));
+	icon.appendChild(it);
+	td2.appendChild(icon);
+	
+	var td2 = tr2.insertCell(-1);	
+	var datoscc = document.createElement ("div");
+	datoscc.className = "datoscc";
+	it = document.createElement ("div");
+	it.className = "it";
+	datoscc.appendChild(it);
+	
+	it = document.createElement ("div");
+	it.className = "it";
+	var tmp = document.createElement("tmp");
+	tmp.className = "tmp";
+	tmp.appendChild(document.createTextNode(json.weather.cc.tmp+"º"+info['unit']));
+	it.appendChild(tmp);
+	datoscc.appendChild(it);
+	
+	it = document.createElement ("div");
+	it.className = "it";
+	it.appendChild(document.createTextNode(json.weather.dayf.day[0].hi+"º"+info['unit']+ "/"+json.weather.dayf.day[0].low+"º"+info['unit']));
+	datoscc.appendChild(it);
+
+	it = document.createElement ("div");
+	it.className = "it";
+	it.appendChild(document.createTextNode("Hum "+json.weather.cc.hmid+"%"));
+	datoscc.appendChild(it);
+
+	it = document.createElement ("div");
+	it.className = "it";
+	it.appendChild(document.createTextNode(json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t)));
+	datoscc.appendChild(it);
+
+	it = document.createElement ("div");
+	it.className = "it";
+	var div = document.createElement("div");
+	div.id = '_more';
+	div.style.cssText = "cursor:pointer;text-decoration:underline;";
+	div.onclick = function(){showFullInfo();};
+	div.appendChild(document.createTextNode("More details..."));
+	it.appendChild(div);
+	datoscc.appendChild(it);
+
+	td2.appendChild(datoscc);
+	colleft.appendChild(table2);
+	td.appendChild(colleft);
+	
+	td = tr.insertCell(-1);
+	td.style.cssText = "vertical-align:middle;";
+	table2 = document.createElement("table");
+	tbody2 = document.createElement("tbody");
+	table2.appendChild(tbody2);
+	table2.className = 'infoNext';
+	tr2 = tbody2.insertRow(-1);
+	
+	for(i=1;i<json.weather.dayf.day.length;i++){
+		td2 = tr2.insertCell(-1);
+		td2.className = "header";
+		var datestr = document.createElement("div")
+		datestr.className = 'datestr';
+		datestr.id="s"+json.weather.dayf.day[i]['t'];
+		datestr.appendChild(document.createTextNode(json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']));
+		td2.appendChild(datestr);
+
+	}
+	
+	tr2 = tbody2.insertRow(-1);
 		
+	for(i=1;i<json.weather.dayf.day.length;i++){
+		td2 = tr2.insertCell(-1);
+		td2.className = "day";
+		var nextDay = document.createElement("div");
+		nextDay.className = "nextDay";
+		icon = document.createElement("div");
+		icon.className = "icon";
+		image = document.createElement("img");
+		image.src = "http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png";
+		icon.appendChild(image);
+		nextDay.appendChild(icon);
+		
+		var infoDiv = document.createElement("div");
+		infoDiv.className = "info";
+
+		it = document.createElement("div");
+		it.className = "it";
+		var infoI = document.createElement("div");
+		infoI.className = "infoI";
+		infoI.appendChild(document.createTextNode(json.weather.dayf.day[i].hi+"º"+info['unit']+ "/"+json.weather.dayf.day[i].low+"º"+info['unit']));
+		infoI.style.styleFloat = "none";
+		it.appendChild(infoI);
+		infoDiv.appendChild(it);
+
+		it = document.createElement("div");
+		it.className = "it";
+		infoI = document.createElement("span");
+		infoI.className = "infoI";
+		infoI.id = "_ppcp";
+		infoI.appendChild(document.createTextNode("PPcp"));
+		it.appendChild(infoI);
+		it.appendChild(document.createTextNode(json.weather.dayf.day[i].part[0].ppcp+"%"));
+		infoDiv.appendChild(it);
+		
+		it = document.createElement("div");
+		it.className = "it";
+		it.appendChild(document.createTextNode(json.weather.dayf.day[i].part[0].wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.dayf.day[i].part[0].wind.t)));
+		infoDiv.appendChild(it);
+		nextDay.appendChild(infoDiv); 
+		td2.appendChild(nextDay);	
+	}
+	
+
+	td.appendChild(table2);
+	today.appendChild(table);
+	result.appendChild(today);
+	return result;
+}
+
+function setFullInfo(json, info){
+	var result = document.createElement("div");
+	result.id = "full";
+	result.className = "full";
+	
+	var today = document.createElement ("div");
+	today.className = "today";
+	
+	var table = document.createElement ("table");
+	var tbody = document.createElement ("tbody");
+	table.appendChild(tbody);
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	
+	var colleft = document.createElement ("div");
+	colleft.id = "colleft";
+	colleft.className = "colleft";
+	colleft.setAttribute("title", "Current Weather");
+	
+	var table2 = document.createElement ("table");
+	var tbody2 = document.createElement ("tbody");
+	table2.appendChild(tbody2);
+	var tr2 = tbody2.insertRow(-1);
+	var td2 = tr2.insertCell(-1);
+	td2.style.cssText = "vertical-align:middle;";
+	
+	var icon = document.createElement ("div");
+	icon.className = "icon";
+	var image = document.createElement ("img");
+	image.src = info.ccicon;
+	icon.appendChild(image);
+	
+	var it = document.createElement("div");
+	it.id = json.weather.dayf.day[0]['t'];
+	it.className = 'it';
+	icon.appendChild(it);
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	it.id = "_dateDT";
+	it.appendChild(document.createTextNode(json.weather.dayf.day[0]['dt']));
+	icon.appendChild(it);
+	td2.appendChild(icon);
+	
+	var td2 = tr2.insertCell(-1);
+	var datoscc	= document.createElement ("div");
+	datoscc.className = "datoscc";
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	datoscc.appendChild(it);
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	var tmp = document.createElement("div");
+	tmp.appendChild(document.createTextNode(json.weather.cc.tmp+"º"+info['unit']));
+	tmp.className = "tmp";
+	it.appendChild(tmp);
+	datoscc.appendChild(it);
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_hi';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_hi')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.dayf.day[0].hi+"º"+info['unit']));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);
+
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_low';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_low')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.dayf.day[0].low+"º"+info['unit']));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);	
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_pressure';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_pressure')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.cc.bar.r+" "+info['unitp']));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);	
+
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_wind';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_wind')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.cc.wind.s +" " + info['unitv'] + " " + translateDirection(json.weather.cc.wind.t)));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);	
+
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_humidity';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_humidity')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.cc.hmid+"%"));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);	
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_visibility';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_visibility')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.cc.vis+"%"));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);
+
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_sunrise';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_sunrise')));
+	it.appendChild(infoI);
+		
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.loc.sunr));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);
+
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = '_sunset';
+	infoI.appendChild(document.createTextNode(translator.getLabel('_sunset')));
+	it.appendChild(infoI);
+	
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.appendChild(document.createTextNode(json.weather.loc.suns));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);
+	
+	var date = new Date();
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	var span = document.createElement("span");
+	span.id="_update";
+	span.style.cssText = "font-style:italic;";
+	span.appendChild(document.createTextNode(translator.getLabel('_update')));
+	infoI.appendChild(span);
+	it.appendChild(infoI);
+
+	var infoD = document.createElement("div");
+	infoD.className = 'infoD';
+	infoD.style.cssText = "font-style:italic;";
+	infoD.appendChild(document.createTextNode(date.getHours().toPaddedString(2)+":"+date.getMinutes().toPaddedString(2)+", "+date.getDate()+"/"+(date.getMonth()+1).toPaddedString(2)+"/"+date.getFullYear()));
+	it.appendChild(infoD);
+	datoscc.appendChild(it);
+	
+	var it = document.createElement("div");
+	it.className = "it";
+	var infoI = document.createElement("div");
+	infoI.className = 'infoI';
+	infoI.id = "_less";
+	infoI.style.cssText = "cursor:pointer;text-decoration:underline;";
+	infoI.appendChild(document.createTextNode("Less details..."));
+	infoI.onclick = function(){hideFullInfo()};
+	it.appendChild(infoI);
+	datoscc.appendChild(it);
+	td2.appendChild(datoscc);
+
+	colleft.appendChild(table2);
+	td.appendChild(colleft);
+	
+	td = tr.insertCell(-1);
+	td.setAttribute("valign", "top");
+	td.style.width = "100%";
+	var colright = document.createElement("div");
+	colright.className = "colright";
+	
+	table2= document.createElement("table");
+	var thead2= document.createElement("thead");
+	tbody2 = document.createElement("tbody");
+	table2.className = "item";
+	table2.appendChild(thead2);
+	table2.appendChild(tbody2);
+	tr2 = thead2.insertRow(-1);
+
+	var th2 = document.createElement("th");
+	th2.id="_day-night";
+	th2.className = "datestr";
+	th2.appendChild(document.createTextNode(translator.getLabel('_day-night')));
+	tr2.appendChild(th2);
+
+	th2 = document.createElement("th");
+	th2.id="_hum";
+	th2.className = "datestr";
+	th2.setAttribute("title", "Humidity");
+	th2.appendChild(document.createTextNode(translator.getLabel('_hum')));
+	tr2.appendChild(th2);
+	
+	th2 = document.createElement("th");
+	th2.id="_ppcp";
+	th2.className = "datestr";
+	th2.setAttribute("title", "Probability of precipitation");
+	th2.appendChild(document.createTextNode(translator.getLabel('_ppcp')));
+	tr2.appendChild(th2);
+
+	th2 = document.createElement("th");
+	th2.id="_wind2";
+	th2.className = "datestr";	
+	th2.setAttribute("title", "Wind");
+	th2.appendChild(document.createTextNode(translator.getLabel('_wind2')));
+	tr2.appendChild(th2);
+
+	tr2 = tbody2.insertRow(-1);
+	td2 = tr2.insertCell(-1);
+	td2.style.cssText = "vertical-align:middle;";
+	image = document.createElement("img");
+	image.src = 'http://image.weather.com/web/common/wxicons/31/'+json.weather.dayf.day[0].part[0].icon+'.png';
+	td2.appendChild(image);
+	
+	td2 = tr2.insertCell(-1);
+	td2.appendChild(document.createTextNode(json.weather.dayf.day[0].part[0].hmid+"%"));
+
+	td2 = tr2.insertCell(-1);
+	td2.appendChild(document.createTextNode(json.weather.dayf.day[0].part[0].ppcp+"%"));
+
+	td2 = tr2.insertCell(-1);
+	div = document.createElement("div");
+	div.appendChild(document.createTextNode(json.weather.dayf.day[0].part[0].wind.s+" "+info['unitv']));
+	td2.appendChild(div);
+	div = document.createElement("div");
+	div.appendChild(document.createTextNode(translateDirection(json.weather.dayf.day[0].part[0].wind.t)));
+	td2.appendChild(div);
+
+	
+	tr2 = tbody2.insertRow(-1);
+	td2 = tr2.insertCell(-1);
+	td2.style.cssText = "vertical-align:middle;";
+	image = document.createElement("img");
+	image.src = 'http://image.weather.com/web/common/wxicons/31/'+json.weather.dayf.day[0].part[1].icon+'.png';
+	td2.appendChild(image);
+	
+	td2 = tr2.insertCell(-1);
+	td2.appendChild(document.createTextNode(json.weather.dayf.day[0].part[1].hmid+"%"));
+
+	td2 = tr2.insertCell(-1);
+	td2.appendChild(document.createTextNode(json.weather.dayf.day[0].part[1].ppcp+"%"));
+
+	td2 = tr2.insertCell(-1);
+	div = document.createElement("div");
+	div.appendChild(document.createTextNode(json.weather.dayf.day[0].part[1].wind.s+" "+info['unitv']));
+	td2.appendChild(div);
+	div = document.createElement("div");
+	div.appendChild(document.createTextNode(translateDirection(json.weather.dayf.day[0].part[1].wind.t)));
+	td2.appendChild(div);
+
+	colright.appendChild(table2);
+	td.appendChild(colright);
+	
+	today.appendChild(table);
+	result.appendChild(today);
+	
+	table = document.createElement("table");
+	tbody = document.createElement("tbody");
+	table.appendChild(tbody);
+	table.className = "infoNext";
+	tr = tbody.insertRow(-1);
+	for(var i=1;i<json.weather.dayf.day.length;i++){
+		td = tr.insertCell(-1);
+		td.className = "header";
+		div = document.createElement("div");
+		div.id = json.weather.dayf.day[i]['t'];
+		div.className = "datestr";
+		div.appendChild(document.createTextNode(json.weather.dayf.day[i]['t']+", "+json.weather.dayf.day[i]['dt']));
+		td.appendChild(div);
+	}
+	
+	tr = tbody.insertRow(-1);
+	for(i=1;i<json.weather.dayf.day.length;i++){
+		td = tr.insertCell(-1);
+		td.className = "day";
+		
+		var nextDay = document.createElement("div");
+		nextDay.className = "nextDay";
+		icon=document.createElement("div");
+		icon.className="icon";
+		image = document.createElement("img");
+		image.src = "http://image.weather.com/web/common/wxicons/31/"+json.weather.dayf.day[i].part[0].icon+".png";
+		icon.appendChild(image);
+		nextDay.appendChild(icon);
+		
+		var infoDiv = document.createElement("div");
+		infoDiv.className = "info";
+
+		it = document.createElement("div");
+		it.className = "it";
+		infoI = document.createElement("div");
+		infoI.className = "infoI";
+		infoI.id = "_hi2";
+		infoI.appendChild(document.createTextNode(translator.getLabel('_hi')));
+		it.appendChild(infoI);
+		
+		infoD = document.createElement("div");
+		infoD.className = "infoD";
+		infoD.appendChild(document.createTextNode(json.weather.dayf.day[i].hi+"º"+info['unit']));
+		it.appendChild(infoD);
+		infoDiv.appendChild(it);
+		
+		it = document.createElement("div");
+		it.className = "it";
+		infoI = document.createElement("div");
+		infoI.className = "infoI";
+		infoI.id = "_low2";
+		infoI.appendChild(document.createTextNode(translator.getLabel('_low')));
+		it.appendChild(infoI);
+		
+		infoD = document.createElement("div");
+		infoD.className = "infoD";
+		infoD.appendChild(document.createTextNode(json.weather.dayf.day[i].low+"º"+info['unit']));
+		it.appendChild(infoD);
+		infoDiv.appendChild(it);
+		
+		it = document.createElement("div");
+		it.className = "it";
+		infoI = document.createElement("div");
+		infoI.className = "infoI";
+		infoI.id = "_ppcp2";
+		infoI.appendChild(document.createTextNode("PPcp"));
+		it.appendChild(infoI);
+		
+		infoD = document.createElement("div");
+		infoD.className = "infoD";
+		infoD.appendChild(document.createTextNode(json.weather.dayf.day[0].part[0].ppcp+"%"));
+		it.appendChild(infoD);
+		infoDiv.appendChild(it);
+		nextDay.appendChild(infoDiv);
+		td.appendChild(nextDay);
+				
+	}
+
+	result.appendChild(table);
+	return result;
+
+}
+
 function translate()
 {
 
@@ -405,7 +904,7 @@ function _changeTheme(value){
 	
 	if(!value || value =="")
 		value = "default2";
-	
+
 	var href = "http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/"+actualTheme+"/"+value+".css";
 	var sheetLink=document.getElementById('style');
 	sheetLink.href=href;
@@ -438,8 +937,8 @@ function hideFullInfo()
 </select>
 </form>
 </div>
-<span id="errors"></span>
-<span id="infoTiempo"></span>
+<div id="errors" style="display:none"></div>
+<div id="infoTiempo"></div>
 <span id="update" style="font-size:11px;font-style:italic;margin-left:17px;"></span>
 
 </body>
