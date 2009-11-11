@@ -44,7 +44,7 @@ function setKeyByDefault (value){
 }
 
 function resetInterval (value){
-	if (!hasAccess() || !isNaN(parseInt(value))) {
+	if (!hasAccess() || isNaN(parseInt(value))) {
 		return;	
 	}
 
