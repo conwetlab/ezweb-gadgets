@@ -1,46 +1,29 @@
 <?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<!--
-
-    TeRRAS Gadget (0.4) for the EzWeb Platform
-
-    Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    TeRRAS is partially funded by the Spanish Ministry of Industry, Tourism 
-    and Commerce under the National Plan for Scientific Research, Development 
-    and Technological Innovation 2007-2009 (grant to EzWeb project with 
-    number TSI-020301-2009-13). 
-
--->
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>TeRRAS</title>
+    <title>EzContext</title>
     <script type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
     <script type="text/javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/json/json-min.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/paginator/paginator-min.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datasource/datasource-min.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datatable/datatable-min.js"></script>
-    <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/charts/charts-min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/json/json-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/datatable/datatable-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/charts/charts-min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css" />
-    <link rel="stylesheet" href="http://idi.fundacionctic.org/terras/images/Techmania.css" type="text/css" />
+<link rel="stylesheet" href="http://192.168.2.209:8080/terras-endpoint/images/Techmania.css" type="text/css" />
+
     <style type="text/css">
 			
       html {
@@ -116,7 +99,7 @@
             document.getElementById("form").onsubmit=submitEventHandler;
         }
 
-        function loadExample(){
+        function loadExampleMusic(){
             document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
 	        "PREFIX\n"+
         	"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
@@ -136,6 +119,48 @@
             	"\tskos:subject some {<http://dbpedia.org/resource/Category:Guinness_World_Record_holders>},5.\n";
             return false;
         }
+
+        function loadExampleFilms(){
+            document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
+	        "PREFIX\n"+
+        	"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+        	"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+        	"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+        	"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+        	"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+        	"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+        	"\tbase <http://dbpedia.org/resource/>.\n"+
+            "OBLIGATORY\n"+
+            	"\tdbpedia2:origin some {base:United_States,base:England}.\n"+
+            	"\t<http://dbpedia.org/class/yago/Quartets>.\n"+
+            "OPTIONAL\n"+
+            	"\tdbpedia2:genre some {base:Heavy_metal_music},4.\n"+
+            	"\tdbpedia2:genre some {base:Rock},4.\n"+
+            	"\tdbpedia2:currentMembers some {base:Joey_DeMaio,base:James_Hetfield},9.\n"+
+            	"\tskos:subject some {<http://dbpedia.org/resource/Category:Guinness_World_Record_holders>},5.\n";
+            return false;
+        }
+
+        function loadExampleSoft(){
+            document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
+			"PREFIX\n"+
+			"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+			"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+			"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+			"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+			"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+			"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+			"\tbase <http://dbpedia.org/resource/>.\n"+
+			"OBLIGATORY\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Integrated_development_environments>}.\n"+
+			"OPTIONAL\n"+
+			"\tdbpedia2:operatingSystem some {base:Cross-platform},5.\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Free_UML_tools>},6.\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Mac_OS_X_development>},9.";
+            return false;
+        }
+
+
 
         function resetQuery(){
             document.getElementById("qil").value = "";
@@ -247,7 +272,7 @@
         <p class="query">
             <div class="examples">
                 <a href="#" onclick="resetQuery()">Reset</a><br/>
-                <a href="#" onclick="loadExample()">Load example using DBPedia</a>
+                Examples: <a href="#" onclick="loadExampleMusic()">Music</a> | <a href="#" onclick="loadExampleFilms()">Films</a> | <a href="#" onclick="loadExampleSoft()">Software</a>
             </div>
           <input type="submit" value="get recomendations" />
         </p>
