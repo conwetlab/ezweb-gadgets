@@ -16,7 +16,7 @@
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
 	<Preference name='defaultKey' type='text' label='Keyword by default' description='Search keyword by default' default='interestingness'/>
-	<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
+	<Preference name='time' type='number' label='Refresh time in minutes (0 means never)' description='Refresh time in minutes (0 means never)' default='10'/>
 	<Preference name="photosperpage" type="list" description="Number of photos per page" label="Photos per page" default='10'>
 		<Option value='5' name='5'/>
 		<Option value='10' name='10'/>
