@@ -77,11 +77,11 @@ function loadVideo(url_){
 	 var param = document.createElement('param');
 	 param.name = "movie";
 	 param.value = url_;
-	 object.appendChild(p);
+	 object.appendChild(param);
 	 param = document.createElement('param');
 	 param.name = "wmode";
 	 param.value = "transparent";
-	 object.appendChild(p);
+	 object.appendChild(param);
   
      var embed = document.createElement('embed');
      embed.setAttribute('src',url_);
@@ -90,7 +90,7 @@ function loadVideo(url_){
      embed.setAttribute('wmode',"transparent");
 	 embed.setAttribute('type',"application/x-shockwave-flash");
      embed.id="rep";
-     
+     object.appendChild(embed);
    }
    else{ //iphone
      var object = document.createElement('a');
@@ -100,24 +100,21 @@ function loadVideo(url_){
    var divAnt = document.getElementById("video");
    var divVideo = document.createElement("div");
    divVideo.id="video";
-   divVideo.appendChild(em);
-   divVideo.appendChild(obj);
+   divVideo.appendChild(object);
    document.body.replaceChild(divVideo,divAnt);
    
-   	var div = document.getElementById("sendEvent");
-	div.innerHTML = "";
-	var img = document.createElement("img");
-	img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
-	img.onclick = function(){sendEvent(url_)};
-	
-	img.style.marginBottom="3px";
-	img.style.cursor="pointer";
-	if (language.get() != "es")
-		img.setAttribute("title", "Send Event");
-	else
-		img.setAttribute("title", "Enviar Evento");
-	div.appendChild(img);
-      
+   var div = document.getElementById("sendEvent");
+   div.innerHTML = "";
+   var img = document.createElement("img");
+   img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
+   img.onclick = function(){sendEvent(url_)};
+   
+   img.style.marginBottom="3px";
+   img.style.cursor="pointer";
+   if (language.get() != "es") img.setAttribute("title", "Send Event");
+   else img.setAttribute("title", "Enviar Evento");
+   div.appendChild(img);
+
  }
 	
 }
