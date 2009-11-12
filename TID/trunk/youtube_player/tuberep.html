@@ -90,7 +90,6 @@ function loadVideo(url_){
      embed.setAttribute('wmode',"transparent");
 	 embed.setAttribute('type',"application/x-shockwave-flash");
      embed.id="rep";
-     object.appendChild(embed);
    }
    else{ //iphone
      var object = document.createElement('a');
@@ -100,6 +99,7 @@ function loadVideo(url_){
    var divAnt = document.getElementById("video");
    var divVideo = document.createElement("div");
    divVideo.id="video";
+   divVideo.appendChild(embed);
    divVideo.appendChild(object);
    document.body.replaceChild(divVideo,divAnt);
    
