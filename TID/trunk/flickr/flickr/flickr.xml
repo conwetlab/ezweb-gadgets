@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Flickr</Name>
-    <Version>3.6</Version>
+    <Version>3.7</Version>
     <Author>jjmr</Author>
     <Mail>jjmr@tid.es</Mail>
     <Description>This gadget provides an engaging visual way to explore photos tagged in Flickr. Connect this gadget to the Image Viewer gadget and choose the photo to be shown in a large format</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/flickr.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/img/flickrIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.7/img/flickr.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.7/img/flickrIPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_EzFlickr</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -17,12 +17,7 @@
   <Platform.Preferences>
 	<Preference name='defaultKey' type='text' label='Keyword by default' description='Search keyword by default' default='interestingness'/>
 	<Preference name='time' type='number' label='Refresh time in minutes (0 means never)' description='Refresh time in minutes (0 means never)' default='10'/>
-	<Preference name="photosperpage" type="list" description="Number of photos per page" label="Photos per page" default='10'>
-		<Option value='5' name='5'/>
-		<Option value='10' name='10'/>
-		<Option value='15' name='15'/>
-		<Option value='20' name='20'/>
-	</Preference>
+	<Preference name="photosperpage" type="number" description="Number of photos per page" label="Photos per page" default='10'/>
 	<Preference name="photosfromserver" type="list" description="Number of photos received" label="Photos from server" default='20'>
 		<Option value='20' name='20'/>
 		<Option value='40' name='40'/>
@@ -53,7 +48,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.6/flickr.html"/>
+	<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/flickr/flickr_3.7/flickr.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="7" height="22"/>

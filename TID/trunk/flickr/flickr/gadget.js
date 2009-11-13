@@ -254,8 +254,14 @@ function propagateGadgetEvents(photo_)
 
 // Create the data structures
 function setArrays (imgs, from){
-	// Initial case
 	var nphotos = parseInt(nphotosPref.get(),10);
+	if (isNaN(nphotos)){
+		nphotos = 5;
+	}
+	if (nphotos <= 0){
+		nphotos = 1;
+	}
+	// Initial case	
 	if ((previousimgs.length === 0) && (currentimgs.length === 0) && (nextimgs.length === 0)){ 
 		// Get the number of photos in the current list
 		last = (nphotos<imgs.length) ? nphotos : imgs.length;
