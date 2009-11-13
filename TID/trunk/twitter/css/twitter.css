@@ -1,5 +1,5 @@
 body {
-	background: #9AE4E8 url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/bg.gif) repeat fixed left top;
+	background: #9AE4E8 url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/bg.gif) repeat fixed left top;
 	font-family:'Lucida Grande',sans-serif;
 	margin: 5px;
 }
@@ -44,8 +44,14 @@ h3 {
 	border-bottom: 2px solid #FFFFFF;	
 }
 
+#status_container {
+	height: 43px;
+	margin-right: 7px;
+}
+
 #status{
 	border: 1px solid #AAAAAA;
+	height: 35px;
 	width: 100%;
 	padding: 5px 0px 0px 5px;
 	overflow: auto;
@@ -55,7 +61,7 @@ h3 {
 	font-style: normal;
 	font-stretch: normal;
 	font-size-adjust: none;
-	font-size: 1.15em;
+	font-size: 1em;
 }
 
 #container {
@@ -74,31 +80,31 @@ h3 {
 }
 
 .disabled_button{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
-	width: 95px;
+	width: 75px;
 	border: 1px solid #CECECE;
 	margin-left: 5px;
 	padding: 0.25em 1em;
 	color: #CECECE;
-	font-size: 14px;
+	font-size: 0.9px;
 	cursor: default;
 }
 
 .button{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
-	width: 95px;
+	width: 75px;
 	border: 1px solid #CECECE;
 	margin-left: 5px;
 	padding: 0.24em;
 	color: #0084B4;
-	font-size: 14px;
+	font-size: 0.9px;
 	cursor: pointer;
 }
 
 .button:hover{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/round-btn-hover.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn-hover.gif) repeat scroll 0 0;
 }
 
 #container .message_container {
@@ -117,7 +123,7 @@ h3 {
 
 #container .message_container .message .header {
 	font-family: Georgia;
-	font-size: 0.8em;
+	font-size: 0.75em;
 	font-style: italic;
 	color: #999999;
 }
@@ -174,5 +180,5 @@ h3 {
 #link_container .right{
 	float: right;
 	position: relative;
-	top: 4px;
+	height: 15px;
 }

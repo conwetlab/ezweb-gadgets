@@ -113,7 +113,26 @@ var sc = {
  8764:  '&sim;'
 };
 
-// Replaces all special chars with theirs httml entities
+// Replaces one special char with its HTML entities
+function replaces_from_message(msg_) {
+	var replaced = '';
+	for (var i = 0; i < msg_.length; i++)	{
+			replaced += get_html_entities(msg_.charAt(i));
+	}
+	return replaced;
+}
+
+// Gets the HTML entities of a char
+function get_html_entities (char_){
+	var entities = sc[char_.charCodeAt()];
+	if (!entities) {
+		return char_;
+	}
+
+	return entities;
+}
+
+// Replaces all special chars with theirs HTML entities
 function replace_special_chars (msg){
 	for (var sc_item in sc){		
 		msg = msg.replace (new RegExp(String.fromCharCode(sc_item), 'g'), sc[sc_item]);

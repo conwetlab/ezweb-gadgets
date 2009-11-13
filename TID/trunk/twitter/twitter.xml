@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>3.0</Version>
+    <Version>3.1</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget provides an engaging visual way to see and send messages into Twitter system.</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/twitter_logo_s.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/twitter_logo_s.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Twitter</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -42,12 +42,13 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/twitter.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/twitter.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="5" height="12"/>
   
   <Platform.Context>
+	<Context name="language" type="text" concept="language"/>
   </Platform.Context> 
 </Template>
 

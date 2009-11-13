@@ -6,8 +6,9 @@
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
-var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.0/images/';
+var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/';
 
+var translator = null;
 
 // EZWEB VARIABLES
 ///////////////////
@@ -30,8 +31,10 @@ var authorization = '';
 var init_msg = '';
 var current_friend = '';
 var current_page = 1;
+var current_msg = '';
 var max_page = 1;
 var all_messages = new Object(); 
+var notification = null;
 var posted_msg_aux = '';
 var temp_id = null;
 var restart = false;
@@ -95,23 +98,14 @@ function draft_is_handler (dra) {
 
 function sign_in () {
 	
-	close_notification();
-	
-
 	if (authorization == ''){
 		if (twitter_user.get() == '')	{
-			
-			var msg = 'Please, set your username in Twitter using the preferences.'
-			show_notification (msg);
-			
+			notification.error (translator.getLabel('set_username'));
 			return false;
 		}
 		
 		if (twitter_pass.get() == '') {
-
-			var msg = 'Please, set your password in Twitter using the preferences.'
-			show_notification (msg);
-
+			notification.error (translator.getLabel('set_username'));
 			return false;
 		}
 		
@@ -120,8 +114,7 @@ function sign_in () {
 		document.getElementById('log_out').style.display = 'block';
 		document.getElementById('sign_in').style.display = 'none';
 		
-		var target_url = 'http://twitter.com/account/rate_limit_status.json';
-		send_request (target_url, 'GET', null, get_rate_limit, show_http_error);
+		twitter.account.rate_limit_status (get_rate_limit, show_http_error);
 		
 	}
 
@@ -129,15 +122,25 @@ function sign_in () {
 	
 }
 
-function get_login_links (visible_logout){
+function get_login_links (visible_logout, tab_){
+	var style_aux = '';
+	
+	switch (tab_){
+		case 'friends_tab':
+		case 'followers_tab':
+			style_aux += 'height:10px;'
+			break;
+		default:
+			break;
+	}
 
-	var html = '<div id="link_container">\n';
+	var html = '<div id="link_container" style="' + style_aux + '">\n';
 	if (visible_logout){
-		html += '<a id="log_out" class="right" style="display: block;" href="javascript:void(0)" onclick="sign_out()">log out</a>';
-		html += '<a id="sign_in" class="right" style="display: none;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>';
+		html += '<a id="log_out" class="right" style="display: block;" href="javascript:void(0)" onclick="sign_out()">' + translator.getLabel('log_out') + '</a>';
+		html += '<a id="sign_in" class="right" style="display: none;" href="javascript:void(0)" onclick="restart_connection()">' + translator.getLabel('sign_in') + '</a>';
 	} else {
-		html += '<a id="log_out" class="right" style="display: none;" href="javascript:void(0)" onclick="sign_out()">log out</a>';
-		html += '<a id="sign_in" class="right" style="display: block;" href="javascript:void(0)" onclick="restart_connection()">sign in</a>';
+		html += '<a id="log_out" class="right" style="display: none;" href="javascript:void(0)" onclick="sign_out()">' + translator.getLabel('log_out') + '</a>';
+		html += '<a id="sign_in" class="right" style="display: block;" href="javascript:void(0)" onclick="restart_connection()">' + translator.getLabel('sign_in') + '</a>';
 	}
 	html += '</div>';
 
@@ -164,7 +167,7 @@ function restart_connection (){
 
 function sign_out () {
 	
-	close_notification();
+	notification.close();
 	
 	document.getElementById('container').innerHTML = get_login_links(false);        
 	
@@ -172,8 +175,7 @@ function sign_out () {
 	document.getElementById('sign_in').style.display = 'block';
 	
 	if (authorization != ''){
-		var target_url = 'http://twitter.com/account/end_session.json';
-		send_request (target_url, 'POST', null, sign_out_handler, show_http_error);
+		twitter.account.end_session (sign_out_handler, show_http_error);
 	}
 }
 
@@ -204,83 +206,33 @@ function getByClassName (tag, classname) {
 }
 
 
-// MY OWN SEND_GET/SEND_POST 
-// (the request is sent to EzWeb by this method because the authentication field has been added to the HTTP headerS)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function send_request (url, method, parameters, success_handler, error_handler){
-	if (method == 'POST' || method == 'PUT'){
-		if (typeof(parameters) != "string") {
-			var p = EzWebAPI.platform.Object.toJSON(parameters);
-		} else {
-	 		var p = parameters;
-		}
-		var proxy_params = {url: url, method: method, params: p};
-	}else{
-		var proxy_params = {url: url, method: method};
-	}
-	
-	success_handler.bind = EzWebAPI.platform.Function.prototype.bind;
-	error_handler.bind = EzWebAPI.platform.Function.prototype.bind;
-	
-	new EzWebAPI.platform.Ajax.Request(EzWebAPI.platform.URIs.PROXY, {
-				method: 'post',
-				parameters: proxy_params,
-				requestHeaders: {'Authorization': authorization}, 
-				onSuccess: success_handler.bind(this),
-				onFailure: error_handler.bind(this),
-				onException: error_handler.bind(this)
-	});
-}
-
-
 // ERROR HANDLER
 /////////////////
 
 function show_http_error(res){
-	var msg = 'Sorry, an error has ocurried and now we cannot send your request.</br>Please, sign in again and try it again...';
-	show_error(msg);
+	var msg = translator.getLabel('http_error');
+	notification.error(msg);
 	
 	// Only for debug
 	//alert (res.responseText);
 }
 
 function show_update_error(res){
-	var msg = 'Sorry, the Twitter service is temporarily unavailable. Automatic updates have been disabled.';
-	show_error(msg);
-	
-	setTimeout("close_notification()",10000);
+	var msg = translator.getLabel('update_error');
+	notification.error(msg);
 	
 	// Only for debug
 	//alert (res.responseText);
-}
-
-function show_duplicated_message_error(){
-	var msg = 'Sorry, the sent message is duplicated. The message has not been posted.';
-	show_error(msg);
-	
-	setTimeout("close_notification()",10000);
-	
-	// Only for debug
-	//alert (res.responseText);
-}
-
-function show_error(msg){
-	show_notification(msg);
-	
-	if (temp_id != null)
-		clearInterval(temp_id);
 }
 
 // GETS ALL MESSAGES (HOME PAGE)
 ////////////////////////////////
 
 function get_messages (isUpdate_) {
-	var target_url = 'http://twitter.com/statuses/friends_timeline.json';
 	if (!isUpdate_){
-		send_request (target_url, 'GET', null, show_messages, show_http_error);
+		twitter.statuses.friends_timeline (show_messages, show_http_error);
 	} else {
-		send_request (target_url, 'GET', null, show_messages, show_update_error);
+		twitter.statuses.friends_timeline (show_messages, show_update_error);
 	}
 }
 
@@ -290,13 +242,15 @@ function show_messages (resp) {
 	all_messages = eval ('(' + response + ')');
 	
 	var content = document.getElementById('container');
-	content.innerHTML = get_login_links(true);
+	content.innerHTML = get_login_links(true, 'me_tab');
 	
 	var header_text = document.createElement("h3");
-	header_text.appendChild(document.createTextNode('What are you doing?'));
+	header_text.innerHTML = translator.getLabel('doing');
+	//header_text.appendChild(document.createTextNode(translator.getLabel('doing')));
 	content.appendChild(header_text);
 	
 	var textarea_cont = document.createElement("div");
+	textarea_cont.id = 'status_container';
 	content.appendChild(textarea_cont);	
 	
 	var msg_textarea = document.createElement("textarea");
@@ -304,7 +258,7 @@ function show_messages (resp) {
 	msg_textarea.rows = '2';
 	msg_textarea.cols = '50';
 	msg_textarea.maxlength = '140';
-	msg_textarea.onkeyup = change_update_button_state;	
+	msg_textarea.onkeyup = check_message;	
 	
 	if (init_msg != ''){
 		msg_textarea.value=init_msg;
@@ -338,7 +292,7 @@ function show_messages (resp) {
 	clear_button.className = 'button';
 	clear_button.type = 'button';
 	clear_button.onclick = clear_message;
-	clear_button.value = 'Clear';
+	clear_button.value = translator.getLabel('clear');
 	setMouseEvents (clear_button);
 	bottom_cont.appendChild(clear_button);
 	
@@ -347,7 +301,7 @@ function show_messages (resp) {
 	update_button.id = 'update_button';
 	update_button.type = 'button';
 	update_button.disabled=true;
-	update_button.value = 'Update';
+	update_button.value = translator.getLabel('update');
 	update_button.onclick = update_edited_message;
 	setMouseEvents (update_button);
 	bottom_cont.appendChild(update_button);
@@ -360,7 +314,6 @@ function show_messages (resp) {
 	
 	var footer_cont = document.createElement("div");
 	footer_cont.className = 'bottom_cont';
-	//footer_cont.style.paddingBottom = '10px';
 	content.appendChild(footer_cont);	
 
 	max_page = (all_messages.length - (all_messages.length % limit.get()))  / limit.get()
@@ -373,7 +326,7 @@ function show_messages (resp) {
 	newer_button.id = 'newer_button';
 	newer_button.type = 'button';
 	newer_button.onclick = newer_pag;
-	newer_button.value = '<< Newer';
+	newer_button.value = '<< ' + translator.getLabel('newer');
 	if (current_page == 1){
 		newer_button.disabled=true;
 		newer_button.className = 'disabled_button';
@@ -386,7 +339,7 @@ function show_messages (resp) {
 	older_button.id = 'older_button';
 	older_button.type = 'button';
 	older_button.onclick = older_pag;
-	older_button.value = 'Older >>';
+	older_button.value = translator.getLabel('older') + ' >>';
 	if (current_page == max_page){
 		older_button.disabled=true;
 		older_button.className = 'disabled_button';
@@ -404,6 +357,7 @@ function print_messages (container){
 		var message_element = get_message_element(all_messages[i], true);
 		if (i == (current_page - 1) * limit.get()){
 			message_element.style.borderTop = "1px dashed #D2DADA";
+			message_element.style.marginTop = "15px";
 		}
 		container.appendChild(message_element);
 	}
@@ -457,9 +411,9 @@ function get_message_element (message_object, with_avatar) {
 		created_date = new Date (message_object.created_at);
 	}
 
-	var header_text = 'Written on ' + created_date.getDate() + '/' + (created_date.getMonth() + 1) + '/' + created_date.getFullYear() + ' ';
-	header_text += created_date.getHours() + ':' + created_date.getMinutes() + ':' + created_date.getSeconds();
-	header_text += ' by '
+	var header_text = translator.getLabel('written') + created_date.getDate() + '/' + (created_date.getMonth() + 1) + '/' + created_date.getFullYear() + ' ';
+	header_text += translator.getLabel('alas') + created_date.getHours() + ':' + created_date.getMinutes() + ':' + created_date.getSeconds();
+	header_text += ' ' + translator.getLabel('by') + ' ';
 	header_cont.appendChild(document.createTextNode (header_text));
 			
 	var name_cont = document.createElement("span");
@@ -490,25 +444,43 @@ function get_message_element (message_object, with_avatar) {
 
 function clear_message (){
 	document.getElementById('status').value = '';
-	change_update_button_state();	
+	check_message();
 }
 
+// CLEAR THE MESSAGE
+/////////////////////
+
+function check_message () {
+	var status_input = document.getElementById('status');
+	if (status_input.value.length > 140){
+		notification.sign(translator.getLabel('long_message_error'), 'long_message');
+	} else {
+		var replaced = replaces_from_message (status_input.value);
+		if (replaced.length > 140) {
+				notification.sign(translator.getLabel('long_message_error'), 'long_message');
+		} else {
+				notification.closeSign('long_message');
+		}
+	}
+	toggle_update_button_state();
+}
 
 // CHANGE UPDATE BUTTON STATE
 //////////////////////////////
 
-function change_update_button_state (){
+function toggle_update_button_state (){
 	var update_button = document.getElementById('update_button');
 	var status_input = document.getElementById('status');
 	
-	if (status_input.value == ''){
-		update_button.disabled=true;
-		update_button.className = 'disabled_button';	
+	if ((status_input.value.length == 0) || (notification.code == 'long_message')){
+		if (!update_button.disabled){
+			update_button.disabled = true;
+			update_button.className = 'disabled_button';	
+		}
 	} else {
-		update_button.disabled=false;
-		update_button.className = 'button';	
-		if (status_input.value.length > 140){
-			status_input.value = status_input.value.substr(0, 140);
+		if (update_button.disabled){
+			update_button.disabled = false;
+			update_button.className = 'button';	
 		}
 	}
 }
@@ -530,23 +502,28 @@ function arrived_message_handler (message) {
 		switch (draft_is.get()) {
 
 		case 'prefixed':
-			if (input_elto.value == '')
+			if (input_elto.value == ''){
 				input_elto.value = message;
-			else
+			} else {
 				input_elto.value = input_elto.value + ' ' + message;
+			}
 			break;
 
 		case 'concatenated':
-			if (input_elto.value == '')
+			if (input_elto.value == ''){
 				input_elto.value = message;
-			else
+			} else {
 				input_elto.value = message + ' ' + input_elto.value;
+			}
 			break;
 			
 		default:
 			input_elto.value = message;
 			break;
 		}
+
+		// Checks the message
+		check_message();
 
 	} catch(err) {
 		init_msg = message;
@@ -602,15 +579,16 @@ function update_edited_message (ev) {
 }
 
 function post_message (message) {
-	aux_posted_msg = message;
-	var url = 'http://twitter.com/statuses/update.json';
-	var params = {status : replace_special_chars (message.substr(0, 140))} ;
-	send_request (url, 'POST', params, success_update , error_update);
+	aux_posted_msg = replace_special_chars(message);
+	if (aux_posted_msg.length > 140){
+		notification.sign(translator.getLabel('long_message_error'), 'long_message');
+		aux_posted_msg = '';
+	} else {
+		twitter.statuses.update (aux_posted_msg, success_update , error_update);
+	}
 }
 
 function success_update (resp) {
-	
-	clear_message();
 	
 	var response = resp.responseText;
 	var current_message = eval ('(' + response + ')');
@@ -618,11 +596,13 @@ function success_update (resp) {
 	// Checks if the message is duplicated
 	for (var i = 0; i < all_messages.length; i++){
 		if (all_messages[i].id === current_message.id){
-			show_duplicated_message_error();
+			notification.info(translator.getLabel('duplicated_message_error'));
 			return;
 		}
 	}
 	
+	clear_message();
+
 	posted_msg.set(replace_html_entities( aux_posted_msg ));
 	aux_posted_msg = '';
 	
@@ -643,10 +623,7 @@ function success_update (resp) {
 
 function error_update (resp) {
 	aux_posted_msg = '';
-	
-	var msg = 'Sorry, we cannot send your request, check what could be wrong in your message (too long, strange characters, ...)';
-	show_notification(msg);        
-
+	show_notification(translator.getLabel('send_error'));
 }
 
 
@@ -722,8 +699,7 @@ function get_friend_messages (event) {
 	
 	current_friend = event.target.parentNode.parentNode;
 	var friend_name = current_friend.id.split('_')[1];
-	var target_url = 'http://twitter.com/statuses/user_timeline/' + friend_name + '.json?count=' + limit.get();	
-	send_request (target_url, 'GET', null, show_friend_messages, show_http_error);
+	twitter.statuses.user_timeline(friend_name, show_friend_messages, show_http_error);
 }
 
 function show_friend_messages (resp) {
@@ -759,7 +735,7 @@ function remove_friend_messages () {
 	var j = 0;
 	while (j < message_container.childNodes.length){
 		var current_message = message_container.childNodes[j];
-		if (current_message.id.split('_')[0] != 'user'){
+		if ((current_message.id.split('_')[0] != 'user') && (current_message.id != 'link_container')){
 			message_container.removeChild(current_message);
 		}else{
 			j++;
@@ -772,20 +748,17 @@ function remove_friend_messages () {
 ////////////////////////////////
 
 function get_friends () {
-	var target_url = 'http://twitter.com/statuses/friends.json';
-	send_request (target_url, 'GET', null, show_friends_info, show_http_error);
+	twitter.statuses.friends (show_friends_info, show_http_error);
 }
 
-
 function get_followers () {
-	var target_url = 'http://twitter.com/statuses/followers.json';
-	send_request (target_url, 'GET', null, show_friends_info, show_http_error);
+	twitter.statuses.followers(show_friends_info, show_http_error);
 }
 
 function show_friends_info (resp) {
 	
 	var content = document.getElementById('container');
-	content.innerHTML = get_login_links(true);
+	content.innerHTML = get_login_links(true, 'friends_tab');
 		
 	var response = resp.responseText;
 	var objRes = eval ('(' + response + ')');
@@ -848,13 +821,17 @@ function select_tab (next_tab, isUpdate_) {
 	
 	if (authorization != ''){
 		// Changes to the selected tab
-		if (current_tab.id == 'me_tab'){
-			get_messages (isUpdate_);
-		} else if (current_tab.id == 'friends_tab'){  
-			get_friends ();
-		} else{
-			get_followers();
-		}		
+		switch (current_tab.id){
+			case 'me_tab':
+				get_messages (isUpdate_);
+				break;
+			case 'friends_tab':
+				get_friends ();
+				break;
+			default:
+				get_followers();
+				break;
+		}
 	}
 
 }
@@ -870,47 +847,47 @@ function resize_height (){
 		document.getElementById('container').style.width  = window.frameElement.getWidth()  - 10 + "px";
 	} else {
 		// Firefox and others	
-		var round = 30;
+		var round = 20;
 		if (document.getElementById('container').offsetTop == 0){
-			round += 30;
+			round += 20;
 		}
-		document.getElementById('container').style.height = (window.frameElement.getHeight() - document.getElementById('container').offsetTop  - round) + "px";	
+		if (window.frameElement){
+			document.getElementById('container').style.height = (window.frameElement.getHeight() - document.getElementById('container').offsetTop  - round) + "px";	
+		}
 	}
 }
 
-
-// HTML HANDLERS
-/////////////////
-
-function close_notification (){ 
-	document.getElementById('not_message').innerHTML = '';        
-	document.getElementById('notifications').style.display = 'none';        
-	resize_height();
-}
-
-function show_notification (msg){ 
-	document.getElementById('not_message').innerHTML = msg;        
-	document.getElementById('notifications').style.display = 'block'; 
-	resize_height();
-}
 
 // LOAD/UNLOAD HANDLERS
 ////////////////////////
 
 onunload = function (){
 	
-	if (temp_id != null)
+	if (temp_id != null){
 		clearInterval(temp_id);
+	}
 		
 	sign_out();
 }
 
-onload = function (){
+function init (){
+	notification = notificationFrame();
 	resize_height(); 
 	if (sign_in()) {
 		select_tab(document.getElementById('me_tab'));
 	}
 }
+
+
+// TRANSLATOR
+//////////////
+
+function generateLang(){
+	translator = new EzWebExt.Translator(labels, "language");
+	init();
+	translator.translate();
+}
+
 
 // PERIODICAL UPDATE
 /////////////////////
@@ -938,4 +915,106 @@ function update_messages (){
 	if (sign_in() && (current_tab.id == 'me_tab') && (status_input != null) && (status_input.value == '')) {
 		select_tab(document.getElementById('me_tab'), true);
 	}
+}
+
+// NOTIFICATIONS
+/////////////////
+
+function notificationFrame () {
+	var notif = document.getElementById('notifications');         
+	notif.timer = '';
+	notif.level = '';
+	notif.code = '';
+	
+	notif.close = function (){ 
+		this.timer = '';
+		this.level = '';
+		this.code = '';
+		this.style.display = 'none';
+		document.getElementById('not_message').innerHTML = '';
+		resize_height();
+	};
+
+	notif.show = function (msg){ 
+		this.stopTimer();
+		this.style.display = 'block'; 
+		document.getElementById('not_message').innerHTML = msg;        
+		resize_height();
+	};
+	
+	// User information (always shown)
+	notif.sign = function (msg, code){
+		if ((this.code === code) || (this.level == 'error')){
+			return;
+		}
+		this.close();
+		
+		this.code = code;
+		this.level = 'info';
+		this.closeOff();
+		this.show(msg);
+	};
+	
+	// Remove user information
+	notif.closeSign = function (code){
+		if ((this.code === code) && (this.level == 'info')){
+			this.close();
+		}
+	};	
+	
+	
+	// User information, it is closed automaticaly
+	notif.info = function (msg){
+		if (this.level == 'error'){
+			return;
+		}
+		this.close();
+		
+		this.level = 'info';
+		this.closeOff();
+		this.show(msg);
+
+		this.timer = setTimeout("notification.close()",10000);
+	};
+	
+	// Fatal error
+	notif.error = function (msg){
+		// Stops notification timer
+		this.stopTimer();
+		this.close();
+
+		// Stops updates
+		if (temp_id != null){
+			clearInterval(temp_id);
+		}
+
+		this.level = 'error';
+		this.closeOn();
+		this.show(msg);
+	};		
+		
+	// Activates close button
+	notif.closeOn = function (msg){
+		document.getElementById('close_not').style.display = 'block';
+	};
+		
+	// Desactivates close button
+	notif.closeOff = function (msg){
+		document.getElementById('close_not').style.display = 'none';	
+	};
+
+	// Stops notification timer
+	notif.stopTimer = function (){
+		if (this.timer !== ''){
+			clearInterval(this.timer);
+			this.timer = '';
+		}
+	};
+	
+	return notif;
+
+}
+
+function close_notification () {
+	notification.close();
 }
