@@ -15,8 +15,14 @@
 <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/labels.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <LINK id="style" rel="StyleSheet" href="" type="text/css" />
+<script language="Javascript">
+	var ie = false;
+</script>
 <!-- Styles for IE navigator -->
 <!--[if IE]>
+<script language="Javascript">
+	ie=true;
+</script>
 <link id="style" rel="StyleSheet" href="http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/css/ie.css" type="text/css" />
 <![endif]-->
 <!-- CREATION OF EZWEB VARIABLE -->
@@ -404,6 +410,15 @@ function setShortInfo(json, info){
 	table2.appendChild(tbody2);
 	table2.className = 'infoNext';
 	tr2 = tbody2.insertRow(-1);
+	
+	// Min Width
+	if(ie){
+		if(parseInt(days.get()) == 5) table2.style.width = "480px";
+		if(parseInt(days.get()) == 4) table2.style.width = "380px";
+		if(parseInt(days.get()) == 3) table2.style.width = "250px";
+		if(parseInt(days.get()) == 2) table2.style.width = "125px";
+		if(parseInt(days.get()) == 1) table2.style.width = "0px";
+	}
 	
 	for(i=1;i<json.weather.dayf.day.length;i++){
 		td2 = tr2.insertCell(-1);

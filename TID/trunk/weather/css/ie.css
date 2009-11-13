@@ -2,10 +2,6 @@ body{
 	overflow:auto;
 }
 
-.short .infoNext{
-	width:480px;
-}
-
 .short .colleft table{
 	width:160px;
 }
