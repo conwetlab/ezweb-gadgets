@@ -1,0 +1,95 @@
+body{
+  background:#FFE8A1 none repeat scroll 0 0;
+}
+	#header, #container{
+		background:white url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow.png) repeat-x scroll left bottom;
+		border-color:#8A0F0F;
+	}
+	
+	#search{
+		border-color:#8A0F0F;
+	}
+
+	#header_top{
+	  border-color:#8A0F0F;
+	}
+	
+	#header_bottom{
+	  border-color:#8A0F0F;
+	}
+	
+	#options div{
+		color:#8A0F0F;
+	}
+	
+	#imp_exp div{
+		color:#8A0F0F;
+	}
+	
+	#imp_exp{
+		border-color:#8A0F0F;
+	}
+	
+	#list{
+	  border-color:#8A0F0F;
+		background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow.png) repeat-x scroll bottom left;
+	}
+
+	#list .material{
+		border-color:#8A0F0F;
+	}
+
+	.material_name a{
+		color:#8A0F0F;
+	}
+	
+	.material_tags a{
+		color:#6c6c6c;
+		background-color:#EFF5FB;
+	}
+	
+	.material_tags a:hover{
+		color:white;
+		background-color:#CFCBBB;
+	}
+
+	.material_edition{
+		border: #d5d5d5;
+		background-color: #F5F5F5;
+	}
+	
+#addMaterial li{
+	  border-bottom:#8A0F0F; 
+}
+
+#addMaterial fieldset{
+	background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow2.png) repeat-x scroll bottom left;
+	border-color:#8A0F0F;
+}
+
+#addMaterial legend{
+	background:white none repeat scroll 0 0;
+	border-color:#8A0F0F;
+	color:#8A0F0F;
+}
+
+.tag_label{
+	color:#8A0F0F;
+}
+
+button{
+	background-color:#ECECF0;
+	border-color:#8A0F0F;
+}
+
+#search_l{
+	color:#8A0F0F;
+}
+
+select{
+	border-color:#8A0F0F;
+}
+
+input[type=text],textarea{
+	border-color:#8A0F0F;
+}

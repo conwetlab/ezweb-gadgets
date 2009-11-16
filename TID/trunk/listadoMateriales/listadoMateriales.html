@@ -1,0 +1,1092 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/labelsList.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+
+<title>Listado Materiales</title>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/default.css"/>
+<script language='javascript'>var ie = false</script>
+
+
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/default_ie.css"/>
+<script language='javascript'>ie = true</script>
+<![endif]-->
+
+<script language='javascript'>
+
+var Translator = function() {
+}
+
+Translator.prototype.getLabel = function(value){
+	return value
+}
+var translator = new Translator();
+
+var repaint = function(){
+	var header = $('header');
+	var content = $('container');
+	var addMaterial = $('addMaterial');
+	var codeInput = $('code_edit_');
+	var nameMInput = $('name_edit_');	
+	var tagsInput = $('tags_edit_');
+
+	if(!ie){
+		content.style.width = header.offsetWidth-3+'px';
+	}
+	else{
+			if (document.body.clientWidth > 345){
+				header.style.width = 'auto';
+				addMaterial.style.width= 'auto';
+				}
+			else{
+				header.style.width = '345px';
+				addMaterial.style.width= '345px';
+				}
+			content.style.width = header.offsetWidth+'px';
+	}
+	
+	if(codeInput){
+		if (codeInput.parentNode.offsetWidth > 0){
+			codeInput.style.width=codeInput.parentNode.offsetWidth-83+"px";
+			nameMInput.style.width= nameMInput.parentNode.offsetWidth-83+"px";
+			tagsInput.style.width= tagsInput.parentNode.offsetWidth-83+"px";
+		}
+	}
+
+
+	var keys = (materialStructure)?materialStructure.keys():[];
+	for (var i=0;i<keys.length;i++){
+		var edition = $('edition_'+i);
+		codeInput = $('code_edit_'+i);
+		nameMInput = $('name_edit_'+i);	
+		tagsInput = $('tags_edit_'+i);
+
+		if(codeInput){
+			if(edition.offsetWidth > 0){
+				var n = (ie)?100:83;
+				codeInput.style.width= edition.offsetWidth-n+"px";
+				nameMInput.style.width= edition.offsetWidth-n+"px";
+				tagsInput.style.width= edition.offsetWidth-n+"px";
+			}
+		}
+	}
+}
+
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/";
+//EzWeb vars
+//Properties
+var materialList = EzWebAPI.createRWGadgetVariable("materialList");
+var tagList = EzWebAPI.createRWGadgetVariable("tagList");
+var width = EzWebAPI.createRGadgetVariable("width", repaint);
+//Preferences
+var operator = EzWebAPI.createRGadgetVariable("operator", setOperator);
+var configuration = EzWebAPI.createRGadgetVariable("configuration", setConfiguration);
+var time = EzWebAPI.createRGadgetVariable("time",resetInterval);
+var theme = EzWebAPI.createRGadgetVariable("color_theme",setTheme);
+var background = EzWebAPI.createRGadgetVariable("background",setBackground);
+//wiring
+var materialName = EzWebAPI.createRWGadgetVariable("NombreMaterial");
+var materialCode = EzWebAPI.createRWGadgetVariable("CodigoMaterial");
+var materialTag = EzWebAPI.createRWGadgetVariable("EtiquetaMaterial");
+
+var keyword = EzWebAPI.createRGadgetVariable("keyword", doSearch);
+
+
+// material data structure for managing all material subscriptions
+var materialStructure;
+var tagStructure;
+var interval = null;
+var materialListSearch = [];
+materialListSearch.numElem = 0;
+materialListSearch.puntero = 0;
+materialListSearch.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1) % this.numElem;
+	return act;
+}
+materialListSearch.add = function(elem){
+	this[this.numElem] = elem;
+	this.numElem +=1;
+}
+materialListSearch.create = function(){
+	this.numElem = 0;
+	this.puntero = 0;
+}
+var listmaterialList = [];
+listmaterialList.numElem = 0;
+listmaterialList.puntero = 0;
+listmaterialList.actual = function(){
+	var act = this[this.puntero];
+	this.puntero = (this.puntero + 1)% this.numElem;
+	return act;
+}
+listmaterialList.create = function(){
+	var words = [];
+	words = eval("("+materialList.get()+")");;
+	for(i in words){
+		this[this.numElem] = i;
+		this.numElem +=1;
+	}
+	this.puntero = 0;
+}
+//Global vars
+var category = '';					//Selected category used for searchs. Default:'' to list all materials
+var lastShown = "";					//Last list item unfolded
+var materialDataChanged = false;		//Says if some material data has changed while editing it.
+var selected_categories = [];		//Categories included in the current search
+var current_operator;				//Current operator used for the search (AND/OR)
+var translator;						//language translator
+
+//aux functions
+//check mandatory fields
+function checkFields(id){
+	 return $("name_edit_"+id).value != '' && $("code_edit_"+id).value != ''
+}
+
+//remove starting/ending spaces
+String.prototype.trim = function(){ return this.replace(/^\s+|\s+$/g,'') }
+
+
+function generateLang(){
+
+	translator = new EzWebExt.Translator(labels, "language", null, null);
+	init();
+//	translator.translate();
+	repaint();
+}
+
+function init () {
+	var materials = materialList.get();
+	var tags = tagList.get();
+	resetInterval(time.get());
+	//set operator
+	setOperator(operator.get());
+ 	//set configuration (header or full list)
+	setConfiguration(configuration.get());
+	setTheme(theme.get());
+	//is import/export operation enabled? (only for Firefox 3)
+	if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
+		 var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+		if(Prototype.Browser.Gecko && ffversion>=3){
+			$('imp_exp').style.display="block";
+			//translate literals
+			$('import_l').title = translator.getLabel("opml_tip");
+			$('export_l').title = translator.getLabel("opml_tip");
+		}
+	}
+
+	if (tags != '')
+		tagStructure = new Hash(eval("(" +tags+ ")"));
+	else
+		tagStructure =new Hash();
+
+	if(materials != ''){
+		materialStructure =new Hash(eval("(" +materials+ ")" ));
+	}else{
+		materialStructure = new Hash();
+	}
+
+	$('header').style.display='block';
+    paintMaterialEntries('');
+    resizeSelect();
+    
+}
+
+function resizeSelect(){
+	/*$('materialOptions').style.width = (window.innerWidth - $('options').getWidth()- $('l_material').getWidth()-60) + "px";*/
+}
+
+//filling the select object
+function fillSelectObject(tags){
+	if(tags.length == 0){
+		return;
+	}else{
+		$('category').style.display = 'inline';
+//		$('header_top').style.display = '';
+		for(var i=0;i<tags.length;i++){
+			$('category').options[i+1] = new Option(tags[i],tags[i]);
+			$('category').options[i+1].className="option";
+			$('category').options[i+1].id=tags[i];
+		}
+	}
+}
+
+function inAllSelectedCategories(material){
+	for(var i=0;i<selected_categories.length;i++){
+		if(material['tags'].indexOf(selected_categories[i]) == -1 ){
+			return false;
+		}
+	}
+	return true;
+}
+
+function inAnySelectedCategories(material){
+	for(var i=0;i<selected_categories.length;i++){
+		if(material['tags'].indexOf(selected_categories[i]) != -1 ){
+			return true;
+		}
+	}
+	return false;
+}
+
+function addMaterialToCombo(code){
+	var material = materialStructure[code];
+	try {
+		$('materialOptions').add(new Option(material['name'], code), null); // standards compliant; doesn't work in IE
+	}catch(e) {
+		$('materialOptions').add(new Option(material['name'], code)); // IE only
+	}
+}
+
+function removeSelectedCat(category){
+	$(category).remove();
+	paintMaterialEntries(category);
+	
+}
+
+function deleteQuery(){
+	selected_categories.clear();
+	$('selected_categories').update();
+}
+
+
+function paintMaterialEntries(category)
+{
+	var materials = [];
+	var tags = [];
+
+	$("list").innerHTML ="";
+	//empty select objects
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('materialOptions').update("<option value=''><strong>"+translator.getLabel('select_material')+"</strong></option>");
+	$('match').style.display = 'inline';
+
+	var compareMaterials = function(material1, material2){
+		if(materialStructure[material1]['name'].toLowerCase() < materialStructure[material2]['name'].toLowerCase()) return -1;
+		else if(materialStructure[material1]['name'].toLowerCase() == materialStructure[material2]['name'].toLowerCase()) return 0;
+		else if(materialStructure[material1]['name'].toLowerCase() > materialStructure[material2]['name'].toLowerCase()) return 1;
+	}
+
+	if(category != ''){
+
+		//materials of the categories selected
+		//if the category was already selected, it's a removal of it from the query
+		if(selected_categories.indexOf(category)!=-1){
+			selected_categories.splice(selected_categories.indexOf(category),1);
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'none';
+			}
+		}else{//we want to add it to the query
+			if(selected_categories.length == 0){
+				$('selected_categories').style.display = 'inline';
+			}
+			selected_categories.push(category);
+
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", category);
+			catElement.innerHTML = "<a class='closeTag' href=\"javascript:removeSelectedCat('"+EzWebExt.escapeXML(category)+"');\">"+category+"</a>";
+
+			$('selected_categories').appendChild(catElement);
+		}
+
+		//do the query
+		var op = current_operator;
+		var materialKeys = materialStructure.keys();
+		for(var i=0;i<materialKeys.length;i++){
+			var material = materialStructure[materialKeys[i]];
+			//if AND
+			if(op=='and'){
+				if(inAllSelectedCategories(material)){
+					materials.push(materialKeys[i]);
+				}
+			}else{//if OR
+				if(inAnySelectedCategories(material)){
+					materials.push(materialKeys[i]);
+				}
+			}
+		}
+
+		//sort materials alphabetically
+		materials = materials.sort(compareMaterials);
+
+		//fill the select objects
+		if(op=='or'){ //all tags must be in the select object but not repited.
+			var tagKeys=tagStructure.keys();
+			for(var i=0;i<tagKeys.length;i++){
+				//if the tag has not been selected yet, add it
+				if(selected_categories.indexOf(tagKeys[i]) == -1)
+					tags.push(tagKeys[i]);
+			}		
+		}
+
+		for (var i=0;i<materials.length;i++)
+		{
+			if(op == 'and'){
+				var materialTags = materialStructure[materials[i]]['tags'];
+				for(var j=0;j<materialTags.length;j++){
+					//if the tag has not been selected yet and it isn't in the select object, add it
+					if((selected_categories.indexOf(materialTags[j]) == -1) && (tags.indexOf(materialTags[j]) == -1))
+						tags.push(materialTags[j]);
+				}
+			}
+			//paint material info on the list of materials
+			paintMaterialInfo(i, materials[i]);
+			//add the material to the materials combo
+			addMaterialToCombo(materials[i]);
+		}
+		//make visible that the select has changed
+		if($('materialOptions').options.length >1){
+			$('materialOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('materialOptions').style.background = '#e9e9e9'}, 1000)
+		}
+
+	}
+	if (materials.length == 0){//if we want all materials
+		deleteQuery();
+	
+		if (materialStructure.keys().length > 0){
+			//no category, show all materials and all categories in the combo
+			tags = tagStructure.keys();
+			materials = materialStructure.keys();
+			materials = materials.sort(compareMaterials);
+			for(i=0;i<materials.length;i++){
+
+				//paint material info on the list of materials
+				paintMaterialInfo(i, materials[i]);
+				//add the material to the materials combo
+				addMaterialToCombo(materials[i]);
+
+			};
+		}else{
+				$("list").update("<span id='no_materials' class='no_materials'>"+translator.getLabel('no_materials')+"</span><a id='add_link' href='javascript:showAddMaterial();'>"+translator.getLabel('add_link')+"</a>.");
+		}
+
+	}
+
+	fillSelectObject(tags);	
+	if(selected_categories.length == 0 && $('category').options.length == 1){ //no tags to select
+		$('selected_categories').style.display = 'none';
+		$('match').style.display = 'none';
+	}
+
+	materialListSearch.create();
+	for(var i=0; i < materials.length; i++){
+		materialListSearch.add(materials[i]);
+	}
+	
+
+	if(selected_categories.length == 0 && tags.length == 0){
+		$('header_top').style.display = 'none';
+	} else {
+		$('header_top').style.display = '';
+	}
+}
+
+function changedData(){
+	materialDataChanged=true;
+}
+
+function paintMaterialInfo (index, material)
+{
+	var code = material;
+	var nameM = materialStructure[material]['name'];
+	var tags = materialStructure[material]['tags'];
+	
+	var materialElement = document.createElement("div");
+	materialElement.className = "material";
+	materialElement.id = index;
+	
+	var div = document.createElement("div");
+	var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);
+
+	var tr = tbody.insertRow(-1);
+
+	var td = tr.insertCell(-1);	
+	td.style.cssText = "text-align:left;";
+	var material_name = document.createElement("div");
+	material_name.id = "name_" + index;
+	material_name.className = "material_name";
+	var a = document.createElement("a");
+	a.onclick = function(){setEvents(code);};
+	a.appendChild(document.createTextNode(nameM));
+	material_name.appendChild(a);
+	td.appendChild(material_name);
+	
+	var td = tr.insertCell(-1);	
+	td.style.cssText = "text-align:right;";	
+	var actions = document.createElement("div");
+	actions.className = "actions";
+	var a = document.createElement("a");
+	a.onclick = function(){editMaterial(""+index);repaint();};
+	var image = document.createElement("img");
+	image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/edit.png";
+	image.setAttribute("alt", "edit");
+	image.setAttribute("title", translator.getLabel('edit_l'));
+	a.appendChild(image);
+	actions.appendChild(a);
+	actions.appendChild(document.createTextNode(" "));
+
+	var a = document.createElement("a");
+	a.onclick = function(){removeMaterial(""+index, code);};
+	var image = document.createElement("img");
+	image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/remove.png";
+	image.setAttribute("alt", "remove");
+	image.setAttribute("title", translator.getLabel('remove_l'));
+	a.appendChild(image);
+	actions.appendChild(a);	 
+	td.appendChild(actions);
+	div.appendChild(table);
+	materialElement.appendChild(div);
+	
+	var material_tags = document.createElement("div");
+	material_tags.id = "tags_"+index;
+	material_tags.className = "material_tags";
+	
+	for(var i=0; i < tags.length;i++){
+		material_tags.appendChild(document.createTextNode(" "));
+		var a = document.createElement("a");
+		context={'i':i};
+		a.onclick = function(){
+									deleteQuery();
+									var tag = tags[this.i];
+									paintMaterialEntries(tag.split("'").join("\\'"));
+								}.bind(context);
+		a.appendChild(document.createTextNode(tags[i]));
+		material_tags.appendChild(a);
+		material_tags.appendChild(document.createTextNode(" "));
+	}
+	materialElement.appendChild(material_tags);	
+	
+	var material_edition = document.createElement("div");
+	material_edition.className = "material_edition";
+	material_edition.style.display="none";
+	material_edition.id = "edition_"+index;
+	
+	var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);
+	table.className = "edition";
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	td.className = "labels";
+	td.appendChild(document.createTextNode(translator.getLabel("name_l")));
+	var span = document.createElement("span");
+	span.className = "required";
+	span.appendChild(document.createTextNode("*"));
+	td.appendChild(span);
+	
+	var td = tr.insertCell(-1);
+	td.className = "fields";
+	var input = document.createElement("input");
+	input.id="name_edit_"+index;
+	input.setAttribute("type", "text");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "name");
+	input.onchange = function(){materialDataChanged=true;};
+	input.setAttribute("value", nameM); 
+	td.appendChild(input);
+
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	td.className = "labels";
+	td.appendChild(document.createTextNode(translator.getLabel("code_l")));
+	var span = document.createElement("span");
+	span.className = "required";
+	span.appendChild(document.createTextNode("*"));
+	td.appendChild(span);
+
+	var td = tr.insertCell(-1);
+	td.className = "fields";
+	var input = document.createElement("input");
+	input.id="code_edit_"+index;	
+	input.setAttribute("type", "text");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "code");
+	input.setAttribute("value", code); 
+	input.onchange=function(){materialDataChanged=true;};
+	td.appendChild(input);
+			
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	td.className = "labels";
+	td.appendChild(document.createTextNode(translator.getLabel("tags_l")));
+
+	var td = tr.insertCell(-1);
+	td.className="fields";	
+	var input = document.createElement("input");
+	input.id="tags_edit_"+index;
+	input.setAttribute("type", "text");
+	input.setAttribute("autocomplete", "OFF");
+	input.setAttribute("size", "35");
+	input.setAttribute("name", "tags");
+	input.onchange=function(){materialDataChanged=true;};
+	input.setAttribute("value", tags.join()); 
+	td.appendChild(input);
+
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	td.colSpan = "2";
+	var label = document.createElement("label");
+	label.className="tag_label";
+	label.appendChild(document.createTextNode(translator.getLabel('separator_l')));
+	td.appendChild(label);
+
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
+	td.colSpan = "2";
+	td.style.cssText = "text-align:center";
+	var msg = document.createElement("div");
+	msg.className = "msg";
+	msg.id = 'msg_'+index;
+	td.appendChild(msg);
+
+	var button = document.createElement("button");
+	button.className = "button";
+	button.onclick = function(){updateMaterial(""+index, code);repaint();};
+	button.appendChild(document.createTextNode(translator.getLabel("save_l")));
+	td.appendChild(button);
+
+	var button = document.createElement("button");
+	button.className = "button";
+	button.onclick = function(){
+							restoreDefaults(index,material.split("'").join("\\'"));
+							hideElement(''+index);
+							repaint();};
+	button.appendChild(document.createTextNode(translator.getLabel("cancel_l")));
+	td.appendChild(button);
+	material_edition.appendChild(table);
+	materialElement.appendChild(material_edition);
+	$("list").appendChild(materialElement);
+	repaint();
+}
+
+
+
+function setBackground(value){
+	setTheme(theme.get());
+}
+
+function setEvents(code){
+	if(code){
+		materialName.set(materialStructure[code]['name']);
+		materialCode.set(code);
+		materialTag.set(materialStructure[code]['tags'].toJSON());
+	}
+}
+
+function saveMaterial (id, prevCode) {
+
+     var material = new Object();
+     var code = $("code_edit_"+id).value;
+
+     material.name = $("name_edit_"+id).value;
+
+	 //sanitize string (empty tags)
+	 var cleaned =$('tags_edit_'+id).value.replace(/,+/g,',');
+	 cleaned = cleaned.replace(/(\s*,\s*)+/g,',');
+     cleaned = cleaned.replace(/^\s*,\s*|\s*,\s*$/g,'');
+	 if(cleaned =="")
+		material.tags = new Array();
+	 else
+		material.tags = cleaned.split(',');
+
+	 var tag;
+	 var tags = material.tags.clone();
+	 var cleanedTags = material.tags.clone();
+	 for(var i=0; i<material.tags.length;i++){
+		tag = material.tags[i];
+		//clean spaces tags
+		tag = tag.trim();
+
+		//remove duplicated tags
+		tags.splice(tags.indexOf(tag),1)
+		if(tags.indexOf(tag) != -1){
+			cleanedTags.splice(cleanedTags.indexOf(tag),1)
+		}
+	 }
+	 material.tags = cleanedTags;
+
+	 checkAndStore(code, material, prevCode);
+	 
+}
+
+function checkAndStore(code, material, prevCode){
+
+	 var prevTags = [];
+	 //if it existed before, store the former tags to compare with the new ones
+	 if (materialStructure[code])
+		prevTags = materialStructure[code]['tags'];
+
+	 //refresh the structure of tags
+	 //remove the new Code(it may has been created before) from all the related tags
+	 for (var i=0; i< prevTags.length;i++){
+		tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(code), 1);
+		if (tagStructure[prevTags[i]].length == 0){ //there is no material in this category: remove it
+			delete tagStructure[prevTags[i]];
+
+		}
+	 }
+
+	 if (prevCode && (code != prevCode) && materialStructure[prevCode]){
+		 prevTags = materialStructure[prevCode]['tags'];
+		 //refresh the structure of tags
+		 //remove the prev Code(it may has been changed) from all the related tags
+		 for (var i=0; i< prevTags.length;i++){
+			tagStructure[prevTags[i]].splice(tagStructure[prevTags[i]].indexOf(prevCode), 1);
+			if (tagStructure[prevTags[i]].length == 0){ //there is no material in this category: remove it
+				delete tagStructure[prevTags[i]];
+
+			}
+		 }
+	}
+
+	 //add the new Code to all new tags
+	 for (var i=0; i<material.tags.length; i++){
+		if(!tagStructure[material.tags[i]]){
+			tagStructure[material.tags[i]] = new Array();
+
+		}
+		tagStructure[material.tags[i]].push(code);
+	 }
+     tagList.set(tagStructure.toJSON());
+
+	 //refresh the structure of materials
+	 delete materialStructure[prevCode];
+     materialStructure[code]=material;
+     materialList.set(materialStructure.toJSON());
+
+}
+
+function addMaterial(){
+	if(checkFields('')){
+		saveMaterial('' , null);
+		hideAddMaterial();
+	}else{
+		$('msg').update('* check required fields');
+	}
+}
+
+function updateMaterial(id, code){
+	if(checkFields(id)){
+		if(materialDataChanged){
+			saveMaterial(id , code);
+			//undo the search
+			deleteQuery();
+			paintMaterialEntries('');
+		}
+		hideElement(id);
+	}else{
+		$('msg_'+id).update('* check required fields');
+	}
+}
+
+
+function editMaterial(id) {
+
+	if ($('edition_'+id).style.display == "none")
+	{
+		hideElement(lastShown);
+		show(id);
+		lastShown = id;
+		materialDataChanged = false;
+	}else hideElement(id);
+}
+
+function show(id){
+	$('edition_'+id).style.display = "block";
+	$('tags_'+id).style.display = "none";
+}
+
+function restoreDefaults(id, code){
+	$('code_edit_'+id).value = code;
+	$('name_edit_'+id).value = materialStructure[code]['name'];
+	$('tags_edit_'+id).value = materialStructure[code]['tags'].join();
+}
+
+function hideElement(id){
+	if (id != ""){
+		$('edition_'+id).style.display = "none";
+		$('tags_'+id).style.display = "block";
+		$('msg_'+id).update();
+		lastShown = "";
+	}
+}
+
+function removeMaterial(id, code) {
+	var	tags = materialStructure[code]['tags'];	
+
+	//remove the material from the material structure
+	delete materialStructure[code];
+	materialList.set(materialStructure.toJSON());  
+
+	if(tags.length > 0){
+		//remove the material references from tag structure
+		for (var i=0; i<tags.length;i++){
+			tagStructure[tags[i]].splice(tagStructure[tags[i]].indexOf(code), 1);
+
+			if (tagStructure[tags[i]].length == 0) //there is no material in this category: remove it
+				delete tagStructure[tags[i]];
+
+		}
+
+		tagList.set(tagStructure.toJSON());
+	}
+	deleteQuery();
+	paintMaterialEntries('');
+	
+	if(id == lastShown)
+		lastShown = "";
+	repaint();
+}
+
+function searchIfEnter(e){
+	var keynum;
+	if(window.event){ // IE
+		keynum = e.keyCode;
+	}else if(e.which){ // Netscape/Firefox/Opera
+		keynum = e.which;
+	}
+	if (keynum == 13){ // enter
+		e.target.blur();
+		doSearch(e.target.value);
+	}
+}
+function clickSearch (){
+	doSearch($('i_search').value);
+}
+
+function doSearch (value){
+
+	//empty select objects
+	deleteQuery();
+	materialListSearch.create();
+	$('category').update("<option value=''><strong>"+translator.getLabel('select_tag')+"</strong></option>");
+	$('materialOptions').update("<option value=''><strong>"+translator.getLabel('select_material')+"</strong></option>");
+
+	if(value && value != ""){
+		var materials = materialStructure.keys();
+		var material;
+		$('list').update();
+		for(i=0;i<materials.length;i++){
+			material = materialStructure[materials[i]];
+			//if the keyword is in the name, description, any tag or code show the material
+			if(material.name.match(eval("/"+value+"/i")) || material.desc.match(eval("/"+value+"/i")) || material.tags.join().match(eval("/"+value+"/i")) || materials[i].match(eval("/"+value+"/i"))){
+
+				paintMaterialInfo(i, materials[i]);
+				addMaterialToCombo(materials[i]);
+				materialListSearch.add(materials[i]);
+			}
+		}
+		//make visible that the select has changed
+		if($('materialOptions').options.length >1){
+			$('materialOptions').style.background = '#FFFFFF';
+			setTimeout(function(){$('materialOptions').style.background = '#e9e9e9'}, 1000)
+		}
+		if(!$('list').hasChildNodes())	
+				$('list').update("<span class='no_materials'>"+translator.getLabel('no_results1')+" - "+value+" - "+translator.getLabel('no_results2')+".</span>");
+		fillSelectObject(tagStructure.keys());
+	}
+	else{
+		paintMaterialEntries('');
+	}
+	sendmaterial();
+	resetInterval(time.get());
+}
+
+function setOperator(value){
+	//WORKAROUND: select and by default
+	if(!value ||value ==""){
+		value = 'and';
+	}
+	//END WA
+	current_operator = value;
+
+	$(current_operator).checked = true;
+
+	if(selected_categories.length > 0){
+		//redo the last search
+		var last_cat = selected_categories[selected_categories.length-1];
+		$('selected_categories').update();
+		for (var i = 0; i<selected_categories.length-1;i++){	
+			var catElement = document.createElement("li");
+			catElement.setAttribute("id", selected_categories[i]);
+			catElement.innerHTML = "<a class='closeTag' href=\"javascript:removeSelectedCat('"+EzWebExt.escapeXML(selected_categories[i])+"');\">"+selected_categories[i]+"</a>";
+			
+				$('selected_categories').appendChild(catElement);
+		}
+
+
+		selected_categories.splice(selected_categories.indexOf(last_cat));
+		paintMaterialEntries(last_cat);
+	}
+}
+
+function setConfiguration(value){
+	//WORKAROUND: select header by default
+	if(!value ||value =="")
+		value = "header";
+	//END WA
+	if(value == 'header'){
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}else{
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+	}
+	repaint();
+}
+
+function setTheme(value){
+	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';		
+	if (!parseInt(background.get())){
+		document.getElementById('background_color').href = resourcesURL+'css/white.css';		
+	}
+	else{
+		document.getElementById('background_color').href = "";
+	}
+	repaint();
+
+}
+
+function addMaterialsFromFile(opml){
+	var outline;
+	var material;
+	var code;
+	var tags;
+	var tags_hierachy;
+	
+	var outlines = opml.getElementsByTagName('outline');
+	for (var i=0;i<outlines.length;i++){
+		material = new Object();
+		outline=outlines[i];
+		code = outline.getAttribute('code');
+		if(!code) continue;
+		
+		material.name = outline.getAttribute('text');
+		tags = outline.getAttribute('category');
+		material.tags = new Array();
+		if(tags && tags !=""){
+			tags_hierachy = tags.split(',');
+			for (var j=0;j<tags_hierachy.length;j++){
+				material.tags=material.tags.concat(tags_hierachy[j].split('/'));
+			}
+			//remove empty tags
+			while (material.tags.indexOf("") != -1){
+				material.tags.splice(material.tags.indexOf(""), 1);
+			}
+		}
+		checkAndStore(code, material, '');
+	}
+	paintMaterialEntries('');
+	$('import_form').style.display="none";
+}
+
+function toggleImport(){
+	if($('import_form').style.display=="none")
+		$('import_form').style.display="block";
+	else
+		$('import_form').style.display="none";
+	repaint();
+}
+
+function importMaterials(){
+	var fileToUpload = document.getElementById('fileToUpload');
+	if (fileToUpload.files.item(0)){
+		toggleImport();
+		var fileContents = fileToUpload.files.item(0).getAsText("UTF-8");
+		//parsing OPML
+		var parser = new DOMParser()
+		var opml = parser.parseFromString(fileContents, "application/xhtml+xml");
+		addMaterialsFromFile(opml);
+	}
+}
+
+function exportMaterials(){
+
+	var material;
+	
+	var opml = '<?xml version="1.0" encoding="UTF-8"?>';
+	opml += '<opml version="2.0">';
+	opml += '<head>';
+	opml += '<title>'+translator.getLabel('opml_title')+'</title>';
+	var currentTime = new Date();
+	opml += '<dateCreated>'+currentTime+'</dateCreated>';
+	opml +=	'</head><body>';
+
+	var keys = materialStructure.keys();
+	for (var i=0;i<keys.length;i++){
+		material = materialStructure[keys[i]];
+		opml +='<outline text="' + material.name + '" type="material" code="'+ keys[i] +'" category="'+ material.tags +'"/>';
+	}
+	opml += '</body></opml>';
+	var new_window = window.open('data:text/xml,' + encodeURIComponent(opml),'Materials', 'menubar=yes');
+ 
+}
+
+
+function showAddMaterial()
+{
+
+	$('code_edit_').value = '';
+	$('name_edit_').value = '';
+	$('tags_edit_').value = '';
+	$("addMaterial").style.display = 'block';
+	$("header").style.display = 'none';
+	$("list").update();
+    if($('hide_l').style.display=='inline')
+    	$("container").style.display = "none";
+ 	repaint();
+}
+function hideAddMaterial()
+{
+	try {
+		$('code_edit_').value = '';
+		$('name_edit_').value = '';
+		$('tags_edit_').value = '';
+		//$('addForm').reset();
+		$('msg').update();
+		$("addMaterial").style.display = 'none';
+		$("header").style.display = 'block';
+		deleteQuery();
+		if($('hide_l').style.display=='inline')
+			$("container").style.display = "block";
+		paintMaterialEntries('');
+	}
+	catch(e) {
+		alert(e.lineNumber + ": " + e.message);
+	}
+	return false;
+}
+
+function manageMaterials(){
+	if($("container").style.display == "none"){
+		$("container").style.display = "block";
+		$("manage_l").style.display = "none";
+		$("hide_l").style.display = "inline";
+		repaint();
+
+	}else{
+		$("container").style.display = "none";
+		$("manage_l").style.display = "inline";
+		$("hide_l").style.display = "none";
+	}
+
+}
+function resetInterval(value){
+	try {
+	    clearInterval(interval);
+	}catch(e){}
+	if(value>0){
+		interval = setInterval ("sendmaterial()",value*60*1000);
+  	}
+}
+
+function sendmaterial(){
+
+	if(materialListSearch.numElem != 0){
+		
+		setEvents(materialListSearch.actual());
+	}
+	
+
+}
+
+</script>
+
+<link rel="stylesheet" type="text/css" id="color_theme"/>
+<link rel="stylesheet" type="text/css" id="background_color"/>
+</head>
+<body onload="generateLang();repaint();" onresize="resizeSelect();">
+<div id="header" class="header" style="display:none;">
+	<div id="search">
+		<label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label>
+		<input id="i_search" type="text" value='' size="10" name="i_search" onkeypress="searchIfEnter(event)"/>
+	</div>
+	<div id="header_top">
+		<label id="l_filter">Filter</label>
+		<ul id="selected_categories"></ul>
+		<div id="combo_tag">
+			<select id="category" name="category" onchange="paintMaterialEntries(this.value);" ></select>
+		</div>
+		<div id='match'>
+			<label id="l_all">Match all</label>
+			<input type="radio" id="and" name="match" onclick="setOperator('and')"/>
+			<label id="l_any">any</label>
+			<input type="radio" id="or" name="match" onclick="setOperator('or')"/>
+		</div>
+	</div>
+	<div id="header_bottom">
+		<label id="l_material">Material</label>
+		<div id='combo_material'>
+			<select id="materialOptions" name="materialOptions" onchange="setEvents(this.value)"></select>
+		</div>
+		<div id="options">
+			<div id="all" onclick="deleteQuery();paintMaterialEntries('')">
+				<span id="all_l">all materials</span>
+			</div> | 
+			<div id="manage" onclick="manageMaterials()">
+				<span id="manage_l">manage materials</span>
+				<span id="hide_l" style="display:none">hide materials</span>
+			</div> | 
+			<div id="add_link" onclick="showAddMaterial()">
+				<span id="add_l">add material</span>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div id="addMaterial" style="display:none;">
+		<fieldset>
+			<legend id="addMaterial_name">New Material</legend>
+			<div>
+				<ol>
+					<li>
+							<label><span id="name_l">Name</span><em>*</em></label>
+							<input id='name_edit_' type='text' value='' size='35' name='name'/>
+					</li>
+					<li>
+							<label><span id="code_l">Code</span><em>*</em></label>
+							<input id='code_edit_' type='text' value='' size='35' name='code'/>
+					</li>
+					<li>
+							<label><span id="tags_l">Tags</span></label>
+							<input id='tags_edit_' type='text' value='' size='35' autocomplete='OFF' name='tags'/>
+							<span id="separator_l" class="tag_label">comma separated</span>
+							<span id="msg" class="msg"></span>
+					</li>						
+				</ol>
+			<div>		</fieldset>
+		<center>
+			<button id="save_l" onClick="addMaterial();repaint();">Save</button>						
+			<button id="cancel_l" onClick="hideAddMaterial();repaint();">Cancel</button>
+		</center>
+</div>
+
+<div id="container" style="display:none;">
+<div id="imp_exp" style="display:none;"><div id="import_link" onclick="toggleImport()"><span id="import_l" title="OPML file">import</span></div>|<div id="export_link" onclick="exportMaterials()"><span id="export_l" title="OPML file">export</span></div>
+<div id="import_form" style="display:none;white-space:nowrap;">
+	<input type="file" id="fileToUpload" />
+	<button id="import_b" onclick="importMaterials();">upload</button>
+</div>
+</div>
+
+<div id="list">
+</div>
+</div>
+</body>
+</html>

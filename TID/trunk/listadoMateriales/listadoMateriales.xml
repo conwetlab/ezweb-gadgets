@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+<!-- Meta tags define gadgets properties -->
+	<Catalog.ResourceDescription>
+	  <Vendor>TID</Vendor>
+	  <Name>Listado Materiales</Name>
+	  <Version>1.01</Version>
+	  <Author>irodriguez</Author>
+	  <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
+	  <Description>This gadget manages your materials collections, tag and search your material, show materials related to any keyword (also by wiring!).</Description>
+	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/logo.png</ImageURI>
+	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI>
+	</Catalog.ResourceDescription>
+	<!-- EzWeb Gadgets Tags -->
+	<Platform.Preferences>
+	<Preference name="operator" type="list" description="specifies whether to show materials which are in all tags or in any tags" label="select the materials which are in..." default="and">
+		<Option value="and" name="all of the selected categories"/>
+		<Option value="or" name="any of the selected categories"/>
+	</Preference>
+	<Preference name="configuration" type="list" description="specifies whether the gadget is displayed as a header or as a full list" label="display as..." default="header">
+		<Option value="header" name="header"/>
+		<Option value="fullList" name="full list"/>
+	</Preference>
+	<Preference name="time" type="number" label="Time (minutes)" description="Refresh Time(seconds)" default="0"/>
+	<Preference name="color_theme" type="list" label="Color Theme" description="Color Theme" default="blue">
+		<Option value="yellow" name="Yellow"/>
+		<Option value="green" name="Green"/>
+		<Option value="blue" name="Blue"/>		
+	</Preference>
+	<Preference name="background" type="list" label="Background" description="Background" default="0">
+		<Option value="0" name="no"/>
+		<Option value="1" name="yes"/>
+	</Preference>
+	</Platform.Preferences>
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+	  <Property name="materialList" type="text" label="Material list"/>
+	  <Property name="tagList" type="text" label="Tag list"/>
+	</Platform.StateProperties>
+	<!-- EzWeb Gadget Data Wiring -->
+	<Platform.Wiring>
+	  <Event name="NombreMaterial" type="text" label="NombreMaterial" friendcode="nombreMaterial"/>
+	  <Event name="CodigoMaterial" type="text" label="CodigoMaterial" friendcode="material"/>
+	  <Event name="EtiquetaMaterial" type="text" label="EtiquetaMaterial" friendcode="tagMaterial"/>
+	  <Slot name="keyword" type="text" label="keyword" friendcode="keyword"/>
+	</Platform.Wiring>
+	<Platform.Link>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/listadoMateriales.html"/>
+	</Platform.Link>
+	<Platform.Rendering width="5" height="12"/>
+	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="width"     type="text" concept="heightInPixels"/>
+	</Platform.Context>
+</Template>
