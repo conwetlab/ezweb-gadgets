@@ -11,12 +11,12 @@
   <script>
   	var ie=false;
   </script>
-  <link id="style" rel='stylesheet' type='text/css' href='' />
+  <link rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/default.css' />
   <!--[if IE]>
 	<script>
   		ie=true;
   	</script> 	
-  	<link id="style" rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/ie.css' />
+  	<link rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/ie.css' />
   <![endif]-->
   <link id="style" rel='stylesheet' type='text/css' href='' />
   <script type="text/javascript" language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/prototype.js"></script>
@@ -25,21 +25,7 @@
   <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 	
   <script type="text/javascript" language="javascript">
-  	// document.getElementsByClassName not works on IE
-  	
-	if(typeof(document.getElementsByClassName) != 'function') {
-	  	document.getElementsByClassName = function (cn) {
-			var rx = new RegExp("\\b" + cn + "\\b"), allT = document.getElementsByTagName("*"), allCN = [], i = 0, a;
-				while (a = allT[i++]) {
-				  if (a.className && a.className.indexOf(cn) + 1) {
-					if(a.className===cn){ allCN[allCN.length] = a; continue;   }
-					rx.test(a.className) ? (allCN[allCN.length] = a) : 0;
-				  }
-				}
-			return allCN;
-		}
-	}  
-  
+	
 	function getElementsByTagNameNS(domElem, strNsURI, lName) {
 		if(domElem.getElementsByTagNameNS) {
 			return domElem.getElementsByTagNameNS(strNsURI, lName);
@@ -55,7 +41,7 @@
 			var allElems = new Array();
 			for(var i = 0, len = arrElems.length; i < len; i++) {
 				var elem = arrElems[i];
-				if(elem.namespaceURI == strNsURI) {
+				if(elem.namespaceURI == strNsURI) {this.i
 					allElems.push(elem);
 				}
 			}
@@ -91,10 +77,16 @@
 	var maxShownPages = 4;				//num of pages shown on the paginator
 
 	function repaint(value){
-		resizeItemsDiv();
-		resizeImagesObjects();
-		if(ie) resizeHeader();		
-		return;
+		if(!ie) return;
+			if(document.body.clientWidth > 275){
+				$('chan').style.width = document.body.clientWidth - 20 + 'px';
+				$('chan_items').style.width = "100%";
+				$('chan_header').style.width = "100%";
+			}
+			else{
+				$('chan_items').style.width = "255px";
+				$('chan_header').style.width = "255px";
+			}
 	}
 
 	//aux functions
@@ -104,7 +96,7 @@
 		if(!value ||value =="")
 			value = "blue";
 		//END WA
-		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/"+value+"_RSSReader.css";
+		var href = "http://http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/"+value+"_RSSReader.css";
 		var sheetLink=$('style');
 		sheetLink.href=href;
 		return;
@@ -124,9 +116,7 @@
 				$('next_pages').onclick = function(e){
 								if(!e)
 									e = window.event;
-								if(e.stop)
-									e.stop;							
-								else
+									if (e.stopPropagation) e.stopPropagation();
 									e.cancelBubble = true;
 								setPaginator(this.initPage + maxShownPages)
 								}.bind(context);
@@ -138,10 +128,8 @@
 				$('prev_pages').onclick = function(e){
 								if(!e)
 									e = window.event;
-								if(e.stop)
-									e.stop;							
-								else
-									e.cancelBubble = true;
+								if (e.stopPropagation) e.stopPropagation();
+								e.cancelBubble = true;
 								setPaginator(this.initPage - maxShownPages)
 								}.bind(context);
 			}else{
@@ -156,27 +144,24 @@
 				pag.className="pag";
 				var context = {'index':i * itemsPerPage};
 				pag.onclick = function(e){
-								if(!e)
-									e = window.event;				
-								if(e.stop)
-									e.stop;							
-								else
-									e.cancelBubble = true;
+								if(!e) e = window.event;				
+								if (e.stopPropagation) e.stopPropagation();
+								e.cancelBubble = true;
 								selectItems(this.index);
-				
 								var current = $$('.current_page');
 								if(current.length > 0){
 									current[0].removeClassName('current_page');
 								}
-								if(e.target)
+								if(e.target){
 									$(e.target).addClassName('current_page');
-								else
+								}
+								else{
 									$(e.srcElement).addClassName('current_page');
-								resizeImagesObjects();
-							  }.bind(context);									
+								}}.bind(context);									
 				pag.appendChild(document.createTextNode(i+1));
 				$('paginator').appendChild(pag);
-				$('pages').style.width = ($('paginator').getWidth() + $('next_pages').getWidth() * 2 + 4) + "px";
+				if(ie)
+					$('pages').style.width = ($('paginator').getWidth() + $('next_pages').getWidth() * 2 + 4) + "px";
 				id++;
 			}
 			$('c_pag_0').addClassName('current_page');
@@ -625,7 +610,7 @@
 		translator = new EzWebExt.Translator(labels, "language");
 		init();
 		translator.translate();
-		
+		repaint();
 	}
 
 	function init(){
@@ -640,7 +625,7 @@
 		   var header = {'accept': "application/rss+xml, application/xml, text/xml, */*"};
 		   EzWebAPI.send_get (URL, this, processFeed, failedFeed, header);
 		}
-	
+		repaint();
 	}
 	
 	//shows the Feed content in the browser
@@ -698,53 +683,139 @@
 
 	function populateItems(items){
 	
-		var item_html;
-		//default values for html tags used
-		var startPubDate = "<div class='item_date'>"
-		var startTitle = "<div class='item_title' ";
-		var startLink = "<div class='item_link'>";
-		var startDescription = "<div class='item_description'> ";
-		var endTag = "</div>";
-	
 		//populate the items
 		document.getElementById("chan_items").innerHTML = "";
 		var summary;
 		var ul = document.createElement("ul");
-		document.getElementById("chan_items").appendChild(ul);
 		for (var i=0; i<items.length; i++)
 		{
-		    var li = document.createElement('li');
-		    li.setAttribute('id', "li_item_"+i);
+			var li = document.createElement('li');
+			li.id = "li_item_"+i;
 			if (i % 2 !=0){
 				li.className = "item odd";
 			} else {
 				li.className = "item";
 			}
-			summary = generateSummary(items[i].description);
-			if(ie)
-				li.onclick="javascript:openItem('item_" + i + "', " + i + ");";
-			else
-				li.setAttribute("onclick", "javascript:openItem('item_" + i + "', " + i + ");")
 			
-			item_html = "";
+			summary = generateSummary(items[i].description);
+		
 			if (showDate.get() == 'yes') {
-				item_html += startTitle + " id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
-				item_html += startPubDate + items[i].pubDate.value + endTag;
+				var table = document.createElement("table");
+				table.className = "item_title_date";
+				var tbody = document.createElement("tbody");
+				table.appendChild(tbody);
+				var tr = tbody.insertRow(-1);
+				var td = tr.insertCell(-1);
+				td.className = "left";
+				var startTitle = document.createElement("div");
+				startTitle.className = "item_title";
+				startTitle.id = "title_"+i;
+				startTitle.title = summary;
+				startTitle.appendChild(document.createTextNode(((items[i].title == null) ? translator.getLabel('untitled'):items[i].title)));
+				td.appendChild(startTitle);
+				
+				var td = tr.insertCell(-1);
+				td.className = "right";
+				var startPubDate = document.createElement("div");
+				startPubDate.className = "item_date";
+				startPubDate.appendChild(document.createTextNode(items[i].pubDate.value));
+				td.appendChild(startPubDate);
+				li.appendChild(table);
 			}
-			else
-				item_html += startTitle + "style='margin-right:10px' id=\"title_"+i+"\" title=\""+summary+"\">" + ((items[i].title == null) ? translator.getLabel('untitled'):items[i].title) + endTag;
+			else{
+				var startTitle = document.createElement("div");
+				startTitle.className = "item_title";
+				startTitle.id = "title_"+i;
+				startTitle.title = summary;				
+				startTitle.appendChild(document.createTextNode(((items[i].title == null) ? translator.getLabel('untitled'):items[i].title)));
+				li.appendChild(startTitle);				
+			}
+				
+			var content = document.createElement("div");
+			content.className = "item_content";
+			content.id = "item_" + i;
+			content.style.display = "none";
+			
+			table = document.createElement("table");
+			table.className = "table_item_icons";
+			tbody = document.createElement("tbody");
+			table.appendChild(tbody)
+			tr = tbody.insertRow(-1);
+			td = tr.insertCell(-1);
 
-			item_html += "<div id='item_" + i + "' class='item_content' style='display:none;'>";
-			item_html += (items[i].link == null) ? startLink + items[i].title + endTag : startLink + "<a href='" + items[i].link +"' target='_black'>"+ items[i].title+"</a>" + endTag;
-			item_html += (items[i].link == null) ? "" : "<img  id='urlSender_"+i+"' onclick=\"setURL(event, '"+ items[i].link + "')\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png' title=\""+translator.getLabel('sendURL_l')+"\" alt=\"sendURL\"/>" ;
-			item_html += "&nbsp;&nbsp;<img  id='titleSender_"+i+"' onclick=\"setTitle(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/title.png' title=\""+translator.getLabel('sendTitle_l')+"\" alt=\"sendTitle\"/>" ;
-			item_html += (items[i].description == null) ? "" : "&nbsp;<img  id='tipSender_"+i+"' onclick=\"setSummary(event)\" src='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/description.png' title=\""+translator.getLabel('sendTip_l')+"\" alt=\"sendTip\"/>"+ startDescription + items[i].description + endTag;
-			item_html += endTag;
+			var images = document.createElement("div");
+			images.className = "item_icons";
+						
+			var startLink = document.createElement("div");
+			startLink.className = "item_link";
+			if(items[i].link){
+				var a = document.createElement("a");
+				a.href = items[i].link;
+				a.appendChild(document.createTextNode(items[i].title))
+				a.setAttribute("target", "_blank");
+				startLink.appendChild(a);
+				td.appendChild(startLink)
+							
+				var image = document.createElement("img");
+				image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png";
+				image.id = 'urlSender_'+i;
+				image.setAttribute("title", translator.getLabel('sendURL_l'));
+				image.setAttribute("alt", "sendURL");
+				image.onclick = function(event){setURL(event, items[this.i].link);}.bind({"i":i});
+				images.appendChild(image);
+			}
+			else{
+				startLink.appendChild(document.createTextNode(items[i].title));
+				td.appendChild(startLink)
+			}
+			
+			var image = document.createElement("img");
+			image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/title.png";
+			image.id = "titleSender_"+i;
+			image.onclick = function(event){setTitle(event);};
+			image.setAttribute("title", translator.getLabel('sendTitle_l'));
+			image.setAttribute("alt", "sendTitle");
+			images.appendChild(image);
 
-			li.innerHTML = item_html;
+			td = tr.insertCell(-1);
+			td.className = "right"
+			td.appendChild(images);
+			content.appendChild(table);
+		
+			if(items[i].description){
+				var image = document.createElement("img");
+				image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/description.png";
+				image.id = "titleSender_"+i;
+				image.onclick = function(event){setSummary(event);};
+				image.setAttribute("title", translator.getLabel('sendTip_l'));
+				image.setAttribute("alt", "sendTip");
+				images.appendChild(image);
+		
+									
+				var startDescription = document.createElement("div");
+				startDescription.className = "item_description";
+				startDescription.innerHTML = items[i].description;
+				startDescription.onclick = function(e){
+																			if (!e) var e = window.event;
+																			e.cancelBubble = true;
+																			if (e.stopPropagation) e.stopPropagation();};
+				content.appendChild(startDescription);
+			}
+			
+			var image = document.createElement("img");
+			image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/rm_tag2.png";
+			image.className = "item_close"
+			image.setAttribute("title", translator.getLabel('closeTip_l'));
+			image.setAttribute("alt", "closeTip");
+			images.appendChild(image);
+			
+			li.appendChild(content);
+			
+			var context = {"i":i};
+			li.onclick=function(){openItem("item_" + this.i, this.i);}.bind(context);			
 			ul.appendChild(li);
-		}
-		document.getElementById("chan_items").innerHTML += "</ul>";
+		} 
+		$("chan_items").appendChild(ul);
 		
 		var descriptions = document.getElementsByClassName("item_description");
 		for (var i=0; i<descriptions.length; i++)
@@ -754,8 +825,7 @@
 		       {
 		             links[j].target="_blank";
 		        }
-		}
-		
+		}		
 	}
 	
 	//generate a description which can be displayed on a tip box.
@@ -853,7 +923,7 @@
 			feed = new RSS2Channel (xml);
 		}
 		showFeed(feed);
-		resizeItemsDiv();
+		repaint();
 	}
 
 
@@ -894,9 +964,10 @@
 
 	function show(id) 
 	{
-		document.getElementById(id).style.display = "block";
+		document.getElementById(id).style.display = (ie)?"inline-block":"block";
 		//document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
 		var elements = document.getElementById('li_'+id).getElementsByTagName("div");
+
 		for(var i=0; i < elements.length; i++){
 			if(elements[i].className == "item_title"){
 				elements[i].style.display="none";
@@ -915,8 +986,8 @@
 					if(elements[i].className == "item_title"){
 						elements[i].style.display="block";
 					}
-				} 
-			}
+				}
+ 			}
 		}
 	}
 
@@ -937,13 +1008,10 @@
 			else{
 				show(id);
 			}
-			lastShown = id;
-			resizeImagesObjects();
-			
-			
+			lastShown = id;			
 		}
 		else hide(id);
-		if(ie) resizeHeader();
+		repaint();
 	}
 	
 	function toggleRights()
@@ -953,7 +1021,7 @@
 		else
 			$("chan_copyright").style.display = "none";
 
-		resizeItemsDiv();
+
 	}
 
 	function resizeItemsDiv(){
@@ -968,72 +1036,19 @@
 		t.src = (img_element.getAttribute ? img_element.getAttribute("src") : false) || img_element.src;
 		return t.width;
 	}
-
 	
-	function resizeImagesObjects(){
-		var images = $('chan_items').getElementsByTagName("img");
-		for(var i=0; i < images.length; i++){
-			if((images[i].id.search("urlSender") < 0) && (images[i].id.search("titleSender") < 0) && 
-				(images[i].id.search("tipSender") < 0)){
-				var srcAux = images[i].src; 
-				images[i].src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png";
-				images[i].removeAttribute('complete');
-				images[i].src = srcAux;
-			}
-		}
-		resizeHeader();
-		if(ie) return;
-		var images = $('chan_items').getElementsByTagName("img");
-		for(var i=0; i < images.length; i++){
-			if((images[i].id.search("urlSender") < 0) && (images[i].id.search("titleSender") < 0) && 
-				(images[i].id.search("tipSender") < 0)){
-				if (images[i].offsetWidth > $('chan_header').getWidth()){
-					images[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
-				}
-				else{
-					if(getOriginalWidthOfImg(images[i]) > ($('chan_header').getWidth() - 50)){
-						images[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
-					}
-					else{
-						images[i].style.width=getOriginalWidthOfImg(images[i])+'px';
-					}
-				}
-				images[i].style.height="auto";
-			}
-		}
-		
-		var embeds = $('chan_items').getElementsByTagName("embed");
-		for(var i=0; i < embeds.length; i++){
-			if (embeds[i].offsetWidth > $('chan_header').getWidth()){
-				embeds[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
-			}
-			else{
-				if(embeds[i].width > ($('chan_header').getWidth() - 50)){
-					embeds[i].style.width = ($('chan_header').getWidth() - 50) + 'px';
-				}
-				else{
-					embeds[i].style.width = embeds[i].width + 'px';
-				}
-			}
-		}	
-	}
-	
-	function resizeHeader(){
-		if($('chan_items').offsetWidth > 0)
-			$('chan_header').style.width = ($('chan_items').offsetWidth) + 'px';
-	}
   </script>
 
 
 </head>
-<body onload="generateLang();" onresize="resizeItemsDiv()";>
+<body onload="generateLang();">
     <div id="chan" style="display:none">
 		<div id="chan_header">
 		<a id="chan_image_link" href="" target="_blank"></a>
 	        <div id="chan_title">
 	        	<a id="chan_link" href=""></a>
 	        </div>
-        <table class="info">
+        <table id="info" class="info">
         	<tr>
         		<td style="width:33%;">
         			<a id="rights_link" href="javascript:toggleRights()" style="display:none">Copyright Notice</a>	        
