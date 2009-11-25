@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Buscador RAE</Name>
-		<Version>1.6</Version>
+		<Version>1.7</Version>
 		<Author>irodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget que busca definiciones de palabras en la RAE</Description>
@@ -33,7 +33,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/BuscadorRAE.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/BuscadorRAE/BuscadorRAE.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="8" height="20"/>

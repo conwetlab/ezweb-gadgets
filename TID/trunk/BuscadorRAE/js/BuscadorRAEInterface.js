@@ -11,13 +11,12 @@ var BuscadorRAE = function() {
 
 BuscadorRAE.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-BuscadorRAE.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/"; 
+BuscadorRAE.prototype.resourcesURL = "http://ezweb.tid.es/repository/BuscadorRAE/"; 
 
 BuscadorRAE.prototype.init = function() {
 	this.value = '';
 	this.dictionary = new StyledElements.StyledNotebook({'id':'dictionary'});
 	this.listoftabs = [];
-	this.urlimage = 'http://demo.ezweb.morfeo-project.org/repository/BuscadorRAE/images/';
 
 	this.definition = EzWebAPI.createRWGadgetVariable('definition');
 	this.keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
@@ -27,21 +26,21 @@ BuscadorRAE.prototype.init = function() {
 	var header = document.createElement ('div');
 	header.setAttribute ('id', 'header');
 	var div1 = document.createElement ('div');
-	div1.setAttribute ('class', 'text');
+	EzWebExt.addClassName(div1, 'text');
 	var input = document.createElement ('input');
 	input.setAttribute ('id', 'text_search');
-	input.setAttribute ('class', 'text_field');
+	EzWebExt.addClassName(input, 'text_field');
 	input.setAttribute ('type', 'text');
 	input.setAttribute ('autocomplete', 'on');
 	input.setAttribute ('size', 8);
 
-	input.addEventListener('keypress', EzWebExt.bind (function (e){
+	EzWebExt.addEventListener(input, 'keypress', EzWebExt.bind (function (e){
 		if (e.keyCode == 13)
 			this.goSearchInputText();
 	}, this), false);
 	div1.appendChild (input);
 	var div2 = document.createElement ('div');
-	div2.setAttribute ('class', 'boton');
+	EzWebExt.addClassName(div2, 'boton');
 	var select = document.createElement ('select');
 	select.setAttribute ('id','TIPO_BUS'); 
 	select.setAttribute ('name', 'TIPO_BUS');
@@ -70,7 +69,7 @@ BuscadorRAE.prototype.init = function() {
 	var button = document.createElement('button');
 	button.setAttribute ('id', 'search-button');
 	button.setAttribute ('title', 'Search');
-	button.addEventListener ('click', EzWebExt.bind (function (e){
+	EzWebExt.addEventListener (button, 'click', EzWebExt.bind (function (e){
 		this.goSearchInputText();
 	}, this), false);
 	button.appendChild (document.createTextNode(this.getTranslatedLabel('search-button')));
@@ -104,11 +103,17 @@ BuscadorRAE.prototype.addLoadingImage = function () {
 	var body = document.getElementsByTagName("body")[0];
 	var background = document.createElement('div');
 	background.id = "loading_background";
-	// cancels the call to startdrag function
+	EzWebExt.addEventListener(background, "click", function(e) { 
+	    if (!e) 
+	        e = window.event;
+	    e.cancelBubble = true; 
+	    if (e.stopPropagation) 
+	        e.stopPropagation();
+	}, true);
 	body.appendChild(background);
 	var image = document.createElement('img');
 	image.id = "loading_image";
-	image.setAttribute('src', this.urlimage+'ajax-loader.gif');
+	image.setAttribute('src', this.getResourceURL("images/ajax-loader.gif"));
 	background.appendChild(image);
 }
 
@@ -243,10 +248,10 @@ BuscadorRAE.prototype.onSuccessSearch = function (response) {
 	
 	var context = {key:this.value, def:parent.innerHTML, definition:this.definition, keyword:this.keywordEvent}
 	var img1 = document.createElement('img');
-	img1.setAttribute ('class', 'sendevents');
+	EzWebExt.addClassName(img1, 'sendevents');
 	img1.setAttribute ('title', this.getTranslatedLabel('send-event'));
-	img1.setAttribute ('src', '/ezweb/images/wiring16px.png'); 
-	img1.addEventListener('click', EzWebExt.bind(function(e){
+	img1.setAttribute ('src', this.getResourceURL("images/send-events.png")); 
+	EzWebExt.addEventListener(img1, 'click', EzWebExt.bind(function(e){
 		this.definition.set(this.def);
 		this.keyword.set(this.key);
 	}, context), true);
@@ -286,10 +291,10 @@ BuscadorRAE.prototype.parseContent = function (tab)
 			}
 		    links[i].removeAttribute("href");
 			context = {value:decodeURIComponent(word), self:this};
-		    links[i].addEventListener ('click', EzWebExt.bind (function(e){
+		    EzWebExt.addEventListener (links[i], 'click', EzWebExt.bind (function(e){
 				this.self.getSearch(this.value,0);
 			}, context), false);
-		    links[i].setAttribute("class", "link");
+		    EzWebExt.addClassName(links[i], "link");
 		}
 	    else if ((links[i].href != "") && (links[i].href.search("IDVERBO") >= 0))
 		{
@@ -298,7 +303,7 @@ BuscadorRAE.prototype.parseContent = function (tab)
 		}
 	}
 	context = {id:tab.getId(), listoftabs:this.listoftabs};
-	tab.addEventListener ('close', EzWebExt.bind(function(e){
+	EzWebExt.addEventListener (tab, 'close', EzWebExt.bind(function(e){
 		for (var i=0;i<this.listoftabs.length;i++) {
 			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id)) {
 				delete this.listoftabs[i];

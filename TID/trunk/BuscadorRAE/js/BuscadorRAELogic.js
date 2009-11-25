@@ -102,7 +102,7 @@ function parseContent(tab)
 			}
 		    links[i].removeAttribute("href");
 		    links[i].setAttribute("onclick", "getSearch('"+decodeURIComponent(word)+"',"+0+");");
-		    links[i].setAttribute("class", "link");
+		    lEzWebExt.addClassName(links[i], "link");
 		}
 	    else if ((links[i].href != "") && (links[i].href.search("IDVERBO") >= 0))
 		{
