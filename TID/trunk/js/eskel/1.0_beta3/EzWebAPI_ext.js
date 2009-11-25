@@ -10,7 +10,7 @@ var EzWebExt = new Object();
  * @type String
  */
 
-EzWebExt.URL = "http://jupiter.ls.fi.upm.es/svn/ezweb-gadgets/eskel/1.0_beta3";
+EzWebExt.URL = "http://ezweb.tid.es/repository/js/eskel/1.0_beta3";
 
 /**
  * Permite obtener la URL absoluta de un recurso proporcionado por la librería.
