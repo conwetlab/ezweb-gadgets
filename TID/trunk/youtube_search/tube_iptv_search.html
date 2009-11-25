@@ -201,11 +201,11 @@
 <script>
 var ie = false;
 </script>
-<!--[if IE]>
+<!--[if IE]> 
 <script>
 ie = true;
 </script>
-<![endif-->
+<![endif]-->
 <script>
 
 var lock = EzWebExt.createLockVariable();
@@ -508,11 +508,13 @@ function changeRegion(value){
  
         document.getElementById("loadinginfo").style.visibility = "visible";
       }*/else if (newState == GS_DISCONNECTED) {
-        hideElements("backlink", "pager", "watchVideos", "content");
+        document.getElementById("content").style.visibility = "hidden";
+        hideElements("backlink", "pager", "watchVideos");
         showElements("message");
         alert("No se puede conectar con YouTube, reintentando...");
       }else if (newState == GS_NORESULTS) {
-        hideElements("watchVideos", "content", "backlink", "pager");
+        document.getElementById("content").style.visibility = "hidden";
+        hideElements("watchVideos", "backlink", "pager");
         showElements("message"); 
         alert("No se han encontrado resultados.");
         document.getElementById("query").focus();
@@ -523,7 +525,8 @@ function changeRegion(value){
             "infolink");
       }*/else if (newState == GS_BROWSE) {
         hideElements("watchVideos", "message", "backlink", "infopane");
-        showElements("content", "pager");
+        showElements("pager");
+        document.getElementById("content").style.visibility = "visible";
       }/*else if (newState == GS_INFO) {
         hideElements("message", "infolink", "innerWatchVideos", "content",
             "pager");
