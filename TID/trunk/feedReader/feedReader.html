@@ -795,6 +795,7 @@
 				var startDescription = document.createElement("div");
 				startDescription.className = "item_description";
 				startDescription.innerHTML = items[i].description;
+				startDescription.innerHTML = startDescription.innerHTML.replace(/<script.*script>/,'').replace(/<script.*\/>/,'');	
 				startDescription.onclick = function(e){
 																			if (!e) var e = window.event;
 																			e.cancelBubble = true;
