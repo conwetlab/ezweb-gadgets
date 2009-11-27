@@ -122,22 +122,33 @@
 
         function loadExampleFilms(){
             document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
-	        "PREFIX\n"+
-        	"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
-        	"\towl <http://www.w3.org/2002/07/owl#>.\n"+
-        	"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
-        	"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
-        	"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
-        	"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
-        	"\tbase <http://dbpedia.org/resource/>.\n"+
-            "OBLIGATORY\n"+
-            	"\tdbpedia2:origin some {base:United_States,base:England}.\n"+
-            	"\t<http://dbpedia.org/class/yago/Quartets>.\n"+
-            "OPTIONAL\n"+
-            	"\tdbpedia2:genre some {base:Heavy_metal_music},4.\n"+
-            	"\tdbpedia2:genre some {base:Rock},4.\n"+
-            	"\tdbpedia2:currentMembers some {base:Joey_DeMaio,base:James_Hetfield},9.\n"+
-            	"\tskos:subject some {<http://dbpedia.org/resource/Category:Guinness_World_Record_holders>},5.\n";
+			"PREFIX\n"+
+			    "\tdbonto <http://dbpedia.org/ontology/>.\n"+
+				"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+				"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+				"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+				"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+				"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+				"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+				"\tbase <http://dbpedia.org/resource/>.\n"+
+				"\txsd <http://www.w3.org/2001/XMLSchema#>.\n"+
+			"OBLIGATORY\n"+
+				"\tdbonto:Film and "+
+				"skos:subject some {<http://dbpedia.org/resource/Category:Crime_thriller_films>}.\n"+
+			"OPTIONAL\n"+
+				"\t<http://dbpedia.org/ontology/director> some {base:Quentin_Tarantino},7.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Chris_Penn},3.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Harvey_Keitel},5.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Lawrence_Tierney},4.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Michael_Madsen},4.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Steve_Buscemi},2.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Tim_Roth},8.\n"+
+				"\tskos:subject some {<http://dbpedia.org/resource/Category:Comedy_films>},4.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>4],5.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>5],5.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>6],5.\n"+
+				"\tdbonto:runtime dsome int[>120],6.\n";
+		return "success";
             return false;
         }
 
@@ -181,7 +192,7 @@
         /* ezcontext methods */
 
         function getRecomendations(demand) {
-            var uri = _terrasEndpoint.get() + "?query=" + encodeURIComponent(demand);
+            var uri = _terrasEndpoint.get() + "?query=" + encodeURIComponent(demand)+"&method=json";
             EzWebAPI.send_get(uri, this, refleshTable, fail);
         }
 
