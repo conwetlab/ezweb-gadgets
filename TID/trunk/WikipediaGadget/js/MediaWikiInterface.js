@@ -17,8 +17,8 @@ var gotokeySearch = EzWebAPI.createRWGadgetVariable("gotokeySearch");
 var urlbaseApi = '';
 var urlbaseWiki = '';
 var urlhostWiki = '';
-//var urlimage = 'http://helios.ls.fi.upm.es/gadgets/WikipediaGadget/images/'; 
-var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/'; 
+var resourcesURL = 'http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.5/'; 
+var urlimage = resourcesURL + 'images/'; 
 
 // value = keywords de la busqueda
 var value = '';
@@ -32,9 +32,53 @@ var WikipediaGadget = function () {
 	EzWebGadget.call (this, {translatable:true});
 }
 WikipediaGadget.prototype = new EzWebGadget();
-WikipediaGadget.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4"
+WikipediaGadget.prototype.resourcesURL = resourcesURL;
 // Funcion de inicio
 WikipediaGadget.prototype.init = function() {
+
+    var header = document.createElement ('div');
+	header.setAttribute ('id', 'header');
+	
+	var div1 = document.createElement ('div');
+	EzWebExt.addClassName(div1, 'text');
+	var input = document.createElement ('input');
+	input.setAttribute ('id', 'text_search');
+	EzWebExt.addClassName(input, 'text_field');
+	input.setAttribute ('type', 'text');
+	input.setAttribute ('autocomplete', 'on');
+	input.setAttribute ('size', 8);
+	EzWebExt.addEventListener(input, 'keypress', function (e) {
+		if (e.keyCode == 13)
+			goArticleInputText();
+	}, false);
+	div1.appendChild (input);
+	
+	var div2 = document.createElement ('div');
+	EzWebExt.addClassName(div2, 'boton');
+	var button1 = document.createElement('button');
+	button1.setAttribute ('id', 'go-button');
+	button1.setAttribute ('title', 'Go');
+	EzWebExt.addEventListener (button1, 'click', function (e){
+		goArticleInputText();
+	}, false);
+	var button2 = document.createElement('button');
+	button2.setAttribute ('id', 'search-button');
+	button2.setAttribute ('title', 'Search');
+	EzWebExt.addEventListener (button2, 'click', function (e){
+		goSearchInputText();
+	}, false);
+	div2.appendChild (button1);
+	div2.appendChild (button2);
+	
+	header.appendChild (div1);
+	header.appendChild (div2);
+	
+	var content = document.createElement('div');
+	content.setAttribute ('id', 'content');
+	
+	document.body.appendChild (header);
+	document.body.appendChild (content);
+
 	setDefaultOptions();
 	// Traducimos los botones de busqueda
 	document.getElementById('search-button').innerHTML = '';
@@ -117,15 +161,13 @@ function displaySearch (search, context)
 	}
     else
 	var tab1 = panelArticle.createTab ({
-			"name":decodeURIComponent(context.value).replace(/_/g, " "),
-			'id':'Search_'+context.value,
-			closeable:true
-		});
+		"name":decodeURIComponent(context.value).replace(/_/g, " "),
+		'id':'Search_'+context.value,
+		closeable:true
+	});
 
 	// Creamos los divs que necesitamos para pintar el resultado
 	var div = document.createElement ('div');
-	div.setAttribute ('id', 'search');
-	div.className = 'search';
 	
 	// No hay resultados de la busqueda
 	if (search.length == 0)
@@ -139,18 +181,17 @@ function displaySearch (search, context)
 	{
 		// headers
 		var h3 = document.createElement ("h3");
-		h3.setAttribute ("id", 'searchResult');
 		h3.appendChild(document.createTextNode (WikipediaGadget.getTranslatedLabel('searchResult')));
 		var hr = document.createElement ("hr");
 		div.appendChild (h3);
 		div.appendChild (hr);
 		// tabla con el resultado de la busqueda
-		var result = document.createElement("table");
+		
+		var result = document.createElement("div");
 		var wordsearch = context.value.split (" ");
 		for (var i=0; i <search.length; i++)
 		{
 			var name = search[i].title;
-			var tr = document.createElement("tr");
 			var a = document.createElement("a");
 			var text = name.replace(/_/g," ");
 			var wordresult = text.split(" ");
@@ -167,7 +208,7 @@ function displaySearch (search, context)
 				if (encontrado == 1)
 				{
 					var span = document.createElement ("span");
-					span.className = 'remarked';
+					EzWebExt.addClassName(span, 'remarked');
 					span.appendChild(document.createTextNode (wordresult[k]+' '));
 					a.appendChild (span);
 				}
@@ -178,11 +219,12 @@ function displaySearch (search, context)
 			}
 			a.setAttribute ('title', search[i].description);
 			if (search[i].url != '#')
-				a.setAttribute ('onClick', 'goArticle("'+ name +'");');
-			tr.appendChild (a);
-			result.appendChild (tr);
-			div.appendChild (result);
+				EzWebExt.addEventListener(a, 'click', EzWebExt.bind(function() {
+				    goArticle(this);
+			    }, name), true);
+			result.appendChild (a);
 		}
+		div.appendChild (result);
 	}
 	else // Si solo hay un resultado se muestra el contenido del articulo
 	{
@@ -192,7 +234,9 @@ function displaySearch (search, context)
 	}
 	// Creating the search navigationbar
 	var navigationvar = document.createElement ("table");
-	navigationvar.className = "navigationbar";
+	var tbody = document.createElement ("tbody");
+	navigationvar.appendChild(tbody);
+	EzWebExt.addClassName(navigationvar, "navigationbar");
 	var tr = document.createElement ("tr");
 	// Boton de anterior
 	var td1 = document.createElement ("td");
@@ -203,7 +247,7 @@ function displaySearch (search, context)
 	else
 	{ // Si no es la primera pagina, da opcion de volver
 		var context = {"value":context.value,"pagesearch":context.pagesearch,"targetTab":tab1, "next":context.next}; 
-		a.addEventListener('click', EzWebExt.bind(goBackSearch, context), true);
+		EzWebExt.addEventListener(a, 'click', EzWebExt.bind(goBackSearch, context), true);
 		a.setAttribute('id', 'search-back-button');
 		img.src = urlimage + 'back_enable.png';
 	}
@@ -213,7 +257,7 @@ function displaySearch (search, context)
 	// Celda con el numero de pagina
 	var td2 = document.createElement ("td");
 	var span = document.createElement ("span");
-	span.className = 'pagesearch';
+	EzWebExt.addClassName(span, 'pagesearch');
 	span.appendChild(document.createTextNode(context.pagesearch+1));
 	td2.appendChild (span);
 	tr.appendChild(td2);
@@ -224,7 +268,7 @@ function displaySearch (search, context)
 	if (context.next)
 	{
 		var context = {"value":context.value,"pagesearch":context.pagesearch,"targetTab":tab1, "next":context.next}; 
-		a.addEventListener('click', EzWebExt.bind(goNextSearch, context), true);
+		EzWebExt.addEventListener(a, 'click', EzWebExt.bind(goNextSearch, context), true);
 		a.setAttribute('id', 'search-next-button');
 		img.src = urlimage + 'front_enable.png';
 	}
@@ -236,14 +280,15 @@ function displaySearch (search, context)
 	td3.appendChild(a);
 	tr.appendChild(td3);
 	// Inserto la fila en la tabla y la tabla en el div
-	navigationvar.appendChild (tr);
+	tbody.appendChild (tr);
 	var buttons = document.createElement ('div');
-	buttons.setAttribute ('class', 'navigation-buttons');
+	EzWebExt.addClassName(buttons, 'navigation-buttons');
 	buttons.appendChild (navigationvar);
 	div.appendChild (buttons);
 
 	// Inserto el div en la pestana y voy a ella
 	tab1.appendChild (div);
+	EzWebExt.addClassName(div.parentNode, "search");
 	panelArticle.goToTab (tab1.getId());
 	removeLoadingImage();
 }
@@ -268,17 +313,6 @@ function goBackSearch()
 /****************************************************************************************/
 function goArticle (value1)
 {
-	if (document.getElementById('wrapperarticle')==null)
-	{
-		var div = document.createElement('div');
-		div.setAttribute ('id', 'wrapperarticle');
-		div.setAttribute('class', 'wrapperarticle');
-		document.getElementById('content').appendChild(div);
-	}
-	else
-	{
-		document.getElementById ('wrapperarticle').innerHTML = '';
-	}
 	addLoadingImage();
 	value = encodeURIComponent(ucFirst(value1));
 	getArticle (value);
@@ -286,17 +320,6 @@ function goArticle (value1)
 // It gets the description of an article 
 function goArticleInputText()
 {
-	if (document.getElementById('wrapperarticle')==null)
-	{
-		var div = document.createElement('div');
-		div.setAttribute ('id', 'wrapperarticle');
-		div.setAttribute('class', 'wrapperarticle');
-		document.getElementById('content').appendChild(div);
-	}
-	else
-	{
-		document.getElementById ('wrapperarticle').innerHTML = '';
-	}
 	var value1 = document.getElementById ('text_search').value;
 	gotokeySearch.set(value1);
 	if (value1 != '')
@@ -309,17 +332,6 @@ function goArticleInputText()
 }
 function setGoArticleWiring (value1)
 {
-	if (document.getElementById('wrapperarticle')==null)
-	{
-		var div = document.createElement('div');
-		div.setAttribute ('id', 'wrapperarticle');
-		div.setAttribute('class', 'wrapperarticle');
-		document.getElementById('content').appendChild(div);
-	}
-	else
-	{
-		document.getElementById ('wrapperarticle').innerHTML = '';
-	}
 	//var value1 = gotokey.get();
 	gotokeySearch.set(value1);
 	if (value1 != '')
@@ -334,11 +346,9 @@ function setGoArticleWiring (value1)
 function displayArticle(text)
 {
 	for (var i=0; i<listoftabs.length;i++) {
-		if (listoftabs[i] === undefined)
-		{}
-		else if (listoftabs[i].title == value) // Exists a tab with this key
+		if ((listoftabs[i] !== undefined) && (listoftabs[i].title == value)) // Exists a tab with this key
 		{
-			dictionary.goToTab(listoftabs[i].id);
+			panelArticle.goToTab(listoftabs[i].id);
 			removeLoadingImage();
 			return;
 		}
@@ -348,42 +358,47 @@ function displayArticle(text)
 	var h1 = '<h1 class="title-article">'+decodeURIComponent(value).replace(/_/g, " ")+'</h1>';
 	div.innerHTML = h1 + text;
 	titleEvent.set(decodeURIComponent(value).replace(/_/g, " "))
+
+	// Parche para obtener la URI base, necesario para IE7
+	div.innerHTML += "<a href='/' />";
+	var baseURI = div.lastChild.getAttribute("href");
+	EzWebExt.removeFromParent(div.lastChild)
+    
 	var links = div.getElementsByTagName('a');
+	
 	for (var i=0; i<links.length; i++)
 	{
-		for (var j=0; j<links[i].attributes.length; j++)
+		var href = links[i].getAttribute("href");
+		if (href != null) 
 		{
-			if (links[i].attributes[j].nodeName == 'href')
+    		if ((href.indexOf('http://') != -1) && (href.indexOf(baseURI) == -1))
 			{
-				if (links[i].attributes.href.nodeValue.indexOf('http://') != -1)
+				links[i].setAttribute('target', '_blank');
+			}
+            else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*wiki/+(.+)")) != null)
+			{
+				links[i].removeAttribute('href');
+		        EzWebExt.addEventListener(links[i], 'click', EzWebExt.bind(function() {
+		            goArticle(decodeURIComponent(this));
+		        }, match[1]), true);
+			}
+			else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*w/+.*\\?(.+)")) != null)
+			{
+				var params = match[1].split ('&');
+				for (var k=0;k<params.length;k++)
 				{
-					links[i].setAttribute ('target', '_blank');
-				}
-				else if (links[i].attributes.href.nodeValue.indexOf('/wiki/')!=-1)
-				{
-					var link = links[i].attributes.href.nodeValue.split ('/wiki/');
-					links[i].removeAttribute ('href');
-					links[i].setAttribute ('onClick', 'goArticle("'+decodeURIComponent(link[1])+'");');
-				}
-				else if (links[i].attributes.href.nodeValue.indexOf('/w/')!=-1)
-				{
-					var params = links[i].attributes.href.nodeValue.split('?');
-					params = params[1].split ('&');
-					for (var k=0;k<params.length;k++)
+					var param = params[k].split('=')[0];
+					if (param == 'title')
 					{
-						var param = params[k].split('=')[0];
-						if (param == 'title')
-						{
-							var paramvalue = params[k].split('=')[1];
-							links[i].removeAttribute('href');
-							links[i].setAttribute ('onClick', 'goArticle("'+decodeURIComponent(paramvalue)+'");');
-						}
+						var paramvalue = params[k].split('=')[1];
+						links[i].removeAttribute('href');
+						EzWebExt.addEventListener(links[i], 'click', EzWebExt.bind(function() {
+		                    goArticle(decodeURIComponent(this));
+		                }, paramvalue), true);
 					}
 				}
-
 			}
 		}
-		
 	}
 	var tab1 = panelArticle.createTab ({
 		"name":decodeURIComponent(value).replace(/_/g, " "),
@@ -391,9 +406,11 @@ function displayArticle(text)
 		closeable:true
 	});
 	tab1.appendChild (div);
+	tab1.appendChild (div);
+	EzWebExt.addClassName(div.parentNode, "tab-article");
 
 	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
-	tab1.addEventListener ('close', EzWebExt.bind (function(e){
+	EzWebExt.addEventListener(tab1, 'close', EzWebExt.bind (function(e){
 		for (var i=0;i<this.listoftabs.length;i++)
 			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id))
 				delete this.listoftabs[i];
@@ -405,16 +422,16 @@ function displayArticle(text)
 	var images = div.getElementsByTagName ('img');
 	for (var i=0; i<images.length; i++)
 	{
-		for (var j=0; j<images[i].attributes.length;j++)
+	    var src = images[i].getAttribute('src');
+		if (src != null)
 		{
-			if (images[i].attributes[j].nodeName == 'src')
-			{
-				var src = images[i].attributes[j].nodeValue;
-				if (src.indexOf ('http://') == -1)
-					images[i].setAttribute ('src', (urlhostWiki+src));
-				images[i].setAttribute ('onclick', 'setImageEvent("'+images[i].attributes[j].nodeValue+'")');
-			}
-			
+			if (src.indexOf('http://') == -1) {
+			    src = urlhostWiki+src; // TODO Necesario?
+				images[i].setAttribute ('src', src);
+		    }
+			EzWebExt.addEventListener(images[i], 'click', EzWebExt.bind(function() {
+			    setImageEvent(this);
+			}, src), true);
 		}
 	}
 	removeLoadingImage();
@@ -442,7 +459,7 @@ function addLoadingImage() {
 	var background = document.createElement('div');
 	background.id = "loading_background";
 	// cancels the call to startdrag function
-	background.addEventListener("click",function(e){
+	EzWebExt.addEventListener(background, "click", function(e){
 		e = e ? e : window.event;
 		if (e.stopPropagation) {
 			e.stopPropagation();
@@ -471,15 +488,7 @@ function displayError (error)
 {
 	removeLoadingImage();
 }
-/*
- * Lanza el envento indicado cuando se pulsa ENTER
- */
-function onReturn(event_, handler_){
-	if (!event_) 
-	    event_ = window.event;
-	if (event_ && event_.keyCode && event_.keyCode == 13) 
-	    handler_();
-}
+
 function ucFirst (word)
 {
 	return word.substr(0,1).toUpperCase()+word.substr(1,word.length);

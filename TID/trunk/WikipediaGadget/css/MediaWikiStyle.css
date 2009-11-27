@@ -1,18 +1,22 @@
 /* Header CSS */
 body{
-	background: #EEE;
-	font-family: sans-serif;
-	padding:0px;
-	margin: 0px;
-	overflow : hidden;
+	text-align: left;
+	background: #EDECEB;
+	font-family:sans-serif;
+	font-size: 10pt;
+	white-space: normal;
+	overflow: hidden;
 }
 #header{
-	background: #E6ECFF url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikibar2.png) no-repeat scroll right center;
-	padding-left:0px;
-	height:30px;
+	background: #E6ECFF url(../images/Wikibar2.png) no-repeat scroll right center;
 	border:1px solid #CCC;
-	min-width:500px;
 	-moz-border-radius:6px;
+	height:30px;
+	top:2px;
+	left:2px;
+	right: 2px;
+	position:absolute;
+	overflow: hidden;
 }
 #header .image{
 	cursor:pointer;
@@ -32,7 +36,7 @@ body{
 }
 #header input {
 	width: 185px;
-	height: 25px;
+	height: 20px;
   	border: 1px solid #888888;;
   	padding: 1px 2px;
   	position: relative;
@@ -56,27 +60,26 @@ body{
 
 
 #content{
-	background: #EEE url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikipedia-logo.png) no-repeat scroll center center;
-	overflow: auto;
-	width: 100%;
+	background: #EEE url(../images/Wikipedia-logo.png) no-repeat scroll center center;
+	top:32px;
+	left:2px;
+	right:2px;
+	bottom:2px;
 	position:absolute;
-	top: 32px;
-	bottom:3px;
-	left:3px;
-	right:3px;
 }
-#footer {
-	background: #E6ECFF url(http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikibar1.png) no-repeat scroll right center;
-	padding-left:0px;
-	height:30px;
-	border:1px solid #CCC;
-	min-width:295px;
-	-moz-border-radius:6px;
+
+.tab-article {
+    background: #EEE url(../images/Wikipedia-logo.png) no-repeat scroll center center !important;
 }
-.search{
-	margin-top: -15px;
+
+.search {
+    background: #EEE url(../images/Wikipedia-logo.png) no-repeat scroll center center !important;
+	position: relative;
+	display: block;
 }
 .search h3 {
+    margin-top: 10px !important;
+    display: block;
 	padding-left: 15px;
 	color: black;
 	font-family: sans-serif;
@@ -87,18 +90,31 @@ body{
 .search hr {
 	margin-top:-15px;
 }
-.search table{
+.search div div {
 	padding-left: 30px;
+	display: block;
 }
 .search a {
 	font-family: sans-serif;
 	font-style: normal;
 	font-variant: normal;
-	font-weight: bold;
+	font-weight: normal;
 	font-size: small;
 	font-size-adjust: none;
 	cursor: pointer;
-	color: black;
+	color: #002BB8;
+	display: block;
+	text-decoration: underline;
+}
+
+.remarked{
+	color: #002BB8;
+	font-weight: bold;
+}
+
+.search span.remarked{
+    color: #002BB8;
+	font-weight: bold;
 }
 
 #img-start{
@@ -106,10 +122,7 @@ body{
 	vertical-align: middle;
 	padding-top: 20px;
 }
-.remarked{
-	color: #002BB8;
-	font-weight: bold;
-}
+
 .navigationbar{
 	color: #0033FF;
 }
@@ -212,6 +225,9 @@ a:visited {
 	float: left;
 }
 
+.notebook > div > .wrapper > div {
+    padding:0;
+}
 
 /*
  * Estilos de los articulos
@@ -346,10 +362,10 @@ table.mw_metadata th {
 	top:0px;
 	left:0px;
 	z-index:3000;
-	background:none;
-	filter:alpha(opacity=60);
-	-moz-opacity:.60;
-	opacity:.60;
+	background:#EEE;
+	filter:alpha(opacity=40);
+	-moz-opacity:.40;
+	opacity:.40;
 	width: 100%;
 	height: 100%;
 }

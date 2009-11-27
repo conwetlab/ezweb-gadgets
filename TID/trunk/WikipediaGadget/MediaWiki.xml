@@ -3,11 +3,11 @@
 	<Catalog.ResourceDescription>
 		<Vendor>EzWeb</Vendor>
 		<Name>Wikipedia</Name>
-		<Version>2.4</Version>
+		<Version>2.5</Version>
 		<Author>Ignacio Rodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/images/Wikipedia-110x100.png</ImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.5/images/Wikipedia-110x100.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_buscador_en_la_Wikipedia</WikiURI>
 	</Catalog.ResourceDescription>
 <!-- Fin de la desripcion del gadget -->
@@ -61,7 +61,7 @@
 	</Platform.Context>
 	<!-- Asocia este template con su implementacion (en html) -->
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.4/MediaWiki.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.5/MediaWiki.html"/>
 	</Platform.Link>
 	<!-- Definimos la informacion de presentacion del interfaz ancho y alto -->
 	<Platform.Rendering width='6' height='24'/>

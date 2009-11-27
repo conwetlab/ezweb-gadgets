@@ -54,8 +54,7 @@ function onSuccessSearch(response)
 		search_result = new Array(children.length);
 		for(var i = 0; i < children.length; i++)
 		{
-			var title = children[i].attributes.title.nodeValue;
-			search_result[i]= new Details (title, null, null);
+			search_result[i]= new Details (children[i].getAttribute("title"), null, null);
 		}
 		contador = 0;
 		maximo = children.length;
