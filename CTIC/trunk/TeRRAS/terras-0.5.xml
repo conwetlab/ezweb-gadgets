@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    TeRRAS Gadget (0.4) for the EzWeb Platform
+
+    Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    TeRRAS is partially funded by the Spanish Ministry of Industry, Tourism 
+    and Commerce under the National Plan for Scientific Research, Development 
+    and Technological Innovation 2007-2009 (grant to EzWeb project with 
+    number TSI-020301-2009-13). 
+
+-->
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Name>TeRRAS</Name>
+    <Version>0.5</Version>
+    <Author>Iván Mínguez</Author>
+    <Mail>ivan.minguez@fundacionctic.org</Mail>
+    <Vendor>CTIC</Vendor>
+    <Description>Gadgets to use the TeRRAS library on EzWeb</Description>
+    <ImageURI>http://idi.fundacionctic.org/ezweb/gadgets/TeRRAS/ezterras.png</ImageURI>
+    <WikiURI>http://idi.fundacionctic.org/ezweb/gadgets/TeRRAS/doc/terras-0.5.html</WikiURI>
+  </Catalog.ResourceDescription>
+
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+    <Preference name="terrasEndpoint" type="text" description="TeRRAS Endpoint" label="TeRRAS Endpoint" default="http://idi.fundacionctic.org/terras/endpoint"/>
+  </Platform.Preferences>
+
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+
+  <Platform.Wiring>
+    <Event name="link" type="text" label="link" friendcode="link"/>
+  </Platform.Wiring>
+
+  <Platform.Link>
+    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/TeRRAS/terras-0.5.html"/>
+  </Platform.Link>
+
+  <Platform.Rendering width="7" height="30"/>
+
+  <!-- EzWeb Gadget Data Context -->
+  <Platform.Context>
+  </Platform.Context> 
+
+</Template>
+

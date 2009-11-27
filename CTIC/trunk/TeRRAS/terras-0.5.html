@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+    <title>EzContext</title>
+    <script type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+    <script type="text/javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/json/json-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/datatable/datatable-min.js"></script>
+<script type="text/javascript"
+	src="http://yui.yahooapis.com/2.7.0/build/charts/charts-min.js"></script>
+
+<link rel="stylesheet" href="http://idi.fundacionctic.org/terras/images/Techmania.css" type="text/css" />
+
+    <style type="text/css">
+			
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+			
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: Verdana, Helvetica, sans-serif;
+        font-size: 0.9em;
+      }
+
+      form label {
+        width: 7em;
+        float: left;
+        text-align: right;
+        margin-right: 0.5em;
+        display: block
+      }
+
+      form input {
+        color: #000000;
+        background: #eeeeee;
+        border: 1px solid #777777;
+      }
+
+      form p.submit input {
+        margin-left: 15em;
+        color: #ffffff;
+        background: #777777;
+      }
+
+      .red {
+         color: red;
+      }
+
+      .green {
+        color: green;
+      }
+
+		.code{
+			background: #FFF url(http://idi.fundacionctic.org/terras/images/TeRRAS-bg.png) no-repeat left top;
+			padding-left:2em;
+            margin-left:1em;
+            margin-right:1em;
+		}
+    #qil{
+        width:100%;
+    }
+
+    .examples{
+        float:right;
+        margin-right:1em;
+        text-align:right;
+    }
+
+    </style>
+
+    <script type="text/javascript">
+
+        /* gadget main stuff */
+
+        var link = EzWebAPI.createRWGadgetVariable("link");
+        var _terrasEndpoint = EzWebAPI.createRGadgetVariable("terrasEndpoint", function(){});
+
+        function init() {
+            document.getElementById("form").onsubmit=submitEventHandler;
+        }
+
+        function loadExampleMusic(){
+            document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
+	        "PREFIX\n"+
+        	"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+        	"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+        	"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+        	"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+        	"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+        	"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+        	"\tbase <http://dbpedia.org/resource/>.\n"+
+            "OBLIGATORY\n"+
+            	"\tdbpedia2:origin some {base:United_States,base:England}.\n"+
+            	"\t<http://dbpedia.org/class/yago/Quartets>.\n"+
+            "OPTIONAL\n"+
+            	"\tdbpedia2:genre some {base:Heavy_metal_music},4.\n"+
+            	"\tdbpedia2:genre some {base:Rock},4.\n"+
+            	"\tdbpedia2:currentMembers some {base:Joey_DeMaio,base:James_Hetfield},9.\n"+
+            	"\tskos:subject some {<http://dbpedia.org/resource/Category:Guinness_World_Record_holders>},5.\n";
+            return false;
+        }
+
+        function loadExampleFilms(){
+            document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
+			"PREFIX\n"+
+			    "\tdbonto <http://dbpedia.org/ontology/>.\n"+
+				"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+				"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+				"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+				"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+				"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+				"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+				"\tbase <http://dbpedia.org/resource/>.\n"+
+				"\txsd <http://www.w3.org/2001/XMLSchema#>.\n"+
+			"OBLIGATORY\n"+
+				"\tdbonto:Film and "+
+				"skos:subject some {<http://dbpedia.org/resource/Category:Crime_thriller_films>}.\n"+
+			"OPTIONAL\n"+
+				"\t<http://dbpedia.org/ontology/director> some {base:Quentin_Tarantino},7.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Chris_Penn},3.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Harvey_Keitel},5.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Lawrence_Tierney},4.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Michael_Madsen},4.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Steve_Buscemi},2.\n"+
+				"\t<http://dbpedia.org/ontology/starring> some {base:Tim_Roth},8.\n"+
+				"\tskos:subject some {<http://dbpedia.org/resource/Category:Comedy_films>},4.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>4],5.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>5],5.\n"+
+				"\t<http://dbpedia.org/property/reviews> some <http://dbpedia.org/property/ratingProperty> dsome int[>6],5.\n"+
+				"\tdbonto:runtime dsome int[>120],6.\n";
+            return false;
+        }
+
+        function loadExampleSoft(){
+            document.getElementById("qil").value = "@endpoint http://dbpedia.org/sparql\n"+
+			"PREFIX\n"+
+			"\tdbpedia2 <http://dbpedia.org/property/>.\n"+
+			"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+			"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+			"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+			"\twn <http://www.w3.org/2006/03/wn/wn20/instances/>.\n"+
+			"\tskos <http://www.w3.org/2004/02/skos/core#>.\n"+
+			"\tbase <http://dbpedia.org/resource/>.\n"+
+			"OBLIGATORY\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Integrated_development_environments>}.\n"+
+			"OPTIONAL\n"+
+			"\tdbpedia2:operatingSystem some {base:Cross-platform},5.\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Free_UML_tools>},6.\n"+
+			"\tskos:subject some {<http://dbpedia.org/resource/Category:Mac_OS_X_development>},9.";
+            return false;
+        }
+
+		function loadMonuments(){
+		document.getElementById("qil").value = "@endpoint http://localhost:8082/turruta/sparql\n"+
+			"PREFIX\n"+
+			"\tturis <http://idi.fundacionctic.org/cruzar/turismo#>.\n"+
+			"\towl <http://www.w3.org/2002/07/owl#>.\n"+
+			"\tdol <http://www.loa-cnr.it/ontologies/DOLCE-Lite#>.\n"+
+			"\trdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n"+
+			"\trdfs <http://www.w3.org/2000/01/rdf-schema#>.\n"+
+			"FROM <http://www.zaragoza.es/turruta>.\n"+
+			"OBLIGATORY\n"+
+			"\tturis:Monumento.\n"+
+			"OPTIONAL\n"+
+			"\tturis:Edificio-religioso,2.\n"+
+			"\tturis:Edificio-historico,3.\n"+
+			"\tdol:has-quality SOME {turis:Accesibilidad-completa,turis:Accesible-con-acompanyante},9.\n"+
+			"\tdol:has-quality SOME {turis:Estilo-barroco},7.\n"+
+			"\tdol:has-quality SOME {turis:Estilo-renacentista},5.";
+			return false;
+		}
+
+
+        function resetQuery(){
+            document.getElementById("qil").value = "";
+            return false;
+        }
+
+        function visit(uri) {
+            link.set(uri);
+            return false;
+        }
+
+        function newDemand(value) {
+            if (value !== "" && value !== undefined && value !== null) {
+                var recomendations = getRecomendations(value);
+            }
+        }
+
+        /* ezcontext methods */
+
+        function getRecomendations(demand) {
+            var uri = _terrasEndpoint.get() + "?query=" + encodeURIComponent(demand)+"&method=json";
+            EzWebAPI.send_get(uri, this, refleshTable, fail);
+        }
+
+        /* callbacks */
+
+        function fail(response) {
+            alert("ERROR: Query not valid");
+        }
+
+        function submitEventHandler(e) {
+            var qil = document.getElementById("qil").value;
+            getRecomendations(qil);
+            return false;
+        }
+
+        function refleshTable(response){
+	        //used to format x axis labels
+	        YAHOO.example.numberToCurrency = function( value )
+	        {
+		        return YAHOO.util.Number.format(Number(value), {thousandsSeparator: ","});
+	        }
+	
+	        var myformat = function(elCell, oRecord, oColumn, oData) { 
+	            var label = oData; 
+	            var uri = oRecord.getData("uri");
+		        elCell.innerHTML = "<a href=\"#\" onclick=\"visit('" + uri + "')\" title=\"" + uri +"\">" + label + "</a>"; 
+	        }; 
+
+	        YAHOO.example.annualIncome = eval('('+response.responseText+')');
+	        var incomeData = new YAHOO.util.DataSource( YAHOO.example.annualIncome );
+	        incomeData.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+	        incomeData.responseSchema = { fields: [ "label", "utility", "uri" , "number" ] };
+	
+	            //--- data table
+	            var columns =
+	            [
+		            { key: "label", sortable: true, width:600, resizeable: true ,formatter:myformat},
+		            { key: "utility", sortable: true,  width:100, resizeable: true }
+	            ];
+	            var mytable = new YAHOO.widget.DataTable( "datatable", columns, incomeData,
+		            { paginator: new YAHOO.widget.Paginator({ 
+			              rowsPerPage: 10 
+	                }),sortedBy: { key: "utility", dir: "asc" }
+	        });
+	        YAHOO.widget.Chart.SWFURL = "http://yui.yahooapis.com/2.5.2/build/charts/assets/charts.swf";
+
+	        //--- chart
+	        var seriesDef = [ { yField: "utility" } ];
+
+	        YAHOO.example.getDataTipText = function( item, index, value )
+	        {
+		        var toolTipText = index +" - " +item.label+"\n" ;
+		        toolTipText += "Value: "+item.utility;
+		        return toolTipText;
+	        }
+
+	        var mychart = new YAHOO.widget.LineChart( "chart", incomeData,
+	        {
+		        series: seriesDef,
+		        xField: "number",
+		        dataTipFunction: YAHOO.example.getDataTipText,
+		        style:
+		        {
+			        border: {color: 0x96acb4, size: 2},
+			        font: {name: "Arial", size: 10, color: 0x586b71},
+			        dataTip:
+			        {
+				        border: {color: 0x2e434d, size: 2},
+				        font: {name: "Arial", size: 10, color: 0x586b71}
+			        }
+		        },					
+		        //only needed for flash player express install
+		        expressInstall: "assets/expressinstall.swf"
+		    });
+    }
+
+   </script>
+
+  </head>
+
+  <body onload="init();" class=" yui-skin-sam">
+    <div class="code">
+     <form id="form">
+        <p>
+          <label for="qil">Demand:</label><br/>
+          <textarea id="qil" name="qil" value="" rows="20" cols="100"></textarea>
+        </p>
+        <p class="query">
+            <div class="examples">
+                <a href="#" onclick="resetQuery()">Reset</a><br/>
+                Examples: <a href="#" onclick="loadExampleMusic()">Music</a> | <a href="#" onclick="loadExampleFilms()">Films</a> | <a href="#" onclick="loadExampleSoft()">Software</a> | <a href="#" onclick="loadMonuments()">Cruzar</a>
+            </div>
+          <input type="submit" value="get recomendations" />
+        </p>
+      </form>
+    </div>
+    <div>
+      <div id="datatable"></div>
+      <div id="chart"></div>
+    </div>
+
+  </body>
+
+</html>
+
