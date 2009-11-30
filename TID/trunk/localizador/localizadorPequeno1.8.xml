@@ -26,8 +26,9 @@
     <Event name="addressEvent" type="text" label="Address" friendcode="address"/>
     <Event name="utmCoordEvent" type="text" label="UTM Coord." friendcode="utmCoord"/>
     <Slot name="routeSlot" type="text" label="Route" friendcode="route"/>
-	<Event name="latLngCoordEvent" type="text" label="Lat Lng Coord." friendcode="latLngCoord"/>
-	<Event name="routeDescription" type="text" label="Route Description" friendcode="routeDescription"/>
+		<Event name="latLngCoordEvent" type="text" label="Lat Lng Coord." friendcode="latLngCoord"/>
+		<Event name="routeDescriptionEvent" type="text" label="Route Description" friendcode="routeDescription"/>
+		<Event name="urlRouteMapEvent" type="text" label="Url Route Map" friendcode="urlRouteMap"/>
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.8/localizadorPequeno1.8.html"/>

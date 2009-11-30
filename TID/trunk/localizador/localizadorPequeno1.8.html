@@ -36,6 +36,7 @@ var marker=null;
 var circleLine = null;
 var latLngPoint = null;
 var directions = null;
+var urlRoute = null;
 var address = new EzWebAPI.createRGadgetVariable("addressSlot",_addressHandler);
 var utmCoord = new EzWebAPI.createRGadgetVariable("utmCoordSlot",_utmHandler);
 var addressEvent = new EzWebAPI.createRWGadgetVariable("addressEvent");
@@ -46,7 +47,8 @@ var utmValue = null;
 var addressSearch = new EzWebAPI.createRWGadgetVariable("addressSearch");
 var utmCoordSearch = new EzWebAPI.createRWGadgetVariable("utmCoordSearch");
 var route = new EzWebAPI.createRGadgetVariable("routeSlot",_routeHandler);
-var routeDescription = new EzWebAPI.createRWGadgetVariable("routeDescription");
+var routeDescriptionEvent = new EzWebAPI.createRWGadgetVariable("routeDescriptionEvent");
+var urlRouteMapEvent = new EzWebAPI.createRWGadgetVariable("urlRouteMapEvent");
 
 function _initialize() {
 	if (GBrowserIsCompatible()) {
@@ -59,10 +61,12 @@ function _initialize() {
 		directions = new GDirections(map, document.getElementById("description"));
 		GEvent.addListener(directions, "error", function(){
 																				directions.clear();
+																				urlRoute = null;
 																			});
 		GEvent.addListener(directions, "addoverlay", function(){
 																				var description = document.getElementById("description").innerHTML;
-																				routeDescription.set(description);
+																				routeDescriptionEvent.set(description);
+																				urlRouteMapEvent.set(urlRoute);
 																			});
 																			
 
@@ -73,6 +77,7 @@ function _initialize() {
 }
 
 function _addressHandler(add) {
+	urlRoute = null;
 	addressValue = add;
 	if ((add == null || add == undefined)) {
 	  return;
@@ -114,6 +119,7 @@ function _addressHandler(add) {
 }
 
 function _utmHandler(utm) {
+	urlRoute = null;
 	utmValue = utm;
 	
 	if ((utm == null || utm == undefined)) {
@@ -283,6 +289,7 @@ function createPointUTM(utmx, utmy, info, center){
 }
 
 function createRoute(address){
+		urlRoute = "http://maps.google.com/maps?f=d&q="+address.replace(/ /g, "+");
 		directions.load(address);
 		return null;
 }
@@ -291,6 +298,9 @@ function createRoute(address){
 function sendEvents(){
 	utmCoordEvent.set(utmCoord.get());
 	addressEvent.set(address.get());
+	if(urlRoute != null)
+		urlRouteMapEvent.set(urlRoute);	
+	routeDescriptionEvent.set(document.getElementById("description").innerHTML);
 	if (latLngPoint != null) {
 		latLngCoordEvent.set(JSON.stringify(latLngPoint));
 	}
