@@ -4,11 +4,11 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Map Viewer</Name>
-    <Version>1.9</Version>
+    <Version>1.8</Version>
     <Author>fabio</Author>
     <Mail>fabio@tid.es</Mail>
     <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada. Este gadget utiliza el API de Google Maps, por lo que está sujeto a las condiciones de licencia descritas en http://code.google.com/intl/en/apis/maps/terms.html</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.9/google_maps.jpg</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.8/google_maps.jpg</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/MapViewer</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -19,6 +19,7 @@
 	  <Property name="addressSearch" type="text" label="addressSearch"/>
 	  <Property name="utmCoordSearch" type="text" label="utmCoordSearch"/>
   </Platform.StateProperties>
+  
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Slot name="addressSlot" type="text" label="Address" friendcode="address"/>
@@ -29,10 +30,9 @@
 		<Event name="latLngCoordEvent" type="text" label="Lat Lng Coord." friendcode="latLngCoord"/>
 		<Event name="routeDescriptionEvent" type="text" label="Route Description" friendcode="routeDescription"/>
 		<Event name="urlRouteMapEvent" type="text" label="Url Route Map" friendcode="urlRouteMap"/>
-		<Slot name="detailsStepSlot" type="text" label="Details Step Route" friendcode="detailsStep"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.9/localizadorPequeno1.9.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.8/localizadorPequeno1.8.html"/>
   </Platform.Link>
   <Platform.Rendering width="9" height="25"/>
 </Template>

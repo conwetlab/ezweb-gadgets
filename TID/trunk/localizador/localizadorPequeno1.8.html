@@ -4,7 +4,7 @@
 * This gadget uses Google Maps API, so it's subject to Terms of Service described in http://code.google.com/intl/en/apis/maps/terms.html
 -->
 <html><head>
-<base href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.9/"/>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.8/"/>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
@@ -28,6 +28,7 @@
 <!--script src="localizadorPequeno_files/maps" type="text/javascript"></script><script src="localizadorPequeno_files/main.js" type="text/javascript"></script><style type="text/css" media="screen">.gmnoscreen{display:none}</style><style type="text/css" media="print">.gmnoprint{display:none}</style-->
 
 <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAPo_HkMXRgV16jGHgL6bLExS6VF-Z-VJzEfo1tjC8zu93zarALBQUZRijy1F3aveyDNmpCvjjv8pHyw" type="text/javascript"></script>
+
 <script>
 var map=null;
 var geocoder=null;
@@ -48,7 +49,6 @@ var utmCoordSearch = new EzWebAPI.createRWGadgetVariable("utmCoordSearch");
 var route = new EzWebAPI.createRGadgetVariable("routeSlot",_routeHandler);
 var routeDescriptionEvent = new EzWebAPI.createRWGadgetVariable("routeDescriptionEvent");
 var urlRouteMapEvent = new EzWebAPI.createRWGadgetVariable("urlRouteMapEvent");
-var step = new EzWebAPI.createRGadgetVariable("detailsStepSlot",_detailsStepHandler);
 
 function _initialize() {
 	if (GBrowserIsCompatible()) {
@@ -68,37 +68,16 @@ function _initialize() {
 																				routeDescriptionEvent.set(description);
 																				urlRouteMapEvent.set(urlRoute);
 																			});
+																			
+
 
 //		_addressHandler();
 //		_utmHandler();
 	}
 }
 
-
-function _detailsStepHandler(value){
-	if((value == null) || (value == undefined)) return null;
-	if(document.getElementById("description").innerHTML == "") return null;
-	var elements = document.getElementsByTagName("tr");
-	var step = parseInt(value);
-	if((elements.length > step) && (step > -1)){
-		if(elements[step].fireEvent){
-					elements[step].fireEvent("onclick");
-		}
-		else{
-			var evt = document.createEvent("MouseEvents");
-			evt.initMouseEvent("click", true, true, window,
-				0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			elements[step].dispatchEvent(evt);
-		}
-	}
-	return null;
-}
-
 function _addressHandler(add) {
-	directions.clear();
-	document.getElementById("description").innerHTML = '';
 	urlRoute = null;
-
 	addressValue = add;
 	if ((add == null || add == undefined)) {
 	  return;
@@ -143,8 +122,6 @@ function _addressHandler(add) {
 }
 
 function _utmHandler(utm) {
-	directions.clear();
-	document.getElementById("description").innerHTML = '';
 	urlRoute = null;
 	utmValue = utm;
 	
@@ -287,6 +264,8 @@ function createMarker(point, info, center) {
 	}
 	return marker;
 }
+
+
 
 function createPointGeo(lat, lon, info, center){
     if(lat!='' && lon!=''){
