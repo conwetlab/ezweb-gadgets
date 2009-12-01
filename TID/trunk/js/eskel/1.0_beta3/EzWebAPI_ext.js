@@ -9,8 +9,94 @@ var EzWebExt = new Object();
  * Guarda la URL donde se encuentra alojada la librería JavaScript.
  * @type String
  */
-
 EzWebExt.URL = "http://ezweb.tid.es/repository/js/eskel/1.0_beta3";
+
+/*---------------------------------------------------------------------------*/
+/*                                EzWebExt.Browser                           */
+/*---------------------------------------------------------------------------*/
+
+EzWebExt.Browser = function() {
+          
+    this.browserName  = navigator.appName;
+    this.fullVersion  = ''+parseFloat(navigator.appVersion); 
+    this.shortVersion = parseInt(navigator.appVersion,10);
+
+    this.browserList = {};
+    this.browserList[this.IE]      = {name: "Microsoft Internet Explorer", isThis: false};
+    this.browserList[this.OPERA]   = {name: "Opera",                       isThis: false};
+    this.browserList[this.CHROME]  = {name: "Chrome",                      isThis: false};
+    this.browserList[this.SAFARI]  = {name: "Safari",                      isThis: false};
+    this.browserList[this.FIREFOX] = {name: "Firefox",                     isThis: false};
+                      
+    var ok = false;
+    var pattern, match;
+            
+    for (var key in this.browserList) {
+        pattern = ".*" + key + "[/|\\s]+((\\w+)(\\.\\w+)*).*";
+        if ((match = navigator.userAgent.match(pattern)) != null) {
+            this.browserName =  this.browserList[key].name;
+            this.fullVersion =  match[1];
+            this.shortVersion = match[2];
+            this.browserList[key].isThis = true;
+            ok = true;
+            break;
+        }
+    }
+
+    if (!ok && ((match = navigator.userAgent.match(pattern)) != null)) {
+        pattern = ".*\\s+(\\w+)[/|\\s]+((\\w+)(\\.\\w+)*)";
+        this.fullVersion  = match[2];
+        this.shortVersion = match[3];
+        if (this.browserList[match[1]]) {
+            this.browserName  = this.browserList[match[1]].name;
+            this.browserList[match[1]].isThis = true;
+        }
+        else {
+            this.browserName = match[1];
+        }
+        ok = true;
+    }
+}
+        
+EzWebExt.Browser.prototype.IE      = "MSIE";
+EzWebExt.Browser.prototype.OPERA   = "Opera";
+EzWebExt.Browser.prototype.CHROME  = "Chrome";
+EzWebExt.Browser.prototype.SAFARI  = "Safari";
+EzWebExt.Browser.prototype.FIREFOX = "Firefox";
+        
+EzWebExt.Browser.prototype.getName = function() {
+    return this.browserName;
+}
+        
+EzWebExt.Browser.prototype.getVersion = function() {
+    return this.fullVersion;
+}
+        
+EzWebExt.Browser.prototype.getShortVersion = function() {
+    return this.shortVersion;
+}
+       
+EzWebExt.Browser.prototype.isIE = function() {
+    return this.browserList[this.IE].isThis;
+}
+        
+EzWebExt.Browser.prototype.isOpera = function() {
+    return this.browserList[this.OPERA].isThis;
+}
+        
+EzWebExt.Browser.prototype.isChrome = function() {
+    return this.browserList[this.CHROME].isThis;
+}
+        
+EzWebExt.Browser.prototype.isSafari = function() {
+    return this.browserList[this.SAFARI].isThis;
+}
+        
+EzWebExt.Browser.prototype.isFirefox = function() {
+    return this.browserList[this.FIREFOX].isThis;
+}
+
+EzWebExt.Browser = new EzWebExt.Browser();
 
 /**
  * Permite obtener la URL absoluta de un recurso proporcionado por la librería.
@@ -115,17 +201,39 @@ if ('addEventListener' in document) {
 }
 
 /**
- * Importa la librería Javascript indicada por la URL pasada. Esta función
- * no controla si el script fue cargado satisfactoriamente.
+ * Importa la librería Javascript indicada por la URL pasada. Se ejecuta
+ * de forma sincrona, con lo aseguramos que la libreria importada estara disponible
+ * inmediatamente despues a la ejecución del import.
  *
  * @param {String} url
  */ 
 EzWebExt.importJS = function(url) {
+    var platform = window.parent;
+    var request;
+
+    if (url.indexOf('://') == -1) {
+        request = new platform.Ajax.Request(url, {
+            method: "get",
+            asynchronous: false
+         });
+    } else {
+        var params = {url: url, method: 'GET'};
+        request = new platform.Ajax.Request(platform.URIs.PROXY, {
+            method: "post",
+            parameters:   params,
+            asynchronous: false
+         });
+    }
+
     // Create the Script Object
     var script = document.createElement('script');
     script.setAttribute("type", 'text/javascript');
-    script.setAttribute("src", url);
-    
+    if (EzWebExt.Browser.isIE()) {
+        script.text = request.transport.responseText;
+    } else {
+        script.appendChild(document.createTextNode(request.transport.responseText));
+    }
+   
     // Insert the created object to the html head element
     var head = document.getElementsByTagName('head').item(0);
     head.appendChild(script);
@@ -346,7 +454,7 @@ if ("getElementsByClassName" in document) {
     EzWebExt.getElementsByClassName = function(rootElement, className) {
         return rootElement.getElementsByClassName(className);
     }
-} else { /* TODO check for XPath support */
+} else if ("XPathResult" in window) {
     EzWebExt.getElementsByClassName = function(rootElement, className) {
         var classes = className.split(/\s+/);
 
@@ -355,12 +463,24 @@ if ("getElementsByClassName" in document) {
             q += " and contains(concat(' ', @class, ' '), ' " + classes[i] + " ')";
         q += "]";
 
-        var results = [];
+        var result = [];
         var dom = rootElement.ownerDocument;
         var query = dom.evaluate(q, rootElement, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         for (var i = 0, length = query.snapshotLength; i < length; i++)
-            results.push(query.snapshotItem(i));
-        return results;
+            result.push(query.snapshotItem(i));
+        return result;
+    }
+} else {
+    EzWebExt.getElementsByClassName = function(rootElement, className) {
+        var result = [];
+        var nodes = rootElement.getElementsByTagName('*');
+
+        for (var i = 0, child; child = nodes[i]; i++) {
+            if (EzWebExt.hasClassName(child, className))
+                result.push(child);
+        }
+
+        return result;
     }
 }
 
@@ -513,93 +633,6 @@ EzWebExt.PIK = 34;
 EzWebExt.PK = 35;
 EzWebExt.BERT = 36;
 EzWebExt.BERT2 = 37;
-
-/*---------------------------------------------------------------------------*/
-/*                                EzWebExt.Browser                           */
-/*---------------------------------------------------------------------------*/
-
-EzWebExt.Browser = function() {
-          
-    this.browserName  = navigator.appName;
-    this.fullVersion  = ''+parseFloat(navigator.appVersion); 
-    this.shortVersion = parseInt(navigator.appVersion,10);
-
-    this.browserList = {};
-    this.browserList[this.IE]      = {name: "Microsoft Internet Explorer", isThis: false};
-    this.browserList[this.OPERA]   = {name: "Opera",                       isThis: false};
-    this.browserList[this.CHROME]  = {name: "Chrome",                      isThis: false};
-    this.browserList[this.SAFARI]  = {name: "Safari",                      isThis: false};
-    this.browserList[this.FIREFOX] = {name: "Firefox",                     isThis: false};
-                      
-    var ok = false;
-    var pattern, match;
-            
-    for (var key in this.browserList) {
-        pattern = ".*" + key + "[/|\\s]+((\\w+)(\\.\\w+)*).*";
-        if ((match = navigator.userAgent.match(pattern)) != null) {
-            this.browserName =  this.browserList[key].name;
-            this.fullVersion =  match[1];
-            this.shortVersion = match[2];
-            this.browserList[key].isThis = true;
-            ok = true;
-            break;
-        }
-    }
-
-    if (!ok && ((match = navigator.userAgent.match(pattern)) != null)) {
-        pattern = ".*\\s+(\\w+)[/|\\s]+((\\w+)(\\.\\w+)*)";
-        this.fullVersion  = match[2];
-        this.shortVersion = match[3];
-        if (this.browserList[match[1]]) {
-            this.browserName  = this.browserList[match[1]].name;
-            this.browserList[match[1]].isThis = true;
-        }
-        else {
-            this.browserName = match[1];
-        }
-        ok = true;
-    }
-}
-        
-EzWebExt.Browser.prototype.IE      = "MSIE";
-EzWebExt.Browser.prototype.OPERA   = "Opera";
-EzWebExt.Browser.prototype.CHROME  = "Chrome";
-EzWebExt.Browser.prototype.SAFARI  = "Safari";
-EzWebExt.Browser.prototype.FIREFOX = "Firefox";
-        
-EzWebExt.Browser.prototype.getName = function() {
-    return this.browserName;
-}
-        
-EzWebExt.Browser.prototype.getVersion = function() {
-    return this.fullVersion;
-}
-        
-EzWebExt.Browser.prototype.getShortVersion = function() {
-    return this.shortVersion;
-}
-       
-EzWebExt.Browser.prototype.isIE = function() {
-    return this.browserList[this.IE].isThis;
-}
-        
-EzWebExt.Browser.prototype.isOpera = function() {
-    return this.browserList[this.OPERA].isThis;
-}
-        
-EzWebExt.Browser.prototype.isChrome = function() {
-    return this.browserList[this.CHROME].isThis;
-}
-        
-EzWebExt.Browser.prototype.isSafari = function() {
-    return this.browserList[this.SAFARI].isThis;
-}
-        
-EzWebExt.Browser.prototype.isFirefox = function() {
-    return this.browserList[this.FIREFOX].isThis;
-}
-
-EzWebExt.Browser = new EzWebExt.Browser();
 
 /*---------------------------------------------------------------------------*/
 /*                                EzWebGadget                                */
@@ -758,9 +791,9 @@ EzWebGadget.prototype._waitingForDOMContentLoaded = function(handler) {
                 handler();
             } 
             else { 
-                setTimeout(arguments.callee, 10);
+                setTimeout(arguments.callee, 200);
             }
-        }, 10);
+        }, 200);
     }
     else if (this.browser.isFirefox() ||  this.browser.isOpera()) {
         EzWebExt.addEventListener(document, "DOMContentLoaded", handler, true); 
@@ -771,16 +804,18 @@ EzWebGadget.prototype._waitingForDOMContentLoaded = function(handler) {
                 handler();
             }
         }, true);
-        // Si da problemas mi implementacion para IE, usar esta otra
         /*(function() { 
             var doc = document.createElement('doc:rdy');
             try { 
                 doc.doScroll('left');
                 doc = null;
-                handler();
+                try {
+                    handler();
+                }
+                catch(e) {}
             } 
             catch(e) {
-                setTimeout(arguments.callee, 10);
+                setTimeout(arguments.callee, 200);
             }
         })();*/
     }
