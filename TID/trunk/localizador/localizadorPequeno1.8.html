@@ -83,8 +83,11 @@ function _addressHandler(add) {
 	  return;
 	}
 	
-	if((add.search("from") > -1) && (add.search("to") > -1)){
-		createRoute(add);
+	if((add.search("from:") > -1) && (add.search("to:") > -1)){
+		var elements = add.split("from:")[1];
+		originAddress = elements.split("to:")[0];
+		destinationAddress = elements.split("to:")[1];
+		createRouteByAddress(originAddress, destinationAddress);
 		return;
 	}
 	
@@ -238,14 +241,12 @@ function _routeHandler(value){
 		}
 		
 		if (originLon && originLat && destinationLon && destinationLat){
-			var query = "from: "+ originLat+ ", "+ originLon + " to: "+destinationLat + ", "+ destinationLon;
-			createRoute(query);
+			createRouteByLatLon(originLat, originLon, destinationLat, destinationLon);
 			return null;
 		}
 				
 		if ((originAddress) && (destinationAddress)){
-			var query = "from: "+originAddress+" to: "+destinationAddress;
-			createRoute(query);
+			createRouteByAddress(originAddress, destinationAddress);
 			return null;
 		}
 	}
@@ -288,9 +289,24 @@ function createPointUTM(utmx, utmy, info, center){
     return null;
 }
 
-function createRoute(address){
-		urlRoute = "http://maps.google.com/maps?f=d&q="+address.replace(/ /g, "+");
-		directions.load(address);
+function createRouteByLatLon(originLat, originLon, destinationLat, destinationLon){
+		urlRoute = "http://maps.google.com/maps?f=d&source=s_d&saddr=";
+		urlRoute += originLat;
+		urlRoute += ",";
+		urlRoute += originLon;
+		urlRoute += "&daddr=" + destinationLat
+		urlRoute += destinationLon;
+		var query = "from: "+ originLat + ","+ originLon + " to: " + destinationLat + "," + destinationLon;
+		directions.load(query);				
+		return null;
+}
+
+function createRouteByAddress(origin, destination){
+		urlRoute = "http://maps.google.com/maps?f=d&source=s_d&saddr="
+		urlRoute += origin.replace(/ /g, "+");
+		urlRoute += "&daddr=" + destination.replace(/ /g, "+");
+		var query = "from: "+ origin  + " to: " + destination;
+		directions.load(query);
 		return null;
 }
 
