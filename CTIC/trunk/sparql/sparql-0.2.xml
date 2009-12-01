@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    SPARQL Gadget (0.2) for the EzWeb Platform
+
+    Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+
+    This gadget is part of the Morfeo EzWeb project, partially funded by 
+    the Spanish Ministry of Industry, Tourism and Commerce under the National 
+    Plan for Scientific Research, Development and Technological Innovation 
+    2007-2009 (grant number TSI-020301-2009-13). More info about the Morfeo 
+    EzWeb project is available at: http://ezweb.morfeo-project.org
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+
+  <Catalog.ResourceDescription>
+    <Name>SPARQL</Name>
+    <Version>0.2</Version>
+    <Author>Sergio Fernández</Author>
+    <Mail>sergio.fernandez@fundacionctic.org</Mail>
+    <Vendor>CTIC</Vendor>
+    <Description>SPARQL form as a gadget</Description>
+    <ImageURI>http://idi.fundacionctic.org/ezweb/gadgets/sparql/sparql.png</ImageURI>
+    <WikiURI>http://idi.fundacionctic.org/ezweb/gadgets/sparql/doc/sparql-0.2.html</WikiURI>
+  </Catalog.ResourceDescription>
+
+  <Platform.Preferences>
+  </Platform.Preferences>
+
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+
+  <Platform.Wiring>
+    <Event name="uri" type="text" label="uri" friendcode="uri" />
+  </Platform.Wiring>
+
+  <Platform.Link>
+    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/sparql/sparql-0.2.html" />
+  </Platform.Link>
+
+  <Platform.Rendering width="7" height="20" />
+
+  <Platform.Context>
+  </Platform.Context> 
+
+</Template>
+
