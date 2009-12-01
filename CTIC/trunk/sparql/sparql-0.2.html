@@ -142,7 +142,7 @@
             //--- data table
             var columns = [];
             for (var i=0; i<keys.length; i++) {
-                columns.push({ key:keys[i], sortable:false,  width:120, resizeable:true });
+                columns.push({ key:keys[i], sortable:false,  width:200, resizeable:true });
             }
             var mytable = new YAHOO.widget.DataTable("datatable", columns, incomeData, { paginator: new YAHOO.widget.Paginator({ rowsPerPage: 30 }), sortedBy: {  } });
         }
