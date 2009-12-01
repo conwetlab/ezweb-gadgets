@@ -1,0 +1,94 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+* This gadget uses Google Maps API, so it's subject to Terms of Service described in http://code.google.com/intl/en/apis/maps/terms.html
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAPo_HkMXRgV16jGHgL6bLExS6VF-Z-VJzEfo1tjC8zu93zarALBQUZRijy1F3aveyDNmpCvjjv8pHyw" type="text/javascript"></script>
+<title>Route Description</title>
+<style>
+	.header{
+		background:#EEEEEE;
+		border:1px solid silver;
+		height:34px;
+		margin-top:10px;
+		padding-left:10px;
+		padding-top:10px;
+	}
+</style>
+<!--[if IE]>
+<style>
+	body{
+		width:100%;
+		margin:0px;
+		padding:0px;
+		border:0px;
+	}
+	
+	.header{
+		margin-left:10px;
+		height:40px;
+		margin-right:-5px;
+	}
+	
+</style>
+<![endif-->
+<script>
+	var route = new EzWebAPI.createRGadgetVariable("routeDescriptionSlot",_routeHandler);
+	var details = new EzWebAPI.createRWGadgetVariable("detailsStepEvent");
+	var language = new EzWebAPI.createRGadgetVariable("language",_translatorHandler);
+
+	function _translatorHandler(){
+		return null;
+	}
+	
+	function bind(func, _this) {
+    return function() {func.apply(_this, arguments)}
+	}
+
+
+	function _routeHandler(value){
+		if(value != null & value != '' & value != undefined){
+			document.getElementById("wrapper").innerHTML = value;
+		}
+		var images = document.getElementsByTagName("img");
+		var j=0;
+		var imgs = ["http://maps.gstatic.com/intl/es_ALL/mapfiles/icon_greenA.png", 
+								"http://maps.gstatic.com/intl/es_ALL/mapfiles/icon_greenB.png"];
+
+		for(var i=0; i < images.length; i++){
+			images[i].src = imgs[j];
+			j++;
+		}
+		
+		var listTR = document.getElementsByTagName("tr");
+		for(var i=0; i < listTR.length; i++){
+			if (listTR[i].getAttribute("xonclick")){
+				listTR[i].onclick = bind(function(){details.set(this.i);}, {'i':i});
+			}
+		}
+		return null;		
+	}
+	
+	function init(){
+		var wrapper = document.getElementById("wrapper");
+		var header = document.createElement("div");
+		header.className = "header";
+		if (language.get() == "es")
+			header.appendChild(document.createTextNode("No hay rutas disponibles"));
+		else
+			header.appendChild(document.createTextNode("There are not routes avaibles "));
+		wrapper.appendChild(header);
+	}
+	
+</script>
+
+</head>
+<body onload="init();">
+	<div id="wrapper">
+	</div>
+</body>
+</html>

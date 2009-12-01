@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>Morfeo</Vendor>
+    <Name>Route Description</Name>
+    <Version>1.0</Version>
+    <Author>irodriguez</Author>
+    <Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
+    <Description>Este gadget presenta el resumen descriptivo de una ruta seleccionada en el gadget de Google Maps. Este gadget utiliza se aprovecha de la información proporcionada por el API de Google Maps, por lo que está sujeto a las condiciones de licencia descritas en http://code.google.com/intl/en/apis/maps/terms.html</Description>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/routeDescription/routeDescription_1.0/google_maps.jpg</ImageURI>
+    <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/MapViewer</WikiURI>
+  </Catalog.ResourceDescription>
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+  </Platform.Preferences>
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+		<Slot name="routeDescriptionSlot" type="text" label="Route Description" friendcode="routeDescription"/>
+		<Event name="detailsStepEvent" type="text" label="Details Step Route" friendcode="detailsStep"/>
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/routeDescription/routeDescription_1.0/routeDescription.html"/>
+  </Platform.Link>
+  	<Platform.Context>
+		<Context name="language" type="text" concept="language"/>
+	</Platform.Context>
+  <Platform.Rendering width="9" height="25"/>
+</Template>
