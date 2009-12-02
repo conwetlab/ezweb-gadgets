@@ -666,14 +666,12 @@ EzWebExt.BERT2 = 37;
  */
 var EzWebGadget = function(customSettings) {
 
-    this.browser = EzWebExt.Browser;
     this.init = EzWebExt.bind(this.init, this);
     
-    // TODO Revisar doble carga inicial
-
     if (arguments.length == 0)
         return;
 
+    this.browser = EzWebExt.Browser;
     var gadget = this;
 
     /* Parse settings */
