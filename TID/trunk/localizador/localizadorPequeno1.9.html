@@ -314,11 +314,11 @@ function createPointUTM(utmx, utmy, info, center){
 
 function createRouteByLatLon(originLat, originLon, destinationLat, destinationLon){
 		urlRoute = "http://maps.google.com/maps?f=d&source=s_d&saddr=";
-		urlRoute += originLat;
+		urlRoute += encodeURIComponent(originLat);
 		urlRoute += ",";
-		urlRoute += originLon;
-		urlRoute += "&daddr=" + destinationLat
-		urlRoute += destinationLon;
+		urlRoute += encodeURIComponent(originLon);
+		urlRoute += "&daddr=" + encodeURIComponent(destinationLat);
+		urlRoute += encodeURIComponent(destinationLon);
 		var query = "from: "+ originLat + ","+ originLon + " to: " + destinationLat + "," + destinationLon;
 		directions.load(query);				
 		return null;
@@ -326,8 +326,8 @@ function createRouteByLatLon(originLat, originLon, destinationLat, destinationLo
 
 function createRouteByAddress(origin, destination){
 		urlRoute = "http://maps.google.com/maps?f=d&source=s_d&saddr="
-		urlRoute += origin.replace(/ /g, "+");
-		urlRoute += "&daddr=" + destination.replace(/ /g, "+");
+		urlRoute += encodeURIComponent(origin.replace(/^ /,'').replace(/ $/,'').replace(/ /g, "+"));
+		urlRoute += "&daddr=" + encodeURIComponent(destination.replace(/^ /,'').replace(/ $/,'').replace(/ /g, "+"));
 		var query = "from: "+ origin  + " to: " + destination;
 		directions.load(query);
 		return null;
