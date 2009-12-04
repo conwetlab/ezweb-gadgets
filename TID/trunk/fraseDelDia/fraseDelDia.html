@@ -112,10 +112,15 @@ body 	{
 	}
 
 #reload {
-	cursor: pointer;
-        position: absolute;
-        left: 5px;
-        top:0.2em;
+    cursor: pointer;
+    position: absolute;
+    left: 5px;
+    top:0.2em;
+}
+
+.opacity {
+    filter: alpha(opacity = 40);
+    opacity: .4;
 }
 	
 </style>
@@ -132,21 +137,12 @@ var refreshTime= EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
 var authorEvent   = EzWebAPI.createRWGadgetVariable('author');
 var sentenceEvent = EzWebAPI.createRWGadgetVariable('sentence');
 
-function formatNumber(num, digits){
-	
-	var result = num;
-	
-	if (num.length < digits){
-	
-		for (var i = 0; i < (digits - num.length); i++){
-			result = '0' + result;
-		}
-	}
-	
-	return result;
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.22/";
+
+function formatNumber(number){
+	return ((number < 10)? "0":"") + number;
 }
 			
-
 // Sentence Object
 
 function daySentence (sentence, author, pubDate, link){
@@ -155,16 +151,11 @@ function daySentence (sentence, author, pubDate, link){
 	this.author = author;
 
 	if (pubDate != ""){
-		this.pubDate = new Date(Date.parse(pubDate));		
-			
-		if(language.search(/\s*\ben-?/) != -1){ 	//English date
-			
-			this.pubDate = formatNumber( (this.pubDate.getMonth() + 1).toString(), 2) + '/' +  formatNumber(this.pubDate.getDate(),2) + '/' + this.pubDate.getFullYear().toString().slice(2);
-		}
-		else{ 	//Spanish date
-		
-			this.pubDate = this.pubDate.toLocaleDateString().slice(0,6) + this.pubDate.toLocaleDateString().slice(8);
-		}
+		this.pubDate = new Date(pubDate);		
+		this.pubDate = 
+		    formatNumber(this.pubDate.getDate() + 1) + '/' +
+		    formatNumber(this.pubDate.getMonth()) + '/' +
+		    this.pubDate.getFullYear().toString().slice(2);
 	}
 	else 	{
 		this.pubDate = "";
@@ -222,21 +213,17 @@ function getColor(){
 }
 	
 function changeColor(){
-	
-	var color = getColor();
-	
+    var color = getColor();
 	document.getElementById('header').style.backgroundColor = color.header;
-	document.body.style.color 				= color.font;
+	document.body.style.color = color.font;
 }
 
 function changeFontSize(){
-	var size = fontSize.get();
+	document.body.style.fontSize = fontSize.get() + "px";
 	
-	document.body.style.fontSize = size + "px";
-	
-	var body = document.body;
-	document.createElement("div").appendChild(body);
-	document.body = body; 
+	//var body = document.body;
+	//document.createElement("div").appendChild(body);
+	//document.body = body; 
 }	
 
 function showSentence(){
@@ -260,7 +247,7 @@ function showImageLoading(){
 	hideArrows();
 	hideSentence();
 	document.getElementById('content').style.backgroundImage = 
-		"url(http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/loading.gif)";
+		"url(" + resourcesURL + "images/loading.gif)";
 
 }
 
@@ -298,79 +285,64 @@ function formatSentence(sentence){
 	
 }
 
-function formatDcDate(value){
-	
-	return value.substring(0,10).replace(/-/,'/').replace(/-/,'/');
+function formatDcDate(value) {
+    return value.substring(0,10).replace(/-/,'/').replace(/-/,'/');
 }
 
-
-function getDate(item,responseXML){
-
-	try{
-                return item.getElementsByTagName('pubDate')[0].childNodes[0].nodeValue;
-        }
-        catch (Exception){
-		
-		try{
+function getDate(item, responseXML) {
+    try {
+        return item.getElementsByTagName('pubDate')[0].childNodes[0].nodeValue;
+    }
+    catch(e) {
+		try {
 			return responseXML.getElementsByTagName('pubDate')[0].childNodes[0].nodeValue;
 		}
-		catch(Exception){
-			
-			try{
+		catch(e) {
+			try {
 				return formatDcDate(item.getElementsByTagName('dc:date')[0].childNodes[0].nodeValue);
 			}
-			catch (Exception){
-				
-				try{
+			catch(e) {
+				try {
 					return formatDcDate(responseXML.getElementsByTagName('dc:date')[0].childNodes[0].nodeValue);
 				}
-				catch (Exception){
+				catch (e) {
 					return "";
 				}
 			}
 		}
 	}
-	
+}
+
+function getTextContent(node) {
+    if ("textContent" in node) {
+	    return node.textContent;
+	}
+	else { // Necesario para IE
+	    return node.text;
+	}
+}
+
+function getTextNode(parentNode, nodeName, error_) {
+    try {
+	    return getTextContent(parentNode.getElementsByTagName(nodeName)[0]);
+	}
+	catch(e) {
+		error = error_;
+		errorHandler();
+		return "";
+	}
 }
 
 function getDescription(item){
-
-	try{ 
-		return item.getElementsByTagName('description')[0].textContent;
-	}
-	catch(Exception){
-		
-		error[0] = "frase";
-		error[1] = "quote";
-		errorHandler();
-	}
-
+	return getTextNode(item, "description", ["frase", "quote"]);
 }
 
 function getTitle(item){
-	
-	try{
-		return item.getElementsByTagName('title')[0].childNodes[0].nodeValue;
-	}
-	catch(Exception){
-		
-		error[0] = "título";
-                error[1] = "title";
-                errorHandler();
-	}
+    return getTextNode(item, "title", ["título", "title"]);
 }
 
 function getLink(item){
-	
-	try{
-		return item.getElementsByTagName('link')[0].childNodes[0].nodeValue;
-	}
-	catch(Exception){
-		
-		error[0] = "link";
-                error[1] = "link";
-                errorHandler();
-	}
+	return getTextNode(item, "link", ["link", "link"]);
 }
 
 function successHandler (value){
@@ -381,7 +353,6 @@ function successHandler (value){
 		items = value.responseXML.getElementsByTagName('item');
 	}
 	catch(Exception){
-
 		error[0] = "item";
 		error[1] = "item";
 		errorHandler();
@@ -398,7 +369,7 @@ function successHandler (value){
 
 	for (var i = 0; i < items.length; i++) {
 	
-		description 	= formatSentence( getDescription(items[i]) );	 
+		description = formatSentence( getDescription(items[i]) );	 
 		title		= getTitle(items[i]);
 		pubDate		= getDate(items[i],value.responseXML);
 		link		= getLink(items[i]);
@@ -440,7 +411,6 @@ function previousSentence(){
 
 
 function getLanguage(list, url, responseXML){
-
 	var defaultLanguage = "es";
 	
 	if (url != ""){
@@ -463,7 +433,6 @@ function getLanguage(list, url, responseXML){
 
 
 function getSource(list, url){
-
 	if ( url != ""){
 		return url;
 	}
@@ -474,41 +443,39 @@ function getSource(list, url){
 		return "http://www.proverbia.net/qotd.asp";
 	}
 	else if (list == "3"){
-		return "http://citas-comunidad.com/rss/540010110/citas..xml";
-	}
-	else if (list == "4"){
 		return "http://www.quotationspage.com/data/qotd.rss";
 	}
-	else if (list == "5"){
+	else if (list == "4"){
 		return "http://feeds2.feedburner.com/brainyquote/QUOTEBR";
-	}
-	else if (list == "6"){
-		return "http://quotes4all.net/rss/540010110/quotes..xml";
 	}
 }
 
 function clearRefreshTime(){
-	window.clearInterval(interval);
+    try {
+	    clearInterval(interval);
+	}
+	catch(e){}
 }
 
 function setRefreshTime(){
 	clearRefreshTime();
-	interval = window.setInterval(init ,refreshTime.get() * 60 * 1000);
+	interval = setInterval(init ,refreshTime.get() * 60 * 1000);
 }
 
 function init(){
-	
 	// It refreshs itself each hour
-
 	showImageLoading();
-	//window.setInterval(init ,3600000);
+	document.getElementById("previous").src = resourcesURL + "images/go-previous.png";
+    document.getElementById("next").src     = resourcesURL + "images/go-next.png";
+    document.getElementById("wiring").src   = resourcesURL + "images/avion.png";
+    document.getElementById("reload").src   = resourcesURL + "images/reload.png";
+
 	setRefreshTime();
  	initializeVar();	
 	changeFontSize();
 	changeColor();
 	
 	var url  = getSource( urlSource.get(), urlSource2.get() );
-
 	EzWebAPI.send_get(url, this, successHandler, errorHandler);
 }
 
@@ -623,32 +590,32 @@ function updateArrows(){
 
 	if (items.length == 0 || items.length == 1){
 		// Give transparency to the two arrows
-		document.getElementById('next').style.opacity = 0.4;
-		document.getElementById('previous').style.opacity = 0.4;
+		document.getElementById('next').className = "opacity";
+		document.getElementById('previous').className = "opacity";
 		
 		arrowToDefault('+');
 		arrowToDefault('-');
 	}
 	
 	else if (nSentence == (items.length-1)) {
-		document.getElementById('previous').style.opacity = 0.4;
-		document.getElementById('next').style.opacity = 1;
+		document.getElementById('previous').className = "opacity";
+		document.getElementById('next').className = "";
 
 		arrowToDefault('-');
 		arrowToPointer('+');
 	}
 	
 	else if (nSentence == 0) {
-		document.getElementById('next').style.opacity = 0.4;
-		document.getElementById('previous').style.opacity = 1;
+		document.getElementById('next').className = "opacity";
+		document.getElementById('previous').className = "";
 
 		arrowToDefault('+');
                 arrowToPointer('-');
 	}
 	
 	else {	// No transparency
-		document.getElementById('next').style.opacity = 1;
-		document.getElementById('previous').style.opacity = 1;
+		document.getElementById('next').className = "";
+		document.getElementById('previous').className = "";
 
 		arrowToPointer('-');
                 arrowToPointer('+');
@@ -660,10 +627,10 @@ function paintSentence(value){
 	
 	hideImageLoading();	
 	
-	document.getElementById('content').innerHTML	=	'"'+ value.sentence + '"';
-	document.getElementById('author').innerHTML	=	value.author;
-	document.getElementById('date').innerHTML	=	value.pubDate;
-	document.getElementById('author').title		=	value.link;
+	document.getElementById('content').innerHTML = '"'+ value.sentence + '"';
+	document.getElementById('author').innerHTML	 = value.author;
+	document.getElementById('date').innerHTML	 = value.pubDate;
+	document.getElementById('author').title		 = value.link;
 	
 	updateArrows();
 	showArrows();	
@@ -677,7 +644,7 @@ function goToLink(){
 }
 
 function showWiring(){
-	document.getElementById('wiring').style.display    = "block";
+	document.getElementById('wiring').style.display = "block";
 }
 
 function hideWiring(){
@@ -685,7 +652,7 @@ function hideWiring(){
 }
 
 function showReload(){
-        document.getElementById('reload').style.display    = "block";
+        document.getElementById('reload').style.display = "block";
 }
 
 function hideReload(){
@@ -696,33 +663,18 @@ function hideReload(){
  
 
 </head>
-
 <body onload="javascript:init();">
-
-<div id="header" class="block">
-
+    <div id="header" class="block">
         <div id="date"></div>
-
-        <div class="image"><img id="previous" title="Anterior" onclick="previousSentence();"
-        src="http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/go-previous.png"></img></div>
-
-        <div class="image"><img id="next" title="Siguiente" onclick="nextSentence();"
-        src="http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/go-next.png"></img></div>
-	
-</div>
-
-<div id="content" class="block" >
-	
-</div>
-
-<div id="footer" class="block">
-	<img id="wiring" title="Enviar Eventos" src="http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/avion.png" onclick="updateEvents();"></img>
-	<img id="reload" title="Refrescar" src="http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.21/images/reload.png" onclick="init();"></img>
-
+        <div class="image"><img id="previous" title="Anterior" onclick="previousSentence();"></img></div>
+        <div class="image"><img id="next" title="Siguiente" onclick="nextSentence();"></img></div>
+    </div>
+    <div id="content" class="block" >
+    </div>
+    <div id="footer" class="block">
+	    <img id="wiring" title="Enviar Eventos" onclick="updateEvents();"></img>
+	    <img id="reload" title="Refrescar" onclick="init();"></img>
         <div id="author" onclick="goToLink();"></div>
-</div>
-
-
+    </div>
 </body>
-
 </html>
