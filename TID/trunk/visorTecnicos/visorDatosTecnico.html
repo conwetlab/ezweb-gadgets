@@ -1,0 +1,114 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<title>Visor de datos de usuario</title>
+
+<style type="text/css">
+		body{
+			margin:0px;
+			padding:0px;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.0/background.png) repeat-x scroll left top;
+			font-family:Arial,Verdana,Helvetica, Sans-Serif;
+		}
+
+		#info {
+			margin:0px;
+			padding:0px;
+		}
+		
+		#lista {
+			margin:0px;
+			padding:0px;
+		}
+	
+		#div_info {
+			margin:4px;
+			padding:5px;
+			border:2px solid #437BC8;
+			background-color:white;
+			-moz-border-radius:5px;
+		}
+
+		.moreInfo{
+			text-decoration:underline;
+		}
+		
+		th{
+			text-align:left;
+		}
+		
+		td{
+			font-size:12px;
+			padding-left:5px;
+		}
+		
+		#title{
+			color:#000077;
+			font-size:22px;
+			font-weight:bold;
+			margin:0px;
+			padding:0px;
+	}
+</style>
+
+<script>
+var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
+var address = EzWebAPI.createRWGadgetVariable("address");
+/*Temporary data for the demo*/
+var users = [];
+var user = ["Franciso","Lopez Rodriguez","636782901","Calle de Luchana, 2, 28010 Madrid"];
+users["636782901"] = user;
+user = ["Marta","Romero Sanchez","658023928","Paseo de Santa Maria de la Cabeza, 10, Madrid"];
+users["658023928"] = user;
+user = ["Miguel","Reyes Gil","696547845","Calle de la madera 1, Madrid"];
+users["696547845"] = user;
+user = ["Cesar","Vargas Barrientos","636521694","Calle de Velazquez 100, Madrid"];
+users["636521694"] = user;
+
+function _phoneHandler(phone){
+	if (phone!=null && phone!=undefined){
+		
+		document.getElementById(users["636782901"][2]).style.fontWeight = 'normal';
+		document.getElementById(users["658023928"][2]).style.fontWeight = 'normal';
+		document.getElementById(users["696547845"][2]).style.fontWeight = 'normal';
+		document.getElementById(users["636521694"][2]).style.fontWeight = 'normal';
+		document.getElementById(phone).style.fontWeight = 'bold';
+		var content="";
+		content+="<div id='div_info'><p id='title'>Tabla de Datos de Tecnico</p><table>";
+		content+="<tr><td class='moreInfo'>Nombre</td><td>"+users[phone][0]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Telefono</td><td>"+users[phone][2]+"</td></tr>";
+		content+="<tr><td class='moreInfo'>Dirección Actual</td><td>"+users[phone][3]+"</td></tr></table></div>";
+		if (document.getElementById("info")){
+			document.getElementById("info").innerHTML=content;
+			address.set(users[phone][3]);
+		}
+	}
+}
+
+
+</script>
+</head>
+<body>
+<div id='lista'>
+<table cellspacing="0">
+<tbody>
+<tr>
+<td id="636782901" class="breakDown" onclick="_phoneHandler(636782901)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">636782901</td>
+<td id="658023928" class="breakDown" onclick="_phoneHandler(658023928)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">658023928</td>
+<td id="696547845" class="breakDown" onclick="_phoneHandler(696547845)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">696547845</td>
+<td id="636521694" class="breakDown" onclick="_phoneHandler(636521694)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">636521694</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id='info'><i>A la espera de seleccionar un técnico...</i></div>
+</body>
+</html>
