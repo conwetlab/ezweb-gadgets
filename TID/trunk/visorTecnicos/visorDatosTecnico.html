@@ -60,7 +60,7 @@
 
 <script>
 var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
-var addressClient = EzWebAPI.createRWGadgetVariable("addressClient", _addressClientHandler);
+var addressClient = EzWebAPI.createRWGadgetVariable("addressClient", function (){});
 var addressOperator = EzWebAPI.createRWGadgetVariable("addressOperator");
 var routeToClient = EzWebAPI.createRWGadgetVariable("routeToClient");
 /*Temporary data for the demo*/
@@ -73,10 +73,6 @@ user = ["Miguel","Reyes Gil","696547845","Calle de la madera 1, Madrid"];
 users["696547845"] = user;
 user = ["Cesar","Vargas Barrientos","636521694","Calle de Velazquez 100, Madrid"];
 users["636521694"] = user;
-
-function _addressClientHandler(value) {
-	return;
-}
 
 function _phoneHandler(phone){
 	if (phone!=null && phone!=undefined){
