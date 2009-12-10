@@ -60,7 +60,9 @@
 
 <script>
 var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
-var address = EzWebAPI.createRWGadgetVariable("address");
+var addressClient = EzWebAPI.createRWGadgetVariable("addressClient", _addressClientHandler);
+var addressOperator = EzWebAPI.createRWGadgetVariable("addressOperator");
+var routeToClient = EzWebAPI.createRWGadgetVariable("routeToClient");
 /*Temporary data for the demo*/
 var users = [];
 var user = ["Franciso","Lopez Rodriguez","636782901","Calle de Luchana, 2, 28010 Madrid"];
@@ -71,6 +73,10 @@ user = ["Miguel","Reyes Gil","696547845","Calle de la madera 1, Madrid"];
 users["696547845"] = user;
 user = ["Cesar","Vargas Barrientos","636521694","Calle de Velazquez 100, Madrid"];
 users["636521694"] = user;
+
+function _addressClientHandler(value) {
+	return;
+}
 
 function _phoneHandler(phone){
 	if (phone!=null && phone!=undefined){
@@ -88,7 +94,10 @@ function _phoneHandler(phone){
 		content+="<tr><td class='moreInfo'>Dirección Actual</td><td>"+users[phone][3]+"</td></tr></table></div>";
 		if (document.getElementById("info")){
 			document.getElementById("info").innerHTML=content;
-			address.set(users[phone][3]);
+			addressOperator.set(users[phone][3]);
+			if (addressClient.get()!=null && addressClient.get()!=undefined) {
+				routeToClient.set('from: ' + users[phone][3] + ' to: ' + addressClient.get());
+			}
 		}
 	}
 }
