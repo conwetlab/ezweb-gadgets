@@ -1,50 +1,30 @@
-<html>
+<?xml version="1.0"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" /> 
 	<title>Chiste Diario</title>
-	<script language="javascript" type="text/javascript" 
-		src="/ezweb/js/EzWebAPI/EzWebAPI.js">
+
+	<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/css/style.css"></link>
+	<link rel="stylesheet" type="text/css" id="color_theme"></link>
+
+	<script language="javascript" type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js">
 	</script>
-
-	<script language="javascript">
-		var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/";
-		function loadJS(archive) {
-			var head= document.getElementsByTagName('head')[0];
-			var script= document.createElement('script');
-			script.type= 'text/javascript';
-			script.src= resourcesURL+'js/'+archive;
-			head.appendChild(script);
-		}
-
-		function loadCSS(archive) {
-			var head= document.getElementsByTagName('head')[0];
-			var style= document.createElement('link');
-			style.type= 'text/css';
-			style.media= 'screen';
-			style.rel= 'stylesheet';
-			style.href= resourcesURL+'css/'+archive;
-			head.appendChild(style);
-		}
-
-		loadJS('ChisteDelDia.js');
-		loadCSS('style.css');
-
+	<script language="javascript" type="text/javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/js/ChisteDelDia.js">
 	</script>
-
-	<link rel="stylesheet" type="text/css" id="color_theme" />
-
 </head>
 <body onload="LoadJokeGadget()">
 
 <div id="joke_frame">
 	<div id="head">
 		<a id="joke_frame_title" target="blank"></a>
-		<img id="reload" title="Refrescar" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/images/reload.png"></img>
+		<img id="reload" title="Refrescar" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/images/reload.png"></img>
 		<table id="joke_frame_menu">
 			<tr>
-				<td id="left_buttom" class="buttom left" onclick="lastJoke()"></td>
+				<td id="left_buttom" class="buttom left" onclick="javascript:lastJoke();">&lt;&lt;</td>
 				<td><span id="joke_num"></span> / <span id="num_jokes"></span></td>
-				<td id="right_buttom" class="buttom right" onclick="nextJoke()"></td>
+				<td id="right_buttom" class="buttom right" onclick="javascript:nextJoke();">&gt;&gt;</td>
 			</tr>
 		</table>
 	</div>
@@ -53,8 +33,7 @@
 			<tr>
 				<td>
 					<div id="joke_frame_text"></div>
-					<!--<p id="joke_frame_date" style=text-align:right; ></p> -->
-					<p style=text-align:right;><span id="joke_frame_date" style=text-align:right;></span><strong> –</strong> <a id="joke_frame_source" target="blank"></a></p>
+					<p id="joke_frame_foot"><span id="joke_frame_date" style=text-align:right;></span>&nbsp;–&nbsp;<a id="joke_frame_source" target="blank"></a></p>
 				</td>
 			</tr>
 		</table>

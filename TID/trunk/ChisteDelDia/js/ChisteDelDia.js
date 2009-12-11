@@ -1,5 +1,9 @@
+var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/";
 
-Sources = {
+var language, SourceGadget, RssSourceGadget, ColorThemeGadget, FontSizeGadget, refreshTime, titleEvent, textEvent, urlEvent, sourceUrlEvent, width, height;
+var nextJoke, lastJoke, reload, sendText;
+
+var Sources = {
 	1: {
 		name:'Chisteweb.com',
 		link:'http://www.chisteweb.com/',
@@ -37,7 +41,7 @@ Sources = {
 
 function LoadJokeGadget() {
 
-document.getElementById('reload').addEventListener("click", function() {reload();}, false);
+document.getElementById('reload').onclick = function() {reload();};
 
 var errorFrameObject = {
 	frame: document.getElementById('error_frame'),
@@ -70,10 +74,12 @@ var jokeFrameObject = {
 	setJokeNum: function(value) {
 		function deshabilitar(htmlObj) {
 			htmlObj.style.opacity = '.3';
+			htmlObj.style.filter = "alpha(opacity = 30)";
 			htmlObj.style.cursor = 'default';
 		};
 		function habilitar (htmlObj) {
 			htmlObj.style.opacity = '1';
+			htmlObj.style.filter = "alpha(opacity = 100)";
 			htmlObj.style.cursor = 'pointer';
 		};
 		this.jokeNum.innerHTML = value;
@@ -141,6 +147,7 @@ var jokeGadgetUI = {
 		this.updateJokeFrame(src);
 		this.jokeFrame.show();
 		this.errorFrame.hidden();
+		repaint();
 	},
 	updateJokeFrame: function(src) {
 		with(this.jokeFrame) {
@@ -157,6 +164,7 @@ var jokeGadgetUI = {
 			textEvent.set(src.getJokeText());
 			urlEvent.set(src.getJokeLink());
 			sourceUrlEvent.set(src.getLink());
+			repaint();
 		}
 	}
 }
@@ -202,6 +210,7 @@ var JokeGadgetModel = {
 		this.parseRequest(request);
 		this.setFirstJoke();
 		this.loadingEnd();
+		repaint();
 		
 	},
 	updateError: function(err) {
@@ -345,7 +354,6 @@ var JokeGadgetModel = {
 	}
 }
 
-
 nextJoke = function() {
 	JokeGadgetModel.setNextJoke();
 }
@@ -378,9 +386,7 @@ function setRssSourceJokes() {
 
 function setFontSize(size) {
 	document.body.style.fontSize = size;
-	var body = document.body;
-	document.createElement('div').appendChild(body); // HACK
-	document.body = body;
+	repaint();
 }
 
 function setColorTheme(color) {
@@ -396,6 +402,22 @@ function setRefreshTime() {
 	interval = window.setInterval(reload, 1000 * 60 * refreshTime.get()); // Minutes
 }
 
+function repaint() {
+    var body = document.getElementById("body");
+    var width = document.getElementById("joke_frame").offsetHeight - document.getElementById("head").offsetHeight - 2;
+    if (width >= 0) {
+        document.getElementById("body").style.height = width + "px";
+    }
+    
+    var table = body.getElementsByTagName("table")[0];
+    if (table != null) {
+        var margin = (body.offsetWidth - table.offsetWidth) / 2;
+        if (margin >= 0) {
+            table.style.marginLeft = margin + "px";
+        }
+    }
+}
+
 var interval;
 
 // EzWebVars
@@ -405,6 +427,8 @@ RssSourceGadget = EzWebAPI.createRGadgetVariable("rss_source", setRssSourceJokes
 ColorThemeGadget = EzWebAPI.createRGadgetVariable("color_theme", setColorTheme);
 FontSizeGadget = EzWebAPI.createRGadgetVariable("font_size", setFontSize);
 refreshTime = EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
+width  = EzWebAPI.createRGadgetVariable("height", repaint);
+height = EzWebAPI.createRGadgetVariable("width", repaint);
 
 // EzWebEvents
 titleEvent = EzWebAPI.createRWGadgetVariable ('title');
@@ -417,5 +441,5 @@ setFontSize(FontSizeGadget.get());
 setColorTheme(ColorThemeGadget.get());
 setSourceJokes(SourceGadget.get());
 setRefreshTime();
-
+repaint();
 }

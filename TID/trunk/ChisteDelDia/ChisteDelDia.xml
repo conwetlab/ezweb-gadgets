@@ -4,17 +4,18 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Chiste del día</Name>
-		<Version>0.62</Version>
+		<Version>0.7</Version>
 		<Author>jvelasco</Author>
 		<Mail>jvelasco@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget que muestra un chiste cada día.</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/icon.png</ImageURI>       <!--CHANGE -->
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/icon.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Chiste_del_d.C3.ADa</WikiURI>
 	</Catalog.ResourceDescription>
 
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.62/ChisteDelDia.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/ChisteDelDia.html"/>
 	</Platform.Link>
+	
 
 	<!-- EzWeb Gadgets Preferences -->
 	<Platform.Preferences>
@@ -65,5 +66,7 @@
 
 	<Platform.Context>
 		<Context name="language" type="text" concept="language"/>
+		<GadgetContext name="height" type="text" concept="heightInPixels"/>
+        <GadgetContext name="width" type="text" concept="widthInPixels"/>
 	</Platform.Context> 
 </Template>
