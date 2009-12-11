@@ -2842,26 +2842,46 @@ StyledElements.StyledAlert = function(title, content, options) {
     };
     this.options = EzWebExt.merge(defaultOptions, options);
 
+    var image = document.createElement("img");
+    image.src = EzWebExt.getResourceURL("images/degradado.png");
+
     this.wrapperElement = document.createElement("div");
     this.wrapperElement.className = "styled_alert";
 
+		this.backgroundDiv = document.createElement("div");
+		this.backgroundDiv.className = "background";
+
     this.messageDiv = document.createElement("div");
     this.messageDiv.className = "message";
+
+    this.wrapperElement.appendChild(this.backgroundDiv);
     this.wrapperElement.appendChild(this.messageDiv);
 
     this.header = document.createElement("div");
     this.header.className = "header";
+
+    var table = document.createElement("table");
+		var tbody = document.createElement("tbody");
+		table.appendChild(tbody);
+		table.setAttribute("width", "100%");
+		this.header.appendChild(table);
+
+		var tr = tbody.insertRow(-1);
+		var td = tr.insertCell(-1);
+		td.className = "title";
+
+    var types = ["info", "warning", "error"];
+    image = document.createElement("img");
+    image.src = EzWebExt.getResourceURL("images/dialog/dialog-" + types[this.options['type']] + '.png');
+    td.appendChild(image);
+    						
     if (title)
-        this.header.appendChild(document.createTextNode(title));
+      td.appendChild(document.createTextNode(title));
+
+		var button = tr.insertCell(-1);
+		button.className = "close_button";
+
     this.messageDiv.appendChild(this.header);
-
-    var button = document.createElement("div");
-    button.className = "close_button";
-    this.messageDiv.appendChild(button);
-
-    this.icon = document.createElement("div");
-    this.icon.className = "icon";
-    this.messageDiv.appendChild(this.icon);
 
     this.content = document.createElement("div");
     this.content.className = "content";
@@ -2869,31 +2889,64 @@ StyledElements.StyledAlert = function(title, content, options) {
         this.content.innerHTML = content;
     this.messageDiv.appendChild(this.content);
 
-    var types = ["info", "warning", "error"];
+
     EzWebExt.prependClassName(this.wrapperElement, types[this.options['type']]);
 
     /* Events code */
     EzWebExt.addEventListener(button, "click",
                             EzWebExt.bind(function () {
                                 EzWebExt.removeFromParent(this.wrapperElement);
+                                this.wrapperElement = null;
                             }, this),
                             true);
 }
 StyledElements.StyledAlert.prototype = new StyledElements.StyledElement();
 
-StyledElements.StyledAlert.prototype.repaint = function(temporal) {
-    temporal = temporal !== undefined ? temporal: false;
-
-/*    var width = (EzWebExt.getWidth() * 80 / 100);
-    var height = (EzWebExt.getHeight() * 80 / 100);
-
-    width = (width > this.options['max_width']) ? this.options['max_width']:
-                ((width < this.options['min_width']) ? this.options['min_width'] : width);
-    height = (height > this.options['max_height']) ? this.options['max_height']:
-                ((height < this.options['min_height']) ? this.options['min_height'] : height);
-*/
+StyledElements.StyledAlert.prototype.insertInto = function(element, refElement){
+    StyledElements.StyledElement.prototype.insertInto.call(this, element, refElement);
+    this.repaint();
 }
 
+StyledElements.StyledAlert.prototype.repaint = function(temporal) {
+    //temporal = temporal !== undefined ? temporal: false;
+
+    if(this.wrapperElement){
+      // Adjust messageDiv height and messageDiv width
+      var width = (this.wrapperElement.offsetWidth * 80 / 100);
+      var height = (this.wrapperElement.offsetHeight * 80 / 100);
+      var positionHeight = (this.wrapperElement.offsetHeight * 10 / 100);
+      var positionWidth = (this.wrapperElement.offsetWidth * 10 / 100);
+/*
+      width = (width > this.options['max_width']) ? this.options['max_width']:
+                  ((width < this.options['min_width']) ? this.options['min_width'] : width);
+      height = (height > this.options['max_height']) ? this.options['max_height']:
+                  ((height < this.options['min_height']) ? this.options['min_height'] : height);
+*/      
+      this.messageDiv.style.top = positionHeight + 'px';;   
+      this.messageDiv.style.left = positionWidth + 'px';;
+      this.messageDiv.style.right = positionWidth + 'px';;    
+      this.messageDiv.style.bottom = positionHeight + 'px';;      
+      this.messageDiv.style.width = width + 'px';
+      this.messageDiv.style.height = height + 'px';
+      
+      // Adjust Content Height 
+      var messageDivStyle = document.defaultView.getComputedStyle(this.messageDiv, null);
+      var headerStyle = document.defaultView.getComputedStyle(this.header, null);
+      var contentStyle = document.defaultView.getComputedStyle(this.content, null);
+
+      height = height - this.header.offsetHeight -
+      messageDivStyle.getPropertyCSSValue('border-top-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+      messageDivStyle.getPropertyCSSValue('border-bottom-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+      headerStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+      headerStyle.getPropertyCSSValue('margin-top').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+      contentStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
+      this.content.style.height =  (height + 'px');
+
+      // Addjust Content Width 
+      width =  width - messageDivStyle.getPropertyCSSValue('border-left-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - messageDivStyle.getPropertyCSSValue('border-right-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - contentStyle.getPropertyCSSValue('margin-right').getFloatValue(CSSPrimitiveValue.CSS_PX) - contentStyle.getPropertyCSSValue('margin-left').getFloatValue(CSSPrimitiveValue.CSS_PX);
+      this.content.style.width = (width + 'px');
+    }      
+}
 /**
  * @experimental
  *
