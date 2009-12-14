@@ -120,4 +120,9 @@
 	  overflow:auto;
 	
   }
+  
+  .content{
+    font-family:sans-serif,serif,verdana,arial;
+    font-size:13px;
+  }
 
