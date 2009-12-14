@@ -7,119 +7,146 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
+<!-- WORDREFERENCE HEADER  -->
+<link rel="stylesheet" type="text/css" href="http://www.wordreference.com/2008/scripts/styleext.css">
+
+<style type="text/css">
+    dd {
+        margin-left:25px
+    } 
+    
+    td.FrW2, td.FrCN2, td.ToW2, td.Head, td.Ex2, td.FrEx2, td.ToEx2, td.ToCN2, td.ToNt2, td.ToW22, .To2, .POS2 {
+        cursor:default;
+    }
+
+    td.FrW, td.FrCN, td.ToW, td.Head, td.Ex, td.POS {
+        cursor:default;
+    }
+
+    .clickable {
+        cursor:default;
+    }
+
+    div#Otbl {
+        width:295px;
+    }
+</style>
+
+<script type="text/javascript"> 
+function dr4sdgryt2(evt) {
+    return null;
+}
+
+function dr4sdgryt(evt,src) {
+    return null;
+}
+ 
+function DHTMLSound(surl) {
+    if (
+        (navigator.userAgent.indexOf('iPhone') != -1) || 
+        (navigator.userAgent.indexOf('iPod') != -1) || 
+        (navigator.userAgent.indexOf('Linux') != -1))
+    {
+        window.location = surl;
+    } 
+    else {
+        document.getElementById("dummyspan").innerHTML="<embed src='"+surl+"' hidden=true autostart=true loop=false type='audio/mpeg'>";
+    }
+}
+</script>
 
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
 
-  <style type="text/css">
-	html, body {
+<style type="text/css">
+    html, body {
 		margin: 0;
 		padding: 0;
 	}
+	
   	table.Rtbl{
-		font-size:12px;
+		font-size: 12px;
 	}
-	table.layout{
-		font-size:12px;
+	
+	table.layout {
+		font-size: 12px;
 	}
-	div#content, div#content > div {
+	
+	div#content, div#response, div#errors {
 		padding: 0;
+		margin: 0;
 	}
-  </style>
+</style>
 
 <base target="_blank" href="http://www.wordreference.com/">
 
-
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
-
   
 var word = EzWebAPI.createRGadgetVariable("keyword",setWord);
 var dict = EzWebAPI.createRGadgetVariable("dictionary",setDict);
 
-keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
-diccionaryEvent = EzWebAPI.createRWGadgetVariable('diccionaryEvent');
+var keywordEvent = EzWebAPI.createRWGadgetVariable('keywordEvent');
+var diccionaryEvent = EzWebAPI.createRWGadgetVariable('diccionaryEvent');
 
-var actualWord ="";
-var actualDict ="";
-function setDict(value)
-{
+var actualWord = "";
+var actualDict = "";
+
+function setDict(value) {
 	actualDict = value;
-	/*var search = word.get();
-	if(search==""){
-		search = actualWord;
-	}*/
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
-	//$('frame').src=url;
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
 	
 }
   
-function setWord(value){
+function setWord(value) {
 	actualWord = value;
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
-	keywordEvent.set(actualWord);//added
+	keywordEvent.set(actualWord);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
-	//$('frame').src=url;
 }
+
 function callbackError(responseData) {
-	//alert("Request error: " + responseData.responseText);
+	$('errors').style.display = "block";
+	$('content').style.display = "none";
 	$('errors').innerHTML = "Service Unavailable";
 	$('errors').style.color = "Red";
 	$('errors').style.textAlign= "center";
-	$('content').innetHTML ="";
+	$('content').innetHTML = "";
 }
+
 function callbackSucess(responseData) {
-	//alert("Request error: " + responseData.responseText);
+	$('errors').style.display = "none";
+	$('content').style.display = "block";
 	$('errors').innerHTML = "";
 	var content = responseData.responseText;
-	var head = content.substring(content.indexOf('<head>') + ('<head>').length,content.indexOf('</head>'));
-	var headTag = document.getElementsByTagName('head')[0];
-	headTag.innerHTML = headTag.innerHTML + head;
 	var body = content.substring(content.indexOf('<body'),content.indexOf('</body>')+('</body>').length);
-	var bodyTag = document.getElementsByTagName('body')[0];
-	var bodyAux = body.replace(/<body/, "<div").replace(/body>/,"div>");
+	var bodyAux = body.replace(/<body/, "<div id='response'").replace(/body>/,"div>");
 	diccionaryEvent.set(bodyAux);
 	$('content').innerHTML = bodyAux;
 	document.body.scrollTop=0;
-	//document.sbox.w.value = this.value;
 	document.sbox.action="javascript:wordSearch()";
 	document.sbox.w.onkeydown = function() {};
 	actualDict = document.sbox.dict.value;
 	$('Otbl').style.width = "100%";
 	$('Otbl').style.fontSize = "12px";
 	document.getElementsByTagName('table')[0].style.width ="100%";
-	//document.sbox.onsubmit = function(){return false;};
-	//document.sbox.B.type = "button";
-	//document.sbox.B.onclick = function() { wordSearch();}; 
-	//alert(responseData.responseText);
 	//Rectificar hrefs
 	parseHrefs();
 	
 }
 
-
-function parseHrefs()
-{
+function parseHrefs() {
 	var ahrefs = document.getElementsByTagName("a");
-	/*for(i=0;i<ahrefs.length;i++)
-	{
-		ahrefs[i].href = ahrefs[i].href.gsub("localhost", "www.wordreference.com");
-		ahrefs[i].target ="_blank";
-	}*/
 	
 	for(i=0;i<ahrefs.length;i++)
 	{
-		/*ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,
-		'http://mini.wordreference.com/mini/index.aspx?dict=#{0}#{1}&w=#{2}');*/
-		//ahrefs[i].href.scan(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,alert);
 		ahrefs[i].href = ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/(\w\w)\/(\w\w)\/translation\.asp\?spen\=(.*)/,function(match){
 			ahrefs[i].target = '_self';
 			return 'javascript:search("http://mini.wordreference.com/mini/index.aspx?dict='+match[1]+match[2]+'&w='+match[3]+'");';
 			});
 		
-		//http://www.wordreference.com/es/translation.asp?tranword=hi-fi
 		ahrefs[i].href = ahrefs[i].href.gsub(/http:\/\/www\.wordreference\.com\/\w\w\/translation\.asp\?tranword\=(.*)/,function(match){
 			ahrefs[i].target = '_self';
 			return 'javascript:search("http://mini.wordreference.com/mini/index.aspx?dict='+actualDict+'&w='+match[1]+'");';
@@ -127,12 +154,11 @@ function parseHrefs()
   	}
 }
 
-function search(url)
-{
+function search(url) {
 	EzWebAPI.send_get(encodeURI(url), this, callbackSucess, callbackError);
 }
-function wordSearch()
-{
+
+function wordSearch() {
 	actualWord = document.sbox.w.value;
 	actualDict = document.sbox.dict.value;
 	
@@ -141,21 +167,17 @@ function wordSearch()
 
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w="+encodeURIComponent(actualWord);
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
-	//$('frame').src=url;
 }
 
-function load()
-{
+function load() {
 	actualDict = dict.get();
 	var url = "http://mini.wordreference.com/mini/index.aspx?dict="+actualDict+"&w=";
 	EzWebAPI.send_get(url, this, callbackSucess, callbackError);
-	$('frame').src=url;
 }  
 </script>
 </head>
 <body onload="load()">
-<div id="errors"></div>
+<div id="errors" style="display:none;"></div>
 <div id="content"></div>
-<!-- <iframe id="frame" width="100%" height="97%" style="border:0px;" src="http://mini.wordreference.com/mini/index.aspx?dict=enes&w=start&u=1" name="WRmini"></iframe> -->
 </body>
 </html>
