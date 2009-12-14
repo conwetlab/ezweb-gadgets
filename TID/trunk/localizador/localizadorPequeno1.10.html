@@ -3,6 +3,7 @@
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <base href="http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.10/"/>
+<base href="http://pallas.ls.fi.upm.es/svn/ezweb-gadgets-tid/localizador/localizador/"/>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
 <script language="javascript" src="coordinates.js"></script>
 <script language="javascript" src="ComputedStyle.js"></script>
@@ -109,11 +110,13 @@ function repaint(value){
 function _(label){
   var labels = {'es':{'error_title':'Error',
                       'error_msg':'Lo sentimos, no hemos podido interpretar la ubicación. Comprueba que los nombres de calles y poblaciones estén escritos correctamente, asegúrate de que la dirección incluya una población y provincia o prueba a introducir un código postal.',
+                      'route_error_msg':'Lo sentimos, no hemos podido interpretar la ubicación del origen o del destino. Comprueba que los nombres de calles y poblaciones estén escritos correctamente, asegúrate de que la dirección incluya una población y provincia o prueba a introducir un código postal.',
                       'location': 'Ubicación',
                       'origin':'Origen',
                       'destination':'Destino'},
                 'en':{'error_title':'Error',
                       'error_msg':'Sorry, We couldn\'t understand this location. Make sure all names are spelled correctly and try adding a city, state  or zip code.',
+                      'route_error_msg':'Sorry, We couldn\'t understand the origin location or the destination location . Make sure all names are spelled correctly and try adding a city, state  or zip code.',
                       'origin':'Origin',
                       'location': 'Location',                      
                       'destination':'Destination'}};
@@ -144,7 +147,7 @@ function _initialize() {
 				                
         
         var divMessage = '<div style="padding:0px 5px 0px 5px;text-align:justify;">';
-        divMessage+='<span>' + _('error_msg') + '</span>' 
+        divMessage+='<span>' + _('route_error_msg') + '</span>' 
         divMessage+='<ul>';
         divMessage+='<li style="white-space:nowrap;"><span style="text-decoration:underline;">'+_('origin')+'</span>: '+errorDetails['origin']+'</li>';
         divMessage+='<li style="white-space:nowrap;"><span style="text-decoration:underline;">'+_('destination')+'</span>: '+errorDetails['destination']+'</li>';
