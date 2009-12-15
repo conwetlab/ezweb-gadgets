@@ -6,28 +6,42 @@
 <head>
 <style>
 img{
-       margin-bottom: 5px;
+    border: 0px;
+	margin-top: 10px;
+	margin-left: 10px;
+    margin-bottom: 5px;
 }
 
-#resultado{
-	background:#dfdfdf;
+#content {
+	overflow:hidden;
+}
+
+#divres{
 	padding:5px;
+	overflow:auto;
 }
 
 .triptitle {
 	font-size:16pt;
 	font-style:italic;
+	margin:-5px 0px 0px 5px;
+	white-space:nowrap;
+	overflow: hidden;
+	color: #135789;
 }
 
 .destino{
-	background:#ffffff;
-	padding: 5px;
+	background-color: #135789;
+	color:#ffffff;
+	font-weight:bolder;
+	padding: 2px;
 	margin: 5px 0 5px 0;
 }
 
 .destTitle {
 	font-size:12pt;
 	font-style:italic;
+	margin-left:5px;
 }
 
 .poi{
@@ -35,8 +49,11 @@ img{
 	overflow:hidden;
 	border: 0px solid;
 	padding: 5px;
-	margin: 4px 0 4px 0;
-	background: #D7E1E8;
+	background: #eeeeee;
+	color: #000000;
+	font-weight:normal;
+	display: block;
+	height: 100%;
 }
 
 .poi .info{
@@ -47,16 +64,17 @@ img{
 .poi .info .title{
 	font-weight: bold;
 	font-size: 10pt;
-        font-family: "Verdana";
+    font-family: "Verdana";
 	padding-bottom: 3px;
 
 }
 
 .poi .info .sum{
 	font-size: 8pt;
+	text-align:justify;
 }
 
-.poi a{
+.poi a {
 	text-decoration:none;
 }
 
@@ -68,7 +86,14 @@ img{
 
 .poi .info a{
 	font-size: 7pt;
+	color: #135789;
+	cursor: pointer;
 }
+
+.poi .info a:hover{
+	text-decoration:underline;
+}
+
 </style>
 </head>
 <body>
@@ -77,26 +102,28 @@ img{
 
 var travel = EzWebAPI.createRGadgetVariable("travel",configuretravel);
 
-function configuretravel(idtravel){
-	var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/getTrip?appid=YahooDemo&id="+ idtravel);
+function configuretravel(idtravel) {
+	var url = encodeURI("http://travel.yahooapis.com/TripService/V1.1/getTrip?appid=YahooDemo&id="+ idtravel);
 	EzWebAPI.send_get(url,this,configureOk, configureFail);
 }
 
-function configureOk(res){
-//extract the result information
+function configureOk(res) {
+    //extract the result information
 	var result = res.responseXML.documentElement;
-	divres = document.getElementById("resultado");
-	tripTitle = result.getElementsByTagName("Title")[0].firstChild.nodeValue;
-	destinations = result.getElementsByTagName("Destination");
+	var divres = document.getElementById("resultado");
+	var tripTitle = result.getElementsByTagName("Title")[0].firstChild.nodeValue;
+	var destinations = result.getElementsByTagName("Destination");
 
-	divres.innerHTML="";
-	newdiv = document.createElement('div');
+	divres.innerHTML = "";
+	var newdiv = document.createElement('div');
 	newdiv.className = "tripTitle";
-	newdiv.innerHTML= tripTitle;
+	newdiv.innerHTML = tripTitle;
 	divres.appendChild(newdiv);
 
-	for (i = 0; i < destinations.length; i++){ 
+    var destination, desTitle, items, divdestino, divdesTitle;
+	for (var i = 0; i < destinations.length; i++){ 
 		destination = destinations[i];
+		
 		if (destination.getElementsByTagName("Title")[0].firstChild != null){
 			destTitle = destination.getElementsByTagName("Title")[0].firstChild.nodeValue;
 		}
@@ -113,7 +140,8 @@ function configureOk(res){
 		divdestTitle.innerHTML= destTitle;
 		divdestino.appendChild(divdestTitle);
 
-		for (j = 0; j < items.length; j++){ 
+        var item, itemtitle, itemthumb, itemsum, itemurl, newdiv, a, img, div1, div2;
+		for (var j = 0; j < items.length; j++){ 
 			item = items[j];
 			if (item.getElementsByTagName("Title")[0].firstChild != null){
 				itemtitle = item.getElementsByTagName("Title")[0].firstChild.nodeValue;
@@ -125,7 +153,7 @@ function configureOk(res){
 				itemthumb = item.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild.nodeValue;
 			}
 			else{
-				itemthumb = "http://l.yimg.com/us.yimg.com/i/travel/trip/tp_tripthumb_noimage.gif";
+				itemthumb = "http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/tp_tripthumb_noimage.gif";
 			}
 			if (item.getElementsByTagName("Summary")[0].firstChild != null){
 				itemsum = item.getElementsByTagName("Summary")[0].firstChild.nodeValue;
@@ -143,19 +171,42 @@ function configureOk(res){
 
 			newdiv = document.createElement('div');
 			newdiv.className = "poi";
-			newdiv.innerHTML= "<a href='"+itemurl+"' target='_blank'><img src='"+itemthumb+"'/></a><div class='info'><div class='title'>" + itemtitle + "</div><div class='sum'>" + itemsum + "</div><a href='"+itemurl+"' target='_blank'>+ info</a></div>";
+			a = document.createElement("a");
+			a.href = itemurl;
+			a.target = "_blank";
+			img = document.createElement("img");
+			img.src = itemthumb;
+			a.appendChild(img);
+			newdiv.appendChild(a);
+			
+			div1 = document.createElement("div");
+			div1.className = "info";
+			div2 = document.createElement("div");
+			div2.className = "title";
+			div2.innerHTML = itemtitle;
+			div1.appendChild(div2);
+			div2 = document.createElement("div");
+			div2.className = "sum";
+			div2.innerHTML = itemsum + "&nbsp;";
+			a = document.createElement("a");
+			a.href = itemurl;
+			a.target = "_blank";
+			a.innerHTML = "+info";
+			div2.appendChild(a);
+			div1.appendChild(div2);
+			newdiv.appendChild(div1);
+			
 			divdestino.appendChild(newdiv);
 		}
 		divres.appendChild(divdestino);		 
 	}
 }
 
-function configureFail(res){
-	alert("fallo en el send_get");
+function configureFail(res) {
 }
 
 </script>
-<img src="http://us.i1.yimg.com/us.yimg.com/i/us/nt/ma/ma_tr_1.gif"/>
+<img src="http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/ma_tr_1.gif"/>
 <div id="resultado">A la espera...</div>
 </body>
 </html>
