@@ -4,40 +4,76 @@
 -->
 <html>
 <head>
+
+<!--[if IE]> 
 <style>
+.res {
+	height: 100%;
+}
+</style>
+<!--<![endif]-->
+
+<style>
+
+body {
+    margin: 0;
+    padding: 5px;
+    overflow-x: hidden;
+}
+
 img {
 	border: 0px;
+	margin-top: 10px;
+	margin-left: 10px;
+    margin-bottom: 5px;
 }
 .res {
-	border: 0px solid;
 	padding: 5px;
 	margin: 4px 0 4px 0;
-	background: #D7E1E8;
+	background-color: #EEEEEE;
 	clear:both;
 	overflow:hidden;
+	border:2px solid #135789;
+	display: block;
 }
 .res a{
 	float:left;
 	text-decoration:none;
 	padding-right:5px;
+
 }
+
 .info{
 	padding-left:5px;
 	vertical-align:top;
 }
+
 .info a{
-	font-size: 7pt;
-	text-align:right;
+	font-size: 8pt;
+	color: #135789;
+	text-decoration: none;
+	padding: 0;
+	float: none;
 }
+
+.info a:hover {
+	text-decoration: underline;
+}
+
 .title{
-	font-size: 11pt;
-	font-style: italic;
-        font-family: "Verdana";
+    color: #135789;
+    font-family: "Verdana";
+	font-size:10pt;
 	padding-bottom: 3px;
+	font-weight:bolder;
 }
 .desc{
-	font-size: 8pt;
+	font-size: 9pt;
 	padding-bottom: 3px;
+	text-align: justify;
+}
+#content{
+	padding:5px;
 }
 </style>
 </head>
@@ -53,7 +89,7 @@ function loadplan(idplan){
 }
 
 function searchResults(place){
-	var url=encodeURI("http://travel.yahooapis.com/TripService/V1.1/tripSearch?appid=YahooDemo&query="+ place);
+	var url = encodeURI("http://travel.yahooapis.com/TripService/V1.1/tripSearch?appid=YahooDemo&query="+ place);
 	EzWebAPI.send_get(url,this,searchOk, searchFail);
 }
 
@@ -62,18 +98,19 @@ function searchOk(res){
 	var xml = res.responseXML.documentElement;
 	var result;
 	
-	divres = document.getElementById("resultados");
-	results = xml.getElementsByTagName('Result');
-	divres.innerHTML="";
-	for (i = 0; i < results.length; i++){ 
+	var divres = document.getElementById("resultados");
+	var results = xml.getElementsByTagName('Result');
+	divres.innerHTML = "";
+	
+	var result, id, thumbnail, title, summary, newdiv, a, img, div1, div2;
+	for (var i = 0; i < results.length; i++){ 
 		result = results[i];
 		id = result.getAttribute("id");
 		thumbnail = result.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild.nodeValue;
 		title = result.getElementsByTagName("Title")[0].firstChild.nodeValue;
 		if (result.getElementsByTagName("Summary")[0].firstChild != null){
 			summary = result.getElementsByTagName("Summary")[0].firstChild.nodeValue;
-			summary = summary.substring(0,Math.min(summary.length, 150))+"...";
-			summary = "<div class='desc'>"+ summary + "</div>";
+			summary = summary.substring(0,Math.min(summary.length, 150))+"...&nbsp;";
 		}
 		else{
 			summary = "";
@@ -81,9 +118,30 @@ function searchOk(res){
 
 		newdiv = document.createElement('div');
 		newdiv.className = "res";
-		newdiv.innerHTML= "<a href='javascript:loadplan("+id+");'><img src='"+thumbnail+"'/></a><div class='info'><div class='title'>" + title + "</div>"+summary+"<a href='javascript:loadplan("+id+");'>+ info</a></div>";
-		divres.appendChild(newdiv);
-		 
+		a = document.createElement("a");
+    	a.href = "javascript:loadplan(" + id + ")";
+		img = document.createElement("img");
+		img.src = thumbnail;
+		a.appendChild(img);
+		newdiv.appendChild(a);
+
+        div1 = document.createElement("div");
+		div1.className = "info";
+		div2 = document.createElement("div");
+		div2.className = "title";
+		div2.innerHTML = title;
+		div1.appendChild(div2);
+		div2 = document.createElement("div");
+		div2.className = "desc";
+		div2.innerHTML = summary;
+		a = document.createElement("a");
+		a.href = "javascript:loadplan(" + id + ")";
+		a.innerHTML = "+info";
+		div2.appendChild(a);
+		div1.appendChild(div2);
+		newdiv.appendChild(div1);
+
+		divres.appendChild(newdiv);		 
 	}
 }
 
@@ -92,7 +150,7 @@ function searchFail(res){
 }
 
 </script>
-<img src="http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_trip/yahoo_trip_1.12/trip_search.gif"/>
+<img src="http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_trip/yahoo_trip_1.12/trip_search2.gif"/>
 <div id="resultados">A la espera...</div>
 </body>
 </html>
