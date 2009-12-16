@@ -1,17 +1,16 @@
-//Slot EzWeb
-var inText = EzWebAPI.createRGadgetVariable("inText", function(){pushElement(arrayElems,createNewElement())});
-
-//Property EzWeb
-var textProperty = EzWebAPI.createRWGadgetVariable("texts");
-
-var srcImg = "http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.10/images/";
+var srcImg = "http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.20/images/";
 var arrayElems = new Array(); 		//Array
 var arrayResult = new Array();		//Search Result
 var tableSearch = false;
 
+//EzWeb
+var width  = EzWebAPI.createRGadgetVariable("height", repaint);
+var height = EzWebAPI.createRGadgetVariable("width", repaint);
+var inText = EzWebAPI.createRGadgetVariable("inText", function(){pushElement(arrayElems,createNewElement())});
+var textProperty = EzWebAPI.createRWGadgetVariable("texts");
+
 // Element Object
 function element (inDate, text){
-
 	this.pubDate 	= inDate;
 	this.text	= text;
 }
@@ -86,18 +85,20 @@ function elementJson(inDate,text){
 	this.text	= text;
 }
 
-function compareElement(obj1,obj2){
-
-	if (obj1.pubDate < obj2.pubDate){
-		return obj1;
+function compareDate(obj1, obj2) {
+	if (obj1.pubDate.getTime() > obj2.pubDate.getTime()){
+		return -1;
 	}
-	else{
-		return obj2;
+	else if (obj1.pubDate.getTime() < obj2.pubDate.getTime()){
+		return 1;
+	}
+	else {
+		return 0;
 	}
 }
 
 function sortArray(a){
-	a.sort(compareElement);
+	a.sort(compareDate);
 }
 
 function delElement(pos, a){
@@ -110,7 +111,7 @@ function delElement(pos, a){
 
 function delAll(a){
 	arrayElems = new Array();
-	createTable(arrayElems);
+	createTable(arrayElems, false);
 	
 	textProperty.set(toJSON(fromArray(arrayElems)));    //Save Json
 
@@ -124,7 +125,7 @@ function delSelected(a){
 
 	arrayResult = new Array();
 	a = new Array();	
-	createTableSearch(arrayResult);
+	createTable(arrayResult, true);
 
         textProperty.set(toJSON(fromArray(arrayElems)));    //Save Json
 	
@@ -142,7 +143,7 @@ function pushElement(a, elem){
 	textProperty.set(toJSON(fromArray(a)));    //Save Json
 	
 	if (!tableSearch){
-		createTable(a);			//Repaint Table
+		createTable(a, false);			//Repaint Table
 	}
 	
 }
@@ -163,7 +164,18 @@ function getTime(obj){
 }
 
 function getDate(obj){
-	return obj.pubDate.toLocaleDateString();
+	return formatNumber((obj.pubDate.getMonth() + 1).toString(), 2) + '/' +  formatNumber(obj.pubDate.getDate(),2) + '/' + obj.pubDate.getFullYear().toString().slice(2);
+
+}
+
+function formatNumber(num, digits){
+	var result = num;
+	if (num.length < digits){
+		for (var i = 0; i < (digits - num.length); i++){
+			result = '0' + result;
+		}
+	}
+	return result;
 }
 
 function toArray(a){

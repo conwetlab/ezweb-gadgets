@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Gadget Historico</Name>
-    <Version>1.10</Version>
+    <Version>1.20</Version>
     <Author>Alberto Chaves Jiménez</Author>
     <Mail>achaves@pegaso.ls.fi.upm.es</Mail>
     <Description>Guarda texto</Description>
@@ -24,9 +24,11 @@
 	<Slot name="inText" type="text" label="inText" friendcode="text"/>
   </Platform.Wiring>
   <Platform.Context>
+    <GadgetContext name="height" type="text" concept="heightInPixels"/>
+    <GadgetContext name="width" type="text" concept="widthInPixels"/>
   </Platform.Context> 
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.10/gadgetHistorico.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.20/gadgetHistorico.html"/>
   </Platform.Link>
   <Platform.Rendering width="6" height="12"/>
 </Template>
