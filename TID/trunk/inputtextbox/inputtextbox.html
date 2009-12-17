@@ -17,8 +17,10 @@ var boxlabel = EzWebAPI.createRGadgetVariable("boxlabel", changeBoxText);
 var theme = EzWebAPI.createRGadgetVariable("theme", changeTheme);
 var buttonlabel = EzWebAPI.createRGadgetVariable("buttonlabel", changeButtonText);
 var buttonisvisible = EzWebAPI.createRGadgetVariable("buttonisvisible", showButton);
+var clearafterpost = EzWebAPI.createRGadgetVariable("clearafterpost", clearBoxText);
 var onaddedtext = EzWebAPI.createRGadgetVariable("onaddedtext", changeOnAddedText);
 var additionoftext = EzWebAPI.createRGadgetVariable("additionoftext", changeAdditionOfText);
+var clear = clearafterpost.get();
 
 //keyword to Send
 var keyword = EzWebAPI.createRWGadgetVariable("postedText");
@@ -37,6 +39,10 @@ function changeButtonText(value){
 	if (document.getElementById("button").style.visibility != "hidden") {
 		document.getElementById("button").value = buttonlabel;
 	}
+}
+
+function clearBoxText(value) {
+	clear = value;
 }
 
 function showButton(value) {
@@ -98,6 +104,8 @@ function sendKeyword(){
 	var val = document.KeywordCreationForm.elements['keyword'].value;
 	if (val && val !="")
 		keyword.set(val);
+	if (clear == 'Yes')
+		document.KeywordCreationForm.elements['keyword'].value = "";
 }
 
 
@@ -106,7 +114,6 @@ function init() {
 	changeButtonText(buttonlabel.get());
 	changeTheme(theme.get());
 	changeOnAddedText(onaddedtext.get());
-	
 }
 
 

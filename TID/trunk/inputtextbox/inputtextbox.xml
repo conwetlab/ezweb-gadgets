@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Input Text Box</Name>
-		<Version>1.0</Version>
+		<Version>1.01</Version>
 		<Author>rps</Author>
 		<Mail>rps@tid.es</Mail>
 		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>
@@ -24,6 +24,10 @@
 		<Preference name="buttonisvisible" type="list" description="show the post button" label="Is the post button visible?" default="true">
 			<Option value="true" name="True"/>
 			<Option value="false" name="False"/>
+		</Preference>
+		<Preference name="clearafterpost" type="list" description="clear the box after post the text" label="Clear after post" default="Yes">
+			<Option value="Yes" name="Yes"/>
+			<Option value="No" name="No"/>
 		</Preference>
 		<Preference name="onaddedtext" type="list" description="how the text is added" label="On added text, existing text" default="iscleaned">
 			<Option value="iscleaned" name="is cleaned"/>
