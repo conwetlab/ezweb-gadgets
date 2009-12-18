@@ -8,7 +8,7 @@
 		<Author>rps</Author>
 		<Mail>rps@tid.es</Mail>
 		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.0/search.png</ImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.01/search.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Input_Text_Box</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -49,7 +49,7 @@
 		<Slot name="addTextThenPost" type="text" label="Add text then post" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.0/inputtextbox.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.01/inputtextbox.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="7" height="5"/>
 </Template>
