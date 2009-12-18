@@ -2844,6 +2844,8 @@ StyledElements.StyledAlert = function(title, content, options) {
 
     var image = document.createElement("img");
     image.src = EzWebExt.getResourceURL("images/degradado.png");
+    document.body.appendChild(image);
+    document.body.removeChild(image);
 
     this.wrapperElement = document.createElement("div");
     this.wrapperElement.className = "styled_alert";
@@ -2872,7 +2874,7 @@ StyledElements.StyledAlert = function(title, content, options) {
 
     var types = ["info", "warning", "error"];
     image = document.createElement("img");
-    image.src = EzWebExt.getResourceURL("images/dialog/dialog-" + types[this.options['type']] + '.png');
+    image.src = EzWebExt.getResourceURL("/images/dialog/dialog-" + types[this.options['type']] + '.png');
     td.appendChild(image);
     						
     if (title)
@@ -2935,15 +2937,19 @@ StyledElements.StyledAlert.prototype.repaint = function(temporal) {
       var contentStyle = document.defaultView.getComputedStyle(this.content, null);
 
       height = height - this.header.offsetHeight -
-      messageDivStyle.getPropertyCSSValue('border-top-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
-      messageDivStyle.getPropertyCSSValue('border-bottom-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
-      headerStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
-      headerStyle.getPropertyCSSValue('margin-top').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
-      contentStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
+		    messageDivStyle.getPropertyCSSValue('border-top-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    messageDivStyle.getPropertyCSSValue('border-bottom-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    headerStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    headerStyle.getPropertyCSSValue('margin-top').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    contentStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
       this.content.style.height =  (height + 'px');
 
       // Addjust Content Width 
-      width =  width - messageDivStyle.getPropertyCSSValue('border-left-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - messageDivStyle.getPropertyCSSValue('border-right-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - contentStyle.getPropertyCSSValue('margin-right').getFloatValue(CSSPrimitiveValue.CSS_PX) - contentStyle.getPropertyCSSValue('margin-left').getFloatValue(CSSPrimitiveValue.CSS_PX);
+      width =  width - 
+		    messageDivStyle.getPropertyCSSValue('border-left-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    messageDivStyle.getPropertyCSSValue('border-right-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    contentStyle.getPropertyCSSValue('margin-right').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
+		    contentStyle.getPropertyCSSValue('margin-left').getFloatValue(CSSPrimitiveValue.CSS_PX);
       this.content.style.width = (width + 'px');
     }      
 }
