@@ -1,9 +1,14 @@
+body{
+	background:#edeceb;
+}
+
 #header {
-	background-color: #e0e0e0;
+	background-color: #edeceb;
 	padding-left: 10px;
-	min-height: 30px;
+	height: 30px;
 	min-width: 246px;
-	border-bottom: 1px solid #888;
+	border:0px;
+	border-bottom:1px solid #888;
 }
 
 #header img {
@@ -13,7 +18,7 @@
 }
 
 #content {
-	background-color: #E0E0E0;
+	background-color: #edeceb;
 	font-size: 12px;
 	display: block;
 	min-width: 246px; 
@@ -63,7 +68,7 @@ table.layout {
 #footer {
 	width: 100%;
 	text-align: right;
-	background-color: #e0e0e0;
+	background-color: #edeceb;
 	padding-left: 2px;
 	min-height: 30px;
 }
@@ -104,7 +109,8 @@ table.layout {
 	border: 1px solid #888;
 	-moz-border-radius: 3px;
 	white-space: normal;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .open_tag {
 	white-space: nowrap;
@@ -209,7 +215,6 @@ table.layout {
 }
 
 #accounts {
-	border: 1px double #CCC;
 	background-color: #BBB;
 	-moz-border-radius: 4px;
 }
@@ -226,7 +231,8 @@ table.layout {
 	font-size:12px;
 	white-space:nowrap
 	font-family:sans-serif;
-	overflow:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
 	background-color:white;
 }
 #contentSetConfiguration td {
@@ -303,8 +309,7 @@ button div {
 	left:0px;
 	right:0px;
 	bottom:0px;
-	min-height: 229px;
-	background-color: #E0E0E0;
+	background-color: #edeceb;
 }
 
 .alternative_title{
@@ -316,7 +321,7 @@ button div {
 
 .buttonsSettings
 {
-	float : right;
+	text-align : right;
 	margin-right: 10px;
 }
 
@@ -337,7 +342,8 @@ button div {
 	bottom: 0px;
 	left: 0px;
 	background-color: white;
-	overflow : auto;
+	overflow-y : auto;
+	overflow-x : hidden;
 }
 
 #addSettings
@@ -347,7 +353,7 @@ button div {
 	left:0px;
 	right:0px;
 	bottom:0px;
-	background-color: #E0E0E0;
+	background-color: #edeceb;
 }
 
 #modifySettings
@@ -357,5 +363,5 @@ button div {
 	left:0px;
 	right:0px;
 	bottom:0px;
-	background-color: #E0E0E0;
+	background-color: #edeceb;
 }

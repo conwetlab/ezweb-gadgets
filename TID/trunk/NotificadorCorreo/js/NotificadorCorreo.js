@@ -1,4 +1,3 @@
-var imgsrc = "http://ezweb.tid.es/repository/ezweb-gadgets/NotificadorCorreo/NotificadorCorreo_1.4/images/";
 var time = EzWebAPI.createRGadgetVariable("time", resetInterval);
 var size = 0;
 var popup = null;
@@ -28,7 +27,7 @@ var NotificadorCorreo = function()
 }
 
 NotificadorCorreo.prototype = new EzWebGadget();
-NotificadorCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/NotificadorCorreo/NotificadorCorreo_1.4";
+NotificadorCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/NotificadorCorreo/NotificadorCorreo_1.4/";
 NotificadorCorreo.prototype.init = function(){
 
     var alternativeMails = alternatives.createAlternative({defaultEffect:'None'});
@@ -72,7 +71,6 @@ NotificadorCorreo = new NotificadorCorreo();
 
 function addAccount()
 {
- 
     var textServerMail = contextAdd["_serverMail"].getValue();
     var textPort = contextAdd["_port"].getValue();
     var textUsername = contextAdd["_username"].getValue();
@@ -98,7 +96,7 @@ function addAccount()
 			{
 			    if(textEmail == auxAccounts[i].email)
 				{
-				    EzWebGadget.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAddUser"),EzWebExt.ALERT_ERROR);
+				    NotificadorCorreo.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAddUser"),EzWebExt.ALERT_ERROR);
 				    return;
 				}
 			}
@@ -118,7 +116,7 @@ function addAccount()
 	    displayAccounts();
 	}
     else
-	EzWebGadget.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAdd"),EzWebExt.ALERT_ERROR);	
+	NotificadorCorreo.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAdd"),EzWebExt.ALERT_ERROR);	
 }
 
 
@@ -170,7 +168,7 @@ function modifyAccount(element)
 		{
 		    if((i != element) && (textEmail == modifyAccounts[i].email))
 			{
-			    EzWebGadget.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAddUser"),EzWebExt.ALERT_ERROR);
+			    NotificadorCorreo.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAddUser"),EzWebExt.ALERT_ERROR);
 			    return;
 			}
 		}
@@ -190,14 +188,14 @@ function modifyAccount(element)
 	    createMailboxList();
 	}
     else
-	EzWebGadget.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAdd"),EzWebExt.ALERT_ERROR);	
+	NotificadorCorreo.alert("Error", NotificadorCorreo.getTranslatedLabel("errorAdd"),EzWebExt.ALERT_ERROR);	
 
 }
 
 
 function displayAddAccount()
 {
-    contextAdd = {}
+  contextAdd = {};
 	document.getElementById("addSettings").innerHTML = "";    
 
 	var content = document.createElement("div");
@@ -206,131 +204,105 @@ function displayAddAccount()
 	var header = document.getElementById("buttonsHeader");
 	header.innerHTML = "";
 	var divButtons = document.createElement("div");
-	divButtons.setAttribute("class", "buttonsSettings");
+	divButtons.className = "buttonsSettings";
 
 	var imgAccept = document.createElement("img");
 	var imgCancel = document.createElement("img");
 	
-	imgAccept.setAttribute("src", imgsrc+"save.png");
-	imgCancel.setAttribute("src", imgsrc+"cancel.png");
-	imgAccept.addEventListener("click", addAccount, false);
-	imgCancel.addEventListener("click", displayAccounts, false);
+	imgAccept.src = NotificadorCorreo.resourcesURL+"images/save.png";
+	imgCancel.src = NotificadorCorreo.resourcesURL+"images/cancel.png";
+	EzWebExt.addEventListener(imgAccept, "click", addAccount, false);
+	EzWebExt.addEventListener(imgCancel, "click", displayAccounts, false);
 
 	divButtons.appendChild(imgAccept);
 	divButtons.appendChild(imgCancel);
 	header.appendChild(divButtons);
 
 	var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);
 	table.id = "tableSetAccount";	
 	// NAME ACCOUNT
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "name";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("name")));
-	tr.appendChild(td);
-
-	var td = document.createElement("td");
+	
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledTextField("_name", "");
 	contextAdd["_name"]=input;
-
 	input.insertInto(td);
-	tr.appendChild(td);
-	table.appendChild(tr);
-
+ 
 	// EMAIL
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "email";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("email")));
-	tr.appendChild(td);
-
-	var td = document.createElement("td");
-
+ 
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledTextField("_email", "");
 	contextAdd["_email"]=input;
-
 	input.insertInto(td);
-	tr.appendChild(td);
-	table.appendChild(tr);
-	
+	 
 	// SERVER MAIL
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "serverMail";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("serverMail")));
-	tr.appendChild(td);
-
-	var td = document.createElement("td");
+	 
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledTextField("_serverMail", "");
 	input.insertInto(td);
 	contextAdd["_serverMail"]=input;
-	tr.appendChild(td);
-	table.appendChild(tr);
-	
+	 
 	// PORT
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "port";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("port")));
-	tr.appendChild(td);
-	
-
-	var td = document.createElement("td");
+	 
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledNumericField({initialValue: 993, min_value:1, max_value: 65535});
 	input.insertInto(td);
 	contextAdd["_port"]=input;
-	tr.appendChild(td);
-
-	table.appendChild(tr);
-
+	 
 	// USERNAME
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "username";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("username")));
-	tr.appendChild(td);
-
-
-	var td = document.createElement("td");
-
+	 
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledTextField("_username", "");
 	input.insertInto(td);
 	contextAdd["_username"]=input;
-	tr.appendChild(td);
-	table.appendChild(tr);
- 
+	 
 	// PASSWORD
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "password";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("password")));
-	tr.appendChild(td);
+	 
 
-	var td = document.createElement("td");
-
+	var td = tr.insertCell(-1);
 	var input = new StyledElements.StyledPasswordField("_password", "");
 	input.insertInto(td);
 	contextAdd["_password"]=input;
-	tr.appendChild(td);
-	table.appendChild(tr);
-
+	 
 	// PROTOCOL
-	var tr = document.createElement("tr");
-	var td = document.createElement("td");
+	var tr = tbody.insertRow(-1);
+	var td = tr.insertCell(-1);
 	td.id = "protocol";
 	td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("protocol")));
-	tr.appendChild(td);
+	 
 
-	var td = document.createElement("td");
+	var td = tr.insertCell(-1);
 	var select = new StyledElements.StyledSelect({initialEntries:[['None', '---'], ['SSL', 'SSL']], 
 						      initialValue:'None'});
 	select.insertInto(td);
 	contextAdd["_protocol"]=select;
-	tr.appendChild(td);
-	table.appendChild(tr); 
-
+	 
 	content.appendChild(table);
-
 	document.getElementById("addSettings").appendChild(content);
 	alternatives.showAlternative(alternativeList[2]);
 }
@@ -355,15 +327,20 @@ function displayModifyAccount()
     var header = document.getElementById("buttonsHeader");
     header.innerHTML = "";
     var divButtons = document.createElement("div");
-    divButtons.setAttribute("class", "buttonsSettings");
-    
+    divButtons.className = "buttonsSettings";
     var imgAccept = document.createElement("img");
     var imgCancel = document.createElement("img");
     
-    imgAccept.setAttribute("src", imgsrc+"save.png");
-    imgCancel.setAttribute("src", imgsrc+"cancel.png");
-    imgCancel.addEventListener("click", displayAccounts, false);
-    imgAccept.setAttribute("onclick", "modifyAccount("+i+");");
+    imgAccept.src = NotificadorCorreo.resourcesURL+'images/save.png';
+    imgCancel.src = NotificadorCorreo.resourcesURL+'images/cancel.png';
+    EzWebExt.addEventListener(imgCancel,"click", displayAccounts, false);
+    EzWebExt.addEventListener(imgAccept, "click", 
+    													EzWebExt.bind(
+																						function(){
+																								modifyAccount(this.i);
+																						},
+																						{'i':i}), 
+															false);
     
     divButtons.appendChild(imgAccept);
     divButtons.appendChild(imgCancel);
@@ -372,119 +349,93 @@ function displayModifyAccount()
     var content = document.createElement("div");
     content.id = "contentSetConfiguration";
     var table = document.createElement("table");
-    table.id = "tableSetAccount";
-    
+    var tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    table.id = "tableSetAccount";    
     contextModify = {};
 
     // NAME ACCOUNT
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "name";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("name")));
-    tr.appendChild(td);
-    
-    var td = document.createElement("td");
+         
+    var td = tr.insertCell(-1);
     var input = new StyledElements.StyledTextField("_name", "");
     input.setValue(name);
     input.insertInto(td);
     contextModify["_name"]=input;
-
-    tr.appendChild(td);
-    table.appendChild(tr);
     
     // EMAIL
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "email";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("email")));
-    tr.appendChild(td);
-    
-    var td = document.createElement("td");
+     
+    var td = tr.insertCell(-1);
     var input = new StyledElements.StyledTextField("_email", "");
     input.setValue(email);
     input.insertInto(td);
     contextModify["_email"]=input;
-
-    tr.appendChild(td);
-    table.appendChild(tr);
-    
+   
     // SERVER MAIL
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "serverMail";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("serverMail")));
-    tr.appendChild(td);
-    
-    var td = document.createElement("td");
+         
+    var td = tr.insertCell(-1);
     var input = new StyledElements.StyledTextField("_serverMail", "");
     input.setValue(serverMail);
     input.insertInto(td);
     contextModify["_serverMail"]=input;
-    tr.appendChild(td);
-    table.appendChild(tr);
- 	
+     
     // PORT
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "port";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("port")));
-    tr.appendChild(td);
-    
-    var td = document.createElement("td");  
+         
+    var td = tr.insertCell(-1);  
     var input = new StyledElements.StyledNumericField({initialValue: parseInt(port), min_value:1, max_value: 65535});
     input.insertInto(td);
     contextModify["_port"]=input;
-
-    tr.appendChild(td);
-    table.appendChild(tr);
     
     // USERNAME
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "username";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("username")));
-    tr.appendChild(td);
-
-    var td = document.createElement("td");
+     
+    var td = tr.insertCell(-1);
     var input = new StyledElements.StyledTextField("_username", "");
     input.setValue(username);
     input.insertInto(td);
     contextModify["_username"]=input;
 
-    tr.appendChild(td);
-    table.appendChild(tr);
-        
     // PASSWORD
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "password";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("password")));
-    tr.appendChild(td);
-
-    var td = document.createElement("td");
+     
+    var td = tr.insertCell(-1);
     var input = new StyledElements.StyledPasswordField("_password", "");
     input.setValue(password);
     input.insertInto(td);
     contextModify["_password"]=input;
     
-    tr.appendChild(td);
-    table.appendChild(tr);
-    
     // PROTOCOL
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     td.id = "protocol";
     td.appendChild(document.createTextNode(NotificadorCorreo.getTranslatedLabel("protocol")));
-    tr.appendChild(td);
-    
-    var td = document.createElement("td");
+     
+    var td = tr.insertCell(-1);
     var select = new StyledElements.StyledSelect({initialEntries:[['None', '---'], ['SSL', 'SSL']], 
 						  initialValue:protocol});
     select.insertInto(td);
-    contextModify["_protocol"]=select;
-
-    tr.appendChild(td);
-    table.appendChild(tr);     
+    contextModify["_protocol"]=select;    
     content.appendChild(table);
   
     document.getElementById("modifySettings").innerHTML = "";
@@ -519,7 +470,7 @@ function displayAccounts()
 	header.innerHTML = "";
 
 	var divButtons = document.createElement("div");
-	divButtons.setAttribute("class", "buttonsSettings");
+	divButtons.className = "buttonsSettings";
 	
 	var imgAdd = document.createElement("img");
 	var imgModify = document.createElement("img");
@@ -528,15 +479,15 @@ function displayAccounts()
 	var imgDelete = document.createElement("img");
 	var imgClose = document.createElement("img");
 
-	imgAdd.setAttribute("src", imgsrc+"add.png");
-	imgModify.setAttribute("src", imgsrc+"modify.png");
-	imgDelete.setAttribute("src", imgsrc+"delete.png");
-	imgClose.setAttribute("src", imgsrc+"close1.png");
+	imgAdd.src = NotificadorCorreo.resourcesURL+'images/add.png';
+	imgModify.src = NotificadorCorreo.resourcesURL+'images/modify.png';
+	imgDelete.src = NotificadorCorreo.resourcesURL+'images/delete.png';
+	imgClose.src = NotificadorCorreo.resourcesURL+'images/close1.png';
 
-	imgAdd.addEventListener("click", displayAddAccount, false);
-	imgModify.addEventListener("click", displayModifyAccount, false);
-	imgDelete.addEventListener("click", removeAccount, false);
-	imgClose.addEventListener("click", synchronize, false);
+	EzWebExt.addEventListener(imgAdd, "click", displayAddAccount, false);
+	EzWebExt.addEventListener(imgModify, "click", displayModifyAccount, false);
+	EzWebExt.addEventListener(imgDelete, "click", removeAccount, false);
+	EzWebExt.addEventListener(imgClose, "click", synchronize, false);
 
 	divButtons.appendChild(imgAdd);	
 	divButtons.appendChild(imgModify);
@@ -549,11 +500,13 @@ function displayAccounts()
 	content.id = "contentConfiguration";
 
 	var contentTable = document.createElement("div");
-	contentTable.setAttribute("class", "contentTable");
+	contentTable.className = "contentTable";
 
 	var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);
 	table.id = "accounts";
-	var tr = document.createElement("tr");
+	var tr = tbody.insertRow(-1);
 	tr.style.cssText = "border-bottom:1px solid #888";
 	tr.id = "headerContentConfiguration";
 	var th = document.createElement("th");
@@ -565,30 +518,24 @@ function displayAccounts()
 	th.style.cssText = "width: 90%";
 	th.id = "email";
 	tr.appendChild(th);
-	table.appendChild(tr);
 	
 	if (accounts.get() != "")
 	    {
 		var accountsDetails = eval('('+accounts.get()+')');
 		for(var i=0; i < accountsDetails.length; i++)
 		    {
-			var tr = document.createElement("tr");
-			var td1 = document.createElement("td");
-			td1.setAttribute("class", "checkAccount");
-			var td2 = document.createElement("td");
-			td2.setAttribute("class", "emailAccount");
+			var tr = tbody.insertRow(-1);
+			var td1 = tr.insertCell(-1);
+			td1.className = "checkAccount";
+			var td2 = tr.insertCell(-1);
+			td2.className = "emailAccount";
 			var input = document.createElement("input");
 		
 			input.setAttribute("type", "checkbox");
 			input.id = "checkedAccount"+i;
-			input.setAttribute("onclick", "checkButtonModify();");
+			EzWebExt.addEventListener(input, "click", checkButtonModify, false);
 			td1.appendChild(input);
 			td2.appendChild(document.createTextNode(accountsDetails[i].account));
-
-			tr.appendChild(td1);
-			tr.appendChild(td2);
-			table.appendChild(tr);
-
 		    }
 	    }
 	else
@@ -626,95 +573,114 @@ function displayMailList()
 function openFolder(key) 
 {
     mailboxList[key]["div_children"].style.display = "block";
-    mailboxList[key]["image_icon"].src = imgsrc+'close.png';
+    mailboxList[key]["image_icon"].src = NotificadorCorreo.resourcesURL+'images/close.png';
     mailboxList[key]["state"] = "opened";
 }
 
 function closeFolder(key) 
 {
     mailboxList[key]["div_children"].style.display = "none";
-    mailboxList[key]["image_icon"].src = imgsrc+'open.png';
+    mailboxList[key]["image_icon"].src = NotificadorCorreo.resourcesURL+'images/open.png';
     mailboxList[key]["state"] = "closed";
 }
 
 
 function clickAccount(key)
 {
-    if (mailboxList[key]["state"] == "closed") {
+	if(mailboxList[key]["state"]){
+		if (mailboxList[key]["state"] == "closed"){
+			openFolder(key);
+			return null;
+		}
+		else{
+			closeFolder(key);
+			return null;
+		}
+	}
 	openFolder(key);
-    }
-    else 
-    {
-	closeFolder(key);
-    }
+	return null;
 }
 
 // DISPLAY AN ACCOUNT
 function createAccount(key)
 {
     var name = document.createElement('div');
-    name.setAttribute('class', 'open_tag');
+    name.className = 'open_tag';
 
     if (mailboxList[key]["list-mails"].length > 0)
-	name.setAttribute("onclick", "clickAccount('"+key+"');");
+	    EzWebExt.addEventListener(name, "click",
+	    													EzWebExt.bind(
+	    														function(){
+	    															clickAccount(this.key);
+	    														}, {'key':key}),
+	    													false
+	    													);
 
     mailboxList[key]["div_header"] = name;
 
     var imageIcon = document.createElement('img');
-    imageIcon.setAttribute('class', 'small_image');
+    imageIcon.className = "small_image";
 
     if(mailboxList[key]["list-mails"].length > 0)
-	imageIcon.setAttribute('style', 'visibility:visible;float:left;padding-top:5px;');
+			imageIcon.style.cssText = 'visibility:visible;float:left;padding-top:5px;';
     else
-	imageIcon.setAttribute('style', 'visibility:hidden;float:left;padding-top:5px;');
+			imageIcon.style.cssText = 'visibility:hidden;float:left;padding-top:5px;';
 
-    imageIcon.setAttribute('src', imgsrc+'open.png');
+    imageIcon.src = NotificadorCorreo.resourcesURL+"images/open.png";
     name.appendChild(imageIcon);
     mailboxList[key]["image_icon"] = imageIcon;
 
     var imageFolder = document.createElement('img');
-    imageFolder.setAttribute('class', 'folder_image');
+    imageFolder.className = "folder_image";
 
     if(mailboxList[key]["state"] == "offline")
-	imageFolder.setAttribute('src', imgsrc+'account-offline.png');
+			imageFolder.src = NotificadorCorreo.resourcesURL+"images/account-offline.png";
     else
-	imageFolder.setAttribute('src', imgsrc+'account-online.png');
+			imageFolder.src = NotificadorCorreo.resourcesURL+"images/account-online.png";
 
     name.appendChild(imageFolder);
     mailboxList[key]["image_folder"] = imageFolder;
     var div = document.createElement('div');
     div.id = key;
-    div.setAttribute("style", "float:left");
+    div.style.cssText = "float:left";
     var span = document.createElement('span');
-    span.setAttribute('class', 'node_name');
+    span.className = 'node_name';
     span.appendChild(document.createTextNode(mailboxList[key].name));
     div.appendChild(span);
     name.appendChild(div);
     mailboxList[key]["span_folder"] = span;
     
     var children = document.createElement('div');
-    children.setAttribute('class', 'children');
-    children.setAttribute('style', 'display:none');
+    children.className = "children";
+    children.style.cssText = 'display:none;';
     if (mailboxList[key]["list-mails"].length > 0)
 	{
 	    var span = document.createElement("span");
-	    span.setAttribute("class", "newMails");
+	    span.className = "newMails";
 	    span.appendChild(document.createTextNode("("+mailboxList[key]["list-mails"].length+")"));
 	    name.appendChild(span);
 	    for(var i = 0; i < mailboxList[key]['list-mails'].length; i++)
 		{
 		    var div = document.createElement("div");
-		    div.setAttribute("onclick", "getMailDetails('"+key+"',"+i+")");
+		    EzWebExt.addEventListener(div, 
+		    													"click", 
+		    													EzWebExt.bind(
+		    														function(){
+		    															getMailDetails(this.key, this.i);
+		    														}, {'key':key, 'i':i}),
+		    													false
+		    													);
+		    													
 		    var img = document.createElement("img");
-		    img.setAttribute("src", imgsrc+"mail.png");
+		    img.src = NotificadorCorreo.resourcesURL+"images/mail.png";
 		    var date = document.createElement("span");
-		    date.setAttribute("class", "date");
+		    date.className = "date";
 		    var subject = document.createElement("span");
-		    subject.setAttribute("class", "subject");
+		    subject.className = "subject";
 		    var from_name = document.createElement("span");
 		    var from = document.createElement("a");
-		    from.setAttribute("href", "mailto:"+mailboxList[key]['list-mails'][i].from.mail);
-		    from_name.setAttribute("class", "from");
+		    from.href = "mailto:"+mailboxList[key]['list-mails'][i].from.mail;
+		    from.className = "from";
 		    date.appendChild(document.createTextNode(mailboxList[key]['list-mails'][i].date));
 		    subject.appendChild(document.createTextNode(mailboxList[key]['list-mails'][i].subject));
 		    from_name.appendChild(document.createTextNode(mailboxList[key]['list-mails'][i].from.name));
@@ -781,7 +747,7 @@ function addLoadingImage()
 	body.appendChild(background);
 	var image = document.createElement('img');
 	image.id = "loading_image";
-	image.setAttribute('src', imgsrc+'ajax-loader.gif');
+	image.src = NotificadorCorreo.resourcesURL+'images/ajax-loader.gif';
 	body.appendChild(image);
 }
 
@@ -819,6 +785,3 @@ function resetInterval(value)
 		interval = setInterval("reload()",value * 60000);
 	}
 }
-    
-
-
