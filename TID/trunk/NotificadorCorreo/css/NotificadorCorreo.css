@@ -177,7 +177,7 @@ table.layout {
 	position:absolute;
 }
 #headerContentConfiguration{
-	border:1px solid #888888;
+	border-bottom:1px solid #888888;
 }
 #contentConfiguration table
 {
