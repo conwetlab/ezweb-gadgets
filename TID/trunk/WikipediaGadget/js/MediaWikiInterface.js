@@ -218,10 +218,12 @@ function displaySearch (search, context)
 				}
 			}
 			a.setAttribute ('title', search[i].description);
-			if (search[i].url != '#')
+			if (search[i].url != '#') {
+			    var context = {name: name};
 				EzWebExt.addEventListener(a, 'click', EzWebExt.bind(function() {
-				    goArticle(this);
-			    }, name), true);
+				    goArticle(this.name);
+			    }, context), true);
+			}
 			result.appendChild (a);
 		}
 		div.appendChild (result);
@@ -371,16 +373,17 @@ function displayArticle(text)
 		var href = links[i].getAttribute("href");
 		if (href != null) 
 		{
-    		if ((href.indexOf('http://') != -1) && (href.indexOf(baseURI) == -1))
+    		if ((href.indexOf('http://') == 0) && (href.indexOf(baseURI) != 0))
 			{
 				links[i].setAttribute('target', '_blank');
 			}
             else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*wiki/+(.+)")) != null)
 			{
 				links[i].removeAttribute('href');
+				var context = {href: match[1]};
 		        EzWebExt.addEventListener(links[i], 'click', EzWebExt.bind(function() {
-		            goArticle(decodeURIComponent(this));
-		        }, match[1]), true);
+		            goArticle(decodeURIComponent(this.href));
+		        }, context), true);
 			}
 			else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*w/+.*\\?(.+)")) != null)
 			{
@@ -392,9 +395,10 @@ function displayArticle(text)
 					{
 						var paramvalue = params[k].split('=')[1];
 						links[i].removeAttribute('href');
+						var context = {href: paramvalue};
 						EzWebExt.addEventListener(links[i], 'click', EzWebExt.bind(function() {
-		                    goArticle(decodeURIComponent(this));
-		                }, paramvalue), true);
+		                    goArticle(decodeURIComponent(this.href));
+		                }, context), true);
 					}
 				}
 			}
@@ -429,9 +433,10 @@ function displayArticle(text)
 			    src = urlhostWiki+src; // TODO Necesario?
 				images[i].setAttribute ('src', src);
 		    }
+		    var context = {src: src};
 			EzWebExt.addEventListener(images[i], 'click', EzWebExt.bind(function() {
-			    setImageEvent(this);
-			}, src), true);
+			    setImageEvent(this.src);
+			}, context), true);
 		}
 	}
 	removeLoadingImage();
