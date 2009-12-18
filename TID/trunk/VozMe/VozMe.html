@@ -1,12 +1,29 @@
-<html>
-<head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<?xml version="1.0"?>
+ 
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
 	<title>VozMe Gadget</title>
 	
-	<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/css/style.css"></link>
 	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
-	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/eskel/1.0_beta1/EzWebAPI_ext.js"></script>
+	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/eskel/1.0_beta3/EzWebAPI_ext.js"></script>
+	
 	<script type="text/javascript" language="javascript" charset="utf-8">
+	var resURL = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/";
+	 
+	if (EzWebExt.Browser.isIE()) {
+	    EzWebExt.appendStyle(resURL + "css/styleIE.css");
+	}
+	else {
+	    EzWebExt.appendStyle(resURL + "css/style.css");
+	}
+	
 	// <![CDATA[
 		var text = EzWebAPI.createRGadgetVariable("text", function(text){
 					document.getElementById('formulario').text.value= text;
@@ -120,10 +137,13 @@
 			
 		this.over= false;
 		function showPlayer() {
-			document.getElementById('playerFrame').style.visibility = 'visible';
+			document.getElementById('playerFrame').style.display = 'table';
+			document.body.style.overflow = "hidden";
+			document.body.scrollTop = 0;
 		}
 		function hidenPlayer() {
-			document.getElementById('playerFrame').style.visibility = 'hidden';
+			document.getElementById('playerFrame').style.display = 'none';
+			document.body.style.overflow = "auto";
 		}
 		function closePlayer() {
 			hidenPlayer();
@@ -144,18 +164,21 @@
 			
 		}
 		function closeError(){
-			document.getElementById('divError').style.visibility = 'hidden';
+			document.getElementById('divError').style.display = 'none';
+			document.body.style.overflow = "auto";
 		}
 		function openError(){
-			document.getElementById('divError').style.visibility = 'visible';
+			document.getElementById('divError').style.display = 'table';
+			document.body.style.overflow = "hidden";
+			document.body.scrollTop = 0;
 		}
 		function changeSrc(){
 			
-				document.getElementById('b_close').src = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/ibclosehover.png";
+				document.getElementById('b_close').src = resURL + "img/ibclosehover.png";
 			
 		}
 		function changeSrcInit(){
-				document.getElementById('b_close').src = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/bclose.png";
+				document.getElementById('b_close').src = resURL + "img/bclose.png";
 		}
 	// ]]>
 	</script>
@@ -202,8 +225,7 @@
 			</table>
 		</form>
 	</div>
-
-	<div id="playerFrame" class="contenedor" style="visibility:hidden">
+	<div id="playerFrame" class="contenedor" style="display: none;">
 		<div class="centrado">
 		<div id="player" class="contenido">
 			<img id="b_close" src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
@@ -211,7 +233,7 @@
 		</div>
 		</div>
 	</div>
-	<div id="divError" class="contenedor" style="visibility:hidden">
+	<div id="divError" class="contenedor" style="display:none;">
 		<div class="centrado">
 		<div id="divMessage" class="contenido">
 			<p id="errorMsg"> El campo texto no puede estar vacío </p>
