@@ -6,7 +6,7 @@ var tableSearch = false;
 //EzWeb
 var width  = EzWebAPI.createRGadgetVariable("height", repaint);
 var height = EzWebAPI.createRGadgetVariable("width", repaint);
-var inText = EzWebAPI.createRGadgetVariable("inText", function(){pushElement(arrayElems,createNewElement())});
+var inText = EzWebAPI.createRGadgetVariable("inText", function(value){pushElement(arrayElems,createNewElement())});
 var textProperty = EzWebAPI.createRWGadgetVariable("texts");
 
 // Element Object
@@ -79,12 +79,6 @@ function searchTextArray(a, text){
 	return result;
 }
 			
-
-function elementJson(inDate,text){
-	this.pubDate	= inDate;
-	this.text	= text;
-}
-
 function compareDate(obj1, obj2) {
 	if (obj1.pubDate.getTime() > obj2.pubDate.getTime()){
 		return -1;
@@ -105,7 +99,7 @@ function delElement(pos, a){
 
 	a.splice(pos,1);
 
-	textProperty.set(toJSON(fromArray(a)));	//Save Json
+	textProperty.set(arrayElemsToJSON(a));	//Save Json
 
 }
 
@@ -113,7 +107,7 @@ function delAll(a){
 	arrayElems = new Array();
 	createTable(arrayElems, false);
 	
-	textProperty.set(toJSON(fromArray(arrayElems)));    //Save Json
+	textProperty.set(arrayElemsToJSON(arrayElems));    //Save Json
 
 }
 
@@ -127,7 +121,7 @@ function delSelected(a){
 	a = new Array();	
 	createTable(arrayResult, true);
 
-        textProperty.set(toJSON(fromArray(arrayElems)));    //Save Json
+        textProperty.set(arrayElemsToJSON(arrayElems));    //Save Json
 	
 }
 
@@ -140,7 +134,7 @@ function pushElement(a, elem){
 	a.push(elem);
 	sortArray(a);
 
-	textProperty.set(toJSON(fromArray(a)));    //Save Json
+	textProperty.set(arrayElemsToJSON(a));    //Save Json
 	
 	if (!tableSearch){
 		createTable(a, false);			//Repaint Table
@@ -148,15 +142,22 @@ function pushElement(a, elem){
 	
 }
 
-function toJSON(object) {
-	return JSON.stringify(object, function (key, value) {
-	    return value;
+function arrayElemsToJSON(array) {
+	return JSON.stringify(array, function (key, value) {
+	    if (key == "pubDate") {
+	        value = this.pubDate.getTime();
+	    }
+        return value;
 	});
 }
 
-function fromJSON(json) {
-	
-	return eval("(" + json + ")");
+function arrayElemsFromJSON(json) {
+	return JSON.parse(json, function (key, value) {
+        if (key == "pubDate") {
+            value = new Date(value);
+        }
+        return value
+	});
 }
 
 function getTime(obj){
@@ -178,28 +179,10 @@ function formatNumber(num, digits){
 	return result;
 }
 
-function toArray(a){
-	var result = new Array();	
-	for (var i=0; i< a.length; i++){
-		result[i] = new element(new Date(Date.parse(a[i].pubDate)),a[i].text);
-	}
-	return result;
-}
-
-function fromArray(a){
-	var result = new Array();
-	for (var i=0; i< a.length; i++){
-		
-		result[i] = new elementJson(a[i].pubDate.toUTCString(), a[i].text);
-	}
-	return result;
-}
-
 function init(){
 
 	if (textProperty.get() != ""){
-		arrayElems = toArray(fromJSON(textProperty.get()));
-		
+	    arrayElems = arrayElemsFromJSON(textProperty.get());
 	}
 	createGadget(arrayElems);
 }

@@ -1,20 +1,22 @@
 function repaint() {
-    var table = document.getElementById("table");
-    table.style.height = document.body.offsetHeight + "px";
-    var height = table.offsetHeight - document.getElementById("thead").offsetHeight - 2;
-    document.getElementById("tbody").style.height = ((height > 0)?height:0) + "px";
-    var rows = EzWebExt.getElementsByClassName(table, "tr");
-    for (var i=0; i<rows.length; i++) {
-        var cells = EzWebExt.getElementsByClassName(rows[i], "td");
-        if (cells.length > 0) {
-            var offsetWidth = 0;
-            for (var j=0; j<cells.length-1; j++) {
-                 offsetWidth += cells[j].offsetWidth;
+    try {
+        var table = document.getElementById("table");
+        table.style.height = document.body.offsetHeight + "px";
+        var height = table.offsetHeight - document.getElementById("thead").offsetHeight - 2;
+        document.getElementById("tbody").style.height = ((height > 0)?height:0) + "px";
+        var rows = EzWebExt.getElementsByClassName(table, "tr");
+        for (var i=0; i<rows.length; i++) {
+            var cells = EzWebExt.getElementsByClassName(rows[i], "td");
+            if (cells.length > 0) {
+                var offsetWidth = 0;
+                for (var j=0; j<cells.length-1; j++) {
+                     offsetWidth += cells[j].offsetWidth;
+                }
+                var width = rows[i].offsetWidth - offsetWidth;
+                cells[cells.length-1].style.width = ((width > 0)?width:0) + "px";
             }
-            var width = rows[i].offsetWidth - offsetWidth;
-            cells[cells.length-1].style.width = ((width > 0)?width:0) + "px";
         }
-    }
+    } catch(e){}
 }
 
 function createTable(a, tableSearch_){
@@ -175,6 +177,8 @@ function createTable(a, tableSearch_){
 	if (tableSearch_ && (lastTable != null)) {
 	    input.focus();
 	}
+	
+	repaint();
 }
 
 function createGadget(a){
