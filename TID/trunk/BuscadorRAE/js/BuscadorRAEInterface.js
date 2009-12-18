@@ -11,7 +11,7 @@ var BuscadorRAE = function() {
 
 BuscadorRAE.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-BuscadorRAE.prototype.resourcesURL = "http://ezweb.tid.es/repository/BuscadorRAE/"; 
+BuscadorRAE.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/BuscadorRAE/BuscadorRAE_1.9/"; 
 
 BuscadorRAE.prototype.init = function() {
 	this.value = '';
