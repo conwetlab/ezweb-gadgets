@@ -2964,12 +2964,16 @@ var CommandQueue = function (context, initFunc, stepFunc) {
     var stepTimes = null;
 
     function doStep() {
-      if (stepFunc(step, context)) {
-          setTimeout(doStep, stepTimes[step] - (new Date()).getTime());
-          step++;
-      } else {
-          doInit()
-      }
+        if (stepFunc(step, context)) {
+            var timeDiff = stepTimes[step] - (new Date()).getTime();
+            if (timeDiff < 0)
+                timeDiff = 0
+
+            step++;
+            setTimeout(doStep, timeDiff);
+        } else {
+            doInit()
+        }
     }
 
     function doInit() {
@@ -2980,7 +2984,10 @@ var CommandQueue = function (context, initFunc, stepFunc) {
 
         if (command != undefined) {
             step = 0;
-            setTimeout(doStep, stepTimes[step] - (new Date()).getTime());
+            var timeDiff = stepTimes[step] - (new Date()).getTime();
+            if (timeDiff < 0)
+                timeDiff = 0
+            setTimeout(doStep, timeDiff);
         } else {
             running = false;
         }
@@ -2995,7 +3002,10 @@ var CommandQueue = function (context, initFunc, stepFunc) {
      * stepFunc pasadas en el constructor.
      */
     this.addCommand = function(command) {
-        var len = elements.push(command);
+        if (command == undefined)
+            return;
+
+        elements.push(command);
 
         if (!running) {
             running = true;
