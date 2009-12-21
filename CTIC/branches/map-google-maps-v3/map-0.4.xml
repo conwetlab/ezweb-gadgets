@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Generic Map Gadget (0.4) for the EzWeb Platform
+
+    Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+
+  <!-- Meta tags define gadgets properties -->
+  <Catalog.ResourceDescription>
+    <Vendor>CTIC</Vendor>
+    <Name>Map</Name>
+    <Version>0.4</Version>
+    <Author>Carlos Tejo, Sergio Fernández</Author>
+    <Mail>carlos.tejo@fundacionctic.org, sergio.fernandez@fundacionctic.org</Mail>
+    <Description>Gadget Map</Description>
+    <ImageURI>http://idi.fundacionctic.org/ezweb/gadgets/map/icons/map.png</ImageURI>
+    <WikiURI>http://idi.fundacionctic.org/ezweb/gadgets/map/doc/map-0.4.html</WikiURI>
+  </Catalog.ResourceDescription>
+
+  <!-- EzWeb Gadgets Tags -->
+  <Platform.Preferences>
+    <Preference name="editionPref" type="text" description="enable edition in the map" label="boolean edition" default="true"/>
+    <Preference name="centerPref" type="text" description="WGS84 Coordinates that describes where to center a map" label="Map center" default=""/>
+  </Platform.Preferences>
+
+  <!-- EzWeb Gadget Persistent State -->
+  <Platform.StateProperties>
+  </Platform.StateProperties>
+
+  <!-- EzWeb Gadget Data Wiring -->
+  <Platform.Wiring>
+    <Slot name="wgs84CoordSlot" type="text" label="wgs84 Coord" description="WGS84 Coordinates. Longitude, Latitude and precision (optional), comma separated" friendcode="wgs84Coord" />
+    <Slot name="geojsonSlot" type="text" label="GeoJSON" description="GeoJSON that describes a point or a list of points" friendcode="GeoJSON" />
+    <Slot name="boundingBoxSlot" type="text" label="Bounding Box" description="Bouding Box. It is a string (comma separated), composed by: min longitude, min latitude, max longitude, max latitude" friendcode="BoundingBox" />
+
+    <Event name="wgs84CoordEvent" type="text" label="wgs84 Coord" description="WGS84 Coordinates. Longitude, Latitude and precision (optional), comma separated" friendcode="wgs84Coord" />
+    <Event name="geojsonEvent" type="text" label="GeoJSON" description="GeoJSON that describes a point or a list of points" friendcode="GeoJSON" />
+    <Event name="uriEvent" type="text" label="point URI" description="URI of the selected point" friendcode="point URI" />
+  </Platform.Wiring>
+
+  <Platform.Link>
+    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/map/map-0.4.html"/>
+  </Platform.Link>
+
+  <Platform.Rendering width="9" height="25"/>
+
+</Template>
+
