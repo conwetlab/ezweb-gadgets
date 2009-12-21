@@ -20,13 +20,13 @@
  */
 
 var map = null;
-var mgr = null;
 var geocoder = null;
 var editMarker = null;
 var mapClickHandler = null;
-var cityLimits = new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90,180)); // default: the world
+var cityLimits = new google.maps.LatLngBounds(new google.maps.LatLng(-90, -180), new google.maps.LatLng(90,180)); // default: the world
 var oldLatLng = null;
 var zoom = 15;
+var infowindow = null;
 
 var wgs84Coord = new EzWebAPI.createRGadgetVariable("wgs84CoordSlot",_wgs84CoordHandler);
 var geojson = new EzWebAPI.createRGadgetVariable("geojsonSlot",_geojsonHandler);
@@ -41,26 +41,40 @@ var _centerPref = EzWebAPI.createRGadgetVariable("centerPref", _centerPrefHandle
 
 function init() {
 
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("map"));
-        var center = new GLatLng(0,0);
-        map.setCenter(center, zoom);
-        map.setUIToDefault();
-        map.addControl(new GLargeMapControl());
-        map.addControl(new GMapTypeControl());
-        map.addControl(new GScaleControl());
-        geocoder = new GClientGeocoder();
-        mgr = new MarkerManager(map);
-
-        _editionPrefHandler(_editionPref.get());
-
-        _centerPrefHandler(_centerPref.get()); // center the map
+    var options = {
+      zoom: zoom,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      },
+      navigationControl: true,
+      navigationControlOptions: {
+        style: google.maps.NavigationControlStyle.ZOOM_PAN,
+        position: google.maps.ControlPosition.LEFT
+      },
+      scaleControl: true,
+      scaleControlOptions: {
+        position: google.maps.ControlPosition.BOTTOM_LEFT
+      }
     }
+
+    map = new google.maps.Map(document.getElementById("map"), options);
+
+    infowindow = new google.maps.InfoWindow();
+
+    geocoder = new google.maps.Geocoder();
+
+    _editionPrefHandler(_editionPref.get());
+
+    _centerPrefHandler(_centerPref.get()); // center the map
 }
 
 
 function centerMap(lat, lng){
-    var center = new GLatLng(lat, lng);
+
+    var center = new google.maps.LatLng(lat, lng);
     map.setCenter(center, zoom);
 }
 
@@ -84,6 +98,7 @@ function _centerPrefHandler(value){
 
 
 function _boundingBoxHandler(value){
+
     var bbox = value.split(",");
 
     if (bbox.length != 4) {
@@ -97,7 +112,7 @@ function _boundingBoxHandler(value){
     var maxLat = bbox[3];
 
     // initialite city bounds
-    cityLimits = new GLatLngBounds(new GLatLng(minLat, minLon), new GLatLng(maxLat, maxLon));
+    cityLimits = new google.maps.LatLngBounds(new google.maps.LatLng(minLat, minLon), new google.maps.LatLng(maxLat, maxLon));
 
     // center the map using the city bounds
     var center = cityLimits.getCenter();
@@ -110,60 +125,52 @@ function _editionPrefHandler(value){
     _editionPref.set(value);
 
     if (_editionPref.get().toLowerCase() == "true") { //FIXME Boolean value in preferences instead of text ?
-	    mapClickHandler = GEvent.addListener(map, "click", mapClick);
+	    mapClickHandler = google.maps.event.addListener(map, "click", mapClick);
 	    return true;
     }
 
     if (_editionPref.get().toLowerCase() !== "true" && mapClickHandler !== null) { //FIXME Boolean value in preferences instead of text ?
-	    if (mapClickHandler !== null) {GEvent.removeListener(mapClickHandler);}
-	    if (editMarker !== null) {map.removeOverlay(editMarker); editMarker = null;}
+	    if (mapClickHandler !== null) {google.maps.event.removeListener(mapClickHandler);}
+	    if (editMarker !== null) {editMarker.setMap(null); editMarker = null;}
 	    return false;
     }
 
 }
 
-function containsLatLng(latlng) {
 
-   if (cityLimits.containsLatLng(latlng)){ 
-       return true;
-   } else {
-       return false;
-   }
-}
+function mapClick(event) {
 
+    //if (overlay) { return false; } // if click is over another element different of the map (i.e. a marker, an infobox...), don't do anything.
 
-function mapClick(overlay, latlng, overlaylatlng) {
+    if (editMarker !== null) {editMarker.setMap(null); editMarker = null; infowindow.close();}
 
-    if(overlay){ return false; } // if click is over another element different of the map (i.e. a marker, an infobox...), don't do anything.
+    editMarker = new google.maps.Marker({position: event.latLng, draggable: true, clickable: false});
 
-    if (editMarker !== null) {map.removeOverlay(editMarker); editMarker = null;}
-
-    editMarker = new GMarker(latlng, {draggable: true, bouncy: true, clickable: false});
-
-    GEvent.addListener(editMarker, "dragstart", function() {
-        map.closeInfoWindow();
+    google.maps.event.addListener(editMarker, "dragstart", function() {
+        infowindow.close();
     });
 
-    GEvent.addListener(editMarker, "dragend", getAddress);
+    google.maps.event.addListener(editMarker, "dragend", function() {
+        getAddress(editMarker.getPosition());
+    });
 
-    getAddress(latlng);
-
+    getAddress(event.latLng);
 }
 
 
 function getAddress(latlng) {
 
   if (latlng !== null) {
-      if(containsLatLng(latlng)){ // If the point is inside the bounds
+      if(cityLimits.contains(latlng)){ // If the point is inside the bounds
           oldLatLng = latlng;
-          editMarker.setLatLng(latlng);
-          map.addOverlay(editMarker);
-          geocoder.getLocations(latlng, showAddress);
+          editMarker.setPosition(latlng);
+          editMarker.setMap(map);
+          geocoder.geocode({latLng: latlng}, showAddress);
       } else {
           alert("Este punto está fuera de la ciudad de Zaragoza.\nSeleccione una posición válida.");
           if(oldLatLng !== null){
-            editMarker.setLatLng(oldLatLng);
-            map.addOverlay(editMarker);
+            editMarker.setPosition(oldLatLng);
+            editMarker.setMap(map);
           } else {
             // center the map
             var center = cityLimits.getCenter();
@@ -174,26 +181,28 @@ function getAddress(latlng) {
 }
 
 
-function showAddress(response) {
+function showAddress(results, status) {
     var address = "";
 
-    if (response && response.Status.code == 200) {
-        place = response.Placemark[0];
-        editMarker.bindInfoWindowHtml(place.address);
-        editMarker.openInfoWindowHtml(place.address);
-
+    if (status == google.maps.GeocoderStatus.OK) {
+        place = results[0];
         // Save the address
-        address = place.address;
+        address = place.formatted_address;
 
         //Remove the country of the address due to index purpouses
         address = address.substring(0, address.lastIndexOf(','));
+
+        // Replace our Info Window's content and position
+        infowindow.setContent(address);
+        infowindow.open(map, editMarker);
+
     } else {
-        alert("Error: Status Code:" + response.Status.code+" in getLocations service.");
+        alert("Error: Status Code:" + status+" in geocoding service.");
     }
 
     // Wiring propagation
-    var lat = editMarker.getLatLng().lat();
-    var lon = editMarker.getLatLng().lng();
+    var lat = editMarker.getPosition().lat();
+    var lon = editMarker.getPosition().lng();
     var alt = 0;
 
     //  wgs84      
@@ -264,10 +273,10 @@ function _geojsonHandler(geojson){
     //                      "uri": "http://www.zaragoza.es/turruta/resource/Monumento/0" }
     //    }]}
 
-    mgr.clearMarkers();
-    var markersBounds = new GLatLngBounds();
+    map.clearMarkers();
+    var markersBounds = new google.maps.LatLngBounds();
 
-    if (editMarker !== null) {map.removeOverlay(editMarker); editMarker = null;}
+    if (editMarker !== null) {editMarker.setMap(null); editMarker = null;}
 
     var pois = (geojson.evalJSON(true));
 
@@ -288,7 +297,7 @@ function _geojsonHandler(geojson){
 		    continue;
         }
 	    var values = poi.geometry.coordinates;
-                markersBounds.extend(new GLatLng(poi.geometry.coordinates[1], poi.geometry.coordinates[0])); 	
+        markersBounds.extend(new google.maps.LatLng(poi.geometry.coordinates[1], poi.geometry.coordinates[0])); 	
 
 	    var info ="";
 	    if (poi.properties.name) {
@@ -308,8 +317,12 @@ function _geojsonHandler(geojson){
 	    _wgs84Handler(values, info, icon, uri);
     }
 
-    if (pois.length > 0) {
-        map.setCenter(markersBounds.getCenter(), map.getBoundsZoomLevel(markersBounds));
+    if (pois.length == 1) {
+        map.setCenter(markersBounds.getCenter(), zoom);
+    }
+
+    if (pois.length > 1) {
+        map.fitBounds(markersBounds);
     }
 
     //wiring propagation
@@ -318,9 +331,9 @@ function _geojsonHandler(geojson){
 
 
 function _wgs84CoordHandler(wgs84coord) {
-    mgr.clearMarkers();
+
     var values = wgs84coord.split(",");
-    _wgs84Handler(values, null, null, null);
+    return _wgs84Handler(values, null, null, null);
 }
 
 
@@ -334,18 +347,20 @@ function _wgs84Handler(wgs84coord, label, icon, uri) {
 	    label = "";
     }
 
-    if(wgs84coord.length>=2) {
+    if (wgs84coord.length>=2) {
 	    var lon = wgs84coord[0]*1; //longitude, latitude (geojson)
-	    var lat = wgs84coord[1]*1; 
-	    //FIXME Check precision variable
-	    createPointGeo(lat, lon, label, true, icon, uri);
+	    var lat = wgs84coord[1]*1;
+	    return createPointGeo(lat, lon, label, true, icon, uri);
+    } else {
+        throw "not valid WGS84 coordinates";
     }
 }
 
 
 function createPointGeo(lat, lon, info, center, icon, uri){
+
     if (lat && lon) {
-        var point = new GLatLng(lat, lon);
+        var point = new google.maps.LatLng(lat, lon);
         return createMarker(point, info, center, icon, uri);
     }
     return null;
@@ -353,41 +368,41 @@ function createPointGeo(lat, lon, info, center, icon, uri){
 
 
 function createMarker(point, info, center, icon, uri) {
-    var markerOptions = { icon: G_DEFAULT_ICON };
-    var GoogleIcon = new GIcon(G_DEFAULT_ICON);
+
+    var marker = null;
+
+    var title = point.lat() + ", " + point.lng();
+
+    if (info){
+       title = info;
+    }
+
+    if (uri && info){
+        title = "Ir a: <a href=\"#\" onclick=\"uriEvent.set('"+uri+"');\">"+info+"</a>";
+    }
 
     if (icon) {
-        GoogleIcon.image = icon;
-        GoogleIcon.iconSize=new GSize(32,32);
-        GoogleIcon.shadowSize=new GSize(56,32);
-        GoogleIcon.iconAnchor=new GPoint(16,32);
-        GoogleIcon.infoWindowAnchor=new GPoint(16,0); 
-        markerOptions = { icon: GoogleIcon };
+        marker = new google.maps.Marker({position: point, icon: icon, title: title});
+    } else {
+        marker = new google.maps.Marker({position: point, title:title});       
     }
 
-    var marker = new GMarker(point, markerOptions);
-    var str;
-    if (uri){
-        str = "Select: <a href=\"#\" onclick=\"uriEvent.set('"+uri+"');\">"+info+"</a>";
-    } else {
-        if (info) {
-            str = info;
-        } else {
-            str = point.lat() + ", " + point.lng();
-        }
-    }
-    GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(str);});
+    google.maps.event.addListener(marker, "click", function(){    
+        infowindow.setContent(marker.title);
+        infowindow.open(map, marker);
+    });
 
     if (center){
         map.setCenter(point, zoom);
     }
 
-    mgr.addMarker(marker, 0);
+    map.addMarker(marker);
     return marker;
 }
 
 
 function sendEvents(){
-    geojsonEvent.set(geojson.get());
+
+    return geojsonEvent.set(geojson.get());
 }
 
