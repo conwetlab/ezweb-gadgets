@@ -45,6 +45,7 @@ table {
 	margin:auto;
 	color:#225784;
 	border-spacing:0pt;
+	border-collapse:collapse;
 }
 td {
 	padding:0.25em 0.5em;
