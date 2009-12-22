@@ -9,7 +9,7 @@ var Buscaminas = function() {
 
 Buscaminas.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-Buscaminas.prototype.resourcesURL = "http://demo.ezweb.morfeo-project.org/repository/Buscaminas/";
+Buscaminas.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/Buscaminas/Buscaminas_1.3/";
 
 Buscaminas.prototype.BORDER_WIDTH = 4;
 
@@ -22,26 +22,25 @@ Buscaminas.prototype.init = function() {
 	this.img[1] = document.createElement("img");
 	this.img[1].src = this.getResourceURL("images/face-smile.png");
 	this.img[2] = document.createElement("img");
-        this.img[2].src = this.getResourceURL("images/face-cool.png");
-        this.img[3] = document.createElement("img");
-        this.img[3].src = this.getResourceURL("images/face-sad.png");
-        this.img[4] = document.createElement("img");
-        this.img[4].src = this.getResourceURL("images/face-win.png");
-        this.img[5] = document.createElement("img");
-        this.img[5].src = this.getResourceURL("images/clock.png");
-        this.img[6] = document.createElement("img");
-        this.img[6].src = this.getResourceURL("images/flag-mini.png");
-        this.img[7] = document.createElement("img");
-        this.img[7].src = this.getResourceURL("images/tile-bang.png");
-        this.img[8] = document.createElement("img");
-        this.img[8].src = this.getResourceURL("images/tile-bomb.png");
-        this.img[9] = document.createElement("img");
-        this.img[9].src = this.getResourceURL("images/tile-mark.png");
-        this.img[10] = document.createElement("img");
-        this.img[10].src = this.getResourceURL("images/tile-mark-fail.png");
-        this.img[11] = document.createElement("img");
-        this.img[11].src = this.getResourceURL("images/face-mark-question.png");	
-
+    this.img[2].src = this.getResourceURL("images/face-cool.png");
+    this.img[3] = document.createElement("img");
+    this.img[3].src = this.getResourceURL("images/face-sad.png");
+    this.img[4] = document.createElement("img");
+    this.img[4].src = this.getResourceURL("images/face-win.png");
+    this.img[5] = document.createElement("img");
+    this.img[5].src = this.getResourceURL("images/clock.png");
+    this.img[6] = document.createElement("img");
+    this.img[6].src = this.getResourceURL("images/flag-mini.png");
+    this.img[7] = document.createElement("img");
+    this.img[7].src = this.getResourceURL("images/tile-bang.png");
+    this.img[8] = document.createElement("img");
+    this.img[8].src = this.getResourceURL("images/tile-bomb.png");
+    this.img[9] = document.createElement("img");
+    this.img[9].src = this.getResourceURL("images/tile-mark.png");
+    this.img[10] = document.createElement("img");
+    this.img[10].src = this.getResourceURL("images/tile-mark-fail.png");
+    this.img[11] = document.createElement("img");
+    this.img[11].src = this.getResourceURL("images/face-mark-question.png");	
 
 	// Init
 	this.LEVELS = {};
@@ -86,7 +85,7 @@ Buscaminas.prototype.init = function() {
 	this.mainButton = document.createElement("div");
 	this.mainButton.id = "main_button";
 	this.mainButton.title = "Nuevo juego";
-	this.mainButton.addEventListener("click", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(this.mainButton, "click", EzWebExt.bind(function(e) {
 		this.newGame();
 	}, this), false);
 	this.header.appendChild(this.mainButton);
@@ -163,19 +162,26 @@ Buscaminas.prototype.lost = function() {
 }
 
 Buscaminas.prototype.repaint = function() {
-	var height = document.defaultView.innerHeight - this.header.offsetHeight;
-	var width = document.defaultView.innerWidth;
+	//var height = document.defaultView.innerHeight - this.header.offsetHeight;
+	//var width = document.defaultView.innerWidth;
 	
-	this.content.style.height = height + "px";
-	this.content.style.width = width + "px";
+	var height = document.body.offsetHeight - this.header.offsetHeight;
+	var width = document.body.offsetWidth;
+	this.content.style.height = Utils.nonNegative(height) + "px";
+	this.content.style.width = Utils.nonNegative(width) + "px";
 	
-	var size = Utils.min(width-10, height-10);
+	var boardWidth = Math.floor((width-10)/this.board.width) * this.board.width;
+	var boardHeight = Math.floor((height-10)/this.board.height) * this.board.height;
+	var size = Utils.min(Utils.nonNegative(boardWidth), Utils.nonNegative(boardHeight));
 	this.board.resize(size, size);
 	
-	this.board.element.style.left = ((width - this.board.element.offsetWidth)/2) + "px";
-	this.board.element.style.top = ((height - this.board.element.offsetHeight)/2) + "px";
+	var left = (width - this.board.element.offsetWidth)/2;
+	var top = (height - this.board.element.offsetHeight)/2;
+	this.board.element.style.left = Utils.nonNegative(left) + "px";
+	this.board.element.style.top = Utils.nonNegative(top) + "px";
 	
-	this.mainButton.style.left = ((width - this.mainButton.offsetWidth)/2) + "px";
+	left = (width - this.mainButton.offsetWidth)/2;
+	this.mainButton.style.left = Utils.nonNegative(left) + "px";
 }
 
 Buscaminas = new Buscaminas();
@@ -467,11 +473,11 @@ Board.prototype.finish = function() {
 }
 
 Board.prototype.resize = function(width, height) {
-	this.element.style.width = width + "px";
-	this.element.style.height = height + "px";
+	this.element.style.width = Utils.nonNegative(width) + "px";
+	this.element.style.height = Utils.nonNegative(height) + "px";
 	for (var x=0; x<this.height; x++) {
 		for (var y=0; y<this.width; y++) {
-			this.tiles[x][y].resize((width-(Buscaminas.BORDER_WIDTH*this.width)-1)/this.width, (height-(Buscaminas.BORDER_WIDTH*this.height)-1)/this.height);
+			this.tiles[x][y].resize(Utils.nonNegative(Math.floor((width-(Buscaminas.BORDER_WIDTH*this.width))/this.width)), Utils.nonNegative(Math.floor((height-(Buscaminas.BORDER_WIDTH*this.height))/this.height)));
 		}
 	}
 }
@@ -479,8 +485,8 @@ Board.prototype.resize = function(width, height) {
 Board.prototype._createInterface = function(parentElement) {
 	this.element = document.createElement("div");
 	EzWebExt.addClassName(this.element, "board");
-	this.element.style.width = (this.width * Buscaminas.TILE_WIDTH) + "px";
-	this.element.style.height = (this.height * Buscaminas.TILE_HEIGHT) + "px";
+	//this.element.style.width = (this.width * Buscaminas.TILE_WIDTH) + "px";
+	//this.element.style.height = (this.height * Buscaminas.TILE_HEIGHT) + "px";
 	parentElement.appendChild(this.element);
 	this.paintFlagsCounter();
 }
@@ -636,6 +642,8 @@ Tile.prototype.paintWin = function() {
 }
 
 Tile.prototype.resize = function(width, height) {
+    width = Utils.nonNegative(width);
+	width = Utils.nonNegative(height);
 	this.element.style.width = width + "px";
 	this.element.style.height = height + "px";
 	this.element.style.lineHeight = height + "px";
@@ -646,7 +654,7 @@ Tile.prototype._createInterface = function(parentElement) {
 	this.element = document.createElement("div");
 	EzWebExt.addClassName(this.element, "tile");
 	EzWebExt.addClassName(this.element, "close");
-	this.element.addEventListener("mousedown", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(this.element, "mousedown", EzWebExt.bind(function(e) {
 		if (!this.board.end) {
 			if ((Utils.isRightButton(e)) && (this.state != this.STATE_OPEN)) {
 				this.board.markTile(this.x, this.y);
@@ -774,6 +782,10 @@ Utils.prototype.removeElementByIndex = function(list, index) {
 
 Utils.prototype.numberToString = function(number) {
 	return ((number < 10)? "0":"") + number;
+}
+
+Utils.prototype.nonNegative = function(number) {
+	return (number > 0)? number: 0;
 }
 
 Utils = new Utils();
