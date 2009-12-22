@@ -37,7 +37,7 @@ body {
 #header .right {
 	float:right;
 	position:relative;
-	right:-1px;
+	right:3px;
 	top:2px;
 }
 
