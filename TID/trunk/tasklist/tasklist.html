@@ -2,25 +2,28 @@
 * This code is licensed under terms shown on this link:
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-
 <!-- EZWEB JAVASCRIPT LIBRARY  -->
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/labels.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
-<style type="text/css">@import url(http://demo.ezweb.morfeo-project.org/repository/tasklist/css/default.css);</style>
 <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<base href="http://pallas.ls.fi.upm.es/svn/ezweb-gadgets-tid/tasklist/"/>
+<script language="javascript" src="labels.js"></script>
+<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
+<link rel="stylesheet" type="text/css" href="css/default.css"/>
 <style type="text/css">@import url(http://demo.ezweb.morfeo-project.org/repository/tasklist/jscalendar-1.0/calendar-blue.css);</style>
-<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/jscalendar-1.0/calendar.js"></script>
-<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/jscalendar-1.0/lang/calendar-en.js"></script>
-<script type="text/javascript" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/jscalendar-1.0/calendar-setup.js"></script>
+<script type="text/javascript" src="jscalendar-1.0/calendar.js"></script>
+<script type="text/javascript" src="jscalendar-1.0/lang/calendar-en.js"></script>
+<script type="text/javascript" src="jscalendar-1.0/calendar-setup.js"></script>
+
+
 
 <!-- CREATION OF EZWEB VARIABLE -->
 <script language='JavaScript'>
+  var ie=false;
   var jsonTasklist = [];
   var groupByDate = false;
   var barHidden = true;
@@ -86,40 +89,44 @@
 		sort();
   }
   
-  function save(){
-	
+  function save(){	
     tasklist.set(Object.toJSON(jsonTasklist));
   }
   
 
   function load(){
-
-	$('addBar').style.background = getColor(theme.get(),true);
-  	$('addBar').hide();
-	$('colorpicker').hide();
-    groupByDate = agrupar.get()=="no";
-	finished = finalizadas.get()=="si";
+    $('addBar').style.background = getColor(theme.get(),true);
+	    $('addBar').hide();
+    $('colorpicker').hide();
+      groupByDate = agrupar.get()=="no";
+    finished = finalizadas.get()=="si";
 
     var listado = document.getElementById('listado');
-	if (tasklist.get()!="")
-		jsonTasklist = eval("(" + tasklist.get() + ")");
-	//jsonTasklist = tasklist.get();
-	var i = 0;
-	listToHtml();
-    <!-- Code needed here -->
-	if(jsonTasklist.length==0){
-		$('addBar').show();
-		$('barHeader').innerHTML = translator.getLabel('ocultar');
-		$('addButton').value = translator.getLabel('addButton');
+    if (tasklist.get()!="")
+	    jsonTasklist = eval("(" + tasklist.get() + ")");
+    //jsonTasklist = tasklist.get();
+    var i = 0;
+    listToHtml();
 
-		barHidden = false;
-	}
-	$('tarea').value="";
-	$('fecha').value="";
-	$('buttonpicker').style.background = "#ffcccc";
-	
-	$('calendario').setAttribute( "title",translator.getLabel('seleccionarFecha'));
-	titles();
+    <!-- Code needed here -->
+
+    if(jsonTasklist.length==0){
+	    $('addBar').show();
+	    $('barHeader').hide();
+	    $('barHeaderHidden').show();	    
+	    $('addButton').value = translator.getLabel('addButton');
+	    barHidden = false;
+    }
+    else{
+      $('barHeader').show();
+	    $('barHeaderHidden').hide();	    
+    }
+
+    $('tarea').value="";
+    $('fecha').value="";
+    $('buttonpicker').style.background = "#ffcccc";
+    $('calendario').setAttribute( "title",translator.getLabel('seleccionarFecha'));
+    titles();
 
   }
 	function titles(){
@@ -136,10 +143,8 @@
 	}
 
 	function nextId()
-	{
-		
-		do
-		{
+	{		
+		do{
 			var ok = true;
 			var id=Math.floor(Math.random()*101)
 			for (i=0;i<jsonTasklist.length;i++)
@@ -151,10 +156,12 @@
 		}while (ok==false)
 		return id;
 	}
+	
 	function addtask()
 	{
 		if($('tarea').value=="")
 			return;
+			
 		var newId;
 		if (jsonTasklist.length==0)
 			newId = 0;
@@ -163,27 +170,29 @@
 			//newId = jsonTasklist[jsonTasklist.length-1]["id"] +1;
 		}
 
-		var task = {
-		nota: $('tarea').value,
-		fecha: $('fecha').value,
-		prioridad: $('buttonpicker').style.backgroundColor,
-		fin: false,
-		id: newId
-			};
+		var task = {nota: $('tarea').value,
+          	  	fecha: $('fecha').value,
+           	  	prioridad: $('buttonpicker').style.backgroundColor,
+            		fin: false,
+            		id: newId};
 
 		
 		jsonTasklist.push(task);
 		sort();
 		var listado = document.getElementById('listado');
-		listado.innerHTML =""; // Se reescribe porque si se modifica el checkbox no queda escrito en innerHTML sin refrescar
-		listToHtml();
 		
+    for (var i=0; i<listado.childNodes.length; i++){
+      var child = listado.childNodes[i];
+      listado.removeChild(child);
+      i = 0;
+    } // Se reescribe porque si se modifica el checkbox no queda escrito en innerHTML sin refrescar
+
+		listToHtml();		
 		tasklist.set(Object.toJSON(jsonTasklist));
-		titles();
-	
+		titles();	
 	}
-	function dateParser(date)
-	{
+	
+	function dateParser(date){
 		d = date.toArray();
 		aux = d[0];
 		d[0] = d[3];
@@ -196,12 +205,15 @@
 		//dd/mm/aaaa -> mm/dd/aaaa
 		return d.toString().gsub(',', '');
 	}
+	
 	function delTask(id)
 	{
 		var listado = document.getElementById('listado');
-		listado.innerHTML ="";
-		var i = 0;
-		for (i=0;i<jsonTasklist.length;i++)
+    for (var i=0; i<listado.childNodes.length; i++){
+      var child = listado.childNodes[i];
+      listado.removeChild(child);
+      i = 0;
+    }		for (i=0;i<jsonTasklist.length;i++)
 		{
 			if (jsonTasklist[i].id == id){
 				delete jsonTasklist[i];
@@ -228,22 +240,23 @@
 	function editTask(id)
 	{
 		var listado = document.getElementById('listado');
-		listado.innerHTML ="";
-		var i = 0;
+    for (var i=0; i<listado.childNodes.length; i++){
+      var child = listado.childNodes[i];
+      listado.removeChild(child);
+      i = 0;
+    }
 		for (i=0;i<jsonTasklist.length;i++)
 		{
 			if (jsonTasklist[i].id == id){
 				jsonTasklist[i].nota = $('tarea').value;
 				jsonTasklist[i].fecha = $('fecha').value;
-				jsonTasklist[i].prioridad = $('buttonpicker').style.backgroundColor;
-				
-				}
+				jsonTasklist[i].prioridad = $('buttonpicker').style.backgroundColor;				
+      }
 		}
 		//sortbydate();
 		sort();
 		listToHtml();
-		tasklist.set(Object.toJSON(jsonTasklist));
-		
+		tasklist.set(Object.toJSON(jsonTasklist));		
 	}
 	
 	function editTaskEvent(id)
@@ -252,13 +265,19 @@
 		$('addBar').show();
 		$('addButton').innerHTML = translator.getLabel('modificar');
 		$('barHeader').innerHTML = translator.getLabel('ocultar');
-		$('addButton').onclick = function () {editTask(id);};
+		$('addButton').onclick = function (){
+                              editTask(id);
+                             };
 			
 			//****posibilidad de 'recolorear' solo 1
 		barHidden = false;
-		var i = 0;
 		var listado = document.getElementById('listado');
-		listado.innerHTML = "";
+    for (var i=0; i<listado.childNodes.length; i++){
+      var child = listado.childNodes[i];
+      listado.removeChild(child);
+      i = 0;
+    }
+    
 		for (i=0;i<jsonTasklist.length;i++)
 		{
 			if (jsonTasklist[i].id == id){
@@ -274,9 +293,7 @@
 				else
 					taskToHtml(jsonTasklist[i],"odd");
 			}
-
 		}
-
 		//tasklist.set(Object.toJSON(jsonTasklist));
 	}
 	
@@ -299,41 +316,114 @@
 	function taskToHtml(jsonTask,estilo)
 	{
 		var listado = document.getElementById('listado');
-		var checked ="";
+		var checked =false;
 		var style = "none";
+
 		if (jsonTask.fin==true){
-			checked = "checked";
+			checked = true;
 			style = "line-through";
 			}
-		
-		if(taskColouring.get()=="coloredrow")
-		{		
-			listado.innerHTML = listado.innerHTML + '<tr id="'+jsonTask.id+'i" class="'+estilo+'" style="background:'+jsonTask.prioridad+'"> <td class="check"><input id="'+jsonTask.id+'" style="text-decoration:'+style+'" type="checkbox" onChange="Javascript:checkTask('+jsonTask.id+')" ' +checked+'/></td><td class="nota" id="'+jsonTask.id + 'C' +'" style="text-decoration:'+style+'">'+jsonTask.nota+'</td>' +
-			'<td style="padding-right:27px;width:186px;font-size:12px;">'+jsonTask.fecha +'&nbsp;</td>' +
-			'<td><img title="modificar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/edit.gif" onClick="javascript:editTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;"/></td>'+
-			'<td><img title="eliminar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/delete.gif" onClick="javascript:delTask('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;" title="Eliminar Tarea"/></td>'+
-			'<td><img title="enviar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/send.png" onClick="javascript:sendTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:17px;margin-top:3px;" title="Enviar Tarea"/></td></tr>'
-		}else
-		{
+
+    if (listado.tBodies.length == 0){
+      var tbody = document.createElement("tbody");
+      listado.appendChild(tbody);
+    }
+    else{
+  	  var tbody = listado.tBodies[0];    
+    }
+
+	  var tr = tbody.insertRow(-1);
+	  tr.id = jsonTask.id+'i';
+	  tr.className = estilo;
+	  
+	  var td = tr.insertCell(-1);
+	  if(ie){
+      var input = document.createElement("<input type=checkbox>");
+    }
+    else{
+      var input = document.createElement("input");
+      input.setAttribute("type", "checkbox");
+    }
+	  td.className = "check";
+	  input.id = jsonTask.id;
+	  input.onclick = function(){
+	                      var id = jsonTask.id;
+	                      checkTask(id);
+	                   };
+
+	  td.appendChild(input);
+
+    if(jsonTask.fin){
+   	  input.checked = true;
+    }
+    else{
+      input.checked = false;
+    }
+
+	  td = tr.insertCell(-1);
+	  td.className = "nota";
+	  td.id = jsonTask.id + 'C';
+	  td.style.cssText = "text-decoration:"+style+';';
+	  td.appendChild(document.createTextNode(jsonTask.nota));
+
+		if(taskColouring.get()=="coloredrow"){
+  	  tr.style.cssText = 'background:'+jsonTask.prioridad+';';
+		  td = tr.insertCell(-1);
+		  td.style.cssText = "padding-right:27px;width:186px;font-size:12px;";
+      td.appendChild(document.createTextNode(jsonTask.fecha));		  
+		}
+		else{
 			var color ="#FFFFFF";
 			if (estilo=="even")
 				color = getColor();
-			listado.innerHTML = listado.innerHTML + '<tr id="'+jsonTask.id+'i" class="'+estilo+'" style="background:'+color+'"> <td class="check"><input id="'+jsonTask.id+'" style="text-decoration:'+style+'" type="checkbox" onChange="Javascript:checkTask('+jsonTask.id+')" ' +checked+'/></td><td class="nota" id="'+jsonTask.id + 'C' +'" style="text-decoration:'+style+'">'+jsonTask.nota+'</td>' +
-			'<td><div class="prior" style="background:'+jsonTask.prioridad+';"></div></td>' +
-			'<td style="padding-right:7px;width:186px;font-size:12px;text-align:right">'+jsonTask.fecha +'&nbsp;</td>' +
-			'<td><img title="modificar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/edit.gif" onClick="javascript:editTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;"/></td>'+
-			'<td><img title="eliminar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/delete.gif" onClick="javascript:delTask('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;" title="Eliminar Tarea"/></td>'+
-			'<td><img title="enviar" src="http://demo.ezweb.morfeo-project.org/repository/tasklist/send.png" onClick="javascript:sendTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:17px;margin-top:3px;" title="Enviar Tarea"/></td></tr>'
+
+			td = tr.insertCell(-1);
+      div = document.createElement("div");
+      div.className = "prior";
+      div.style.cssText = "background:"+ jsonTask.prioridad + ";"; 			
+      td.appendChild(div);
+      div = document.createElement("div");
+      td.appendChild(div);
+
+		  td = tr.insertCell(-1);
+		  td.style.cssText = "padding-right:7px;width:186px;font-size:12px;text-align:right";
+      td.appendChild(document.createTextNode(jsonTask.fecha));	
 		}
-		
-		/*
-		listado.innerHTML = listado.innerHTML + '<div id="'+jsonTask.id+'i" class="'+estilo+'" style="background:'+jsonTask.prioridad+'" ><td><div class="style1"><div class="check"><input id="'+jsonTask.id+'" style="text-decoration:'+style+'" type="checkbox" onChange="Javascript:checkTask('+jsonTask.id+')" ' +checked+'/></div><div class="nota" id="'+jsonTask.id + 'C' +'" style="text-decoration:'+style+'">'+jsonTask.nota+'</div></div>' +
-		'<div style="float:right;width:186px;"><div class="style2"><div class="fecha">'+jsonTask.fecha +'</div>' +
-		'<img src="/repository/tasklist/edit.gif" onClick="javascript:editTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;" title="Modificar Tarea"/>'+
-		'<img src="/repository/tasklist/delete.gif" onClick="javascript:delTask('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;" title="Eliminar Tarea"/>'+
-		'<img src="/repository/tasklist/send.png" onClick="javascript:sendTaskEvent('+jsonTask.id+')" style="cursor: pointer;margin-right:8px;margin-top:3px;" title="Enviar Tarea"/></div></div></div>';
-		*/
-		
+
+	  td = tr.insertCell(-1);
+    var img = document.createElement("img");
+    img.setAttribute("title", "Modificar Tarea");
+    img.src = "edit.gif";
+    img.onclick = function(){
+                    var id= jsonTask.id; 
+                    editTaskEvent(id);
+                  };
+    img.style.cssText = "cursor: pointer;margin-right:8px;margin-top:3px;";
+    td.appendChild(img);
+    
+    td = tr.insertCell(-1);
+    img = document.createElement("img");
+    img.setAttribute("title", "Eliminar Tarea");
+    img.src = "delete.gif";
+    img.onclick = function(){
+                    var id= jsonTask.id; 
+                    delTask(id);
+                  };
+    img.style.cssText = "cursor: pointer;margin-right:8px;margin-top:3px;";                
+    td.appendChild(img);
+    
+    td = tr.insertCell(-1);
+    img = document.createElement("img");
+    img.setAttribute("title", "Enviar Tarea");
+    img.src = "send.png";
+    img.onclick = function(){
+                    var id= jsonTask.id; 
+                    sendTaskEvent(id);
+                  };
+    img.style.cssText = "cursor: pointer;margin-right:17px;margin-top:3px;";
+    td.appendChild(img);	
+
+
 	}
 	
 	function getColor(isHeader)
@@ -391,7 +481,11 @@
 	{
 	
 		var listado = document.getElementById('listado');
-		listado.innerHTML ="";
+    for (var i=0; i<listado.childNodes.length; i++){
+      var child = listado.childNodes[i];
+      listado.removeChild(child);
+      i = 0;
+    }
 		for (i=1;i<jsonTasklist.length;i++)
 		{
 			for (j=0;j<jsonTasklist.length-1;j++){
@@ -419,7 +513,8 @@
 	function barHandler() {
 		if (barHidden) {
 			$('addBar').show();
-			$('barHeader').innerHTML = translator.getLabel('ocultar');
+			$('barHeader').hide();
+			$('barHeaderHidden').show();			
 			$('addButton').innerHTML = translator.getLabel('addButton');
 			//$('tarea').value="";
 			//$('fecha').value="";
@@ -430,7 +525,8 @@
 		}
 		else {
 			$('addBar').hide();
-			$('barHeader').innerHTML = translator.getLabel('addtask');
+			$('barHeader').show();
+			$('barHeaderHidden').hide();			
 			barHidden = true;
 			listToHtml();
 		}
@@ -441,7 +537,12 @@
 	{
 		
 		var listado = document.getElementById('listado');
-		listado.innerHTML = "";
+		for (i=0; i<listado.childNodes.length; i++){
+		  var child = listado.childNodes[i];
+		  listado.removeChild(child);
+		  i = 0;
+		}
+		
 		for (i=0;i<jsonTasklist.length;i++)
 		{
 				if(i%2==0)
@@ -449,7 +550,7 @@
 				else
 					taskToHtml(jsonTasklist[i],"odd");
 		}
-		listado.innerHTML = listado.innerHTML + "";
+		//listado.innerHTML = listado.innerHTML + "";
 
 	}
 	function groupby()
@@ -543,23 +644,43 @@
 	function generateLang(){
 
 		translator = new EzWebExt.Translator(labels, "language","languagePref");
-		load();
 		translator.translate();	
+    load();
 	
 	}
 	
 </script>
+<!--[if IE]>
+<script language='JavaScript'>
+  ie=true;
+</script>
+<style>
+  .prior{
+    margin-right:50px;
+  }
 
+  .picker{
+  }
+
+  .picker td{
+
+  }
+
+  .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9{
+    padding:8px;
+  }
+</style>
+<![endif]-->
 </head>
 
 <!-- BINDING USER INTERFACE ELEMENTS WITH JAVASCRIPT FUNCTIONS -->
 <body onload="javascript:generateLang()">
-
+  <div>
   <form name ="formulario" id="formulario" onsubmit="return false;">	
     <center>
 		<div class="bar" id="bar">
-		<span class='barHeader' id='barHeader' onclick="barHandler(); return false;"></span>
-
+  		<span class='barHeader' id='barHeader' onclick="barHandler(); return false;"></span>
+  		<span class='barHeader' id='barHeaderHidden' onclick="barHandler(); return false;" ></span>
 		</div>
 		<div class="contain">
 			<div class="addbar" id="addBar">
@@ -569,9 +690,49 @@
 				 <td><div id="buttonpicker" class="buttonpicker" onClick="selectColor()"></div>
 					<div id="colorpicker" class="tabla">
 
-					<table class="picker"><tr><td><div class="c1" onClick="setColor('#ffcccc')"></td><td><div class="c2" onClick="setColor('#ffffcc')"></td><td><div class="c3" onClick="setColor('#ccffcc')"></td></tr>
-					<tr><td><div class="c4" onClick="setColor('#ccccff')"></td><td><div class="c5" onClick="setColor('#ccffff')"></td><td><div class="c6" onClick="setColor('#ccc0c0')"></td></tr>
-					<tr><td><div class="c7" onClick="setColor('#efefdd')"></td><td><div class="c8" onClick="setColor('#a0e4d4')"></td><td><div class="c9" onClick="setColor('#ffffff')"></td></tr></table>
+					<table class="picker">
+            <tr>
+              <td>
+                <div class="c1" onClick="setColor('#ffcccc')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c2" onClick="setColor('#ffffcc')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c3" onClick="setColor('#ccffcc')">
+                <div></div>
+              </td></tr>
+  					<tr>
+              <td>
+                <div class="c4" onClick="setColor('#ccccff')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c5" onClick="setColor('#ccffff')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c6" onClick="setColor('#ccc0c0')">
+                <div></div>
+              </td>
+            </tr>
+  					<tr>
+              <td>
+                <div class="c7" onClick="setColor('#efefdd')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c8" onClick="setColor('#a0e4d4')">
+                <div></div>
+              </td>
+              <td>
+                <div class="c9" onClick="setColor('#ffffff')">
+                <div></div>
+              </td>
+          </tr>
+        </table>
 				</div>
 				</td>
 				<td class="bartd" style="padding-right:2px;"><input type="text" class="cajafecha" id="fecha" size="13" readonly /></td>
@@ -581,7 +742,7 @@
 				<td><button id="addButton" style="margin-right:0px;" onclick="javascript:addtask()">A&ntilde;adir</button></td></td></tr>
 			</table>
 			</div>
-			<!--<span id="groupby" class="link" onclick='groupby()'>Agrupar tareas</span><!-- | <span class="link" onclick='sortbydate()'>Agrupar</span></br>-->
+			<!--<span id="groupby" class="link" onclick='groupby()'>Agrupar tareas</span> | <span class="link" onclick='sortbydate()'>Agrupar</span></br>-->
 			<table id="listado" class="listado" cellspacing="0">
 
 			</table>
@@ -590,13 +751,14 @@
 
     </center>
   </form>
+  <div>
   <script type="text/javascript">
 	Calendar.setup(
 	{
 		inputField : "fecha", // ID of the input field
 		ifFormat : "%d/%m/%Y", // the date format
 		button : "calendario", // ID of the button
-		firstDay: 1,
+		firstDay: 1
 		
 	}
 	);

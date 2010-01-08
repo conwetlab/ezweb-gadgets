@@ -44,84 +44,58 @@ body
 	float:none;
 	position: absolute;
 	top:0px;
-
 }
+
+
 #colorpicker{
 	width: 61px;
 	height: 24px;
 	position: relative;
 }
 
-.c1
-{
-	padding:8px;
+.c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9{
+  padding:8px;
+  cursor:pointer;
+  border: 1px solid grey;
+}
+
+.c1{
 	background-color: #ffcccc;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c2
-{
-	padding:8px;
+
+.c2{
 	background-color: #ffffcc;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c3
-{
-	padding:8px;
+
+.c3{
 	background-color: #ccffcc;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c4
-{
-	padding:8px;
+
+.c4{
 	background-color: #ccccff;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c5
-{
-	padding:8px;
+
+.c5{
 	background-color: #ccffff;
-	cursor:pointer;
-	border:thin solid gray;
 }
 
-.c6
-{
-	padding:8px;
+.c6{
 	background-color: #ccc0c0;
-	cursor:pointer;
-	border:thin solid gray;
 }
 
-.c7
-{
-	padding:8px;
+.c7{
 	background-color: #efefdd;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c8
-{
-	padding:8px;
+
+.c8{
 	background-color: #a0e4d4;
-	cursor:pointer;
-	border:thin solid gray;
 }
-.c9
-{
-	padding:8px;
+
+.c9{
 	background-color: #ffffff;
-	cursor:pointer;
-	border:thin solid gray;
 }
 
-
-
-.buttonpicker
-{
+.buttonpicker{
 	background-color:#FFCCCC;
 	border:1px solid #000000;
 	cursor:pointer;
@@ -147,9 +121,9 @@ body
 
 .addbar{
 	background:#E4E4E4 none repeat scroll 0 0;
-	border-style:none solid solid;
-	border-top:medium none;
-	border-width:medium 1px 1px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
 	color:black;
 	display:block;
 	/*font-family:"Verdana*/
@@ -300,13 +274,10 @@ body
 	font-size:12px;
 }
 
-.prior
-{
-	/*background-color:red;*/
-	height:14px;
-	margin-right:47px;
+.prior{
+	margin-right:46px;
 	margin-left:10px;
-	width:14px;
-	border: solid thin gray;
+	border: 1px solid gray;
+  padding: 8px;
 }
 
