@@ -8,7 +8,7 @@
     <Author>jaimegc</Author>
     <Mail>jaimegc@tid.es</Mail> 
     <Description>This gadget allow add tasks their estimated dates to a to-do list and classify them by priority using a configurable color code</Description>
-    <ImageURI>http://demo.ezweb.morfeo-project.org/repository/tasklist/todo.gif</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/tasklist/tasklist_2.66/todo.gif</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_To-Do_List</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -54,7 +54,7 @@
 		<Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Link>
-    <XHTML href="http://demo.ezweb.morfeo-project.org/repository/tasklist/tasklist.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/tasklist/tasklist_2.66/tasklist.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 	
