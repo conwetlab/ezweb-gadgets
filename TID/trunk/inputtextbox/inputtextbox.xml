@@ -13,7 +13,7 @@
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
 	<Platform.Preferences>
-		<Preference name="theme" type="list" label="Color Theme" description="Backgruound color theme" default="blue">
+		<Preference name="theme" type="list" label="Color Theme" description="Background color theme" default="blue">
 			<Option value="orange" name="Orange"/>
 			<Option value="green" name="Green"/>
 			<Option value="blue" name="Blue"/>

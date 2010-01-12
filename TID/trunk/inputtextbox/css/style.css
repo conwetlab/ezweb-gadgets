@@ -3,6 +3,7 @@ body {
    font-family: verdana, arial, "lucida console", sans-serif; 
    font-size:small;
    color:#225784;
+   overflow:hidden;
 }
 h2{
    margin: 3px 0 0 10px;
@@ -35,6 +36,7 @@ input[type="button"]{
 }
 .content {
    width:100%;
+   border-collapse:collapse;
 }
 tr{
    width:100%;

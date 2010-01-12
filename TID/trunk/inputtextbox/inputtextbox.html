@@ -2,14 +2,17 @@
 * This code is licensed under terms shown on this link:
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 -->
-<html><head>
-
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.01/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/inputtextbox/inputtextbox_1.01/"/>
+<link id="css_style" href="css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Keyword</title>
 
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="JavaScript">
 
 //Preferences
@@ -20,7 +23,7 @@ var buttonisvisible = EzWebAPI.createRGadgetVariable("buttonisvisible", showButt
 var clearafterpost = EzWebAPI.createRGadgetVariable("clearafterpost", clearBoxText);
 var onaddedtext = EzWebAPI.createRGadgetVariable("onaddedtext", changeOnAddedText);
 var additionoftext = EzWebAPI.createRGadgetVariable("additionoftext", changeAdditionOfText);
-var clear = clearafterpost.get();
+var clear = null;
 
 //keyword to Send
 var keyword = EzWebAPI.createRWGadgetVariable("postedText");
@@ -110,6 +113,7 @@ function sendKeyword(){
 
 
 function init() {
+	clear = clearafterpost.get();
 	changeBoxText(boxlabel.get());
 	changeButtonText(buttonlabel.get());
 	changeTheme(theme.get());
