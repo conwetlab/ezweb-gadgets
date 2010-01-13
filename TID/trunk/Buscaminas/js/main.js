@@ -9,8 +9,6 @@ var Buscaminas = function() {
 
 Buscaminas.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-Buscaminas.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/Buscaminas/Buscaminas_1.3/";
-
 Buscaminas.prototype.BORDER_WIDTH = 4;
 
 /******************** OVERWRITE METHODS **************************/
