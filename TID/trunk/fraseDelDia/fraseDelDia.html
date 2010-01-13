@@ -10,7 +10,8 @@
 
 <!-- API EzWeb -->
 <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script> 
-
+<!-- Base URL Frase del Dia Gadget -->
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.22/"/>
 <style type="text/css">
 
 html 	{
@@ -137,7 +138,6 @@ var refreshTime= EzWebAPI.createRGadgetVariable("refreshTime", setRefreshTime);
 var authorEvent   = EzWebAPI.createRWGadgetVariable('author');
 var sentenceEvent = EzWebAPI.createRWGadgetVariable('sentence');
 
-var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/fraseDelDia/fraseDelDia_1.22/";
 
 function formatNumber(number){
 	return ((number < 10)? "0":"") + number;
@@ -243,7 +243,7 @@ function showImageLoading(){
 	hideArrows();
 	hideSentence();
 	document.getElementById('content').style.backgroundImage = 
-		"url(" + resourcesURL + "images/loading.gif)";
+		"url(images/loading.gif)";
 
 }
 
@@ -461,10 +461,10 @@ function setRefreshTime(){
 function init(){
 	// It refreshs itself each hour
 	showImageLoading();
-	document.getElementById("previous").src = resourcesURL + "images/go-previous.png";
-    document.getElementById("next").src     = resourcesURL + "images/go-next.png";
-    document.getElementById("wiring").src   = resourcesURL + "images/avion.png";
-    document.getElementById("reload").src   = resourcesURL + "images/reload.png";
+	document.getElementById("previous").src = "images/go-previous.png";
+    document.getElementById("next").src     = "images/go-next.png";
+    document.getElementById("wiring").src   = "images/avion.png";
+    document.getElementById("reload").src   = "images/reload.png";
 
 	setRefreshTime();
  	initializeVar();	
