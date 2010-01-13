@@ -775,6 +775,13 @@ var EzWebGadget = function(customSettings) {
     }
     
     this._waitingForDOMContentLoaded(this.init);
+
+    if (this.resourcesURL != undefined)
+        return;
+
+    if (baseElement = document.getElementsByTagName("base")) {
+    	this.resourcesURL = baseElement[0].href; 
+    }
 }
 
 /**
