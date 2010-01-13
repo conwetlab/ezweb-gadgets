@@ -83,7 +83,7 @@ function createTable(a, tableSearch_){
 
 	if (tableSearch_) {
 	    img = document.createElement('img');
-        img.src = srcImg + "go-home.png";
+        img.src = "images/go-home.png";
         img.className = "refresh";
         img.title  = "Mostrar lista completa";
         EzWebExt.addEventListener(img, "click", function() {
@@ -94,7 +94,7 @@ function createTable(a, tableSearch_){
     }
 
 	img = document.createElement('img');
-    img.src = srcImg + "clear.png";
+    img.src = "images/clear.png";
     img.title  = "Borrar todo";
     EzWebExt.addEventListener(img, "click", function() {
         if (confirm("Seguro que deseas borrar")) {
@@ -135,7 +135,7 @@ function createTable(a, tableSearch_){
 		
 		//Delete Image
 		var img = document.createElement('img');
-		img.src = srcImg + "delete.png";
+		img.src = "images/delete.png";
 		img.title  = "Borrar";
 		if (!tableSearch_) {
 		    var context = {index:i};

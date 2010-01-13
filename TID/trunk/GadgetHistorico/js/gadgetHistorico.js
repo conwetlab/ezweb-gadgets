@@ -1,4 +1,3 @@
-var srcImg = "http://ezweb.tid.es/repository/ezweb-gadgets/GadgetHistorico/GadgetHistorico_1.20/images/";
 var arrayElems = new Array(); 		//Array
 var arrayResult = new Array();		//Search Result
 var tableSearch = false;
