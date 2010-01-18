@@ -109,9 +109,12 @@ img{
 	text-decoration:underline;
 }
 </style>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/"/>
 </head>
 <body>
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+
+
 <script>
 
 var travel = EzWebAPI.createRGadgetVariable("travel",configuretravel);
@@ -167,7 +170,7 @@ function configureOk(res) {
 				itemthumb = item.getElementsByTagName("Image")[0].getElementsByTagName("Url")[0].firstChild.nodeValue;
 			}
 			else{
-				itemthumb = "http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/tp_tripthumb_noimage.gif";
+				itemthumb = "tp_tripthumb_noimage.gif";
 			}
 			if (item.getElementsByTagName("Summary")[0].firstChild != null){
 				itemsum = item.getElementsByTagName("Summary")[0].firstChild.nodeValue;
@@ -220,7 +223,7 @@ function configureFail(res) {
 }
 
 </script>
-<img src="http://ezweb.tid.es/repository/ezweb-gadgets/yahoo_travel/yahoo_travel_1.02/ma_tr_1.gif"/>
+<img src="ma_tr_1.gif"/>
 <div id="resultado">A la espera...</div>
 </body>
 </html>
