@@ -5,21 +5,19 @@
 <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" /> 
 	<title>Chiste Diario</title>
-
-	<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/css/style.css"></link>
+  <script language="javascript" type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+  <!-- Base URL Chiste Diario gadget -->
+	<base href="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/"/>
+	<script language="javascript" type="text/javascript" src="js/ChisteDelDia.js">	</script>
+  <link rel="stylesheet" type="text/css" href="css/style.css"></link>
 	<link rel="stylesheet" type="text/css" id="color_theme"></link>
-
-	<script language="javascript" type="text/javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js">
-	</script>
-	<script language="javascript" type="text/javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/js/ChisteDelDia.js">
-	</script>
 </head>
 <body onload="LoadJokeGadget()">
 
 <div id="joke_frame">
 	<div id="head">
 		<a id="joke_frame_title" target="blank"></a>
-		<img id="reload" title="Refrescar" src="http://ezweb.tid.es/repository/ezweb-gadgets/ChisteDelDia/ChisteDelDia_0.7/images/reload.png"></img>
+		<img id="reload" title="Refrescar" src="images/reload.png"></img>
 		<table id="joke_frame_menu">
 			<tr>
 				<td id="left_buttom" class="buttom left" onclick="javascript:lastJoke();">&lt;&lt;</td>
