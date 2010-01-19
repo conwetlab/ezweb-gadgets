@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
- 
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -10,18 +9,17 @@
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 
 	<title>VozMe Gadget</title>
-	
+	<base href="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/"/>	
 	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
 	<script type="text/javascript" src="http://ezweb.tid.es/repository/js/eskel/1.0_beta3/EzWebAPI_ext.js"></script>
-	
+
 	<script type="text/javascript" language="javascript" charset="utf-8">
-	var resURL = "http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/";
 	 
 	if (EzWebExt.Browser.isIE()) {
-	    EzWebExt.appendStyle(resURL + "css/styleIE.css");
+	    EzWebExt.appendStyle("css/styleIE.css");
 	}
 	else {
-	    EzWebExt.appendStyle(resURL + "css/style.css");
+	    EzWebExt.appendStyle("css/style.css");
 	}
 	
 	// <![CDATA[
@@ -174,11 +172,11 @@
 		}
 		function changeSrc(){
 			
-				document.getElementById('b_close').src = resURL + "img/ibclosehover.png";
+				document.getElementById('b_close').src = "img/ibclosehover.png";
 			
 		}
 		function changeSrcInit(){
-				document.getElementById('b_close').src = resURL + "img/bclose.png";
+				document.getElementById('b_close').src = "img/bclose.png";
 		}
 	// ]]>
 	</script>
@@ -187,7 +185,7 @@
 <body>
 	<div id="line"></div>
 	<div id="head">
-		<h1><a id="goto" href="http://vozme.com" title="ir a VozMe.com"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/logo.png" alt="VozMe Gadget"/></a></h1>
+		<h1><a id="goto" href="http://vozme.com" title="ir a VozMe.com"><img src="img/logo.png" alt="VozMe Gadget"/></a></h1>
 	</div>
 	<div id="body">
 		<form id="formulario" action="http://vozme.com/text2voice.php" method="post" target="iPlay" onSubmit="return comprobarCampos(this);">
@@ -228,7 +226,7 @@
 	<div id="playerFrame" class="contenedor" style="display: none;">
 		<div class="centrado">
 		<div id="player" class="contenido">
-			<img id="b_close" src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
+			<img id="b_close" src="img/bclose.png" onclick="closePlayer()" onmouseOver="changeSrc()" onmouseOut="changeSrcInit()"/>
 			<iframe name="iPlay" id="iPlay" frameborder="0"></iframe>
 		</div>
 		</div>
@@ -240,7 +238,7 @@
 			<!--p style="text-align:center; margin-top:1.8em"-->
 				<!--span class="boton aceptar" onclick="closeError()">Aceptar</span-->
 				<button  onclick="closeError()">
-					<img src="http://ezweb.tid.es/repository/ezweb-gadgets/VozMe/VozMe_0.22/img/ok.png">
+					<img src="img/ok.png">
 					
 				Aceptar</button>
 			<!--/p-->
