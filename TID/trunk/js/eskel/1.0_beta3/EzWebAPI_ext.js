@@ -709,6 +709,10 @@ var EzWebGadget = function(customSettings) {
     this._currentLanguage = [];
     this._babelLoaded = false;
 
+    if ((this.resourcesURL == undefined) && (baseElement = document.getElementsByTagName("base"))){
+      	this.resourcesURL = baseElement[0].href; 
+    }
+
     if (this.settings.translatable) {
         var loadCatalogue = function(transport) {
             var response = transport.responseXML, i, j;
@@ -776,12 +780,6 @@ var EzWebGadget = function(customSettings) {
     
     this._waitingForDOMContentLoaded(this.init);
 
-    if (this.resourcesURL != undefined)
-        return;
-
-    if (baseElement = document.getElementsByTagName("base")) {
-    	this.resourcesURL = baseElement[0].href; 
-    }
 }
 
 /**
