@@ -9,6 +9,7 @@
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<title>Visor Imagenes</title>
 	<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/"/>
   <script>
 		var ie = false;
   </script>
@@ -18,15 +19,15 @@
   </script>
   <![endif]-->
   </script>
-	<script language='JavaScript' src='http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenes.js'> </script>
-	<link id="style_navigator" rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/visorImagenes.css"/>
+	<script language='JavaScript' src='visorImagenes.js'> </script>
+	<link id="style_navigator" rel="stylesheet" type="text/css" href="visorImagenes.css"/>
 </head>
 	<body>
 		<div id="header">
-			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/run.png"></img></div>
-			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-best-fit.png"></img></div>
-			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-in.png"></img></div>
-			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="http://ezweb.tid.es/repository/ezweb-gadgets/visorImagenes/visorImagenes_1.07/images/zoom-out.png"></img></div>
+			<div class="image right"><img id="default" title="Enviar evento" onclick="sentURL();" src="images/run.png"></img></div>
+			<div class="image"><img id="default" title="Ajustar ancho" onclick="defaultZoom();" src="images/zoom-best-fit.png"></img></div>
+			<div class="image"><img id="expand" title="Ampliar" onclick="expandZoom();" src="images/zoom-in.png"></img></div>
+			<div class="image"><img id="reduce" title="Reducir" onclick="reduceZoom();" src="images/zoom-out.png"></img></div>
 		</div>
 		<div id="content">
 			<img id="picture" onload="defaultZoom();" style="display:none;"></img>
