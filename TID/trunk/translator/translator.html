@@ -5,14 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="StyleSheet" href="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/default.css" type="text/css" />
-    <link id="style" rel="StyleSheet" href="" type="text/css" />
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
     <script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-
-   <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/labels.js"></script>
-   <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
+    <base href="http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/"/>
+    <link rel="StyleSheet" href="default.css" type="text/css" />
+    <link id="style" rel="StyleSheet" href="" type="text/css" />
+    <script language="javascript" src="labels.js"></script>
+    <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
     <script type="text/javascript">
 	
 	var textS = EzWebAPI.createRGadgetVariable("inputText", setTextS);
@@ -31,7 +31,7 @@
 		if(!value ||value =="")
 			value = theme.get();
 		//END WA
-		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/css/"+value+".css";
+		var href = "css/"+value+".css";
 		var sheetLink=document.getElementById('style');
 		sheetLink.href=href;
 		return;
