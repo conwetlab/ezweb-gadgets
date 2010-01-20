@@ -17,8 +17,6 @@ var gotokeySearch = EzWebAPI.createRWGadgetVariable("gotokeySearch");
 var urlbaseApi = '';
 var urlbaseWiki = '';
 var urlhostWiki = '';
-var resourcesURL = 'http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.5/'; 
-var urlimage = resourcesURL + 'images/'; 
 
 // value = keywords de la busqueda
 var value = '';
@@ -32,7 +30,7 @@ var WikipediaGadget = function () {
 	EzWebGadget.call (this, {translatable:true});
 }
 WikipediaGadget.prototype = new EzWebGadget();
-WikipediaGadget.prototype.resourcesURL = resourcesURL;
+
 // Funcion de inicio
 WikipediaGadget.prototype.init = function() {
 
@@ -245,13 +243,13 @@ function displaySearch (search, context)
 	var a = document.createElement ("a");
 	var img = document.createElement ("img");
 	if (context.pagesearch == 0)
-		img.src = urlimage + 'back_disable.png';
+		img.src = 'images/back_disable.png';
 	else
 	{ // Si no es la primera pagina, da opcion de volver
 		var context = {"value":context.value,"pagesearch":context.pagesearch,"targetTab":tab1, "next":context.next}; 
 		EzWebExt.addEventListener(a, 'click', EzWebExt.bind(goBackSearch, context), true);
 		a.setAttribute('id', 'search-back-button');
-		img.src = urlimage + 'back_enable.png';
+		img.src = 'images/back_enable.png';
 	}
 	a.appendChild(img);
 	td1.appendChild(a);
@@ -272,11 +270,11 @@ function displaySearch (search, context)
 		var context = {"value":context.value,"pagesearch":context.pagesearch,"targetTab":tab1, "next":context.next}; 
 		EzWebExt.addEventListener(a, 'click', EzWebExt.bind(goNextSearch, context), true);
 		a.setAttribute('id', 'search-next-button');
-		img.src = urlimage + 'front_enable.png';
+		img.src = 'images/front_enable.png';
 	}
 	else
 	{
-		img.src = urlimage + 'front_disable.png';
+		img.src = 'images/front_disable.png';
 	}
 	a.appendChild(img);
 	td3.appendChild(a);
@@ -476,7 +474,7 @@ function addLoadingImage() {
 	body.appendChild(background);
 	var image = document.createElement('img');
 	image.id = "loading_image";
-	image.setAttribute('src', urlimage+'ajax-loader.gif');
+	image.setAttribute('src', 'images/ajax-loader.gif');
 	background.appendChild(image);
 }
 

@@ -1,7 +1,7 @@
 <Template schemaLocation='http://morfeo-project.org/2007/Template'>
 <!-- Es la descripcion del gadget -->
 	<Catalog.ResourceDescription>
-		<Vendor>EzWeb</Vendor>
+		<Vendor>Morfeo</Vendor>
 		<Name>Wikipedia</Name>
 		<Version>2.5</Version>
 		<Author>Ignacio Rodriguez</Author>
