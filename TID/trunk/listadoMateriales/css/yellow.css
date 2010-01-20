@@ -2,7 +2,7 @@ body{
   background:#FFE8A1 none repeat scroll 0 0;
 }
 	#header, #container{
-		background:white url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow.png) repeat-x scroll left bottom;
+		background:white url(images/fieldsetyellow.png) repeat-x scroll left bottom;
 		border-color:#8A0F0F;
 	}
 	
@@ -32,7 +32,7 @@ body{
 	
 	#list{
 	  border-color:#8A0F0F;
-		background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow.png) repeat-x scroll bottom left;
+		background:white  url(images/fieldsetyellow.png) repeat-x scroll bottom left;
 	}
 
 	#list .material{
@@ -63,7 +63,7 @@ body{
 }
 
 #addMaterial fieldset{
-	background:white  url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/images/fieldsetyellow2.png) repeat-x scroll bottom left;
+	background:white  url(images/fieldsetyellow2.png) repeat-x scroll bottom left;
 	border-color:#8A0F0F;
 }
 

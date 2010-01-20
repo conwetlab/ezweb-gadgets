@@ -79,7 +79,7 @@ body{
 	#selected_categories li .closeTag{
 		background-attachment:scroll;
 		background-color:transparent;
-		background-image:url(http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/rm_tag.png);
+		background-image:url(../rm_tag.png);
 		background-position:right bottom;
 		background-repeat:no-repeat;
 		color:#666666;

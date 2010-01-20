@@ -7,18 +7,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/labelsList.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
-<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
-
 <title>Listado Materiales</title>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/default.css"/>
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script type="text/javascript" language="javascript" src="/ezweb/js/lib/prototype/prototype.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/"/>
+<script language="javascript" src="labelsList.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
+<link rel="stylesheet" type="text/css" href="css/default.css"/>
 <script language='javascript'>var ie = false</script>
 
 
 <!--[if IE]>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/css/default_ie.css"/>
+<link rel="stylesheet" type="text/css" href="css/default_ie.css"/>
 <script language='javascript'>ie = true</script>
 <![endif]-->
 
@@ -82,7 +82,7 @@ var repaint = function(){
 	}
 }
 
-var resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/";
+
 //EzWeb vars
 //Properties
 var materialList = EzWebAPI.createRWGadgetVariable("materialList");
@@ -431,7 +431,7 @@ function paintMaterialInfo (index, material)
 	var a = document.createElement("a");
 	a.onclick = function(){editMaterial(""+index);repaint();};
 	var image = document.createElement("img");
-	image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/edit.png";
+	image.src = "edit.png";
 	image.setAttribute("alt", "edit");
 	image.setAttribute("title", translator.getLabel('edit_l'));
 	a.appendChild(image);
@@ -441,7 +441,7 @@ function paintMaterialInfo (index, material)
 	var a = document.createElement("a");
 	a.onclick = function(){removeMaterial(""+index, code);};
 	var image = document.createElement("img");
-	image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/listadoMateriales/listadoMateriales_1.01/remove.png";
+	image.src = "remove.png";
 	image.setAttribute("alt", "remove");
 	image.setAttribute("title", translator.getLabel('remove_l'));
 	a.appendChild(image);
@@ -851,9 +851,9 @@ function setConfiguration(value){
 }
 
 function setTheme(value){
-	document.getElementById('color_theme').href = resourcesURL+'css/'+value+'.css';		
+	document.getElementById('color_theme').href = 'css/'+value+'.css';		
 	if (!parseInt(background.get())){
-		document.getElementById('background_color').href = resourcesURL+'css/white.css';		
+		document.getElementById('background_color').href = 'css/white.css';		
 	}
 	else{
 		document.getElementById('background_color').href = "";
