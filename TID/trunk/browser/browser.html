@@ -266,7 +266,7 @@ function loadURLForm(value) {
 
 //	video.appendChild(ifrm); 
 
-	current_url = url.protocol+'://'+url.host+(url.protocol = '' ? ':'+url.protocol : '')+url.path;
+	current_url = url.protocol+'://'+url.host+(url.port != '' ? ':'+url.port : '')+url.path;
 	frm.setAttribute('action', current_url);
 	frm.setAttribute('target', 'browser');
 	frm.submit();
