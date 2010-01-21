@@ -4,7 +4,6 @@
 from os import path
 
 BASEDIR = path.dirname (path.abspath(__file__))
-print BASEDIR
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
