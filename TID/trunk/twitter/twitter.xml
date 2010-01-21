@@ -10,6 +10,7 @@
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget provides an engaging visual way to see and send messages into Twitter system.</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/twitter_logo_s.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/twitteriPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Twitter</WikiURI>
   </Catalog.ResourceDescription>
   
