@@ -9,6 +9,7 @@
     <Mail>fabio@tid.es</Mail>
     <Description>Este gadget presenta la ubicacion en el plano de una determinada direccion o coordenadas UTM. Si se le pasa la precision, dibuja un circulo con el area seleccionada. Este gadget utiliza el API de Google Maps, por lo que está sujeto a las condiciones de licencia descritas en http://code.google.com/intl/en/apis/maps/terms.html</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.10/google_maps.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/localizador/localizador_1.10/google_mapsIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/MapViewer</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
