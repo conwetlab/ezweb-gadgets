@@ -45,7 +45,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/ClienteCorreo.html"/>
+		<XHTML href="http://antares.ls.fi.upm.es/ezweb-gadgets/ClienteCorreo/ClienteCorreo.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="10" height="24"/>

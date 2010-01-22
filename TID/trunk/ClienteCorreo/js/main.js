@@ -2,29 +2,27 @@
 ////////// Class ClienteCorreo //////////////
 /////////////////////////////////////////////
 
-// TODO Actualmente los correos se muestran en un "object", probar a mostrarlo en una instancia nueva de tiny MCE
-
 var ClienteCorreo = function() {
 	/* Call to the parent constructor */
 	EzWebGadget.call(this, {translatable: false, useWidthVar: true});
 }
 
 ClienteCorreo.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
-ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/";
+ClienteCorreo.prototype.resourcesURL = "http://antares.ls.fi.upm.es/ezweb-gadgets/ClienteCorreo/";
 
 /******************** OVERWRITE METHODS **************************/
 
 ClienteCorreo.prototype.init = function() {
 	// Constants
 	this.MULTIPLE_CALLS         = false; // Si vale false, se realiza una única petición para solocitar al servidor la información asociada a cada uno directorio (llamada más pesada)
-	                                     // Si vale true, se realiza una petición por directorio (más sobrecarga en red)
+	                                     // Si vale true, se realiza una petición por directorio (más sobrecarga en red, pero van llegando los resultado progresivamente)
 	
 	this.MAIN_ALTERNATIVE       = 0;
-	this.SEND_ALTERNATIVE       = 1;
+    this.SEND_ALTERNATIVE       = 1;
 	this.CONFIG_ALTERNATIVE     = 2;
 	this.MAIN_TAB               = 1;
 
-    this.MAILPROXY_URL          = "http://ezweb.tid.es/mailproxy/";
+    this.MAILPROXY_URL          = "http://antares.ls.fi.upm.es:8002/mailproxy/";
 	this.INTERVAL_SIZE          = 20;
 	
     // Initialize EzWeb variables
@@ -91,8 +89,8 @@ ClienteCorreo.prototype.enableGeneralUID = function() {
 }
 
 ClienteCorreo.prototype.repaint = function() {
-	var height = (document.defaultView.innerHeight - document.getElementById('header').offsetHeight);
-	document.getElementById('content').style.height = height + 'px';
+	var height = (document.body.offsetHeight - document.getElementById('header').offsetHeight);
+	document.getElementById('content').style.height = Utils.nonNegative(height) + 'px';
 	this.alternatives.repaint();
 	this.config_hpaned.repaint();
 	this._resizeTinyMCE();
@@ -114,7 +112,7 @@ ClienteCorreo.prototype.sendEmailsSlot = function(value) {
 
 ClienteCorreo.prototype.sendTextSlot = function(value) {
 	this.showAlternative(this.SEND_ALTERNATIVE);
-	tinyMCE.get(this.form_send["message"].id).setContent(value);
+	tinyMCE.get(this.form_send["message"]).setContent(value);
 }
 
 ClienteCorreo.prototype.sendSubjectSlot = function(value) {
@@ -124,37 +122,19 @@ ClienteCorreo.prototype.sendSubjectSlot = function(value) {
 
 /******************** USER INTERFACE METHODS **************************/
 
-ClienteCorreo.prototype._initTinyMCE = function() {
-	this._resizeTinyMCE();
-	var buttonColors = EzWebExt.getElementsByClassName(document.getElementById("send_message_tbl"), "mceSplitButton");
-	for (var i=0; i<buttonColors.length; i++) {
-	        var context = {button: buttonColors[i]};
-	        context.func = EzWebExt.bind(this._removeColorsTinyMCE, context);
-		buttonColors[i].addEventListener("click", context.func, false);
-	}
-}
-
 ClienteCorreo.prototype._resizeTinyMCE = function() {
-	var editor_id = "send_message";
-    	var editor = document.getElementById(editor_id); 
-    	if (editor) { 
-    		if (document.getElementById(editor_id + "_tbl")) {
-    			document.getElementById(editor_id + "_tbl").style.height = editor.parentNode.offsetHeight + "px";
-    			document.getElementById(editor_id + "_tbl").style.width = "100%";
-    		}
-    		if (document.getElementById(editor_id + "_ifr"))
-    			document.getElementById(editor_id + "_ifr").style.height = (editor.parentNode.offsetHeight - 32) + "px";
-    	} 
-}
-
-ClienteCorreo.prototype._removeColorsTinyMCE = function() {
-	// Eliminar todos los elementos "More Colors"
-    	var moreColors = EzWebExt.getElementsByClassName(document.getElementsByTagName("body")[0], "mceMoreColors");
-    	for (var i=0; i<moreColors.length; i++)
-    		EzWebExt.removeFromParent(moreColors[i].parentNode);
-    	// Elimina el handler
-    	this.button.removeEventListener("click", this.func, false);
-    	this.func = null;
+    try {
+	    var editor_id = "send_message";
+        var editor = document.getElementById(editor_id); 
+        if (editor) { 
+        	if (document.getElementById(editor_id + "_tbl")) {
+        		document.getElementById(editor_id + "_tbl").style.height = Utils.nonNegative(editor.parentNode.offsetHeight) + "px";
+        		document.getElementById(editor_id + "_tbl").style.width = "100%";
+        	}
+        	if (document.getElementById(editor_id + "_ifr"))
+        		document.getElementById(editor_id + "_ifr").style.height = Utils.nonNegative(editor.parentNode.offsetHeight - 30) + "px";
+        } 
+    } catch(e){}
 }
 
 ClienteCorreo.prototype._createUserInterface = function() {
@@ -216,13 +196,13 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	body.appendChild(content);
 
 	// PANEL PRINCIPAL	
-    this.hpaned = new StyledElements.StyledHPaned({handlerPosition: 30, leftMinWidth: 180, rightMinWidth: 400});
+    this.hpaned = new StyledElements.StyledHPaned({handlerPosition: 30, leftMinWidth: 0, rightMinWidth: 0});
 	var mainAlternative = this.alternatives.createAlternative();
 	mainAlternative.appendChild(this.hpaned);
 	
     var content_left = document.createElement("div");
     content_left.id = "content_left";
-     this.hpaned.getLeftPanel().appendChild(content_left);
+    this.hpaned.getLeftPanel().appendChild(content_left);
 	
 	var content_right = document.createElement("div");
 	content_right.id =  "main_content_right";
@@ -287,7 +267,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		this.form_send["cc"].reset();
 		this.form_send["bcc"].reset();
 		this.form_send["multi_selector"].reset();
-		tinyMCE.get(this.form_send["message"].id).setContent("");
+		tinyMCE.get(this.form_send["message"]).setContent("");
 	}, this));
 	
 	cancel_button.insertInto(row);
@@ -297,10 +277,10 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		var to = this.form_send["to"].getValue();
 		var cc = this.form_send["cc"].getValue();
 		var bcc = this.form_send["bcc"].getValue();
-		var message = tinyMCE.get(this.form_send["message"].id).getContent();
+		var message = tinyMCE.get(this.form_send["message"]).getContent();
 
 		if (subject == "" || (to == "" && cc == "" && bcc == "")) {
-			this.alert(_("Warning"), _("Must fill in all form fields"), {type: EzWebExt.ALERT_WARNING});
+			this.alert(_("Warning"), _("Must fill in all form fields"), EzWebExt.ALERT_WARNING);
 		}
 		else {
 			to = to.split(/\s*,\s*/);
@@ -310,7 +290,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 			if (Utils.evalMailList(to) && Utils.evalMailList(cc) && Utils.evalMailList(bcc))
 				this.sendMail(subject, message, to, cc, bcc);
 			else
-				this.alert(_("Warning"), _("All email recipients must be valid"), {type: EzWebExt.ALERT_WARNING});
+				this.alert(_("Warning"), _("All email recipients must be valid"), EzWebExt.ALERT_WARNING);
 		}
 	}, this));
 	
@@ -357,7 +337,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		
 	this.form_send["multi_selector"] = new MultiSelector(attach, attach_div, -1);
 	
-	openDetails.addEventListener("click", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(openDetails, "click", EzWebExt.bind(function(e) {
 		this.form_send["header"].style.height = "191px";
 		this.form_send["header"].scrollTop = "0px"
 		this.form_send["body"].style.top = "205px";
@@ -370,7 +350,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 		this.form_send["multi_selector"].show();
 	}, this), false);
 	
-	closeDetails.addEventListener("click", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(closeDetails, "click", EzWebExt.bind(function(e) {
 		this.form_send["header"].style.height = "83px";
 		this.form_send["header"].scrollTop = "0px";
 		this.form_send["body"].style.top = "97px";
@@ -459,20 +439,21 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	
 	this.form_send["multi_selector"].hidden();
 	
-        tablebody = document.createElement("div");
-        EzWebExt.addClassName(tablebody, "tablebody");
-        EzWebExt.addClassName(tablebody, "send");
-        send_content.appendChild(tablebody);
-        
-     	this.form_send["body"] = tablebody;
+    tablebody = document.createElement("div");
+    EzWebExt.addClassName(tablebody, "tablebody");
+    EzWebExt.addClassName(tablebody, "send");
+    send_content.appendChild(tablebody);
+       
+    this.form_send["body"] = tablebody;
 	
 	var send_message = document.createElement("textarea");
-        EzWebExt.addClassName(send_message, "text");
-        EzWebExt.addClassName(send_message, "send");
-        send_message.id = "send_message";
-        tablebody.appendChild(send_message);
-        
-        this.form_send["message"] = send_message;
+    EzWebExt.addClassName(send_message, "text");
+    EzWebExt.addClassName(send_message, "send");
+    EzWebExt.addClassName(send_message, "mceSend");
+    send_message.id = "send_message";
+    tablebody.appendChild(send_message);
+    
+    this.form_send["message"] = send_message.id;
 	
 	//PANEL CONFIGURACION
 	var configAlternative = this.alternatives.createAlternative();
@@ -523,7 +504,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 			    this.reload(true);
 		    }
 		    else {
-			    this.alert(_("Error"), _("Must fill in all form fields"), {type: EzWebExt.ALERT_WARNING});
+			    this.alert(_("Error"), _("Must fill in all form fields"), EzWebExt.ALERT_WARNING);
 		    }
 	    }, this));
 	
@@ -755,7 +736,7 @@ ClienteCorreo.prototype._createFolder = function(full_name) {
 	var folder = document.createElement('div');
 	EzWebExt.addClassName(folder, "folder");
 
-	folder.addEventListener("click", EzWebExt.bind(function() {
+	EzWebExt.addEventListener(folder, "click", EzWebExt.bind(function() {
 		this.notebook.goToTab(this.MAIN_TAB);
 		var previousSearch = (this.search_input.getSearchKeyword() != "");
 		this.search_input.setSearchKeyword("");
@@ -785,9 +766,9 @@ ClienteCorreo.prototype._createFolder = function(full_name) {
 	mailbox["div_header"] = folder;
 	var imageIcon = document.createElement('img');
 	EzWebExt.addClassName(imageIcon, "small_image");
-	imageIcon.setAttribute('style', 'visibility:hidden');
+	imageIcon.style.visibility = "hidden";
 	imageIcon.setAttribute('src', this.getResourceURL('images/open.png'));
-	imageIcon.addEventListener("click", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(imageIcon, "click", EzWebExt.bind(function(e) {
 		if (mailbox["state"] == "closed") {
 			this.openFolder(full_name);
 		}
@@ -810,7 +791,7 @@ ClienteCorreo.prototype._createFolder = function(full_name) {
 	this._renameFolder(full_name, counter);
 	var children = document.createElement('div');
 	EzWebExt.addClassName(children, "children");
-	children.setAttribute('style', 'display:none');
+	children.style.display = "none";
 	mailbox["div_children"] = children;
 	if (mailbox["parent"] != "") {
 		var parent = account.getMailboxById(mailbox["parent"]);
@@ -859,7 +840,7 @@ ClienteCorreo.prototype._createPaginationElement = function(search) {
 			EzWebExt.addClassName(image, "selected");
 			image.setAttribute('title', _("First"));
 			image.setAttribute('src', this.getResourceURL('images/go-first.png'));
-			image.addEventListener("click", EzWebExt.bind(function(){
+			EzWebExt.addEventListener(image, "click", EzWebExt.bind(function(){
 				this.goFirstPage(search);
 			}, this), false);
 		}
@@ -873,7 +854,7 @@ ClienteCorreo.prototype._createPaginationElement = function(search) {
 			EzWebExt.addClassName(image, "selected");
 			image.setAttribute('title', _("Back"));
 			image.setAttribute('src', this.getResourceURL('images/go-previous.png'));
-			image.addEventListener("click", EzWebExt.bind(function(){
+			EzWebExt.addEventListener(image, "click", EzWebExt.bind(function(){
 				this.goPreviousPage(search);
 			}, this), false);
 		}
@@ -905,7 +886,7 @@ ClienteCorreo.prototype._createPaginationElement = function(search) {
 			EzWebExt.addClassName(image, "selected");
 			image.setAttribute('title', _("Next"));
 			image.setAttribute('src', this.getResourceURL('images/go-next.png'));
-			image.addEventListener("click", EzWebExt.bind(function(){
+			EzWebExt.addEventListener(image, "click", EzWebExt.bind(function(){
 				this.goNextPage(search);
 			}, this), false);
 		}
@@ -919,7 +900,7 @@ ClienteCorreo.prototype._createPaginationElement = function(search) {
 			EzWebExt.addClassName(image, "selected");
 			image.setAttribute('title', _("Last"));
 			image.setAttribute('src', this.getResourceURL('images/go-last.png'));
-			image.addEventListener("click", EzWebExt.bind(function(){
+			EzWebExt.addEventListener(image, "click", EzWebExt.bind(function(){
 				this.goLastPage(search);
 			}, this), false);
 		}
@@ -984,13 +965,13 @@ ClienteCorreo.prototype._getMails = function(transport, search) {
 		    row.appendChild(attachImg);
 		    var subject = (mail["subject"])?mail["subject"]:"";
 		    row.appendChild(this._createCell(document.createTextNode(subject), "subject", subject));
-		    row.addEventListener("mouseover", function(){
-			    EzWebExt.addClassName(this, "selected");
+		    EzWebExt.addEventListener(row, "mouseover", function(e) {
+			    EzWebExt.addClassName(e.currentTarget, "selected");
 		    }, false);
-		    row.addEventListener("mouseout", function(){
-			    EzWebExt.removeClassName(this, "selected");
+		    EzWebExt.addEventListener(row, "mouseout", function(e) {
+			    EzWebExt.removeClassName(e.currentTarget, "selected");
 		    }, false);
-		    row.addEventListener("click", EzWebExt.bind(function(){
+		    EzWebExt.addEventListener(row, "click", EzWebExt.bind(function(){
 			    EzWebExt.removeClassName(this.row, "bold");
 			    this.self.getMail(account.getSelectedMailboxName(), this.mail["uid"]);
 		    }, context), false);
@@ -1035,12 +1016,12 @@ ClienteCorreo.prototype._createMailLink = function(mail) {
 	link.title = _("Send email to ") + mail_name;
 	link.appendChild(document.createTextNode(mail_name));
 
-	link.addEventListener("click", EzWebExt.bind(function(e) { 
+	EzWebExt.addEventListener(link, "click", EzWebExt.bind(function(e) { 
 		this.form_send["subject"].setValue((params["subject"])?params["subject"]:"");
 		this.form_send["to"].setValue(mail_addr);
 		this.form_send["cc"].setValue((params["cc"])?params["cc"]:"");
 		this.form_send["bcc"].setValue((params["bcc"])?params["bcc"]:"");
-		tinyMCE.get(this.form_send["message"].id).setContent((params["body"])?params["body"]:"");
+		tinyMCE.get(this.form_send["message"]).setContent((params["body"])?params["body"]:"");
 		Utils.stopEvent(e);
 		this.showAlternative(this.SEND_ALTERNATIVE);
 	}, this), false);
@@ -1384,7 +1365,7 @@ ClienteCorreo.prototype.getFile = function(form, foldername, uid, filename) {
 
 ClienteCorreo.prototype.onException = function(transport, e) {
 	this.enableGeneralUID();
-	this.alert(_("Exception"), _("Line") + ":" + e.lineNumber + " \n" + _("Message") + ": " + e.message, {type: EzWebExt.ALERT_ERROR});
+	this.alert(_("Exception"), _("Line") + ":" + e.lineNumber + " \n" + _("Message") + ": " + e.message, EzWebExt.ALERT_ERROR);
 }
 
 ClienteCorreo.prototype.onError = function(transport) {
@@ -1397,10 +1378,10 @@ ClienteCorreo.prototype.onError = function(transport) {
 	}
 	this.enableGeneralUID();
 	if (response["error"] && (response["error"] != "")) {
-		this.alert(_("Error"), response["error"], {type: EzWebExt.ALERT_ERROR});
+		this.alert(_("Error"), response["error"], EzWebExt.ALERT_ERROR);
 	}
 	else {
-		this.alert(_("Error"), response, {type: EzWebExt.ALERT_ERROR});
+		this.alert(_("Error"), response, EzWebExt.ALERT_ERROR);
 	}
 }
 
@@ -1436,15 +1417,14 @@ ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
 		account.clearMailboxList();
 		
 		// Ordenamos alfabeticamente los directorios teniendo en cuenta que algunos son prioritarios
-		
-		var priorityFolders = ["papelera", "trash", "spam", "junk", "enviados", "sent", "borradores", "drafts", "inbox"];
+		var priorityFolders = ["trash", "spam", "junk", "sent", "drafts", "inbox"];
 		
 		for (var i=0; i<folderList.length; i++) {
 		    var full_name = folderList[i].name;
 		    var separator = folderList[i].separator;
 			var name = full_name.split(separator)[full_name.split(separator).length-1];
 			folderList[i]["short_name"] = name;
-			folderList[i]["sort_name"] = account.getFolderName(name);
+			folderList[i]["sort_name"] = account.getFolderName(full_name, name);
 		}
 		
 		folderList.sort(function(a, b) {
@@ -1557,14 +1537,23 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    EzWebExt.addClassName(subject, "first_line");
 	    row.appendChild(subject);
 	
-	    var text = "";
+	    var text;
 	    if (mail["text_html"] == "") {
-		    text = "<pre>" + mail["text_plain"].split("\r").join("") + "</pre>";
+	        var div = document.createElement('div');
+	        var pre = document.createElement('pre');
+            div.appendChild(pre);
+            if (EzWebExt.Browser.isIE() && (EzWebExt.Browser.getShortVersion() < 8)) {
+                pre.innerText = mail["text_plain"];
+            }
+            else {
+                pre.textContent = mail["text_plain"];
+            }
+		    text = div.innerHTML;
 	    }
 	    else {
 		    text = mail["text_html"];
 	    }
-	
+	    
 	    var send_events_button = new HeaderButton(this.getResourceURL("images/send-events.png"), this.getResourceURL("images/send-events-disabled.png"), _("Send events"), EzWebExt.bind(function() { 
 		    this.fromEvent.set((mail["from"])?mail["from"].mail:"");
             var mails = "";
@@ -1614,7 +1603,24 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 		    this.form_send["to"].setValue(mail["from"].mail);
 		    this.form_send["cc"].setValue(cc);
 		    this.form_send["bcc"].reset();
-		    tinyMCE.get(this.form_send["message"].id).setContent("<p>" + mail["from"].name + " " + _("wrote") + ":</p><blockquote type='cite'>" + text + "</blockquote>");
+		    
+		    var message = document.createElement("div");
+		    message.appendChild(document.createElement("br"));
+		    var div = document.createElement("div");
+		    var date = (mail["date"])?Utils.formatDate(mail["date"]):"";
+	        div.appendChild(document.createTextNode(date + " - " + mail["from"].name + " <"));
+	        var link = document.createElement("a");
+	        link.href = "mailto:" + mail["from"].mail;
+	        link.textContent = mail["from"].mail;
+		    div.appendChild(link);
+		    div.appendChild(document.createTextNode("> " + _("wrote") + ":"));
+		    message.appendChild(div);
+		    var blockquote = document.createElement("blockquote");
+		    blockquote.type = "cite";
+		    blockquote.innerHTML = text;
+		    message.appendChild(blockquote);
+		    tinyMCE.get(this.form_send["message"]).setContent(message.innerHTML);
+
 		    this.form_send["multi_selector"].reset();
 		    this.showAlternative(this.SEND_ALTERNATIVE);
 	    }, this));
@@ -1626,7 +1632,24 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 		    this.form_send["to"].setValue(mail["from"].mail);
 		    this.form_send["cc"].reset();
 		    this.form_send["bcc"].reset();
-		    tinyMCE.get(this.form_send["message"].id).setContent("<p>" + mail["from"].name + " " + _("wrote") + ":</p><blockquote type='cite'>" + text + "</blockquote>");
+		    
+		    var message = document.createElement("div");
+		    message.appendChild(document.createElement("br"));
+		    var div = document.createElement("div");
+		    var date = (mail["date"])?Utils.formatDate(mail["date"]):"";
+	        div.appendChild(document.createTextNode(date + " - " + mail["from"].name + " <"));
+	        var link = document.createElement("a");
+	        link.href = "mailto:" + mail["from"].mail;
+	        link.textContent = mail["from"].mail;
+		    div.appendChild(link);
+		    div.appendChild(document.createTextNode("> " + _("wrote") + ":"));
+		    message.appendChild(div);
+		    var blockquote = document.createElement("blockquote");
+		    blockquote.type = "cite";
+		    blockquote.innerHTML = text;
+		    message.appendChild(blockquote);
+		    tinyMCE.get(this.form_send["message"]).setContent(message.innerHTML);
+
 		    this.form_send["multi_selector"].reset();
 		    this.showAlternative(this.SEND_ALTERNATIVE);
 	    }, this));
@@ -1639,7 +1662,7 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 		    this.form_send["cc"].reset();
 		    this.form_send["bcc"].reset();
 		    this.form_send["multi_selector"].reset();
-		    tinyMCE.get(this.form_send["message"].id).setContent(text);
+		    tinyMCE.get(this.form_send["message"]).setContent(text);
 		    this.showAlternative(this.SEND_ALTERNATIVE);
 		    // TODO Falta reenviar adjuntos
 	    }, this));
@@ -1648,13 +1671,14 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 
 	    headerrow.appendChild(row);
 	
-	    row = document.createElement("div");
-	    EzWebExt.addClassName(row, "row");
-	    EzWebExt.addClassName(row, "mail");
-	    row.appendChild(this._createCell(document.createTextNode(_("Date") + ":"), "title"));
+	    var row_date = document.createElement("div");
+	    EzWebExt.addClassName(row_date, "row");
+	    EzWebExt.addClassName(row_date, "mail");
+	    row_date.appendChild(this._createCell(document.createTextNode(_("Date") + ":"), "title"));
 	    var date = (mail["date"])?Utils.formatDate(mail["date"]):"";
-	    row.appendChild(this._createCell(document.createTextNode(date), "value", date));
-	    headerrow.appendChild(row);
+	    row_date.appendChild(this._createCell(document.createTextNode(date), "value", date));
+	    row_date.style.display = "none";
+	    headerrow.appendChild(row_date);
 	
 	    row = document.createElement("div");
 	    EzWebExt.addClassName(row, "row");
@@ -1740,16 +1764,16 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	            new_row_span.title = mail["files"][i]["filename"] + " - " + Utils.sizeToString(mail["files"][i]["size"]);
 	            form.appendChild(new_row_span);
 	            var context = {self: this, form: form};
-	            new_row.addEventListener("click", EzWebExt.bind(function(e) {
+	            EzWebExt.addEventListener(new_row, "click", EzWebExt.bind(function(e) {
 	                if (AccountsManager.isConfigured()) {
         		        // TODO Enviar un chequeo de configuración al servidor
         		        this.form.submit();
         		    }
        	        }, context), false);
-       	        new_row.addEventListener("mouseover", EzWebExt.bind(function(e) {
+       	        EzWebExt.addEventListener(new_row, "mouseover", EzWebExt.bind(function(e) {
 		            this.style.backgroundColor = "#FCD18E";
 	            }, new_row), false);
-	            new_row.addEventListener("mouseout", EzWebExt.bind(function(e) {
+	            EzWebExt.addEventListener(new_row, "mouseout", EzWebExt.bind(function(e) {
 		            this.style.backgroundColor = "#FFFFFF";
 	            }, new_row), false);
 	
@@ -1759,44 +1783,83 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    row.appendChild(this._createCell(attach_div, "value"));;
 	    headerrow.appendChild(row);
 		
-            var tablebody = document.createElement("div");
-            EzWebExt.addClassName(tablebody, "tablebody");
-            EzWebExt.addClassName(tablebody, "mail");
-            content_right.appendChild(tablebody);
-            var tablebodyObj = document.createElement("object");
-            EzWebExt.addClassName(tablebody, "tablebody");
-            tablebody.appendChild(tablebodyObj);
-
-	    tablebodyObj.innerHTML = text;
+        var tablebody = document.createElement("div");
+        EzWebExt.addClassName(tablebody, "tablebody");
+        EzWebExt.addClassName(tablebody, "mail");
+        content_right.appendChild(tablebody);
+        
+        var tablebodyObj = document.createElement("iframe");
+        EzWebExt.addClassName(tablebodyObj, "text");
+        EzWebExt.addClassName(tablebodyObj, "read");
+        tablebodyObj.type = "text/html";
+        
+        var objectHandler = EzWebExt.bind(function(doc) {
+            var style = doc.createElement("link");
+            style.rel = "stylesheet";
+            style.type = "text/css";
+            style.href = this.getResourceURL("css/read_message.css");
+            
+            if (doc.body == null) {
+                doc.appendChild(doc.createElement("body"));
+            }
+            
+            var head = doc.getElementsByTagName("head");
+            if (head.length > 0) {
+                head = head[0];
+                head.appendChild(style);
+            }
+            
+            var body = doc.body;            
+            body.innerHTML = body.innerHTML + text;
+            
+            var links = body.getElementsByTagName("a");
+	        var removeLinks = [];
+	        for (var i=0; i<links.length; i++) {
+		        var link = links[i];
+		        if (link.href.substring(0, 7).toLowerCase() == "mailto:") {
+			        link.parentNode.insertBefore(this._createMailLink({
+				        mail: link.href.substring(7, link.href.length), 
+				        name: link.text
+			        }), link);
+			        removeLinks.push(link);
+		        }
+		        else {
+			        link.target = "_blank";
+		        }
+	        }
+	        for (var i=0; i<removeLinks.length; i++) {
+		        EzWebExt.removeFromParent(removeLinks[i]);
+	        }
 	
-	    var links = tablebodyObj.getElementsByTagName("a");
-	    var removeLinks = [];
-	    for (var i=0; i<links.length; i++) {
-		    var link = links[i];
-		    if (link.href.substring(0,7).toUpperCase() == "MAILTO:") {
-			    link.parentNode.insertBefore(this._createMailLink({
-				    mail: link.href.substring(7,link.href.length), 
-				    name: link.text
-			    }), link);
-			    removeLinks.push(link);
-		    }
-		    else {
-			    link.target = "_blank";
-		    }
-	    }
-	    for (var i=0; i<removeLinks.length; i++) {
-		    EzWebExt.removeFromParent(removeLinks[i]);
-	    }
-	
-	    var images = tablebodyObj.getElementsByTagName("img");
-	    for (var i=0; i<images.length; i++) {
-		    var image = images[i];
-		    var imageId = image.src.substring(4,image.src.length); // TODO Mejorar con expresion regular
-		    if (Utils.containElement(mail["contentids"], imageId, false)) {
-		        this.getEmbedImage(mail, image, imageId);
-		    }
-	    }
-	
+	        var images = body.getElementsByTagName("img");
+	        for (var i=0; i<images.length; i++) {
+		        var image = images[i];
+		        var imageId = image.src.substring(4, image.src.length); // TODO Mejorar con expresion regular
+		        if (Utils.containElement(mail["contentids"], imageId, false)) {
+		            this.getEmbedImage(mail, image, imageId);
+		        }
+	        }
+        }, this);
+        
+        if (this.browser.isIE()) {
+            var handler = function() {
+                var doc = tablebodyObj.contentWindow.document;
+                if (doc.readyState == "complete") {
+                    EzWebExt.removeEventListener(tablebodyObj, "readystatechange", handler, true);
+                    objectHandler(doc);
+                }
+            };
+            EzWebExt.addEventListener(tablebodyObj, "readystatechange", handler, true);
+        }
+        else {
+            tablebodyObj.src = "about:blank";
+            EzWebExt.addEventListener(tablebodyObj, "load", function() {
+                objectHandler(tablebodyObj.contentDocument);
+            }, true);            
+        }
+	    
+	    tablebody.appendChild(tablebodyObj);
+	    
 	    var tab = this.notebook.createTab({name: Utils.subString(mail["subject"],15), initiallyVisible: true, title: mail["subject"]});
 	    tab.appendChild(content_right);
 	    tab.setIcon(this.getResourceURL("images/message.png"));
@@ -1812,23 +1875,29 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    EzWebExt.addClassName(closeDetails,"details_button");
 	    closeDetails.style.display = "none";
 	
-	    openDetails.addEventListener("click", EzWebExt.bind(function(e) {
+	    EzWebExt.addEventListener(openDetails, "click", EzWebExt.bind(function(e) {
 		    headerrow.style.height = "160px";
 		    tablebody.style.top = "170px";
 		    closeDetails.style.display = "block";
 		    e.target.style.display = "none";
+		    row_date.style.display = "block";
+		    tab.repaint(false);
 	    }, this), false);
 	
-	    closeDetails.addEventListener("click", EzWebExt.bind(function(e) {
-		    headerrow.style.height = "70px";
-		    tablebody.style.top = "80px";
+	    EzWebExt.addEventListener(closeDetails, "click", EzWebExt.bind(function(e) {
+		    headerrow.style.height = "44px";
+		    tablebody.style.top = "54px";
 		    openDetails.style.display = "block";
 		    e.target.style.display = "none";
+		    row_date.style.display = "none";
+		    tab.repaint(false);
 	    }, this), false);
 	
 	    headerrow.appendChild(openDetails);
 	    headerrow.appendChild(closeDetails);
 	
+	    tab.repaint(false);
+	    
 	    this.enableGeneralUID();
 	    
 	    if (mail["flags_updated"]) {
@@ -1880,7 +1949,7 @@ ClienteCorreo.prototype.onSuccessSendMail = function(transport) {
 	this.form_send["to"].reset();
 	this.form_send["cc"].reset();
 	this.form_send["bcc"].reset();
-	tinyMCE.get(this.form_send["message"].id).setContent("");
+	tinyMCE.get(this.form_send["message"]).setContent("");
 	this.form_send["multi_selector"].reset();
 	this.enableGeneralUID();
 }
@@ -2082,9 +2151,9 @@ Account.prototype.clearMailboxList = function() {
 
 Account.prototype.addMailbox = function(mailbox) {
     // Devuelve true si el mailbox debe estar desplegado en el arbol de directorios
-    mailbox["icon"] = this._getFolderIcon(mailbox.name, false);
-    mailbox["icon_selected"] = this._getFolderIcon(mailbox.name, true);
-    mailbox["name"] = this.getFolderName(mailbox.name);
+    mailbox["icon"] = this._getFolderIcon(mailbox.full_name, false);
+    mailbox["icon_selected"] = this._getFolderIcon(mailbox.full_name, true);
+    mailbox["name"] = this.getFolderName(mailbox.full_name, mailbox.name);
 	this.mailboxList[mailbox["full_name"]] = mailbox;
 	if (this.oldState[mailbox["full_name"]] && (this.oldState[mailbox["full_name"]].state == "opened")) {
 	    return true;
@@ -2131,11 +2200,12 @@ Account.prototype.getConfig = function() {
 }
 
 
-Account.prototype.getFolderName = function(name) {
-    var nameList = ["inbox", "trash", "junk", "spam", "sent", "drafts", "borradores", "todos", "enviados", "papelera"];
-    var b = Utils.containElement(nameList, name, true);
-    if (b) {
-        name = _(name.toLowerCase());
+Account.prototype.getFolderName = function(full_name, name) {
+    var nameList = ["inbox", "trash", "junk", "spam", "sent", "drafts"];
+    if (full_name.toLowerCase() == name.toLowerCase()) {
+        if (Utils.containElement(nameList, name, true)) {
+            name = _(name.toLowerCase());
+        }
     }
     return name;
 }
@@ -2148,7 +2218,6 @@ Account.prototype._getFolderIcon = function(name, selected) {
             image = images[0];
             break;
         case "trash":
-        case "papelera":
             image = images[1];
             break;
         case "junk":
@@ -2156,11 +2225,9 @@ Account.prototype._getFolderIcon = function(name, selected) {
             image = images[2];
             break;
         case "sent":
-        case "enviados":
             image = images[3];
             break;
         case "drafts":
-        case "borradores":
             image = images[4];
             break;
     }
@@ -2186,7 +2253,7 @@ HeaderButton.prototype._createInterface = function() {
 	EzWebExt.addClassName(this.uid, "image");
 	
 	this.img = document.createElement("img");
-	this.img.addEventListener("click", EzWebExt.bind(function() {
+	EzWebExt.addEventListener(this.img, "click", EzWebExt.bind(function() {
 	    if (!this.disable) {
 	        this.handler();
 	    }
@@ -2261,7 +2328,7 @@ SearchInput.prototype._createInterface = function() {
 	EzWebExt.addClassName(this.uid, "input");
 	
 	this.input = new StyledElements.StyledTextField();
-	this.input.inputElement.addEventListener("keypress", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(this.input.inputElement, "keypress", EzWebExt.bind(function(e) {
 		if (e.keyCode == 13) {
 		    if (!this.disable) {
 	           this.handler(e);
@@ -2271,15 +2338,15 @@ SearchInput.prototype._createInterface = function() {
 	this.input.insertInto(this.uid);
 	
 	this.img = document.createElement("img");
-	this.img.addEventListener("click", EzWebExt.bind(function(){
+	EzWebExt.addEventListener(this.img, "click", EzWebExt.bind(function(){
 	    this.openDialog();
 	}, this), false);
 	this.uid.appendChild(this.img);
 	
 	this.search_options = document.createElement("div");
 	this.search_options.id = "search_options";
-	this.search_options.setAttribute("style","display:none;");
-	this.search_options.addEventListener("click", EzWebExt.bind(function() {
+	this.search_options.style.display = "none";
+	EzWebExt.addEventListener(this.search_options, "click", EzWebExt.bind(function() {
 		this.closeDialog();
 	}, this), false);
 	document.body.appendChild(this.search_options);
@@ -2298,12 +2365,12 @@ SearchInput.prototype._createOption = function(text, value, checked) {
 	var option = document.createElement("div");
 	EzWebExt.addClassName(option, "option");
 	var context = {element: option, self: this};
-	option.addEventListener("mouseover", EzWebExt.bind(function() {
+	EzWebExt.addEventListener(option, "mouseover", EzWebExt.bind(function() {
 	    if (!this.self.disable) {
 		    this.element.style.backgroundColor = "#FCD18E";
 		}
 	}, context), false);
-	option.addEventListener("mouseout", EzWebExt.bind(function() {
+	EzWebExt.addEventListener(option, "mouseout", EzWebExt.bind(function() {
 		this.element.style.backgroundColor = "transparent";
 	}, context), false);
 	
@@ -2312,8 +2379,6 @@ SearchInput.prototype._createOption = function(text, value, checked) {
 	radio.type = "radio";
 	radio.name = "search_options";
 	radio.value = value;
-	if (checked) 
-		radio.checked = "checked";
 	span.appendChild(radio);
 	option.appendChild(span);
 	
@@ -2322,11 +2387,14 @@ SearchInput.prototype._createOption = function(text, value, checked) {
 	span.appendChild(document.createTextNode(text));
 	option.appendChild(span);
 	
-	option.addEventListener("click", EzWebExt.bind(function() {
+	EzWebExt.addEventListener(option, "click", EzWebExt.bind(function() {
 	    if (!this.disable) {
     		this.selectSearchOption(radio);
         }
 	}, this), false);
+
+  	if (checked) 
+		radio.checked = true;
 
 	return option;
 }
@@ -2403,8 +2471,11 @@ var MultiSelector = function(target, list_target, max) {
 	this.files = [];
 	this.max = (max)?max:-1;
 	this.reset();
+	this.separator = "/";
+	if (navigator.platform && (navigator.platform.toLowerCase().substring(0,3) == "win")) {
+	    this.separator = "\\";
+	}
 }
-
 
 MultiSelector.prototype.MAX_ATTACHMENT = 1048576;
 
@@ -2416,20 +2487,32 @@ MultiSelector.prototype.createFileElement = function() {
 	return attach_file;
 }
 
+MultiSelector.prototype.getFileName = function(file) {
+	if (file.files && (file.files.length > 0)) {
+        return file.files[0].fileName;
+    }
+    var fileName = this.getFilePath(file).split(this.separator);
+    return fileName[fileName.length-1];
+}
+
+MultiSelector.prototype.getFilePath = function(file) {
+    return file.value;
+}
+
 MultiSelector.prototype.addElement = function(element) {
-	if( element.tagName.toUpperCase() == 'INPUT' && element.type.toUpperCase() == 'FILE' ) { //File input element
+	if( element.tagName.toLowerCase() == 'input' && element.type.toLowerCase() == 'file' ) { //File input element
 		element.name = 'file_' + this.files.length;
-		element.addEventListener("change", EzWebExt.bind(function(e) {
+		EzWebExt.addEventListener(element, "change", EzWebExt.bind(function(e) {
 		    if (e.target.value == "") {
 		        return;
 		    }
 		    if (this.exist(e.target.value)) {
-		        ClienteCorreo.alert(_("Warning"), _("Already added a file with the name") + ": \"" + e.target.value + "\"", {type: EzWebExt.ALERT_WARNING});
+		        ClienteCorreo.alert(_("Warning"), _("Already added a file with the name") + ": \"" + this.getFileName(e.target) + "\"", EzWebExt.ALERT_WARNING);
 		        e.target.value = "";
 		        return;
 		    }
 		    if (this.getSize() > this.MAX_ATTACHMENT) {
-		        ClienteCorreo.alert(_("Warning"), _("The max size for attachment files is") + ": " + Utils.sizeToString(this.MAX_ATTACHMENT), {type: EzWebExt.ALERT_WARNING});
+		        ClienteCorreo.alert(_("Warning"), _("The max size for attachment files is") + ": " + Utils.sizeToString(this.MAX_ATTACHMENT), EzWebExt.ALERT_WARNING);
 		        e.target.value = "";
 		        return;
 		    }
@@ -2452,20 +2535,19 @@ MultiSelector.prototype.addListRow = function(element) {
 	var new_row = document.createElement('div');
 	EzWebExt.addClassName(new_row, "attach_file");
 	
+	var fileName = this.getFileName(element);
 	var new_row_span = document.createElement('span');
-	new_row_span.appendChild(document.createTextNode(Utils.subFileName(element.value, 30)));
-	var size = 0;
-	for (var i=0; i<element.files.length; i++) {
-        size += element.files[i].fileSize;
-    }
-	new_row_span.title = element.value + " - " + Utils.sizeToString(size);
+	new_row_span.appendChild(document.createTextNode(Utils.subFileName(fileName, 30)));
+	var size = this.getFileSize(element);
+	
+	new_row_span.title = fileName + ((size>0)? (" - "+Utils.sizeToString(size)): "");
 	new_row.appendChild(new_row_span);
 	
 	var new_row_button = document.createElement('img');
 	new_row_button.src = ClienteCorreo.getResourceURL("images/delete-attach.png");
 	new_row_button.title = _("Delete");
 	new_row_button.style.display = "none";
-	new_row_button.addEventListener("click", EzWebExt.bind(function(e) {
+	EzWebExt.addEventListener(new_row_button, "click", EzWebExt.bind(function(e) {
 		EzWebExt.removeFromParent(element);
 		EzWebExt.removeFromParent(e.target.parentNode);
 		this.removeFile(element);
@@ -2475,11 +2557,11 @@ MultiSelector.prototype.addListRow = function(element) {
 	}, this), false);
 	new_row.appendChild(new_row_button);
 	
-	new_row.addEventListener("mouseover", function(e) {
+	EzWebExt.addEventListener(new_row, "mouseover", function(e) {
 		new_row.style.backgroundColor = "#FCD18E";
 		new_row_button.style.display = "block";
 	}, false);
-	new_row.addEventListener("mouseout", function(e) {
+	EzWebExt.addEventListener(new_row, "mouseout", function(e) {
 		new_row.style.backgroundColor = "#FFFFFF";
 		new_row_button.style.display = "none";
 	}, false);
@@ -2498,10 +2580,8 @@ MultiSelector.prototype.getFileIndex = function(file) {
 MultiSelector.prototype.exist = function(fileName) {
     var size = 0;
     for (var i=0; i<this.files.length-1; i++) {
-        for (var j=0; j<this.files[i].files.length; j++) {
-            if (this.files[i].files[j].fileName == fileName) {
-                return true;
-            }
+        if (this.getFileName(this.files[i]) == fileName) {
+            return true;
         }
     }
     return false;
@@ -2510,18 +2590,27 @@ MultiSelector.prototype.exist = function(fileName) {
 MultiSelector.prototype.getSize = function() {
     var size = 0;
     for (var i=0; i<this.files.length; i++) {
-        for (var j=0; j<this.files[i].files.length; j++) {
-            size += this.files[i].files[j].fileSize;
-        }
+        size += this.getFileSize(this.files[i]);
     }
     return size;
+}
+
+MultiSelector.prototype.getFileSize = function(file) {
+    if (!EzWebExt.Browser.isIE()) {
+        if (file.files && (file.files.length > 0)) {
+            return file.files[0].fileSize;
+        }
+    }
+    else {
+        // TODO Implementar para IE
+    }
+    return 0;
 }
 
 MultiSelector.prototype.removeFile = function(file) {
 	var index = this.getFileIndex(file);
 	if (index != -1) {
 	    this.files.splice(index,1);
-		//this.files = this.files.slice(0,index).concat(this.files.slice(index+1, this.files.length)); // Sustituido por el splice
 	}
 }
 
@@ -2713,30 +2802,71 @@ Utils.prototype.removeLoadingImage = function() {
 		document.body.removeChild(image);
 }
 
+Utils.prototype.nonNegative = function(number) {
+	return (number > 0)? number: 0;
+}
+
+Utils.prototype._searchChildByName = function(root, name) {
+    for (var i in root.childNodes) {
+        var childNode = root.childNodes[i];
+        if (childNode.tagName && (childNode.tagName.toLowerCase() == name)) {
+            return childNode;
+        }
+    }
+    return null;
+}
+
 Utils = new Utils();
+
+///////////////////////////////////////	
+///////////// EzWebExt ////////////////
+///////////////////////////////////////
+
+if (EzWebExt.Browser.isIE() && (EzWebExt.Browser.getShortVersion() < 8)) {
+    StyledElements.Tab.prototype.repaint = function(temporal) {
+        StyledElements.Container.prototype.repaint.call(this, temporal);
+        
+        if (!temporal) {
+            var tablebody = EzWebExt.getElementsByClassName(this.wrapperElement, "tablebody");
+            if (tablebody.length > 0) {
+                tablebody = tablebody[0];
+                var iframe = tablebody.getElementsByTagName("iframe");
+                if (iframe.length > 0) {
+                    iframe = iframe[0];
+                    iframe.style.height = tablebody.offsetHeight + "px";
+                }
+            }
+        }
+    }
+}
 
 ///////////////////////////////////////	
 ////////////// TinyMCE ////////////////
 ///////////////////////////////////////
-tinyMCE.init({
-	// General options
-	mode : "textareas",
-	theme : "advanced",
-	//plugins : "safari",
 
-	// Theme options
-	theme_advanced_buttons1 : 
-		"bold,italic,underline,strikethrough,|," + 
-		"undo,redo,|," +
-		"justifyleft,justifycenter,justifyright,justifyfull,|," +
-		"fontselect,fontsizeselect,|," +
-		"forecolor,backcolor,|," +
-		"bullist,numlist",
-	theme_advanced_buttons2 : "",
-	theme_advanced_buttons3 : "",
-	theme_advanced_buttons4 : "",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	
-	oninit : EzWebExt.bind(ClienteCorreo._initTinyMCE, ClienteCorreo),
+tinyMCE.init({
+    // General options
+    mode : "textareas",
+    theme : "advanced",
+    editor_selector : "mceSend",
+    content_css: ClienteCorreo.getResourceURL("css/tinymce_content.css"),
+    oninit: ClienteCorreo._resizeTinyMCE,
+    //plugins : "safari",
+
+    // Theme options
+    theme_advanced_buttons1 : 
+	    "bold,italic,underline,strikethrough,|," + 
+	    "undo,redo,|," +
+	    "justifyleft,justifycenter,justifyright,justifyfull,|," +
+	    "fontselect,fontsizeselect,|," +
+	    "forecolor,backcolor,|," +
+	    "bullist,numlist",
+    theme_advanced_buttons2 : "",
+    theme_advanced_buttons3 : "",
+    theme_advanced_buttons4 : "",
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    theme_advanced_statusbar_location: "none",
+    theme_advanced_font_sizes : "1,2,3,4,5,6,7",
+    theme_advanced_more_colors : false
 });

@@ -2,14 +2,10 @@ var languages = {
     en: {
         "inbox": "Inbox",
         "trash": "Trash",
-        "junk": "Spam",
+        "junk": "Junk",
         "spam": "Spam",
         "sent": "Sent",
-        "drafts": "Drafts",
-        "borradores": "Drafts",
-        "todos": "All",
-        "enviados": "Sent",
-        "papelera": "Trash"
+        "drafts": "Drafts"
     },
     es: {
         "Subject": "Asunto",
@@ -61,7 +57,7 @@ var languages = {
         "Reply all": "Responder a todos",
         "Reply": "Responder",
         "Forward": "Reenviar",
-        "wrote": "ecribió",
+        "wrote": "escribió",
         "Show details": "Mostrar detalles", 
         "Hide details": "Ocultar detalles",
         "Already added a file with the name": "Ya se ha añadido un fichero con el nombre",
@@ -74,11 +70,7 @@ var languages = {
         "junk": "Correo basura",
         "spam": "Correo basura",
         "sent": "Enviados",
-        "drafts": "Borradores",
-        "borradores": "Borradores",
-        "todos": "Todos",
-        "enviados": "Enviados",
-        "papelera": "Papelera"
+        "drafts": "Borradores"
     }
 };
 
