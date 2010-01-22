@@ -9,6 +9,7 @@
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo</Description>
 		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/images/correo.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/images/correoiPhone.png</iPhoneImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_lector_de_correo</WikiURI>
 	</Catalog.ResourceDescription>
 
