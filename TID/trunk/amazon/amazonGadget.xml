@@ -9,6 +9,7 @@
     <Mail>jjmr@tid.es</Mail>
     <Description>Amazon product search</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/amazon/amazon_1.2/amazon.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/amazon/amazon_1.2/amazonIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/Amazon</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
