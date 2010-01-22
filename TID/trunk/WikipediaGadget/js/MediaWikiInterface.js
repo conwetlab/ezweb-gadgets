@@ -412,11 +412,11 @@ function displayArticle(text)
 	EzWebExt.addClassName(div.parentNode, "tab-article");
 
 	var context = {id:tab1.getId(), listoftabs:this.listoftabs};
-	EzWebExt.addEventListener(tab1, 'close', EzWebExt.bind (function(e){
+	tab1.addEventListener('close', EzWebExt.bind (function(e){
 		for (var i=0;i<this.listoftabs.length;i++)
 			if ((this.listoftabs[i] !== undefined)&&(this.listoftabs[i].id == this.id))
 				delete this.listoftabs[i];
-	}, context), true);
+	}, context));
 	panelArticle.goToTab(tab1.getId());
 	listoftabs[listoftabs.length] = ({title:value, id:tab1.getId()})
 
