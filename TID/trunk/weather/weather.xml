@@ -9,6 +9,7 @@
     <Mail>jaimegc@tid.es</Mail>
     <Description>Enter a place to see the weather forecast for the following days. in your preferences you can choose, whether to see either a full or a brief description, the set of units, the number of days to be forecasted, etc.</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/weather_icon.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/weather/weather_1.0/weatheriPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_meteorol.C3.B3gico</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
