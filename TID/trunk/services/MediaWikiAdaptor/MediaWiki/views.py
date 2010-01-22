@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from xmlParser import *
 from intExcept import HttpException
 import urllib
+import datetime, time
 
 def DESCRIPTION(request, url, value, sroffset, srlimit):
 # it will show the description for the article given
@@ -84,8 +85,9 @@ def CONTENTARTICLE(request, url, value):
 
 		# Get result of the request
 		headers = {"User-Agent" : userAgent, 
-					"Cache-Control":"no-cache"}
-		response = queryGET(url, headers)
+					"Cache-Control":"no-cache, max-age=0"}
+		seed = {"seed" : int(time.mktime(datetime.datetime.now().timetuple()))}
+		response = queryGET(url, seed,headers=headers)
 
 		# Parsing the results
 		result = response.read()

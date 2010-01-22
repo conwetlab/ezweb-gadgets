@@ -6,12 +6,10 @@ import urlparse
 def queryGET(url, params=None, headers={}):
     proto, host, cgi = urlparse.urlparse(url)[:3]
     conn = httplib.HTTPConnection(host)
-    print url
-    print params
     if params:
-        conn.request ('GET', cgi +'?%s' % urllib.urlencode(params), headers)
+        conn.request ('GET', cgi +'?%s' % urllib.urlencode(params), headers=headers)
     else:
-        conn.request('GET', cgi, headers)
+        conn.request('GET', cgi, headers=headers)
     response = conn.getresponse()
     return response
 
@@ -22,9 +20,9 @@ def queryPOST(url, params=None, headers={}):
     conn = httplib.HTTPConnection(host)
 
     if params:
-        conn.request("POST", cgi, urllib.urlencode(params), headers)
+        conn.request("POST", cgi, urllib.urlencode(params), headers=headers)
     else:
-        conn.request("POST", cgi, headers)
+        conn.request("POST", cgi, headers=headers)
 
     response = conn.getresponse()
     return response
@@ -35,9 +33,9 @@ def queryPUT(url, params=None, headers={}):
     conn = httplib.HTTPConnection(host)
 
     if params:
-        conn.request("PUT", cgi, urllib.urlencode(params), headers)
+        conn.request("PUT", cgi, urllib.urlencode(params), headers=headers)
     else:
-        conn.request("PUT", cgi, headers)
+        conn.request("PUT", cgi, headers=headers)
 
     response = conn.getresponse()
     return response
@@ -48,9 +46,9 @@ def queryDELETE(url, params=None, headers={}):
     conn = httplib.HTTPConnection(host)
 
     if params:
-        conn.request("DELETE", cgi, urllib.urlencode(params), headers)
+        conn.request("DELETE", cgi, urllib.urlencode(params), headers=headers)
     else:
-        conn.request("DELETE", cgi, headers)
+        conn.request("DELETE", cgi, headers=headers)
 
     response = conn.getresponse()
     return response
