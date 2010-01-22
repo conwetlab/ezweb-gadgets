@@ -9,6 +9,7 @@
 	  <Mail>abgp@tid.es</Mail>
 	  <Description>This gadget manages your feeds collections, tag and search your sources, show feeds related to any keyword (also by wiring!). Use it wired with the Feed Reader gadget in order to get the full functionality</Description>
 	  <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/rssList.jpg</ImageURI>
+	  <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/feedListIPhone.png</iPhoneImageURI>
 	  <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Feed_List</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
