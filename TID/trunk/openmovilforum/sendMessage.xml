@@ -8,6 +8,7 @@
 <Mail>jjmr@tid.es</Mail>
 <Description>This gadget provides the capability of sending SMS/MMS messages using Open Movilforum API</Description>
 <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sendMessage.png</ImageURI>
+<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sendMessageiPhone.png</iPhoneImageURI>
 <WikiURI>http://open.movilforum.com/wiki/index.php/EzWeb/MMSSender</WikiURI>
 </Catalog.ResourceDescription>
 <!-- EzWeb Gadgets Tags -->
