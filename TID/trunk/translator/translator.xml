@@ -9,6 +9,7 @@
     <Mail>jaimegc@tid.es</Mail>
     <Description>Translate any given text to a great number of languages using the Google translator engine.</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/translator.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/translator/translator_0.194/translatoriPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_traductor</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
