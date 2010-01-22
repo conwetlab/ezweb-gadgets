@@ -9,6 +9,7 @@
     <Mail>pjm@tid.es</Mail>
     <Description>Gadgets that renders an html page</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.7/browser.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/browser/broser_0.7/browseriPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/browser</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
