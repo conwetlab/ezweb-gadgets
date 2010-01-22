@@ -33,6 +33,7 @@ def get_part_content(part):
             payload = payload.decode(part.get("content-transfer-encoding"))
     except:
         pass
+
     try:
         content = quopri.decodestring(payload)
         if part.get_content_charset() != None and part.get_content_charset() != "":

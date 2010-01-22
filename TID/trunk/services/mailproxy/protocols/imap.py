@@ -70,10 +70,10 @@ class IMAP4Client:
             for i in range(len(folders[1])):
                 self.response.append(parseMailbox(folders[1][i]))
                 for j in range(len(self.response)):
-                    folder_info = self.imap.status(self.response[j]["name"], "(MESSAGES RECENT UNSEEN)")
+                    folder_info = self.imap.status(imapUTF7Encode(self.response[j]["name"]), "(MESSAGES RECENT UNSEEN)")
                     
                     if (folder_info[0] == "OK"):
-                        folder_info = ((folder_info[1][0].split('(')[1]).split(')')[0]).split(" ")
+                        folder_info = ((folder_info[1][len(folder_info[1])-1].split('(')[1]).split(')')[0]).split(" ")
                         self.response[j]["info"] = {"messages": folder_info[1], "recent": folder_info[3], "unseen": folder_info[5]}
                     else:
                         # Error al ontener la informacion
@@ -87,10 +87,10 @@ class IMAP4Client:
         if foldername == "*":
             return self.getFolderListWidthInfo()
             
-        folder_info = self.imap.status(foldername, "(MESSAGES RECENT UNSEEN)")
+        folder_info = self.imap.status(imapUTF7Encode(foldername.decode("utf8")), "(MESSAGES RECENT UNSEEN)")
         self.response = []
         if (folder_info[0] == "OK"):
-            folder_info = ((folder_info[1][0].split('(')[1]).split(')')[0]).split(" ")
+            folder_info = ((folder_info[1][len(folder_info[1])-1].split('(')[1]).split(')')[0]).split(" ")
             self.response = {"name": foldername, "messages": folder_info[1], "recent": folder_info[3], "unseen": folder_info[5]}
             return True
         else:

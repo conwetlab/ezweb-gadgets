@@ -1,9 +1,66 @@
+# -*- coding: utf-8 -*-
+
 import os
 import re
 import email
 from protocols.imap_utils.encoding import *
 from struct import pack
+from lxml import etree
+from StringIO import StringIO
 
+def parseHTMLMessage(html):
+    parser = etree.HTMLParser()
+    tree = None
+    try:
+        tree = etree.parse(StringIO(html.decode("utf8")), parser)
+    except:
+        try:
+            tree = etree.parse(StringIO(html), parser)
+        except:
+            return html #TODO HMTLEncode
+            
+    root = tree.getroot()
+    head = root.xpath("/html/head")
+    if len(head) > 0:
+        head = head[0]
+    else:
+        head = None
+    body = root.xpath("/html/body")
+    if len(body) > 0:
+        body = body[0]
+    else:
+        body = None
+    
+    # Metemos todos los nodos del head al body
+    if head != None and body != None:
+        children = head.getchildren()
+        for i in reversed(xrange(0,len(children))):
+            child = children[i] 
+            head.remove(child)
+            body.insert(0, child)
+       
+    # Eliminamos todos los scripts
+    if body != None:
+        nodes = body.xpath("//*")
+        for i in reversed(xrange(0,len(nodes))):
+            node = nodes[i]
+            if node.tag.lower() == "script":
+                body.remove(node)
+            else:
+                keys = node.attrib.keys()
+                for j in reversed(xrange(0,len(keys))):
+                    key = keys[j]
+                    if (key[0:2].lower() == "on") or (node.attrib[key][0:11].lower() == "javascript:"):
+                        del node.attrib[key]
+        response = ""
+        children = body.getchildren()
+        for child in children:
+            response += etree.tostring(child, pretty_print=False, method="html")
+            #response += etree.tostring(child, encoding='UTF-8', pretty_print=True, method="html")
+        return response.encode("utf8")
+    else:
+        return "".encode("utf8")
+        
 def wrap(text, width):
     return reduce(lambda line, word, width=width: '%s%s%s' %
         (line,
@@ -81,7 +138,8 @@ def parseMailHeader(header):
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
     if msg.has_key("received"):
-        print msg["received"]
+        #print msg["received"]
+        pass
     if msg.has_key("date"):
         result["date"] = get_date(msg["date"])
     if msg.has_key("from"):
@@ -144,6 +202,8 @@ def parseMail(message):
             result["text_plain"] += wrap(get_part_content(msg), 80)
         elif msg.get_content_type() == "text/html":
             result["text_html"] += get_part_content(msg)
+
+    result["text_html"] = parseHTMLMessage(result["text_html"])
     
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
@@ -157,7 +217,7 @@ def parseMail(message):
         result["to"] = parseMailList(msg["to"])
     if msg.has_key("cc"):
         result["cc"] = parseMailList(msg["cc"])
-    
+
     return result
 
 def parsePart(part, resp):
