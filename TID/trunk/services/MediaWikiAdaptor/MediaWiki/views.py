@@ -84,10 +84,7 @@ def CONTENTARTICLE(request, url, value):
 
 		# Get result of the request
 		headers = {"User-Agent" : userAgent, 
-					"Cache-Control":"max-age=0",
-					"Keep-Alive":300,
-					"Connection":"keep-alive",
-					"If-Modified-Since" : "Thu, 20 Jan 2000 00:00:00 GMT"}
+					"Cache-Control":"no-cache"}
 		response = queryGET(url, headers)
 
 		# Parsing the results
