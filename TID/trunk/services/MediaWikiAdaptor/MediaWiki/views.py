@@ -83,7 +83,11 @@ def CONTENTARTICLE(request, url, value):
 		userAgent = "Mozilla/5.0 (X11; U; Linux i686; es-ES; rv:1.9.0.5) Gecko/2008121621 Ubuntu/8.04 (hardy) Firefox/3.0.3;"
 
 		# Get result of the request
-		headers = {"User-Agent" : userAgent, "Cache-Control":"max-age=0"}
+		headers = {"User-Agent" : userAgent, 
+					"Cache-Control":"max-age=0",
+					"Keep-Alive":300,
+					"Connection":"keep-alive",
+					"If-Modified-Since" : "Thu, 20 Jan 2000 00:00:00 GMT"}
 		response = queryGET(url, headers)
 
 		# Parsing the results
