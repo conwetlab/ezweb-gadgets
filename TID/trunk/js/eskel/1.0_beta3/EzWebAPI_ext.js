@@ -9,7 +9,8 @@ var EzWebExt = new Object();
  * Guarda la URL donde se encuentra alojada la librería JavaScript.
  * @type String
  */
-EzWebExt.URL = "http://ezweb.tid.es/repository/js/eskel/1.0_beta3";
+//EzWebExt.URL = "http://ezweb.tid.es/repository/js/eskel/1.0_beta3";
+EzWebExt.URL = "http://antares.ls.fi.upm.es/ezweb-gadgets/js/eskel/1.0_beta3";
 
 /*---------------------------------------------------------------------------*/
 /*                                EzWebExt.Browser                           */
@@ -416,37 +417,44 @@ EzWebExt.toggleClassName = function(element, className) {
         EzWebExt.addClassName(element, className);
 }
 
-if (document.documentElement.textContent != undefined) {
-    /**
-     * Changes the inner content of an Element treating it as pure text. If
-     * the provided text contains HTML special characters they will be encoded.
-     *
-     * @param {Element} element
-     * @param {String} text
-     */
-    EzWebExt.setTextContent = function(element, text) {
+/**
+ * Changes the inner content of an Element treating it as pure text. If
+ * the provided text contains HTML special characters they will be encoded.
+ *
+ * @param {Element} element
+ * @param {String} text
+ */
+EzWebExt.setTextContent = function(element, text) {
+    if ("textContent" in element) {
         element.textContent = text;
     }
-
-    /**
-     * Return the inner content of an Element treating it as pure text. All
-     * encoded characters will be decoded.
-     *
-     * @param {Element}
-     *
-     * @return {String}
-     */
-    EzWebExt.getTextContent = function(element) {
-        return element.textContent;
-    }
-} else if (document.documentElement.innerText != undefined) {
-    EzWebExt.setTextContent = function(element, text) {
+    else if ("innerText" in element) {
         element.innerText = text;
     }
+    else if ("nodeValue" in element) {
+        element.nodeValue = text;
+    }
+}
 
-    EzWebExt.getTextContent = function(element) {
+/**
+ * Return the inner content of an Element treating it as pure text. All
+ * encoded characters will be decoded.
+ *
+ * @param {Element}
+ *
+ * @return {String}
+ */
+EzWebExt.getTextContent = function() {
+    if ("textContent" in element) {
+        return element.textContent;
+    }
+    else if ("innerText" in element) {
         return element.innerText;
     }
+    else if ("nodeValue" in element) {
+        return element.nodeValue;
+    }
+    return "";
 }
 
 /* getElementsByClassName function */
@@ -1333,6 +1341,46 @@ StyledElements.StyledElement.prototype.insertInto = function (element, refElemen
 }
 
 /**
+ * @private
+ */
+StyledElements.StyledElement.prototype._getUsableHeight = function() {
+    var parentElement = this.wrapperElement.parentNode;
+    if (!parentElement)
+        return null;
+
+    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
+    var containerStyle = document.defaultView.getComputedStyle(this.wrapperElement, null);
+
+    var height = parentElement.offsetHeight -
+                 parentStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                 parentStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                 containerStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                 containerStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
+
+    return height;
+}
+
+/**
+ * @private
+ */
+StyledElements.StyledElement.prototype._getUsableWidth = function() {
+    var parentElement = this.wrapperElement.parentNode;
+    if (!parentElement)
+        return null;
+
+    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
+    var containerStyle = document.defaultView.getComputedStyle(this.wrapperElement, null);
+
+    var width = parentElement.offsetWidth -
+                parentStyle.getPropertyCSSValue('padding-left').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                parentStyle.getPropertyCSSValue('padding-right').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                containerStyle.getPropertyCSSValue('padding-left').getFloatValue(CSSPrimitiveValue.CSS_PX) -
+                containerStyle.getPropertyCSSValue('padding-right').getFloatValue(CSSPrimitiveValue.CSS_PX);
+
+    return width;
+}
+
+/**
  * Esta función sirve para repintar el componente.
  *
  * @param {Boolean} temporal Indica si se quiere repintar el componente de
@@ -1451,16 +1499,10 @@ StyledElements.Container.prototype.appendChild = function(element) {
 StyledElements.Container.prototype.repaint = function(temporal) {
     temporal = temporal !== undefined ? temporal : false;
     
-    var parentElement = this.wrapperElement.parentNode;
-    if (!parentElement)
+    var height = this._getUsableHeight();
+    if (height == null)
         return; // nothing to do
 
-    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
-    
-    var height = parentElement.offsetHeight -
-                 parentStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
-                 parentStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
-    
     this.wrapperElement.style.height = (height + "px");
     
     for (var i = 0; i < this.childs.length; i++)
@@ -2240,25 +2282,22 @@ StyledElements.StyledHPaned.prototype.getRightPanel = function () {
 StyledElements.StyledHPaned.prototype.repaint = function(temporal) {
     temporal = temporal !== undefined ? temporal: false;
 
-    var parentElement = this.wrapperElement.parentNode;
-    if (!parentElement)
+    var height = this._getUsableHeight();
+    if (height == null)
         return; // nothing to do
 
-    var minWidth = this.leftMinWidth + this.rightMinWidth;
-    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
-    
-    var height = parentElement.offsetHeight -
-                 parentStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
-                 parentStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
-    
+    // Height
     this.wrapperElement.style.height = (height + "px");
-    
-    var width = parentElement.offsetWidth -
-                this.handler.offsetWidth -
-                parentStyle.getPropertyCSSValue('padding-left').getFloatValue(CSSPrimitiveValue.CSS_PX) -
-                parentStyle.getPropertyCSSValue('padding-right').getFloatValue(CSSPrimitiveValue.CSS_PX);
-    if (width < minWidth)
-      width = minWidth;
+
+    // Width
+    this.wrapperElement.style.width = "";
+
+    var minWidth = this.leftMinWidth + this.rightMinWidth + this.handler.offsetWidth;
+    var width = this._getUsableWidth() - this.handler.offsetWidth;
+    if (width < minWidth) {
+        width = minWidth;
+        this.wrapperElement.style.width = width + "px";
+    }
 
     var handlerMiddle = Math.floor(width * (this.handlerPosition / 100));
 
@@ -2353,7 +2392,7 @@ StyledElements.Tab.prototype.close = function() {
  * <code>Tab</code>.
  */
 StyledElements.Tab.prototype.rename = function(newName) {
-    this.name.textContent = newName;
+    EzWebExt.setTextContent(this.name, newName);
 }
 
 /**
@@ -2387,6 +2426,7 @@ StyledElements.Tab.prototype.setVisible = function (newStatus) {
     if (newStatus) {
         EzWebExt.appendClassName(this.tabElement, "selected");
         EzWebExt.removeClassName(this.wrapperElement, "hidden");
+        this.repaint(false);
     } else {
         EzWebExt.removeClassName(this.tabElement, "selected");
         EzWebExt.appendClassName(this.wrapperElement, "hidden");
@@ -2459,6 +2499,7 @@ StyledElements.StyledNotebook = function(options) {
     this.visibleTab = null;
     this.firstVisibleTab = 0;
     this.visibleTabs = 0;
+    this.forceFullRepaint = false;
 
     /* Process options */
     if (options['id'] != undefined)
@@ -2517,6 +2558,11 @@ StyledElements.StyledNotebook.prototype.shiftLeftTabs = function() {
         }
     }
 
+    if (this.visibleTabs == 0) {
+        EzWebExt.removeClassName(this.tabs[this.firstVisibleTab].getTabElement(), 'hidden');
+        this.visibleTabs = 1;
+    }
+
     this._enableDisableButtons();
 }
 
@@ -2540,6 +2586,11 @@ StyledElements.StyledNotebook.prototype.shiftRightTabs = function() {
             EzWebExt.appendClassName(currentTab, "hidden");
             break;
         }
+    }
+
+    if (this.visibleTabs == 0) {
+        EzWebExt.removeClassName(this.tabs[this.firstVisibleTab].getTabElement(), 'hidden');
+        this.visibleTabs = 1;
     }
 
     this._enableDisableButtons();
@@ -2767,23 +2818,17 @@ StyledElements.StyledNotebook.prototype.focus = function(tabId) {
 }
 
 StyledElements.StyledNotebook.prototype.repaint = function(temporal) {
+    var i;
     temporal = temporal !== undefined ? temporal: false;
 
-    var parentElement = this.wrapperElement.parentNode;
-    if (!parentElement)
+    var height = this._getUsableHeight();
+    if (height == null)
         return; // nothing to do
 
-    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
-    
-    var height = parentElement.offsetHeight -
-                 parentStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
-                 parentStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
-    
     this.wrapperElement.style.height = (height + "px");
 
     // Resize tab area
-    if (!temporal) {
-        var i;
+    if (!temporal && !this.forceFullRepaint) {
         var resizeNeeded = this.tabArea.offsetHeight != this.tabArea.scrollHeight;
         if (resizeNeeded) {
             for (i = this.firstVisibleTab; i < this.tabs.length; i++) {
@@ -2813,11 +2858,65 @@ StyledElements.StyledNotebook.prototype.repaint = function(temporal) {
 
         // Enable/Disable tab moving buttons
         this._enableDisableButtons();
+    } else if (!temporal && this.forceFullRepaint) {
+        this.visibleTabs = 0;
+        if (this.tabs.length > 0) {
+            var full = false;
+            var currentTab;
+
+            for (i = 0; i < this.tabs.length; i++) {
+                currentTab = this.tabs[i].getTabElement();
+                EzWebExt.appendClassName(currentTab, "hidden");
+            }
+            currentTab = this.tabs[this.firstVisibleTab].getTabElement();
+            EzWebExt.removeClassName(currentTab, "hidden");
+            this.visibleTabs++;
+
+            for (i = this.firstVisibleTab + 1; i < this.tabs.length; i++) {
+                currentTab = this.tabs[i].getTabElement();
+                this.visibleTabs++;
+                EzWebExt.removeClassName(currentTab, "hidden");
+                if (this.tabArea.offsetHeight != this.tabArea.scrollHeight) {
+                    this.visibleTabs--;
+                    EzWebExt.appendClassName(currentTab, "hidden");
+                    full = true;
+                    break;
+                }
+            }
+            if (!full) {
+                for (i = this.firstVisibleTab - 1; i >= 0; i--) {
+                    currentTab = this.tabs[i].getTabElement();
+                    this.visibleTabs++;
+                    EzWebExt.removeClassName(currentTab, "hidden");
+                    if (this.tabArea.offsetHeight != this.tabArea.scrollHeight) {
+                        this.visibleTabs--;
+                        EzWebExt.appendClassName(currentTab, "hidden");
+                        break;
+                    }
+                    this.firstVisibleTab = i;
+                }
+                
+            }
+        }
+
+        // Enable/Disable tab moving buttons
+        this._enableDisableButtons();
+
+        // Reset forceFullRepaint status
+        this.forceFullRepaint = false;
+    } else {
+        this.forceFullRepaint = true;
     }
 
     // Resize content
-    if (this.visibleTab)
-        this.visibleTab.repaint(temporal);
+    if (temporal) {
+        if (this.visibleTab)
+            this.visibleTab.repaint(true);
+    } else {
+        for (i = 0; i < this.tabs.length; i++) {
+            this.tabs[i].repaint(false);
+        }
+    }
 }
 
 
@@ -2947,6 +3046,8 @@ StyledElements.StyledAlert.prototype.repaint = function(temporal) {
 		    headerStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
 		    headerStyle.getPropertyCSSValue('margin-top').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
 		    contentStyle.getPropertyCSSValue('margin-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
+      if (height < 0)
+          height = 0;
       this.content.style.height =  (height + 'px');
 
       // Addjust Content Width 
@@ -2955,6 +3056,8 @@ StyledElements.StyledAlert.prototype.repaint = function(temporal) {
 		    messageDivStyle.getPropertyCSSValue('border-right-width').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
 		    contentStyle.getPropertyCSSValue('margin-right').getFloatValue(CSSPrimitiveValue.CSS_PX) - 
 		    contentStyle.getPropertyCSSValue('margin-left').getFloatValue(CSSPrimitiveValue.CSS_PX);
+      if (width < 0)
+          width = 0;
       this.content.style.width = (width + 'px');
     }      
 }
@@ -3183,15 +3286,9 @@ StyledElements.StyledAlternatives.NONE = "HorizontalSlice";
 StyledElements.StyledAlternatives.prototype.repaint = function(temporal) {
     temporal = temporal !== undefined ? temporal: false;
 
-    var parentElement = this.wrapperElement.parentNode;
-    if (!parentElement)
+    var height = this._getUsableHeight();
+    if (height == null)
         return; // nothing to do
-    
-    var parentStyle = document.defaultView.getComputedStyle(parentElement, null);
-    
-    var height = parentElement.offsetHeight -
-                 parentStyle.getPropertyCSSValue('padding-top').getFloatValue(CSSPrimitiveValue.CSS_PX) -
-                 parentStyle.getPropertyCSSValue('padding-bottom').getFloatValue(CSSPrimitiveValue.CSS_PX);
     
     this.wrapperElement.style.height = (height + "px");
 

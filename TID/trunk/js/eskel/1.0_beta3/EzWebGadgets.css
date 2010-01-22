@@ -338,6 +338,7 @@ div.styled_numeric_field div.numeric_bottom_button {
   position: absolute;
   left: 0px;
   width: 16px;
+  top: 0px !important;
 }
 
 .notebook .tab_area .move_right {
@@ -346,6 +347,7 @@ div.styled_numeric_field div.numeric_bottom_button {
   position: absolute;
   right: 0px;
   width: 16px;
+  top: 0px;
 }
 
 .notebook .tab_area .move_left.enabled, .notebook .tab_area .move_right.enabled {
