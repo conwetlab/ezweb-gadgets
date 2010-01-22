@@ -9,6 +9,7 @@
     <Mail>jaimegc@tid.es</Mail> 
     <Description>Translate any word to a great number of languages using WordReference dictionary. You can enter a word in the input box as well as translate a word given by a connected gadget.</Description>
     <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/wordreference/wordreference_0.33/wordreference.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/wordreference/wordreference_0.33/wordreferenceiPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_diccionario</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
