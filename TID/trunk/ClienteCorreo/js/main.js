@@ -8,7 +8,7 @@ var ClienteCorreo = function() {
 }
 
 ClienteCorreo.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
-ClienteCorreo.prototype.resourcesURL = "http://antares.ls.fi.upm.es/ezweb-gadgets/ClienteCorreo/";
+ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/";
 
 /******************** OVERWRITE METHODS **************************/
 
@@ -22,7 +22,7 @@ ClienteCorreo.prototype.init = function() {
 	this.CONFIG_ALTERNATIVE     = 2;
 	this.MAIN_TAB               = 1;
 
-    this.MAILPROXY_URL          = "http://antares.ls.fi.upm.es:8002/mailproxy/";
+    this.MAILPROXY_URL          = "http://ezweb.tid.es/mailproxy/";
 	this.INTERVAL_SIZE          = 20;
 	
     // Initialize EzWeb variables
@@ -1378,7 +1378,12 @@ ClienteCorreo.prototype.onError = function(transport) {
 	}
 	this.enableGeneralUID();
 	if (response["error"] && (response["error"] != "")) {
-		this.alert(_("Error"), response["error"], EzWebExt.ALERT_ERROR);
+	    if (response["message"] && (response["message"] != "")) {
+		    this.alert(_("Error"), _("Error") + " " + response["error"] + ": " + response["message"], EzWebExt.ALERT_ERROR);
+		}
+		else {
+		    this.alert(_("Error"), _("Error") + ": " + response["error"], EzWebExt.ALERT_ERROR);
+		}
 	}
 	else {
 		this.alert(_("Error"), response, EzWebExt.ALERT_ERROR);

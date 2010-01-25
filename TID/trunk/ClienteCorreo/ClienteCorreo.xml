@@ -4,12 +4,12 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Cliente Correo</Name>
-		<Version>1.6</Version>
+		<Version>1.7</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/images/correo.png</ImageURI>
-		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.6/images/correoiPhone.png</iPhoneImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/images/correo.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/images/correoiPhone.png</iPhoneImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_lector_de_correo</WikiURI>
 	</Catalog.ResourceDescription>
 
@@ -45,7 +45,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://antares.ls.fi.upm.es/ezweb-gadgets/ClienteCorreo/ClienteCorreo.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/ClienteCorreo.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="10" height="24"/>
