@@ -97,6 +97,7 @@ class SMTPClient:
             msg['Bcc'] = ", ".join(bcc_mails)
         
         ############# Attach files #############
+        #TODO Mejorar para evitar la necesidad de copiar el fichero a carpeta temporal
         for filename in attachments["files"]:
             if not os.path.isfile(filename):
                 continue
@@ -132,7 +133,7 @@ class SMTPClient:
             msg.attach(mimefile)
 
         ############# Send mail #############
-        try: 
+        try:
             self.smtp.sendmail(from_mail, to_mails + cc_mails + bcc_mails, msg.as_string())
             removeFiles(attachments["path"])
         except:

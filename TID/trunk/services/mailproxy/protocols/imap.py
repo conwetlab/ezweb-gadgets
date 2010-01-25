@@ -114,18 +114,24 @@ class IMAP4Client:
         elif (criterion == "RECENT"):
             query = '(UNSEEN)'
         elif (criterion == "SUBJECT"):
-            query = '(SUBJECT ' + keyword + ')'
+            query = '(SUBJECT ' + `keyword` + ')'
         elif (criterion == "FROM"):
-            query = '(FROM ' + keyword + ')'
+            query = '(FROM ' + `keyword` + ')'
         elif (criterion == "SUBJECT_OR_FROM"):
-            query = '(OR SUBJECT ' + keyword + ' FROM ' + keyword + ')'
+            query = '(OR SUBJECT ' + `keyword` + ' FROM ' + `keyword` + ')'
         elif (criterion == "TO_OR_CC"):
-            query = '(OR TO ' + keyword + ' CC ' + keyword + ')'
+            query = '(OR TO ' + `keyword + ' CC ' + keyword` + ')'
         else:
-            query = '(BODY ' + keyword + ')'
+            query = '(BODY ' + `keyword` + ')'
 
-        search_response = self.imap.search(None, query)
-
+        search_response = []
+        reverse = False
+        try:
+            search_response = self.imap.sort("DATE", "us-ascii", query) #TODO Revisar posibles problemas de encoding en busquedas
+        except:
+            search_response = self.imap.search("us-ascii", query) #TODO Revisar posibles problemas de encoding en busquedas
+            reverse = True
+        
         if (search_response[0] != "OK"):
             self.error = commons.error.IMAP_SEARCH
             return False
@@ -139,15 +145,17 @@ class IMAP4Client:
         message_list.reverse()
         if end == 0:
             end = self.size
-        
+
         fetch_response = self.imap.fetch(",".join([str(i) for i in message_list[(begin-1):end]]), "(UID RFC822.SIZE FLAGS BODY.PEEK[HEADER.FIELDS (DATE FROM TO CC BCC SUBJECT CONTENT-TYPE)])")
-	
+
         if (fetch_response[0] != "OK"):
             self.error = commons.error.IMAP_FETCH
             return False
-	
-        fetch_response[1].reverse()
-	
+
+        if (reverse):
+            # Ordenar solo en el caso de haber usado el comando search
+            fetch_response[1].reverse()
+
         for i in range(len(fetch_response[1])):
             if fetch_response[1][i].__class__ == ().__class__:
                 msg = parseMailHeader(fetch_response[1][i])

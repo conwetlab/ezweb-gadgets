@@ -25,21 +25,21 @@ class Error:
 
     def __init__(self):
         self.errors = {}
-        self.errors[`CONFIG`] = {"error":CONFIG, "message":"Error: Existen errores en los parametros de configuracion"}
-        self.errors[`SERVER`] = {"error":SERVER, "message":"Error: Servidor no valido o fuera de servicio"}
-        self.errors[`LOGIN`] = {"error":LOGIN, "message":"Error: Usuario o password incorrectos"}
-        self.errors[`IMAP_MAILBOX_LIST`] = {"error":IMAP_MAILBOX_LIST, "message":"Error: No se puede obtener la lista de mailboxes"}
-        self.errors[`IMAP_MAILBOX_INFO`] = {"error":IMAP_MAILBOX_INFO, "message":"Error: No se puede obtener la informacion del mailbox seleccionado"}
-        self.errors[`IMAP_SELECT`] = {"error":IMAP_SELECT, "message":"Error: No se puede seleccionar el mailbox indicado"}
-        self.errors[`IMAP_SEARCH`] = {"error":IMAP_SEARCH, "message":"Error: Ocurrio un problema al realizar la busqueda en el servidor IMAP"}
-        self.errors[`IMAP_FETCH`] = {"error":IMAP_FETCH, "message":"Error: Ocurrio un problema al realizar la solicitud al servidor IMAP"}
-        self.errors[`IMAP_MESSAGE`] = {"error":IMAP_MESSAGE, "message":"Error: El mensaje solicitado no existe"}
-        self.errors[`IMAP_FILE`] = {"error":IMAP_FILE, "message":"Error: El fichero solicitado no existe"}
-        self.errors[`SMTP_TLS`] = {"error":SMTP_TLS, "message":"Error: Se ha producido un error al intentar acceder por TLS"}
-        self.errors[`SMTP_TO`] = {"error":SMTP_TO, "message":"Error: El parametro TO de la request debe se un array de direcciones"}
-        self.errors[`SMTP_CC`] = {"error":SMTP_CC, "message":"Error: El parametro CC de la request debe se un array de direcciones"}
-        self.errors[`SMTP_BCC`] = {"error":SMTP_BCC, "message":"Error: El parametro BCC de la request debe se un array de direcciones"}
-        self.errors[`SMTP_SEND`] = {"error":SMTP_SEND, "message":"Error: Ocurrio un error al enviar el mail"}
+        self.errors[`CONFIG`] = {"error":CONFIG, "message":"Existen errores en los parametros de configuracion"}
+        self.errors[`SERVER`] = {"error":SERVER, "message":"Servidor no valido o fuera de servicio"}
+        self.errors[`LOGIN`] = {"error":LOGIN, "message":"Usuario o password incorrectos"}
+        self.errors[`IMAP_MAILBOX_LIST`] = {"error":IMAP_MAILBOX_LIST, "message":"No se puede obtener la lista de mailboxes"}
+        self.errors[`IMAP_MAILBOX_INFO`] = {"error":IMAP_MAILBOX_INFO, "message":"No se puede obtener la informacion del mailbox seleccionado"}
+        self.errors[`IMAP_SELECT`] = {"error":IMAP_SELECT, "message":"No se puede seleccionar el mailbox indicado"}
+        self.errors[`IMAP_SEARCH`] = {"error":IMAP_SEARCH, "message":"Ocurrio un problema al realizar la busqueda en el servidor IMAP"}
+        self.errors[`IMAP_FETCH`] = {"error":IMAP_FETCH, "message":"Ocurrio un problema al realizar la solicitud al servidor IMAP"}
+        self.errors[`IMAP_MESSAGE`] = {"error":IMAP_MESSAGE, "message":"El mensaje solicitado no existe"}
+        self.errors[`IMAP_FILE`] = {"error":IMAP_FILE, "message":"El fichero solicitado no existe"}
+        self.errors[`SMTP_TLS`] = {"error":SMTP_TLS, "message":"Se ha producido un error al intentar acceder por TLS"}
+        self.errors[`SMTP_TO`] = {"error":SMTP_TO, "message":"El parametro TO de la request debe se un array de direcciones"}
+        self.errors[`SMTP_CC`] = {"error":SMTP_CC, "message":"El parametro CC de la request debe se un array de direcciones"}
+        self.errors[`SMTP_BCC`] = {"error":SMTP_BCC, "message":"El parametro BCC de la request debe se un array de direcciones"}
+        self.errors[`SMTP_SEND`] = {"error":SMTP_SEND, "message":"Ocurrio un error al enviar el mail"}
 
     def getErrorInfo(self, error_code):
         if self.errors.has_key(`error_code`):
