@@ -32,7 +32,7 @@
 	  <Event name="albumImage" type="text" label="cover of the album" friendcode="albumImage"/>
 	</Platform.Wiring>
 	<Platform.Link>
-	  <XHTML href="http://demo.ezweb.morfeo-project.org/repository/radioStation/radioStation.html"/>
+	  <XHTML href="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/radioStation.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="6" height="8"/>
 	<Platform.Context>

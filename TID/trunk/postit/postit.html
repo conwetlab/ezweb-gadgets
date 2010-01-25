@@ -1,0 +1,85 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.0/postit.css"></link>
+
+<script language="JavaScript">
+
+var height = EzWebAPI.createRGadgetVariable("height", repaint);
+var width = EzWebAPI.createRGadgetVariable("width", repaint);
+var note = EzWebAPI.createRWGadgetVariable("nota");
+var bg = EzWebAPI.createRGadgetVariable("bg", setColorbg);
+var textcolor = EzWebAPI.createRGadgetVariable("textcolor", setColorTexto);
+var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
+var slotText = EzWebAPI.createRGadgetVariable("text", setValue);
+
+function setLanguage(lang) {
+	var tSave = 'Save';
+	var tReset = 'Reset';
+	if (lang == 'es') {
+		tSave = 'Guardar';
+		tReset = 'Borrar';
+	}
+	if (lang == 'pt') {
+		tSave = 'Manter';
+		tReset = 'Excluir';
+	}
+	document.getElementById('bSave').innerHTML = tSave;
+	document.getElementById('bReset').innerHTML = tReset;
+}
+
+function setValue(value) {
+	document.getElementById('nota').value = value;
+}
+
+function save() {
+	note.set(document.getElementById('nota').value);
+}
+
+function delNote() {
+	document.getElementById('nota').value = "";
+	save();
+}
+
+function setColorbg(color) {
+	document.getElementById('dnota').style.backgroundColor = color;
+}
+
+function setColorTexto(color) {
+	document.getElementById('nota').style.color = color;
+}
+
+function repaint() {
+    document.getElementById('dnota').style.height = (document.body.offsetHeight - document.getElementById('menu').offsetHeight - (document.getElementById('dnota').offsetTop * 2)) + "px";
+    document.getElementById('nota').style.width = (document.getElementById('dnota').offsetWidth - 6) + "px";
+}
+
+function load() {
+    document.getElementById('menu').style.height = document.getElementById('bSave').offsetHeight + "px"; 
+    repaint();
+	setValue(note.get());
+	setColorbg(bg.get());
+	setColorTexto(textcolor.get());
+	
+}
+
+</script>
+
+</head>
+	<body onload="javascript:load();">
+	    <div id="dnota">
+	        <textarea id="nota"></textarea>
+		</div>
+		<center id="menu">
+			<button id="bSave"  onclick="save()">Save</button>
+			&nbsp;&nbsp;
+			<button id="bReset" onclick="delNote()">Reset</buttom>
+		</center>
+	</body>
+</html>

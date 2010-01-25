@@ -7,10 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/labels.js"></script>
+<script language="javascript" src="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/labels.js"></script>
 <script language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/js/ezweb_ext_v2.js"></script>
-<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/swfobject/swfobject.js"></script>
-<script type="text/javascript" language="javascript" src="http://demo.ezweb.morfeo-project.org/repository/radioStation/lib/checkplayer/checkplayer.js"></script>
+<script type="text/javascript" language="javascript" src="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/lib/swfobject/swfobject.js"></script>
+<script type="text/javascript" language="javascript" src="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/lib/checkplayer/checkplayer.js"></script>
 
 <title>Radio Station</title>
 <script language="javascript">
@@ -34,8 +34,9 @@ var artist_pattern = "http://jogli.com/util/widget/create.php?artist={{artist_na
 var youtube_pattern = "http://gdata.youtube.com/feeds/api/videos?category=Music&v=2&q={{artist_name}}";
 var artist_name = null;
 var albums_divWidth;
-
+var translator;
 var check = new flensed.checkplayer("9.0.0")
+
 //constant
 var _IMAGEWIDTH = 55;
 
@@ -49,18 +50,14 @@ Function.prototype.bind = function(obj) {
   return temp;
  } 
 
-
 function generateLang(){
-
 	translator = new EzWebExt.Translator(labels, "language","languagePref");
 	init();
 	translator.translate();
 
 }
 
-
 function init () {
-
 	var artistSelected = artist.get();
 	if(!artistSelected || artistSelected == ""){
 		artistSelected = artistPref.get();
@@ -110,7 +107,6 @@ function searchArtist(value){
 	}
 
 }
-
 
 function processResponse (response){
 
@@ -165,7 +161,7 @@ function paintPlayer(url, playerURL){
 	quality: "true",
 	volume: "70",
 	repeat:'list',
-	playlist:'right',
+	playlist:'right'
 	}
 	var color = colorPref.get();
 	if(color && color!=""){
@@ -255,8 +251,7 @@ function paintAlbums(albums){
 			albumElement.id = 'album_'+i;
 			albumElement.className = 'album';
 			albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/><label class="info">' +albumName+ '</label>';
-			//albumElement.innerHTML = '<img src="'+ albumImg +'" alt="' +albumName +'" title="' + albumName + '"/>';
-			context = {'href':albumHref, 'title':albumName, 'img':albumImg}
+			context = {'href':albumHref, 'title':albumName, 'img':albumImg};
 			albumElement.onclick = function(){									
 											toggleAlbums();
 											paintPlayer(this.href);
@@ -270,7 +265,7 @@ function paintAlbums(albums){
 			//calculate current albums_div width in order to make it horizontally scrollable
 			width += _IMAGEWIDTH + 4;	//width of the album element + margin
 		}
-		albums_divWidth = width + "px";
+		albums_divWidth = ((width>0)?width:0) + "px";
 		
 		//Select how to show the albums
 		if(document.getElementById('full').style.display=='inline'){//mini mode
@@ -314,10 +309,10 @@ function failedResponse(response){
 
 function searchInYoutube(){
 	var url = youtube_pattern.replace("{{artist_name}}", artist_name);
-	paintPlayer(url,"http://demo.ezweb.morfeo-project.org/repository/radioStation/mediaplayer/player.swf");
+	paintPlayer(url,"http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/mediaplayer/player.swf");
 }
 
-function searchIfEnter(e){
+function searchIfEnter(e, input){
 	var keynum;
 	if(window.event){ // IE
 		keynum = e.keyCode;
@@ -325,8 +320,8 @@ function searchIfEnter(e){
 		keynum = e.which;
 	}
 	if (keynum == 13){ // enter
-		e.target.blur();
-		searchArtist(e.target.value);
+		input.blur();
+		searchArtist(input.value);
 	}
 }
 
@@ -511,7 +506,7 @@ function clearBox(){
 	}
 
 	#bar_cont{
-		background: transparent URL(http://demo.ezweb.morfeo-project.org/repository/radioStation/img/youtube.gif) no-repeat scroll 2px 2px;
+		background: transparent URL(http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/img/youtube.gif) no-repeat scroll 2px 2px;
 		display: none;
 		height: 32px;
 	}
@@ -531,13 +526,31 @@ function clearBox(){
 </style>
 </head>
 <body onload="generateLang();">
-<div id="header"><label id="l_search"><a id="search_l" href="javascript:clickSearch()">search</a></label><input id="i_search" type="text" width="100%" name="i_search" size="15" onclick="clearBox()" onkeypress="searchIfEnter(event)"/><label id="l_albums" style="display:none"><a id="album_l" href="javascript:toggleAlbums()">select album</a></label> <div id="full" onclick="toggleVideo();" style="display:inline"><img src="http://demo.ezweb.morfeo-project.org/repository/radioStation/img/full.png" alt="full"/></div><div id="mini" style="display:none" onclick="toggleVideo();"><img src="http://demo.ezweb.morfeo-project.org/repository/radioStation/img/mini.png" alt="mini"/></div></div>
-<div id="content">
-<div id="playerContainer">
-<div id="player"></div>
-<div id="bar_cont"><div id="bar"></div></div>
-</div>
-<div id="albums_cont" style="display:none"><div id="albums"></div></div>
-</div>
+    <div id="header">
+        <label id="l_search">
+            <a id="search_l" href="javascript:clickSearch()">search</a>
+        </label>
+        <input id="i_search" type="text" width="100%" name="i_search" size="15" onclick="clearBox()" onkeypress="searchIfEnter(event, this)"/>
+        <label id="l_albums" style="display:none">
+            <a id="album_l" href="javascript:toggleAlbums()">select album</a>
+        </label>
+        <div id="full" onclick="toggleVideo();" style="display:inline">
+            <img src="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/img/full.png" alt="full"/>
+        </div>
+        <div id="mini" style="display:none" onclick="toggleVideo();">
+            <img src="http://antares.ls.fi.upm.es/ezweb-gadgets/radioStation/img/mini.png" alt="mini"/>
+        </div>
+    </div>
+    <div id="content">
+        <div id="playerContainer">
+            <div id="player"></div>
+            <div id="bar_cont">
+                <div id="bar"></div>
+            </div>
+        </div>
+        <div id="albums_cont" style="display:none">
+            <div id="albums"></div>
+        </div>
+    </div>
 </body>
 </html>
