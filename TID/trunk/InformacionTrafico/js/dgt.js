@@ -13,7 +13,7 @@ var InformacionTrafico = function(){
 
 /* Extend from EzWebGadget */
 InformacionTrafico.prototype = new EzWebGadget();
-InformacionTrafico.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.8/";
+
 
 InformacionTrafico.prototype.init = function(){
 
@@ -24,6 +24,7 @@ InformacionTrafico.prototype.init = function(){
     this.ADD_VIEW = 2;
     this.EDIT_VIEW = 3;
 
+
 //Initialize EzWeb variables
     this.time = EzWebAPI.createRGadgetVariable("time", this.setInterval);
     this.route = EzWebAPI.createRWGadgetVariable("route");
@@ -31,57 +32,57 @@ InformacionTrafico.prototype.init = function(){
     this.nameImage = EzWebAPI.createRWGadgetVariable("nameImage");
     this.nameRoute = EzWebAPI.createRWGadgetVariable("nameRoute");
     if (this.route.get() == ""){
-	this.listRoutes = {};
-	this.listRoutes.trayectos = {};
-	this.listRoutes.numElem = 0;
-	this.listRoutes.addRoute = function(k,v){
-	    this.trayectos[k]=v;
-	    this.numElem += 1;
-	}
-	this.listRoutes.delRoute = function(k){
-	    delete(this.trayectos[k]);
-	    this.numElem -= 1;
-	}
-	this.listRoutes.esVacia = function(){
-	    return this.numElem == 0;
-	}
-	this.listRoutes.getFirst = function(){
-	    var encontrado = false;
-	    var r;
-	    for (var i in this.trayectos){
-		if (!encontrado){
-		    r = i;
-		    encontrado = true;
+		this.listRoutes = {};
+		this.listRoutes.trayectos = {};
+		this.listRoutes.numElem = 0;
+		this.listRoutes.addRoute = function(k,v){
+		    this.trayectos[k]=v;
+		    this.numElem += 1;
 		}
+		this.listRoutes.delRoute = function(k){
+		    delete(this.trayectos[k]);
+		    this.numElem -= 1;
+		}
+		this.listRoutes.esVacia = function(){
+		    return this.numElem == 0;
+		}
+		this.listRoutes.getFirst = function(){
+		    var encontrado = false;
+		    var r;
+		    for (var i in this.trayectos){
+			if (!encontrado){
+			    r = i;
+			    encontrado = true;
+			}
+		    }
+		    return r;
+		}
+		
 	    }
-	    return r;
-	}
-	
-    }
     else{
-	this.listRoutes = eval("("+this.route.get()+")");
-	this.listRoutes.addRoute = function(k,v){
-	    this.trayectos[k]=v;
-	    this.numElem += 1;
-	}
-	this.listRoutes.delRoute = function(k){
-	    delete(this.trayectos[k]);
-	    this.numElem -= 1;
-	}
-	this.listRoutes.esVacia = function(){
-	    return this.numElem == 0;
-	}
-	this.listRoutes.getFirst = function(){
-	    var encontrado = false;
-	    var r;
-	    for (var i in this.trayectos){
-		if (!encontrado){
-		    r = i;
-		    encontrado = true;
+		this.listRoutes = eval("("+this.route.get()+")");
+		this.listRoutes.addRoute = function(k,v){
+		    this.trayectos[k]=v;
+		    this.numElem += 1;
 		}
-	    }
-	    return r;
-	}
+		this.listRoutes.delRoute = function(k){
+		    delete(this.trayectos[k]);
+		    this.numElem -= 1;
+		}
+		this.listRoutes.esVacia = function(){
+		    return this.numElem == 0;
+		}
+		this.listRoutes.getFirst = function(){
+		    var encontrado = false;
+		    var r;
+		    for (var i in this.trayectos){
+				if (!encontrado){
+				    r = i;
+				    encontrado = true;
+				}
+		    }
+		    return r;
+		}
     }
 
 //Initialize global variables
@@ -90,7 +91,7 @@ InformacionTrafico.prototype.init = function(){
     this.camaras = [];
     this.play = "stop";
     this.contador_trayectos = 0;
-    
+	
 // Call methods
    
     this._createUserInterface();
@@ -128,10 +129,12 @@ InformacionTrafico.prototype._createUserInterface = function(){
     var mainContent =  document.createElement("div");
     this.divSelects = document.createElement("div");
     EzWebExt.addClassName(this.divSelects, "selectRoad");
-    this.divSelects.appendChild(this._createHeaderButton("images/back.png", _("Volver a edición de cámaras"), EzWebExt.bind(function() { 
-	this.createAlternativeConfig();
-	this.showAlternative(this.EDIT_VIEW);
-    }, this)));
+	var button = this._createHeaderButton("images/back.png", _("Volver a edición de cámaras"), EzWebExt.bind(function() { 
+		this.createAlternativeConfig();
+		this.showAlternative(this.EDIT_VIEW);
+    }, this));
+	EzWebExt.addClassName(button, "back_button");
+    this.divSelects.appendChild(button);
     this.divCams = document.createElement("div");
     this.getRoads();
   
@@ -175,7 +178,7 @@ InformacionTrafico.prototype._createUserInterface = function(){
     	div.style.cursor="pointer";
     	EzWebExt.addClassName(div, "imageEnviar");
     	div.style.background = 'url(' + this.getResourceURL("images/avion.png") + ')';
-    	div.addEventListener("click", EzWebExt.bind(function(){
+    	EzWebExt.addEventListener(div,"click", EzWebExt.bind(function(){
 	var srcCam = this.content_img._srcOld;
 	var titleCam =this.getTitle(srcCam);
 	this.urlImage.set(srcCam);
@@ -190,9 +193,21 @@ InformacionTrafico.prototype._createUserInterface = function(){
     //MENÚ SELECCIÓN DEL TRAYECTO
     
     var content_button_route = document.createElement("div");
-    content_button_route.style.width = '100px';
+    content_button_route.style.width = '70px';
     content_button_route.style.margin = "0 auto 0 20px";
     
+	// Create a table
+    var table = document.createElement("table");
+	EzWebExt.addClassName(table,"options");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);	
+    var tr = tbody.insertRow(-1);
+    var tdButtons = tr.insertCell(-1);
+	tdButtons.style.width = '70px';
+    var tdSelect = tr.insertCell(-1);	
+	tdButtons.appendChild(content_button_route);
+	
+	
     content_button_route.appendChild(this._createHeaderButton("images/add.png", _("Añadir Trayecto"), EzWebExt.bind(function() { 
 	this.createAlternativeRoute();
 	this.showAlternative(this.CREATE_VIEW);
@@ -207,14 +222,16 @@ InformacionTrafico.prototype._createUserInterface = function(){
 	    this.showAlternative(this.EDIT_VIEW);
 	}
     }, this)));
-    this.select = document.createElement("div");
+    this.select = document.createElement("div");;
     EzWebExt.addClassName(this.select,"select");
     var routes = this.getRoutes();
-    menu_route.appendChild(content_button_route);
+    //menu_route.appendChild(content_button_route);
     this._createSelectRoute(routes,this.select);
     this.actualRoute = this.form_in_config["route"].getValue();
-    menu_route.appendChild(this.select);
-    
+    //menu_route.appendChild(this.select);
+    tdSelect.appendChild(this.select);
+	menu_route.appendChild(table);
+	
     /* Añadimos los div al contenedor principal */   
     mainContent.appendChild(this.content_img);
     mainContent.appendChild(menu_route);
@@ -267,18 +284,18 @@ InformacionTrafico.prototype.createAlternativeConfig = function(){
 InformacionTrafico.prototype.createAlternativeRoute = function(){
     this.addContent.innerHTML = "";
     var table = document.createElement("table");
+	var tbody = document.createElement("tbody");
+	table.appendChild(tbody);
     EzWebExt.addClassName(table,"center");
 
-    var trTitulo = document.createElement("tr");
-    var tdTitulo = document.createElement("td");
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
+    var trTitulo = tbody.insertRow(-1);
+    var tdTitulo = trTitulo.insertCell(-1);
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
     var divtitle = document.createElement("div");
     divtitle.appendChild(document.createTextNode(_("Crear trayecto nuevo")));
     EzWebExt.addClassName(divtitle,"tituloCrear");
     tdTitulo.appendChild(divtitle);
-    trTitulo.appendChild(tdTitulo);
-    table.appendChild(trTitulo);
     
     var div = document.createElement("div");
     div.innerHTML = '<label id="trayecto">'+_("Trayecto")+'</label>';
@@ -300,38 +317,37 @@ InformacionTrafico.prototype.createAlternativeRoute = function(){
     // Botones aceptar y cancelar //
     spanAccept.appendChild(document.createTextNode(_("Aceptar")));
     spanAccept.style.backgroundImage = 'url(' + this.getResourceURL("images/accept.png") + ')';
-    spanAccept.addEventListener("click",EzWebExt.bind(function(){
-	self.addRoute(this.inputName);
-	self.createAlternativeSelectCam();
-	self.showAlternative(self.ADD_VIEW);
+    EzWebExt.addEventListener(spanAccept,"click",EzWebExt.bind(function(){
+		self.addRoute(this.inputName);
+		self.createAlternativeSelectCam();
+		self.showAlternative(self.ADD_VIEW);
     },context), false);
     div.appendChild(spanAccept);
     var spanCancel = document.createElement("span");
     EzWebExt.addClassName(spanCancel,"boton");
     spanCancel.appendChild(document.createTextNode(_("Cancelar")));
     spanCancel.style.backgroundImage = 'url(' + this.getResourceURL("images/cancel.png") + ')';
-    spanCancel.addEventListener("click",EzWebExt.bind(function(){
+    EzWebExt.addEventListener(spanCancel,"click",EzWebExt.bind(function(){
 	this.showAlternative(this.PRINCIPAL_VIEW);
     },this), false);
     div.appendChild(spanCancel);
     td.appendChild(div);
     tr.appendChild(td);
-    table.appendChild(tr);
     this.addContent.appendChild(table);
 
 
 }
 
 InformacionTrafico.prototype.createAlternativeSelectCam = function(){
-    this.roadsContent.innerHTML= "";
-    var titulo = document.createElement("div");
-    EzWebExt.addClassName(titulo,"tituloAlternative");
-    titulo.appendChild(document.createTextNode(_("Seleccionar cámaras del trayecto")));
-    this.roadsContent.appendChild(titulo);
+    if (this.roadsContent.childNodes.length == 0) {
+		//this.roadsContent.innerHTML= "";
+		var titulo = document.createElement("div");
+		EzWebExt.addClassName(titulo, "tituloAlternative");
+		titulo.appendChild(document.createTextNode(_("Seleccionar cámaras del trayecto")));
+		this.roadsContent.appendChild(titulo);
+	}
     this.roadsContent.appendChild(this.divSelects);
     this.roadsContent.appendChild(this.divCams);
-   
-  
 
 }
 
@@ -349,7 +365,7 @@ InformacionTrafico.prototype.getNamesCamsRoute = function(){
 InformacionTrafico.prototype.getCamsRoute = function(){
     var list = [];
     for (var i = 0; i< this.listRoutes.trayectos[this.actualRoute].length;i++){
-	list[list.length] = this.listRoutes.trayectos[this.actualRoute][i][0][1];
+		list[list.length] = this.listRoutes.trayectos[this.actualRoute][i][0][1];
     }
     return list;
     
@@ -360,26 +376,26 @@ InformacionTrafico.prototype.getCamsRoute = function(){
 InformacionTrafico.prototype.getFirstCam = function(){
     var src;
     if (this.listRoutes.esVacia()){
-	this.createAlternativeRoute();
-	this.showAlternative(this.CREATE_VIEW);
+		this.createAlternativeRoute();
+		this.showAlternative(this.CREATE_VIEW);
 	
     }
     else if (this.listRoutes.trayectos[this.actualRoute].length==0)
     {
-	this.createAlternativeConfig();
-	src = "images/backdes.png";
-	this.div.childNodes[1].style.background = 'url(' + this.getResourceURL(src) + ')';
-	this.showAlternative(this.EDIT_VIEW);
+		this.createAlternativeConfig();
+		src = "images/backdes.png";
+		this.div.childNodes[1].style.background = 'url(' + this.getResourceURL(src) + ')';
+		this.showAlternative(this.EDIT_VIEW);
     }
     
     else{
-	src = this.listRoutes.trayectos[this.actualRoute][0][0][1];
-	var title =this.listRoutes.trayectos[this.actualRoute][0][0][0];
-	this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][0][0][0]);
-	
-	this.content_img.setAttribute("src",src);
-	this.content_img._srcOld = src;
-	this.showAlternative(this.PRINCIPAL_VIEW);
+		src = this.listRoutes.trayectos[this.actualRoute][0][0][1];
+		var title =this.listRoutes.trayectos[this.actualRoute][0][0][0];
+		this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][0][0][0]);
+		
+		this.content_img.setAttribute("src",src);
+		this.content_img._srcOld = src;
+		this.showAlternative(this.PRINCIPAL_VIEW);
     }
     
 }
@@ -426,28 +442,30 @@ InformacionTrafico.prototype.getNextCam = function(src){
     var finalList = false;
     var s = new Date().getMinutes().toString();
     if(this.listRoutes.esVacia()){
-	return src;
+		return src;
     }
     else{
-	while((!encontrado) &&(i<this.listRoutes.trayectos[this.actualRoute].length)){
-	    if (this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
-		encontrado = true;
-		if (i == this.listRoutes.trayectos[this.actualRoute].length -1){
-		    src = this.listRoutes.trayectos[this.actualRoute][0][0][1];
-		    finalList = true;
+		while((!encontrado) &&(i<this.listRoutes.trayectos[this.actualRoute].length)){
+		    if (this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
+				encontrado = true;
+				if (i == this.listRoutes.trayectos[this.actualRoute].length -1){
+				    src = this.listRoutes.trayectos[this.actualRoute][0][0][1];
+				    finalList = true;
+				}
+		 	}
+		    i++;
 		}
-	    }
-	    i++;
-	}
-	if(encontrado && !finalList){
-	    src = this.listRoutes.trayectos[this.actualRoute][i][0][1];
-	    this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][i][0][0]);
-	}
-	this.content_img._srcOld = src;
-	src = src+"?random="+s;
-	return src;
+		if(encontrado && !finalList){
+		    src = this.listRoutes.trayectos[this.actualRoute][i][0][1];
+		    this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][i][0][0]);
+		}
+		if (finalList) {
+			this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][0][0][0]);
+		}
+		this.content_img._srcOld = src;
+		src = src+"?random="+s;
+		return src;
     }
-    
     
 }
 
@@ -477,27 +495,29 @@ InformacionTrafico.prototype.getPrevCam = function(src){
     var finalList = false;
     var s = new Date().getMinutes().toString();
     if(this.listRoutes.esVacia()){
-	return src;
+		return src;
     }
     else{
-	while(!encontrado && i<this.listRoutes.trayectos[this.actualRoute].length){
-	    if (this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
-		encontrado = true;
-		if (i == 0){
-		    src = this.listRoutes.trayectos[this.actualRoute][this.listRoutes.trayectos[this.actualRoute].length-1][0][1];
-		    finalList = true;
+		while(!encontrado && i<this.listRoutes.trayectos[this.actualRoute].length){
+		    if (this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
+				encontrado = true;
+				if (i == 0){
+				    src = this.listRoutes.trayectos[this.actualRoute][this.listRoutes.trayectos[this.actualRoute].length-1][0][1];
+				    finalList = true;
+				}
+		    }
+		    i++;
 		}
-	    }
-	    i++;
-	}
-	if(encontrado && !finalList){
-	    src = this.listRoutes.trayectos[this.actualRoute][i-2][0][1];
-	    this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][i-2][0][0]);
-	}
-	
-	this.content_img._srcOld = src;    
-	src = src+"?random"+s;
-	return src;
+		if(encontrado && !finalList){
+		    src = this.listRoutes.trayectos[this.actualRoute][i-2][0][1];
+		    this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][i-2][0][0]);
+		}
+		if (finalList) {
+			this.content_img.setAttribute("title",this.listRoutes.trayectos[this.actualRoute][this.listRoutes.trayectos[this.actualRoute].length-1][0][0]);
+		}
+		this.content_img._srcOld = src;    
+		src = src+"?random"+s;
+		return src;
     }
 }
 
@@ -555,11 +575,11 @@ InformacionTrafico.prototype.deleteRoute = function(){
 	    this.listRoutes.delRoute(i);
 	    this.route.set(this.toJSON(this.listRoutes));
 	    if(this.listRoutes.esVacia()){
-		this.createAlternativeRoute();
-		this.showAlternative(this.CREATE_VIEW);
+			this.createAlternativeRoute();
+			this.showAlternative(this.CREATE_VIEW);
 	    }
 	    else{
-		this.actualRoute = this.listRoutes.getFirst();
+			this.actualRoute = this.listRoutes.getFirst();
 	    }
 	}
     }
@@ -576,12 +596,12 @@ InformacionTrafico.prototype.delCam = function(div){
     var i = 0;
     while(!encontrado && i<this.listRoutes.trayectos[this.actualRoute].length){
 
-	if(this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
-	    encontrado = true;
-	    this.listRoutes.trayectos[this.actualRoute].splice(i,1);
-	    this.route.set(this.toJSON(this.listRoutes));
-	}
-	i++;
+		if(this.listRoutes.trayectos[this.actualRoute][i][0][1] == src){
+		    encontrado = true;
+		    this.listRoutes.trayectos[this.actualRoute].splice(i,1);
+		    this.route.set(this.toJSON(this.listRoutes));
+		}
+		i++;
 	
     }
     this.createAlternativeConfig();
@@ -600,13 +620,13 @@ InformacionTrafico.prototype.addRoute = function (spanText){
 	}
     }
     if (!encontrado){
-	this.listRoutes.addRoute(spanText.value,[]);
-	this.route.set(this.toJSON(this.listRoutes));
-	this.repaintRoute();
-	this.actualRoute = spanText.value;
+		this.listRoutes.addRoute(spanText.value,[]);
+		this.route.set(this.toJSON(this.listRoutes));
+		this.repaintRoute();
+		this.actualRoute = spanText.value;
     }
     else{
-	this.alert(_("El nombre del trayecto ya existe"));
+		this.alert(_("El nombre del trayecto ya existe"));
     }
     
 }
@@ -623,7 +643,8 @@ InformacionTrafico.prototype.repaintRoute = function(){
 InformacionTrafico.prototype._createSelectRoute = function(list,select){
   if (this.form_in_config["route"] === undefined) {
       var in_route_text = new StyledElements.StyledSelect({initialEntries:list,initialValue:list[0]});
-      this.form_in_config["route"] = in_route_text;
+      in_route_text.addClassName("selected");
+	  this.form_in_config["route"] = in_route_text;
       in_route_text.addEventListener("change", EzWebExt.bind(function(select){
 	  this.actualRoute = this.form_in_config["route"].getValue();
 	  this.getFirstCam();
@@ -645,10 +666,12 @@ InformacionTrafico.prototype._createSelectRoad = function(list){
     if(this.form_in_config["road"]===undefined){
 	var in_road_text = new StyledElements.StyledSelect({initialEntries: list,initialValue:list[0]})
 	this.form_in_config["road"] = in_road_text;
+
 	in_road_text.addEventListener("change",
 				      EzWebExt.bind(function(select){
 					  this.getStretch();
 				      },this));
+				      
 	in_road_text.wrapperElement.style.margin="3px auto";
     }
     else{
@@ -668,10 +691,12 @@ InformacionTrafico.prototype._createSelectStretch = function(list,div){
     if (this.form_in_config["stretch"] === undefined) {
         var in_stretch_text = new StyledElements.StyledSelect({initialEntries:list,initialValue:list[0]});
 	this.form_in_config["stretch"] = in_stretch_text;
+
 	in_stretch_text.addEventListener("change",
 					 EzWebExt.bind(function(select){
 					     this.getCameras();
 					 },this));
+
 
 	in_stretch_text.wrapperElement.style.margin="3px auto";
 	in_stretch_text.insertInto(div);
@@ -693,24 +718,24 @@ InformacionTrafico.prototype._createSelectListCam = function(listPhotos,listName
     var camList = [];
    
     for(var i = 0; i<listPhotos.length;i++){
-	var img_cam = document.createElement("div");
-	var img = document.createElement("img");
-	var text = document.createElement("div");
-	img_cam.appendChild(img);
-	img_cam.appendChild(text);
-	camList[i] = img_cam;
-	img_cam.id = i.toString();
-
-	EzWebExt.addClassName(img_cam,"camara");
-	EzWebExt.addClassName(text,"despripcion");
-	img.setAttribute("src",listPhotos[i][0]);
-	var self = this;
-	var context = {self: this, img_cam: img_cam};
-	img_cam.addEventListener("click", EzWebExt.bind(function(){ self.selectCam(this.img_cam);},context), false);
-	var text_foto = document.createTextNode(listNames[i][0]);
-	text.appendChild(text_foto);
-
-	subcontentg_cam.appendChild(img_cam);
+		var img_cam = document.createElement("div");
+		var img = document.createElement("img");
+		var text = document.createElement("div");
+		img_cam.appendChild(img);
+		img_cam.appendChild(text);
+		camList[i] = img_cam;
+		img_cam.id = i.toString();
+	
+		EzWebExt.addClassName(img_cam,"camara");
+		EzWebExt.addClassName(text,"despripcion");
+		img.setAttribute("src",listPhotos[i][0]);
+		var self = this;
+		var context = {self: this, img_cam: img_cam};
+		EzWebExt.addEventListener(img_cam,"click", EzWebExt.bind(function(){ self.selectCam(this.img_cam);},context), false);
+		var text_foto = document.createTextNode(listNames[i][0]);
+		text.appendChild(text_foto);
+	
+		subcontentg_cam.appendChild(img_cam);
 	
     } 
     return subcontentg_cam;
@@ -724,31 +749,30 @@ InformacionTrafico.prototype._createSelectCamsRoute = function(listPhotos,listNa
     var camList = [];
    
     for(var i = 0; i<listPhotos.length;i++){
-	var img_cam = document.createElement("div");
-	var delButton = document.createElement("div");
-	var img = document.createElement("img");
-	var text = document.createElement("div");
-	img_cam.appendChild(delButton);
-	img_cam.appendChild(img);
-	img_cam.appendChild(text);
-	var src = "images/cancel.png"
-	var self= this;
-	var context = {self:this,img_cam:img_cam};
-	delButton.style.background = 'url(' + this.getResourceURL(src) + ')';
-	delButton.style.backgroundRepeat = "no-repeat";
-	delButton.addEventListener("click",EzWebExt.bind(function(){self.delCam(this.img_cam);},context),false);
-
-	EzWebExt.addClassName(img_cam,"camara");
-	EzWebExt.addClassName(delButton,"botonCancel");
-	EzWebExt.addClassName(delButton,"cancelar");
-	EzWebExt.addClassName(text,"descripcion");
-	delButton.setAttribute("title",_("Eliminar imagen"));
+		var img_cam = document.createElement("div");
+		var delButton = document.createElement("div");
+		var img = document.createElement("img");
+		var text = document.createElement("div");
+		img_cam.appendChild(delButton);
+		img_cam.appendChild(img);
+		img_cam.appendChild(text);
+		var src = "images/cancel.png"
+		var self= this;
+		var context = {self:this,img_cam:img_cam};
+		delButton.style.background = 'url(' + this.getResourceURL(src) + ')';
+		delButton.style.backgroundRepeat = "no-repeat";
+		EzWebExt.addEventListener(delButton,"click",EzWebExt.bind(function(){self.delCam(this.img_cam);},context),false);
+		EzWebExt.addClassName(img_cam,"camara");
+		EzWebExt.addClassName(delButton,"botonCancel");
+		EzWebExt.addClassName(delButton,"cancelar");
+		EzWebExt.addClassName(text,"descripcion");
+		delButton.setAttribute("title",_("Eliminar imagen"));
+		
+		img.setAttribute("src",listPhotos[i]);
 	
-	img.setAttribute("src",listPhotos[i]);
-
-	var text_foto = document.createTextNode(listNames[i]);
-	text.appendChild(text_foto);
-	subcontent_cam.appendChild(img_cam);
+		var text_foto = document.createTextNode(listNames[i]);
+		text.appendChild(text_foto);
+		subcontent_cam.appendChild(img_cam);
 	
     } 
     return subcontent_cam;
@@ -762,7 +786,7 @@ InformacionTrafico.prototype._createHeaderButton = function(src, title, handler)
     div.style.cursor="pointer";
     EzWebExt.addClassName(div, "image");
     div.style.background = 'url(' + this.getResourceURL(src) + ')';
-    div.addEventListener("click", handler, false);
+	EzWebExt.addEventListener(div, "click", handler, false);
     div.setAttribute("title",title);
     
     return div;
@@ -795,7 +819,8 @@ InformacionTrafico.prototype.getStretch = function(){
 }
 
 InformacionTrafico.prototype.getCameras = function(){
-    this.sendGet("http://www.dgt.es"+this.form_in_config["stretch"].getValue(),this.onSuccessGetCameras,this.onError,this.onException);
+	url = this.addSlash(this.form_in_config["stretch"].getValue());
+    this.sendGet("http://www.dgt.es"+url,this.onSuccessGetCameras,this.onError,this.onException);
 }
 
 
@@ -804,7 +829,7 @@ InformacionTrafico.prototype.onSuccessGetRoads = function(transport){
    
     var html_response = document.createElement("div");
     html_response.innerHTML = transport.responseText;
-    var roadList = html_response.getElementsByClassName('buscIntCamposEvTipoSelect width18em');
+    var roadList = EzWebExt.getElementsByClassName(html_response,'buscIntCamposEvTipoSelect width18em');
     var roads = [[]];
   
 
@@ -820,11 +845,11 @@ InformacionTrafico.prototype.onSuccessGetStretch = function(transport){
     
     var html_response = document.createElement("div");
     html_response.innerHTML = transport.responseText;
-    var stretchList = html_response.getElementsByClassName('camCuadroTexto');
+    var stretchList = EzWebExt.getElementsByClassName(html_response,'camCuadroTexto');
     var stretchs = [[]];
     
     for (var i = 0; i<stretchList.length;i++){
-	stretchs[i] = [stretchList[i].parentNode.childNodes[3].pathname,stretchList[i].childNodes[0].nodeValue]
+		stretchs[i] = [stretchList[i].parentNode.getElementsByTagName("a")[0].pathname, stretchList[i].innerHTML];
     }
  
     this._createSelectStretch(stretchs,this.divSelects);
@@ -835,16 +860,16 @@ InformacionTrafico.prototype.onSuccessGetCameras = function(transport){
     
     var html_response = document.createElement("div");
     html_response.innerHTML = transport.responseText;
-    var camNameList = html_response.getElementsByClassName("camaraTextoPie");
-    var camList = html_response.getElementsByClassName("camaraImagen");
+    var camNameList = EzWebExt.getElementsByClassName(html_response,"camaraTextoPie");
+    var camList = EzWebExt.getElementsByClassName(html_response,"camaraImagen");
     var camerasName = [[]];
     var camerasPhoto = [[]]
 
     for(var i = 0; i < camNameList.length; i++){
-	camerasName[i] = [camNameList[i].textContent,camNameList[i].textContent];
+		camerasName[i] = [camNameList[i].innerHTML.replace(/&nbsp;/g," "),camNameList[i].innerHTML.replace(/&nbsp;/g," ")];
     }
     for(var i = 0; i <camList.length;i++){
-	camerasPhoto[i]= ["http://www.dgt.es"+camList[i].attributes[1].nodeValue,"http://www.dgt.es"+camList[i].attributes[1].nodeValue];
+		camerasPhoto[i]= ["http://www.dgt.es/camaras/"+camList[i].src.split('/camaras/')[1],"http://www.dgt.es/camaras/"+camList[i].src.split('/camaras/')[1]];
     }
 
     this.divCams.innerHTML="";
@@ -856,29 +881,28 @@ InformacionTrafico.prototype.onSuccessGetCameras = function(transport){
 // Método de selección de las cámaras
 
 InformacionTrafico.prototype.selectCam = function(divImg){
-
     var encontrado = false;
     var i = 0;
     var carretera = this.form_in_config["road"].getValue();
     var tramo = this.form_in_config["stretch"].textDiv.firstChild.data;
-    if (this.camaras.length == 0){
-	divImg.style.background= "SteelBlue";
-	this.camaras[this.camaras.length]=[[divImg.childNodes[1].firstChild.data,
-					    divImg.childNodes[0].src]];
-	this.listRoutes.trayectos[this.actualRoute][0]=[[divImg.childNodes[1].firstChild.data,
-					    divImg.childNodes[0].src]];
-	
+
+	if (this.listRoutes.trayectos[this.actualRoute].length == 0){
+		divImg.style.background= "SteelBlue";
+		this.camaras[0]=[[divImg.childNodes[1].firstChild.data,
+						    divImg.childNodes[0].src]];
+		this.listRoutes.trayectos[this.actualRoute][0]=[[divImg.childNodes[1].firstChild.data,
+						    divImg.childNodes[0].src]];
     }
     else{
-	var j = 0;
-	var contiene =false;
-	while(!contiene && j<this.camaras.length){
-	    if(this.camaras[j][0][0] == divImg.childNodes[1].firstChild.data){
-		contiene = true;
-		divImg.style.background="transparent";
-		this.camaras.splice(j,1);
-	    }
-	    j++;
+		var j = 0;
+		var contiene =false;
+		while(!contiene && j<this.listRoutes.trayectos[this.actualRoute].length){
+		    if(this.camaras[j][0][0] == divImg.childNodes[1].firstChild.data){
+				contiene = true;
+				divImg.style.background="transparent";
+				this.camaras.splice(j,1);
+		    }
+		    j++;
 	}
 	if(this.listRoutes.trayectos[this.actualRoute]==[]){
 	    this.listRoutes.trayectos[this.actualRoute][0]=[[divImg.childNodes[1].firstChild.data,
@@ -888,20 +912,20 @@ InformacionTrafico.prototype.selectCam = function(divImg){
 	    var i = 0;
 	    var encontrado = false;
 	    while(!encontrado && i <this.listRoutes.trayectos[this.actualRoute].length){
-		if(this.listRoutes.trayectos[this.actualRoute][i][0][0]==divImg.childNodes[1].firstChild.data){
-		    this.listRoutes.trayectos[this.actualRoute].splice(i,1);
-		    encontrado = true;
-		}
-		i++;
+			if(this.listRoutes.trayectos[this.actualRoute][i][0][0]==divImg.childNodes[1].firstChild.data){
+			    this.listRoutes.trayectos[this.actualRoute].splice(i,1);
+			    encontrado = true;
+			}
+			i++;
 	    }
 	}
 	
 		    
 	if (!contiene){
 	    divImg.style.background= "SteelBlue";
-	    this.camaras[this.camaras.length] = [[divImg.childNodes[1].firstChild.data,
+
+	    this.camaras[this.listRoutes.trayectos[this.actualRoute].length] = [[divImg.childNodes[1].firstChild.data,
 						  divImg.childNodes[0].src]];
-	    
 	}
 	if(!encontrado){
 	    this.listRoutes.trayectos[this.actualRoute][i] =[[divImg.childNodes[1].firstChild.data,
@@ -921,4 +945,15 @@ InformacionTrafico.prototype.toJSON = function(object) {
 	});
 }
 
+InformacionTrafico.prototype.addSlash = function(url) {
+	if (url[0] == "/") {
+		return url;
+	} else {
+		newUrl = "/";
+		newUrl += url;
+		return newUrl; 
+	}
+}
+
 InformacionTrafico = new InformacionTrafico();
+

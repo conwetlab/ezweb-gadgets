@@ -4,11 +4,11 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Informacion Trafico</Name>
-		<Version>0.8</Version>
+		<Version>0.83</Version>
 		<Author>lgarcia</Author>
 		<Mail>lgarcia@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Información de cámaras de tráfico</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.8/images/dgt.png</ImageURI>
+		<ImageURI>images/dgt.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_informaci.C3.B3n_de_tr.C3.A1fico</WikiURI>
 	</Catalog.ResourceDescription>
 
@@ -29,7 +29,7 @@
 	</Platform.Wiring>
 	
 	  <Platform.Link>
-		  <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/InformacionTrafico/InformacionTrafico_0.8/InformacionTrafico.html"/>
+		  <XHTML href="InformacionTrafico.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="5" height="18"/>
@@ -46,3 +46,4 @@
 		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
 	</Platform.Context> 
 </Template>
+

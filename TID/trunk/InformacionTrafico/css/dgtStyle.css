@@ -25,12 +25,13 @@ body {
 }
 
 #menu_route {
-    position:absolute;
+    position:fixed;
     bottom:0;
     width:100%;
     height:30px;
     z-index:2;
     text-align:left;
+	padding-bottom: 5px;
 
 }
 #menu_options:hover > * {
@@ -69,10 +70,13 @@ body {
     margin:2px;
 
 }
+/*
 .select{
     float:left;
     margin-left:20px;
+	position:fixed;
 }
+*/
 .selectRoad{
     text-aling:center;
     margin:3px 3px;
@@ -109,9 +113,14 @@ table.center {
     font-size:14px;
     height:100%;
     width:100%; 
+	position: fixed;
 }
 table.center td {
     text-align:center;
+}
+
+table.options {
+	width: 100%;
 }
 
 .content{
@@ -123,6 +132,7 @@ table.center td {
     background-color:#D4E6FC;
     border:1px solid #888888;
     -moz-border-radius:4px;
+    overflow:hidden;
 }
 
 #trayecto{
@@ -191,7 +201,6 @@ camara:hover .cancelar {
 .camara .descripcion {
     height:2.3em;
     overflow:hidden;
-    //			white-space: nowrap;
 }
 .botonCancel:hover {
     background:orange;
@@ -216,4 +225,16 @@ camara:hover .cancelar {
     font-weight:bold;
     margin-top:5px;
     text-align:center;
+}
+
+.selected {
+	float:left;
+}
+
+.back_button {
+	position:absolute;
+}
+
+.styled_select  select{
+  width:auto !important;
 }
