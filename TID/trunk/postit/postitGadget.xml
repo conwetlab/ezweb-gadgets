@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Post-It</Name>
-    <Version>1.50</Version>
+    <Version>1.51</Version>
     <Author>djimenez</Author>
     <Mail>djimenez@pegaso.ls.fi.upm.es</Mail>
     <Description>Add your personal notes, reminders, warnings... and choose the color to show them in your preferences! Take this gadget out of your grid and use it as a sticky note.</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.50/postit.jpg</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.50/postitIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/postit.jpg</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/postitIPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Notepad</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -47,7 +47,7 @@
     <GadgetContext name="width" type="text" concept="widthInPixels"/>
   </Platform.Context> 
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.50/postit.html" />
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/postit.html" />
   </Platform.Link>
-  <Platform.Rendering width="6" height="11"/>
+  <Platform.Rendering width="4" height="22"/>
 </Template>
