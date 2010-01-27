@@ -141,7 +141,8 @@ def parseMailHeader(header):
         #print msg["received"]
         pass
     if msg.has_key("date"):
-        result["date"] = get_date(msg["date"])
+        result["date_in_millis"] = get_date_in_millis(msg["date"])
+        result["date"] = get_date_from_millis(result["date_in_millis"])
     if msg.has_key("from"):
         mails = parseMailList(msg["from"])
         if (len(mails) > 0):

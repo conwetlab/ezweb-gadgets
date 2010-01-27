@@ -125,12 +125,10 @@ class IMAP4Client:
             query = '(BODY ' + `keyword` + ')'
 
         search_response = []
-        reverse = False
         try:
             search_response = self.imap.sort("DATE", "us-ascii", query) #TODO Revisar posibles problemas de encoding en busquedas
         except:
             search_response = self.imap.search("us-ascii", query) #TODO Revisar posibles problemas de encoding en busquedas
-            reverse = True
         
         if (search_response[0] != "OK"):
             self.error = commons.error.IMAP_SEARCH
@@ -152,14 +150,17 @@ class IMAP4Client:
             self.error = commons.error.IMAP_FETCH
             return False
 
-        if (reverse):
-            # Ordenar solo en el caso de haber usado el comando search
-            fetch_response[1].reverse()
-
         for i in range(len(fetch_response[1])):
             if fetch_response[1][i].__class__ == ().__class__:
                 msg = parseMailHeader(fetch_response[1][i])
                 self.response.append(msg)
+        
+        # Ordenar la lista si esta en sentido inverso
+        # TODO Introducir algoritmo de ordenacion
+        response_size = len(self.response)
+        if (response_size > 1) and (self.response[0].has_key("date_in_millis")) and (self.response[response_size-1].has_key("date_in_millis")):
+            if self.response[0]["date_in_millis"] < self.response[response_size-1]["date_in_millis"]:
+                self.response.reverse()
         return True
 
     def getMail(self, foldername, uid):

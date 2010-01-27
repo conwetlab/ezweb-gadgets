@@ -7,6 +7,12 @@ import rfc822
 import re
 
 def get_date(date):
+    return get_date_from_millis(get_date_in_millis(date))
+
+def get_date_from_millis(millis):
+    return time.strftime("%a, %d %b %Y %H:%M:%S %z", time.gmtime(millis))
+    
+def get_date_in_millis(date):
     # Las expresiones regulares resuelven algunos errores para servidores que no siguen el estandar
     try:
         regexp = re.compile("(.*\s*)((\+|\-)(\d\d)\:(\d\d))(\s*.*)")
@@ -24,7 +30,7 @@ def get_date(date):
     except:
         pass
 
-    return time.strftime("%a, %d %b %Y %H:%M:%S %z", time.gmtime(rfc822.mktime_tz(rfc822.parsedate_tz(date))))
+    return  rfc822.mktime_tz(rfc822.parsedate_tz(date))
 
 def get_part_content(part):
     payload = part.get_payload()
