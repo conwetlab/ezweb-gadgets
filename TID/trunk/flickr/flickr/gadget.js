@@ -8,6 +8,7 @@ var is_iphone = (agent.indexOf('iPhone')!=-1);
 
 /* Preferences */
 var defKey = EzWebAPI.createRGadgetVariable('defaultKey', setKeyByDefault);
+var useKey = EzWebAPI.createRGadgetVariable('useKey', setKeyByDefault);
 var time = EzWebAPI.createRGadgetVariable('time', resetInterval);
 var nphotosPref = EzWebAPI.createRGadgetVariable("photosperpage", setNumberOfPhotos);
 var photosRec = EzWebAPI.createRGadgetVariable("photosfromserver", setNumberOfPhotosRec);
@@ -115,7 +116,23 @@ function displayDefaultPhotos () {
 	if (!last_key.get()){
 		// User property is used by default
 		if (defKey.get()){
-			displayFromPhoto (defKey.get());
+			switch (useKey.get()) {
+				case 'photo':
+					$("searchOps").value = "photos";
+					displayFromPhoto(defKey.get());
+					break;
+				case 'people':
+					$("searchOps").value = "people";
+					displayFromPeople(defKey.get());
+					break;
+				case 'group':
+					$("searchOps").value = "groups";
+					displayFromGroup(defKey.get());
+					break;
+				default:
+					break;
+			}
+			$("query").value = defKey.get();
 		} else {
 			// If there is no user property
 			displayFromPhoto ('interestingness');
@@ -146,6 +163,7 @@ function displayLastPhotos () {
 function displayFromPhoto (key_) {
 	photoKey.set(key_);
 	last_key.set('photo');
+
 	flickr.photos.search (key_, null, null, displayOk, displayError);
 }
 
