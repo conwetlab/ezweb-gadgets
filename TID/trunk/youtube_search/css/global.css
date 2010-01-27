@@ -235,7 +235,6 @@ wbr:after {
 }
 
 
-
 * html .thumb {
   border: 1px solid white;
 }
@@ -243,4 +242,9 @@ wbr:after {
 
 * html .thumbSpan {
   border: 1px solid #666666;
+}
+
+#pagelinks span a{
+  cursor:pointer;
+  color:blue;
 }
