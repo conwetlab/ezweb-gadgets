@@ -195,7 +195,8 @@ function load(){
     createChannels(region.get());
     currentChannelId = parseInt(defaultChannel.get());
     rebuildChannelList();
-    changeChannel(document.getElementById("channellist"));
+    doSearchPref(searchPref.get());
+    //changeChannel(document.getElementById("channellist"));
 //    document.getElementById("channellist").onchange();   
 }
 

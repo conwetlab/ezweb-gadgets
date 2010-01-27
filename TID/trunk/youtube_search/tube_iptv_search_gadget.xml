@@ -14,7 +14,7 @@
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-		<Preference name="channel" type="list" description="default channel" label="Default channel"  default="6">
+		<Preference name="channel" type="list" description="default channel" label="Default channel"  default="0">
 			<Option value="0" name="Top Rated"/>
 			<Option value="1" name="Super-favorite"/>
 			<Option value="2" name="More scored"/>
