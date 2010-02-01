@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/postit.css"></link>
+<link rel="stylesheet" type="text/css" href="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.6/postit.css"></link>
 
 <script language="JavaScript">
 
@@ -17,6 +17,7 @@ var width = EzWebAPI.createRGadgetVariable("width", repaint);
 var note = EzWebAPI.createRWGadgetVariable("nota");
 var bg = EzWebAPI.createRGadgetVariable("bg", setColorbg);
 var textcolor = EzWebAPI.createRGadgetVariable("textcolor", setColorTexto);
+var decorated = EzWebAPI.createRGadgetVariable("decoration", setDecoration);
 var language = EzWebAPI.createRGadgetVariable("language", setLanguage);
 var slotText = EzWebAPI.createRGadgetVariable("text", setValue);
 
@@ -34,6 +35,11 @@ function setLanguage(lang) {
 function setValue(value) {
 	document.getElementById('nota').value = value;
 	save();
+}
+
+function setDecoration(value) {
+   	document.getElementById('dnota').className = ((value=="true")?"decorated":"");
+   	repaint();
 }
 
 function save() {
@@ -54,17 +60,17 @@ function setColorTexto(color) {
 }
 
 function repaint() {
-    document.getElementById('dnota').style.height = (document.body.offsetHeight - (document.getElementById('dnota').offsetTop * 2)) + "px";
-    document.getElementById('nota').style.width = (document.getElementById('dnota').offsetWidth - 2) + "px";
-    document.getElementById('nota').style.height = (document.getElementById('dnota').offsetHeight - 38) + "px";
+    document.getElementById('dnota').style.height = (document.body.offsetHeight - (document.getElementById('dnota').offsetTop * 2) - 2) + "px";
+    document.getElementById('nota').style.width = (document.getElementById('dnota').offsetWidth - ((decorated.get()=="true")?2:0)) + "px";
+    document.getElementById('nota').style.height = (document.getElementById('dnota').offsetHeight - ((decorated.get()=="true")?38:2)) + "px";
 }
 
 function load() {
     window.onbeforeunload = save; // TODO No guarda bien al recargar la plataforma en IE
-    repaint();
 	document.getElementById('nota').value = note.get();
 	setColorbg(bg.get());
 	setColorTexto(textcolor.get());
+	setDecoration(decorated.get());
 }
 
 var timeOut = 0;
@@ -82,8 +88,8 @@ function advancedSave() {
 </head>
 	<body onload="javascript:load();" onunload="javascript:save();">
 	    <div id="dnota">
-	        <img id="corner" src="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/corner.png"></img>
-	        <center><img id="pin" src="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.51/pin.png" onclick="javascript:delNote();" title="Reset"></img></center>
+	        <img id="corner" src="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.6/corner.png"></img>
+	        <center><img id="pin" src="http://ezweb.tid.es/repository/ezweb-gadgets/postit/postit_1.6/pin.png" onclick="javascript:delNote();" title="Reset"></img></center>
 	        <textarea id="nota" onkeyup="javascript:advancedSave();" onkeypress="javascript:advancedSave();">
 	        </textarea>
 		</div>
