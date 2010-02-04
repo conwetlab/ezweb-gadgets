@@ -26,17 +26,17 @@ a.link:hover {
 }
 
 #header #header_left {
-	background-color: #e0e0e0;
 	width: 49%;
 	height: 100%;
 	float: left;
+    line-height: 32px;
 }
 
 #header #header_right {
-	background-color: #e0e0e0;
 	width: 49%;
 	height: 100%;
 	float: right;
+    line-height: 32px;
 }
 
 #header_left .image {

@@ -8,7 +8,6 @@ var ClienteCorreo = function() {
 }
 
 ClienteCorreo.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
-ClienteCorreo.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/";
 
 /******************** OVERWRITE METHODS **************************/
 
@@ -16,18 +15,20 @@ ClienteCorreo.prototype.init = function() {
 	// Constants
 	this.MULTIPLE_CALLS         = false; // Si vale false, se realiza una única petición para solocitar al servidor la información asociada a cada uno directorio (llamada más pesada)
 	                                     // Si vale true, se realiza una petición por directorio (más sobrecarga en red, pero van llegando los resultado progresivamente)
-	
 	this.MAIN_ALTERNATIVE       = 0;
     this.SEND_ALTERNATIVE       = 1;
 	this.CONFIG_ALTERNATIVE     = 2;
+	
 	this.MAIN_TAB               = 1;
 
     this.MAILPROXY_URL          = "http://ezweb.tid.es/mailproxy/";
+		
 	this.INTERVAL_SIZE          = 20;
 	
     // Initialize EzWeb variables
     this.accounts = EzWebAPI.createRWGadgetVariable('accounts');
     this.refreshTime = EzWebAPI.createRGadgetVariable('refresh_time', EzWebExt.bind(this.setRefreshTime, this));
+    
     this.languageCtx = language;
     this.message = EzWebAPI.createRGadgetVariable('emailDetails', EzWebExt.bind(this.showMessageFromSlot, this));
     this.mailsSlot = EzWebAPI.createRGadgetVariable('emails', EzWebExt.bind(this.sendEmailsSlot, this));
@@ -48,14 +49,17 @@ ClienteCorreo.prototype.init = function() {
 	this.notebook = null;
 		
 	this._createUserInterface();
-	
+	this.afterInit();
+}	
+
+ClienteCorreo.prototype.afterInit = function() {
 	// Load data
 	AccountsManager.restore();
 	AccountsManager.resetForm();
 	this.showAlternative(this.MAIN_ALTERNATIVE);
 	this.repaint();
 	
-	this.timer = new Timer(EzWebExt.bind(function(){
+	this.timer = new Timer(EzWebExt.bind(function() {
         this.reload(false);
     }, this), parseInt(this.refreshTime.get()));
     this.timer.start();
@@ -66,26 +70,6 @@ ClienteCorreo.prototype.init = function() {
 ClienteCorreo.prototype.setRefreshTime = function(value) {
     this.timer.setTimeInMinutes(parseInt(value));
     this.timer.restart();
-}
-
-ClienteCorreo.prototype.disableGeneralUID = function() {
-    Utils.addLoadingImage();
-    this.maintab.setDisabled(true);
-    this.hpaned.getLeftPanel().setDisabled(true);
-    this.refresh_button.setDisabled(true);
-    this.send_mail_button.setDisabled(true);
-    this.save_config_button.setDisabled(true);
-    this.search_input.setDisabled(true);
-}
-
-ClienteCorreo.prototype.enableGeneralUID = function() {
-    Utils.removeLoadingImage();
-    this.maintab.setDisabled(false);
-    this.hpaned.getLeftPanel().setDisabled(false);
-    this.refresh_button.setDisabled(false);
-    this.send_mail_button.setDisabled(false);
-    this.save_config_button.setDisabled(false);
-    this.search_input.setDisabled(false); 
 }
 
 ClienteCorreo.prototype.repaint = function() {
@@ -122,6 +106,29 @@ ClienteCorreo.prototype.sendSubjectSlot = function(value) {
 
 /******************** USER INTERFACE METHODS **************************/
 
+ClienteCorreo.prototype.disableGeneralUID = function() {
+    this.setDisabledGeneralUID(true);
+}
+
+ClienteCorreo.prototype.enableGeneralUID = function() {
+    this.setDisabledGeneralUID(false);
+}
+
+ClienteCorreo.prototype.setDisabledGeneralUID = function(disabled) {
+    if (disabled) {
+        Utils.addLoadingImage();
+    }
+    else {
+        Utils.removeLoadingImage();
+    }
+    this.maintab.setDisabled(disabled);
+    this.hpaned.getLeftPanel().setDisabled(disabled);
+    this.refresh_button.setDisabled(disabled);
+    this.send_mail_button.setDisabled(disabled);
+    this.save_config_button.setDisabled(disabled);
+    this.search_input.setDisabled(disabled); 
+}
+
 ClienteCorreo.prototype._resizeTinyMCE = function() {
     try {
 	    var editor_id = "send_message";
@@ -152,13 +159,13 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	
 	this.refresh_button = new HeaderButton(this.getResourceURL("images/view-refresh.png"), this.getResourceURL("images/view-refresh-disabled.png"), _("Synchronize"), EzWebExt.bind(function() { 
 	    this.reload(false);
-	}, this));
+	}, this), "first_buttom");
 	
 	this.refresh_button.insertInto(header_left);
 	
 	this.mailbox_button = new HeaderButton(this.getResourceURL("images/mail-mailbox.png"), this.getResourceURL("images/mail-mailbox-disabled.png"), _("Mailbox"), EzWebExt.bind(function() { 
 	    this.showAlternative(this.MAIN_ALTERNATIVE);
-	}, this));
+	}, this), "first_buttom");
 	
 	this.mailbox_button.hide(true);
 	this.mailbox_button.insertInto(header_left);
@@ -197,8 +204,9 @@ ClienteCorreo.prototype._createUserInterface = function() {
 
 	// PANEL PRINCIPAL	
     this.hpaned = new StyledElements.StyledHPaned({handlerPosition: 30, leftMinWidth: 0, rightMinWidth: 0});
-	var mainAlternative = this.alternatives.createAlternative();
-	mainAlternative.appendChild(this.hpaned);
+	this.mainAlternative = this.alternatives.createAlternative();
+	this.mainAlternative.addClassName("main_alternative");
+	this.mainAlternative.appendChild(this.hpaned);
 	
     var content_left = document.createElement("div");
     content_left.id = "content_left";
@@ -236,13 +244,14 @@ ClienteCorreo.prototype._createUserInterface = function() {
     content_right.appendChild(footerrow);					
 
 	// PANEL ENVIO MENSAJES
-	var sendAlternative = this.alternatives.createAlternative();
+	this.sendAlternative = this.alternatives.createAlternative();
+	this.sendAlternative.addClassName("send_alternative");
 	
 	var send_content = document.createElement("div");
     EzWebExt.addClassName(send_content,"content_right");
     EzWebExt.addClassName(send_content,"send_mail");
         
-    sendAlternative.appendChild(send_content);
+    this.sendAlternative.appendChild(send_content);
        
     headerrow = document.createElement("div");
     EzWebExt.addClassName(headerrow, "headerrow");
@@ -456,13 +465,14 @@ ClienteCorreo.prototype._createUserInterface = function() {
     this.form_send["message"] = send_message.id;
 	
 	//PANEL CONFIGURACION
-	var configAlternative = this.alternatives.createAlternative();
+	this.configAlternative = this.alternatives.createAlternative();
+	this.configAlternative.addClassName("config_alternative");
 	
 	var config_content = document.createElement("div");
         EzWebExt.addClassName(config_content,"content_right");
         EzWebExt.addClassName(config_content,"send_mail");
         
-        configAlternative.appendChild(config_content);
+        this.configAlternative.appendChild(config_content);
         
         headerrow = document.createElement("div");
         EzWebExt.addClassName(headerrow, "headerrow");
@@ -487,19 +497,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	    cancel_config_button.insertInto(row);
 
         this.save_config_button = new HeaderButton(this.getResourceURL("images/save.png"), this.getResourceURL("images/save-disabled.png"), _("Save"), EzWebExt.bind(function() { 
-		    if (
-			    this.form_in_config &&
-			    this.form_out_config &&
-			    this.form_in_config["account"].getValue() != "" &&
-			    this.form_in_config["host"].getValue() != "" &&
-			    this.form_in_config["username"].getValue() != "" &&
-			    this.form_in_config["password"].getValue() != "" &&
-			    this.form_out_config["account"].getValue() != "" &&
-			    this.form_out_config["host"].getValue() != "" &&
-			    this.form_out_config["username"].getValue() != "" &&
-			    this.form_out_config["password"].getValue() != "") {
-			
-			    AccountsManager.saveForm();
+		    if (AccountsManager.saveForm()) {
 			    this.showAlternative(this.MAIN_ALTERNATIVE);
 			    this.reload(true);
 		    }
@@ -509,7 +507,6 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	    }, this));
 	
 	    this.save_config_button.insertInto(row);
-
 	
         headerrow.appendChild(row);
         
@@ -523,9 +520,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
         var config_left = document.createElement("div");
         EzWebExt.addClassName(config_left, "config_content");
         this.config_hpaned.getLeftPanel().appendChild(config_left);
-        
-        this.form_in_config = {};
-	
+
 	var in_account_text = new StyledElements.StyledTextField();
 	var in_host_text = new StyledElements.StyledTextField();
 	var in_port_text = new StyledElements.StyledNumericField({initialValue: 993, minValue: 0, maxValue: 65535});
@@ -534,6 +529,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	var in_username_text = new StyledElements.StyledTextField();
 	var in_password_text = new StyledElements.StyledPasswordField();
 
+    this.form_in_config = {};
 	this.form_in_config["account"] = in_account_text;
 	this.form_in_config["host"] = in_host_text;
 	this.form_in_config["port"] = in_port_text;
@@ -604,8 +600,6 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	EzWebExt.addClassName(config_right, "config_content");
         this.config_hpaned.getRightPanel().appendChild(config_right);
 
-	this.form_out_config = {};
-	
 	var out_name_text = new StyledElements.StyledTextField();
 	var out_account_text = new StyledElements.StyledTextField();
 	var out_host_text = new StyledElements.StyledTextField();
@@ -615,6 +609,7 @@ ClienteCorreo.prototype._createUserInterface = function() {
 	var out_username_text = new StyledElements.StyledTextField();
 	var out_password_text = new StyledElements.StyledPasswordField();
 
+    this.form_out_config = {};
     this.form_out_config["name"] = out_name_text;
 	this.form_out_config["account"] = out_account_text;
 	this.form_out_config["host"] = out_host_text;
@@ -1959,14 +1954,11 @@ ClienteCorreo.prototype.onSuccessSendMail = function(transport) {
 	this.enableGeneralUID();
 }
 
-/* Instanciate the Gadget class */
-ClienteCorreo = new ClienteCorreo();
+//////////////////////////////////////////////////
+/////// Class AccountsManagerBasic ///////////////
+//////////////////////////////////////////////////
 
-/////////////////////////////////////////////
-/////// Class AccountsManager ////////////////
-/////////////////////////////////////////////
-
-var AccountsManager = function(config) {
+var AccountsManagerBasic = function() {
 
 	// Available Protocols
 	this.IMAP = "IMAP";
@@ -1982,85 +1974,96 @@ var AccountsManager = function(config) {
 	this.outAccount = null;
 }
 
-AccountsManager.prototype.setInAccount = function(config) {
+AccountsManagerBasic.prototype.setInAccount = function(config) {
 	this.inAccount = new Account(config);
 }
 
-AccountsManager.prototype.getInAccount = function() {
+AccountsManagerBasic.prototype.getInAccount = function() {
 	return this.inAccount;
 }
 
-AccountsManager.prototype.setOutAccount = function(config) {
+AccountsManagerBasic.prototype.setOutAccount = function(config) {
 	this.outAccount = new Account(config);
 }
 
-AccountsManager.prototype.getOutAccount = function() {
+AccountsManagerBasic.prototype.getOutAccount = function() {
 	return this.outAccount;
 }
 
-AccountsManager.prototype.toJSON = function() {
+AccountsManagerBasic.prototype.toJSON = function() {
 	return Utils.toJSON({
 		inAccount: this.inAccount, 
 		outAccount: this.outAccount
 	});
 }
 
-AccountsManager.prototype.isConfigured = function() {
+AccountsManagerBasic.prototype.isConfigured = function() {
 	return (this.inAccount != null) && (this.outAccount != null);
 }
 
-AccountsManager.prototype.save = function() {
+AccountsManagerBasic.prototype.save = function() {
 	ClienteCorreo.accounts.set(this.toJSON());
 }
 
-AccountsManager.prototype.restore = function() {
-
-	try {
-		var accounts = eval("(" + ClienteCorreo.accounts.get() + ")");
-		try {
-			var inAccount = accounts.inAccount;
-			if (inAccount) {
-				this.setInAccount(inAccount);
-			}
-		}
-		catch(e){};
-		try {
-			var outAccount = accounts.outAccount;
-			if (outAccount) {
-				this.setOutAccount(outAccount);
-			}
-		}
-		catch(e){}
-	}
-	catch(e){}
+AccountsManagerBasic.prototype.restore = function() {
+    try {
+        var accounts = eval("(" + ClienteCorreo.accounts.get() + ")");
+        if (accounts) { 
+            if (("inAccount" in accounts) && (accounts.inAccount != null)) {
+                this.setInAccount(accounts.inAccount);
+            }
+            if (("outAccount" in accounts) && (accounts.outAccount != null)) {
+                this.setOutAccount(accounts.outAccount);
+            }
+        }
+    }
+    catch(e){}
 }
 
-AccountsManager.prototype.saveForm = function() {
+AccountsManagerBasic.prototype.saveForm = function() {
+    if (!this.validateForm()) {
+        return false;
+    }
 	this.setInAccount({
-		name: "",
-		account: ClienteCorreo.form_in_config["account"].getValue(),
-		protocol: ClienteCorreo.form_in_config["protocol"].getValue(),
+		name:       "",
+		account:    ClienteCorreo.form_in_config["account"].getValue(),
+		protocol:   ClienteCorreo.form_in_config["protocol"].getValue(),
 		connection: ClienteCorreo.form_in_config["connection"].getValue(),
-		host: ClienteCorreo.form_in_config["host"].getValue(),
-		port: ClienteCorreo.form_in_config["port"].getValue(),
-		username: ClienteCorreo.form_in_config["username"].getValue(),
-		password: ClienteCorreo.form_in_config["password"].getValue()
+		host:       ClienteCorreo.form_in_config["host"].getValue(),
+		port:       ClienteCorreo.form_in_config["port"].getValue(),
+		username:   ClienteCorreo.form_in_config["username"].getValue(),
+		password:   ClienteCorreo.form_in_config["password"].getValue()
 	});
 	this.setOutAccount({
-		name: ClienteCorreo.form_out_config["name"].getValue(),
-		account: ClienteCorreo.form_out_config["account"].getValue(),
-		protocol: ClienteCorreo.form_out_config["protocol"].getValue(),
+		name:       ClienteCorreo.form_out_config["name"].getValue(),
+		account:    ClienteCorreo.form_out_config["account"].getValue(),
+		protocol:   ClienteCorreo.form_out_config["protocol"].getValue(),
 		connection: ClienteCorreo.form_out_config["connection"].getValue(),
-		host: ClienteCorreo.form_out_config["host"].getValue(),
-		port: ClienteCorreo.form_out_config["port"].getValue(),
-		username: ClienteCorreo.form_out_config["username"].getValue(),
-		password: ClienteCorreo.form_out_config["password"].getValue()
+		host:       ClienteCorreo.form_out_config["host"].getValue(),
+		port:       ClienteCorreo.form_out_config["port"].getValue(),
+		username:   ClienteCorreo.form_out_config["username"].getValue(),
+		password:   ClienteCorreo.form_out_config["password"].getValue()
 	});
 	this.save();
+	return true;
 }
 
-AccountsManager.prototype.resetForm = function() {
-	if (this.inAccount != undefined && this.inAccount != null) {
+AccountsManagerBasic.prototype.validateForm = function() {
+    for (var k in ClienteCorreo.form_in_config) {
+        if (ClienteCorreo.form_in_config[k] == "") {
+            return false;
+        }
+    }
+    for (var k in ClienteCorreo.form_out_config) {
+        if (ClienteCorreo.form_out_config[k] == "") {
+            return false;
+        }
+    }
+    return true;
+}
+
+AccountsManagerBasic.prototype.resetForm = function() {
+	if (this.inAccount != null) {
 		ClienteCorreo.form_in_config["account"].setValue(this.inAccount["account"]);
 		ClienteCorreo.form_in_config["host"].setValue(this.inAccount["host"]);
 		ClienteCorreo.form_in_config["port"].setValue(this.inAccount["port"]);
@@ -2078,7 +2081,7 @@ AccountsManager.prototype.resetForm = function() {
 		if (ClienteCorreo.form_in_config["username"]) ClienteCorreo.form_in_config["username"].reset();
 		if (ClienteCorreo.form_in_config["password"]) ClienteCorreo.form_in_config["password"].reset();
 	}
-	if (this.outAccount != undefined && this.outAccount != null) {
+	if (this.outAccount != null) {
 	    ClienteCorreo.form_out_config["name"].setValue(this.outAccount["name"]);
 		ClienteCorreo.form_out_config["account"].setValue(this.outAccount["account"]);
 		ClienteCorreo.form_out_config["host"].setValue(this.outAccount["host"]);
@@ -2099,8 +2102,6 @@ AccountsManager.prototype.resetForm = function() {
 		if (ClienteCorreo.form_out_config["password"]) ClienteCorreo.form_out_config["password"].reset();
 	}
 }
-/* Instanciate the AccountsManager class */
-AccountsManager = new AccountsManager();
 
 /////////////////////////////////////////////
 ////////// Class Account ////////////////////
@@ -2243,19 +2244,23 @@ Account.prototype._getFolderIcon = function(name, selected) {
 ////////// HeaderButton /////////////////////
 /////////////////////////////////////////////
 
-var HeaderButton = function(enable_image, disable_image, title, handler) {
+var HeaderButton = function(enable_image, disable_image, title, handler, className) {
     this.enable_image = enable_image;
     this.disable_image = disable_image;
     this.title = title;
     this.handler = handler;
     
-    this._createInterface();
+    className = (className)?className:null;
+    
+    this._createInterface(className);
     this.setDisabled(false);
 }
 
-HeaderButton.prototype._createInterface = function() {
+HeaderButton.prototype._createInterface = function(className) {
     this.uid = document.createElement("div");
 	EzWebExt.addClassName(this.uid, "image");
+	if (className)
+	    EzWebExt.addClassName(this.uid, className);
 	
 	this.img = document.createElement("img");
 	EzWebExt.addEventListener(this.img, "click", EzWebExt.bind(function() {
@@ -2821,8 +2826,6 @@ Utils.prototype._searchChildByName = function(root, name) {
     return null;
 }
 
-Utils = new Utils();
-
 ///////////////////////////////////////	
 ///////////// EzWebExt ////////////////
 ///////////////////////////////////////
@@ -2849,12 +2852,11 @@ if (EzWebExt.Browser.isIE() && (EzWebExt.Browser.getShortVersion() < 8)) {
 ////////////// TinyMCE ////////////////
 ///////////////////////////////////////
 
-tinyMCE.init({
+var tinyMCE_config = {
     // General options
     mode : "textareas",
     theme : "advanced",
     editor_selector : "mceSend",
-    content_css: ClienteCorreo.getResourceURL("css/tinymce_content.css"),
     oninit: ClienteCorreo._resizeTinyMCE,
     //plugins : "safari",
 
@@ -2874,4 +2876,4 @@ tinyMCE.init({
     theme_advanced_statusbar_location: "none",
     theme_advanced_font_sizes : "1,2,3,4,5,6,7",
     theme_advanced_more_colors : false
-});
+};

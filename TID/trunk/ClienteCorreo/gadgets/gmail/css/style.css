@@ -1,0 +1,40 @@
+#header {
+    background-image: url(../images/header-logo.png);
+    background-position: 10px 4px;
+    background-repeat: no-repeat;
+}
+
+#header_left .first_buttom {
+    margin-left: 85px;
+}
+
+.content_right .headerrow.config .row .checkbox {
+    float: right;
+    font-size: 10px;
+    line-height: 30px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
+.content_right .headerrow.config .row .checkbox input {
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#header, div.container, .main_alternative div.handler, div.container .disable-layer {
+    background-color: white !important;
+}
+
+.config_alternative div.container, .config_alternative div.handler, .content_right, .content_right .tablebody, #content_left, .main_alternative div.tab {
+    background-color: #F2F1F0 !important;
+}
+
+.content_right .tablebody.mail {
+    background-color: white !important;
+}
+
+#content_left .selected_folder {
+    background-color: #D4E6FC;
+}

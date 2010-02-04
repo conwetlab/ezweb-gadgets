@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+	<!-- Gadget Meta-Info -->
+	<Catalog.ResourceDescription>
+		<Vendor>Morfeo</Vendor>
+		<Name>Cliente Correo Gmail</Name>
+		<Version>2.0</Version>
+		<Author>jmostazo</Author>
+		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
+		<Description>Gadget Cliente de correo para las cuentas de Gmail</Description>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/gmail/images/correo.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/gmail/images/correoiPhone.png</iPhoneImageURI>
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_lector_de_correo</WikiURI>
+	</Catalog.ResourceDescription>
+
+	<!-- EzWeb Gadgets Preferences -->
+	<Platform.Preferences>
+	    <Preference name="refresh_time" type="list" label="Refresh time" description="Refresh time" default="10">
+			<Option value="0"  name="Never"/>
+			<Option value="5"  name="5 min."/>
+			<Option value="10" name="10 min."/>
+			<Option value="15" name="15 min."/>
+			<Option value="30" name="30 min."/>
+			<Option value="45" name="45 min."/>
+			<Option value="60" name="60 min."/>
+		</Preference>
+	</Platform.Preferences>
+
+	<!-- EzWeb Gadget Persistent State -->
+	<Platform.StateProperties>
+		<Property name="accounts" type="text" label="accounts"/>
+	</Platform.StateProperties>
+
+	<Platform.Wiring>
+		<Slot name="emailDetails" type="text" label="emailDetails" friendcode="emailDetails"/>
+		<Slot name="emails" type="text" label="emails" friendcode="email"/>
+		<Slot name="subject" type="text" label="subject" friendcode="subject"/>
+		<Slot name="text" type="text" label="text" friendcode="text"/>
+		<Event name="fromEvent" type="text" label="from" friendcode="email"/>
+		<Event name="recipientsEvent" type="text" label="recipients" friendcode="email"/>
+		<Event name="subjectEvent" type="text" label="subject" friendcode="subject"/>
+		<Event name="textEvent" type="text" label="text" friendcode="text"/>
+		<Event name="dateEvent" type="text" label="date" friendcode="date"/>
+		<Event name="sizeEvent" type="text" label="size" friendcode="size"/>
+	</Platform.Wiring>
+
+	<Platform.Link>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/gmail/ClienteCorreoGmail.html"/>
+	</Platform.Link>
+
+	<Platform.Rendering width="10" height="24"/>
+
+	<Platform.Context>
+		<!-- Normal EzWeb Gadget Data Context needed -->
+		<Context       name="language"   type="text" concept="language"/>
+		<Context       name="user"       type="text" concept="user_name"/>
+   		<GadgetContext name="height"     type="text" concept="heightInPixels"/>
+	    <GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/>
+	</Platform.Context> 
+</Template>

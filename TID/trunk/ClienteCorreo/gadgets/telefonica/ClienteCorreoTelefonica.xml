@@ -3,13 +3,13 @@
 	<!-- Gadget Meta-Info -->
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
-		<Name>Cliente Correo</Name>
-		<Version>1.7</Version>
+		<Name>Cliente Correo Telefónica</Name>
+		<Version>2.0</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
-		<Description>Gadget Cliente de correo</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/images/correo.png</ImageURI>
-		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/images/correoiPhone.png</iPhoneImageURI>
+		<Description>Gadget Cliente de correo para las cuentas de Telefónica</Description>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/telefonica/images/correo.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/telefonica/images/correoiPhone.png</iPhoneImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_lector_de_correo</WikiURI>
 	</Catalog.ResourceDescription>
 
@@ -45,7 +45,7 @@
 	</Platform.Wiring>
 
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_1.7/ClienteCorreo.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/ClienteCorreo/ClienteCorreo_2.0/gadgets/telefonica/ClienteCorreoTelefonica.html"/>
 	</Platform.Link>
 
 	<Platform.Rendering width="10" height="24"/>
