@@ -2990,8 +2990,10 @@ StyledElements.StyledAlert = function(title, content, options) {
 
     this.content = document.createElement("div");
     this.content.className = "content";
-    if (content)
+    if (content && (typeof(content) == typeof("")))
         this.content.innerHTML = content;
+    if (content && (typeof(content) != typeof("")))
+        this.content.appendChild(content);
     this.messageDiv.appendChild(this.content);
 
 
