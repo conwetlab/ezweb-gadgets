@@ -81,6 +81,7 @@ class ConfigFile:
         
     # Write config.xml file in path
     def write(self, path):
+	path = os.path.abspath(path)
         self.path = os.path.join(path, self.file_name)
         f = open(self.path, "w")
         f.write(self.file_content)
@@ -201,7 +202,7 @@ class ConfigInfo:
     def __init__(self, path):
         # Path Gadget Folder
         self.html = None
-        self.path = path
+        self.path = os.path.abspath(path)
         self.xml = []
         self.others_files = []
         # Order files by extension 
@@ -270,7 +271,7 @@ class PackGadget:
         if not os.path.isdir(path):
             raise Error(5)
         
-        self.path = self._normalize_path(path)
+        self.path = os.path.abspath(self._normalize_path(path))
         self.tmp = None
         self.tmpgadget = None
         self.pack = None
