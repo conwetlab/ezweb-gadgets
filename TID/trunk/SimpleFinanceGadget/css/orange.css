@@ -1,0 +1,9 @@
+.header-gadget{
+  background:white url(../images/header-orange.png) repeat-x scroll left bottom;
+}
+.content-gadget{
+  background:white url(../images/content-orange.png) repeat-x scroll left bottom;
+}
+.content-header td{
+  color:#CC6400;
+}

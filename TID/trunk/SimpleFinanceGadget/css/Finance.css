@@ -1,0 +1,164 @@
+body{
+  background:none repeat scroll 0 0 #EDECEB;
+  height:100%;
+  margin:0;
+  padding:0;
+  width:100%;
+	font-family:sans-serif;
+	font-size: 9pt;
+	overflow:hidden;
+  background:white;
+}
+
+/*******************************************************************************
+* HEADER PREFERENCES
+*******************************************************************************/
+.header-gadget{
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  border-bottom : 2px solid black;
+  border-left : 1px solid black;
+  border-right : 2px solid black;
+  left:3px;
+  margin: 0;
+  padding: 5px 0px 5px 0px;
+  position:absolute;
+  right:5px;
+  top:0;
+  z-index:999;
+}
+
+.header-gadget table{
+  width:100%;
+  white-space:nowrap;
+}
+
+.header-gadget td{
+  font-weight:bold;
+  text-align:left;
+}
+
+.header-gadget .label{
+  width:50px;
+}
+
+.header-gadget input{
+  width:60px;
+}
+
+.header-gadget select{
+  margin-left:5px;
+  width:75px;
+}
+
+.header-gadget img{
+  width:20px;
+  height:20px;
+  cursor:pointer;
+}
+
+.header-gadget .icons{
+  text-align:right;
+}
+
+/*******************************************************************************
+* CONTENT INFO
+*******************************************************************************/
+.content-gadget{
+  position:absolute;
+  top:3px;
+  left:3px;
+  right:5px;
+  bottom:5px;
+  z-index:10;
+  border-top:1px solid black;
+  border-bottom:2px solid black;
+  border-left:1px solid black;  
+  border-right:2px solid black;    
+  padding: 5px 0px 5px 0px;
+  
+  -moz-border-radius:5px;
+}
+
+.content-gadget table{
+  width:100%;
+}
+
+.content-header{
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+}
+
+.content-header td{
+  text-align:left;  
+  font-weight:bold;
+  font-size:11pt;
+  text-decoration:underline;
+}
+
+.content-header .icons{
+  text-align:right;
+}
+
+.content-header .icons img{
+  cursor:pointer;
+}
+
+.content-query{
+  position:absolute;
+  right:0px;
+  left:0px;
+}
+
+.content-query table {
+  height:100%;
+}
+
+.content-query table td{
+  text-align:center;
+}
+
+.content-footer{
+  bottom:0;
+  left:0;
+  position:absolute;
+  right:0;
+}
+
+.query-value{
+  text-align:center;
+  font-weight:bold;
+}
+
+.content-footer table td{
+  text-align:right;
+  font-weight:bold;
+  color:black;
+}
+
+.positive{
+  color:green;
+}
+
+.negative{
+  color:#7F060E;
+}
+
+
+.query-symbols .symbol{
+  color:blue;
+  text-decoration:underline;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.query-symbols .company{
+  font-weight:bold;  
+}
+
+#query-value{
+  vertical-align:middle;
+  white-space:nowrap;
+}
