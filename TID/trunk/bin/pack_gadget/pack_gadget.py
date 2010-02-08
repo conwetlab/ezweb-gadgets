@@ -247,7 +247,7 @@ class ConfigInfo:
     
     # Replaces pattern by word void
     def replace(self, pattern):
-        exp = re.compile(r'%s' % pattern, re.I | re.S)
+        exp = re.compile(r'%s' % pattern, re.S)
         for filename in ([self.html] + self.xml + self.others_files):
             path = os.path.join(self.path, filename)
             # Read file
