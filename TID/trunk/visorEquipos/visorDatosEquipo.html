@@ -13,7 +13,7 @@
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.01/background.png) repeat-x scroll left top;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.10/background.png) repeat-x scroll left top;
 			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 
@@ -56,6 +56,8 @@
 var deviceId = EzWebAPI.createRGadgetVariable("equipo",_deviceHandler);
 var deviceStatus = EzWebAPI.createRGadgetVariable("estado",_statusHandler);
 var address = EzWebAPI.createRWGadgetVariable("dir_equipo");
+var code = EzWebAPI.createRWGadgetVariable("cod_equipo");
+var ip = EzWebAPI.createRWGadgetVariable("ip_equipo");
 var workingStatus = "OK";
 
 /*Temporary data for the demo*/
@@ -105,6 +107,8 @@ function _deviceHandler(device){
 		if (document.getElementById("info")){
 			document.getElementById("info").innerHTML=content;
 			address.set(devices[device][9]);
+			code.set(devices[device][0]);
+			ip.set(devices[device][3]);
 		}
 	}
 }
