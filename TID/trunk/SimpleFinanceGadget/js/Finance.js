@@ -7,8 +7,19 @@ timer = EzWebAPI.createRGadgetVariable("time", setTimer);
 theme = EzWebAPI.createRGadgetVariable("theme", setTheme);
 preferences = EzWebAPI.createRWGadgetVariable("preferences");
 
+// EzWeb Events and Slots 
+querySlot = EzWebAPI.createRGadgetVariable("querySlot", query);
+symbolEvent = EzWebAPI.createRWGadgetVariable("symbolEvent");
+companyEvent = EzWebAPI.createRWGadgetVariable("companyEvent");
+valueEvent = EzWebAPI.createRWGadgetVariable("valueEvent");
+timeEvent = EzWebAPI.createRWGadgetVariable("timeEvent");
+dateEvent = EzWebAPI.createRWGadgetVariable("dateEvent");
+dataEvent = EzWebAPI.createRWGadgetVariable("dataEvent");
+dataValueEvent = EzWebAPI.createRWGadgetVariable("dataValueEvent");
+queryEvent = EzWebAPI.createRWGadgetVariable("queryEvent");
+
 /*******************************************************************************
-* HANDLER FUNCTIONS CONTEXT VARIBLES
+* HANDLER FUNCTIONS CONTEXT VARIBLES AND SLOTS
 *******************************************************************************/
 function repaint(value){
   Finance.repaint();
@@ -38,6 +49,16 @@ function setTimer(value){
 
 function setTheme(value){
   Finance.setTheme();  
+}
+
+function query(value){
+  // [Symbol, QuerySymbol]
+  // For more information about Query Symbols: http://www.gummy-stuff.org/Yahoo-data.htm
+  var elements = querySlot.get().evalJSON();
+  if (elements.length == 2){
+    Finance.setQuery(elements[0], elements[1]);
+    Finance.getInfo();}
+  return;
 }
 
 /*******************************************************************************
@@ -163,6 +184,15 @@ Finance.prototype.initTimer = function(){
 Finance.prototype.checkSave = function(){
   var image = "coins-icon" + ((this.company.value != "")?".png":"-disabled.png");
   document.getElementById("save").src = this.getResourceURL("images/" + image);
+}
+
+/*******************************************************************************
+* SET QUERY
+*******************************************************************************/
+Finance.prototype.setQuery = function(company, query){
+    this.attributes['query'] = [this.company.value, this.query.value];
+    // Save preferences???  TODO
+    // preferences.set(this.attributes['query'].toJSON());
 }
 
 /*******************************************************************************
@@ -325,7 +355,8 @@ Finance.prototype.displayInfo = function(){
   this.content.appendChild(header);
   this.content.appendChild(query);
   this.content.appendChild(footer);
-  this.repaint(); 
+  this.sendEvents();
+  this.repaint();
   return;
 }
 
@@ -410,6 +441,7 @@ Finance.prototype.helpInfo = function(response){
       td.onclick = EzWebExt.bind(function(){
                                   // Set symbol
                                   this.company.value = this.value;
+                                  Finance.checkSave();
                                   Finance.removeAlertWindow();
                                  }, 
                         {"company":this.company, "value":elements[0]});
@@ -451,7 +483,7 @@ Finance.prototype.hiddenHeader = function(){
 *******************************************************************************/
 Finance.prototype.setTheme = function(){
   var link = document.getElementById("theme");
-  link.setAttribute("href", "css/" + theme.get());
+  link.setAttribute("href", "css/" + theme.get() + ".css");
   return;
 }
 
@@ -466,10 +498,13 @@ Finance.prototype.repaint = function(){
   }
 
   // Set minwidth header and content
-  var width = (document.body.offsetWidth > 270)?"auto":"270px";
-  width = (this.header.style.display == "none")?"auto":width;
+  var width = (document.body.offsetWidth > 165)?"auto":"150px";
+  width = ((this.header.style.display != "none") && (document.body.offsetWidth <= 270))?"270px":width;
   this.header.style.width = width;
   this.content.style.width = width;
+  
+  // Set min height content
+  this.content.style.height = (document.body.offsetHeight > 130)?"auto":"110px";
   
   // Resize content query div
   if ((this.content_header) && (this.content_header.offsetHeight > 0) && 
@@ -490,6 +525,23 @@ Finance.prototype.repaint = function(){
     }
   }
 
+}
+
+/*******************************************************************************
+* SEND EVENTS
+*******************************************************************************/
+Finance.prototype.sendEvents = function(){
+  if (this.attributes.n && this.attributes.t1 && this.attributes.d1 &&
+    this.attributes.query && (this.attributes.query.length == 3)){
+  symbolEvent.set(this.attributes['query'][0]);
+  companyEvent.set(this.attributes["n"]);
+  valueEvent.set(this.attributes['query'][2]);
+  timeEvent.set(this.attributes["t1"]);
+  dateEvent.set(this.attributes["d1"]);  
+  dataEvent.set(this.attributes['query'][1]);  
+  dataValueEvent.set(_(this.attributes['query'][1]));
+  queryEvent.set(this.attributes['query'].toJSON());}
+  return;
 }
 
 /*******************************************************************************

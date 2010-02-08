@@ -26,6 +26,7 @@ body{
   right:5px;
   top:0;
   z-index:999;
+  display:block;
 }
 
 .header-gadget table{
