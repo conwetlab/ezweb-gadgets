@@ -3,12 +3,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Visor Datos de Equipo</Name>
-    <Version>1.10</Version>
+    <Version>1.2</Version>
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta la informacion relativa a un equipo perteneciente a la red de encaminadores</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.10/datosEquipo.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.10/datosEquipoIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.2/datosEquipo.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.2/datosEquipoIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosEquipo</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -26,7 +26,7 @@
     <Slot name="estado" type="text" label="deviceStatus" friendcode = "deviceStatus" />
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.10/visorDatosEquipo.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.2/visorDatosEquipo.html"/>
   </Platform.Link>
   <Platform.Rendering width="6" height="13"/>
 </Template>
