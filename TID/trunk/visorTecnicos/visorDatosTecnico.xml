@@ -4,11 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Visor Datos de Tecnico</Name>
-    <Version>1.1</Version>
+    <Version>1.2</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Este gadget presenta la informacion relativa a un tecnico que puede resolver una averia</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.1/datosTecnico.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/datosTecnico.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/datosTecnicoIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosTecnico</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -21,11 +22,15 @@
   <Platform.Wiring>
     <Event name="addressOperator" type="text" label="Operator Address" friendcode = "addressOperator" />
     <Event name="routeToClient" type="text" label="Route to Client" friendcode = "address" />
+    <Event name="phoneNumberEv" type="text" label="PhoneNumber" friendcode = "phone" />
+    <Event name="name" type="text" label="Name" friendcode = "name" />
+    <Event name="surname" type="text" label="Surname" friendcode = "surname" />
+    <Event name="fullname" type="text" label="Full Mame" friendcode = "fullname" />
     <Slot name="addressClient" type="text" label="Client Address" friendcode = "address" />
     <Slot name="phoneNumber" type="text" label="PhoneNumber" friendcode = "phone" />
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.1/visorDatosTecnico.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/visorDatosTecnico.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>

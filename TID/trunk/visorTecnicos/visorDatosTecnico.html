@@ -14,7 +14,7 @@
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.0/background.png) repeat-x scroll left top;
+			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/background.png) repeat-x scroll left top;
 			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 
@@ -63,6 +63,11 @@ var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
 var addressClient = EzWebAPI.createRGadgetVariable("addressClient", function (){});
 var addressOperator = EzWebAPI.createRWGadgetVariable("addressOperator");
 var routeToClient = EzWebAPI.createRWGadgetVariable("routeToClient");
+var phoneNumberEv = EzWebAPI.createRWGadgetVariable("phoneNumberEv");
+var name = EzWebAPI.createRWGadgetVariable("name");
+var surname = EzWebAPI.createRWGadgetVariable("surname");
+var fullname = EzWebAPI.createRWGadgetVariable("fullname");
+
 /*Temporary data for the demo*/
 var users = [];
 var user = ["Franciso","Lopez Rodriguez","636782901","Calle de Luchana, 2, 28010 Madrid"];
@@ -91,6 +96,10 @@ function _phoneHandler(phone){
 		if (document.getElementById("info")){
 			document.getElementById("info").innerHTML=content;
 			addressOperator.set(users[phone][3]);
+			phoneNumberEv.set(phone);
+			name.set(users[phone][0]);
+			surname.set(users[phone][1]);
+			fullname.set(users[phone][0] + ' ' + users[phone][1]);
 			if (addressClient.get()!=null && addressClient.get()!=undefined) {
 				routeToClient.set('from: ' + users[phone][3] + ' to: ' + addressClient.get());
 			}
