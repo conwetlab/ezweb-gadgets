@@ -1,0 +1,51 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic catastro Gadget for the EzWeb Platform
+
+catastro Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+catastro Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with catastro Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is ThesaurusTreePanel.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Mon Feb 08 14:28:20 CET 2010 
+ */
+.thesaurusTree {
+	position: relative;
+	height: 170px;
+	left: 10px;
+	width: 250px;
+	background-color: white;
+	border-bottom-style: inset;
+	border-bottom-width: 1px;
+	border-left-style: inset;
+	border-right-style: inset;
+	border-top-style: inset;
+}
+
+.thesaurusTree .gwt-TreeItem {
+	font-size: 10px;
+	cursor: pointer;
+}
+
+.thesaurusTree .gwt-Tree .gwt-TreeItem-selected {
+	background-color: #DFE8F6;
+	border: 1px dotted #9EB8ED;
+	padding: 2px;
+}
+
+.node {
+}

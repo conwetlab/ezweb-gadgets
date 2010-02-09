@@ -1,0 +1,460 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic catastro Gadget for the EzWeb Platform
+
+catastro Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+catastro Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with catastro Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is Cadastre.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Mon Feb 08 14:28:18 CET 2010 
+ */
+html,body,div,pre,form,fieldset,input,th,td,select
+{
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+/* Panel de pasos a seguir para realizar las búsquedas*/
+.stepsInfoPanel {
+	background: #DFE8F6;
+	border: 1px solid #8DB2E3;
+	width:100%;
+}
+.stepsInfoPanel-Black {
+	background: white;
+	border: 1px solid black;
+	width:100%;
+}
+.stepInfoLabelTitle {
+	font-weight: bold;
+	font-size: 12px;
+	color: black;
+	margin: 5px;
+	width: 100%;
+	float: left;
+}
+.stepInfoLabel {
+	font-size: 12px;
+	color: black;
+	margin: 5px;
+	width: 100%;
+	float: left;
+}
+/* FIN Panel de pasos a seguir para realizar las búsquedas*/
+
+.iaaa-Cadastre {
+	background: #DFE8F6;
+	width: 100%;
+	height: 100%;
+	/*border: 1px solid #8DB2E3;*/
+}
+.iaaa-Cadastre-Black {
+	background: white;
+	width: 100%;
+	height: 100%;
+	/*border: 1px solid black;*/
+}
+
+.iaaa-Cadastre-Search {
+	height: 100%;
+	width: 200px;
+	padding-top: 10px;
+}
+
+.iaaa-Cadastre-Black .iaaa-QueryView {
+	background: white;
+}
+
+.iaaa-QueryView .criterionContentPanel {
+	width: 200px;
+}
+
+.iaaa-QueryView .textBox {
+	width: 190px;
+	font-family: Verdana,Arial,Tahoma,Helvetica,sans-serif;
+	font-size: 13px;
+}
+
+.iaaa-QueryView .controlledList {
+	width:190px;
+}
+
+.iaaa-Cadastre-Black .iaaa-QueryView .searchButtonsPanel {
+	background-color: white;
+	margin: 5px;
+}
+
+.iaaa-ResultsView {
+	height: 95%;
+}
+
+.iaaa-Cadastre-Black .iaaa-ResultsView {
+	background: white;
+	height: 95%;
+}
+
+/*.iaaa-ResultsView .my-tabfolder {
+	width: 500px;
+}*/
+
+.iaaa-ResultsView .resultsPanel {
+	/*height: 550px;*/
+	height: 100%;
+}
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .resultsPanel {
+	/*height: 550px;*/
+	height: 100%;
+	background-color: white;
+}
+
+.iaaa-ResultsView .resultsTabItem {
+	height: 100%;	
+}
+
+.iaaa-ResultsView .resultViewContainer {
+	width: 100%;
+	border: 1px;
+	border-style: solid;
+	border-color: #9EB8ED;
+	height: 290px;
+}
+/*.iaaa-ResultsView .resultViewContainer {
+	width: 100%;
+	height: 520px;
+	background-color: white;
+	border: 1px;
+	border-style: solid;
+	border-color: #9EB8ED;
+}*/
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .resultViewContainer {
+	width: 100%;
+	background-color: white;
+	border-style: none;
+	height: 290px;
+}
+/*.iaaa-Cadastre-Black .iaaa-ResultsView .resultViewContainer {
+	width: 100%;
+	height: 520px;
+	background-color: white;
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+}*/
+
+.iaaa-ResultsView .resultViewContainer .resultView {
+	width: 100%;
+	padding: 0px;
+}
+/*.iaaa-ResultsView .resultViewContainer .resultView {
+	width: 100%;
+	background-color: white;
+	padding: 5px;
+}*/
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .resultViewContainer .resultView {
+	width: 100%;
+	background-color: white;
+	padding: 0px;
+}
+
+.iaaa-ResultsView .resultsContainer {
+	padding-left: 5px;
+	width: 100%;
+}
+
+.iaaa-ResultsView .resultsTitle {
+	font-size: 0px;
+	visibility: hidden;
+}
+
+.iaaa-ResultsView .resultsInfo {
+	font-size: 12px;
+	padding-top: 10px;
+}
+
+.iaaa-ResultsView .resultsList td {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	cursor: default;
+}
+
+.iaaa-ResultsView .resultsList .resultsColumnsTitle {
+	font-weight: bold;
+	font-size: 14px;
+	color: black;
+	text-decoration: underline;
+}
+
+.iaaa-ResultsView .resultsList .gwt-Label {
+	font-weight: bold;
+	font-size: 11px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .resultsList .gwt-Label {
+	font-weight: bold;
+	font-size: 11px;
+	color: black;
+	cursor: pointer;
+}
+
+.iaaa-ResultsView .resultsList .gwt-onMouseEnterLabel {
+	font-weight: bold;
+	font-size: 11px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .resultsList .gwt-onMouseEnterLabel {
+	font-weight: bold;
+	font-size: 11px;
+	color: red;
+	cursor: pointer;
+}
+
+.iaaa-ResultsView .resultsList .gwt-StaticLabel {
+	font-size: 11px;
+	color: black;
+	cursor: default;
+}
+
+.iaaa-ResultsView .resultsList .gwt-Image {
+	cursor: pointer;
+	height: 22px;
+}
+
+.iaaa-ResultsView .navigationBar {
+	height: 40px;
+	padding-top: 15px;
+	padding-left: 0px;
+	padding-right: 0px;
+	vertical-align: middle;
+}
+
+.iaaa-ResultsView .navigationItem {
+	color: black;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 11px;
+	text-align: center;
+	width: 11px;
+}
+
+.iaaa-ResultsView .navigationArrowsLeft {
+	width: 12px;
+	text-align: left;
+}
+
+.iaaa-ResultsView .navigationArrowsRight {
+	width: 12px;
+	text-align: right;
+}
+
+.iaaa-ResultsView .navigationPrevious {
+	width: 50px;
+	text-align: right;
+	padding-right: 2px;
+}
+
+.iaaa-ResultsView .navigationNext {
+	width: 50px;
+	text-align: left;
+	padding-left: 2px;
+}
+
+.iaaa-ResultsView .navigationNumber {
+}
+
+.iaaa-ResultsView .navigationCurrentPage {
+	color: black;
+	cursor: default;
+	text-decoration: none;
+}
+
+.iaaa-ResultsView .metadataHTML {
+	overflow: auto;
+	height: 285px;
+	border: 1px;
+	border-style: solid;
+	border-color: #9EB8ED;
+}
+/*.iaaa-ResultsView .metadataHTML {
+	overflow: auto;
+	height: 520px;
+}*/
+
+.iaaa-Cadastre-Black .iaaa-ResultsView .metadataHTML {
+	overflow: auto;
+	height: 285px;
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+}
+/*.iaaa-Cadastre-Black .iaaa-ResultsView .metadataHTML {
+	overflow: auto;
+	height: 520px;
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+}*/
+
+/* Estilo del título de los criterios (mygwt) */
+.iaaa-Cadastre-Black .my-cpanel-small-body {
+	background-color:white;
+	border-style: none; 
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-l {
+	background: url(images/EzWeb-corner-left.jpg) no-repeat 0px 0px;	
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-c {
+	width: 100%;
+	background: url(images/EzWeb-top-bottom.jpg) repeat-x;
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-ml {
+	background: url(images/EzWeb-left-top-bottom.jpg) no-repeat;
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-mr {
+	padding-right: 2px;
+	background: url(images/EzWeb-top-bottom.jpg) repeat-x;
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-r {
+	background: url(images/EzWeb-corner-right.jpg) no-repeat right 0px;
+}
+.iaaa-Cadastre-Black .my-cpanel-small-hdr-text {
+	color: black;
+	cursor: default;
+	font-family: tahoma,arial,verdana,sans-serif;
+	font-weight: bold;
+	padding-left: 4px;
+}
+
+/* Estilo de los botones (mygwt) */
+.iaaa-Cadastre-Black .my-btn-l {
+	background: transparent url(images/btn-sprite.gif) no-repeat scroll 0 0;
+	height:21px;
+}
+.iaaa-Cadastre-Black .my-btn-ml, .my-btn-mr {
+	background: transparent url(images/btn-sprite.gif) repeat-x scroll 0 -42px;
+}
+.iaaa-Cadastre-Black .my-btn-c {
+	background: transparent url(images/btn-sprite.gif) repeat-x scroll 0 -42px;
+	padding: 0 6px;
+	text-align: center;
+	width: 100%;
+}
+.iaaa-Cadastre-Black .my-btn-r {
+	background: transparent url(images/btn-sprite.gif) no-repeat scroll 0 -21px;
+}
+.iaaa-Cadastre-Black .my-btn {
+	color: white;
+	cursor: pointer;
+	height: 21px;
+}
+.iaaa-Cadastre-Black .my-btn-text {
+	-x-system-font: none;
+	font-family: tahoma,verdana,helvetica;
+	font-size: 11px;
+	font-size-adjust: none;
+	font-stretch: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	line-height: normal;
+	white-space: nowrap;
+}
+.iaaa-Cadastre-Black .my-btn .my-icon-btn {
+	height: 16px;
+	overflow: hidden;
+	width: 0px;
+}
+.iaaa-Cadastre-Black .my-btn-down .my-btn-l {
+	background-position: 0 -147px;	
+}
+.iaaa-Cadastre-Black .my-btn-down .my-btn-ml, .my-btn-down .my-btn-mr {
+	background-position: 0 -189px;	
+}
+.iaaa-Cadastre-Black .my-btn-down .my-btn-c {
+	background-position: 0 -189px;	
+}
+.iaaa-Cadastre-Black .my-btn-down .my-btn-r {
+	background-position: 0 -168px;	
+}
+
+
+/* Estilo del tabfolder y los tabitems (mygwt) */
+.iaaa-ResultsView .my-tabfolder {
+	width: 430px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabfolder-header {
+	background: transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -108px;
+	overflow: hidden;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-text {
+	color: black;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-over .my-tabitem-l {
+	background:transparent url(images/EzWeb-tabs.jpg) no-repeat scroll 0 -27px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-over .my-tabitem-ml {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -81px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-over .my-tabitem-c {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -81px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-over .my-tabitem-mr {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -81px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-over .my-tabitem-r {
+	background:transparent url(images/EzWeb-tabs.jpg) no-repeat scroll right -27px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-l {
+	background:transparent url(images/EzWeb-tabs.jpg) no-repeat scroll 0 0;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-ml {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -54px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-c {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -54px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-mr {
+	background:transparent url(images/EzWeb-tabs.jpg) repeat-x scroll 0 -54px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-sel .my-tabitem-r {
+	background:transparent url(images/EzWeb-tabs.jpg) no-repeat scroll right 0;
+}
+/* Texto de un tabitem no seleccionado */
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tabitem-text {
+	color: black;
+	cursor: pointer;
+	display: block;
+	padding: 0 5px;
+	white-space: nowrap;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tab-close {
+	background: url(images/tab-close.gif) no-repeat 0px -9px;
+	width: 9px;
+	height: 9px;
+}
+.iaaa-Cadastre-Black .iaaa-ResultsView .my-tab-close-over {
+	background: url(images/tab-close.gif) no-repeat 0px -18px;
+}
