@@ -1,0 +1,71 @@
+/*
+ *
+ * Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+ *
+ * This file is part of the generic visualizadorMapas/visualizadorIDEZar Gadgets
+ * for the EzWeb Platform
+ *
+ * visualizadorMapas/visualizadorIDEZar Gadgets are free software: you can
+ * redistribute them and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * visualizadorMapas/visualizadorIDEZar Gadgets is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with visualizadorMapas/visualizadorIDEZar Gadgets. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ */
+
+INSTALACION DE GADGETS
+-------------------------------
+
+Para instalar los gadgets "visualizadorMapas" y "visualizadorIDEZar" en la plataforma EzWeb de una máquina
+es necesario indicar una serie de rutas en algunos ficheros, con el formato exacto indicado en los ejemplos,
+para que estos funcionen correctamente.
+
+- Fichero "EzWeb_Viewer.js"
+
+	* IDEZar_API.URL = "@_URL_MÁQUINA_@";
+	* IDEZar_API.DIR = "@_DIRECTORIO_REPOSITORIO_@/visualizadorMapas/";
+	
+	Por ejemplo:
+	
+	* IDEZar_API.URL = "http://www.miplataformaezweb.es/";
+	* IDEZar_API.DIR = "repository/visualizadorMapas/";
+	
+- Fichero "visualizadorMapas/visualizadorMapas.xml"
+
+	* <ImageURI>@_URL_REPOSITORIO_@/visualizadorMapas/visualizadorMapas/visualizadorMapas.jpg</ImageURI>
+	
+	* <Platform.Link>
+	*	<XHTML href="@_URL_REPOSITORIO_@/visualizadorMapas/visualizadorMapas/indexGadget.html"/>
+  	* </Platform.Link>
+	
+	Por ejemplo:
+	
+	* <ImageURI>http://www.miplataformaezweb.es/repository/visualizadorMapas/visualizadorMapas/visualizadorMapas.jpg</ImageURI>
+	
+	* <Platform.Link>
+	*	<XHTML href="http://www.miplataformaezweb.es/repository/visualizadorMapas/visualizadorMapas/indexGadget.html"/>
+  	* </Platform.Link>
+  	
+- Fichero "visualizadorIDEZar/visualizadorIDEZar.xml"
+
+	* <ImageURI>@_URL_REPOSITORIO_@/visualizadorMapas/visualizadorIDEZar/visualizadorIDEZar.jpg</ImageURI>
+	
+	* <Platform.Link>
+	*	<XHTML href="@_URL_REPOSITORIO_@/visualizadorMapas/visualizadorIDEZar/indexGadget.html"/>
+  	* </Platform.Link>
+	
+	Por ejemplo:
+	
+	* <ImageURI>http://www.miplataformaezweb.es/repository/visualizadorMapas/visualizadorIDEZar/visualizadorIDEZar.jpg</ImageURI>
+	
+	* <Platform.Link>
+	*	<XHTML href="http://www.miplataformaezweb.es/repository/visualizadorMapas/visualizadorIDEZar/indexGadget.html"/>
+  	* </Platform.Link>

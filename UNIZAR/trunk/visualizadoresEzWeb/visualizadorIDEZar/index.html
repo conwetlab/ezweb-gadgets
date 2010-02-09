@@ -1,0 +1,234 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--/*
+ *
+ * Copyright 2009 (C) Fundaci�n CTIC <http://www.fundacionctic.org/>
+ *
+ * This file is part of the generic visualizadorIDEZar Gadget for the EzWeb Platform
+ *
+ * visualizadorIDEZar Gadget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * visualizadorIDEZar Gadget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with visualizadorIDEZar Gadget. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
+	<script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+	<script type="text/javascript" language="javascript" src="gadgetProperties.js"></script>
+	<script type="text/javascript" language="javascript" src="../EzWeb_Viewer_API.js"></script>
+	<script type="text/javascript" language="javascript" src="../lib/json.js"></script>
+	<script type="text/javascript" language="javascript" src="EzWebViewerProperties.js"></script>
+</head>
+	<script type="text/javascript" language="javascript">
+		var mapa;
+		function init() {
+			// Establecer estilo del visualizador
+			setViewerStyle();			
+
+			// Cargar estado
+			var oldState;
+			if (typeof(getState) != "undefined") {
+				oldState = getState();
+			}
+			
+			// Crear mapa
+			mapa = new IDEZar_API.Map("map", {srs: "EPSG:23030"});
+			
+			// Establecer WMS base en función de las preferencias y del estado
+			var wms;
+			if (oldState && (oldState.WMSBase)) {
+				var maxExtent = new IDEZar_API.Bounds(oldState.WMSBase.maxExtent.left, oldState.WMSBase.maxExtent.bottom, oldState.WMSBase.maxExtent.right, oldState.WMSBase.maxExtent.top, oldState.WMSBase.SRSList[0]);
+				var otherParameters = {};
+				if (oldState.WMSBase.formatSelected) otherParameters.formatSelected = oldState.WMSBase.formatSelected;
+				if (oldState.WMSBase.selectedSRS) otherParameters.formatSelected = oldState.WMSBase.selectedSRS;
+				wms = new IDEZar_API.WMS(oldState.WMSBase.name,
+					oldState.WMSBase.url, {
+						layers: oldState.WMSBase.layers.split(","),
+						styles: oldState.WMSBase.styles.split(","),
+						transparent: oldState.WMSBase.transparent,
+						format: oldState.WMSBase.format,
+						srsList: oldState.WMSBase.SRSList,
+						tiled: oldState.WMSBase.tiled,
+						resolutions: oldState.WMSBase.resolutions,
+						maxExtent: maxExtent,
+						serviceType: oldState.WMSBase.serviceType,
+						bgColor: oldState.WMSBase.bgColor,
+						version: oldState.WMSBase.version,
+						otherParameters: otherParameters
+					});
+				predefinedWMSBase = false;
+			} else {
+				if (typeof(getWMSBase) != "undefined") {
+					var viewerWMSBase = getWMSBase();
+					switch (viewerWMSBase) {
+						case "IDEZar":
+							wms = new IDEZar_API.WMS("IDEZar",
+								"http://idezar.zaragoza.es/IDEZar_Base_Tiled/WMSTileCache",
+								{layers: ["base"],
+								transparent: false,
+								format: "image/png",
+								srsList:  ["EPSG:23030"],
+								isWMSC: true,
+								maxExtent: new  IDEZar_API.Bounds(651500, 4590500, 694100, 4645000, "EPSG:23030"),
+								resolutions: 
+									["53.125201382285255","26.562600691142627","14.062553307075499",
+									 "6.718775468936064","3.7500142152201517","1.7187565153092277",
+									 "0.9375035538050343","0.5000018953626857","0.26375099980381617",
+									 "0.131875499901908"]
+								});
+							break;
+						default:
+							break;
+					}
+				} else {
+					wms = new IDEZar_API.WMS("IDEZar",
+						"http://idezar.zaragoza.es/IDEZar_Base_Tiled/WMSTileCache",
+						{layers: ["base"],
+						transparent: false,
+						format: "image/png",
+						srsList:  ["EPSG:23030"],
+						isWMSC: true,
+						maxExtent: new  IDEZar_API.Bounds(651500, 4590500, 694100, 4645000, "EPSG:23030"),
+						resolutions: 
+							["53.125201382285255","26.562600691142627","14.062553307075499",
+							 "6.718775468936064","3.7500142152201517","1.7187565153092277",
+							 "0.9375035538050343","0.5000018953626857","0.26375099980381617",
+							 "0.131875499901908"]
+						});
+				}
+			}
+			mapa.addWMS(wms);
+		
+			// Establecer area inicial del mapa, en funcion de si la aplicacion tiene un estado guardado
+			var fullExtent = new IDEZar_API.Bounds(670543.16420485, 4611016.7082751, 680752.57790579, 4616796.4176843, "EPSG:23030");
+			if (oldState && (oldState.extent) && (oldState.srs)) {
+				extent = new IDEZar_API.Bounds(oldState.extent.left, oldState.extent.bottom,
+						oldState.extent.right, oldState.extent.top, oldState.srs);
+			} else {
+				extent = fullExtent;
+			}
+			mapa.setExtent(extent);
+			
+			// Establecer herramientas del mapa
+			var scaleBar = new IDEZar_API.Tool.ScaleBar("right", "big");
+			var navBar = new IDEZar_API.Tool.NavBarInfo();
+			var mouse = new IDEZar_API.Tool.MouseWheelZoom();
+			var loading = new IDEZar_API.Tool.LoadingMap();
+			
+			//var toolbar = new IDEZar_API.Tool.DefaultToolBar(null, null, true);
+			var toolbar = new IDEZar_API.Tool.ToolBar(null, null, true);
+			var fullExt = new IDEZar_API.Tool.FullExtent(null, fullExtent);
+			var pan = new IDEZar_API.Tool.Dragpan();
+			var zBox = new IDEZar_API.Tool.ZoomBox();
+			var zOut = new IDEZar_API.Tool.ZoomOut();
+			
+			var point = new IDEZar_API.Tool.DrawPoint();
+			//mapa.addTools([toolbar, scaleBar, navBar, mouse, loading, point]);
+			mapa.addTools([toolbar, fullExt, pan, zBox, zOut, scaleBar, navBar, mouse, loading, point]);
+			
+			// Redimensionar mapa
+			resize();
+			
+			// Tareas a realizar una vez inciado el mapa
+			afterInit(oldState);
+		}
+	</script>
+	
+	<script type="text/javascript" language="javascript">
+		// Funciones propias del visualizadorMapas
+		function getMap() {
+			return mapa.map;
+		}
+		
+		function resizeClient() {
+			// Redimensionar DIV del mapa
+			resize();
+			// Redimensionar DIV de añadir WMS
+			if ((IDEZar_API.FacadeUtils.AddWMSLayersDIV) && (IDEZar_API.FacadeUtils.newAddWMS)) {
+				var mapDiv = document.getElementById(IDEZar_API.FacadeUtils.myMap.map.div.id);
+				// Por hacer
+				IDEZar_API.FacadeUtils.generateAddWMSLayersDIV(IDEZar_API.FacadeUtils.newAddWMS, true);
+			}
+		}
+		
+		function afterInit(state) {
+			// Cargar Facade
+			Facade = getAPIFacade();
+			// Redefinición de métodos
+			if (typeof(changeMapForEzWeb) != "undefined") {
+				changeMapForEzWeb(mapa);
+			}
+			// Añadir datos guardados en el estado
+			if (state) {
+				// Puntos dibujados
+				if (state.drawnPoints) {
+					// state.drawnPoints -> Puntos dibujados en el estado anterior
+					// drawnPoints -> Listado global de puntos dibujados
+					var newPoint;
+					for (var i = 0 in state.drawnPoints) {
+						newPoint = state.drawnPoints[i];
+						if (!newPoint.fromTool) {
+							// Puntos dibujados desde Facade
+							Facade.drawPoint(newPoint.x, newPoint.y, newPoint.srs, null, true);
+							drawnPoints.push(newPoint);
+						} else {
+							// Punto dibujado con la herramienta asociada
+							var mapSrs = Facade.myMap.map.getProjection();
+							var x = newPoint.x;
+							var y = newPoint.y;
+							if (newPoint.srs != mapSrs) {
+								var punto = coordTransform(point.srs, mapSrs, x, y);
+								x = punto[0];
+								y = punto[1];
+							}
+							if (Facade.myMap.toolbar.drawPoint) {
+								var newFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(x, y));
+								Facade.myMap.toolbar.drawPoint.control.handler.permanentLayer.addFeatures(newFeature);
+								Facade.myMap.toolbar.drawPoint.control.currentPoint = newFeature;
+								Facade.myMap.toolbar.drawPoint.control.currentPoint.srs = mapSrs;
+							}
+						}
+					}
+				}
+				// GeoJSON cargado
+				if (state.loadedGeoJSON) {
+					Facade.loadExclusiveGeoJSON(eval("(" + state.loadedGeoJSON.geojson + ")"));
+					loadedGeoJSON = state.loadedGeoJSON;
+				}
+				// GeoJSON cargado
+				if (state.loadedGeoJSONWGS84) {
+					Facade.loadExclusiveGeoJSON(eval("(" + state.loadedGeoJSONWGS84.geojson + ")"), state.loadedGeoJSONWGS84.srs);
+					loadedGeoJSONWGS84 = state.loadedGeoJSONWGS84;
+				}
+				// GeoRSS cargado
+				if (state.loadedGeoRSS) {
+					Facade.loadExclusiveGeoRSS(state.loadedGeoRSS.url, state.loadedGeoRSS.srs);
+					loadedGeoRSS = state.loadedGeoRSS;
+				}
+			}
+		}
+		
+		function setViewerStyle() {
+			var mapDiv = document.getElementById("map");
+			var mapDivStyle = "border: 1px solid " + IDEZar_API.defaultStyle + ";";
+			if (IDEZar_API.isNetscape()) {
+				mapDiv.setAttribute("style", mapDivStyle);
+			} else {
+				mapDiv.style.setAttribute("cssText", mapDivStyle);
+			}
+		}
+	</script>
+<body onload="init()" onresize="resizeClient()" style="overflow: hidden;">
+	<div id="visorContainer">
+		<div id="map"></div>
+	</div>
+</body>
+</html>

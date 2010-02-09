@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--/*
+ *
+ * Copyright 2009 (C) Fundación CTIC <http://www.fundacionctic.org/>
+ *
+ * This file is part of the generic visualizadorMapas Gadget for the EzWeb Platform
+ *
+ * visualizadorMapas Gadget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * visualizadorMapas Gadget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with visualizadorMapas Gadget. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */-->
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <Catalog.ResourceDescription>
+    <Vendor>IAAA</Vendor>
+    <Name>Visualizador de mapas</Name>
+    <DisplayName>__MSG_displayName__</DisplayName>
+    <Version>1.0</Version>
+    <Author>Javier Eced</Author>
+    <Mail>iaaa@unizar.es</Mail>
+    <Description>__MSG_description__</Description>
+    <ImageURI>http://cinca.cps.unizar.es:81/repository/visualizadorMapas/visualizadorMapas/visualizadorMapas.jpg</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/D.4.4_Librer%C3%ADa_de_recursos_y_gadgets_de_pr%C3%B3posito_general#Gadget_Visualizador_de_Mapas</WikiURI>
+  </Catalog.ResourceDescription>
+  <Platform.Preferences>
+    <Preference name="wmsPref" type="list" description="__MSG_wmsDescription__" label="__MSG_wmsTitle__" default="IDEEBase">
+      <Option value="Cartociudad" name="Cartociudad"/>
+      <Option value="Catastro" name="Catastro"/>
+      <Option value="IDEEBase" name="IDEE-Base"/>
+      <Option value="PNOA" name="PNOA"/>
+    </Preference>
+    <Preference name="langPref" type="list" description="__MSG_localeDescription__" label="__MSG_localeTitle__" default="ES">
+      <Option value="EN" name="en"/>
+      <Option value="ES" name="es"/>
+    </Preference>
+    <Preference name="stylePref" type="list" description="__MSG_themeDescription__" label="__MSG_themeTitle__" default="blue">
+      <Option value="blue" name="__MSG_themeBlue__"/>
+      <Option value="red" name="__MSG_themeRed__"/>
+    </Preference>
+  </Platform.Preferences>
+  <Platform.StateProperties>
+	<Property name="savedState" type="text" label="savedState"/>	
+	<Property name="mapExtentState" type="text" label="mapExtentState"/>
+  </Platform.StateProperties>
+  <Platform.Wiring>
+  	<!-- Slots de entrada -->
+  	<Slot name="area" type="text" label="area" friendcode="area" />
+  	<Slot name="wmsURL" type="text" label="wmsURL" friendcode="wmsURL" />
+  	<Slot name="geoRssURL" type="text" label="geoRssURL" friendcode="geoRssURL" />
+  	<Slot name="geoJSON" type="text" label="geoJSON" friendcode="geoJSON" />
+  	<Slot name="point" type="text" label="point" friendcode="point" />
+  	<!-- Slots de salida  -->
+  	<Event name="visibleArea" type="text" label="visibleArea" friendcode="visibleArea" />
+  	<Event name="drawnPoint" type="text" label="drawnPoint" friendcode="drawnPoint" />
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://cinca.cps.unizar.es:81/repository/visualizadorMapas/visualizadorMapas/indexGadget.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="10" height="10"/>
+  <Translations default="es">
+  	<Translation lang="es">
+  		<msg name="displayName">Visualizador de mapas</msg>
+  		<msg name="description">Visualizador de mapas genérico que permite acceder a cualquier WMS estándar OGC o a un WMS-C (WMS cacheado). </msg>
+		<msg name="wmsTitle">WMS de base</msg>
+  		<msg name="wmsDescription">Seleccionar WMS de base</msg>
+  		<msg name="themeTitle">Tema</msg>
+  		<msg name="themeDescription">Seleccionar tema</msg>
+  		<msg name="themeBlue">azul</msg>
+  		<msg name="themeRed">rojo</msg>
+  		<msg name="localeTitle">Idioma</msg>
+  		<msg name="localeDescription">Seleccionar idioma</msg>
+  	</Translation>
+  	<Translation lang="en">
+  		<msg name="displayName">Visualizador de mapas</msg>
+  		<msg name="description">Generic map viewer that allows the conexion with any OGC standard WMS or WMS-C (tiled WMS).</msg>
+		<msg name="wmsTitle">Base WMS</msg>
+  		<msg name="wmsDescription">Select base WMS</msg>
+  		<msg name="themeTitle">Theme</msg>
+  		<msg name="themeDescription">Select theme</msg>
+  		<msg name="themeBlue">blue</msg>
+  		<msg name="themeRed">red</msg>
+  		<msg name="localeTitle">Language</msg>
+  		<msg name="localeDescription">Select language</msg>
+  	</Translation>
+  </Translations>
+</Template>
