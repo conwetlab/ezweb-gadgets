@@ -10,6 +10,7 @@ import zipfile
 from xml.dom.minidom import parse
 
 import re
+import string
 
 from urllib import pathname2url
 
@@ -23,7 +24,9 @@ class Error:
                          2:"Error: The gadget doesn't have html file",
                          3:"Error: The source code of the gadget could not be read",
                          4:"Error: Wgt package could not be copied to gadget directory",
-                         5:"Error: The directory doesn't exist or isn't a directory"}
+                         5:"Error: The directory doesn't exist or isn't a directory",
+                         6:"Error: The gadget has files with an invalid filename",
+                         7:"Error: The gadget has an invalid name or an invalid vendor name"}
         self.code = code
     
     def __str__(self):
@@ -104,8 +107,15 @@ class ParserTemplate:
         
     def __get_url_path_file__(self, path):
         for file in self.config.others_files:
-            if path.find(pathname2url(file)):
+            if (path.find(pathname2url(file)) >= 0):
                 return pathname2url(file)
+
+    def __check_name__(self, name):
+        valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+        for char in name:
+            if not(char in valid_chars):
+                raise Error(7)
+        return
         
     # Parser template file
     def parse(self):
@@ -117,12 +127,14 @@ class ParserTemplate:
         if xmldoc.getElementsByTagName("Name"):
             name = xmldoc.getElementsByTagName("Name")[0].firstChild.nodeValue 
             self.name = name.replace(" ", "_")
+            self.__check_name__(name)
             
         # Get Vendor tag
         if xmldoc.getElementsByTagName("Vendor"):
             vendor = xmldoc.getElementsByTagName("Vendor")[0].firstChild.nodeValue
             self.vendor = vendor.replace(" ", "_")
-            
+            self.__check_name__(vendor)
+                        
         # Get Version tag
         if xmldoc.getElementsByTagName("Version"):
             version = xmldoc.getElementsByTagName("Version")[0].firstChild.nodeValue
@@ -215,12 +227,21 @@ class ConfigInfo:
             return path[1:]
         return path
 
+    def __check_filename__(self, filename):
+        valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+        for char in filename:
+            if not(char in valid_chars):
+                raise Error(6)
+        return
+        
     # Order files by extension
     def __order_files__(self):
         html = re.compile(r'.*htm[l]*$', re.I)
         xml = re.compile(r'.*xml$', re.I)
         for (dirpath, dirname, filenames) in os.walk(self.path):
             for filename in filenames:
+                # Check if filename is a valid filename
+                self.__check_filename__(filename)
                 # Get relative path
                 path = os.path.join(dirpath, filename)
                 path = path.split(self.path)[1]
