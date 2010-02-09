@@ -6,6 +6,7 @@ import sys
 import tempfile
 import shutil
 import zipfile
+import codecs
 
 from xml.dom.minidom import parse
 
@@ -167,8 +168,7 @@ class ParserTemplate:
     def write(self, path=None):
         if (path == None):
             path = os.path.join(self.config.path, self.config.template)
-
-        f = open(path, "w")
+        f = codecs.open(path, 'w', 'utf-8')
         f.write(self.template)
         f.close()
         
@@ -289,14 +289,15 @@ class ConfigInfo:
 class PackGadget:
     def __init__(self, path):
         # Check if the path is a directory
-        if not os.path.isdir(path):
-            raise Error(5)
-        
+	self.workpath = os.path.abspath('.')
         self.path = os.path.abspath(self._normalize_path(path))
         self.tmp = None
         self.tmpgadget = None
         self.pack = None
-        
+       
+        if not os.path.isdir(path):
+            raise Error(5)
+ 
     def _normalize_path(self, path):
         path = os.path.normpath(path)
         if (path[-1] == '/'):
@@ -368,6 +369,7 @@ class PackGadget:
         self.move_wgt()
         # Remove temporal dir
         self.rm_tmp_dir()
+        self.change_working_folder(self.workpath)
 
 
 #******************************************************************************
