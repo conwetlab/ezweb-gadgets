@@ -1,0 +1,145 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic callejero Gadget for the EzWeb Platform
+
+callejero Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+callejero Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is mygwt-iaaa.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Mon Feb 08 16:35:58 CET 2010 
+ */
+.my-multitabfolder {
+  border: 1px solid #8DB2E3;
+  background-color: white;
+}
+
+.my-multitabfolder-header {
+  background: url(images/default/multitabfolder/multitabs.gif) repeat;
+  overflow: hidden;
+}
+
+.my-multitabitem {
+  cursor: pointer;	
+}
+
+.my-multitabitem-l {
+  width: 3px;
+  padding-left: 3px;
+  height: 27px;
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat 0px -27px;
+}
+
+.my-multitabitem-icon .my-multitabitem-ml {
+  padding-left: 1px;
+  padding-right: 2px;
+  width: 16px;
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -81px;
+}
+
+.my-multitabitem-close .my-multitabitem-mr div {
+  visibility: visible;
+  width: 12px;
+}
+
+.my-multitabitem-over .my-multitabitem-mr div,.my-multitabitem-sel .my-multitabitem-mr div {
+  visibility: visible;
+}
+
+.my-multitabitem-close .my-multitabitem-r div {
+  width: 5px;
+}
+
+.my-multitabitem-c {
+  width: 100%;
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -81px;
+}
+
+.my-multitabitem-r div {
+  width: 10px;
+}
+
+.my-multitabitem-mr{
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -81px;
+}
+
+.my-multitabitem-r{
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat right -27px;
+}
+
+.my-multitabitem-text {
+  display: block;
+  padding: 0 5 0 5px;
+  color: #416AA3;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.my-multitabitem-icon .my-multitabitem-c {
+  text-align: left;
+  padding-left: 2px;
+}
+
+.my-multitabitem-icon .my-multitabitem-text {
+  padding: 0px;
+  cursor: pointer;
+}
+
+
+.my-multitabitem-over .my-multitabitem-l {
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat 0px -27px;
+}
+
+.my-multitabitem-over .my-multitabitem-ml, .my-multitabitem-over .my-multitabitem-c {
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -81px;
+}
+
+.my-multitabitem-over .my-multitabitem-mr {
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -81px;
+}
+
+.my-multitabitem-over .my-multitabitem-r {
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat right -27px;
+}
+
+.my-multitabitem-sel .my-multitabitem-text {
+  color: #15428B;
+}
+
+.my-multitabitem-sel .my-multitabitem-l {
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat;
+}
+
+.my-multitabitem-sel .my-multitabitem-ml, .my-multitabitem-sel .my-multitabitem-c {
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -54px;
+}
+
+.my-multitabitem-sel .my-multitabitem-mr {
+  background: url(images/default/multitabfolder/tabs.gif) repeat-x 0px -54px;
+}
+
+.my-multitabitem-sel .my-multitabitem-r {
+  background: url(images/default/multitabfolder/tabs.gif) no-repeat right 0px;
+}
+
+.my-loading {
+  cursor: wait;
+}
+
+.my-loading-text {
+  color: #506c91;
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--***********************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic callejero Gadget for the EzWeb Platform
+
+callejero Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+callejero Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
+* ************************************************************************-->
+<cache-entry>
+	<generated-type-hash class="iaaa.searchengine.client.constants.SEConstants_" hash="A5DF296E591F1AE84DF69DD4E9D628D6"/>
+	<generated-type-hash class="iaaa.gwt.user.client.ui.ThesaurusElement_FieldSerializer" hash="CAE89E1CEFFE59B64578C2E6C23F7FE3"/>
+	<generated-type-hash class="iaaa.ezweb.callejero.client.internationalization.Messages_en" hash="329C9962394E72BA8A66C0CDB675B798"/>
+	<generated-type-hash class="net.mygwt.ui.client.messages.MyMessages_" hash="9A1E15E14B17477E4B2CC6594A831F06"/>
+	<generated-type-hash class="com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException_FieldSerializer" hash="FF198044879E67E1ACF2E0C29CC58CB5"/>
+	<generated-type-hash class="iaaa.searchengine.client.tools.PredictiveWordsService_TypeSerializer" hash="A9EBA788013D88E87FA8973D85CC2A5D"/>
+	<generated-type-hash class="iaaa.gwt.user.client.ui.ThesaurusQuery_FieldSerializer" hash="09504020A1F4B347AB1E9A06D22F7C7F"/>
+	<generated-type-hash class="com.google.gwt.user.client.ui.TreeImages_generatedBundle" hash="C4DB9D53C840859028C6F483DB58A75C"/>
+	<generated-type-hash class="iaaa.searchengine.client.model.QueryInfo_FieldSerializer" hash="2D5F08B2B2031E311511FE39F68EC689"/>
+	<generated-type-hash class="iaaa.gwt.user.client.ui.ThesaurusSearchService_Proxy" hash="D88D3B361B3C09BC68211D0409B3111A"/>
+	<generated-type-hash class="iaaa.searchengine.client.model.Identifier_FieldSerializer" hash="202922ADD837D59538F17FF26EAB10BC"/>
+	<generated-type-hash class="com.google.gwt.i18n.client.constants.DateTimeConstants_en_GB" hash="A8DA3FE2B210E63A9D64FF985084FF9B"/>
+	<generated-type-hash class="iaaa.gwt.user.client.ui.ThesaurusList_FieldSerializer" hash="4890607FBD30AC49B3647A5CA04EA1F3"/>
+	<generated-type-hash class="iaaa.searchengine.client.model.ResultComponent_FieldSerializer" hash="6AE6AF8980D4957082030907EF113ED8"/>
+	<generated-type-hash class="iaaa.gwt.user.client.ui.ThesaurusSearchService_TypeSerializer" hash="7A6A3E10481A7E47D86E20785FB8A0E9"/>
+	<generated-type-hash class="iaaa.searchengine.client.model.ResultList_FieldSerializer" hash="880BB9BBF864FADFFA3F8A627571246B"/>
+	<generated-type-hash class="iaaa.searchengine.client.controller.SearchControllerService_TypeSerializer" hash="4549451955C4E28FE832681BA4BE4212"/>
+	<generated-type-hash class="iaaa.searchengine.client.internationalization.Messages_en" hash="E84EE2B357A19C6C747F1591F67C434C"/>
+	<generated-type-hash class="iaaa.searchengine.client.controller.configuration.SourceDescription_FieldSerializer" hash="5F1BEAB9033B5FB3A41C470AF62C4BB3"/>
+	<generated-type-hash class="net.mygwt.ui.client.data.DataList_FieldSerializer" hash="3242AF2901F1BEC091704A4D3C77DE17"/>
+	<generated-type-hash class="iaaa.searchengine.client.tools.PredictiveWordsService_Proxy" hash="38E0A539FA041DFAE9BBB2A9643EDE91"/>
+	<generated-type-hash class="iaaa.searchengine.client.controller.SearchControllerService_Proxy" hash="8EC168C9F2BAE257F5AA772125449BF2"/>
+	<generated-type-hash class="iaaa.searchengine.client.model.ResultListElement_FieldSerializer" hash="77A2297F79197FB7EF2C1DC208739F72"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.TextBoxImpl" out="com.google.gwt.user.client.ui.impl.TextBoxImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.ListBox.Impl" out="com.google.gwt.user.client.ui.ListBox.ImplSafari"/>
+	<rebind-decision in="iaaa.searchengine.client.constants.SEConstants" out="iaaa.searchengine.client.constants.SEConstants_"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.FocusImpl" out="com.google.gwt.user.client.ui.impl.FocusImplSafari"/>
+	<rebind-decision in="iaaa.searchengine.client.tools.PredictiveWordsService" out="iaaa.searchengine.client.tools.PredictiveWordsService_Proxy"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.ClippedImageImpl" out="com.google.gwt.user.client.ui.impl.ClippedImageImpl"/>
+	<rebind-decision in="iaaa.ezweb.callejero.client.internationalization.Messages" out="iaaa.ezweb.callejero.client.internationalization.Messages_en"/>
+	<rebind-decision in="net.mygwt.ui.client.messages.MyMessages" out="net.mygwt.ui.client.messages.MyMessages_"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HistoryImpl" out="com.google.gwt.user.client.impl.HistoryImplSafari"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.DOMImpl" out="com.google.gwt.user.client.impl.DOMImplSafari"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.PopupImpl" out="com.google.gwt.user.client.ui.impl.PopupImpl"/>
+	<rebind-decision in="org.zenika.widget.client.util.DateLocale" out="org.zenika.widget.client.util.DateLocale_en_GB"/>
+	<rebind-decision in="iaaa.searchengine.client.controller.SearchControllerService" out="iaaa.searchengine.client.controller.SearchControllerService_Proxy"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.TreeImages" out="com.google.gwt.user.client.ui.TreeImages_generatedBundle"/>
+	<rebind-decision in="iaaa.gwt.user.client.ui.ThesaurusSearchService" out="iaaa.gwt.user.client.ui.ThesaurusSearchService_Proxy"/>
+	<rebind-decision in="net.mygwt.ui.client.impl.MyDOMImpl" out="net.mygwt.ui.client.impl.MyDOMImpl"/>
+	<rebind-decision in="iaaa.searchengine.client.internationalization.Messages" out="iaaa.searchengine.client.internationalization.Messages_en"/>
+	<rebind-decision in="com.google.gwt.i18n.client.constants.DateTimeConstants" out="com.google.gwt.i18n.client.constants.DateTimeConstants_en_GB"/>
+	<rebind-decision in="iaaa.ezweb.callejero.client.Callejero" out="iaaa.ezweb.callejero.client.Callejero"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.FormPanelImpl" out="com.google.gwt.user.client.ui.impl.FormPanelImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HTTPRequestImpl" out="com.google.gwt.user.client.impl.HTTPRequestImpl"/>
+	<rebind-decision in="org.zenika.widget.client.DatePickerModule" out="org.zenika.widget.client.DatePickerModule"/>
+</cache-entry>

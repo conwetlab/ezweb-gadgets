@@ -1,0 +1,8 @@
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true
+iaaa.gwt.user.client.ui.ThesaurusElement, true
+iaaa.gwt.user.client.ui.ThesaurusList, true
+iaaa.gwt.user.client.ui.ThesaurusQuery, true
+java.lang.String, true
+java.util.ArrayList, true
+java.util.Vector, true
+net.mygwt.ui.client.data.DataList, true
