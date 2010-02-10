@@ -1,0 +1,147 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic nomenclator Gadget for the EzWeb Platform
+
+nomenclator Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+nomenclator Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with nomenclator Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is DatePickerStyle.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Mon Feb 08 16:41:20 CET 2010 
+ */
+.blue-date-picker {
+	background-color: #C3D9FF;
+	color: #112ABB;
+	width: 165px;
+}
+.blue-month-line {
+	width: 165px;
+	color: #112ABB;
+	font-size: 8pt;
+	font-weight: bold;
+	font-family: Verdana;
+	text-align: center;
+	cursor: pointer;
+}
+.blue-week-line {
+	width: 165px;
+	color: black;
+	font-size: 8pt;
+	font-family: Verdana;
+	text-align: center;
+}
+.blue-day-grid {
+	border: 1pt solid #AACCEE; background-color : white;
+	width: 165px;
+	text-align: center;
+	font-size: 8pt;
+	font-family: Verdana;
+	border-collapse: collapse;;
+	background-color: white;
+	cursor: pointer;
+}
+.blue-current-month-selected {
+	background-color: #75A9ff;
+	color:black;
+}
+.blue-selected{
+	background-color: #75A9ff;
+	color:#aaa;
+}
+.blue-week-end {
+	color:#aaa;
+	background-color: #eee;
+}
+.blue-current-month-week-end {
+	background-color: #eee;
+	color: black;
+}
+.blue-other-day {
+	color:#aaa;
+}
+.blue-current-month-other-day {
+	color: black;
+}
+.blue-cant-be-selected {
+	background-color:#eee;
+	color:#D3D3D3;
+}
+.blue-day-grid tr {
+	height: 20px;
+}
+
+/*Pink theme*/
+.pink-date-picker {
+	background-color: #F2D3D3;
+	color: #C26262;
+	width: 165px;
+}
+.pink-month-line {
+	width: 165px;
+	color: #C26262;
+	font-size: 8pt;
+	font-weight: bold;
+	font-family: Verdana;
+	text-align: center;
+	cursor: pointer;
+}
+.pink-week-line {
+	width: 165px;
+	color: black;
+	font-size: 8pt;
+	font-family: Verdana;
+	text-align: center;
+}
+.pink-day-grid {
+	border: 1pt solid #AACCEE; background-color : white;
+	width: 165px;
+	text-align: center;
+	font-size: 8pt;
+	font-family: Verdana;
+	border-collapse: collapse;;
+	background-color: white;
+	cursor: pointer;
+}
+.pink-current-month-selected {
+	background-color: #F39E9D;
+	color:black;
+}
+.pink-selected {
+	background-color: #F39E9D;
+	color:#aaa;
+}
+.pink-week-end {
+	color:#aaa;
+	background-color: #eee;
+}
+.pink-current-month-week-end {
+	background-color: #eee;
+	color: black;
+}
+.pink-other-day{
+	color:#aaa;
+}
+.pink-current-month-other-day {
+	color: black;
+}
+.pink-cant-be-selected {
+	background-color:#eee;
+	color:#D3D3D3;
+}
+.pink-day-grid tr {
+	height: 20px;
+}
