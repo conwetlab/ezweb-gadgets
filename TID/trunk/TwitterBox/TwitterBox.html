@@ -1,0 +1,187 @@
+<!-- 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+-->
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox//TwitterBox_1.00/"/>
+<link id="css_style" href="css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
+<title>Twitter Box</title>
+
+<script language="JavaScript">
+
+//Preferences
+var boxlabel = EzWebAPI.createRGadgetVariable("boxlabel", changeBoxText);
+var theme = EzWebAPI.createRGadgetVariable("theme", changeTheme);
+var button1 = EzWebAPI.createRGadgetVariable("button1", changeButtonText);
+var button2 = EzWebAPI.createRGadgetVariable("button2", changeButtonText);
+var button1isvisible = EzWebAPI.createRGadgetVariable("button1isvisible", showButton);
+var button2isvisible = EzWebAPI.createRGadgetVariable("button2isvisible", showButton);
+var clearafterpost = EzWebAPI.createRGadgetVariable("clearafterpost", clearBoxText);
+var onaddedtext = EzWebAPI.createRGadgetVariable("onaddedtext", changeOnAddedText);
+var additionoftext = EzWebAPI.createRGadgetVariable("additionoftext", changeAdditionOfText);
+var clear = null;
+
+//keyword to Send 
+var postedText = EzWebAPI.createRWGadgetVariable("postedText");
+var addedText = EzWebAPI.createRWGadgetVariable("addedText");
+
+//Input Text
+var addtext = EzWebAPI.createRGadgetVariable("addText", addText);
+var addtextthenpost = EzWebAPI.createRGadgetVariable("addTextThenPost", addTextThenPost);
+var addtextthenadd = EzWebAPI.createRGadgetVariable("addTextThenAdd", addTextThenAdd);
+
+//Functions
+function changeBoxText(value){
+	document.getElementById("text_l").innerHTML = value;
+}
+
+function changeButtonText(value){
+	button1label = button1.get();
+
+	if (document.getElementById("button1").style.visibility != "hidden") {
+		document.getElementById("button1").value = button1label;
+	}
+	
+  button2label = button2.get();
+  
+	if (document.getElementById("button2").style.visibility != "hidden") {
+		document.getElementById("button2").value = button2label;
+	}
+
+}
+
+function clearBoxText(value) {
+	clear = value;
+}
+
+function showButton(value) {
+  
+	if (button1isvisible.get() == "false") {
+		document.getElementById("button1").style.visibility = "hidden";
+		document.getElementById("button1").value = "";
+		document.getElementById("button1").style.width = "0px";
+	} else {
+		document.getElementById("button1").style.visibility = "visible";
+		document.getElementById("button1").style.width = "";
+		document.getElementById("button1").value = button1.get();
+	}
+	
+	if (button2isvisible.get() == "false") {
+		document.getElementById("button2").style.visibility = "hidden";
+		document.getElementById("button2").value = "";
+		document.getElementById("button2").style.width = "0px";
+	} else {
+		document.getElementById("button2").style.visibility = "visible";
+		document.getElementById("button2").style.width = "";
+		document.getElementById("button2").value = button2.get();
+	}
+}
+
+var textHasChanged = false;
+function textChanged()
+{
+	if (!document.KeywordCreationForm.elements['keyword'].value == '')
+		textHasChanged = true;
+	else 
+		textHasChanged = false;
+}
+
+function addText(value) {
+	var text = document.KeywordCreationForm.elements['keyword'].value;
+	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '') {
+		if (onaddedtext == "iscleaned") {
+			document.KeywordCreationForm.elements['keyword'].value = value;
+		} else if (onaddedtext == "prefixes") {
+			document.KeywordCreationForm.elements['keyword'].value += value;
+		} else if (onaddedtext == "concatenates"){
+			document.KeywordCreationForm.elements['keyword'].value = value + text;
+		}
+	}
+}
+
+function addTextThenPost(value) {
+	addText(value);
+	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
+	{
+		sendPostedText();
+	}
+}
+
+function addTextThenAdd(value){
+  addText(value);
+	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
+	{
+		sendAddedText();
+	}
+
+}
+
+function changeTheme(value){
+	var link = document.getElementById('css_style').href.replace(/style\.css$/, value+'.css');
+	document.getElementById('css_theme').href = link;
+}
+
+function changeOnAddedText(value){
+	onaddedtext = value;
+}
+
+function changeAdditionOfText(value) {
+	additionoftext = value;
+}
+
+function sendPostedText(){
+	var val = document.KeywordCreationForm.elements['keyword'].value;
+	if (val && val !="")
+		postedText.set(val);
+	if (clear == 'Yes')
+		document.KeywordCreationForm.elements['keyword'].value = "";
+}
+
+function sendAddedText(){
+	var val = document.KeywordCreationForm.elements['keyword'].value;
+	if (val && val !="")
+		addedText.set(val);
+	if (clear == 'Yes')
+		document.KeywordCreationForm.elements['keyword'].value = "";
+}
+
+function init() {
+	clear = clearafterpost.get();
+	changeBoxText(boxlabel.get());
+	changeButtonText(button1.get());
+	changeTheme(theme.get());
+	changeOnAddedText(onaddedtext.get());
+}
+
+
+</script>
+
+</head>
+<body onload="init();">
+<form name="KeywordCreationForm" onsubmit="sendKeyword(this.form);return false;">
+<table class="content">
+<tbody>
+<tr class="odd">
+  <td style="width:10px"><label id="text_l">Keyword: </label></td>
+  <td style="width:100%">
+    <input name="keyword" type="text" id="text" class="text" onchange="textChanged();">
+  </td>
+  <td class="button_td" style="width:15%;">
+    <input id="button1" name="create" value="search" onclick="textHasChanged = false; sendAddedText(this.form)" type="button">
+
+  </td>
+  <td class="button_td" style="width:15%;">  
+    <input id="button2" name="create" value="search" onclick="textHasChanged = false; sendPostedText(this.form)" type="button">    
+  </td>
+</tr>
+</tbody>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,11 @@
+textarea, .text {
+	color:#8F0000;
+	border-color:#BF0000;
+	background: #FFF;
+}
+table {
+	color:#AF0000;
+}
+tr td {
+	background-color:#FFBFBF;
+}
