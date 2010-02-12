@@ -10,6 +10,7 @@ IMAP_MESSAGE = 5
 IMAP_FILE = 6
 
 SMTP_SEND = 20
+SMTP_SEND_FILE = 21
 
 SERVER = 100
 SMTP_TLS = 101
@@ -40,6 +41,7 @@ class Error:
         self.errors[`SMTP_CC`] = {"error":SMTP_CC, "message":"El parametro CC de la request debe se un array de direcciones"}
         self.errors[`SMTP_BCC`] = {"error":SMTP_BCC, "message":"El parametro BCC de la request debe se un array de direcciones"}
         self.errors[`SMTP_SEND`] = {"error":SMTP_SEND, "message":"Ocurrio un error al enviar el mail"}
+        self.errors[`SMTP_SEND_FILE`] = {"error":SMTP_SEND, "message":"Ocurrio un error al enviar el mail, no es posible acceder a uno de los archivos adjuntos"}
 
     def getErrorInfo(self, error_code):
         if self.errors.has_key(`error_code`):

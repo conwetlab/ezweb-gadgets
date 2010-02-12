@@ -12,7 +12,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from email import encoders
-from protocols.smtp_utils.utils import removeFiles
+from protocols.smtp_utils.utils import *
+import tempfile
 
 class SMTPClient:
 
@@ -76,11 +77,11 @@ class SMTPClient:
         
         return msg
     	    
-    def sendMail(self, subject, message, message_html, from_mail, to_mails, cc_mails, bcc_mails, attachments):
+    def sendMail(self, subject, message, message_html, from_mail, to_mails, cc_mails, bcc_mails, attachments, url_attachments):
         
         msg_text = self._getMessagePart(message, message_html)
         
-        if len(attachments["files"]) > 0:
+        if (len(attachments["files"]) + len(url_attachments)) > 0:
             msg = MIMEMultipart('mixed')
             msg.attach(msg_text)
         else:
@@ -97,40 +98,53 @@ class SMTPClient:
             msg['Bcc'] = ", ".join(bcc_mails)
         
         ############# Attach files #############
-        #TODO Mejorar para evitar la necesidad de copiar el fichero a carpeta temporal
-        for filename in attachments["files"]:
+        fileList = attachments["files"]
+        
+        for url in url_attachments:
+            dirname = attachments["path"] #TODO Directorios temporales
+            filename = url.split("/")
+            filename = filename[len(filename)-1]
+            path = os.path.join(dirname, filename)
+            if not downloadFile(url, path):
+    	        self.error = commons.error.SMTP_SEND_FILE
+    	        removeFiles(attachments["path"])
+                return False
+            fileList.append(path)
+            
+        for filename in fileList:
             if not os.path.isfile(filename):
                 continue
-            ctype, encoding = mimetypes.guess_type(filename)
-            if ctype is None or encoding is not None:
-                ctype = 'application/octet-stream'
+            ctype = getContentType(filename)
             maintype, subtype = ctype.split('/', 1)
             mimefile = None
-            if maintype == 'text':
-                fp = open(filename)
-                mimefile = MIMEText(fp.read(), _subtype=subtype)
-                fp.close()
-            elif maintype == 'image':
-                fp = open(filename, 'rb')
-                mimefile = MIMEImage(fp.read(), _subtype=subtype)
-                fp.close()
-            elif maintype == 'audio':
-                fp = open(filename, 'rb')
-                mimefile = MIMEAudio(fp.read(), _subtype=subtype)
-                fp.close()
-            elif maintype == 'application':
-                fp = open(filename, 'rb')
-                mimefile = MIMEApplication(fp.read(), _subtype=subtype)
-                fp.close()
-            else:
-                fp = open(filename, 'rb')
-                mimefile = MIMEBase(maintype, subtype)
-                mimefile.set_payload(fp.read())
-                fp.close()
-                encoders.encode_base64(mimefile)
-
-            mimefile.add_header('Content-Disposition', 'attachment', filename=os.path.basename(filename))
-            msg.attach(mimefile)
+            try:
+                if maintype == 'text':
+                    fp = open(filename)
+                    mimefile = MIMEText(fp.read(), _subtype=subtype)
+                    fp.close()
+                elif maintype == 'image':
+                    fp = open(filename, 'rb')
+                    mimefile = MIMEImage(fp.read(), _subtype=subtype)
+                    fp.close()
+                elif maintype == 'audio':
+                    fp = open(filename, 'rb')
+                    mimefile = MIMEAudio(fp.read(), _subtype=subtype)
+                    fp.close()
+                elif maintype == 'application':
+                    fp = open(filename, 'rb')
+                    mimefile = MIMEApplication(fp.read(), _subtype=subtype)
+                    fp.close()
+                else:
+                    fp = open(filename, 'rb')
+                    mimefile = MIMEBase(maintype, subtype)
+                    mimefile.set_payload(fp.read())
+                    fp.close()
+                    encoders.encode_base64(mimefile)
+            
+                mimefile.add_header('Content-Disposition', 'attachment', filename=os.path.basename(filename))
+                msg.attach(mimefile)
+            except Exception as detail:
+                print detail
 
         ############# Send mail #############
         try:
@@ -142,13 +156,12 @@ class SMTPClient:
             return False
         return True
 
-
-def sendMail(account, host, port, connection, username, password, subject, message, message_html, to_mails, cc_mails, bcc_mails, attachments):
+def sendMail(account, host, port, connection, username, password, subject, message, message_html, to_mails, cc_mails, bcc_mails, attachments, url_attachments):
     ok = True
     smtp = SMTPClient(host, port, connection, username, password)
     ok = smtp.login()
     if ok:
-        ok = smtp.sendMail(subject, message, message_html, account, to_mails, cc_mails, bcc_mails, attachments)
+        ok = smtp.sendMail(subject, message, message_html, account, to_mails, cc_mails, bcc_mails, attachments, url_attachments)
     smtp.logout()
     
     if ok:

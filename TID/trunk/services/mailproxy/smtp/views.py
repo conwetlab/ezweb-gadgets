@@ -12,6 +12,9 @@ class SendMail(Resource):
         if request.POST.has_key('config') and request.POST.has_key('destination'):
             config = simplejson.loads(request.POST['config'])
             destination = simplejson.loads(request.POST['destination'])
+            url_attachments = []
+            if request.POST.has_key('url_attachments'):
+                url_attachments = simplejson.loads(request.POST['url_attachments'])
             attachments = createFiles(request.FILES)
             if (config.__class__ == {}.__class__) and (destination.__class__ == {}.__class__) and config.has_key("name") and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password") and destination.has_key("subject") and (destination.has_key("message") or destination.has_key("message_html")) and (destination.has_key("to") or destination.has_key("cc") or destination.has_key("bcc")):
             
@@ -43,7 +46,7 @@ class SendMail(Resource):
                 if destination.has_key("message_html"):
                     message_html = destination["message_html"].encode("utf8")
 
-                sended = sendMail(config["name"].encode("utf8") + " <" + config["account"].encode("utf8") + ">", config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), destination["subject"].encode("utf8"), message, message_html, to_mails, cc_mails, bcc_mails, attachments)
+                sended = sendMail(config["name"].encode("utf8") + " <" + config["account"].encode("utf8") + ">", config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), destination["subject"].encode("utf8"), message, message_html, to_mails, cc_mails, bcc_mails, attachments, url_attachments)
                 http_error = 200
                 if (sended.__class__ == {}.__class__) and sended.has_key("error"):
                     http_error = commons.error.getHTTPError(sended["error"])

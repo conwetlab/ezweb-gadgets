@@ -6,6 +6,7 @@ import quopri
 import commons.error
 from protocols.imap_utils.encoding import *
 from protocols.imap_utils.parser import *
+from protocols.smtp_utils.utils import *
 
 class IMAP4Client:
 
@@ -156,7 +157,7 @@ class IMAP4Client:
                 self.response.append(msg)
         
         # Ordenar la lista si esta en sentido inverso
-        # TODO Introducir algoritmo de ordenacion
+        # TODO Introducir algoritmo de ordenacion, es un poco cutre
         response_size = len(self.response)
         if (response_size > 1) and (self.response[0].has_key("date_in_millis")) and (self.response[response_size-1].has_key("date_in_millis")):
             if self.response[0]["date_in_millis"] < self.response[response_size-1]["date_in_millis"]:
@@ -187,9 +188,9 @@ class IMAP4Client:
         if (fetch_response[0] != "OK"):
             self.error = commons.error.IMAP_FETCH
             return False
-
+            
         msg = parseMail(fetch_response[1][0])
-
+        
         # Marcar el correo como leido
         msg["flags_updated"] = False
         if not msg["flags"].__contains__("\\Seen"):
@@ -197,7 +198,13 @@ class IMAP4Client:
             if (store_response[0] == "OK"):
                 msg["flags_updated"] = True
         
+        #Send files
+        for file in msg["files"]:
+            self.getFile(foldername, uid, file["filename"])
+            uploadFiles("http://ezweb.tid.es/webdav/public/attachments/", [(self.response[0]["filename"], self.response[0]["data"])])           
+            self.response = []       
         self.response.append(msg)
+        
         return True
             
     def getFile(self, foldername, uid, filename):
