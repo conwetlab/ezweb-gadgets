@@ -6,7 +6,7 @@
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
-var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/';
+var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/';
 
 var translator = null;
 

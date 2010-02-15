@@ -4,13 +4,13 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>3.1.1</Version>
+    <Version>3.2</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget provides an engaging visual way to see and send messages into Twitter system.</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/twitter_logo_s.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/twitteriPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/twitter_logo_s.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/twitteriPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Twitter</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -43,7 +43,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/twitter.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/twitter.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="5" height="13"/>
