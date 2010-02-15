@@ -24,13 +24,13 @@
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>CTIC</Vendor>
-    <Name>Map</Name>
-    <Version>0.4</Version>
+    <Name>Mapa</Name>
+    <Version>0.5</Version>
     <Author>Carlos Tejo, Sergio Fernández</Author>
     <Mail>carlos.tejo@fundacionctic.org, sergio.fernandez@fundacionctic.org</Mail>
     <Description>Gadget Map</Description>
     <ImageURI>http://idi.fundacionctic.org/ezweb/gadgets/map/icons/map.png</ImageURI>
-    <WikiURI>http://idi.fundacionctic.org/ezweb/gadgets/map/doc/map-0.4.html</WikiURI>
+    <WikiURI>http://idi.fundacionctic.org/ezweb/gadgets/map/doc/map-0.5.html</WikiURI>
   </Catalog.ResourceDescription>
 
   <!-- EzWeb Gadgets Tags -->
@@ -55,7 +55,7 @@
   </Platform.Wiring>
 
   <Platform.Link>
-    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/map/map-0.4.html"/>
+    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/map/map-0.5.html"/>
   </Platform.Link>
 
   <Platform.Rendering width="9" height="25"/>
