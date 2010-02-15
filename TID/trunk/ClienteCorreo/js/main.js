@@ -1012,7 +1012,6 @@ ClienteCorreo.prototype._getMails = function(transport, search) {
 		    EzWebExt.addEventListener(row, "click", EzWebExt.bind(function(){
 			    EzWebExt.removeClassName(this.row, "bold");
 			    this.self.hasAttachmentsEvent.set(this.mail["attachment"]);
-			    this.self.webdavDirEvent.set(this.self.webdavDirectory);
 			    this.self.getMail(account.getSelectedMailboxName(), this.mail["uid"]);
 		    }, context), false);
 		
@@ -1998,6 +1997,11 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    if (mail["flags_updated"]) {
 	        this.getFolderInfo(response["mailbox"]);
 	    }
+	    var hasAttachments = ("files" in mail) && (mail["files"].length > 0);
+	    this.hasAttachmentsEvent.set(hasAttachments);
+        if (hasAttachments) {
+            this.webdavDirEvent.set(this.webdavDirectory);
+        }
 	}
 	else {
 	    this.enableGeneralUID();

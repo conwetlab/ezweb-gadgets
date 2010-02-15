@@ -47,7 +47,7 @@
 		<Event name="dateEvent" type="text" label="date" friendcode="date"/>
 		<Event name="sizeEvent" type="text" label="size" friendcode="size"/>
 		<Event name="hasAttachmentsEvent" type="text" label="hasAttachments" friendcode="hasAttachments"/>
-		<Event name="webdavDirectoryEvent" type="text" label="directory" friendcode="directory"/>
+		<Event name="webdavDirectoryEvent" type="text" label="webdavDirectory" friendcode="directory"/>
 	</Platform.Wiring>
 
 	<Platform.Link>
