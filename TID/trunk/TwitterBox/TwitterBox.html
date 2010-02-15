@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<base href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox//TwitterBox_1.00/"/>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.00/"/>
 <link id="css_style" href="css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Twitter Box</title>
@@ -28,13 +28,15 @@ var additionoftext = EzWebAPI.createRGadgetVariable("additionoftext", changeAddi
 var clear = null;
 
 //keyword to Send 
-var postedText = EzWebAPI.createRWGadgetVariable("postedText");
-var addedText = EzWebAPI.createRWGadgetVariable("addedText");
+var button1Text = EzWebAPI.createRWGadgetVariable("button1Text");
+var button2Text = EzWebAPI.createRWGadgetVariable("button2Text");
+
 
 //Input Text
 var addtext = EzWebAPI.createRGadgetVariable("addText", addText);
-var addtextthenpost = EzWebAPI.createRGadgetVariable("addTextThenPost", addTextThenPost);
-var addtextthenadd = EzWebAPI.createRGadgetVariable("addTextThenAdd", addTextThenAdd);
+var addtextthenbutton1 = EzWebAPI.createRGadgetVariable("addTextThenButton1", addTextThenButton1);
+var addtextthenbutton2 = EzWebAPI.createRGadgetVariable("addTextThenButton2", addTextThenButton2);
+
 
 //Functions
 function changeBoxText(value){
@@ -105,19 +107,19 @@ function addText(value) {
 	}
 }
 
-function addTextThenPost(value) {
+function addTextThenButton2(value) {
 	addText(value);
 	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
 	{
-		sendPostedText();
+		sendButton2Text();
 	}
 }
 
-function addTextThenAdd(value){
+function addTextThenButton1(value){
   addText(value);
 	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
 	{
-		sendAddedText();
+		sendButton1Text();
 	}
 
 }
@@ -135,18 +137,18 @@ function changeAdditionOfText(value) {
 	additionoftext = value;
 }
 
-function sendPostedText(){
+function sendButton2Text(){
 	var val = document.KeywordCreationForm.elements['keyword'].value;
 	if (val && val !="")
-		postedText.set(val);
+		button2Text.set(val);
 	if (clear == 'Yes')
 		document.KeywordCreationForm.elements['keyword'].value = "";
 }
 
-function sendAddedText(){
+function sendButton1Text(){
 	var val = document.KeywordCreationForm.elements['keyword'].value;
 	if (val && val !="")
-		addedText.set(val);
+		button1Text.set(val);
 	if (clear == 'Yes')
 		document.KeywordCreationForm.elements['keyword'].value = "";
 }
@@ -173,11 +175,11 @@ function init() {
     <input name="keyword" type="text" id="text" class="text" onchange="textChanged();">
   </td>
   <td class="button_td" style="width:15%;">
-    <input id="button1" name="create" value="search" onclick="textHasChanged = false; sendAddedText(this.form)" type="button">
+    <input id="button1" name="create" value="search" onclick="textHasChanged = false; sendButton1Text(this.form)" type="button">
 
   </td>
   <td class="button_td" style="width:15%;">  
-    <input id="button2" name="create" value="search" onclick="textHasChanged = false; sendPostedText(this.form)" type="button">    
+    <input id="button2" name="create" value="search" onclick="textHasChanged = false; sendButton2Text(this.form)" type="button">    
   </td>
 </tr>
 </tbody>

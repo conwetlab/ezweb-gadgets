@@ -50,14 +50,14 @@
 	</Platform.StateProperties>
 	<!-- EzWeb Gadget Data Wiring -->
 	<Platform.Wiring>
-    <Event name="addedText" type="text" label="Added text" friendcode="keyword"/>
-		<Event name="postedText" type="text" label="Posted text" friendcode="keyword"/>
+    <Event name="button1Text" type="text" label="Button1 posted text" friendcode="keyword"/>
+		<Event name="button2Text" type="text" label="Button2 posted text" friendcode="keyword"/>
 		<Slot name="addText" type="text" label="Add text" friendcode="keyword"/>
-		<Slot name="addTextThenAdd" type="text" label="Add text then add" friendcode="keyword"/>		
-  	<Slot name="addTextThenPost" type="text" label="Add text then post" friendcode="keyword"/>
+		<Slot name="addTextThenButton1" type="text" label="Add text then button 1 post" friendcode="keyword"/>		
+  	<Slot name="addTextThenButton2" type="text" label="Add text then button 2 post" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.00/TwitterBox.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.00/TwitterBox.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="7" height="5"/>
 </Template>
