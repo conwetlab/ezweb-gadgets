@@ -70,6 +70,7 @@ var languages = {
         "The max size for attachment files is": "El tamañano máximo para los ficheros adjuntos es",
         "Delete": "Borrar",
         "Send events": "Enviar eventos",
+        "Send all attachment files to Webdav service": "Enviar todos los ficheros adjuntos al servicio Webdav",
         "Name": "Nombre",
         "inbox": "Bandeja de entrada",
         "trash": "Papelera",

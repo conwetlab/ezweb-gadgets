@@ -1347,10 +1347,33 @@ ClienteCorreo.prototype.getMail = function(mailbox, uid) {
 			),
 			Utils.urlParams({
 			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+				mailbox: mailbox
+			}),
+			this.onSuccessGetMail,
+			this.onError,
+			this.onException
+		);
+	}
+	} catch(e){}
+}
+
+ClienteCorreo.prototype.sendFilesToWebdav = function(mailbox, uid) {
+	try {
+	if (AccountsManager.isConfigured()) {
+		this.disableGeneralUID();
+		this.sendPost(
+			Utils.urlJoin(
+			    this.mailproxyURL, 
+			    "imap/mailbox/messages/uid/", 
+			    uid,
+			    "files_to_webdav"
+			),
+			Utils.urlParams({
+			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
 				mailbox: mailbox,
 				webdav: Utils.urlJoin(this.webdavURL, this.webdavDirectory)
 			}),
-			this.onSuccessGetMail,
+			EzWebExt.bind(this.enableGeneralUID, this),
 			this.onError,
 			this.onException
 		);
@@ -1765,7 +1788,17 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    }, this));
 	
 	    forward_button.insertInto(row);
-
+	    
+	    var hasAttachments = ("files" in mail) && (mail["files"].length > 0);
+	    
+	    if (hasAttachments) {
+	        var send_attach_button = new HeaderButton(this.getResourceURL("images/send-attach.png"), this.getResourceURL("images/send-attach-disabled.png"), _("Send all attachment files to Webdav service"), EzWebExt.bind(function() { 
+		        this.sendFilesToWebdav(response["mailbox"], response["uid"]);
+	        }, this));
+	
+	        send_attach_button.insertInto(row);
+        }
+        
 	    headerrow.appendChild(row);
 	
 	    var row_date = document.createElement("div");
@@ -2005,7 +2038,7 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    if (mail["flags_updated"]) {
 	        this.getFolderInfo(response["mailbox"]);
 	    }
-	    var hasAttachments = ("files" in mail) && (mail["files"].length > 0);
+
 	    this.hasAttachmentsEvent.set(hasAttachments);
         if (hasAttachments) {
             this.webdavDirEvent.set(this.webdavDirectory);
