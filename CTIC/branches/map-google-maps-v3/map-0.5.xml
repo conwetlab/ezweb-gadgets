@@ -55,7 +55,7 @@
   </Platform.Wiring>
 
   <Platform.Link>
-    <XHTML href="http://wopr.fundacionctic.org/eZaragoza/gadgets/map/map-0.5.html"/>
+    <XHTML href="http://idi.fundacionctic.org/ezweb/gadgets/map/map-0.5.html"/>
   </Platform.Link>
 
   <Platform.Rendering width="9" height="25"/>
