@@ -62,8 +62,11 @@ class Mail(Resource):
         if request.POST.has_key('config') and request.POST.has_key('mailbox'):
             config = simplejson.loads(request.POST['config'])
             folder = request.POST['mailbox']
+            webdav = ""
+            if request.POST.has_key('webdav'):
+                webdav = request.POST['webdav']
             if (config.__class__ == {}.__class__) and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password"):
-                mail = getMail(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), folder.encode("utf8"), uid.encode("utf8"))
+                mail = getMail(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), folder.encode("utf8"), uid.encode("utf8"), webdav)
                 http_error = 200
                 if (mail.__class__ == {}.__class__) and mail.has_key("error"):
                     http_error = commons.error.getHTTPError(mail["error"])

@@ -62,7 +62,7 @@ def queryPUT(url, body=None,  headers={}, files=[]):
         for filename, content in files:
             body, header = encode_multipart_data(filename, content)
             headers = merge(headers,header)
-            conn.request("PUT", request.path + filename, body, headers)
+            conn.request("PUT", request.path + "/" +urllib.pathname2url(filename), body, headers)
             response = conn.getresponse()
             if (response.status >= 300):
                 raise Exception("Error: %s, Problem when it was uploading: %s" % (response.status, filename))
@@ -84,7 +84,6 @@ def downloadFile(url, path):
     
 def uploadFiles(url, files):
     try:
-        print files
         response = queryPUT(url, None, {}, files)
         return response
     except:

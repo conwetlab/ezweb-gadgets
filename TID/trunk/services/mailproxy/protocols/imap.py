@@ -164,7 +164,7 @@ class IMAP4Client:
                 self.response.reverse()
         return True
 
-    def getMail(self, foldername, uid):
+    def getMail(self, foldername, uid, webdav):
 
         self.response = []
         select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
@@ -199,12 +199,13 @@ class IMAP4Client:
                 msg["flags_updated"] = True
         
         #Send files
-        for file in msg["files"]:
-            self.getFile(foldername, uid, file["filename"])
-            uploadFiles("http://ezweb.tid.es/webdav/public/attachments/", [(self.response[0]["filename"], self.response[0]["data"])])           
-            self.response = []       
-        self.response.append(msg)
+        if webdav != "":
+            for file in msg["files"]:
+                self.getFile(foldername, uid, file["filename"])
+                uploadFiles(webdav, [(self.response[0]["filename"], self.response[0]["data"])])           
+                self.response = []       
         
+        self.response.append(msg)
         return True
             
     def getFile(self, foldername, uid, filename):
@@ -320,12 +321,12 @@ def getSearchMailList(account, host, port, connection, username, password, folde
         error = commons.error.getErrorInfo(imap.error)
         return {"error":error["error"], "message":error["message"], "account": account, "mailbox": foldername}
 
-def getMail(account, host, port, connection, username, password, foldername, uid):
+def getMail(account, host, port, connection, username, password, foldername, uid, webdav):
     ok = True
     imap = IMAP4Client(host, port, connection, username, password)
     ok = imap.login()
     if ok:
-        ok = imap.getMail(foldername, uid)
+        ok = imap.getMail(foldername, uid, webdav)
     imap.logout()
     
     if ok:
