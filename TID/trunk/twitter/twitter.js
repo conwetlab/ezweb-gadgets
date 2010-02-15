@@ -6,7 +6,7 @@
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
-var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/';
+var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/';
 
 var translator = null;
 
@@ -246,7 +246,6 @@ function show_messages (resp) {
 	
 	var header_text = document.createElement("h3");
 	header_text.innerHTML = translator.getLabel('doing');
-	//header_text.appendChild(document.createTextNode(translator.getLabel('doing')));
 	content.appendChild(header_text);
 	
 	var textarea_cont = document.createElement("div");
@@ -266,27 +265,27 @@ function show_messages (resp) {
 	}
 	textarea_cont.appendChild(msg_textarea);
 	
-	var bottom_cont = document.createElement("div");
-	bottom_cont.className = 'bottom_cont';
-	content.appendChild(bottom_cont);
+	var button_cont = document.createElement("div");
+	button_cont.className = 'button_cont';
+	content.appendChild(button_cont);
 	
 	// Only for IE
 	var setMouseEvents = function (elto) {
 		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ 
 			Event.observe(elto, "mouseover",
-		  	function (ev) {
+				function (ev) {
 					Event.stop(ev);
 					ev.srcElement.className = 'button hover';
-   			}
-  		);	
-  		Event.observe(elto, "mouseout",
-	  		function (ev) {
+				}
+			);	
+			Event.observe(elto, "mouseout",
+				function (ev) {
 					Event.stop(ev);
 					ev.srcElement.className = 'button';
-   			}
-  		);	
-  	}
-  };
+				}
+			);	
+		}
+	};
 	
 	var clear_button = document.createElement("input");
 	clear_button.className = 'button';
@@ -294,7 +293,7 @@ function show_messages (resp) {
 	clear_button.onclick = clear_message;
 	clear_button.value = translator.getLabel('clear');
 	setMouseEvents (clear_button);
-	bottom_cont.appendChild(clear_button);
+	button_cont.appendChild(clear_button);
 	
 	var update_button = document.createElement("input");
 	update_button.className = 'disabled_button';
@@ -304,7 +303,7 @@ function show_messages (resp) {
 	update_button.value = translator.getLabel('update');
 	update_button.onclick = update_edited_message;
 	setMouseEvents (update_button);
-	bottom_cont.appendChild(update_button);
+	button_cont.appendChild(update_button);
 	
 	var messages_container = document.createElement("div");
 	messages_container.id = 'message_container';
@@ -313,7 +312,7 @@ function show_messages (resp) {
 	print_messages (messages_container);
 	
 	var footer_cont = document.createElement("div");
-	footer_cont.className = 'bottom_cont';
+	footer_cont.className = 'button_cont bottom';
 	content.appendChild(footer_cont);	
 
 	max_page = (all_messages.length - (all_messages.length % limit.get()))  / limit.get()
@@ -357,7 +356,6 @@ function print_messages (container){
 		var message_element = get_message_element(all_messages[i], true);
 		if (i == (current_page - 1) * limit.get()){
 			message_element.style.borderTop = "1px dashed #D2DADA";
-			message_element.style.marginTop = "15px";
 		}
 		container.appendChild(message_element);
 	}
@@ -376,7 +374,7 @@ function get_message_element (message_object, with_avatar) {
 	var context = {msg: current_msg};
 	
 	var sender_img = document.createElement("img");
-  sender_bottom.appendChild(sender_img);
+	sender_bottom.appendChild(sender_img);
 	sender_img.src = urlimage + 'description.png';
 	Event.observe(sender_img, "click",
 	  function (ev) {
@@ -390,10 +388,10 @@ function get_message_element (message_object, with_avatar) {
 		
 	if (with_avatar){
 		var avatar = document.createElement("img");
-  	avatar_cont.appendChild(avatar);
-  	avatar.className = 'avatar';
-  	avatar.src = message_object.user.profile_image_url;
-  }
+		avatar_cont.appendChild(avatar);
+		avatar.className = 'avatar';
+		avatar.src = message_object.user.profile_image_url;
+	}
 			
 	var text_container = document.createElement("div");
 	message_content.appendChild(text_container);
@@ -427,7 +425,8 @@ function get_message_element (message_object, with_avatar) {
 	var msg_cont = document.createElement("span");
 	text_container.appendChild(msg_cont);
 	
-	msg_cont.innerHTML = replace_links (current_msg) + ' ';
+	// Show chars or html entities -> chars
+	msg_cont.innerHTML = replace_links (replace_html_entities(current_msg)) + ' ';
 	if (message_object.truncated){
 		var truncated_link = document.createElement("a");			
 		truncated_link.target = '_blank';
@@ -443,8 +442,13 @@ function get_message_element (message_object, with_avatar) {
 /////////////////////
 
 function clear_message (){
-	document.getElementById('status').value = '';
-	check_message();
+	var st = document.getElementById('status');
+	if (!st){
+		init_msg = '';
+	} else {
+		st.value = '';
+		check_message();
+	}
 }
 
 // CLEAR THE MESSAGE
@@ -452,6 +456,9 @@ function clear_message (){
 
 function check_message () {
 	var status_input = document.getElementById('status');
+	if (!status_input){
+		return;
+	}
 	if (status_input.value.length > 140){
 		notification.sign(translator.getLabel('long_message_error'), 'long_message');
 	} else {
@@ -491,85 +498,98 @@ function toggle_update_button_state (){
 
 // Event from the platform (input-to-message)
 function arrived_message_handler (message) {
-	if (incoming_events.get() == 'discarded'){
+	var nmessage = '';
+	var input_elto = document.getElementById('status');
+	
+	// Checks where is the user ("me" tab?)
+	if (!input_elto) {
+		nmessage = init_msg;
+	} else {
+		nmessage = input_elto.value;
+	}
+	
+	// Incoming events while draft is under edition
+	if ((incoming_events.get() == 'discarded') && (nmessage != '')){
 		return;	
 	}
 	
-	try	{
+	switch (draft_is.get()) {
 
-		var input_elto = document.getElementById('status');
-		
-		switch (draft_is.get()) {
-
-		case 'prefixed':
-			if (input_elto.value == ''){
-				input_elto.value = message;
-			} else {
-				input_elto.value = input_elto.value + ' ' + message;
-			}
-			break;
-
-		case 'concatenated':
-			if (input_elto.value == ''){
-				input_elto.value = message;
-			} else {
-				input_elto.value = message + ' ' + input_elto.value;
-			}
-			break;
-			
-		default:
-			input_elto.value = message;
-			break;
+	case 'prefixed':
+		if (nmessage == ''){
+			nmessage = message;
+		} else {
+			nmessage = nmessage + ' ' + message;
 		}
+		break;
 
-		// Checks the message
-		check_message();
-
-	} catch(err) {
-		init_msg = message;
+	case 'concatenated':
+		if (nmessage == ''){
+			nmessage = message;
+		} else {
+			nmessage = message + ' ' + nmessage;
+		}
+		break;
+			
+	default:
+		nmessage = message;
+		break;
 	}
+	
+	// Writes the message
+	if (!input_elto) {
+		init_msg = nmessage;
+	} else {
+		input_elto.value = nmessage;
+	}
+
+	// Checks the message
+	check_message();
 }
 
 // Event from the platform (auto-message)
 function arrived_automessage_handler (message) {
-	if (incoming_events.get() == 'discarded'){
+	var nmessage = '';
+	var input_elto = document.getElementById('status');
+	
+	// Checks where is the user ("me" tab?)
+	if (!input_elto) {
+		nmessage = init_msg;
+	} else {
+		nmessage = input_elto.value;
+	}
+
+	// Incoming events while draft is under edition
+	if ((incoming_events.get() == 'discarded') && (nmessage != '')){
 		return;	
 	}
 	
-	try	{
+	switch (draft_is.get()) {
 
-		var input_elto = document.getElementById('status');
-		if (input_elto.value == ''){
-			return;
-		}
-		
-		var nmessage = '';
-		
-		switch (draft_is.get()) {
-
-		case 'prefixed':
-			if (input_elto.value == '')
-				nmessage = message;
-			else
-				nmessage = input_elto.value + ' ' + message;
-			break;
-
-		case 'concatenated':
-			if (input_elto.value == '')
-				nmessage = message;
-			else
-				nmessage = message + ' ' + input_elto.value;
-			break;
-			
-		default:
+	case 'prefixed':
+		if (nmessage == '')
 			nmessage = message;
-			break;
-		}
-		
-		input_elto.value = nmessage;
-		post_message(nmessage);
+		else
+			nmessage = nmessage + ' ' + message;
+		break;
 
-	} catch(err) {}
+	case 'concatenated':
+		if (nmessage == '')
+			nmessage = message;
+		else
+			nmessage = message + ' ' + nmessage;
+		break;
+			
+	default:
+		nmessage = message;
+		break;
+	}
+	
+	if (input_elto) {	
+		input_elto.value = nmessage;
+	}
+	post_message(nmessage);
+
 }
 
 // The "update" button has been pressed
@@ -606,9 +626,6 @@ function success_update (resp) {
 	posted_msg.set(replace_html_entities( aux_posted_msg ));
 	aux_posted_msg = '';
 	
-	var msgs_cont = document.getElementById('message_container');        
-	msgs_cont.innerHTML = '';
-
 	current_page = 1;
 	
 	for (var j = all_messages.length; j != 0 ; j--){
@@ -617,13 +634,16 @@ function success_update (resp) {
 	
 	all_messages[0] = current_message;
 	
-	print_messages(msgs_cont);
-	
+	var msgs_cont = document.getElementById('message_container');        
+	if (msgs_cont){
+		msgs_cont.innerHTML = '';
+		print_messages(msgs_cont);	
+	}
 }
 
 function error_update (resp) {
 	aux_posted_msg = '';
-	show_notification(translator.getLabel('send_error'));
+	notification.error(translator.getLabel('send_error'));
 }
 
 
@@ -689,15 +709,24 @@ function newer_pag (){
 // GETS THE FRIEND/FOLLOWER MESSAGES
 /////////////////////////////////////
 
-function get_friend_messages (event) {
+function get_friend_messages (ev) {
 	
-	if (current_friend.id == event.target.parentNode.parentNode.id){
-		remove_friend_messages();
-		current_friend = '';
-		return;
+	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ // MSIE
+		if ((current_friend != '') && (current_friend.id == ev.srcElement.parentNode.parentNode.id)){
+			remove_friend_messages();
+			current_friend = '';
+			return;
+		}
+		current_friend = ev.srcElement.parentNode.parentNode;
+	} else { 											// Firefox and others
+		if ((current_friend != '') && (current_friend.id == ev.target.parentNode.parentNode.id)){
+			remove_friend_messages();
+			current_friend = '';
+			return;
+		}
+		current_friend = ev.target.parentNode.parentNode;
 	}
 	
-	current_friend = event.target.parentNode.parentNode;
 	var friend_name = current_friend.id.split('_')[1];
 	twitter.statuses.user_timeline(friend_name, show_friend_messages, show_http_error);
 }
@@ -778,9 +807,9 @@ function show_friends_info (resp) {
 		avatar_cont.className = 'avatar';
 			
 		var avatar = document.createElement("img");
-    avatar_cont.appendChild(avatar);
-    avatar.className = 'avatar';
-    avatar.src = objRes[i].profile_image_url;
+		avatar_cont.appendChild(avatar);
+		avatar.className = 'avatar';
+		avatar.src = objRes[i].profile_image_url;
 			
 		var text_container = document.createElement("div");
 		user_content.appendChild(text_container);
@@ -789,7 +818,7 @@ function show_friends_info (resp) {
 		var name_cont = document.createElement("a");
 		text_container.appendChild(name_cont);
 		name_cont.className = 'friend';
-		name_cont.onclick = get_friend_messages;
+		Event.observe(name_cont, "click", get_friend_messages);
 		name_cont.href = "javascript:void(0)";
 		name_cont.appendChild(document.createTextNode (objRes[i].screen_name));
 			
@@ -840,11 +869,16 @@ function select_tab (next_tab, isUpdate_) {
 // RESIZE THE INTERFACE
 ////////////////////////
 
-function resize_height (){
+function resize_height (ev){
 	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ 
 		// IE
 		document.getElementById('container').style.height = window.frameElement.getHeight() - 34 + "px";
 		document.getElementById('container').style.width  = window.frameElement.getWidth()  - 10 + "px";
+	} else if (/Chrome/.test(navigator.userAgent) && /Google/.test(navigator.vendor)){ 
+		// Chrome (if the "container" size is modified, an infinite loop will be caused
+		if (ev){
+			Event.stop(ev);
+		}
 	} else {
 		// Firefox and others	
 		var round = 20;
@@ -861,21 +895,28 @@ function resize_height (){
 // LOAD/UNLOAD HANDLERS
 ////////////////////////
 
-onunload = function (){
+function disconnect (){
+	
+	if ((authorization == '') && (document.getElementById('log_out').style.display == 'none')){
+		return;
+	}
 	
 	if (temp_id != null){
 		clearInterval(temp_id);
 	}
 		
 	sign_out();
+
 }
 
 function init (){
+
 	notification = notificationFrame();
 	resize_height(); 
 	if (sign_in()) {
 		select_tab(document.getElementById('me_tab'));
 	}
+	
 }
 
 
@@ -931,7 +972,10 @@ function notificationFrame () {
 		this.level = '';
 		this.code = '';
 		this.style.display = 'none';
-		document.getElementById('not_message').innerHTML = '';
+		var nm = document.getElementById('not_message');
+		if (nm){
+			nm.innerHTML = '';
+		}
 		resize_height();
 	};
 

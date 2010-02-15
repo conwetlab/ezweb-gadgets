@@ -106,11 +106,11 @@ var sc = {
 	253: 	'&yacute;', 	
 	254: 	'&thorn;', 	
 	255: 	'&yuml;',
- 8216:  '&lsquo;',
- 8217: 	'&rsquo;',
- 8220: 	'&ldquo;',
- 8221: 	'&rdquo;',
- 8764:  '&sim;'
+	8216:  	'&lsquo;',
+	8217: 	'&rsquo;',
+	8220: 	'&ldquo;',
+	8221: 	'&rdquo;',
+	8764:  	'&sim;'
 };
 
 // Replaces one special char with its HTML entities
@@ -151,50 +151,37 @@ function replace_html_entities (msg){
 
 // Replaces all links with <a> tag
 function replace_links (msg){
-	var n_urls = new EzWebAPI.platform.Array();
-	
-	// Search for www. in the message
-	var iter = msg.match (/www./g);
-	if (iter == null) iter = 0;
+	// Search urls in the message (with http(s)://)
+	var httpPattern = /http(s)?:\/\/\w+[\w#:.?=&%@\+\-\/]+/g
+	var iter = msg.match (httpPattern);
+	iter = (iter == null) ? 0 : iter.uniq();
 	for (var i = 0; i < iter.length ; i++){		
-		
-		var n_msg = msg.substring(msg.indexOf('www.'));
-		var lchar = n_msg.indexOf(' ');
-		if (lchar == -1){
-			lchar = n_msg.length;
-		}
-		
-		var n_url = n_msg.substring(0, lchar);
-		if (msg.match('http://' + n_url) == null){
-			n_urls.push(n_url);
-		}
+		msg = msg.replace (new RegExp (iter[i], 'g'), '<a target="_blank" rel="nofollow" href="' + iter[i] + '">' + iter[i] + '</a>');
 	}
-	
-	// Search for http:// in the message
-	iter = msg.match (/http:\/\//g);
-	if (iter == null) iter = 0;
+		
+	// Search others urls in the message (with www.)
+	var n_msg = '', fidx = 0, lidx = 0;
+	var wwwPattern = /www.\w+[\w#:.?=&%@\+\-\/]+/g
+	iter = msg.match (wwwPattern);
+	iter = (iter == null) ? 0 : iter;
 	for (var i = 0; i < iter.length ; i++){		
-		
-		var n_msg = msg.substring(msg.indexOf('http://'));
-		var lchar = n_msg.indexOf(' ');
-		if (lchar == -1){
-			lchar = n_msg.length;
+		lidx = msg.indexOf(iter[i], fidx);
+		if (lidx > fidx){
+			n_msg += msg.substring(fidx, lidx);
 		}
+		if (((lidx-fidx >= 7) && (msg.substring(lidx-7,lidx) == "http://" ))  ||
+			((lidx-fidx >= 8) && (msg.substring(lidx-8,lidx) == "https://"))) {
+			n_msg += iter[i];
+		} else {
+			n_msg += '<a target="_blank" rel="nofollow" href="' + iter[i] + '">' + iter[i] + '</a>';
+		}
+		fidx = lidx + iter[i].length;
 		
-		var n_url = n_msg.substring(0, lchar);
-		n_urls.push(n_url);
+	}
+	// Add the last characteres of the message
+	if (msg.length > fidx){
+		n_msg += msg.substring(fidx);
 	}
 	
-	n_urls.uniq();
-	
-	// Replaces links
-	for (var i = 0; i < n_urls.length ; i++){		
-		var url_href = n_urls[i];
-		if (n_urls[i].indexOf ('http://') != 0){
-			url_href = 'http://' + n_urls[i];
-		}
-		msg = msg.replace (new RegExp (n_urls[i]), '<a target="_blank" rel="nofollow" href="' + url_href + '">' + n_urls[i] + '</a>');
-	}
-	
-	return msg;
+	return n_msg;
 }

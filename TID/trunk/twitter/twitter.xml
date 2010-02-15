@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Template schemaLocation="http://morfeo-project.org/2007/Template">
   <!-- Meta tags define gadgets properties -->
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>3.1</Version>
+    <Version>3.1.1</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
@@ -43,10 +43,10 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/twitter.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/twitter.html"/>
   </Platform.Link>
   
-  <Platform.Rendering width="5" height="12"/>
+  <Platform.Rendering width="5" height="13"/>
   
   <Platform.Context>
 	<Context name="language" type="text" concept="language"/>

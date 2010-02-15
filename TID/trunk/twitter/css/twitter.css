@@ -1,5 +1,5 @@
 body {
-	background: #9AE4E8 url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/bg.gif) repeat fixed left top;
+	background: #9AE4E8 url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/bg.gif) repeat fixed left top;
 	font-family:'Lucida Grande',sans-serif;
 	margin: 5px;
 }
@@ -73,14 +73,18 @@ h3 {
 	min-height: 100px;
 }
 
-.bottom_cont {
+.button_cont {
 	text-align: right;
 	width: 100%;
 	margin: 5px 0px;
 }
 
+.button_cont.bottom {
+	padding-bottom: 5px;
+}
+
 .disabled_button{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
 	width: 75px;
 	border: 1px solid #CECECE;
@@ -92,7 +96,7 @@ h3 {
 }
 
 .button{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/round-btn.gif) repeat scroll 0 0;
 	-moz-border-radius: 5px;
 	width: 75px;
 	border: 1px solid #CECECE;
@@ -104,7 +108,7 @@ h3 {
 }
 
 .button:hover{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1/images/round-btn-hover.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.1.1/images/round-btn-hover.gif) repeat scroll 0 0;
 }
 
 #container .message_container {
@@ -161,12 +165,6 @@ h3 {
 	float: right;
 	top: 5px;
 	cursor: pointer;
-}
-
-#notifications .button_cont {
-	text-align: right;
-	width: 100%;
-	margin-top: 5px;
 }
 
 #link_container {
