@@ -111,29 +111,37 @@ ClienteCorreo.prototype.languageHandler = function(value) {
 }
 
 ClienteCorreo.prototype.sendEmailsSlot = function(value) {
-	this.showAlternative(this.SEND_ALTERNATIVE);
-	var to = "";
-	if (this.form_send["to"].getValue() != "") {
-	    to += (this.form_send["to"].getValue() + ", ");
+    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
+	    //this.showAlternative(this.SEND_ALTERNATIVE);
+	    var to = "";
+	    if (this.form_send["to"].getValue() != "") {
+	        to += (this.form_send["to"].getValue() + ", ");
+	    }
+	    to += value;
+	    this.form_send["to"].setValue(to);
 	}
-	to += value;
-	this.form_send["to"].setValue(to);
 }
 
 ClienteCorreo.prototype.sendTextSlot = function(value) {
-	this.showAlternative(this.SEND_ALTERNATIVE);
-	tinyMCE.get(this.form_send["message"]).setContent(value);
+    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
+	    //this.showAlternative(this.SEND_ALTERNATIVE);
+	    tinyMCE.get(this.form_send["message"]).setContent(value);
+	}
 }
 
 ClienteCorreo.prototype.sendAttachSlot = function(value) {
-	this.showAlternative(this.SEND_ALTERNATIVE);
-	this.showSendDetails();
-	this.form_send["multi_selector"].add(value);
+    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
+	    //this.showAlternative(this.SEND_ALTERNATIVE);
+	    this.showSendDetails();
+	    this.form_send["multi_selector"].add(value);
+	}
 }
 
 ClienteCorreo.prototype.sendSubjectSlot = function(value) {
-	this.showAlternative(this.SEND_ALTERNATIVE);
-	this.form_send["subject"].setValue(value);
+    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
+	    //this.showAlternative(this.SEND_ALTERNATIVE);
+    	this.form_send["subject"].setValue(value);
+    }
 }
 
 /******************** USER INTERFACE METHODS **************************/
