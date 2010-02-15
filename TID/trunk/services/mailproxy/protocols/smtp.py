@@ -143,8 +143,8 @@ class SMTPClient:
             
                 mimefile.add_header('Content-Disposition', 'attachment', filename=os.path.basename(filename))
                 msg.attach(mimefile)
-            except Exception as detail:
-                print detail
+            except Exception:
+                pass
 
         ############# Send mail #############
         try:
