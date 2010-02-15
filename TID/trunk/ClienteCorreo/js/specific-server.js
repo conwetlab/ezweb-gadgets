@@ -203,7 +203,7 @@ AccountsManagerSpecific.prototype.toJSON = function() {
 AccountsManagerSpecific.prototype.restore = function() {
     AccountsManagerBasic.prototype.restore.call(this);
     try {
-        var accounts = eval("(" + ClienteCorreo.accounts.get() + ")");
+        var accounts = eval("(" + ClienteCorreo.accountsProp.get() + ")");
         if (accounts) { 
             if (("defaultInAccount" in accounts) && (accounts.defaultInAccount != null)) {
                 this.setDefaultInAccount(accounts.defaultInAccount);
