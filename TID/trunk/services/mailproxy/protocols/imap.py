@@ -164,7 +164,7 @@ class IMAP4Client:
                 self.response.reverse()
         return True
 
-    def getMail(self, foldername, uid, webdav):
+    def getMail(self, foldername, uid):
 
         self.response = []
         select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
@@ -198,15 +198,56 @@ class IMAP4Client:
             if (store_response[0] == "OK"):
                 msg["flags_updated"] = True
         
-        #Send files
-        if webdav != "":
-            for file in msg["files"]:
-                self.getFile(foldername, uid, file["filename"])
-                uploadFiles(webdav, [(self.response[0]["filename"], self.response[0]["data"])])           
-                self.response = []       
-        
         self.response.append(msg)
         return True
+
+    def sendFilesToWebdav(self, foldername, uid, webdav):
+    
+        if webdav != "":
+            self.getFiles(foldername, uid)
+            
+            files = []
+            for file_ in self.response:
+                files.append((file_["filename"], file_["data"]))
+            
+            if (len(files) > 0):
+                if (uploadFiles(webdav, files) == False):
+                    return False
+                else:
+                    return True
+                
+        return False
+        
+    def getFiles(self, foldername, uid):
+        
+        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
+        if (select_response[0] != "OK"):
+            self.error = commons.error.IMAP_SELECT
+            return False
+
+        search_response = self.imap.search(None, "(UID " + uid + ")")
+        
+        if (search_response[0] != "OK"):
+            self.error = commons.error.IMAP_SEARCH
+            return False
+        elif (search_response[1][0] == ""):
+    	    self.error = commons.error.IMAP_MESSAGE
+            return False
+        
+        message_id = search_response[1][0]
+        
+        fetch_response = self.imap.fetch(message_id, "(RFC822)")
+
+        if (fetch_response[0] != "OK"):
+            self.error = commons.error.IMAP_FETCH
+            return False
+	
+        self.response = parseFiles(fetch_response[1][0])
+        if len(self.response) > 0:
+            return True
+        else:
+            self.error = commons.error.IMAP_FILE
+            return False
             
     def getFile(self, foldername, uid, filename):
         
@@ -321,12 +362,12 @@ def getSearchMailList(account, host, port, connection, username, password, folde
         error = commons.error.getErrorInfo(imap.error)
         return {"error":error["error"], "message":error["message"], "account": account, "mailbox": foldername}
 
-def getMail(account, host, port, connection, username, password, foldername, uid, webdav):
+def getMail(account, host, port, connection, username, password, foldername, uid):
     ok = True
     imap = IMAP4Client(host, port, connection, username, password)
     ok = imap.login()
     if ok:
-        ok = imap.getMail(foldername, uid, webdav)
+        ok = imap.getMail(foldername, uid)
     imap.logout()
     
     if ok:
@@ -334,6 +375,20 @@ def getMail(account, host, port, connection, username, password, foldername, uid
     else:
         error = commons.error.getErrorInfo(imap.error)
         return {"error":error["error"], "message":error["message"], "account": account, "mailbox":foldername, "uid":uid}
+
+def sendFilesToWebdav(account, host, port, connection, username, password, foldername, uid, webdav):
+    ok = True
+    imap = IMAP4Client(host, port, connection, username, password)
+    ok = imap.login()
+    if ok:
+        ok = imap.sendFilesToWebdav(foldername, uid, webdav)
+    imap.logout()
+    
+    if ok:
+        return {"sended": ok, "account": account, "mailbox": foldername, "uid":uid, "webdav": webdav}
+    else:
+        error = commons.error.getErrorInfo(imap.error)
+        return {"error":error["error"], "message":error["message"], "account": account, "mailbox":foldername, "uid":uid, "webdav": webdav}
         
 def getFile(account, host, port, connection, username, password, foldername, uid, filename):
     ok = True

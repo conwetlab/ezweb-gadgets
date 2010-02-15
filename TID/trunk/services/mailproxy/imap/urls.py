@@ -23,6 +23,10 @@ urlpatterns = patterns('imap.views',
     (r'^/mailbox/messages/uid/(?P<uid>[\d]+)[/]?$', 
         Mail(permitted_methods=('POST',))),
     
+    # Get mail
+    (r'^/mailbox/messages/uid/(?P<uid>[\d]+)/files_to_webdav[/]?$', 
+        Webdav(permitted_methods=('POST',))),
+    
     # Get file
     (r'^/mailbox/messages/uid/(?P<uid>[\d]+)/file[/]?$', 
         File(permitted_methods=('POST',))),

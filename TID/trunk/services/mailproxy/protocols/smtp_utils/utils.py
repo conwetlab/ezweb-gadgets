@@ -55,17 +55,17 @@ def queryGET(url, body=None, headers={}):
     
 
 def queryPUT(url, body=None,  headers={}, files=[]):
-    request = urlparse.urlparse(url)
-    conn = httplib.HTTPConnection(request.netloc)
 
     if files:
         for filename, content in files:
             body, header = encode_multipart_data(filename, content)
             headers = merge(headers,header)
+            request = urlparse.urlparse(url)
+            conn = httplib.HTTPConnection(request.netloc)
             conn.request("PUT", request.path + "/" +urllib.pathname2url(filename), body, headers)
             response = conn.getresponse()
             if (response.status >= 300):
-                raise Exception("Error: %s, Problem when it was uploading: %s" % (response.status, filename))
+                return False
     else:
         conn.request("PUT", request.path, body, headers)
         response = conn.getresponse()

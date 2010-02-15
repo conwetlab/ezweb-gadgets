@@ -3,7 +3,7 @@ from django.core import serializers
 from django.utils import simplejson
 from commons.resource import Resource
 from commons.utils import *
-from protocols.imap import getFolderList, getFolderInfo, getMailList, getSearchMailList, getRecentMailList, getMail, getFile, getImage
+from protocols.imap import getFolderList, getFolderInfo, getMailList, getSearchMailList, getRecentMailList, getMail, getFile, getImage, sendFilesToWebdav
 import commons.error
 
 class FolderCollection(Resource):
@@ -63,16 +63,29 @@ class Mail(Resource):
             config = simplejson.loads(request.POST['config'])
             folder = request.POST['mailbox']
             webdav = ""
-            if request.POST.has_key('webdav'):
-                webdav = request.POST['webdav']
             if (config.__class__ == {}.__class__) and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password"):
-                mail = getMail(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), folder.encode("utf8"), uid.encode("utf8"), webdav)
+                mail = getMail(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), folder.encode("utf8"), uid.encode("utf8"))
                 http_error = 200
                 if (mail.__class__ == {}.__class__) and mail.has_key("error"):
                     http_error = commons.error.getHTTPError(mail["error"])
                 return HttpResponse(json_encode(mail), mimetype='application/json; charset=UTF-8', status=http_error)
         return HttpResponse(commons.error.getErrorInfo(commons.error.CONFIG), mimetype='application/json; charset=UTF-8', status=commons.error.getHTTPError(commons.error.CONFIG))
         
+class Webdav(Resource):
+    def create(self, request, uid):
+        if request.POST.has_key('config') and request.POST.has_key('mailbox'):
+            config = simplejson.loads(request.POST['config'])
+            folder = request.POST['mailbox']
+            webdav = ""
+            if request.POST.has_key('webdav'):
+                webdav = request.POST['webdav']
+            if (config.__class__ == {}.__class__) and config.has_key("account") and config.has_key("host") and config.has_key("port") and config.has_key("connection") and config.has_key("username") and config.has_key("password"):
+                response = sendFilesToWebdav(config["account"].encode("utf8"), config["host"].encode("utf8"), int(config["port"]), config["connection"].encode("utf8").upper(), config["username"].encode("utf8"), config["password"].encode("utf8"), folder.encode("utf8"), uid.encode("utf8"), webdav.encode("utf8"))
+                http_error = 200
+                if (response.__class__ == {}.__class__) and response.has_key("error"):
+                    http_error = commons.error.getHTTPError(response["error"])
+                return HttpResponse(json_encode(response), mimetype='application/json; charset=UTF-8', status=http_error)
+        return HttpResponse(commons.error.getErrorInfo(commons.error.CONFIG), mimetype='application/json; charset=UTF-8', status=commons.error.getHTTPError(commons.error.CONFIG))
         
 class File(Resource):
     def create(self, request, uid):

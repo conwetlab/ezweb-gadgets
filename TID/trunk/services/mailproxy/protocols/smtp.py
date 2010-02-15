@@ -105,7 +105,7 @@ class SMTPClient:
             filename = url.split("/")
             filename = filename[len(filename)-1]
             path = os.path.join(dirname, filename)
-            if not downloadFile(url, path):
+            if downloadFile(url, path) == False:
     	        self.error = commons.error.SMTP_SEND_FILE
     	        removeFiles(attachments["path"])
                 return False

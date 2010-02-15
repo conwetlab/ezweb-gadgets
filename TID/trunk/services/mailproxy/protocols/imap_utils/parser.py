@@ -241,11 +241,19 @@ def parsePart(part, resp):
             resp["text_html"] += "<pre>" + wrap(get_part_content(part), 80) + "</pre>"
         elif part.get_content_type() == "text/html":
             resp["text_html"] += get_part_content(part)
-    
-    
-def parseFile(message, fileid):
 
+def parseFile(message, fileid):
+    files = parseFiles(message)
     result = {}
+    for file_ in files:
+        if file_["filename"] == fileid:
+            result = file_
+                    
+    return result    
+    
+def parseFiles(message):
+
+    result = []
     msg = email.message_from_string(message[1])
     if msg.is_multipart():
         counter = 1
@@ -253,22 +261,22 @@ def parseFile(message, fileid):
         for part in msg.walk():
             if not part.is_multipart():
                 if part.get('Content-Disposition') != None:
+                    file_ = {}
                     filename = part.get_filename()
                     if not filename:
                         filename = 'part-%03d' % (counter)
                         counter += 1
                     
-                    if filename == fileid:
-                        result["filename"] = filename
-                        result["data"] = part.get_payload(decode=True)
-                        result["content_type"] = part.get_content_type()
-                        size = 0
-                        try:
-                            size = (len(result["data"]) * len(pack("c", result["data"][0])))
-                        except:
-                            pass
-                        result["size"] = size
-                        break
+                    file_["filename"] = filename
+                    file_["data"] = part.get_payload(decode=True)
+                    file_["content_type"] = part.get_content_type()
+                    size = 0
+                    try:
+                        size = (len(file_["data"]) * len(pack("c", file_["data"][0])))
+                    except:
+                        pass
+                    file_["size"] = size
+                    result.append(file_)
                     
     return result
     
