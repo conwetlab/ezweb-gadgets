@@ -1373,7 +1373,10 @@ ClienteCorreo.prototype.sendFilesToWebdav = function(mailbox, uid) {
 				mailbox: mailbox,
 				webdav: Utils.urlJoin(this.webdavURL, this.webdavDirectory)
 			}),
-			EzWebExt.bind(this.enableGeneralUID, this),
+			EzWebExt.bind(function() {
+			    this.webdavDirEvent.set(this.webdavDirectory);
+			    this.enableGeneralUID();
+			}, this),
 			this.onError,
 			this.onException
 		);
@@ -2040,9 +2043,6 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 	    }
 
 	    this.hasAttachmentsEvent.set(hasAttachments);
-        if (hasAttachments) {
-            this.webdavDirEvent.set(this.webdavDirectory);
-        }
 	}
 	else {
 	    this.enableGeneralUID();
