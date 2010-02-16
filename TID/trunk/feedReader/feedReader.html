@@ -8,21 +8,23 @@
 <head>
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
   <title>Feed Reader</title>
+  <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+  <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
+  <base href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/"/>
+
   <script>
   	var ie=false;
   </script>
-  <link rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/default.css' />
+  <link rel='stylesheet' type='text/css' href='readerThemes/default.css' />
   <!--[if IE]>
 	<script>
   		ie=true;
   	</script> 	
-  	<link rel='stylesheet' type='text/css' href='http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/ie.css' />
+  	<link rel='stylesheet' type='text/css' href='readerThemes/ie.css' />
   <![endif]-->
+  <script type="text/javascript" src="prototype.js"></script>
+  <script language="javascript" src="labelsReader.js"></script>
   <link id="style" rel='stylesheet' type='text/css' href='' />
-  <script type="text/javascript" language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/prototype.js"></script>
-  <script type="text/javascript" language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-  <script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/labelsReader.js"></script>
-  <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 	
   <script type="text/javascript" language="javascript">
 	
@@ -96,7 +98,7 @@
 		if(!value ||value =="")
 			value = "blue";
 		//END WA
-		var href = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/readerThemes/"+value+"_RSSReader.css";
+		var href = "readerThemes/"+value+"_RSSReader.css";
 		var sheetLink=$('style');
 		sheetLink.href=href;
 		return;
@@ -757,7 +759,7 @@
 				td.appendChild(startLink)
 							
 				var image = document.createElement("img");
-				image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/url.png";
+				image.src = "url.png";
 				image.id = 'urlSender_'+i;
 				image.setAttribute("title", translator.getLabel('sendURL_l'));
 				image.setAttribute("alt", "sendURL");
@@ -770,7 +772,7 @@
 			}
 			
 			var image = document.createElement("img");
-			image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/title.png";
+			image.src = "title.png";
 			image.id = "titleSender_"+i;
 			image.onclick = function(event){setTitle(event);};
 			image.setAttribute("title", translator.getLabel('sendTitle_l'));
@@ -784,7 +786,7 @@
 		
 			if(items[i].description){
 				var image = document.createElement("img");
-				image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/description.png";
+				image.src = "description.png";
 				image.id = "titleSender_"+i;
 				image.onclick = function(event){setSummary(event);};
 				image.setAttribute("title", translator.getLabel('sendTip_l'));
@@ -804,7 +806,7 @@
 			}
 			
 			var image = document.createElement("img");
-			image.src = "http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/rm_tag2.png";
+			image.src = "rm_tag2.png";
 			image.className = "item_close"
 			image.setAttribute("title", translator.getLabel('closeTip_l'));
 			image.setAttribute("alt", "closeTip");
@@ -968,12 +970,18 @@
 		document.getElementById(id).style.display = (ie)?"inline-block":"block";
 		//document.getElementById('li_'+id).getElementsByClassName("item_title")[0].style.display = "none";
 		var elements = document.getElementById('li_'+id).getElementsByTagName("div");
+		var images = document.getElementById('li_'+id).getElementsByTagName("img");
 
 		for(var i=0; i < elements.length; i++){
 			if(elements[i].className == "item_title"){
 				elements[i].style.display="none";
 			}
-		} 
+		}
+
+		for(var i=0; i < images.length; i++){
+		  if(!imageIsOk(images[i])) 
+		    images[i].style.display="none";
+		}
 	}
 
 	function hide(id) 
@@ -1038,6 +1046,18 @@
 		return t.width;
 	}
 	
+	function imageIsOk(image){
+	  if (!image.complete){
+	    return false;
+	  }
+	  
+    if ((typeof image.naturalWidth != "undefined") && (image.naturalWidth == 0) && 
+        (typeof image.naturalHeight != "undefined") && (image.naturalHeight == 0)){
+        return false;
+    }
+    return true;
+	}
+	
   </script>
 
 
@@ -1058,10 +1078,10 @@
 				<td style="text-align:center;width:33%;">
 	        		<div id="pages" style="display:none">
 	        			<span id="prev_pages">
-	        				<img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/left-arrow.png" alt="<<"/>
+	        				<img src="left-arrow.png" alt="<<"/>
 	        			</span>
 	        			<div id="paginator"></div>
-	        			<span id="next_pages"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/right-arrow.png" alt=">>"/>
+	        			<span id="next_pages"><img src="right-arrow.png" alt=">>"/>
 	        			</span>
 	        	
 					</div>
@@ -1075,7 +1095,7 @@
 	<div id="chan_items"></div>
     </div>
 	<div id="loading">
-		<img src="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/loading.gif" alt="Esperando feed..."/>
+		<img src="loading.gif" alt="Esperando feed..."/>
 	</div>
 </body>
 </html>

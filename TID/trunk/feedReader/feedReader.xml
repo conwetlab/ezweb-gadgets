@@ -45,7 +45,7 @@
 	<Event name="sentSummary" type="text" label="sent item Summary" friendcode="itemSummary"/>
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/feedReader.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/feedReader/feedReader_3.33/feedReader.html"/> 
   </Platform.Link>
   <Platform.Rendering width="8" height="25"/>
 	<Platform.Context>
