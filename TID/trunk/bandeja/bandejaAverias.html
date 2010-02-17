@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/prototype/prototype.js"></script>
-<base href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.03/"></base>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.04/"></base>
 
 <style>
 		body{
@@ -61,22 +61,34 @@
     .td0{
       color: rgb(0, 0, 119); 
       text-decoration: underline; 
-      cursor: pointer;      
+      cursor: pointer;
+      font-weight:bold;
     }
     
     .td3{
       text-align:left;
     }
+    
+    .rowSelected{
+      background-color:#C8D0E8;
+    }
+    
+    .rowSelected td{
+      font-weight:bold;
+    }
 </style>
 
 <script>
 // Events and Slots variables
-var phoneNumber = EzWebAPI.createRWGadgetVariable("telefono");
-var serviceHired = EzWebAPI.createRWGadgetVariable("servicio");
-var repairman = EzWebAPI.createRWGadgetVariable("tecnico");
+var phoneNumber = EzWebAPI.createRWGadgetVariable("phoneNumber");
+var serviceHired = EzWebAPI.createRWGadgetVariable("serviceHired");
+var workerID = EzWebAPI.createRWGadgetVariable("workerID");
+var userFullName = EzWebAPI.createRWGadgetVariable("userFullName");
+var taskID = EzWebAPI.createRWGadgetVariable("taskID");
+var taskDescription = EzWebAPI.createRWGadgetVariable("taskDescription");
 
 // Property variable
-var breakdown = EzWebAPI.createRWGadgetVariable("averias");
+var breakdown = EzWebAPI.createRWGadgetVariable("breakdown");
 
 // BreakDownBox class
 var BreakDownBox = function (){
@@ -98,6 +110,19 @@ var BreakDownBox = function (){
     table.appendChild(this.tbody);
     taskList.appendChild(table);
 
+    this.workers = [{'fullName':"Lopez Rodríguez, Francisco",
+                      'phone':'636782901',
+                      'address':'Calle de Luchana 2, 28010 Madrid'},
+                     {'fullName':"Romero Sanchez, Marta",
+                      'phone':'658023928',
+                      'address':'Paseo de Santa María de la Cabeza 10, Madrid'},                      
+                     {'fullName':"Reyes Gil, Miguel",
+                      'phone':'696547845',
+                      'address':'Calle de la madera 1, Madrid'},
+                     {'fullName':"Vargas Barrientos, Cesar",
+                      'phone':'636521694',
+                      'address':'Calle de Velazquez 100, Madrid'}];
+
       
     // Data info
     data = [{'id':'averia-0',
@@ -105,31 +130,32 @@ var BreakDownBox = function (){
                    'fullName': 'Gonzalez Perez, Alejandro', 
                    'description': 'El usuario no es capaz de navegar por Internet', 
                    'service':'INTERNET', 
-                   'repairman':null},
+                   'worker':this.workers[0]},
                   {'id':'averia-1',
                    'phone': '915334432',
                    'fullName':'Lopez Romero, Marta', 
                    'description': 'No puede comprar contenidos v PPV', 
                    'service':'TV', 
-                   'repairman':null},
+                   'worker':this.workers[0]},
                   {'id':'averia-10',
                    'phone': '916432233',
                    'fullName':'Fernandez Bartolome, Rodrigo',
                    'description': 'El usuario navega mas lento que la velocidad contratada', 
                    'service':'INTERNET', 
-                   'repairman':null},
+                   'worker':this.workers[0]},
                   {'id':'averia-11',
                    'phone': '917294723',
                    'fullName':'Perez Casas, Maria', 
                    'description': 'El usuario no es capaz de navegar por Internet', 
                    'service':'INTERNET', 
-                   'repairman':null},           
+                   'worker':this.workers[0]},           
                   {'id':'averia-2',
                    'phone': '917744331',
                    'fullName':'Garcia Casas, Alberto', 
                    'description': 'El usuario ve la television pixelada', 
                    'service':'TV', 
-                   'repairman':null}];
+                   'worker':this.workers[0]}];
+     this.selectedRow = null;
      this.setData(data);
      this.headerTable();
      this.displayBreakDownBox();
@@ -181,7 +207,7 @@ var BreakDownBox = function (){
     td.appendChild(document.createTextNode("Servicio contratado"));
     td.className = "th4";
     
-    // Repairman
+    // workerID
     var td = tr.insertCell(-1);
     td.id = "th5"
     td.appendChild(document.createTextNode("Técnico Asignado"));
@@ -191,18 +217,6 @@ var BreakDownBox = function (){
   // Display BreakDownBox
   this.displayBreakDownBox = function(){
    
-    this.engineers = [{'fullName':"Lopez Rodríguez, Francisco",
-                      'phone':'636782901',
-                      'address':'Calle de Luchana 2, 28010 Madrid'},
-                     {'fullName':"Romero Sanchez, Marta",
-                      'phone':'658023928',
-                      'address':'Paseo de Santa María de la Cabeza 10, Madrid'},                      
-                     {'fullName':"Reyes Gil, Miguel",
-                      'phone':'696547845',
-                      'address':'Calle de la madera 1, Madrid'},
-                     {'fullName':"Vargas Barrientos, Cesar",
-                      'phone':'636521694',
-                      'address':'Calle de Velazquez 100, Madrid'}];
     for(i=0; i<this.data.length;i++){
       var tr = this.tbody.insertRow(-1);
       // Id
@@ -210,7 +224,7 @@ var BreakDownBox = function (){
       td.className = "td0";
       td.appendChild(document.createTextNode(this.data[i].id));
       var context = {"i":i};
-      td.onclick = function(){box.sendData(this.i);}.bind(context);
+      td.onclick = function(){box.sendData(this.i);box.selectRow(this.i);}.bind(context);
       // Phone
       var td = tr.insertCell(-1);
       td.className = "td1";
@@ -227,53 +241,56 @@ var BreakDownBox = function (){
       var td = tr.insertCell(-1);
       td.className = "td4";
       td.appendChild(document.createTextNode(this.data[i].service));            
-      // Repairman
+      // workerID
       var td = tr.insertCell(-1);
       td.className = "td5";
       
       var select = document.createElement("select");
 
-      for (var j=0; j < this.engineers.length; j++){
+      for (var j=0; j < this.workers.length; j++){
         var option = document.createElement("option");
         option.value = j;
-        option.appendChild(document.createTextNode(this.engineers[j].fullName));
+        option.appendChild(document.createTextNode(this.workers[j].fullName));
         select.appendChild(option);
       }
       context['select']=select;
-      select.onchange = function(){box.save(this.i, this.select);}.bind(context);
+      select.onchange = function(){box.save(this.i, this.select);box.sendData(this.i);box.selectRow(this.i);}.bind(context);
       // Init value
-      if(this.data[i].repairman != null){
-        for(var j=0; j < this.engineers.length; j++){
-          if(this.data[i].repairman.phone == this.engineers[j].phone) 
+      if(this.data[i].worker != null){
+        for(var j=0; j < this.workers.length; j++){
+          if(this.data[i].worker.phone == this.workers[j].phone) 
             select.value = j;
         }
       }
       td.appendChild(select);     
     }
   }
+  
+  // Select and color a row
+  this.selectRow = function(row){
+    if(this.selectedRow != null)
+      this.selectedRow.className = '';
+    this.selectedRow = this.tbody.rows[row+1];
+    this.selectedRow.className = "rowSelected";
+  }
 
   // Send Info by means of events
   this.sendData = function(value){
-  //	var rows = document.getElementsByTagName("td");
-	//  phoneNumber.set(rows[row*5+1].innerHTML);
-	//  serviceHired.set(rows[row*5+4].innerHTML);
 
     if (this.data.length > 0){
   	  phoneNumber.set(this.data[value].phone);
 	    serviceHired.set(this.data[value].service);
-	    if (this.data[value].repairman != null){
-        repairman.set(this.data[value].repairman.phone);
-      }
-      else{
-        repairman.set(this.engineers[0].phone);
-      }
+	    taskID.set(this.data[value].id);	    
+	    taskDescription.set(this.data[value].description);	    
+	    workerID.set(this.data[value].worker.phone);
+	    userFullName.set(this.data[value].fullName);
     }  
   }
 
   // Save info to property variable
   this.save = function(row, select){
     var element = parseInt(select.value);
-    this.data[row].repairman = this.engineers[element];
+    this.data[row].worker = this.workers[element];
     breakdown.set(this.data.toJSON());
   }
     
