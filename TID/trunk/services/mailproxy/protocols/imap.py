@@ -1,11 +1,13 @@
 #!/usr/bin/python
 import sys
+import time
 import email.header
 import imaplib
 import quopri
 import commons.error
 from protocols.imap_utils.encoding import *
 from protocols.imap_utils.parser import *
+from protocols.imap_utils.mail_operations import *
 from protocols.smtp_utils.utils import *
 
 class IMAP4Client:
@@ -105,11 +107,10 @@ class IMAP4Client:
 	
         self.response = []
         
-        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), True)
-        if (select_response[0] != "OK"):
+        if (not selectMailbox(self.imap, foldername)):
             self.error = commons.error.IMAP_SELECT
             return False
-
+        
         if (criterion == "ALL"):
             query = '(ALL)'
         elif (criterion == "RECENT"):
@@ -124,6 +125,8 @@ class IMAP4Client:
             query = '(OR TO ' + `keyword + ' CC ' + keyword` + ')'
         else:
             query = '(BODY ' + `keyword` + ')'
+
+        no_date = True
 
         search_response = []
         try:
@@ -144,18 +147,17 @@ class IMAP4Client:
         message_list.reverse()
         if end == 0:
             end = self.size
-
+            
         fetch_response = self.imap.fetch(",".join([str(i) for i in message_list[(begin-1):end]]), "(UID RFC822.SIZE FLAGS BODY.PEEK[HEADER.FIELDS (DATE FROM TO CC BCC SUBJECT CONTENT-TYPE)])")
-
+        
         if (fetch_response[0] != "OK"):
             self.error = commons.error.IMAP_FETCH
             return False
-
+        
         for i in range(len(fetch_response[1])):
             if fetch_response[1][i].__class__ == ().__class__:
-                msg = parseMailHeader(fetch_response[1][i])
-                self.response.append(msg)
-        
+                self.response.append(parseMailHeader(fetch_response[1][i]))
+            
         # Ordenar la lista si esta en sentido inverso
         # TODO Introducir algoritmo de ordenacion, es un poco cutre
         response_size = len(self.response)
@@ -167,10 +169,11 @@ class IMAP4Client:
     def getMail(self, foldername, uid):
 
         self.response = []
-        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
-        if (select_response[0] != "OK"):
+        
+        if (not selectMailbox(self.imap, foldername)):
             self.error = commons.error.IMAP_SELECT
             return False
+
 
         search_response = self.imap.search(None, "(UID " + uid + ")")
         
@@ -220,10 +223,10 @@ class IMAP4Client:
         
     def getFiles(self, foldername, uid):
         
-        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
-        if (select_response[0] != "OK"):
+        if (not selectMailbox(self.imap, foldername)):
             self.error = commons.error.IMAP_SELECT
             return False
+
 
         search_response = self.imap.search(None, "(UID " + uid + ")")
         
@@ -252,8 +255,8 @@ class IMAP4Client:
     def getFile(self, foldername, uid, filename):
         
         self.response = []
-        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
-        if (select_response[0] != "OK"):
+        
+        if (not selectMailbox(self.imap, foldername)):
             self.error = commons.error.IMAP_SELECT
             return False
 
@@ -286,8 +289,8 @@ class IMAP4Client:
     def getImage(self, foldername, uid, imageid):
         
         self.response = []
-        select_response = self.imap.select(imapUTF7Encode(foldername.decode("utf8")), False)
-        if (select_response[0] != "OK"):
+        
+        if (not selectMailbox(self.imap, foldername)):
             self.error = commons.error.IMAP_SELECT
             return False
 

@@ -3,6 +3,7 @@
 import os
 import re
 import email
+import rfc822
 from protocols.imap_utils.encoding import *
 from struct import pack
 from lxml import etree
@@ -98,30 +99,19 @@ def parseMailbox(mailbox):
 
 def parseMailList(mails):
     
-    email_regexp = '\S+[\.\S+]*@\S+[\.\S+]+'
-    full_email_regexp = re.compile('\s*(("(.*)"\s*|(.*)\s*|)<(' + email_regexp + ')>|(' + email_regexp + '))\s*')
-
     result = []
      
     for m in mails.split(","):
-        match = full_email_regexp.match(m)
-        
-        mail = {}
-        mail["mail"] = ""
-        mail["name"] = ""
-    
-        if match != None:
-            if (match.group(5) != None):
-                mail["mail"] = mime_decode(match.group(5))
-                if (match.group(3) != None):
-                    mail["name"] = mime_decode(match.group(3))
-                elif (match.group(4) != None):
-                    mail["name"] = mime_decode(match.group(4))	
-    	    elif (match.group(6) != None):
-                mail["mail"] = mime_decode(match.group(6))
-                mail["name"] = mime_decode(match.group(6))
-                 
-            result.append(mail)
+        mail = rfc822.parseaddr(m)
+        mail = {"name": mail[0], "mail": mail[1]}
+
+        if (mail["name"] == ""):
+            mail["name"] = mail["mail"]
+        if (mail["mail"] == ""):
+            mail["mail"] = mail["name"]
+
+        result.append(mail)
+
     return result
 
 def parseMailHeader(header):
@@ -133,12 +123,12 @@ def parseMailHeader(header):
     result["uid"] = int(match.group(1))
     result["size"] = int(match.group(2))
     result["flags"] = match.group(3).split(" ")
-  
+    
     msg = email.message_from_string(header[1])
+
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
     if msg.has_key("received"):
-        #print msg["received"]
         pass
     if msg.has_key("date"):
         result["date_in_millis"] = get_date_in_millis(msg["date"])
@@ -209,7 +199,8 @@ def parseMail(message):
     if msg.has_key("subject"):
         result["subject"] = mime_decode(msg["subject"])
     if msg.has_key("date"):
-        result["date"] = get_date(msg["date"])
+        result["date_in_millis"] = get_date_in_millis(msg["date"])
+        result["date"] = get_date_from_millis(result["date_in_millis"])
     if msg.has_key("from"):
         mails = parseMailList(msg["from"])
         if (len(mails) > 0):
