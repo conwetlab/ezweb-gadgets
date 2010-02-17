@@ -1,11 +1,11 @@
 var defaultAccountSettings = {
-    in: {
+    "in": {
         protocol:   "IMAP",
         connection: "SSL",
         host:       "imap.gmail.com",
         port:       "993"
     },
-    out: {
+    "out": {
         protocol:   "SMTP",
         connection: "TLS",
         host:       "smtp.gmail.com",
