@@ -20,14 +20,15 @@ from urllib import pathname2url
 
 class Error:
     def __init__(self, code):
-        self.messages = {0:"Usage: pack_gadget [-nb] [-s pattern directory | directory1 ... directoryN]",
+        self.messages = {-1:"Error: It requires Python 2.6 version or higher", 
+                         0:"Usage: pack_gadget [-nb] [-s pattern directory | directory1 ... directoryN]",
                          1:"Error: The gadget doesn't have template",
                          2:"Error: The gadget doesn't have html file",
                          3:"Error: The source code of the gadget could not be read",
                          4:"Error: Wgt package could not be copied to gadget directory",
                          5:"Error: The directory doesn't exist or isn't a directory",
                          6:"Error: The gadget has files with an invalid filename",
-                         7:"Error: The gadget has an invalid name or an invalid vendor name"}
+                         7:"Error: The gadget has an invalid name or an invalid vendor name",}
         self.code = code
     
     def __str__(self):
@@ -85,7 +86,7 @@ class ConfigFile:
         
     # Write config.xml file in path
     def write(self, path):
-	path = os.path.abspath(path)
+        path = os.path.abspath(path)
         self.path = os.path.join(path, self.file_name)
         f = open(self.path, "w")
         f.write(self.file_content)
@@ -194,7 +195,7 @@ class ParserHtml:
             # Replace Base Tag by ""
             base = re.compile(r'<base.*?/>', re.I | re.S)
             content = base.sub('', content)
-            base = re.compile(r'<base>.*</base>', re.I | re.S)
+            base = re.compile(r'<base.*</base>', re.I | re.S)
             content = base.sub('', content)
         
         self.xhtml = content
@@ -289,7 +290,7 @@ class ConfigInfo:
 class PackGadget:
     def __init__(self, path):
         # Check if the path is a directory
-	self.workpath = os.path.abspath('.')
+        self.workpath = os.path.abspath('.')
         self.path = os.path.abspath(self._normalize_path(path))
         self.tmp = None
         self.tmpgadget = None
@@ -297,7 +298,7 @@ class PackGadget:
        
         if not os.path.isdir(path):
             raise Error(5)
- 
+
     def _normalize_path(self, path):
         path = os.path.normpath(path)
         if (path[-1] == '/'):
@@ -379,6 +380,12 @@ try:
     replace_base = True 
     pattern = None
     parameters = sys.argv
+    version = sys.version_info
+    
+    # Check interpreter version
+    if not (((version[0] == 2) and (version[1] >= 6)) or (version[0] > 2)):
+      raise Error(-1)
+    
     # Check arguments
     if (len(parameters) <= 1):
         raise Error(0)
