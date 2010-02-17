@@ -9,12 +9,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
 <title>Visor de datos de usuario</title>
-
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/"></base>
 <style type="text/css">
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/background.png) repeat-x scroll left top;
+			background: url(background.png) repeat-x scroll left top;
 			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 
@@ -35,8 +35,10 @@
 			text-decoration:underline;
 		}
 		
-		th{
+		.header{
 			text-align:left;
+			font-size:16px;
+			font-weight:bold;	
 		}
 		
 		td{
@@ -54,10 +56,14 @@
 </style>
 
 <script>
+// Events and slots
 var phoneNumber = EzWebAPI.createRGadgetVariable("phoneNumber",_phoneHandler);
 var address = EzWebAPI.createRWGadgetVariable("address");
 var firstname = EzWebAPI.createRWGadgetVariable("firstname");
 var surname = EzWebAPI.createRWGadgetVariable("surname");
+var dni = EzWebAPI.createRWGadgetVariable("dni");
+var average_bill = EzWebAPI.createRWGadgetVariable("average_bill");
+var age = EzWebAPI.createRWGadgetVariable("age");
 /*Temporary data for the demo*/
 var users = [];
 var user = ["Alejandro","Gonzalez Perez","07688357J","calle de Santa Engracia, 25, 1 B, Madrid","35.50","2"];
@@ -75,20 +81,94 @@ users["917744331"] = user;
 
 function _phoneHandler(phone){
 	if (phone!=null && phone!=undefined){
-		var content="";
-		content+="<div id='div_info'><p id='title'>Ficha de Datos de Cliente</p><table>";
-		content+="<tr><th>Datos del Cliente</th><th>Valor</th></tr>";
-		content+="<tr><td class='moreInfo'>Nombre</td><td>"+users[phone][0]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>DNI</td><td>"+users[phone][2]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Dirección</td><td>"+users[phone][3]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Factura media</td><td>"+users[phone][4]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Antiguedad</td><td>"+users[phone][5]+"</td></tr></table></div>";
-			if(document.getElementById("info")){
-				document.getElementById("info").innerHTML=content;
-				address.set(users[phone][3]);
+
+	  var info = document.createElement("div");
+	  info.id = "div_info";
+
+	  var title = document.createElement("p");
+	  title.id="title";
+	  title.appendChild(document.createTextNode("Tabla de Datos de Cliente"));
+	  info.appendChild(title);
+	  
+	  var table = document.createElement("table");
+	  var tbody = document.createElement("tbody");
+	  table.appendChild(tbody);
+	  info.appendChild(table);
+	  
+	  // THEADER
+	  var tr = tbody.insertRow(-1);
+	  var td = tr.insertCell(-1);
+	  td.className="header";
+	  td.appendChild(document.createTextNode("Datos del Usuario"));
+	  
+	  td = tr.insertCell(-1);
+	  td.className="header";
+	  td.appendChild(document.createTextNode("Valor"));
+	  
+	  // CLIENT INFO
+	  // First Name
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("Nombre"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][0]));
+
+	  // Last Name
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("Apellidos"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][1]));
+	  
+	  // DNI
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("DNI"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][2]));
+
+	  // Address
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("Dirección"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][3]));
+	  
+	  // Average Bill
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("Factura Media"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][4]));
+
+	  // Age
+	  tr = tbody.insertRow(-1);
+	  td = tr.insertCell(-1);
+	  td.className="moreInfo";
+	  td.appendChild(document.createTextNode("Antigüedad"));
+	  
+	  td = tr.insertCell(-1);
+	  td.appendChild(document.createTextNode(users[phone][5]));
+	  	  	  	  
+		if(document.getElementById("info")){
+				document.getElementById("info").innerHTML="";
+        document.getElementById("info").appendChild(info);
 				firstname.set(users[phone][0]);
 				surname.set(users[phone][1]);
+        dni.set(users[phone][2]);
+        address.set(users[phone][3]);
+        average_bill.set(users[phone][4]);        
+        age.set(users[phone][5]);                
 			}
 	}
 }
