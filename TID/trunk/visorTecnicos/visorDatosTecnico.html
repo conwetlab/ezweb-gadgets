@@ -8,13 +8,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.4/"></base>
 <title>Visor de datos de usuario</title>
 
 <style type="text/css">
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/background.png) repeat-x scroll left top;
+			background: url(background.png) repeat-x scroll left top;
 			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 
@@ -27,6 +28,18 @@
 			margin:0px;
 			padding:0px;
 		}
+	
+	  #lista table{
+	    width:100%;
+	  }
+	
+	  .worker{
+  	  width:20px;
+	  }
+	  
+	  #lista select{
+	    width:99%;
+	  }
 	
 		#div_info {
 			margin:4px;
@@ -56,6 +69,15 @@
 			margin:0px;
 			padding:0px;
 	}
+	
+	table{
+	  border-collapse:collapse;
+	}
+	
+	#lista table td{
+	  font-weight:bold;
+	  padding-left:5px;
+	}
 </style>
 
 <script>
@@ -70,6 +92,7 @@ var fullname = EzWebAPI.createRWGadgetVariable("fullname");
 
 /*Temporary data for the demo*/
 var users = [];
+var select = null;
 var user = ["Franciso","Lopez Rodriguez","636782901","Calle de Luchana, 2, 28010 Madrid"];
 users["636782901"] = user;
 user = ["Marta","Romero Sanchez","658023928","Paseo de Santa Maria de la Cabeza, 10, Madrid"];
@@ -79,27 +102,103 @@ users["696547845"] = user;
 user = ["Cesar","Vargas Barrientos","636521694","Calle de Velazquez 100, Madrid"];
 users["636521694"] = user;
 
+function init(){
+  var list = document.createElement("div");
+  list.id = "lista";
+  
+  var table = document.createElement("table");
+  var tbody = document.createElement("tbody");
+  table.appendChild(tbody);
+  list.appendChild(table);
+
+  var tr = tbody.insertRow(-1);
+  var td = tr.insertCell(-1);
+  td.appendChild(document.createTextNode("Técnico: "));
+  td.className = "worker";
+  
+  td = tr.insertCell(-1);
+  select = document.createElement("select");
+  var workersIds = ["636782901","658023928","696547845","636521694"];
+ 
+  for(var i=0; i < workersIds.length; i++){
+    var option = document.createElement("option");
+    option.value = workersIds[i];
+    var text = users[workersIds[i]][1] +', '+users[workersIds[i]][0]
+    option.appendChild(document.createTextNode(text));
+    select.appendChild(option);
+  }
+  
+  td.appendChild(select);
+  select.onchange = function(){var phone = select.value; _phoneHandler(phone);};
+  document.body.appendChild(list);
+  
+  var info = document.createElement("div");
+  info.id = "info";
+  document.body.appendChild(info);
+  _phoneHandler(select.value);
+}  
+
+
 function _phoneHandler(phone){
 	if (phone!=null && phone!=undefined){
-		
-		document.getElementById(users["636782901"][2]).style.fontWeight = 'normal';
-		document.getElementById(users["658023928"][2]).style.fontWeight = 'normal';
-		document.getElementById(users["696547845"][2]).style.fontWeight = 'normal';
-		document.getElementById(users["636521694"][2]).style.fontWeight = 'normal';
-		document.getElementById(phone).style.fontWeight = 'bold';
-		var content="";
-		content+="<div id='div_info'><p id='title'>Tabla de Datos de Tecnico</p><table>";
-		content+="<tr><td class='moreInfo'>Nombre</td><td>"+users[phone][0]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Apellidos</td><td>"+users[phone][1]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Telefono</td><td>"+users[phone][2]+"</td></tr>";
-		content+="<tr><td class='moreInfo'>Dirección Actual</td><td>"+users[phone][3]+"</td></tr></table></div>";
+		select.value = phone;
+    var info = document.createElement("div");
+    info.id = "div_info";
+
+    var title = document.createElement("p");
+    title.id = "title";
+    title.appendChild(document.createTextNode("Tabla de Datos de Técnico"));
+    info.appendChild(title);
+
+    var table = document.createElement("table");
+    var tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    info.appendChild(table);
+    
+    // first name
+    var tr = tbody.insertRow(-1);
+    var td = tr.insertCell(-1);
+    td.className = "moreInfo";
+    td.appendChild(document.createTextNode("Nombre"));
+    
+    td = tr.insertCell(-1);
+    td.appendChild(document.createTextNode(users[phone][0]));
+    
+    // Last name
+    tr = tbody.insertRow(-1);
+    td = tr.insertCell(-1);
+    td.className = "moreInfo";
+    td.appendChild(document.createTextNode("Apellidos"));
+    
+    td = tr.insertCell(-1);
+    td.appendChild(document.createTextNode(users[phone][1]));
+    
+    // Phone
+    tr = tbody.insertRow(-1);
+    td = tr.insertCell(-1);
+    td.className = "moreInfo";
+    td.appendChild(document.createTextNode("Teléfono"));
+    
+    td = tr.insertCell(-1);
+    td.appendChild(document.createTextNode(users[phone][2]));
+
+    // Address
+    tr = tbody.insertRow(-1);
+    td = tr.insertCell(-1);
+    td.className = "moreInfo";
+    td.appendChild(document.createTextNode("Dirección Actual"));
+    
+    td = tr.insertCell(-1);
+    td.appendChild(document.createTextNode(users[phone][3]));    
+    
 		if (document.getElementById("info")){
-			document.getElementById("info").innerHTML=content;
-			addressOperator.set(users[phone][3]);
+			document.getElementById("info").innerHTML="";
+			document.getElementById("info").appendChild(info)			
 			phoneNumberEv.set(phone);
 			name.set(users[phone][0]);
 			surname.set(users[phone][1]);
 			fullname.set(users[phone][0] + ' ' + users[phone][1]);
+			addressOperator.set(users[phone][3]);
 			if (addressClient.get()!=null && addressClient.get()!=undefined) {
 				routeToClient.set('from: ' + users[phone][3] + ' to: ' + addressClient.get());
 			}
@@ -107,22 +206,8 @@ function _phoneHandler(phone){
 	}
 }
 
-
 </script>
 </head>
-<body>
-<div id='lista'>
-<table cellspacing="0">
-<tbody>
-<tr>
-<td id="636782901" class="breakDown" onclick="_phoneHandler(636782901)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">636782901</td>
-<td id="658023928" class="breakDown" onclick="_phoneHandler(658023928)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">658023928</td>
-<td id="696547845" class="breakDown" onclick="_phoneHandler(696547845)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">696547845</td>
-<td id="636521694" class="breakDown" onclick="_phoneHandler(636521694)" style="color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">636521694</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id='info'><i>A la espera de seleccionar un técnico...</i></div>
+<body onload="init();">
 </body>
 </html>

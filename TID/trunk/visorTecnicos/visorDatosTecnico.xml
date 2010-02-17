@@ -4,12 +4,12 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Visor Datos de Tecnico</Name>
-    <Version>1.2</Version>
+    <Version>1.4</Version>
     <Author>pjm</Author>
     <Mail>pjm@tid.es</Mail>
     <Description>Este gadget presenta la informacion relativa a un tecnico que puede resolver una averia</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/datosTecnico.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/datosTecnicoIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.4/datosTecnico.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.4/datosTecnicoIPhone.png</iPhoneImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/VisorDatosTecnico</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -25,12 +25,12 @@
     <Event name="phoneNumberEv" type="text" label="PhoneNumber" friendcode = "phone" />
     <Event name="name" type="text" label="Name" friendcode = "name" />
     <Event name="surname" type="text" label="Surname" friendcode = "surname" />
-    <Event name="fullname" type="text" label="Full Mame" friendcode = "fullname" />
+    <Event name="fullname" type="text" label="Full Name" friendcode = "fullname" />
     <Slot name="addressClient" type="text" label="Client Address" friendcode = "address" />
-    <Slot name="phoneNumber" type="text" label="PhoneNumber" friendcode = "phone" />
+    <Slot name="phoneNumber" type="text" label="PhoneNumber" friendcode = "worker_phone" />
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.2/visorDatosTecnico.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorTecnicos/visorTecnicos_1.4/visorDatosTecnico.html"/>
   </Platform.Link>
   <Platform.Rendering width="7" height="13"/>
 </Template>
