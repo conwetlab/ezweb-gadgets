@@ -537,7 +537,7 @@ EzWebExt.ALERT_ERROR = 2;
  * the given function.
  */
 EzWebExt.bind = function (func, _this) {
-    return function() {func.apply(_this, arguments)}
+    return function() {return func.apply(_this, arguments)}
 }
 
 /**
