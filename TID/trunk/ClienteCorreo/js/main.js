@@ -33,10 +33,6 @@ ClienteCorreo.prototype.init = function() {
     this.languageCtx = language;
     
     this.messageSlot = EzWebAPI.createRGadgetVariable('emailDetails', EzWebExt.bind(this.showMessageFromSlot, this));
-    this.mailsSlot = EzWebAPI.createRGadgetVariable('emails', EzWebExt.bind(this.sendEmailsSlot, this));
-    this.subjectSlot = EzWebAPI.createRGadgetVariable('subject', EzWebExt.bind(this.sendSubjectSlot, this));
-    this.textSlot = EzWebAPI.createRGadgetVariable('text', EzWebExt.bind(this.sendTextSlot, this));
-    this.attachSlot = EzWebAPI.createRGadgetVariable('attach', EzWebExt.bind(this.sendAttachSlot, this));
     
     this.fromEvent = EzWebAPI.createRWGadgetVariable('fromEvent');
     this.recipientsEvent = EzWebAPI.createRWGadgetVariable('recipientsEvent');
@@ -46,6 +42,18 @@ ClienteCorreo.prototype.init = function() {
     this.sizeEvent = EzWebAPI.createRWGadgetVariable('sizeEvent');
     this.hasAttachmentsEvent = EzWebAPI.createRWGadgetVariable('hasAttachmentsEvent');
 	this.webdavDirEvent = EzWebAPI.createRWGadgetVariable('webdavDirectoryEvent');
+	
+	// Initialize SlotManager
+	
+	SlotManager.setSlotManager('showSendMailForm', EzWebExt.bind(this.showSendMailFormSlot, this));
+    SlotManager.setCondition(EzWebExt.bind(function() {
+        return this.selectedAlternative == this.SEND_ALTERNATIVE;
+    }, this));
+    
+    SlotManager.addManagedSlot('emails', EzWebExt.bind(this.sendEmailsSlot, this));
+    SlotManager.addManagedSlot('subject', EzWebExt.bind(this.sendSubjectSlot, this));
+    SlotManager.addManagedSlot('text', EzWebExt.bind(this.sendTextSlot, this));
+    SlotManager.addManagedSlot('attach', EzWebExt.bind(this.sendAttachSlot, this));
 
     // Initialize global variables
     this.language = this.languageCtx.get();
@@ -110,38 +118,30 @@ ClienteCorreo.prototype.languageHandler = function(value) {
 	window.location.reload()
 }
 
+ClienteCorreo.prototype.showSendMailFormSlot = function(value) {
+    this.showAlternative(this.SEND_ALTERNATIVE);
+}
+
 ClienteCorreo.prototype.sendEmailsSlot = function(value) {
-    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
-	    //this.showAlternative(this.SEND_ALTERNATIVE);
-	    var to = "";
-	    if (this.form_send["to"].getValue() != "") {
-	        to += (this.form_send["to"].getValue() + ", ");
-	    }
-	    to += value;
-	    this.form_send["to"].setValue(to);
-	}
+    var to = "";
+    if (this.form_send["to"].getValue() != "") {
+        to += (this.form_send["to"].getValue() + ", ");
+    }
+    to += value;
+    this.form_send["to"].setValue(to);
 }
 
 ClienteCorreo.prototype.sendTextSlot = function(value) {
-    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
-	    //this.showAlternative(this.SEND_ALTERNATIVE);
-	    tinyMCE.get(this.form_send["message"]).setContent(value);
-	}
+    tinyMCE.get(this.form_send["message"]).setContent(value);
 }
 
 ClienteCorreo.prototype.sendAttachSlot = function(value) {
-    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
-	    //this.showAlternative(this.SEND_ALTERNATIVE);
-	    this.showSendDetails();
-	    this.form_send["multi_selector"].add(value);
-	}
+    this.showSendDetails();
+    this.form_send["multi_selector"].add(value);
 }
 
 ClienteCorreo.prototype.sendSubjectSlot = function(value) {
-    if (this.selectedAlternative == this.SEND_ALTERNATIVE) {
-	    //this.showAlternative(this.SEND_ALTERNATIVE);
-    	this.form_send["subject"].setValue(value);
-    }
+   	this.form_send["subject"].setValue(value);
 }
 
 /******************** USER INTERFACE METHODS **************************/
@@ -1359,7 +1359,7 @@ ClienteCorreo.prototype.getMail = function(mailbox, uid) {
 
 ClienteCorreo.prototype.sendFilesToWebdav = function(mailbox, uid) {
 	try {
-	if (AccountsManager.isConfigured()) {
+	if (AccountsManager.isConfigured() && (this.webdavURL != "")) {
 		this.disableGeneralUID();
 		this.sendPost(
 			Utils.urlJoin(
@@ -2857,6 +2857,54 @@ MultiSelector.prototype.show = function() {
 }
 
 /////////////////////////////////////////////
+////////// Class SlotManager ////////////////
+/////////////////////////////////////////////
+
+var SlotManager = function() {
+    this.INTERVAL = 200;
+    
+    this.manager = null;
+    this.condition = function() {return true;}
+    this.slots = {};
+    this.lastEvent = {};
+}
+
+SlotManager.prototype.setSlotManager = function(type, handler) {
+    this.manager = EzWebAPI.createRGadgetVariable(type, EzWebExt.bind(function(value) {
+        handler(value);
+        if (("time" in this.lastEvent) && (((new Date()).getTime() - this.lastEvent["time"]) <= this.INTERVAL)) {
+            this.lastEvent["func"]();
+        }
+        this.clear();
+    }, this));
+}
+
+SlotManager.prototype.setCondition = function(condition) {
+    this.condition = condition;
+}
+
+SlotManager.prototype.addManagedSlot = function(type, handler) {
+    this.slots[type] = EzWebAPI.createRGadgetVariable(type, EzWebExt.bind(function(value) {
+        if (this.condition()) {
+            handler(value);
+            this.clear();
+        }
+        else {
+            this.lastEvent = {
+                "func": function() {
+                    handler(value);
+                },
+                "time": (new Date()).getTime()
+            };
+        }
+    }, this));
+}
+
+SlotManager.prototype.clear = function() {
+    this.lastEvent = {};
+}
+
+/////////////////////////////////////////////
 ////////// Class Timer //////////////////////
 /////////////////////////////////////////////
 
@@ -3028,7 +3076,9 @@ Utils.prototype._searchChildByName = function(root, name) {
 Utils.prototype.urlJoin = function(/* arguments */) {
 	var path = "";
 	for (var i=0; i<arguments.length; i++) {
-	    path += this.urlNormalize("" + arguments[i], i!=0) + "/";
+	    if (arguments[i] != "") {
+	        path += this.urlNormalize("" + arguments[i], i!=0) + "/";
+	    }
 	}
     return path.substring(0, path.length-1);
 }

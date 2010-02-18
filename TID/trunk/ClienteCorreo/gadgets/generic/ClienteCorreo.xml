@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Cliente Correo</Name>
-		<Version>2.2</Version>
+		<Version>2.3</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo genérico</Description>
@@ -16,7 +16,7 @@
 	<!-- EzWeb Gadgets Preferences -->
 	<Platform.Preferences>
 		<Preference name="mailproxy" type="text" label="Mailproxy service" description="Mailproxy service" default="http://ezweb.tid.es/mailproxy"/>
-		<Preference name="webdav" type="text" label="WebDav account" description="WebDav account" default="http://ezweb.tid.es/webdav/public"/>
+		<Preference name="webdav" type="text" label="WebDav account" description="WebDav account" default=""/>
 		<Preference name="webdav_dir" type="text" label="WebDav Directory" description="WebDav Directory" default="attachments"/>
 	    <Preference name="refresh_time" type="list" label="Refresh time" description="Refresh time" default="10">
 			<Option value="0"  name="Never"/>
@@ -36,6 +36,7 @@
 
 	<Platform.Wiring>
 		<Slot name="emailDetails" type="text" label="emailDetails" friendcode="emailDetails"/>
+		<Slot name="showSendMailForm" type="text" label="showSendMailForm" friendcode="show"/>
 		<Slot name="emails" type="text" label="emails" friendcode="email"/>
 		<Slot name="subject" type="text" label="subject" friendcode="subject"/>
 		<Slot name="text" type="text" label="text" friendcode="text"/>

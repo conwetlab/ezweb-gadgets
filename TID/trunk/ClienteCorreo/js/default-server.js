@@ -1,12 +1,9 @@
 /******************** INIT **************************/
 
-/* Instanciate the Gadget class */
+/* Instanciate Classes */
 ClienteCorreo = new ClienteCorreo();
-
-/* Instanciate the AccountsManagerBasic class */
 var AccountsManager = new AccountsManagerBasic();
-
-/* Instanciate the Utils class */
+SlotManager = new SlotManager();
 Utils = new Utils();
 
 /* Init Tiny MCE */

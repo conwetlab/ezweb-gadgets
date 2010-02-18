@@ -353,13 +353,10 @@ AccountsManagerSpecific.prototype.shareInfoBetweenForms = function(advanced) {
 
 /******************** INIT **************************/
 
-/* Instanciate the Gadget class */
+/* Instanciate Classes */
 ClienteCorreo = new ClienteCorreo();
-
-/* Instanciate the AccountsManagerSpecific class */
-AccountsManager = new AccountsManagerSpecific();
-
-/* Instanciate the Utils class */
+var AccountsManager = new AccountsManagerSpecific();
+SlotManager = new SlotManager();
 Utils = new Utils();
 
 /* Init Tiny MCE */
