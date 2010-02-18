@@ -20,12 +20,12 @@
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
     <Event name="address" type="text" label="Address" friendcode = "address" />
-    <Event name="firstname" type="text" label="customer first name" friendcode = "firstname" />
-    <Event name="surname" type="text" label="customer surname" friendcode = "surname" />
-    <Event name="dni" type="text" label="customer dni" friendcode = "dni" />
-    <Event name="average_bill" type="text" label="customer average bill" friendcode = "average_bill" />
-    <Event name="age" type="text" label="customer age" friendcode = "age" />    
-    <Slot name="phoneNumber" type="text" label="customer id" friendcode = "phone" />    
+    <Event name="firstname" type="text" label="Customer First Name" friendcode = "firstname" />
+    <Event name="surname" type="text" label="Customer Surname" friendcode = "surname" />
+    <Event name="dni" type="text" label="Customer DNI" friendcode = "dni" />
+    <Event name="average_bill" type="text" label="Customer Average Bill" friendcode = "average_bill" />
+    <Event name="age" type="text" label="Customer Age" friendcode = "age" />    
+    <Slot name="phoneNumber" type="text" label="Customer Id" friendcode = "phone" />    
   </Platform.Wiring>
   <Platform.Link>
     <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/visorUsuarios/visorUsuarios_1.01/visorDatosCliente.html"/>
