@@ -28,7 +28,8 @@ class Error:
                          4:"Error: Wgt package could not be copied to gadget directory",
                          5:"Error: The directory doesn't exist or isn't a directory",
                          6:"Error: The gadget has files with an invalid filename",
-                         7:"Error: The gadget has an invalid name or an invalid vendor name",}
+                         7:"Error: The gadget has an invalid name or an invalid vendor name",
+                         8:"Error: Gadet template is not well-formed"}
         self.code = code
     
     def __str__(self):
@@ -123,7 +124,10 @@ class ParserTemplate:
     def parse(self):
         if (self.config.template == None):
             raise Error(1)
-        xmldoc = parse(os.path.join(self.config.path, self.config.template))
+        try:
+            xmldoc = parse(os.path.join(self.config.path, self.config.template))
+        except:
+            raise Error(8)
         
         # Get Name tag
         if xmldoc.getElementsByTagName("Name"):
