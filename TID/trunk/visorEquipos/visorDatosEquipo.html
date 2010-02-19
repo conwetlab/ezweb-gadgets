@@ -9,11 +9,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Visor de datos de equipo</title>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.4/"/>
 <style type="text/css">
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.2/background.png) repeat-x scroll left top;
+			background: url(background.png) repeat-x scroll left top;
 			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 
@@ -53,9 +54,17 @@
 </style>
 
 <script>
-var deviceId = EzWebAPI.createRGadgetVariable("equipo",_deviceHandler);
-var deviceStatus = EzWebAPI.createRGadgetVariable("estado",_statusHandler);
-var address = EzWebAPI.createRWGadgetVariable("dir_equipo");
+var deviceId = EzWebAPI.createRGadgetVariable("device",_deviceHandler);
+var deviceStatus = EzWebAPI.createRGadgetVariable("status",_statusHandler);
+var address = EzWebAPI.createRWGadgetVariable("address");
+var workerName = EzWebAPI.createRWGadgetVariable("workerName");
+var workerCode = EzWebAPI.createRWGadgetVariable("workerCode");
+var deviceIP = EzWebAPI.createRWGadgetVariable("deviceIP");
+var deviceName = EzWebAPI.createRWGadgetVariable("deviceName");
+var deviceArea = EzWebAPI.createRWGadgetVariable("deviceArea");
+var deviceType = EzWebAPI.createRWGadgetVariable("deviceType");
+var deviceSubtype = EzWebAPI.createRWGadgetVariable("deviceSubtype");
+var deviceModel = EzWebAPI.createRWGadgetVariable("deviceModel");
 var code = EzWebAPI.createRWGadgetVariable("cod_equipo");
 var ip = EzWebAPI.createRWGadgetVariable("ip_equipo");
 var workingStatus = "OK";
@@ -109,6 +118,14 @@ function _deviceHandler(device){
 			address.set(devices[device][9]);
 			code.set(devices[device][0]);
 			ip.set(devices[device][3]);
+      workerCode.set(devices[device][1]);      
+      workerName.set(devices[device][2]);
+      deviceIP.set(devices[device][3]);
+      deviceName.set(devices[device][4]);      
+      deviceArea.set(devices[device][5]);            
+      deviceType.set(devices[device][6]);                  
+      deviceSubtype.set(devices[device][7]);                        
+      deviceModel.set(devices[device][8]);			
 		}
 	}
 }
