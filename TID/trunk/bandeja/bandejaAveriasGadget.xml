@@ -8,7 +8,7 @@
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta una lista de averias registradas por usuarios y la informacion relativa a ellas</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.04/averias.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.4/averias.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BandejaDeAverias</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
@@ -28,7 +28,7 @@
     <Event name="taskDescription" type="text" label="Task Description" friendcode = "task_description"/>    
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.04/bandejaAverias.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.4/bandejaAverias.html"/>
   </Platform.Link>
   <Platform.Rendering width="20" height="13"/>
 </Template>
