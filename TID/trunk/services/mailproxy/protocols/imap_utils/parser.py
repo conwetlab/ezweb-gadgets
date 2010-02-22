@@ -101,15 +101,43 @@ def parseMailList(mails):
     
     result = []
      
-    for m in mails.split(","):
-        mail = rfc822.parseaddr(m)
-        mail = {"name": mail[0], "mail": mail[1]}
+    #for m in mails.split(","):
+    #    mail = rfc822.parseaddr(m)
+    #    mail = {"name": mail[0], "mail": mail[1]}
+    #    try:
+    #        mail["name"] = mime_decode(mail[0])
+    #        mail["mail"] = mime_decode(mail[1])
+    #    except:
+    #        pass
 
+    email_regexp = '\S+[\.\S+]*@\S+[\.\S+]+'
+    full_email_regexp = re.compile('\s*(("(.*)"\s*|(.*)\s*|)<(' + email_regexp + ')>|(' + email_regexp + '))\s*') # Mejorar
+
+    result = []
+     
+    for m in mails.split(","):
+        match = full_email_regexp.match(m)
+        
+        mail = {}
+        mail["mail"] = ""
+        mail["name"] = ""
+    
+        if match != None:
+            if (match.group(5) != None):
+                mail["mail"] = mime_decode(match.group(5))
+                if (match.group(3) != None):
+                    mail["name"] = mime_decode(match.group(3))
+                elif (match.group(4) != None):
+                    mail["name"] = mime_decode(match.group(4)) 
+            elif (match.group(6) != None):
+                mail["mail"] = mime_decode(match.group(6))
+                mail["name"] = mime_decode(match.group(6))
+                
         if (mail["name"] == ""):
             mail["name"] = mail["mail"]
         if (mail["mail"] == ""):
             mail["mail"] = mail["name"]
-
+        
         result.append(mail)
 
     return result

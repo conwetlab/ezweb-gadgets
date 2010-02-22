@@ -10,7 +10,7 @@ from django.core.serializers.json import DateTimeAwareJSONEncoder
 from django.contrib.auth.models import User
 from django.utils import simplejson
 
-def json_encode(data, ensure_ascii=False):
+def json_encode(data):
     """
     The main issues with django's default json serializer is that properties that
     had been added to a object dynamically are being ignored (and it also has 
@@ -61,7 +61,7 @@ def json_encode(data, ensure_ascii=False):
     
     ret = _any(data)
     
-    return simplejson.dumps(ret, cls=DateTimeAwareJSONEncoder, ensure_ascii=ensure_ascii)
+    return simplejson.dumps(ret, cls=DateTimeAwareJSONEncoder, ensure_ascii=True)
 
 def get_error_object(msg):
     return {"error": msg}
