@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Visor de datos de equipo</title>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.4/"/>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/visorEquipos/visorEquipos_1.4.1/"/>
 <style type="text/css">
 		body{
 			margin:0px;
@@ -65,8 +65,7 @@ var deviceArea = EzWebAPI.createRWGadgetVariable("deviceArea");
 var deviceType = EzWebAPI.createRWGadgetVariable("deviceType");
 var deviceSubtype = EzWebAPI.createRWGadgetVariable("deviceSubtype");
 var deviceModel = EzWebAPI.createRWGadgetVariable("deviceModel");
-var code = EzWebAPI.createRWGadgetVariable("cod_equipo");
-var ip = EzWebAPI.createRWGadgetVariable("ip_equipo");
+var deviceCode = EzWebAPI.createRWGadgetVariable("deviceCode");
 var workingStatus = "OK";
 
 /*Temporary data for the demo*/
@@ -116,8 +115,7 @@ function _deviceHandler(device){
 		if (document.getElementById("info")){
 			document.getElementById("info").innerHTML=content;
 			address.set(devices[device][9]);
-			code.set(devices[device][0]);
-			ip.set(devices[device][3]);
+			deviceCode.set(devices[device][0]);
       workerCode.set(devices[device][1]);      
       workerName.set(devices[device][2]);
       deviceIP.set(devices[device][3]);
