@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<base href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.00/"/>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.2/"/>
 <link id="css_style" href="css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Twitter Box</title>
@@ -96,7 +96,7 @@ function textChanged()
 
 function addText(value) {
 	var text = document.KeywordCreationForm.elements['keyword'].value;
-	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '') {
+	if (additionoftext == "permitted" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '') {
 		if (onaddedtext == "iscleaned") {
 			document.KeywordCreationForm.elements['keyword'].value = value;
 		} else if (onaddedtext == "prefixes") {
@@ -109,7 +109,7 @@ function addText(value) {
 
 function addTextThenButton2(value) {
 	addText(value);
-	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
+	if (additionoftext == "permitted" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
 	{
 		sendButton2Text();
 	}
@@ -117,7 +117,7 @@ function addTextThenButton2(value) {
 
 function addTextThenButton1(value){
   addText(value);
-	if (additionoftext == "permited" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
+	if (additionoftext == "permitted" || !textHasChanged || document.KeywordCreationForm.elements['keyword'].value == '')
 	{
 		sendButton1Text();
 	}

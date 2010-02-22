@@ -4,11 +4,11 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Twitter Box</Name>
-		<Version>1.00</Version>
+		<Version>1.2</Version>
 		<Author>rps</Author>
 		<Mail>rps@tid.es</Mail>
 		<Description>This gadget sends as an event the text entered in the input box. Connect it to any gadget which needs a keyword, a name, a city, etc. and you will have an easy way of passing data to those gadgets.</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox//TwitterBox_1.00/search.png</ImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox//TwitterBox_1.2/search.png</ImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Input_Text_Box</WikiURI>
 	</Catalog.ResourceDescription>
 	<!-- EzWeb Gadgets Tags -->
@@ -40,9 +40,9 @@
 			<Option value="prefixes" name="prefixes added text"/>
 			<Option value="concatenates" name="concatenates after added text"/>
 		</Preference>
-		<Preference name="additionoftext" type="list" description="external addition of text is permited/discarted" label="If the text has been modified, addition of text is" default="discarted">
-			<Option value="permited" name="permited"/>
-			<Option value="discarted" name="discarted"/>
+		<Preference name="additionoftext" type="list" description="external addition of text is permitted/discarded" label="If the text has been modified, addition of text is" default="discarded">
+			<Option value="permitted" name="permitted"/>
+			<Option value="discarded" name="discarded"/>
 		</Preference>
 	</Platform.Preferences>
 	<!-- EzWeb Gadget Persistent State -->
@@ -57,7 +57,7 @@
   	<Slot name="addTextThenButton2" type="text" label="Add text then button 2 post" friendcode="keyword"/>
 	</Platform.Wiring>
 	<Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.00/TwitterBox.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/TwitterBox/TwitterBox_1.2/TwitterBox.html"/>
 	</Platform.Link>
 	<Platform.Rendering width="7" height="5"/>
 </Template>
