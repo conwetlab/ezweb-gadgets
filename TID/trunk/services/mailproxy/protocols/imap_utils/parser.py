@@ -109,9 +109,10 @@ def parseMailList(mails):
     #        mail["mail"] = mime_decode(mail[1])
     #    except:
     #        pass
-
-    email_regexp = '\S+[\.\S+]*@\S+[\.\S+]+'
-    full_email_regexp = re.compile('\s*(("(.*)"\s*|(.*)\s*|)<(' + email_regexp + ')>|(' + email_regexp + '))\s*') # Mejorar
+    #valid_chars = "[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]"
+    #email_regexp = "%(w)s+[\.%(w)s+]*@%(w)s+[\.%(w)s+]+" % {"w": valid_chars}
+    full_email_regexp = '\s*(?:(?:\"?([^\"\<\>]+)\"?\s+)?\<\s*([^\<\>]+)\s*>)|\"?([^\"]+)\"?\s*'
+    full_email_regexp = re.compile(full_email_regexp)
 
     result = []
      
@@ -123,15 +124,13 @@ def parseMailList(mails):
         mail["name"] = ""
     
         if match != None:
-            if (match.group(5) != None):
-                mail["mail"] = mime_decode(match.group(5))
-                if (match.group(3) != None):
-                    mail["name"] = mime_decode(match.group(3))
-                elif (match.group(4) != None):
-                    mail["name"] = mime_decode(match.group(4)) 
-            elif (match.group(6) != None):
-                mail["mail"] = mime_decode(match.group(6))
-                mail["name"] = mime_decode(match.group(6))
+            if (match.group(1) != None):
+                mail["name"] = mime_decode(match.group(1))
+            if (match.group(2) != None):
+                mail["mail"] = mime_decode(match.group(2))
+            elif (match.group(3) != None):
+                mail["mail"] = mime_decode(match.group(3))
+                mail["name"] = mime_decode(match.group(3))
                 
         if (mail["name"] == ""):
             mail["name"] = mail["mail"]
