@@ -37,7 +37,7 @@
 	<Platform.Wiring>
 		<Slot name="emailDetails" type="text" label="Email details" friendcode="emailDetails"/>
 		<Slot name="showSendMailForm" type="text" label="Show send-mail form" friendcode="show"/>
-		<Slot name="emails" type="text" label="Email dirs." friendcode="email"/>
+		<Slot name="emails" type="text" label="Email address" friendcode="email"/>
 		<Slot name="subject" type="text" label="Subject" friendcode="subject"/>
 		<Slot name="text" type="text" label="Text" friendcode="text"/>
 		<Slot name="attach" type="text" label="Attach" friendcode="attach"/>
