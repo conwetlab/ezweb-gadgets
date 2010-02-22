@@ -4,7 +4,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Cliente Correo Telefónica</Name>
-		<Version>2.3</Version>
+		<Version>2.4</Version>
 		<Author>jmostazo</Author>
 		<Mail>jmostazo@pegaso.ls.fi.upm.es</Mail>
 		<Description>Gadget Cliente de correo para las cuentas de Telefónica</Description>
@@ -17,7 +17,7 @@
 	<Platform.Preferences>
 	    <Preference name="mailproxy" type="text" label="Mailproxy service" description="Mailproxy service" default="http://ezweb.tid.es/mailproxy"/>
 		<Preference name="webdav" type="text" label="WebDav account" description="WebDav account" default=""/>
-		<Preference name="webdav_dir" type="text" label="WebDav Directory" description="WebDav Directory" default="attachments"/>
+		<Preference name="webdav_dir" type="text" label="WebDav directory" description="WebDav directory" default="attachments"/>
 	    <Preference name="refresh_time" type="list" label="Refresh time" description="Refresh time" default="10">
 			<Option value="0"  name="Never"/>
 			<Option value="5"  name="5 min."/>
@@ -35,20 +35,20 @@
 	</Platform.StateProperties>
 
 	<Platform.Wiring>
-		<Slot name="emailDetails" type="text" label="emailDetails" friendcode="emailDetails"/>
-		<Slot name="showSendMailForm" type="text" label="showSendMailForm" friendcode="show"/>
-		<Slot name="emails" type="text" label="emails" friendcode="email"/>
-		<Slot name="subject" type="text" label="subject" friendcode="subject"/>
-		<Slot name="text" type="text" label="text" friendcode="text"/>
-		<Slot name="attach" type="text" label="attach" friendcode="attach"/>
-		<Event name="fromEvent" type="text" label="from" friendcode="email"/>
-		<Event name="recipientsEvent" type="text" label="recipients" friendcode="email"/>
-		<Event name="subjectEvent" type="text" label="subject" friendcode="subject"/>
-		<Event name="textEvent" type="text" label="text" friendcode="text"/>
-		<Event name="dateEvent" type="text" label="date" friendcode="date"/>
-		<Event name="sizeEvent" type="text" label="size" friendcode="size"/>
-		<Event name="hasAttachmentsEvent" type="text" label="hasAttachments" friendcode="hasAttachments"/>
-		<Event name="webdavDirectoryEvent" type="text" label="webdavDirectory" friendcode="directory"/>
+		<Slot name="emailDetails" type="text" label="Email details" friendcode="emailDetails"/>
+		<Slot name="showSendMailForm" type="text" label="Show send-mail form" friendcode="show"/>
+		<Slot name="emails" type="text" label="Email dirs." friendcode="email"/>
+		<Slot name="subject" type="text" label="Subject" friendcode="subject"/>
+		<Slot name="text" type="text" label="Text" friendcode="text"/>
+		<Slot name="attach" type="text" label="Attach" friendcode="attach"/>
+		<Event name="fromEvent" type="text" label="From" friendcode="email"/>
+		<Event name="recipientsEvent" type="text" label="Recipients" friendcode="email"/>
+		<Event name="subjectEvent" type="text" label="Subject" friendcode="subject"/>
+		<Event name="textEvent" type="text" label="Text" friendcode="text"/>
+		<Event name="dateEvent" type="text" label="Date" friendcode="date"/>
+		<Event name="sizeEvent" type="text" label="Size" friendcode="size"/>
+		<Event name="hasAttachmentsEvent" type="text" label="Has attachments" friendcode="hasAttachments"/>
+		<Event name="webdavDirectoryEvent" type="text" label="Webdav dir." friendcode="directory"/>
 	</Platform.Wiring>
 
 	<Platform.Link>

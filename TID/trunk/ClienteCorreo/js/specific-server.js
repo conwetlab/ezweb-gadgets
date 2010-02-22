@@ -230,24 +230,24 @@ AccountsManagerSpecific.prototype.saveForm = function() {
             return false;
         }
 	    this.setDefaultInAccount({
-		    name:       "",
-		    account:    ClienteCorreo.form_default_config["account"].getValue(),
-		    protocol:   this.defaultSettings["in"]["protocol"],
-		    connection: this.defaultSettings["in"]["connection"],
-		    host:       this.defaultSettings["in"]["host"],
-		    port:       this.defaultSettings["in"]["port"],
-		    username:   ClienteCorreo.form_default_config["username"].getValue(),
-		    password:   ClienteCorreo.form_default_config["password"].getValue()
+		    "name":       "",
+		    "account":    ClienteCorreo.form_default_config["account"].getValue(),
+		    "protocol":   this.defaultSettings["in"]["protocol"],
+		    "connection": this.defaultSettings["in"]["connection"],
+		    "host":       this.defaultSettings["in"]["host"],
+		    "port":       this.defaultSettings["in"]["port"],
+		    "username":   ClienteCorreo.form_default_config["username"].getValue(),
+		    "password":   ClienteCorreo.form_default_config["password"].getValue()
 	    });
 	    this.setDefaultOutAccount({
-		    name:       ClienteCorreo.form_default_config["name"].getValue(),
-		    account:    ClienteCorreo.form_default_config["account"].getValue(),
-		    protocol:   this.defaultSettings["out"]["protocol"],
-		    connection: this.defaultSettings["out"]["connection"],
-		    host:       this.defaultSettings["out"]["host"],
-		    port:       this.defaultSettings["out"]["port"],
-		    username:   ClienteCorreo.form_default_config["username"].getValue(),
-		    password:   ClienteCorreo.form_default_config["password"].getValue()
+		    "name":       ClienteCorreo.form_default_config["name"].getValue(),
+		    "account":    ClienteCorreo.form_default_config["account"].getValue(),
+		    "protocol":   this.defaultSettings["out"]["protocol"],
+		    "connection": this.defaultSettings["out"]["connection"],
+		    "host":       this.defaultSettings["out"]["host"],
+		    "port":       this.defaultSettings["out"]["port"],
+		    "username":   ClienteCorreo.form_default_config["username"].getValue(),
+		    "password":   ClienteCorreo.form_default_config["password"].getValue()
 	    });
 	    this.save();
 	    return true;

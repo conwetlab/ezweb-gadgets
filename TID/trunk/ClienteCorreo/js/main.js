@@ -762,12 +762,12 @@ ClienteCorreo.prototype._createParent = function(full_name, separator) {
 	var name = full_name.split(separator)[full_name.split(separator).length-1];
 	var parent = full_name.substr(0,full_name.length-name.length-separator.length);
 	var open = AccountsManager.getInAccount().addMailbox({
-		full_name: full_name,
-		flags: ["\\Noselect"],
-		name: name,
-		parent: parent,
-		separator: separator,
-		state:  "closed"
+		"full_name": full_name,
+		"flags": ["\\Noselect"],
+		"name": name,
+		"parent": parent,
+		"separator": separator,
+		"state":  "closed"
 	});
 	this._createFolder(full_name);
 	if (open) {
@@ -1242,8 +1242,8 @@ ClienteCorreo.prototype.getMailsByFolder = function() {
 				this.end
 			),
 			Utils.urlParams({
-				config: Utils.toJSON(AccountsManager.getInAccount().getConfig()), 
-				mailbox: AccountsManager.getInAccount().getSelectedMailboxName()
+				"config": Utils.toJSON(AccountsManager.getInAccount().getConfig()), 
+				"mailbox": AccountsManager.getInAccount().getSelectedMailboxName()
 			}),
 			this.onSuccessGetMailsByFolder, 
 			this.onError,
@@ -1265,8 +1265,8 @@ ClienteCorreo.prototype.sendSearchMails = function() {
 				this.end
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-				mailbox: AccountsManager.getInAccount().getSelectedMailboxName()
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+				"mailbox": AccountsManager.getInAccount().getSelectedMailboxName()
 			}), 
 			this.onSuccessSearchMails, 
 			this.onError,
@@ -1284,7 +1284,7 @@ ClienteCorreo.prototype.getFolders = function() {
 				"imap/mailbox/all"
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig())
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig())
 			}),
 			this.onSuccessGetFolders,
 			this.onError,
@@ -1304,8 +1304,8 @@ ClienteCorreo.prototype.getFolderInfo = function(full_name) {
 			            "imap/mailbox"
 			        ),
 			        Utils.urlParams({
-			            config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-			            mailbox: full_name
+			            "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+			            "mailbox": full_name
 			        }),
 			        this.onSuccessGetFolderInfo,
 			        function(){},
@@ -1325,8 +1325,8 @@ ClienteCorreo.prototype.getAllFoldersInfo = function() {
 			    "imap/mailbox"
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-			    mailbox: "*"
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+			    "mailbox": "*"
 			}),
 			this.onSuccessGetAllFoldersInfo,
 			function(){},
@@ -1346,8 +1346,8 @@ ClienteCorreo.prototype.getMail = function(mailbox, uid) {
 			    uid
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-				mailbox: mailbox
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+				"mailbox": mailbox
 			}),
 			this.onSuccessGetMail,
 			this.onError,
@@ -1369,9 +1369,9 @@ ClienteCorreo.prototype.sendFilesToWebdav = function(mailbox, uid) {
 			    "files_to_webdav"
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-				mailbox: mailbox,
-				webdav: Utils.urlJoin(this.webdavURL, this.webdavDirectory)
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+				"mailbox": mailbox,
+				"webdav": Utils.urlJoin(this.webdavURL, this.webdavDirectory)
 			}),
 			EzWebExt.bind(function() {
 			    this.webdavDirEvent.set(this.webdavDirectory);
@@ -1385,6 +1385,40 @@ ClienteCorreo.prototype.sendFilesToWebdav = function(mailbox, uid) {
 }
 
 ClienteCorreo.prototype.sendMail = function(subject, messageHtml, to, cc, bcc) {
+    // Escapamos urls y mails
+    var div = document.createElement("div");
+    div.innerHTML = messageHtml;
+    
+    var replaceLink = function(element, reg, replaceTo) {
+        if (element.nodeType == 3) { // Nodo de texto
+            var text = EzWebExt.getTextContent(element);
+            var textReplaced = text.replace(reg, replaceTo);
+            if (textReplaced != text) {
+                var span = document.createElement("span");
+                element.parentNode.insertBefore(span, element);
+                span.innerHTML = textReplaced;
+                EzWebExt.removeFromParent(element);
+            }
+        }
+        else if (element.tagName.toLowerCase() != "a") {
+            for (var i=0; i<element.childNodes.length; i++) {
+                replaceLink(element.childNodes[i], reg, replaceTo);
+            }
+        }
+    }
+    
+    // Email links
+    var validChars = "[\\w\\!\\#\\$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`\\{\\|\\}\\~]+"; // revisar
+    var reg = new RegExp("("+validChars+"(?:\\."+validChars+")*@"+validChars+"(?:\\."+validChars+")+)", "g");
+    replaceLink(div, reg, '<a href="mailto:$1">$1</a>');
+    
+    // Web links
+    reg = new RegExp("(\\w+\\:\\/\\/\\w+(?:\\.\\w+)*(?:\\:\\d+)?(?:\\/\\w+)*(?:[\\w\\.\\?\\=\\/\\#\\%\\&\\+\\-]*))", "g"); // revisar
+    replaceLink(div, reg, '<a href="$1">$1</a>');
+    
+    messageHtml = div.innerHTML;
+    
+    // Enviamos el mensaje
 	if (this.form_send["multi_selector"].haveAttach()) {
 		this.sendMailWithAttach(subject, messageHtml, to, cc, bcc);
 	}
@@ -1401,12 +1435,12 @@ ClienteCorreo.prototype.sendMailWithAttach = function(subject, messageHtml, to, 
 		this.disableGeneralUID();
 		var outAccount = AccountsManager.getOutAccount();
 		var destination = {
-			subject: subject,
-			message_html: messageHtml,
-			from: outAccount.account,
-			to: to,
-			cc: cc,
-			bcc: bcc
+			"subject": subject,
+			"message_html": messageHtml,
+			"from": outAccount.account,
+			"to": to,
+			"cc": cc,
+			"bcc": bcc
 		}
 		
 		this.form_send["form"].config.value = Utils.toJSON(outAccount.getConfig());
@@ -1425,12 +1459,12 @@ ClienteCorreo.prototype.sendMailWithoutAttach = function(subject, messageHtml, t
 		this.disableGeneralUID();
 		var outAccount = AccountsManager.getOutAccount();
 		var destination = {
-			subject: subject,
-			message_html: messageHtml,
-			from: outAccount.account,
-			to: to,
-			cc: cc,
-			bcc: bcc
+			"subject": subject,
+			"message_html": messageHtml,
+			"from": outAccount.account,
+			"to": to,
+			"cc": cc,
+			"bcc": bcc
 		}
 
 		this.sendPost(
@@ -1439,8 +1473,8 @@ ClienteCorreo.prototype.sendMailWithoutAttach = function(subject, messageHtml, t
 			    "smtp/sender"
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(outAccount.getConfig()), 
-				destination: Utils.toJSON(destination)
+			    "config": Utils.toJSON(outAccount.getConfig()), 
+				"destination": Utils.toJSON(destination)
 			}),
 			this.onSuccessSendMail,
 			this.onError,
@@ -1457,12 +1491,12 @@ ClienteCorreo.prototype.getFile = function(form, foldername, uid, filename) {
 		this.disableGeneralUID();
 		var outAccount = AccountsManager.getOutAccount();
 		var destination = {
-			subject: subject,
-			message_html: messageHtml,
-			from: outAccount.account,
-			to: to,
-			cc: cc,
-			bcc: bcc
+			"subject": subject,
+			"message_html": messageHtml,
+			"from": outAccount.account,
+			"to": to,
+			"cc": cc,
+			"bcc": bcc
 		}
 		
 		
@@ -1581,13 +1615,13 @@ ClienteCorreo.prototype.onSuccessGetFolders = function(transport) {
 			var parent = full_name.substr(0,full_name.length-name.length-separator.length);
 			var flags = folderList[i].flags;
 			var open = account.addMailbox({
-				full_name: full_name,
-				flags: flags,
-				name: name,
-				parent: parent,
-				separator: separator,
-				state:  "closed",
-				counter: 0
+				"full_name": full_name,
+				"flags": flags,
+				"name": name,
+				"parent": parent,
+				"separator": separator,
+				"state":  "closed",
+				"counter": 0
 			});
 		    
 		    this._createFolder(full_name);
@@ -1956,8 +1990,8 @@ ClienteCorreo.prototype.onSuccessGetMail = function(transport) {
 		        var link = links[i];
 		        if (link.href.substring(0, 7).toLowerCase() == "mailto:") {
 			        link.parentNode.insertBefore(this._createMailLink({
-				        mail: link.href.substring(7, link.href.length), 
-				        name: link.text
+				        "mail": link.href.substring(7, link.href.length), 
+				        "name": link.text
 			        }), link);
 			        removeLinks.push(link);
 		        }
@@ -2062,9 +2096,9 @@ ClienteCorreo.prototype.getEmbedImage = function(mail, image, imageId) {
 			    "image"
 			),
 			Utils.urlParams({
-			    config: Utils.toJSON(AccountsManager.getInAccount().getConfig()),
-			    mailbox: AccountsManager.getInAccount().getSelectedMailboxName(),
-			    imageid: imageId
+			    "config": Utils.toJSON(AccountsManager.getInAccount().getConfig()),
+			    "mailbox": AccountsManager.getInAccount().getSelectedMailboxName(),
+			    "imageid": imageId
 			}),
 			EzWebExt.bind(function(transport){
 			    this.self.onSuccessGetEmbedImage(transport, this.image);
@@ -2138,8 +2172,8 @@ AccountsManagerBasic.prototype.getOutAccount = function() {
 
 AccountsManagerBasic.prototype.toJSON = function() {
 	return Utils.toJSON({
-		inAccount: this.inAccount, 
-		outAccount: this.outAccount
+		"inAccount": this.inAccount, 
+		"outAccount": this.outAccount
 	});
 }
 
@@ -2171,24 +2205,24 @@ AccountsManagerBasic.prototype.saveForm = function() {
         return false;
     }
 	this.setInAccount({
-		name:       "",
-		account:    ClienteCorreo.form_in_config["account"].getValue(),
-		protocol:   ClienteCorreo.form_in_config["protocol"].getValue(),
-		connection: ClienteCorreo.form_in_config["connection"].getValue(),
-		host:       ClienteCorreo.form_in_config["host"].getValue(),
-		port:       ClienteCorreo.form_in_config["port"].getValue(),
-		username:   ClienteCorreo.form_in_config["username"].getValue(),
-		password:   ClienteCorreo.form_in_config["password"].getValue()
+		"name":       "",
+		"account":    ClienteCorreo.form_in_config["account"].getValue(),
+		"protocol":   ClienteCorreo.form_in_config["protocol"].getValue(),
+		"connection": ClienteCorreo.form_in_config["connection"].getValue(),
+		"host":       ClienteCorreo.form_in_config["host"].getValue(),
+		"port":       ClienteCorreo.form_in_config["port"].getValue(),
+		"username":   ClienteCorreo.form_in_config["username"].getValue(),
+		"password":   ClienteCorreo.form_in_config["password"].getValue()
 	});
 	this.setOutAccount({
-		name:       ClienteCorreo.form_out_config["name"].getValue(),
-		account:    ClienteCorreo.form_out_config["account"].getValue(),
-		protocol:   ClienteCorreo.form_out_config["protocol"].getValue(),
-		connection: ClienteCorreo.form_out_config["connection"].getValue(),
-		host:       ClienteCorreo.form_out_config["host"].getValue(),
-		port:       ClienteCorreo.form_out_config["port"].getValue(),
-		username:   ClienteCorreo.form_out_config["username"].getValue(),
-		password:   ClienteCorreo.form_out_config["password"].getValue()
+		"name":       ClienteCorreo.form_out_config["name"].getValue(),
+		"account":    ClienteCorreo.form_out_config["account"].getValue(),
+		"protocol":   ClienteCorreo.form_out_config["protocol"].getValue(),
+		"connection": ClienteCorreo.form_out_config["connection"].getValue(),
+		"host":       ClienteCorreo.form_out_config["host"].getValue(),
+		"port":       ClienteCorreo.form_out_config["port"].getValue(),
+		"username":   ClienteCorreo.form_out_config["username"].getValue(),
+		"password":   ClienteCorreo.form_out_config["password"].getValue()
 	});
 	this.save();
 	return true;
@@ -2341,13 +2375,13 @@ Account.prototype.getMailboxShortName = function(key) {
 
 Account.prototype.getConfig = function() {
 	return {
-	    name: this.name,
-		account: this.account,
-		connection: this.connection,
-		host: this.host,
-		port: this.port,
-		username: this.username,
-		password: this.password
+	    "name": this.name,
+		"account": this.account,
+		"connection": this.connection,
+		"host": this.host,
+		"port": this.port,
+		"username": this.username,
+		"password": this.password
 	};
 }
 
@@ -3086,6 +3120,8 @@ Utils.prototype.urlJoin = function(/* arguments */) {
 Utils.prototype.urlNormalize = function(url, replaceInitialBars) {
     if (!replaceInitialBars) {
 		return url.replace(/(^\s*|\/*\s*$)/g, ''); /**/
+  		if (!mails[i].match(re))
+    			return false;
 	}
 	else {
 	    return url.replace(/(^\s*\/*|\/*\s*$)/g, ''); /**/
@@ -3128,26 +3164,26 @@ if (EzWebExt.Browser.isIE() && (EzWebExt.Browser.getShortVersion() < 8)) {
 
 var tinyMCE_config = {
     // General options
-    mode : "textareas",
-    theme : "advanced",
-    editor_selector : "mceSend",
-    oninit: ClienteCorreo._resizeTinyMCE,
+    "mode": "textareas",
+    "theme": "advanced",
+    "editor_selector": "mceSend",
+    "oninit": ClienteCorreo._resizeTinyMCE,
     //plugins : "safari",
 
     // Theme options
-    theme_advanced_buttons1 : 
+    "theme_advanced_buttons1": 
 	    "bold,italic,underline,strikethrough,|," + 
 	    "undo,redo,|," +
 	    "justifyleft,justifycenter,justifyright,justifyfull,|," +
 	    "fontselect,fontsizeselect,|," +
 	    "forecolor,backcolor,|," +
 	    "bullist,numlist",
-    theme_advanced_buttons2 : "",
-    theme_advanced_buttons3 : "",
-    theme_advanced_buttons4 : "",
-    theme_advanced_toolbar_location : "top",
-    theme_advanced_toolbar_align : "left",
-    theme_advanced_statusbar_location: "none",
-    theme_advanced_font_sizes : "1,2,3,4,5,6,7",
-    theme_advanced_more_colors : false
+    "theme_advanced_buttons2": "",
+    "theme_advanced_buttons3": "",
+    "theme_advanced_buttons4": "",
+    "theme_advanced_toolbar_location": "top",
+    "theme_advanced_toolbar_align": "left",
+    "theme_advanced_statusbar_location": "none",
+    "theme_advanced_font_sizes": "1,2,3,4,5,6,7",
+    "theme_advanced_more_colors": false
 };
