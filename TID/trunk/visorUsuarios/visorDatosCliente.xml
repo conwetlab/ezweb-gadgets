@@ -4,7 +4,7 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Visor Datos de Cliente</Name>
-    <Version>1.4</Version>
+    <Version>1.4.1</Version>
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta la informacion relativa a un cliente el cual ha efectuado un pedido o reclamación</Description>
