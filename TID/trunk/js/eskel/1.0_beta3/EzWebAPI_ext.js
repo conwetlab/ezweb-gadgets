@@ -443,7 +443,7 @@ EzWebExt.setTextContent = function(element, text) {
  *
  * @return {String}
  */
-EzWebExt.getTextContent = function() {
+EzWebExt.getTextContent = function(element) {
     if ("textContent" in element) {
         return element.textContent;
     }
