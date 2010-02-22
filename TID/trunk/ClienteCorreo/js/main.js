@@ -1080,9 +1080,9 @@ ClienteCorreo.prototype._createMailLink = function(mail) {
 
 ClienteCorreo.prototype.reload = function(firstLoad) {
     if (AccountsManager.isConfigured()) {
-        AccountsManager.getInAccount().resetSelectedMailbox();
         this.main_tab_scroll = document.getElementById("main_tablebody").scrollTop;
         if (firstLoad) {
+            AccountsManager.getInAccount().resetSelectedMailbox();
             this.main_tab_scroll = 0;
             this.begin = 1;
 	        this.end = this.INTERVAL_SIZE;
