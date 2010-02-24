@@ -5,14 +5,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
 <title>Bandeja de Pedidos-Reclamaciones</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/js/prototype/prototype.js"></script>
+<base href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.4/"></base>
 
 <style>
 		body{
 			margin:0px;
 			padding:0px;
-			background: url(http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.01/background.png) repeat-x scroll left top;
+			background: url(background.png) repeat-x scroll left top;
+			font-family:Arial,Verdana,Helvetica, Sans-Serif;
 		}
 		#innerTaskList {
 			overflow:auto;
@@ -27,73 +30,276 @@
 			font-family:Arial;
 			font-size:14px;
 			text-align:center;
+			border-collapse:collapse;
 		}
+		td{
+			font-size:12px;			
+		}
+
+		.th0, .th1, .th4, .th5{
+  		border: 1px outset rgb(221, 221, 221); 
+  		background-color: rgb(0, 0, 119); 
+  		color: rgb(255, 255, 255); 
+  		width: 12%;
+  		font-weight:bold;
+  		
+		}
+		
+		.th2,.th3{
+  		border: 1px outset rgb(221, 221, 221); 
+  		background-color: rgb(0, 0, 119); 
+  		color: rgb(255, 255, 255); width: 32%;
+  		font-weight:bold;  		
+		}
+
+    .td0, .td1, .td2, .td3, .td4, .td5{
+      border: 1px outset rgb(221, 221, 221);       
+      text-align:center;
+      vertical-align:middle;
+    }
+    
+    .td0{
+      color: rgb(0, 0, 119); 
+      text-decoration: underline; 
+      cursor: pointer;
+      font-weight:bold;
+    }
+    
+    .td3{
+      text-align:left;
+    }
+    
+    .rowSelected{
+      background-color:#C8D0E8;
+    }
+    
+    .rowSelected td{
+      font-weight:bold;
+    }
 </style>
 
 <script>
-var phoneNumber = EzWebAPI.createRWGadgetVariable("telefono");
-var serviceHired = EzWebAPI.createRWGadgetVariable("servicio");
-var ticketDesc = EzWebAPI.createRWGadgetVariable("descripcion");
+// Events and Slots variables
+var phoneNumber = EzWebAPI.createRWGadgetVariable("phoneNumber");
+var serviceHired = EzWebAPI.createRWGadgetVariable("serviceHired");
+var workerID = EzWebAPI.createRWGadgetVariable("workerID");
+var userFullName = EzWebAPI.createRWGadgetVariable("userFullName");
+var taskID = EzWebAPI.createRWGadgetVariable("taskID");
+var taskDescription = EzWebAPI.createRWGadgetVariable("taskDescription");
 
-function sendData(row){
-var rows = document.getElementsByTagName("td");
-phoneNumber.set(rows[row*5+1].innerHTML);
-serviceHired.set(rows[row*5+4].innerHTML);
-ticketDesc.set(rows[row*5+3].innerHTML);
+// Property variable
+var breakdown = EzWebAPI.createRWGadgetVariable("breakdown");
+
+// BreakDownBox class
+var BreakDownBox = function (){
+  this.data = [];
+  
+  this.init = function(){
+    document.body.innerHTML = "";
+    // Create a new div innerTaskList
+    var innerTaskList = document.createElement("div");
+    innerTaskList.id = "innerTaskList";
+    document.body.appendChild(innerTaskList);
+    var taskList = document.createElement("div");
+    taskList.id = 'taskListTable';
+    innerTaskList.appendChild(taskList);  
+
+    // Create a new table
+    var table = document.createElement("table");
+    this.tbody = document.createElement("tbody");
+    table.appendChild(this.tbody);
+    taskList.appendChild(table);
+
+    this.workers = [{'fullName':"Lopez Rodríguez, Francisco",
+                      'phone':'636782901',
+                      'address':'Calle de Luchana 2, 28010 Madrid'},
+                     {'fullName':"Romero Sanchez, Marta",
+                      'phone':'658023928',
+                      'address':'Paseo de Santa María de la Cabeza 10, Madrid'},                      
+                     {'fullName':"Reyes Gil, Miguel",
+                      'phone':'696547845',
+                      'address':'Calle de la madera 1, Madrid'},
+                     {'fullName':"Vargas Barrientos, Cesar",
+                      'phone':'636521694',
+                      'address':'Calle de Velazquez 100, Madrid'}];
+
+      
+    // Data info
+    data = [{'id':'pedido-0',
+                   'phone': '913933233',
+                   'fullName': 'Gonzalez Perez, Alejandro', 
+                   'description': 'Dúo ADSL 6 Mb', 
+                   'service':'INTERNET', 
+                   'worker':this.workers[0]},
+                  {'id':'reclamación-1',
+                   'phone': '915334432',
+                   'fullName':'Lopez Romero, Marta', 
+                   'description': 'No puede comprar contenidos PPV', 
+                   'service':'TV', 
+                   'worker':this.workers[0]},
+                  {'id':'reclamación-10',
+                   'phone': '916432233',
+                   'fullName':'Fernandez Bartolome, Rodrigo',
+                   'description': 'El usuario navega mas lento que la velocidad contratada', 
+                   'service':'INTERNET', 
+                   'worker':this.workers[0]},
+                  {'id':'reclamación-11',
+                   'phone': '917294723',
+                   'fullName':'Perez Casas, Maria', 
+                   'description': 'El usuario no es capaz de navegar por Internet', 
+                   'service':'INTERNET', 
+                   'worker':this.workers[0]},           
+                  {'id':'pedido-1',
+                   'phone': '917744331',
+                   'fullName':'Garcia Casas, Alberto', 
+                   'description': 'Alta línea + Trio Imagenio', 
+                   'service':'INTERNET+TV', 
+                   'worker':this.workers[0]}];
+     this.selectedRow = null;
+     this.setData(data);
+     this.headerTable();
+     this.displayBreakDownBox();
+  }
+
+  // Restore box info
+  this.setData = function(value){
+    if (breakdown.get() != ""){
+      var data = breakdown.get().evalJSON();
+      if (data.length > 0)
+        this.data = data;
+      return;
+    }
+    this.data = value;
+  }
+
+  // Create new theader
+  this.headerTable = function(){
+    // Header Table
+    var tr = this.tbody.insertRow(-1);
+
+    // Id breakdown Cell
+    var td = tr.insertCell(-1);
+    td.id = "th0"
+    td.appendChild(document.createTextNode("Identificador"));
+    td.className = "th0";
+    
+    // Phone Cell
+    var td = tr.insertCell(-1);
+    td.id = "th1"
+    td.appendChild(document.createTextNode("Id Cliente"));
+    td.className = "th1";
+
+    // User Cell
+    var td = tr.insertCell(-1);
+    td.id = "th2"
+    td.appendChild(document.createTextNode("Nombre Cliente"));
+    td.className = "th2";
+
+    // Description
+    var td = tr.insertCell(-1);
+    td.id = "th3"
+    td.appendChild(document.createTextNode("Descripción"));
+    td.className = "th3";
+    
+    // Service Cell
+    var td = tr.insertCell(-1);
+    td.id = "th4"
+    td.appendChild(document.createTextNode("Servicio contratado"));
+    td.className = "th4";
+    
+    // workerID
+    var td = tr.insertCell(-1);
+    td.id = "th5"
+    td.appendChild(document.createTextNode("Técnico Asignado"));
+    td.className = "th5";    
+  }
+
+  // Display BreakDownBox
+  this.displayBreakDownBox = function(){
+   
+    for(i=0; i<this.data.length;i++){
+      var tr = this.tbody.insertRow(-1);
+      // Id
+      var td = tr.insertCell(-1);
+      td.className = "td0";
+      td.appendChild(document.createTextNode(this.data[i].id));
+      var context = {"i":i};
+      td.onclick = function(){box.sendData(this.i);box.selectRow(this.i);}.bind(context);
+      // Phone
+      var td = tr.insertCell(-1);
+      td.className = "td1";
+      td.appendChild(document.createTextNode(this.data[i].phone));
+      // fullName
+      var td = tr.insertCell(-1);
+      td.className = "td2";
+      td.appendChild(document.createTextNode(this.data[i].fullName));
+      // Description
+      var td = tr.insertCell(-1);
+      td.className = "td3";
+      td.appendChild(document.createTextNode(this.data[i].description));
+      // Service
+      var td = tr.insertCell(-1);
+      td.className = "td4";
+      td.appendChild(document.createTextNode(this.data[i].service));            
+      // workerID
+      var td = tr.insertCell(-1);
+      td.className = "td5";
+      
+      var select = document.createElement("select");
+
+      for (var j=0; j < this.workers.length; j++){
+        var option = document.createElement("option");
+        option.value = j;
+        option.appendChild(document.createTextNode(this.workers[j].fullName));
+        select.appendChild(option);
+      }
+      context['select']=select;
+      select.onchange = function(){box.save(this.i, this.select);box.sendData(this.i);box.selectRow(this.i);}.bind(context);
+      // Init value
+      if(this.data[i].worker != null){
+        for(var j=0; j < this.workers.length; j++){
+          if(this.data[i].worker.phone == this.workers[j].phone) 
+            select.value = j;
+        }
+      }
+      td.appendChild(select);     
+    }
+  }
+  
+  // Select and color a row
+  this.selectRow = function(row){
+    if(this.selectedRow != null)
+      this.selectedRow.className = '';
+    this.selectedRow = this.tbody.rows[row+1];
+    this.selectedRow.className = "rowSelected";
+  }
+
+  // Send Info by means of events
+  this.sendData = function(value){
+
+    if (this.data.length > 0){
+  	  phoneNumber.set(this.data[value].phone);
+	    serviceHired.set(this.data[value].service);
+	    taskID.set(this.data[value].id);	    
+	    taskDescription.set(this.data[value].description);	    
+	    workerID.set(this.data[value].worker.phone);
+	    userFullName.set(this.data[value].fullName);
+    }  
+  }
+
+  // Save info to property variable
+  this.save = function(row, select){
+    var element = parseInt(select.value);
+    this.data[row].worker = this.workers[element];
+    breakdown.set(this.data.toJSON());
+  }
+    
 }
-</script></head><body>
-<div id="innerTaskList">
-<!-- This table will disappear in following version -->
-<div id='taskListTable'>
-<table cellspacing="0">
-<tbody><tr>
-<th id="th0" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 12%;">Identificador</th>
-<th id="th1" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 12%;">Id Cliente</th>
-<th id="th2" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 32%;">Nombre Cliente</th>
-<th id="th3" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 32%;">Descripción</th>
-<th id="th4" style="border: 1px outset rgb(221, 221, 221); background-color: rgb(0, 0, 119); color: rgb(255, 255, 255); width: 12%;">Servicio contratado</th>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(0)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">pedido-0</td>
-<td style="border: 1px outset rgb(221, 221, 221);">913933233</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Gonzalez Perez, Alejandro</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Dúo ADSL 6 Mb</td>
-<td style="border: 1px outset rgb(221, 221, 221);">INTERNET</td>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(1)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">reclamación-1</td>
-<td style="border: 1px outset rgb(221, 221, 221);" align="center" valign="middle">915334432</td>
-<td style="border: 1px outset rgb(221, 221, 221);" align="center" valign="middle">Lopez Romero, Marta</td>
-<td style="border: 1px outset rgb(221, 221, 221);" align="center" valign="middle">No puede comprar contenidos v PPV</td>
-<td style="border: 1px outset rgb(221, 221, 221);" align="center" valign="middle">TV</td>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(2)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">reclamación-10</td>
-<td style="border: 1px outset rgb(221, 221, 221);">916432233</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Fernandez Bartolome, Rodrigo</td>
-<td style="border: 1px outset rgb(221, 221, 221);">El usuario navega mas lento que la velocidad contratada</td>
-<td style="border: 1px outset rgb(221, 221, 221);">INTERNET</td>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(3)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">reclamación-11</td>
-<td style="border: 1px outset rgb(221, 221, 221);">917294723</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Perez Casas, Maria</td>
-<td style="border: 1px outset rgb(221, 221, 221);">El usuario no es capaz de navegar por Internet</td>
-<td style="border: 1px outset rgb(221, 221, 221);">INTERNET</td>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(4)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">pedido-1</td>
-<td style="border: 1px outset rgb(221, 221, 221);">983292929</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Perez Garcia, Juan</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Alta línea + Trio Imagenio</td>
-<td style="border: 1px outset rgb(221, 221, 221);">INTERNET + TV</td>
-</tr>
-<tr>
-<td class="breakDown" onclick="sendData(5)" style="border: 1px outset rgb(221, 221, 221); color: rgb(0, 0, 119); text-decoration: underline; cursor: pointer;" align="center" valign="middle">reclamación-2</td>
-<td style="border: 1px outset rgb(221, 221, 221);">917744331</td>
-<td style="border: 1px outset rgb(221, 221, 221);">Garcia Casas, Alberto</td>
-<td style="border: 1px outset rgb(221, 221, 221);">El usuario ve la television pixelada</td>
-<td style="border: 1px outset rgb(221, 221, 221);">TV</td>
-</tr>
-</tbody></table></div></div>
-</body></html>
+
+var box = new BreakDownBox();
+
+</script>
+</head>
+<body onload="box.init();">
+</body>
+</html>
