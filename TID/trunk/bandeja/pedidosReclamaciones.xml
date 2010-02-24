@@ -8,7 +8,7 @@
     <Author>miglesia</Author>
     <Mail>miglesia@pegaso.ls.fi.upm.es</Mail>
     <Description>Este gadget presenta una lista de los pedidos y reclamaciones registrados por usuarios y la informacion relativa a ellos</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/pedidosReclamaciones/pedidosReclamaciones_1.4/pedidos.png</ImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.4/pedidos.png</ImageURI>
     <WikiURI>http://trac.morfeo-project.org/trac/ezwebplatform/wiki/BandejaDeAverias</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
