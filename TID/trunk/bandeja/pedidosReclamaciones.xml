@@ -28,7 +28,7 @@
     <Event name="taskDescription" type="text" label="Task Description" friendcode = "task_description"/>    
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/pedidosReclamaciones/pedidosReclamaciones_1.4/pedidosReclamaciones.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/bandeja/bandeja_1.4/pedidosReclamaciones.html"/>
   </Platform.Link>
   <Platform.Rendering width="20" height="13"/>
 </Template>
