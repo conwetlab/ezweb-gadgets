@@ -17,6 +17,7 @@ dateEvent = EzWebAPI.createRWGadgetVariable("dateEvent");
 dataEvent = EzWebAPI.createRWGadgetVariable("dataEvent");
 dataValueEvent = EzWebAPI.createRWGadgetVariable("dataValueEvent");
 queryEvent = EzWebAPI.createRWGadgetVariable("queryEvent");
+chart = EzWebAPI.createRWGadgetVariable("chart");
 
 /*******************************************************************************
 * HANDLER FUNCTIONS CONTEXT VARIBLES AND SLOTS
@@ -77,7 +78,8 @@ Finance.prototype = new EzWebGadget();
 Finance.prototype.init = function(){
   // Yahoo api
   this.yahoo_api = "http://es.old.finance.yahoo.com/d/quotes.csv";
-
+  this.yahoo_api_chart = "http://es.ichart.yahoo.com/z";
+  
   // Initial Attributes
   // - Name
   // - Last Trade Date
@@ -118,7 +120,8 @@ Finance.prototype.init = function(){
   // Select Attributes
   var select = document.createElement("select");  
   td.appendChild(select);
-  symbols = ["c1", "o", "h", "g", "v"];
+  symbols = ["a2", "b", "c1","d", "e", "g", "h", 
+             "j", "k", "l1", "m3", "m4", "o", "p2", "r", "s1", "v", "y"];
   for(var i=0; i < symbols.length; i++){
     var option = document.createElement("option");
     option.setAttribute("value", symbols[i]);
@@ -528,19 +531,28 @@ Finance.prototype.repaint = function(){
 }
 
 /*******************************************************************************
+* GET CHART URL
+*******************************************************************************/
+Finance.prototype.getChartURL = function(){
+  return (this.yahoo_api_chart + "?s=" + this.attributes['query'][0]);
+}
+
+/*******************************************************************************
 * SEND EVENTS
 *******************************************************************************/
 Finance.prototype.sendEvents = function(){
   if (this.attributes.n && this.attributes.t1 && this.attributes.d1 &&
     this.attributes.query && (this.attributes.query.length == 3)){
-  symbolEvent.set(this.attributes['query'][0]);
-  companyEvent.set(this.attributes["n"]);
-  valueEvent.set(this.attributes['query'][2]);
-  timeEvent.set(this.attributes["t1"]);
-  dateEvent.set(this.attributes["d1"]);  
-  dataEvent.set(this.attributes['query'][1]);  
-  dataValueEvent.set(_(this.attributes['query'][1]));
-  queryEvent.set(this.attributes['query'].toJSON());}
+    symbolEvent.set(this.attributes['query'][0]);
+    companyEvent.set(this.attributes["n"]);
+    valueEvent.set(this.attributes['query'][2]);
+    timeEvent.set(this.attributes["t1"]);
+    dateEvent.set(this.attributes["d1"]);  
+    dataEvent.set(this.attributes['query'][1]);  
+    dataValueEvent.set(_(this.attributes['query'][1]));
+    queryEvent.set(this.attributes['query'].toJSON());
+    chart.set(this.getChartURL());
+    }
   return;
 }
 
