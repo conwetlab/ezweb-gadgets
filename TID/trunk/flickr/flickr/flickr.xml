@@ -16,7 +16,7 @@
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
 	<Preference name='defaultKey' type='text' label='Keyword by default' description='Search keyword by default' default='interestingness'/>
-	<Preference name='useKey' type='list' label='Use keyword to...' description='Where you want to use keyword' default='Photos'>
+	<Preference name='useKey' type='list' label='Use keyword to...' description='Where you want to use keyword' default='photo'>
 		<Option value='photo' name='Photos'/>
 		<Option value='people' name='People'/>
 		<Option value='group' name='Groups'/>
