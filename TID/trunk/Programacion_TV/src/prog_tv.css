@@ -1,6 +1,7 @@
 
 body {
 	overflow: hidden;
+
 }
 
 img {
@@ -28,7 +29,8 @@ table		{
 		border: 4px solid #ADBBCA;
 		color: #4F6480;
 		background: #F0F0F0;
-		width: 95%;
+		width: 93%;
+		overflow-x: hidden;
 		}
 
 table.current {
@@ -69,14 +71,23 @@ tr:hover {
 	background: #ffffff;
 	border: 2px solid #ADBBCA;
 	font: normal 0.8em tahoma, arial, sans-serif;
-	padding: 0 3px;
+	padding: 0 19px 0 3px;
 	max-height: 90px;
 	max-width: 200px;
 	overflow: auto;
 	position: absolute;
 	cursor: default;
+	overflow-x: hidden;
 	}
 
 #background {
 	position:absolute;
+}
+
+.notebook .tab_area {
+	position: relative !important;
+}
+
+.wrapper {
+	background: white !important;
 }

@@ -1,3 +1,7 @@
+
+var languageCtx = EzWebAPI.createRGadgetVariable("language", function(){});
+
+
 var ProgramacionTV = function() {
     /* Call to the parent constructor */
     EzWebGadget.call(this, {translatable: false});
@@ -5,7 +9,6 @@ var ProgramacionTV = function() {
 
 ProgramacionTV.prototype = new EzWebGadget(); /* Extend from EzWebGadget */
 
-ProgramacionTV.prototype.resourcesURL = "http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/src"; 
 ProgramacionTV.prototype.imageURL = 'http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/logos/logo';
 
 ProgramacionTV.prototype.init = function() {
@@ -15,11 +18,18 @@ ProgramacionTV.prototype.init = function() {
 	this.timeEvent = EzWebAPI.createRWGadgetVariable("time");
 	this.channelEvent = EzWebAPI.createRWGadgetVariable("channel");
 	
+	this.heightCtx = EzWebAPI.createRGadgetVariable("height", EzWebExt.bind(function(){
+		this.dictionary.repaint(false);
+	}, this));
+	
 	this.dictionary = new StyledElements.StyledNotebook({'id':'dictionary'});
 	this.dictionary.insertInto(document.body);
 	//this.languagePref = EzWebAPI.createRGadgetVariable('languagePref',EzWebExt.bind(function(e){return;},this));
-	this.languageCtx = EzWebAPI.createRGadgetVariable('language', EzWebExt.bind(function(){}, this));
-	this.language = this.languageCtx.get();
+
+	//this.languageCtx = EzWebAPI.createRGadgetVariable('language', EzWebExt.bind(function(){}, this));
+	//this.language = this.languageCtx.get();
+	this.language = languageCtx.get();
+
 	
 	this.channelList = [
 		new Channel("tve1", "TVE1", "http://www.miguiatv.com/rss/tve1.xml"),
@@ -60,9 +70,14 @@ ProgramacionTV.prototype.init = function() {
 		var img = document.createElement ('img');
 		img.src = this.imageURL + channel.getId() + ".jpg";
 		img.title = channel.getName();
-		img.addEventListener('click', EzWebExt.bind(function(){
+		
+		EzWebExt.addEventListener(img,"click",EzWebExt.bind(function(){
 			this.show();
 		},channel),false);
+		
+		
+		
+		
 		div.appendChild (img);
 	}
 
@@ -102,6 +117,8 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 	// Div que contendra la tabla
 	var div2 = document.createElement('div');
 	var table = document.createElement('table');
+	var tbody = document.createElement('tbody');
+	table.appendChild(tbody);
 	EzWebExt.addClassName(table, "current");
 	div2.appendChild(table);
 	this.currentDiv.appendChild(div2);
@@ -109,21 +126,17 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 	// 6 es el numero de canales principales para mostrar su informacion actual
 	for (var i=0; i<6;i++) {
 		var channel = this.channelList[i];
-		var tr = document.createElement('tr');
-		table.appendChild(tr);
-		var td1 = document.createElement('td');
-		var td2 = document.createElement('td');
-		var td3 = document.createElement('td');
+		var tr = tbody.insertRow(-1);
+		var td1 = tr.insertCell(-1);
+		var td2 = tr.insertCell(-1);
+		var td3 = tr.insertCell(-1);
 		var img = document.createElement('img');
 		EzWebExt.addClassName(td2, "hora");
 		EzWebExt.addClassName(td3, "programa");
 
 		img.src = this.imageURL + channel.getId() + ".jpg";
-/*		img.addEventListener('click', EzWebExt.bind(function(){
-			this.show();
-		},this.channelList[channel]),false);*/
 		
-		img.addEventListener('click', EzWebExt.bind(function(){
+		EzWebExt.addEventListener(img, "click", EzWebExt.bind(function(){
 			this.show();
 		},channel),false);
 		
@@ -134,15 +147,12 @@ ProgramacionTV.prototype.updateCurrentTab = function() {
 		td3.appendChild(document.createTextNode(channel.getCurrentTitle()));
 		
 		var context = {self:this, channel:channel};
-		td3.addEventListener("click", EzWebExt.bind(function(e){
+		EzWebExt.addEventListener(td3, "click", EzWebExt.bind(function(e){
 		this.self.showDescription(e.clientX, e.clientY, this.channel.getCurrentDescription(), 
 									this.channel.getCurrentTime(), this.channel.getCurrentTitle(),
 									this.channel.getName());
 		}, context), false);
 					
-		tr.appendChild(td1);
-		tr.appendChild(td2);
-		tr.appendChild(td3);
 	}
 }
 
@@ -153,14 +163,15 @@ ProgramacionTV.prototype.showDescription = function(clientx, clienty, desc, time
 		// Se hace esta comprobacion para que no muestre divs vacios
 		var positionX, positionY;
 		var divout = document.createElement('div');
-		divout.setAttribute('id', 'background');
-		divout.style.cssText = "top:0;bottom:0;right:0;left:0;position:absolute;z-index:3001;"
+		divout.id = "background";
+		divout.style.cssText = "top:0;bottom:0;right:0;left:0;position:absolute;z-index:3000;background:white;filter: alpha(opacity=40); opacity: .40"
 		
-		divout.addEventListener("click", function(e){
+		EzWebExt.addEventListener(divout, "click", function(e){
 			e = e ? e : window.event;
 			if (e.stopPropagation) {
 				e.stopPropagation();
 				document.body.removeChild(divout);
+				document.body.removeChild(div);
 			}
 			else {
 				e.cancelBubble = true;
@@ -172,12 +183,12 @@ ProgramacionTV.prototype.showDescription = function(clientx, clienty, desc, time
 		
 		var div = document.createElement('div');
 		div.innerHTML = '';
-		div.setAttribute('id', 'descripcion');
+		div.id = "descripcion";
 		div.appendChild(document.createTextNode(desc));
-		div.style.cssText = 'z-index:3001; position:absolute';
+		div.style.cssText = 'z-index:3001; position:absolute; top: 0px; left: 0px;';
 		
 		document.body.appendChild(divout);
-		divout.appendChild(div);
+		document.body.appendChild(div);
 		
 		// Coloco el div
 		var height_divout = divout.offsetHeight;
@@ -188,17 +199,18 @@ ProgramacionTV.prototype.showDescription = function(clientx, clienty, desc, time
 		
 		// Comprobamos la posicion para ver si el div tiene que salir hacia arriba o hacia abajo
 		if ((clienty + height_div) > height_divout) {
-			div.style.top = clienty - height_div;
+			var top = clienty - height_div;
+			div.style.top = top.toString() + "px";
 		}
 		else {
-			div.style.top = clienty;
+			div.style.top = clienty.toString() + "px";
 		}
-		//alert(width_divout);
 		if ((clientx + max_width) > width_divout) {
-			div.style.left = width_divout - max_width;
+			var left = width_divout - max_width;
+			div.style.left = left.toString() + "px";
 		}
 		else {
-			div.style.left = clientx;
+			div.style.left = clientx.toString() + "px";
 		}
 	}
 	this.descriptionEvent.set((desc)?desc:"");
@@ -206,6 +218,7 @@ ProgramacionTV.prototype.showDescription = function(clientx, clienty, desc, time
 	this.titleEvent.set((title)?title:"");
 	this.channelEvent.set((channel)?channel:"");
 }
+
 
 ProgramacionTV.prototype.showTab = function(tab) {
 	this.dictionary.goToTab(tab.getId());
@@ -298,9 +311,10 @@ Channel.prototype.draw = function () {
 	var channel = this;
 	// Creo la tabla que contendra la programacion
 	var table = document.createElement('table');
-	table.setAttribute('border','1');
-	table.setAttribute('id','tabla');
+	table.id = "tabla";
 	div2.appendChild(table);
+	var tbody = document.createElement('tbody');
+	table.appendChild(tbody);
 	
 	
 	for (var i=0; i<this.programs.length; i++) {
@@ -321,24 +335,21 @@ Channel.prototype.draw = function () {
 		}
 		else {
 
-			var tr = document.createElement('tr');
+			var tr = tbody.insertRow(-1);
 			if (i % 2 == 0) {
-				tr.setAttribute('class', 'par');
+				EzWebExt.addClassName(tr, "par");
 			}
 			else {
-				tr.setAttribute('class', 'impar');
+				EzWebExt.addClassName(tr, "impar");
 			}
-			var td1 = document.createElement('td');
+			var td1 = tr.insertCell(-1);
 			EzWebExt.addClassName(td1,"programa");
-			var td2 = document.createElement('td');
+			var td2 = tr.insertCell(-1);
 			EzWebExt.addClassName(td2, "hora");
 			
 			// Creacion de la estructura
 			td1.appendChild(document.createTextNode(this.programs[i].title));
 			td2.appendChild(document.createTextNode(this.programs[i].time));
-			tr.appendChild(td2);
-			tr.appendChild(td1);
-			table.appendChild(tr);
 			div2.appendChild(table);
 			this.tab.appendChild(div2);
 			
@@ -354,7 +365,7 @@ Channel.prototype.draw = function () {
 				channel: this.getName()
 			};
 
-			td1.addEventListener("click", EzWebExt.bind(function(e){
+			EzWebExt.addEventListener(td1, "click", EzWebExt.bind(function(e){
 				this.self.showDescription(e.clientX, e.clientY, this.description, this.time, this.title, this.channel);
 			}, context), false);
 			
@@ -382,7 +393,6 @@ Channel.prototype.getCurrentTitle = function() {
 	var dia = hora_actual.getDate();
 	var mes = hora_actual.getMonth();
 	var ano = hora_actual.getFullYear();
-	var fecha_aux = new Date();
 	var i = 0;
 	var id_actual = 0;
 	
@@ -396,6 +406,7 @@ Channel.prototype.getCurrentTitle = function() {
 		}
 		var minutos_p = parseInt(aux[1]);
 		// Creo otro objeto fecha
+		var fecha_aux = new Date();
 		fecha_aux.setDate(dia);
 		fecha_aux.setMonth(mes);
 		fecha_aux.setYear(ano);
@@ -429,7 +440,6 @@ Channel.prototype.getCurrentTime = function() {
 	var dia = hora_actual.getDate();
 	var mes = hora_actual.getMonth();
 	var ano = hora_actual.getFullYear();
-	var fecha_aux = new Date();
 	var i = 0;
 	var id_actual = 0;
 	
@@ -443,6 +453,7 @@ Channel.prototype.getCurrentTime = function() {
 		}
 		var minutos_p = parseInt(aux[1]);
 		// Creo otro objeto fecha
+		var fecha_aux = new Date();
 		fecha_aux.setDate(dia);
 		fecha_aux.setMonth(mes);
 		fecha_aux.setYear(ano);
@@ -476,7 +487,6 @@ Channel.prototype.getCurrentDescription = function() {
 	var dia = hora_actual.getDate();
 	var mes = hora_actual.getMonth();
 	var ano = hora_actual.getFullYear();
-	var fecha_aux = new Date();
 	var i = 0;
 	var id_actual = 0;
 	
@@ -490,6 +500,7 @@ Channel.prototype.getCurrentDescription = function() {
 		}
 		var minutos_p = parseInt(aux[1]);
 		// Creo otro objeto fecha
+		var fecha_aux = new Date();
 		fecha_aux.setDate(dia);
 		fecha_aux.setMonth(mes);
 		fecha_aux.setYear(ano);
@@ -523,14 +534,13 @@ Channel.prototype.getCurrent = function() {
 	var dia = hora_actual.getDate();
 	var mes = hora_actual.getMonth();
 	var ano = hora_actual.getFullYear();
-	var fecha_aux = new Date();
 	var i = 0;
 	var id_actual = 0;
 	
 	while (i < this.programs.length & !enc) {
 		// Obtengo los numeros de hora y minutos
 		var aux = this.programs[i].time.split(':');
-		if (aux[0][0] == 0) {
+		if (aux[0][0] == "0") {
 			hora_p = parseInt(aux[0][1]);
 		}
 		else {
@@ -538,6 +548,7 @@ Channel.prototype.getCurrent = function() {
 		}
 		var minutos_p = parseInt(aux[1]);
 		// Creo otro objeto fecha
+		var fecha_aux = new Date();
 		fecha_aux.setDate(dia);
 		fecha_aux.setMonth(mes);
 		fecha_aux.setYear(ano);
@@ -557,8 +568,7 @@ Channel.prototype.getCurrent = function() {
 		id_actual = i - 2;
 	}
 	try {
-		//tr_actual.setAttribute('class', 'actual');
-		this.lista_trs[id_actual].removeAttribute("class");
+
 		EzWebExt.appendClassName(this.lista_trs[id_actual],'actual');
 	}
 	catch(e){}

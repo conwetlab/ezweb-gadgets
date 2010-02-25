@@ -8,7 +8,7 @@
     <Author>acastilla</Author>
     <Mail>acastilla@pegaso.ls.fi.upm.es</Mail>
     <Description>Gadget para mostrar la programacion de television</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/logos/tv_logo.png</ImageURI>
+    <ImageURI>logos/tv_logo.png</ImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_programaci.C3.B3n_televisi.C3.B3n</WikiURI>
   </Catalog.ResourceDescription>
   
@@ -29,7 +29,7 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/Programacion_TV/Programacion_TV_1.22/src/prog_tv.html"/>
+	<XHTML href="src/prog_tv.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="10" height="10"/>
