@@ -58,7 +58,7 @@ function init() {
       scaleControlOptions: {
         position: google.maps.ControlPosition.BOTTOM_LEFT
       }
-    }
+    };
 
     map = new google.maps.Map(document.getElementById("map"), options);
 
@@ -291,6 +291,7 @@ function _geojsonHandler(geojson){
     }
 
     var i=0;
+    var valid_pois = 0;
     for (i=0;i<pois.length;i++) {
 	    var poi = pois[i];
 	    if (poi.geometry.coordinates[0] === null || poi.geometry.coordinates[1] === null) {
@@ -314,14 +315,27 @@ function _geojsonHandler(geojson){
 		    uri = poi.properties.uri;
 	    }
 
+        valid_pois++;
+
 	    _wgs84Handler(values, info, icon, uri);
     }
 
-    if (pois.length == 1) {
+    // center the map
+    if (valid_pois === 0) {
+        // preference center over bounds center
+        if (_centerPref.get()) {
+            _centerPrefHandler(_centerPref.get()); // center the map
+        }
+        else {
+            map.setCenter(markersBounds.getCenter(), zoom);
+        }
+    }
+
+    if (valid_pois == 1) {
         map.setCenter(markersBounds.getCenter(), zoom);
     }
 
-    if (pois.length > 1) {
+    if (valid_pois > 1) {
         map.fitBounds(markersBounds);
     }
 
