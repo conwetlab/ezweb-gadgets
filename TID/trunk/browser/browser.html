@@ -207,7 +207,11 @@ function setURL(value){
 		real_url = 'http://'+value;
 	else
 		real_url = value;
-	loadURL(real_url + params.get());
+	if (params.get()) {
+		loadURL(real_url + params.get());
+	} else {
+		loadURL(real_url);
+	}
 }
 
 function setParams(value){
