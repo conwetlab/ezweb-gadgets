@@ -1,0 +1,56 @@
+<Template schemaLocation="http://morfeo-project.org/2007/Template"> 
+	<!-- Gadget Meta-Info --> 
+	<Catalog.ResourceDescription> 
+		<Vendor>Morfeo</Vendor> 
+		<Name>Snow Report</Name> 
+		<Version>1.0.4</Version> 
+		<Author>irodriguez</Author> 
+		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail> 
+		<Description>Snow Reports of Ski Resorts</Description> 
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/SnowReport/SnowReport_1.0.4/images/logo.png</ImageURI> 
+		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009</WikiURI> 
+	</Catalog.ResourceDescription> 
+ 
+	<!-- EzWeb Gadgets Preferences --> 
+	<Platform.Preferences> 
+    <Preference name="time" type="number" label="Time (seconds)" description="Time Refresh Webcam(seconds)" default="10"/>	
+    <Preference name="theme" type="list" label="Theme Color" description="Select color gadget" default="green">
+			<Option value="green" name="Green"/>
+			<Option value="blue" name="Blue"/>
+			<Option value="red" name="Red"/>			
+			<Option value="yellow" name="Yellow"/>
+			<Option value="gray" name="Gray"/>									
+			<Option value="orange" name="Orange"/>												
+	 	 </Preference>
+	</Platform.Preferences> 
+ 
+	<!-- EzWeb Gadget Persistent State --> 
+	<Platform.StateProperties> 
+		<Property name="preferences" type="text" label="preferences"/>
+	</Platform.StateProperties> 
+ 
+	<Platform.Wiring>
+			<Event name="url" type="text" label="Website" friendcode="url"/>
+			<Event name="map" type="text" label="Map Resort" friendcode="image"/>			
+      <Event name="webcam" type="text" label="WebCam" friendcode="image"/>
+      <Event name="webcams" type="text" label="List WebCams" friendcode="images"/>      
+      <Event name="address" type="text" label="Address" friendcode="address"/>			      
+	</Platform.Wiring> 
+ 
+	<Platform.Link> 
+		<!-- This must point to the URL of the html code of this gadget --> 
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/SnowReport/SnowReport_1.0.4/SnowReport.html"/>
+	</Platform.Link> 
+ 
+	<!-- Modify these values according to the gadget needings --> 
+	<Platform.Rendering width="6" height="24"/> 
+ 
+	<Platform.Context> 
+		<!-- Normal EzWeb Gadget Data Context needed --> 
+		<Context       name="user"       type="text" concept="user_name"/> 
+		<Context       name="language"   type="text" concept="language"/> 
+		<GadgetContext name="height"     type="text" concept="heightInPixels"/> 
+		<GadgetContext name="width"      type="text" concept="widthInPixels"/>
+		<GadgetContext name="lockStatus" type="text" concept="lockStatus"/> 
+	</Platform.Context> 
+</Template> 
