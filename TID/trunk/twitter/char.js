@@ -152,7 +152,7 @@ function replace_html_entities (msg){
 // Replaces all links with <a> tag
 function replace_links (msg){
 	// Search urls in the message (with http(s)://)
-	var httpPattern = /http(s)?:\/\/\w+[\w#:.?=&%@\+\-\/]+/g
+	var httpPattern = /http(s)?:\/\/\w+[\w#:.~?=&%@\+\-\/]+/g
 	var iter = msg.match (httpPattern);
 	iter = (iter == null) ? 0 : iter.uniq();
 	for (var i = 0; i < iter.length ; i++){		
@@ -161,7 +161,7 @@ function replace_links (msg){
 		
 	// Search others urls in the message (with www.)
 	var n_msg = '', fidx = 0, lidx = 0;
-	var wwwPattern = /www.\w+[\w#:.?=&%@\+\-\/]+/g
+	var wwwPattern = /www.\w+[\w#:.~?=&%@\+\-\/]+/g
 	iter = msg.match (wwwPattern);
 	iter = (iter == null) ? 0 : iter;
 	for (var i = 0; i < iter.length ; i++){		
