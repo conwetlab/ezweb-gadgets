@@ -230,6 +230,8 @@ function showAddress(results, status) {
     geojsonEvent.set(Object.toJSON(poiJSON));
 }
 
+var pending = 0;
+
 
 function _geojsonHandler(geojson){
 
@@ -291,32 +293,63 @@ function _geojsonHandler(geojson){
     }
 
     var i=0;
+    pending = pois.length;
     for (i=0;i<pois.length;i++) {
 	    var poi = pois[i];
-	    if (poi.geometry.coordinates[0] === null || poi.geometry.coordinates[1] === null) {
-		    continue;
+
+	    if ( poi.geometry.coordinates[0] === null || poi.geometry.coordinates[1] === null ){
+            if (poi.properties.address) {
+                if (geocoder) {
+                  geocoder.geocode( { 'address': poi.properties.address}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        poi.geometry.coordinates[0] = results[0].geometry.location.lng();
+                        poi.geometry.coordinates[1] = results[0].geometry.location.lat();
+
+                        markersBounds.extend(new google.maps.LatLng(poi.geometry.coordinates[1], poi.geometry.coordinates[0]));
+                        _wgs84PreHandler(poi);
+                        pending--;
+
+                        return true;
+                    } else {
+//                        alert("Geocode was not successful for the following reason: " + status);
+                        pending--;
+                        return false;
+                    }
+                  });
+                }
+            } else {
+                pending--;
+                continue;
+            }
+        } else {
+
+            markersBounds.extend(new google.maps.LatLng(poi.geometry.coordinates[1], poi.geometry.coordinates[0]));
+            _wgs84PreHandler(poi);
+            pending--;
         }
-	    var values = poi.geometry.coordinates;
-        markersBounds.extend(new google.maps.LatLng(poi.geometry.coordinates[1], poi.geometry.coordinates[0])); 	
-
-	    var info ="";
-	    if (poi.properties.name) {
-		    info += poi.properties.name;
-	    }
-
-	    var icon ="";
-	    if (poi.properties.icon) {
-		    icon += poi.properties.icon;
-	    }
-
-	    var uri ="";
-	    if (poi.properties.uri) {
-		    uri = poi.properties.uri;
-	    }
-
-	    _wgs84Handler(values, info, icon, uri);
     }
 
+    startWatching(pois, markersBounds);
+
+}
+
+// code use in order to simulate synchronous callbacks
+
+function startWatching(pois, markersBounds){
+
+    if (!haveEverythingNeeded()){
+        setTimeout(startWatching,100);
+        return;
+    }
+
+    allPointsChecked(pois, markersBounds);
+}
+
+function haveEverythingNeeded(){
+    return pending == 0;
+}
+
+function allPointsChecked(pois, markersBounds){
     if (pois.length == 1) {
         map.setCenter(markersBounds.getCenter(), zoom);
     }
@@ -329,6 +362,28 @@ function _geojsonHandler(geojson){
     sendEvents();
 }
 
+function _wgs84PreHandler(poi){
+
+    var values = poi.geometry.coordinates;
+
+    var info ="";
+    if (poi.properties.name) {
+        info += poi.properties.name;
+    }
+
+    var icon ="";
+    if (poi.properties.icon) {
+        icon += poi.properties.icon;
+    }
+
+    var uri ="";
+    if (poi.properties.uri) {
+        uri = poi.properties.uri;
+    }
+
+    _wgs84Handler(values, info, icon, uri);
+    return true;
+}
 
 function _wgs84CoordHandler(wgs84coord) {
 

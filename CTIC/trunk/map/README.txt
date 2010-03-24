@@ -15,6 +15,8 @@ This gadget was developed by CTIC Foundation <http://www.fundacionctic.org/>.
     Contributors:
         - Ignacio Barrientos <ignacio.barrientos@fundacionctic.org>
         - Javier Pozueco <javier.pozueco@fundacionctic.org>
+        - Rodrigo Garcia <rodrigo.garcia@fundacionctic.org>
+        - Carlos Díez <carlos.diez@fundacionctic.org>
 
 Instalation
 -----------
@@ -62,6 +64,8 @@ Features
               "icon": "http://maps.google.com/mapfiles/ms/micons/camera.png",
               "uri": "http://www.zaragoza.es/turruta/resource/Monumento/100" }
             }
+
+        If coordinates are not present, it uses address in order to obtain the coordinates via Google Geocoder.
 
 
     2. Print a list of points:
