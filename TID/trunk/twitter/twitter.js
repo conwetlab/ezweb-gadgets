@@ -6,7 +6,7 @@
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 
-var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/';
+var urlimage = 'http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/';
 
 var translator = null;
 
@@ -20,6 +20,9 @@ var input_to_msg = EzWebAPI.createRGadgetVariable("input_to_message", arrived_me
 var auto_msg = EzWebAPI.createRGadgetVariable("auto_message", arrived_automessage_handler);
 var incoming_events = EzWebAPI.createRGadgetVariable("incoming_events", incoming_events_handler);
 var draft_is = EzWebAPI.createRGadgetVariable("draft_is", draft_is_handler);
+var bitly_user = EzWebAPI.createRGadgetVariable("bitly_user", bitly_user_handler);
+var bitly_apikey = EzWebAPI.createRGadgetVariable("bitly_apikey", bitly_apikey_handler);
+var bitly_is = EzWebAPI.createRGadgetVariable("bitly_is", bitly_is_handler);
 var posted_msg = EzWebAPI.createRWGadgetVariable("last_posted_message");
 var sent_message = EzWebAPI.createRWGadgetVariable("sent_message");
 
@@ -34,6 +37,7 @@ var current_page = 1;
 var current_msg = '';
 var max_page = 1;
 var all_messages = new Object(); 
+var shortened_urls = [];
 var notification = null;
 var posted_msg_aux = '';
 var temp_id = null;
@@ -92,6 +96,20 @@ function incoming_events_handler (inc) {
 function draft_is_handler (dra) {
 }
 
+function bitly_user_handler (value_) {
+	if (value_ != ''){
+		bitly.login = value_;
+	}
+}
+
+function bitly_apikey_handler (value_) {
+	if (value_ != ''){
+		bitly.api_key = value_;
+	}
+}
+
+function bitly_is_handler (value_) {
+}
 
 // SIGN IN
 ///////////
@@ -237,7 +255,6 @@ function get_messages (isUpdate_) {
 }
 
 function show_messages (resp) {
-	
 	var response = resp.responseText;
 	all_messages = eval ('(' + response + ')');
 	
@@ -599,15 +616,94 @@ function update_edited_message (ev) {
 }
 
 function post_message (message) {
-	aux_posted_msg = replace_special_chars(message);
-	if (aux_posted_msg.length > 140){
-		notification.sign(translator.getLabel('long_message_error'), 'long_message');
-		aux_posted_msg = '';
-	} else {
-		twitter.statuses.update (aux_posted_msg, success_update , error_update);
+	try{
+		
+		aux_posted_msg = replace_special_chars(message);
+		if (bitly_is.get() == 'yes') {
+			// Search and shorten the URLs
+			bitly.message_shown = false;
+			shortened_urls = get_http_url_from(aux_posted_msg);
+			if (shortened_urls.length != 0){
+				for (var i=0; i<shortened_urls.length; i++){
+					if (shortened_urls[i].indexOf('http://bit.ly/') != 0) {
+						if (shortened_urls[i].indexOf('&') == -1) {
+							bitly.shorten (shortened_urls[i], success_shortening, error_shortening);
+						} else {
+							error_shortening();
+							shortened_urls = shortened_urls.without(shortened_urls[i]);
+						}
+					} else {
+						shortened_urls = shortened_urls.without(shortened_urls[i]);
+					}
+				}
+				
+			} 
+			
+			// There are no more urls (neither shortened)
+			if (shortened_urls.length == 0){
+				twitter.statuses.update (aux_posted_msg, success_update , error_update);		
+			}
+			
+		} else {
+			// URLs will not be shortened
+			twitter.statuses.update (aux_posted_msg, success_update , error_update);
+		}
+		
+	} catch (e) {
+	
+		if (e == "Message too long"){
+			notification.sign(translator.getLabel('long_message_error'), 'long_message');
+			aux_posted_msg = '';
+		}
 	}
 }
 
+// Handlers for bit.ly service (to shorten URLs)
+function success_shortening (json_) {
+	if (json_.statusCode == 'ERROR'){
+		return error_shortening (results.value.errorMessage);
+	}
+	
+	var tmp_res = new Hash(json_.results);
+	tmp_res.each(function(results) {
+		if (results.value.statusCode && (results.value.statusCode == 'ERROR')){
+			error_shortening ();
+		} else {
+			var pat = results.key.replace (/\?/g, '\\?');
+			aux_posted_msg = aux_posted_msg.replace (new RegExp (pat, 'g'), results.value.shortUrl);
+			if (results.key.indexOf('http://') == 0){
+				aux_posted_msg = aux_posted_msg.replace (new RegExp (pat.substring(7), 'g'), results.value.shortUrl);
+			}
+		}
+		shortened_urls = shortened_urls.without(results.key);
+	});
+	try {
+		if (shortened_urls.length == 0){
+			twitter.statuses.update (aux_posted_msg, success_update , error_update);		
+		}
+	} catch (e) {
+		if (e == "Message too long"){
+			notification.sign(translator.getLabel('long_message_error'), 'long_message');
+			aux_posted_msg = '';
+		}
+	}		
+}
+
+function error_shortening (resp) {
+	if (!bitly.message_shown){
+		var msg = translator.getLabel('shorten_error');
+		if (typeof (resp) == "string"){
+			msg = translator.getLabel('error_from_bitly') + resp;
+		}
+		if ((typeof (resp) == "object") && resp.errorMessage){
+			msg = translator.getLabel('error_from_bitly') + resp.errorMessage;
+		}
+		notification.error(msg);
+		bitly.message_shown = true;
+	}
+}
+
+// Handlers for Twitter service (posting)
 function success_update (resp) {
 	
 	var response = resp.responseText;

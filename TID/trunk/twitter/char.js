@@ -113,6 +113,9 @@ var sc = {
 	8764:  	'&sim;'
 };
 
+var HTTP_PATTERN = /http(s)?:\/\/\w+[\w#:.~\?=&%@\+\-\/]+/g
+var WWW_PATTERN = /www.\w+[\w#:.~\?=&%@\+\-\/]+/g
+
 // Replaces one special char with its HTML entities
 function replaces_from_message(msg_) {
 	var replaced = '';
@@ -140,7 +143,7 @@ function replace_special_chars (msg){
 	return msg;
 }
 
-// Replaces all httml entities with theirs special chars  
+// Replaces all html entities with theirs special chars  
 function replace_html_entities (msg){
 	for (var sc_item in sc){		
 		msg = msg.replace (new RegExp(sc[sc_item], 'g'), String.fromCharCode(sc_item));
@@ -152,17 +155,16 @@ function replace_html_entities (msg){
 // Replaces all links with <a> tag
 function replace_links (msg){
 	// Search urls in the message (with http(s)://)
-	var httpPattern = /http(s)?:\/\/\w+[\w#:.~?=&%@\+\-\/]+/g
-	var iter = msg.match (httpPattern);
+	var iter = msg.match (HTTP_PATTERN);
 	iter = (iter == null) ? 0 : iter.uniq();
 	for (var i = 0; i < iter.length ; i++){		
-		msg = msg.replace (new RegExp (iter[i], 'g'), '<a target="_blank" rel="nofollow" href="' + iter[i] + '">' + iter[i] + '</a>');
+		var pat = iter[i].replace (/\?/g, '\\?');
+		msg = msg.replace (new RegExp (pat, 'g'), '<a target="_blank" rel="nofollow" href="' + iter[i] + '">' + iter[i] + '</a>');
 	}
 		
 	// Search others urls in the message (with www.)
 	var n_msg = '', fidx = 0, lidx = 0;
-	var wwwPattern = /www.\w+[\w#:.~?=&%@\+\-\/]+/g
-	iter = msg.match (wwwPattern);
+	iter = msg.match (WWW_PATTERN);
 	iter = (iter == null) ? 0 : iter;
 	for (var i = 0; i < iter.length ; i++){		
 		lidx = msg.indexOf(iter[i], fidx);
@@ -173,7 +175,7 @@ function replace_links (msg){
 			((lidx-fidx >= 8) && (msg.substring(lidx-8,lidx) == "https://"))) {
 			n_msg += iter[i];
 		} else {
-			n_msg += '<a target="_blank" rel="nofollow" href="' + iter[i] + '">' + iter[i] + '</a>';
+			n_msg += '<a target="_blank" rel="nofollow" href="http://' + iter[i] + '">' + iter[i] + '</a>';
 		}
 		fidx = lidx + iter[i].length;
 		
@@ -184,4 +186,27 @@ function replace_links (msg){
 	}
 	
 	return n_msg;
+}
+
+// Search all urls (with http)
+function get_http_url_from (msg){
+	// Search urls in the message (with http(s)://)
+	var urls = msg.match (HTTP_PATTERN);
+	urls = (urls == null) ? [] : urls.uniq();
+			
+	// Search others urls in the message (with www.)
+	var fidx = 0, lidx = 0;
+	var iter = msg.match (WWW_PATTERN);
+	iter = (iter == null) ? 0 : iter;
+	for (var i = 0; i < iter.length ; i++){		
+		lidx = msg.indexOf(iter[i], fidx);
+		if (((lidx-fidx >= 7) && (msg.substring(lidx-7,lidx) == "http://" ))  ||
+			((lidx-fidx >= 8) && (msg.substring(lidx-8,lidx) == "https://"))) {
+			continue;
+		} else {
+			urls.push('http://' + iter[i]);
+		}
+		fidx = lidx + iter[i].length;
+	}
+	return urls.uniq();
 }

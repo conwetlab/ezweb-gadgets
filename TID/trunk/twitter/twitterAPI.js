@@ -32,6 +32,9 @@ twitter.statuses.user_timeline = function (friend_, onSuccess_, onError_) {
 twitter.statuses.update = function (message, onSuccess_, onError_) {
 	var target_url = 'http://twitter.com/statuses/update.json';
 	var params = {status : message} ;
+	if (message.length > 140){
+		throw "Message too long";
+	}
 	send_request (target_url, 'POST', params, onSuccess_ , onError_);
 }
 
@@ -44,7 +47,6 @@ twitter.statuses.followers = function (onSuccess_, onError_) {
 	var target_url = 'http://twitter.com/statuses/followers.json';
 	send_request (target_url, 'GET', null, onSuccess_, onError_);
 }
-
 
 // MY OWN SEND_GET/SEND_POST 
 // (the request is sent to EzWeb by this method because the authentication field has been added to the HTTP headerS)

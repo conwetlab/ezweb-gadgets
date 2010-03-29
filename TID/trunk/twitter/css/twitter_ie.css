@@ -12,12 +12,12 @@
 }
 
 .button, .disabled_button {
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/round-btn-ie.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/round-btn-ie.gif) repeat scroll 0 0;
 	height: 26px;
 	border: 0px;
 	font-size: 10px;
 }
 
 .button.hover{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.2/images/round-btn-hover-ie.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/round-btn-hover-ie.gif) repeat scroll 0 0;
 }
