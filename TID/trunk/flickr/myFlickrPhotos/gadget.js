@@ -1,3 +1,8 @@
+/* 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+*/
+
 var agent=navigator.userAgent;
 var is_iphone = (agent.indexOf('iPhone')!=-1);
 

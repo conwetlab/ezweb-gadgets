@@ -1,4 +1,7 @@
-
+/* 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+*/
 var Url = function(url) {
 		var a =  document.createElement('a');
 		a.href = url;

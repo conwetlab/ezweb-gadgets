@@ -1,14 +1,9 @@
+/* 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+*/
 var auth_token = EzWebAPI.createRWGadgetVariable("auth_token");
 frameSendPhoto.setAPIKey(flickr.key);;
-
-/*
-var frameLoading = (function() {
-	var frame = document.createElement('div');
-
-  return frame;
-})();
-*/
-
 
 var frameScreenBlocker = (function() {
 
