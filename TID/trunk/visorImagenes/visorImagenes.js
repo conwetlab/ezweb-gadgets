@@ -6,10 +6,14 @@ var INC = 5;
 var actualZoom = DEFAULT_ZOOM;
 
 var urlSlot = EzWebAPI.createRGadgetVariable("imageUrl", setNewImage);
+var thumbnailUrlSlot = EzWebAPI.createRGadgetVariable("imageThumbnailUrl", function (){});
+
 var height = EzWebAPI.createRGadgetVariable("height", function() {
 	setSize(actualZoom);
 });
 var urlEvent = EzWebAPI.createRWGadgetVariable('sentUrl');
+var thumbnailUrlEvent = EzWebAPI.createRWGadgetVariable('sentThumbnailUrl');
+
 
 function init ()
 {
@@ -77,6 +81,7 @@ function defaultZoom()
 function sentURL()
 {
 	urlEvent.set (urlSlot.get());
+	thumbnailUrlEvent.set(thumbnailUrlSlot.get());
 }
 
 // Trunca el número 'num' a 'ndec' decimales.
