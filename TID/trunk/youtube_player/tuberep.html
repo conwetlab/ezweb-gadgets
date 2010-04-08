@@ -56,12 +56,15 @@ function URLDecode( url )
 
 var urlPref = EzWebAPI.createRGadgetVariable("urlPref", loadVideo);
 var url = EzWebAPI.createRGadgetVariable("RSSYurl", loadVideo);
+var thumbnailUrlSlot = EzWebAPI.createRGadgetVariable("videoThumbnailUrl", function (){});
 var urlEvent = EzWebAPI.createRWGadgetVariable ("url");
+var thumbnailUrlEvent = EzWebAPI.createRWGadgetVariable('sentThumbnailUrl');
 var language = EzWebAPI.createRGadgetVariable("language", function(){return;});
 var videoId = "http://www.youtube.com/v/H6-l7OUlS5k&rel=1";
 
 function sendEvent(url_){
 	urlEvent.set(url_);
+	thumbnailUrlEvent.set(thumbnailUrlSlot.get());
 }
 
 function loadVideo(url_){
@@ -106,7 +109,7 @@ function loadVideo(url_){
    var div = document.getElementById("sendEvent");
    div.innerHTML = "";
    var img = document.createElement("img");
-   img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
+   img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.7/run.png";
    img.onclick = function(){sendEvent(url_)};
    
    img.style.marginBottom="3px";
@@ -123,7 +126,7 @@ function init(){
 	var div = document.getElementById("sendEvent");
 	div.innerHTML = "";
 	var img = document.createElement("img");
-	img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.6/run.png";
+	img.src = "http://ezweb.tid.es/repository/ezweb-gadgets/youtube_player/youtube_player_1.7/run.png";
 
 	img.style.marginBottom="3px";
 	img.style.cursor="pointer";
