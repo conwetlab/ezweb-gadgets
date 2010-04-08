@@ -5,13 +5,13 @@
 <html><head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
-<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/openmovilforum.css" media="screen,projection" type="text/css" rel="stylesheet">
+<link id="css_style" href="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/css/style.css" media="screen,projection" type="text/css" rel="stylesheet">
 <link id="css_theme" media="screen,projection" type="text/css" rel="stylesheet">
 <title>Send Message</title>
 
 <script language="javascript" src="/ezweb/js/EzWebAPI/EzWebAPI.js"></script>
-<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/labels.js"></script>
+<script language="javascript" src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/labels.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/ezweb_ext_v2.js"></script>
 <script language="javascript" src="http://ezweb.tid.es/repository/js/json2.js"></script>
 <script language="JavaScript">
@@ -229,14 +229,14 @@ function removeSendingMessage(){
 
 function successSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/tick.gif";
+	document.getElementById("SMSmsg").src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/tick.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 	clearFields();
 }
 
 function errorSMS(r){
 	document.getElementById("wait").style.display="none";
-	document.getElementById("SMSmsg").src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/cross.gif";
+	document.getElementById("SMSmsg").src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/cross.gif";
 	document.getElementById("SMSmsg").style.display="inline";
 }
 
@@ -385,6 +385,16 @@ function saveSignature(){
 	sigprop.set(signature);
 }
 
+function showDisclaimer(){
+	document.getElementById('MMSCreationForm').style.display="none";
+	document.getElementById('disclaimerConfig').style.display="block";
+}
+
+function hideDisclaimer(){
+	document.getElementById('MMSCreationForm').style.display="block";
+	document.getElementById('disclaimerConfig').style.display="none";
+}
+
 function init(){
 	document.MMSCreationForm.elements['create'].value = translator.getLabel("send_label");
 	setInterval(updateCharacters, 500);
@@ -459,7 +469,7 @@ function validateDate(json) {
 <tr>
 	<td style="text-align:left">
 		<img id="SMSmsg" style="display:none" />
-		<div id="wait" style="display:none"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.4/sending28x28blue.gif"/></div>
+		<div id="wait" style="display:none"><img src="http://ezweb.tid.es/repository/ezweb-gadgets/openmovilforum/sendMessage_1.2.5/sending28x28blue.gif"/></div>
 		<iframe id="uploadFileFrameId" name="uploadFileFrame" height="25px" frameborder="0" scrolling="no" onload="removeSendingMessage()" style="display:none"></iframe>
 	</td>
 	<td style="width:60px;text-align:right;">
@@ -467,8 +477,8 @@ function validateDate(json) {
 	</td>
 </tr>
 </table>
+<a href="javascript:showDisclaimer()" id="editdisc_label" class="edit_label">usage terms and conditions</a><br/>
 </p>
-
 
 <input name="login" value="" type="hidden" />
 <input name="password" value="" type="hidden" />
@@ -479,5 +489,10 @@ function validateDate(json) {
 <p class="warning" id="warning1_label">This signature would only be added if it does not involve sending a new message.</p>
 <p class="warning" id="warning2_label">Please, consider not removing this signature because it helps us to diseminate EzWeb. We need your help to keep offering EzWeb without any cost. Thank you very much!</p>
 <a href="javascript:saveSignature()" id="back_label">back</a>
+</div>
+<div id="disclaimerConfig">
+<h3 id="discconf_label">Usage terms and conditions</h3>
+<p class="warning" id="disc_label">The use of this service involves the payment of sent messages, with a charge to the phone number specified as a parameter in the preferences, according to the rates specified for that account</p>
+<a href="javascript:hideDisclaimer()" id="back_disc_label">back</a>
 </div>
 </body></html>
