@@ -24,7 +24,7 @@
 		<Event name="url" type="text" label="video url" friendcode="youtube_url"/>
 		<Event name="sentThumbnailUrl" type="text" label="ThumbnailEvent" friendcode="sentThumbnailUrl"/>
     	<Slot name="RSSYurl" type="text" label="video url" friendcode="youtube_url"/>
-    	<Slot name="videoThumbnailUrl" type="text" label="Thumbnail" friendcode="thumbnail"/>
+    	<Slot name="videoThumbnailUrl" type="text" label="Thumbnail" friendcode="uri"/>
   </Platform.Wiring>
   <!-- EzWeb Gadget Context -->
 	<Platform.Context>
