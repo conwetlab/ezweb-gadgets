@@ -468,8 +468,13 @@ function searchIfEnter(e){
 		keynum = e.which;
 	}
 	if (keynum == 13){ // enter
-		e.target.blur();
-		doSearch(e.target.value);
+		if (e.target) { // Netscape/Firefox/Opera
+			e.target.blur();
+			doSearch(e.target.value);
+		} else if (e.srcElement) { // IE
+			e.srcElement.blur();
+			doSearch(e.srcElement.value);
+		}
 	}
 }
 
