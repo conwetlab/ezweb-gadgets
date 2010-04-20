@@ -375,7 +375,7 @@ function displayArticle(text)
 			{
 				links[i].setAttribute('target', '_blank');
 			}
-            else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*wiki/+(.+)")) != null)
+			else if ((match = href.match("[\\s*" + baseURI + "|\\s*]/*wiki/+(.+)")) != null)
 			{
 				links[i].removeAttribute('href');
 				var context = {href: match[1]};
@@ -399,6 +399,12 @@ function displayArticle(text)
 		                }, context), true);
 					}
 				}
+			}
+			else if (links[i].getAttribute("hash") != "") {
+                links[i].removeAttribute('href');
+                links[i].style.textDecoration = "none";
+                links[i].style.color = "black";
+                links[i].style.cursor = "auto";
 			}
 		}
 	}
