@@ -377,3 +377,14 @@ table.mw_metadata th {
 	right:10px;
 }
 
+#home-button {
+    width: 22px;
+    position: relative;
+    height: 22px;
+    background: transparent url("../images/go-home.png") no-repeat 0 0;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+}

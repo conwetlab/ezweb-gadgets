@@ -1,8 +1,9 @@
 // Preferences and wiring variables
 var howmanyresults = EzWebAPI.createRGadgetVariable ("howmanyresults", setHowMany);
-var gotokey = EzWebAPI.createRGadgetVariable ("gotokey", setGoArticleWiring);
+var savelastsearch = EzWebAPI.createRGadgetVariable ("savelastsearch", function(){});
+var gotokey = EzWebAPI.createRGadgetVariable ("gotokey", goArticle);
 var wikipediaApi = EzWebAPI.createRGadgetVariable ("apilanguage", setLanguageWiki);
-var keyword = EzWebAPI.createRGadgetVariable ("keyword", goSearchWiring);
+var keyword = EzWebAPI.createRGadgetVariable ("keyword", goSearch);
 var summary = EzWebAPI.createRWGadgetVariable ("summary");
 var url = EzWebAPI.createRWGadgetVariable ("url");
 var titleEvent = EzWebAPI.createRWGadgetVariable("title");
@@ -18,8 +19,6 @@ var urlbaseApi = '';
 var urlbaseWiki = '';
 var urlhostWiki = '';
 
-// value = keywords de la busqueda
-var value = '';
 // nresutls = numero de resultados en cada busqueda
 var nresults = 12;
 
@@ -27,7 +26,7 @@ var nresults = 12;
 var panelArticle = new StyledElements.StyledNotebook ({'id':'panelArticle'})
 
 var WikipediaGadget = function () {
-	EzWebGadget.call (this, {translatable:true});
+	EzWebGadget.call (this, {translatable:false});
 }
 WikipediaGadget.prototype = new EzWebGadget();
 
@@ -36,6 +35,16 @@ WikipediaGadget.prototype.init = function() {
 
     var header = document.createElement ('div');
 	header.setAttribute ('id', 'header');
+
+    var div0 = document.createElement ('div');
+	EzWebExt.addClassName(div0, 'boton');
+	var button0 = document.createElement('button');
+	button0.setAttribute ('id', 'home-button');
+	button0.setAttribute ('title', _('Main Page'));
+	EzWebExt.addEventListener (button0, 'click', function(e){
+		goArticle('Main_Page');
+	}, false);
+	div0.appendChild (button0);
 	
 	var div1 = document.createElement ('div');
 	EzWebExt.addClassName(div1, 'text');
@@ -45,9 +54,9 @@ WikipediaGadget.prototype.init = function() {
 	input.setAttribute ('type', 'text');
 	input.setAttribute ('autocomplete', 'on');
 	input.setAttribute ('size', 8);
-	EzWebExt.addEventListener(input, 'keypress', function (e) {
+	EzWebExt.addEventListener(input, 'keypress', function(e){
 		if (e.keyCode == 13)
-			goArticleInputText();
+			goArticle(e.target.value);
 	}, false);
 	div1.appendChild (input);
 	
@@ -55,19 +64,22 @@ WikipediaGadget.prototype.init = function() {
 	EzWebExt.addClassName(div2, 'boton');
 	var button1 = document.createElement('button');
 	button1.setAttribute ('id', 'go-button');
-	button1.setAttribute ('title', 'Go');
-	EzWebExt.addEventListener (button1, 'click', function (e){
-		goArticleInputText();
+	button1.setAttribute ('title', _('Go'));
+	button1.innerHTML = _('Go');
+	EzWebExt.addEventListener (button1, 'click', function(e){
+		goArticle(input.value);
 	}, false);
 	var button2 = document.createElement('button');
 	button2.setAttribute ('id', 'search-button');
-	button2.setAttribute ('title', 'Search');
-	EzWebExt.addEventListener (button2, 'click', function (e){
-		goSearchInputText();
+	button2.setAttribute ('title', _('Search'));
+	button2.innerHTML = _('Search');
+	EzWebExt.addEventListener (button2, 'click', function(e){
+		goSearch(input.value);
 	}, false);
 	div2.appendChild (button1);
 	div2.appendChild (button2);
-	
+
+	header.appendChild (div0);
 	header.appendChild (div1);
 	header.appendChild (div2);
 	
@@ -78,19 +90,27 @@ WikipediaGadget.prototype.init = function() {
 	document.body.appendChild (content);
 
 	setDefaultOptions();
-	// Traducimos los botones de busqueda
-	document.getElementById('search-button').innerHTML = '';
-	document.getElementById('go-button').innerHTML = '';
-	document.getElementById('search-button').appendChild(document.createTextNode(this.getTranslatedLabel('search-button')));
-	document.getElementById('go-button').appendChild(document.createTextNode(this.getTranslatedLabel('go-button')));
+	
 	// Insertamos las pestanas en el content
 	panelArticle.insertInto (document.getElementById('content'));
-	goArticle('Main_Page');
-	if(!keywordSearch.get()) return;
-	goSearchWiring(keywordSearch.get());
-	if(!gotokeySearch.get()) return;
-	setGoArticleWiring(gotokeySearch.get());
-}	
+
+    var keywordTemp = keywordSearch.get();
+	var gotokeyTemp = gotokeySearch.get();
+	
+    if (savelastsearch.get() == "true") {
+        if(keywordTemp && (keywordTemp != "")) { 
+	        goSearch(keywordTemp);
+	    }
+	    else if(gotokeyTemp && (gotokeyTemp != "")) { 
+	        goArticle(gotokeyTemp);
+	    }
+	    else {
+            goArticle('Main_Page');
+	    }
+	} else {
+	    goArticle('Main_Page');
+	}
+}
 
 WikipediaGadget.prototype.repaint = function(){
 	panelArticle.repaint();
@@ -122,30 +142,28 @@ function setHowMany() {
 /*******************   GET AND DISPLAY A SEARCH INTO A WIKIPEDIA ************************/
 /****************************************************************************************/
 /****************************************************************************************/
-// Coge el valor de la busqueda del cuadro de texto
-function goSearchInputText()
-{
-	value = document.getElementById('text_search').value;
+
+function setKeywordSearch(value){
 	keywordSearch.set(value);
+	gotokeySearch.set("");
+}
+
+function setGotokeySearch(value){
+	keywordSearch.set("");
+	gotokeySearch.set(value);
+}
+
+function goSearch(value)
+{
 	var pagesearch = 0;
 	if (value != '')
 	{
+    	setKeywordSearch(value);
 		addLoadingImage();
 		getSearch (value, nresults * pagesearch, nresults, null);
 	}
 }
-// Coge el valor de la busqueda por wiring
-function goSearchWiring(value)
-{
-	//value = keyword.get();
-	keywordSearch.set(value);
-	var pagesearch = 0;
-	if (value != '')
-	{
-		addLoadingImage();
-		getSearch (value, nresults * pagesearch, nresults, null);
-	}
-}
+
 /*
  * Muestra los resultados de una busqueda
  */
@@ -172,14 +190,14 @@ function displaySearch (search, context)
 	{	
 		var h4 = document.createElement ("h4");
 		h4.setAttribute ("id", 'noSearchResult');
-		h4.appendChild(document.createTextNode (WikipediaGadget.getTranslatedLabel('noSearchResult')));
+		h4.appendChild(document.createTextNode (_('No page text matches')));
 		div.appendChild (h4);
 	}
  	else if (search.length > 1)
 	{
 		// headers
 		var h3 = document.createElement ("h3");
-		h3.appendChild(document.createTextNode (WikipediaGadget.getTranslatedLabel('searchResult')));
+		h3.appendChild(document.createTextNode (_('Resultados Encontrados')));
 		var hr = document.createElement ("hr");
 		div.appendChild (h3);
 		div.appendChild (hr);
@@ -217,10 +235,10 @@ function displaySearch (search, context)
 			}
 			a.setAttribute ('title', search[i].description);
 			if (search[i].url != '#') {
-			    var context = {name: name};
+			    var tempContext = {name: name};
 				EzWebExt.addEventListener(a, 'click', EzWebExt.bind(function() {
 				    goArticle(this.name);
-			    }, context), true);
+			    }, tempContext), true);
 			}
 			result.appendChild (a);
 		}
@@ -311,42 +329,21 @@ function goBackSearch()
 /********************   GET A COMPLETE ARTICLE FROM A WIKIPEDIA *************************/
 /****************************************************************************************/
 /****************************************************************************************/
-function goArticle (value1)
+function goArticle (value)
 {
-	addLoadingImage();
-	value = encodeURIComponent(ucFirst(value1));
-	getArticle (value);
-}
-// It gets the description of an article 
-function goArticleInputText()
-{
-	var value1 = document.getElementById ('text_search').value;
-	gotokeySearch.set(value1);
-	if (value1 != '')
+	if (value != '')
 	{
+       	setGotokeySearch(value);
 		addLoadingImage();
-		value = encodeURIComponent(ucFirst(value1));
-		document.getElementById('text_search').value = '';
-		getArticle (value);
+		getArticle(encodeURIComponent(ucFirst(value)));
 	}
 }
-function setGoArticleWiring (value1)
-{
-	//var value1 = gotokey.get();
-	gotokeySearch.set(value1);
-	if (value1 != '')
-	{
-		addLoadingImage();
-		value = encodeURIComponent(ucFirst(value1));
-		document.getElementById('text_search').value = '';
-		getArticle (value);
-	}
-}
+
 // Displays Articleg
-function displayArticle(text)
+function displayArticle(title, text)
 {
 	for (var i=0; i<listoftabs.length;i++) {
-		if ((listoftabs[i] !== undefined) && (listoftabs[i].title == value)) // Exists a tab with this key
+		if ((listoftabs[i] !== undefined) && (listoftabs[i].title == title)) // Exists a tab with this key
 		{
 			panelArticle.goToTab(listoftabs[i].id);
 			removeLoadingImage();
@@ -355,9 +352,9 @@ function displayArticle(text)
 	} 
 
 	var div = document.createElement ('div');	
-	var h1 = '<h1 class="title-article">'+decodeURIComponent(value).replace(/_/g, " ")+'</h1>';
+	var h1 = '<h1 class="title-article">'+decodeURIComponent(title).replace(/_/g, " ")+'</h1>';
 	div.innerHTML = h1 + text;
-	titleEvent.set(decodeURIComponent(value).replace(/_/g, " "))
+	titleEvent.set(decodeURIComponent(title).replace(/_/g, " "))
 
 	// Parche para obtener la URI base, necesario para IE7
 	div.innerHTML += "<a href='/' />";
@@ -409,9 +406,9 @@ function displayArticle(text)
 		}
 	}
 	var tab1 = panelArticle.createTab ({
-		"name":decodeURIComponent(value).replace(/_/g, " "),
-		"id":value,
-		closeable:true
+		"name":decodeURIComponent(title).replace(/_/g, " "),
+		"id":title,
+		"closeable":true
 	});
 	tab1.appendChild (div);
 	tab1.appendChild (div);
@@ -424,7 +421,7 @@ function displayArticle(text)
 				delete this.listoftabs[i];
 	}, context));
 	panelArticle.goToTab(tab1.getId());
-	listoftabs[listoftabs.length] = ({title:value, id:tab1.getId()})
+	listoftabs[listoftabs.length] = ({"title":title, "id":tab1.getId()})
 
 	summary.set(div.innerHTML);
 	var images = div.getElementsByTagName ('img');

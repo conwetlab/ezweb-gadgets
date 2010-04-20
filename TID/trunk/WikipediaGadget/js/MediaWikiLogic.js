@@ -48,7 +48,7 @@ function onSuccessSearch(response)
 		context.next = false;
 	else
 		context.next = true;
-	search_result= null;
+	search_result= [];
 	if (children.length > 0)
 	{
 		search_result = new Array(children.length);
@@ -121,16 +121,18 @@ function getArticle(value)
 {
 	url.set('http://'+urlbaseWiki+'.wikipedia.org/wiki/'+value);
     var urlRequest = urladaptor.get() + '/MediaWikiAdaptor/'+ urlbaseWiki + '/content/' + encodeURIComponent(value.replace(/ /g, '_'));
-    EzWebAPI.send_get(urlRequest, this, onSuccessArticle, onError);
+    EzWebAPI.send_get(urlRequest, this, function(response) {
+        onSuccessArticle(value, response)
+    }, onError);
 }
 
-function onSuccessArticle(response)
+function onSuccessArticle(title, response)
 {
 	var content = '';
 	var childs = response.responseXML.getElementsByTagName ('contentArticle')[0].childNodes;
 	for (var i=0; i <childs.length; i++)
 		content+=childs[i].nodeValue;
-	displayArticle (content);
+	displayArticle (title, content);
 }
 
 /****************************************************************************************/

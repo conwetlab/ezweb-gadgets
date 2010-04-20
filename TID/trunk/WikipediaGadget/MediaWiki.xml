@@ -3,22 +3,18 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Wikipedia</Name>
-		<Version>2.6</Version>
+		<Version>2.7</Version>
 		<Author>Ignacio Rodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
-		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.6/images/Wikipedia-110x100.png</ImageURI>
-		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.6/images/wikipediaiPhone.png</iPhoneImageURI>
+		<ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.7/images/Wikipedia-110x100.png</ImageURI>
+		<iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.7/images/wikipediaiPhone.png</iPhoneImageURI>
 		<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009#Gadget_buscador_en_la_Wikipedia</WikiURI>
 	</Catalog.ResourceDescription>
 <!-- Fin de la desripcion del gadget -->
 <!-- Definicion de las variables de integración y Elementos de Platforma -->
 	<!-- Preferencias de Usuario: variables que pueden ser modificadas desde la Platforma -->
 	<Platform.Preferences>
-	  <Preference name="languagePref" type="list" label="Gadget Language" description="Select gadget language" default="es">
-	    <Option value="en" name="English"/>
-	    <Option value="es" name="Español"/>
-	  </Preference>
 	  <Preference name="apilanguage" type="list" label="Search Language" description="Select search language " default="es">
 	    <Option value="es" name="Español"/>
 	    <Option value="ca" name="Català"/>
@@ -31,6 +27,7 @@
 	    <Option value="nl" name="Nederlands"/>
 	  </Preference>
 	  <Preference name="urlMediaWikiAdaptor" type="text" label="Url Mediawiki Adaptor" description="Set the media wiki adaptor" default="http://ezweb.tid.es"/>
+	  <Preference name="savelastsearch" type="boolean" label="Save Last Search" description="Save last search" default="true"/>
 	  <Preference name="howmanyresults" type="list" label="How Many Results on Searchs" description="Set the number of results on a search" default="10">
 	    <Option value="5" name="5"/>
 	    <Option value="10" name="10"/>
@@ -62,7 +59,7 @@
 	</Platform.Context>
 	<!-- Asocia este template con su implementacion (en html) -->
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.6/MediaWiki.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.7/MediaWiki.html"/>
 	</Platform.Link>
 	<!-- Definimos la informacion de presentacion del interfaz ancho y alto -->
 	<Platform.Rendering width='6' height='24'/>
