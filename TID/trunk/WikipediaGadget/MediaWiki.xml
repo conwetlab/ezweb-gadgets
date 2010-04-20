@@ -3,7 +3,7 @@
 	<Catalog.ResourceDescription>
 		<Vendor>Morfeo</Vendor>
 		<Name>Wikipedia</Name>
-		<Version>2.5</Version>
+		<Version>2.6</Version>
 		<Author>Ignacio Rodriguez</Author>
 		<Mail>irodriguez@pegaso.ls.fi.upm.es</Mail>
 		<Description>Este gadget realiza busquedas en la Wikipedia mostrando el resumen de la busqueda, una descripcion del articulo y los enlaces a la wikipedia contenidos en el articulo</Description>
@@ -62,7 +62,7 @@
 	</Platform.Context>
 	<!-- Asocia este template con su implementacion (en html) -->
 	<Platform.Link>
-		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.5/MediaWiki.html"/>
+		<XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/WikipediaGadget/WikipediaGadget_2.6/MediaWiki.html"/>
 	</Platform.Link>
 	<!-- Definimos la informacion de presentacion del interfaz ancho y alto -->
 	<Platform.Rendering width='6' height='24'/>
