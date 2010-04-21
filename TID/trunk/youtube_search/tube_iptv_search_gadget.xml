@@ -4,16 +4,17 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>YouTube Video Search</Name>
-    <Version>2.5</Version>
+    <Version>2.6</Version>
     <Author>agarcia</Author>
     <Mail>abgp@tid.es</Mail>
     <Description>Search videos and movies from youtube, using the drop-list or searching with any string. NOTE: The movies selection in the drop-list provides some extra ad-hoc meta-information useful to wire with other gadgets as a great example of use</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/tubesearch.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/tubesearchIPhone.png</iPhoneImageURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.6/tubesearch.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.6/tubesearchIPhone.png</iPhoneImageURI>
     <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_YouTube_Video_Search</WikiURI>
   </Catalog.ResourceDescription>
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
+        <Preference name='authorPref' type='text' label='Author Name' description='Name of the author' default=''/>
 		<Preference name="channel" type="list" description="default channel" label="Default channel"  default="0">
 			<Option value="0" name="Top Rated"/>
 			<Option value="1" name="Super-favorite"/>
@@ -44,10 +45,10 @@
 			<Option value="TW" name="Taiwan"/>
 		</Preference>
 		<Preference name="searchPref" type="text" description="Default Search Keyword" label="Default Search" />
+		<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
   </Platform.Preferences>
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
-	<Preference name='time' type='number' label='Time (minutes)' description='Refresh Time (minutes)' default='10'/>
   </Platform.StateProperties>
   <!-- EzWeb Gadget Data Wiring -->
   <Platform.Wiring>
@@ -61,7 +62,7 @@
 	
   </Platform.Wiring>
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.5/tube_iptv_search.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/youtube_search/youtube_search_2.6/tube_iptv_search.html"/>
   </Platform.Link>
   <Platform.Context>
     <GadgetContext name="height" type="text" concept="heightInPixels"/>
