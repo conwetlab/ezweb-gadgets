@@ -193,7 +193,7 @@ loadedGeoJSONWGS84 = null;
 function loadGeoJSONWGS84(geojson) {
 	obj = eval("(" + geojson + ")");
 	// Se establece una escala por defecto para centrar el mapa
-	Facade.loadExclusiveGeoJSON(obj, "EPSG:4326", 12500);
+	Facade.loadExclusiveGeoJSON(obj, "EPSG:4326", 6250);
 	loadedGeoJSONWGS84 = {geojson: geojson, srs: "EPSG:4326"};
 }
 var geoJSON = EzWebAPI.createRGadgetVariable("geoJSONWGS84", loadGeoJSONWGS84);
