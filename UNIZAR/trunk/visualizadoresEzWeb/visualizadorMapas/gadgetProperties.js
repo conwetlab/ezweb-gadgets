@@ -124,7 +124,7 @@ function drawPoint(point) {
 }
 var point = EzWebAPI.createRGadgetVariable("point", drawPoint);
 
-// AÃ±adir WMS
+// Añadir WMS
 predefinedWMSBase = true;
 function addNewWMS(wms) {
 	var par = wms.split(",");
@@ -157,7 +157,7 @@ function addNewWMS(wms) {
 }
 var wmsURL = EzWebAPI.createRGadgetVariable("wmsURL", addNewWMS);
 
-// AÃ±adir GeoRSS
+// Añadir GeoRSS
 loadedGeoRSS = null;
 function loadGeoRSS(georss) {
 	var par = georss.split(",");
@@ -179,11 +179,11 @@ function loadGeoRSS(georss) {
 }
 var geoRssURL = EzWebAPI.createRGadgetVariable("geoRssURL", loadGeoRSS);
 
-// AÃ±adir GeoJSON
+// Añadir GeoJSON
 loadedGeoJSON = null;
 function loadGeoJSON(geojson) {
 	obj = eval("(" + geojson + ")");
-	Facade.loadExclusiveGeoJSON(obj, null, true);
+	Facade.loadExclusiveGeoJSON(obj, null);
 	loadedGeoJSON = {geojson: geojson};
 }
 var geoJSON = EzWebAPI.createRGadgetVariable("geoJSON", loadGeoJSON);

@@ -135,7 +135,7 @@ function changeMapForEzWeb(map) {
 	// Propagar evento de area visualizada
 	map.map.events.register("newExtent", map.map, getExtent);
 	// Guardar primer punto extraído del GeJSON (y mostrar Popup con info asociada)
-	map.loadGeoJSON = function(geoJson) {
+	map.loadGeoJSON = function(geoJson, scale) {
 		// Capa que contiene la información GeoJSON (se incluye un parámetro para
 		// indicar que los datos vectoriales provienen de un GeoJSON)
 		var popupStyle = {
@@ -253,5 +253,13 @@ function changeMapForEzWeb(map) {
 		}
 		// Añadir contenido del objeto GeoJSON
 		geoJsonLayer.addFeatures(featuresGeoJSON);
+		
+		// Centrar mapa en la escala indicada
+		if (scale) {
+			var extent = geoJsonLayer.getDataExtent();
+			var centerLonLat = extent.getCenterLonLat();
+			this.map.zoomToScale(parseFloat(scale), true);
+			this.map.setCenter(centerLonLat);
+		}
 	};
 };

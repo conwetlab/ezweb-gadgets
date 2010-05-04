@@ -341,13 +341,15 @@ IDEZar_API.Facade = function(map) {
 	* Parameters:
 	* object - {Object}
 	* srs - {String} SRS de los datos contenidos en el GeoJSON.
+	* scale - {Integer} Si se indica una escala, se centra el mapa sobre el
+	*   objecto cargado, con dicha escala
 	*/
-	function loadGeoJSON(object, srs) {	
+	function loadGeoJSON(object, srs, scale) {	
 		if (!srs) {
 			srs = this.myMap.map.getProjection();
 		}
 		var geojson = new IDEZar_API.File.GeoJSON(object, srs);
-		this.myMap.loadGeoJSON(geojson);
+		this.myMap.loadGeoJSON(geojson, scale);
 	};
 	
 	/**
@@ -358,8 +360,10 @@ IDEZar_API.Facade = function(map) {
 	* Parameters:
 	* object - {Object}
 	* srs - {String} SRS de los datos contenidos en el GeoJSON.
+	* scale - {Integer} Si se indica una escala, se centra el mapa sobre el
+	*   objecto cargado, con dicha escala
 	*/
-	function loadExclusiveGeoJSON(object, srs) {	
+	function loadExclusiveGeoJSON(object, srs, scale) {	
 		// Borrar GeoJSONs sobre el mapa
 		for (var i = (this.myMap.map.layers.length - 1); i>=0; i--) {
 			var layer = this.myMap.map.layers[i];
@@ -370,7 +374,7 @@ IDEZar_API.Facade = function(map) {
 			}
 		}
 		// Cargar nuevo GeoJSON
-		this.loadGeoJSON(object, srs);
+		this.loadGeoJSON(object, srs, scale);
 	};
 	
 	/**
