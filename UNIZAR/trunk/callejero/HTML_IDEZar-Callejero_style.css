@@ -1,0 +1,70 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic callejero Gadget for the EzWeb Platform
+
+callejero Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+callejero Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is HTML_IDEZar-Callejero_style.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Tue May 04 10:21:40 CEST 2010 
+ */
+.metadataHTML .detailComponent {
+	color: black;
+	text-decoration: none;
+	font-family: Verdana, Arial, Tahoma;
+	font-size: 11px;
+	font-weight:normal;
+	font-style:normal;
+	margin-left:5px;
+	padding:1px;
+	float: left;
+}
+
+.metadataHTML .detailComponentTitle {
+	text-decoration: none;
+	font-family: Verdana, Arial, Tahoma;
+	font-size: 11px;
+	font-weight:bold;
+	font-style:normal;
+	margin-left:5px;
+	padding:1px;
+	float: left;
+}
+
+
+/* Estilo del titulo de la pagina */ 
+.metadataHTML div.pageTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold; 
+	border-style: double;
+	padding: 5px;
+	color: white;
+	background-color: #336EA0;
+	text-align: center;
+}
+.iaaa-Callejero-Black .iaaa-ResultsView .metadataHTML div.pageTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold; 
+	border-style: double;
+	padding: 5px;
+	color: white;
+	background-color: black;
+	text-align: center;
+}
