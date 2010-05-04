@@ -21,13 +21,20 @@ along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
 /* The Original Code is SearchEngine.css
  * The Initial Developer of the Original Code is IAAA.
  *
- * Created on Mon Feb 08 16:35:58 CET 2010 
+ * Created on Tue May 04 10:21:40 CEST 2010 
  */
 html,body,div,pre,form,fieldset,input,th,td,select
 {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
+/* Estilo del iframe que contiene el mapa */
+iframe#wmsConfigurableClientOL1 {
+	height: 240px;
+	/*width: 270px;*/
+}
+
 
 .my-loading-text {
 	color: #506c91;
@@ -68,6 +75,7 @@ html,body,div,pre,form,fieldset,input,th,td,select
 
 .iaaa-QueryView .criterionContentPanel {
 	width: 280px;
+	/*height: 290px;*/
 }
 
 .iaaa-QueryView .criterionPanel {
@@ -99,7 +107,7 @@ html,body,div,pre,form,fieldset,input,th,td,select
 /* Fin estilo para los criterios internos de un CompoundCriterionPanel */
 
 .iaaa-QueryView .textBox {
-	width: 250px;
+	width: 260px;
 }
 
 .iaaa-QueryView .controlledList {
@@ -110,13 +118,15 @@ html,body,div,pre,form,fieldset,input,th,td,select
 	position: relative;
 	left: 0px;
 	width: 268px;
+	height: 240px;
+	/*
 	height: 170px;
 	background-color: white;
 	border-bottom-style: inset;
 	border-bottom-width: 1px;
 	border-left-style: inset;
 	border-right-style: inset;
-	border-top-style: inset;
+	border-top-style: inset;*/
 }
 .iaaa-QueryView .coordinatesCCBGazetteerButton {
 	margin-left: 95px;

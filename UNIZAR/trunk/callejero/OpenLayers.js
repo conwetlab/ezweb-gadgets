@@ -21,7 +21,7 @@ along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
 /* The Original Code is OpenLayers.js
  * The Initial Developer of the Original Code is IAAA.
  *
- * Created on Mon Feb 08 16:35:58 CET 2010 
+ * Created on Tue May 04 10:21:40 CEST 2010 
  */
 var OpenLayers={singleFile:true};(function(){var singleFile=(typeof OpenLayers=="object"&&OpenLayers.singleFile);window.OpenLayers={_scriptName:(!singleFile)?"lib/OpenLayers.js":"OpenLayers.js",_getScriptLocation:function(){var scriptLocation="";var scriptName=OpenLayers._scriptName;var scripts=document.getElementsByTagName('script');for(var i=0;i<scripts.length;i++){var src=scripts[i].getAttribute('src');if(src){var index=src.lastIndexOf(scriptName);var pathLength=src.lastIndexOf('?');if(pathLength<0){pathLength=src.length;}
 if((index>-1)&&(index+scriptName.length==pathLength)){scriptLocation=src.slice(0,pathLength-scriptName.length);break;}}}

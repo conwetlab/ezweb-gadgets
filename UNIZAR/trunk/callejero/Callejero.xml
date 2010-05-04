@@ -23,7 +23,7 @@ along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
     <Vendor>IAAA</Vendor>
     <Name>Callejero de Zaragoza</Name>
     <DisplayName>__MSG_displayName__</DisplayName>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Author>Christian Laborda</Author>
     <Mail>claborda@unizar.es</Mail>
     <Description>__MSG_description__</Description>
@@ -34,7 +34,7 @@ along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
      <Context name="language" type="text" concept="language"/>
   </Platform.Context>
   <Platform.Preferences>
-  	<Preference name="themePref" type="list" label="__MSG_themeTitle__" description="__MSG_themeDescription__" default="blue">
+  	<Preference name="themePref" type="list" label="__MSG_themeTitle__" description="__MSG_themeDescription__" default="red">
 		<Option value="blue" name="__MSG_themeBlue__"/>
 		<Option value="red" name="__MSG_themeRed__"/>
 	</Preference>

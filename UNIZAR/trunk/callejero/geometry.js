@@ -21,7 +21,7 @@ along with callejero Gadget. If not, see <http://www.gnu.org/licenses/>
 /* The Original Code is geometry.js
  * The Initial Developer of the Original Code is IAAA.
  *
- * Created on Mon Feb 08 16:35:58 CET 2010 
+ * Created on Tue May 04 10:21:40 CEST 2010 
  */
 ////////////////////////////////////////////////////////////
 // Fichero: geometry.js
