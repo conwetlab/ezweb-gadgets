@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--***********************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic catastro Gadget for the EzWeb Platform
+
+catastro Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+catastro Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with catastro Gadget. If not, see <http://www.gnu.org/licenses/>
+* ************************************************************************-->
+<Template schemaLocation="http://morfeo-project.org/2007/Template">
+  <Catalog.ResourceDescription>
+    <Vendor>IAAA</Vendor>
+    <Name>Buscador de Catastro</Name>
+    <DisplayName>__MSG_displayName__</DisplayName>
+    <Version>1.0.1</Version>
+    <Author>Christian Laborda</Author>
+    <Mail>claborda@unizar.es</Mail>
+    <Description>__MSG_description__</Description>
+    <ImageURI>/repository/catastro/images/Catastro.jpg</ImageURI>
+    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/D.4.4_Librer%C3%ADa_de_recursos_y_gadgets_de_pr%C3%B3posito_general#Gadget_Buscador_Catastro</WikiURI>
+  </Catalog.ResourceDescription>
+  <Platform.Context>
+     <Context name="language" type="text" concept="language"/>
+  </Platform.Context>
+  <Platform.Preferences>
+  	<Preference name="themePref" type="list" label="__MSG_themeTitle__" description="__MSG_themeDescription__" default="blue">
+		<Option value="blue" name="__MSG_themeBlue__"/>
+		<Option value="red" name="__MSG_themeRed__"/>
+	</Preference>
+	<Preference name="localePref" type="list" label="__MSG_localeTitle__" description="__MSG_localeDescription__" default="default">
+		<Option value="default" name="__MSG_localePlatform__"/>
+		<Option value="es" name="es"/>
+		<Option value="en" name="en"/>
+	</Preference>
+	<Preference name="searchTypePref" type="list" label="__MSG_searchTypeTitle__" description="__MSG_searchTypeDescription__" default="GUIDED_SEARCH">
+		<Option value="CADASTRE_REF_SEARCH" name="__MSG_searchTypeCadastreRef__"/>
+		<Option value="COORDINATES_SEARCH" name="__MSG_searchTypeCoordinates__"/>
+		<Option value="GUIDED_SEARCH" name="__MSG_searchTypeGuided__"/>
+	</Preference>
+  </Platform.Preferences>
+  <Platform.StateProperties>
+  	<Property name="automaticSearch" type="text" label="automaticSearch"/>
+  	<Property name="automaticSearchType" type="text" label="automaticSearchType"/>
+  </Platform.StateProperties>
+  <Platform.Wiring>
+  	<!-- Slots de entrada -->
+  	<Slot name="cadastreRef" type="text" label="cadastreRef" friendcode="cadastreRef" />
+  	<!-- Slots de entrada -->
+  	<Slot name="coordinates" type="text" label="coordinates" friendcode="coordinates" />
+  	<!-- Slots de salida  -->
+  	<Event name="point" type="text" label="point" friendcode="point" />
+  </Platform.Wiring>
+  <Platform.Link>
+    <XHTML href="http://ezweb.tid.es/repository/catastro/index.html"/>
+  </Platform.Link>
+  <Platform.Rendering width="10" height="10"/>
+  <Translations default="es">
+  	<Translation lang="es">
+  		<msg name="displayName">Buscador de Catastro</msg>
+  		<msg name="description">Buscador de informacion catastral sobre el servicio de la Oficina Virtual de Catastro perteneciente al Ministerio de Economia y Hacienda de Espana</msg>
+  		<msg name="themeTitle">Tema</msg>
+  		<msg name="themeDescription">Seleccionar tema</msg>
+  		<msg name="themeBlue">azul</msg>
+  		<msg name="themeRed">rojo</msg>
+  		<msg name="localeTitle">Idioma</msg>
+  		<msg name="localeDescription">Seleccionar idioma</msg>
+  		<msg name="localePlatform">idioma de la plataforma</msg>
+		<msg name="searchTypeTitle">Tipo de buscador</msg>
+  		<msg name="searchTypeDescription">Seleccionar tipo de buscador</msg>
+  		<msg name="searchTypeCadastreRef">referencia catastral</msg>
+  		<msg name="searchTypeCoordinates">coordenadas</msg>
+  		<msg name="searchTypeGuided">guiado</msg>
+  	</Translation>
+  	<Translation lang="en">
+  		<msg name="displayName">Cadastral Search</msg>
+  		<msg name="description">Search engine that queries cadastral information on the Spanish Virtual Office of Cadastre</msg>
+  		<msg name="themeTitle">Theme</msg>
+  		<msg name="themeDescription">Select theme</msg>
+  		<msg name="themeBlue">blue</msg>
+  		<msg name="themeRed">red</msg>
+  		<msg name="localeTitle">Language</msg>
+  		<msg name="localeDescription">Select language</msg>
+  		<msg name="localePlatform">platform language</msg>
+		<msg name="searchTypeTitle">Search type</msg>
+  		<msg name="searchTypeDescription">Select search type</msg>
+  		<msg name="searchTypeCadastreRef">cadastre reference</msg>
+  		<msg name="searchTypeCoordinates">coordinates</msg>
+  		<msg name="searchTypeGuided">guided</msg>
+  	</Translation>
+  </Translations>
+</Template>

@@ -1,0 +1,12 @@
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true
+iaaa.searchengine.client.controller.configuration.SourceDescription, true
+iaaa.searchengine.client.model.Identifier, true
+iaaa.searchengine.client.model.QueryInfo, true
+iaaa.searchengine.client.model.ResultComponent, true
+iaaa.searchengine.client.model.ResultList, true
+iaaa.searchengine.client.model.ResultListElement, true
+java.lang.String, true
+java.util.ArrayList, true
+java.util.HashMap, true
+java.util.Vector, true
+net.mygwt.ui.client.data.DataList, true
