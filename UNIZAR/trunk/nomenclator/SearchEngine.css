@@ -1,0 +1,334 @@
+/***************************************************************************
+* Copyright 2010 (C)
+Grupo de Sistemas de Información Avanzados IAAA Universidad de Zaragoza <http://iaaa.cps.unizar.es/>
+
+This file is part of the generic nomenclator Gadget for the EzWeb Platform
+
+nomenclator Gadget is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+nomenclator Gadget is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with nomenclator Gadget. If not, see <http://www.gnu.org/licenses/>
+* ****************************************************************************/
+
+/* The Original Code is SearchEngine.css
+ * The Initial Developer of the Original Code is IAAA.
+ *
+ * Created on Tue May 04 10:15:51 CEST 2010 
+ */
+html,body,div,pre,form,fieldset,input,th,td,select
+{
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Estilo del iframe que contiene el mapa */
+iframe#wmsConfigurableClientOL1 {
+	height: 240px;
+	/*width: 270px;*/
+}
+
+
+.my-loading-text {
+	color: #506c91;
+}
+
+.iaaa-SourcesListView {
+	background: #DFE8F6;
+}
+
+.iaaa-SourcesListView .sourcesListPanel {
+	width: 280px;
+}
+.iaaa-SourcesListView .sourcesGrid {
+	border-style: inset;
+	border-width: 2px;
+	overflow:auto;
+	height: 100px;
+	width: 265px;
+	font-family: Verdana,Arial,Tahoma,Helvetica,sans-serif;
+	font-size: 13px;
+	background-color: white;
+}
+.iaaa-SourcesListView .sourcesListTextBox {
+	width: 180px;
+}
+.iaaa-SourcesListView .sourcesListListBox {
+	width: 180px;
+}
+
+.iaaa-QueryView {
+	background: #DFE8F6;
+}
+
+.iaaa-QueryView .searchButtonsPanel {
+	background-color: #DFE8F6;
+	margin: 10px;
+}
+
+.iaaa-QueryView .criterionContentPanel {
+	width: 280px;
+	/*height: 290px;*/
+}
+
+.iaaa-QueryView .criterionPanel {
+	margin: 5px;
+}
+
+.iaaa-QueryView .compoundCriterionContentPanel {
+	width: 280px;
+}
+
+.iaaa-QueryView .compoundCriterionPanel {
+	margin: 0px;
+}
+
+/* Estilo para los criterios internos de un CompoundCriterionPanel */
+/* A partir de los estilos de mygwt-all.css */
+
+.iaaa-QueryView .internalCompoundCriterionContentPanel {
+	width: 275px;
+}
+
+.internal-compound-cpanel-small-body {
+  background-color: #DFE8F6;
+  /*border-color: #99BBE8;
+  border-style: none solid solid;
+  border-width: 0pt 1px 1px;*/
+}
+
+/* Fin estilo para los criterios internos de un CompoundCriterionPanel */
+
+.iaaa-QueryView .textBox {
+	width: 260px;
+}
+
+.iaaa-QueryView .controlledList {
+	width: 250px;
+}
+
+.iaaa-QueryView .coordinatesBox {
+	position: relative;
+	left: 0px;
+	width: 268px;
+	height: 240px;
+	/*
+	height: 170px;
+	background-color: white;
+	border-bottom-style: inset;
+	border-bottom-width: 1px;
+	border-left-style: inset;
+	border-right-style: inset;
+	border-top-style: inset;*/
+}
+.iaaa-QueryView .coordinatesCCBGazetteerButton {
+	margin-left: 95px;
+	padding-bottom:5px;
+}
+
+.iaaa-QueryView .thesaurusTree {
+	position: relative;
+	left: 0px;
+	width: 268px;
+	height: 170px;
+	background-color: white;
+	border-bottom-style: inset;
+	border-bottom-width: 1px;
+	border-left-style: inset;
+	border-right-style: inset;
+	border-top-style: inset;
+}
+
+.iaaa-QueryView .thesaurusTree .gwt-TreeItem {
+	font-size: 10px;
+	cursor: pointer;
+}
+
+.iaaa-QueryView .thesaurusTree .gwt-Tree .gwt-TreeItem-selected {
+	background-color: #DFE8F6;
+	border: 1px dotted #9EB8ED;
+	padding: 2px;
+}
+
+.iaaa-QueryView .icon-search {
+	background: transparent url(images/xmag.png) no-repeat scroll 0%;
+}
+
+.iaaa-QueryView .icon-clear {
+	background: transparent url(images/clear.png) no-repeat scroll 0%;
+}
+
+.iaaa-QueryView .icon-help {
+	background: transparent url(images/help.png) no-repeat scroll 0%;
+}
+
+.iaaa-ResultsView {
+	background: #DFE8F6;
+	/*height: 100%;*/
+}
+
+.iaaa-ResultsView .icon-new {
+	background: transparent url(images/new.png) no-repeat scroll 0%;
+}
+
+.iaaa-ResultsView .icon-refine {
+	background: transparent url(images/back.png) no-repeat scroll 0%;
+}
+
+.my-loading-text {
+	color: #506c91;
+}
+
+.iaaa-ResultsView .resultsPanel {
+	width: 100%;
+	height: 710px; /*100%;*/
+	background-color: #DFE8F6;
+	border-style: none;
+}
+
+.iaaa-ResultsView .my-tabfolder {
+	width: 720px;
+}
+
+.iaaa-ResultsView .resultsTabItem {
+	height: 100%;
+}
+
+.iaaa-ResultsView .loading {
+	padding-left: 200px;
+	padding-top: 300px;	
+}
+
+.iaaa-ResultsView .resultViewContainer {
+	width: 100%;
+	height: 680px; /*100%;*/
+	background-color: white;
+	border: 1px;
+	border-style: solid;
+	border-color: #9EB8ED;
+}
+
+.iaaa-ResultsView .resultViewContainer .resultView {
+	width: 100%;
+	/*height: 700px;*/
+	/*height: 100%;*/
+	background-color: white;
+	padding: 5px;
+}
+
+.iaaa-ResultsView .resultsContainer {
+	padding: 10px;
+	width: 100%;
+}
+
+.iaaa-ResultsView .resultsTitle {
+	font-size: 18px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+}
+
+.iaaa-ResultsView .resultsInfo {
+	font-size: 13px;
+	padding-bottom: 15px;
+	padding-left: 5px;
+}
+
+.iaaa-ResultsView .resultsList td {
+	padding: 5px;
+	cursor: default;
+}
+
+.iaaa-ResultsView .resultsList .resultsColumnsTitle {
+	font-weight: bold;
+	font-size: 16px;
+	color: black;
+	text-decoration: underline;
+}
+
+.iaaa-ResultsView .resultsList .gwt-Label {
+	font-weight: bold;
+	font-size: 14px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.iaaa-ResultsView .resultsList .gwt-onMouseEnterLabel {
+	font-weight: bold;
+	font-size: 14px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.iaaa-ResultsView .resultsList .gwt-StaticLabel {
+	font-size: 14px;
+	color: black;
+	cursor: default;
+}
+
+.iaaa-ResultsView .resultsList .gwt-Image {
+	cursor: pointer;
+}
+
+.iaaa-ResultsView .navigationBar {
+	height: 40px;
+	padding: 10px;
+	vertical-align: middle;
+}
+
+.iaaa-ResultsView .navigationItem {
+	color: #15428B;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 12px;
+	text-align: center;
+	width: 20px;
+}
+
+.iaaa-ResultsView .navigationArrowsLeft {
+	width: 30px;
+	text-align: left;
+}
+
+.iaaa-ResultsView .navigationArrowsRight {
+	width: 30px;
+	text-align: right;
+}
+
+.iaaa-ResultsView .navigationPrevious {
+	width: 80px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.iaaa-ResultsView .navigationNext {
+	width: 80px;
+	text-align: left;
+	padding-left: 10px;
+}
+
+.iaaa-ResultsView .navigationNumber {
+}
+
+.iaaa-ResultsView .navigationCurrentPage {
+	color: black;
+	cursor: default;
+	text-decoration: none;
+}
+
+.iaaa-ResultsView .metadataHTML {
+	overflow: auto;
+	height: 700px; /*100%;*/
+	word-wrap: break-word;
+}
+
+.iaaa-ResultsView .hideTabFolderHeader .my-tabfolder-header  
+{
+	visibility: hidden;
+}
