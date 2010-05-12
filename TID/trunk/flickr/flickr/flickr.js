@@ -3,74 +3,39 @@
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 */
 
-var Url = function(url) {
-		var a =  document.createElement('a');
-		a.href = url;
-		this.source = url;
-		this.protocol = a.protocol.replace(':','');
-		this.host = a.hostname;
-		this.port = a.port;
-		this.query = a.search;
-		this.params = (function(){
-			var ret = $H(),
-			seg = a.search.replace(/^\?/,'').split('&'),
-			len = seg.length, i = 0, s;
-			for (;i<len;i++) {
-				if (!seg[i]) { continue; }
-				s = seg[i].split('=');
-				ret[s[0]] = decodeURI(s[1]);	
-			}
-			return ret;
-		})();
-		this.file = (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1];
-		this.hash = a.hash.replace('#','');
-		this.path = a.pathname.replace(/^([^\/])/,'/$1');
-		this.relative = (a.href.match(/tp:\/\/[^\/]+(.+)/) || [,''])[1];
-		this.segments = a.pathname.replace(/^\//,'').split('/');
-};
+/*** Flickr service ***/
+flickr = new Object();
 
+/*** Flickr parameters ***/
+flickr.AUTH_URL = 'http://flickr.com/services/auth/?';
+flickr.REST_URL = 'http://flickr.com/services/rest/?';
+flickr.API_KEY = "bc168255f0c0106b5d0207adc4f3c614";
+flickr.SHARED_SECRET = "274492d273165be0";
 
-flickr = {};
-
-
-flickr.key = "bc168255f0c0106b5d0207adc4f3c614";
-//flickr.key = "ad270c9f342921cc4235a205e5974b64";
-//flickr.key = "3eafb24b0d5aa817d52f45a27ee4f334";
-
-flickr.shared_secret = "274492d273165be0";
-//flickr.shared_secret = "d353aa51d1367150";
-//flickr.shared_secret = "fcde12f1d5a1c39d";
-
-flickr.auth_url = 'http://flickr.com/services/auth/?';
-flickr.rest_url = 'http://flickr.com/services/rest/?';
-
+/*** Flickr util methods ***/
 flickr.signParams = function(params) {
 	var keys = params.keys().sort();
-	var sign = this.shared_secret;
+	var sign = this.SHARED_SECRET;
 	for (var i=0; i< keys.length; i++){
 		sign += keys[i]+params[keys[i]];
 	}
 	return MD5(sign);
 };
 
-
 flickr.signUrl = function(url) {
-	return encodeURI(url) + '&api_sig=' + this.signParams((new Url(url)).params);
-
+	return encodeURI(url) + '&api_sig=' + this.signParams((new Util.Url(url)).params);
 };
 
+/*** Flickr requests ***/
 flickr.restCall = function(method, httpMethod, params, onSuccess, onError) {
-	var url = this.rest_url;
-	var reqParams = "method=" + method + "&api_key=" + this.key + '&format=json&nojsoncallback=1';
-	
+	var url = this.REST_URL;
+	var reqParams = "method=" + method + "&api_key=" + this.API_KEY + '&format=json&nojsoncallback=1';
 	params.each(
 		function(pair) {
 			reqParams += "&" + pair.key + "=" + pair.value;
 		}
 	);
-	 
 	url = this.signUrl(url + reqParams);
-	
 	if (httpMethod ==  'GET'){
 		EzWebAPI.send_get(url, this,
 			function(resp) {
@@ -78,7 +43,7 @@ flickr.restCall = function(method, httpMethod, params, onSuccess, onError) {
 				onSuccess(json);
 			}, onError);
 	} else {
-		EzWebAPI.send_post(this.rest_url.split('?')[0], (new Url(url)).params, this,
+		EzWebAPI.send_post(this.REST_URL.split('?')[0], (new Util.Url(url)).params, this,
 			function(resp) {
 				var json = JSON.parse(resp.responseText);
 				onSuccess(json);
@@ -87,45 +52,39 @@ flickr.restCall = function(method, httpMethod, params, onSuccess, onError) {
 };
 
 flickr.noSignedRestCall = function(method, httpMethod, params, onSuccess, onError) {
-	var url = this.rest_url;
-
+	var url = this.REST_URL;
 	params["method"] = method;
-	params["api_key"] = this.key;
+	params["api_key"] = this.API_KEY;
 	params["format"] = 'json';
 	params["nojsoncallback"] = '1';
-
 	if (httpMethod ==  'GET'){
-
 		params.each(
 			function(pair) {
 		  		url += pair.key + "=" + pair.value + "&";
 			}
 		);
-	
 		url = encodeURI(url.substr(0, url.length-1));
 		EzWebAPI.send_get(url, this,
 			function(resp) {
 				var json = JSON.parse(resp.responseText);
 				onSuccess(json);
 			}, onError);
-
 	} else {
-
 		url = encodeURI(url.substr(0, url.length-1));
 		EzWebAPI.send_post(url, params, this,
 			function(resp) {
 				var json = JSON.parse(resp.responseText);
 				onSuccess(json);
 			}, onError);
-
 	}
 };
 
-flickr.auth = {};
+/*** Flickr authentication ***/
+flickr.auth = new Object();
 
 flickr.auth.getLoginURL = function(perms, frob){
-	var url = flickr.auth_url;
-	url += 'api_key=' + flickr.key + '&perms=' + perms;
+	var url = flickr.AUTH_URL;
+	url += 'api_key=' + flickr.API_KEY + '&perms=' + perms;
 	if (frob) url += '&frob=' + frob;
 	return flickr.signUrl(url);
 };
@@ -144,16 +103,19 @@ flickr.auth.checkToken = function(auth_token, onSuccess, onError) {
 	flickr.restCall('flickr.auth.checkToken', 'GET', params, onSuccess, onError);
 };
 
-
+/*** Access to Flickr photos ***/
 flickr.photos = {};
 
-flickr.photos.getMyPhotos = function(onSuccess, onError) {
-	var params = $H({auth_token: auth_token.get()});
-	flickr.restCall('flickr.photos.getNotInSet', 'GET', params, onSuccess, onError);
-
+flickr.photos.getContactsPhotos = function(onSuccess, onError) {
+	var params = $H({
+		auth_token: FlickrAuthFactory.getInstance().getAuthToken(),
+		count: photosRec.get() > 50 ? 50 : photosRec.get()
+	});
+	flickr.restCall('flickr.photos.getContactsPhotos', 'GET', params, onSuccess, onError);
 };
 
 flickr.photos.search = function(photoKey, peopleKey, groupKey, onSuccess, onError) {
+	var auth = FlickrAuthFactory.getInstance();
 	var params = $H({machine_tag_mode: 'any', per_page: photosRec.get()});
 	if (photoKey){
 		params['tags'] = photoKey;
@@ -164,20 +126,28 @@ flickr.photos.search = function(photoKey, peopleKey, groupKey, onSuccess, onErro
 	if (groupKey){
 		params['group_id'] = groupKey;
 	}
-
-	if (isPublicAccess()) {
+	if (auth.isPublicAccess()) {
 		flickr.noSignedRestCall('flickr.photos.search', 'GET', params, onSuccess, onError);
 	} else {
-		params.auth_token = auth_token.get();
+		params.auth_token = auth.getAuthToken();
 		flickr.restCall('flickr.photos.search', 'GET', params, onSuccess, onError);
 	}
 };
 
 flickr.photos.deletePhoto = function(id_, onSuccess_, onError_) {
-	var params = $H({auth_token: auth_token.get(), photo_id: id_});
+	var params = $H({auth_token: FlickrAuthFactory.getInstance().getAuthToken(), photo_id: id_});
 	flickr.restCall('flickr.photos.delete', 'POST', params, onSuccess_, onError_);
 };
 
+/*** Access to Flickr contacts ***/
+flickr.contacts = {};
+
+flickr.contacts.getList = function(onSuccess_, onError_) {
+	var params = $H({auth_token: FlickrAuthFactory.getInstance().getAuthToken()});
+	flickr.restCall('flickr.contacts.getList', 'GET', params, onSuccess_, onError_);
+};
+
+/*** Access to Flickr users ***/
 flickr.people = {};
 
 flickr.people.getInfo = function(id_, onSuccess_, onError_) {
@@ -200,14 +170,40 @@ flickr.people.getPublicPhotos = function(id_, onSuccess_, onError_) {
 	flickr.noSignedRestCall('flickr.people.getPublicPhotos', 'GET', params, onSuccess_, onError_);
 };
 
+flickr.people.getMyPhotos = function(onSuccess, onError) {
+	var params = $H({
+		auth_token: FlickrAuthFactory.getInstance().getAuthToken(),
+		user_id: 'me'
+	});
+	flickr.restCall('flickr.people.getPhotos', 'GET', params, onSuccess, onError);
+};
+
+flickr.people.getContactPhotos = function(contact_, onSuccess, onError) {
+	var params = $H({
+		auth_token: FlickrAuthFactory.getInstance().getAuthToken(),
+		user_id: contact_
+	});
+	flickr.restCall('flickr.people.getPhotos', 'GET', params, onSuccess, onError);
+};
+
+flickr.people.getUserPhotos = function(user, onSuccess, onError) {
+	var params = $H({
+		auth_token: FlickrAuthFactory.getInstance().getAuthToken(),
+		user_id: user
+	});
+	flickr.restCall('flickr.people.getPhotos', 'GET', params, onSuccess, onError);
+};
+
+/*** Access to Flickr groups ***/
 flickr.groups = {};
 
 flickr.groups.search = function(groupKey_, onSuccess_, onError_) {
+	var auth = FlickrAuthFactory.getInstance();
 	var params = $H({text: groupKey_});	
-	if (isPublicAccess()) {
+	if (auth.isPublicAccess()) {
 		flickr.noSignedRestCall('flickr.groups.search', 'GET', params, onSuccess_, onError_);
 	} else {
-		params.auth_token = auth_token.get();		
+		params.auth_token = auth.getAuthToken();		
 		flickr.restCall('flickr.groups.search', 'GET', params, onSuccess_, onError_);
 	}
 };

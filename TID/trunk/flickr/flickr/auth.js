@@ -3,151 +3,179 @@
 * http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
 */
 
-function login() {
-	frob = null;
-	getFrob(
-		function(value){
-			frob = value;
-			showInitSession();
-		},
-		function(err){
-			error(err);
-			showFlickrLogin();
+var FlickrAuthFactory = function () {
+	
+	// *********************************
+	// SINGLETON INSTANCE
+	// *********************************
+	var instance = null;
+	
+	function FlickrAuth () {
+		/**** PRIVATE VARIABLES ****/
+		this._frob = null;
+		this._access = ''; 
+		this._token = ''; 
+	
+		/**** PUBLIC METHODS ****/
+		FlickrAuth.prototype.init = function (access_, token_) {
+			this._access = access_;
+			this._token = token_;
 		}
-	);
-}
+		
+		FlickrAuth.prototype.login = function (onSuccess_, onError_) {
+			this._frob = null;
+			this.getFrob(
+				function(value_){
+					this._frob = value_;
+					onSuccess_();
+				}.bind(this),
+				function(err_){
+					this._view.error(err_);
+					this._view.showFlickrLogin();
+				}.bind(this)
+			);
+		}
 
-function logout() {
-	access.set('');
-	auth_token.set('');
-	last_key.set('');
-	showFlickrLogin();
-}
-
-function initSession()
-{
-	if (!frob){
-		showFlickrLogin();
-	}else{
-		getToken(frob, auth_success, auth_fail);
-	}
-}
-
-function authenticate()
-{
-	if (!hasAccess()){
-		showFlickrLogin();
-	} else if (isPublicAccess()) {
-		showPhotos();	
-	} else {
-		validateToken(auth_success, auth_fail);
-	}
-
-}
-
-function auth_success(token, perm, user)
-{
-	auth_token.set(token);
-	showPhotos();
-}
-
-
-
-function auth_fail(msg)
-{
-	error(msg);
-	showFlickrLogin();
-}
-
-function is_auth()
-{
-	return auth_token.get();
-}
-
-function isPublicAccess()
-{
-	return access.get() == 'public';
-}
-
-function hasAccess()
-{
-	return access.get();
-}
-
-function validateToken(onSuccess, onError)
-{
-	checkToken(auth_token.get(),
-		function(token, perms, user)
-		{
-			if (perms != 'write'){
-				onError(translator.getLabel('tokenerror'));
+		FlickrAuth.prototype.logout = function () {
+			this._access = '';
+			this._token = '';
+			FlickrGadgetFactory.getInstance().setAccess(this._access);
+			FlickrGadgetFactory.getInstance().setAuthToken(this._token);
+		}
+	
+		FlickrAuth.prototype.initSession = function (onSuccess_, onError_) {
+			if (!this._frob){
+				this._view.showFlickrLogin();
 			}else{
-				onSuccess(token, user);
+				this.getToken(this._frob, 
+					function (token_) {	
+						this._token = token_;
+						FlickrGadgetFactory.getInstance().setAuthToken(this._token);
+						onSuccess_();
+					}.bind(this), 
+					function (msg_) {
+						onError_(msg_)
+					}.bind(this)
+				);
 			}
-		},
-		function(e)
-		{
-			// onError(e); Nothing to do?
-		}
-	);
-}
+		}.bind(this)
 
-function getFrob(onSuccess, onError)
-{
-	flickr.auth.getFrob(
-		function(resp) {
-			frob = resp.frob._content;
-			var url = flickr.auth.getLoginURL('write', frob);
-			window.open(url, 'FlickrLogin');
-			onSuccess(frob);
-		},
-		function(resp) {
-			onError(translator.getLabel('flickrerror'));
+		FlickrAuth.prototype.authenticate = function (onSuccess_, onError_) {
+			this.validateToken(
+				function (token_) {	
+					this._token = token_;
+					FlickrGadgetFactory.getInstance().setAuthToken(this._token);
+					onSuccess_();
+				}.bind(this), 
+				function (msg_) {
+					onError_(msg_)
+				}.bind(this)
+			);
 		}
-	);
-}
+			
+		
+		FlickrAuth.prototype.getAuthToken = function () {
+			return this._token;
+		}
+		
+		FlickrAuth.prototype.isAuth = function () {
+			return this._token != '';
+		}
+		
+		FlickrAuth.prototype.isPublicAccess = function () {
+			return this._access == 'public';
+		}
+		
+		FlickrAuth.prototype.setPublicAccess = function () {
+			this._access = 'public';
+			FlickrGadgetFactory.getInstance().setAccess(this._access);
+		}
+		
+		FlickrAuth.prototype.setPrivateAccess = function () {
+			this._access = 'private';
+			FlickrGadgetFactory.getInstance().setAccess(this._access);
+		}
+		
+		FlickrAuth.prototype.hasAccess = function () {
+			return this._access;
+		}
+		
+		FlickrAuth.prototype.validateToken = function (onSuccess_, onError_) {
+			this.checkToken(this._token,
+				function(_token, _perms){
+					if (_perms != 'delete'){
+						onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('tokenerror'));
+					}else{
+						onSuccess_(_token);
+					}
+				}.bind(this),
+				function(_e)	{
+					onError_(_e); 
+				}.bind(this)
+			);
+		}
 
-function getToken(frob, onSuccess, onError)
-{
-	flickr.auth.getToken(frob,
-		function(resp)
-		{
-			if (!resp.auth.user){
-				onError(translator.getLabel('flickrerror'));
-			} else {
-				var user  = resp.auth.user;
-				var perms = resp.auth.perms._content;
-				var token = resp.auth.token._content;
-				onSuccess(token, perms, user);				
+		FlickrAuth.prototype.getFrob = function (onSuccess_, onError_) {
+			flickr.auth.getFrob(
+				function(resp_) {
+					if (resp_.stat == "fail"){
+						onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+						return;
+					}			
+					this._frob = resp_.frob._content;
+					var url = flickr.auth.getLoginURL('delete', this._frob);
+					window.open(url, 'FlickrLogin');
+					onSuccess_(this._frob);
+				}.bind(this),
+				function(resp_) {
+					onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+				}.bind(this)
+			);
+		}
+		
+		FlickrAuth.prototype.getToken = function (_frob, onSuccess_, onError_) {
+			flickr.auth.getToken(_frob,
+				function(resp_)	{
+					if (!resp_.auth || !resp_.auth.user || (resp_.stat == "fail")){
+						onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+					} else {
+						var token = resp_.auth.token._content;
+						onSuccess_(token);				
+					}
+				}.bind(this),
+				function(resp_)	{
+					onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+				}.bind(this)
+			);
+		}
+
+		FlickrAuth.prototype.checkToken = function (_token, onSuccess_, onError_) {
+			flickr.auth.checkToken(_token,
+				function(resp_)	{
+					if (!resp_.auth || !resp_.auth.user || (resp_.stat == "fail")){
+						onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+					} else {
+						var perms = resp_.auth.perms._content;
+						var token = resp_.auth.token._content;
+						onSuccess_(token, perms);
+					}
+				}.bind(this),
+				function(resp_) {
+					onError_(FlickrGadgetFactory.getInstance().getTranslator().getLabel('flickrerror'));
+				}.bind(this)		
+			);
+		}
+	}
+	
+	// *********************************
+	// SINGLETON GET INSTANCE
+	// *********************************
+	return new function() {
+		this.getInstance = function() {
+			if (instance == null) {
+				instance = new FlickrAuth();
 			}
-		},
-		function(resp)
-		{
-			onError(translator.getLabel('flickrerror'));
+		return instance;
 		}
-	);
-}
-
-function checkToken(token, onSuccess, onError)
-{
-	flickr.auth.checkToken(token,
-		function(resp)
-		{
-			if (!resp.auth.user){
-				onError(translator.getLabel('flickrerror'));
-			} else {
-				var user  = resp.auth.user;
-				var perms = resp.auth.perms._content;
-				var token = resp.auth.token._content;
-				onSuccess(token, perms, user);
-			}
-		},
-		function(resp)
-		{
-			onError(translator.getLabel('flickrerror'));
-		}
-	);
-}
-
-
-
+	}
+}();
