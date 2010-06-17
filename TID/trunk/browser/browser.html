@@ -270,7 +270,8 @@ function loadURLForm(value) {
 
 //	video.appendChild(ifrm); 
 
-	current_url = url.protocol+'://'+url.host+(url.port != '' ? ':'+url.port : '')+url.path;
+	// url.port != '0' para solucionar un error en Chrome: devuelve port = 0 cuando no se especifica el puerto en la URL
+	current_url = url.protocol+'://'+url.host+(url.port != '' && url.port != '0' ? ':'+url.port : '')+url.path; 
 	frm.setAttribute('action', current_url);
 	frm.setAttribute('target', 'browser');
 	frm.submit();
