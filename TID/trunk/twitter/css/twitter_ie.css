@@ -1,3 +1,8 @@
+/* 
+* This code is licensed under terms shown on this link:
+* http://forge.morfeo-project.org/wiki/index.php/Gadgets_2009_License
+*/
+
 #tab_table .tab {
 	margin-top: 5px;
 }
@@ -12,12 +17,17 @@
 }
 
 .button, .disabled_button {
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/round-btn-ie.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.4/images/round-btn-ie.gif) repeat scroll 0 0;
 	height: 26px;
 	border: 0px;
 	font-size: 10px;
 }
 
 .button.hover{
-	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/round-btn-hover-ie.gif) repeat scroll 0 0;
+	background: transparent url(http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.4/images/round-btn-hover-ie.gif) repeat scroll 0 0;
+}
+
+#loading{
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
 }

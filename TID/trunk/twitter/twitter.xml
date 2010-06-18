@@ -4,21 +4,23 @@
   <Catalog.ResourceDescription>
     <Vendor>Morfeo</Vendor>
     <Name>Twitter</Name>
-    <Version>3.3</Version>
+    <Version>3.4</Version>
     <Author>lmayllon</Author>
 
     <Mail>luismarcos.ayllon@panel.es</Mail>
     <Description>This gadget provides an engaging visual way to see and send messages into Twitter system.</Description>
-    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/twitter_logo_s.png</ImageURI>
-    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/images/twitteriPhone.png</iPhoneImageURI>
-    <WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Twitter</WikiURI>
+    <ImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.4/images/twitter_logo_s.png</ImageURI>
+    <iPhoneImageURI>http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.4/images/twitteriPhone.png</iPhoneImageURI>
+	<WikiURI>http://forge.morfeo-project.org/wiki/index.php/Gadgets_EzWeb#Gadget_Twitter</WikiURI>
   </Catalog.ResourceDescription>
   
   <!-- EzWeb Gadgets Tags -->
   <Platform.Preferences>
-    <Preference name="twitter_user" type="text" description="Your username in Twitter" label="Username"/>
-    <Preference name="twitter_pass" type="password" description="Your password in Twitter" label="Password"/>
-    <Preference name="limit_messages" type="number" description="Limit messages" label="Limit Messages" default="5"/>
+    <Preference name="ezweb_login" type="list" label="Automatic sign in (using Ezweb user)" description="Enables automatic sign in" default="yes">
+		<Option value="yes" name="yes"/>
+		<Option value="no" name="no"/>
+	</Preference>
+	<Preference name="limit_messages" type="number" description="Limit messages" label="Limit Messages" default="5"/>
     <Preference name="incoming_events" type="list" label="While draft is under edition, incoming events are" description="Enables incoming messages while a message is under edition" default="permitted">
 		<Option value="discarded" name="discarded"/>
 		<Option value="permitted" name="permitted"/>
@@ -34,10 +36,15 @@
 		<Option value="yes" name="yes"/>
 		<Option value="no" name="no"/>
 	</Preference>
+	<Preference name="oauth_consumer_key" type="password" description="Your consumer key in Twitter" label="Twitter consumer key (optional)"/>
+	<Preference name="oauth_consumer_secret" type="password" description="Your consumer secret in Twitter" label="Twitter consumer secret (optional)"/>
 </Platform.Preferences>
   
   <!-- EzWeb Gadget Persistent State -->
   <Platform.StateProperties>
+	<Property name="user_screen_name" type="text" label="user_screen_name"/>
+	<Property name="oauth_token" type="text" label="oauth_token"/>
+	<Property name="oauth_token_secret" type="text" label="oauth_token_secret"/>
   </Platform.StateProperties>
   
   <!-- EzWeb Gadget Data Wiring -->
@@ -49,12 +56,13 @@
   </Platform.Wiring>
   
   <Platform.Link>
-    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.3/twitter.html"/>
+    <XHTML href="http://ezweb.tid.es/repository/ezweb-gadgets/twitter/twitter_3.4/twitter.html"/>
   </Platform.Link>
   
   <Platform.Rendering width="5" height="13"/>
   
   <Platform.Context>
+	<Context name="twitterauth" type="text" concept="twitterauth"/>
 	<Context name="language" type="text" concept="language"/>
   </Platform.Context> 
 </Template>
