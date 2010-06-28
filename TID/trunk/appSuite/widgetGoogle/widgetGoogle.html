@@ -312,27 +312,29 @@
           
           
           //"javascript:sendLink('" +  div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].href + "');";   
-         	elementoIMG.rel = div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].href;
+          elementoIMG.rel = result.url; 
+//div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].href;
           div.appendChild(elementoIMG); /// cH)
        
             
           //corto el texto de la descripciónSup ahora
           
-          elementoATexto = div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].innerHTML;
+          /*elementoATexto = div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].innerHTML;
           elementoATexto = removeHTMLTags(elementoATexto);
              if (elementoATexto.length > 45) {
              	 elementoATexto = elementoATexto.substring(0,45) + "...";
             }
            div.getElementsByClassName("gs-title")[0].getElementsByTagName("a")[0].innerHTML = elementoATexto;    
-          
+         */ 
       
           
           //corto el texto de la descripción ahora
-          text = div.getElementsByClassName("gs-snippet")[0].innerHTML;
+          //text = div.getElementsByClassName("gs-snippet")[0].innerHTML;
+          text = result.content;
           text = removeHTMLTags(text);
           if (text.length > 45)
           text = text.substring(0,45) + "...";
-          div.getElementsByClassName("gs-snippet")[0].innerHTML = text;
+          //div.getElementsByClassName("gs-snippet")[0].innerHTML = text;
           
           this.results.appendChild(div);
            
