@@ -144,7 +144,7 @@ var FlickrGadgetFactory = function () {
 			}
 			photos_.setPhotos (photosFromServer);
 			// Sets the automatic refresh
-			if (!this._interval){
+			if (!this._interval && !isNaN(parseInt(time.get())) && (time.get() > 0)){
 				this._interval = setInterval(
 					function(){
 						this.reloadLastPhotos();
