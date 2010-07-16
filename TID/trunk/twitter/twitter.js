@@ -280,31 +280,6 @@ function show_messages (resp) {
 	var content = document.getElementById('container');
 	content.innerHTML = get_login_links(true, 'me_tab');
 	
-	var header_text = document.createElement("h3");
-	header_text.innerHTML = translator.getLabel('doing');
-	content.appendChild(header_text);
-	
-	var textarea_cont = document.createElement("div");
-	textarea_cont.id = 'status_container';
-	content.appendChild(textarea_cont);	
-	
-	var msg_textarea = document.createElement("textarea");
-	msg_textarea.id = 'status';
-	msg_textarea.rows = '2';
-	msg_textarea.cols = '50';
-	msg_textarea.maxlength = '140';
-	msg_textarea.onkeyup = check_message;	
-	
-	if (init_msg != ''){
-		msg_textarea.value=init_msg;
-		init_msg = '';
-	}
-	textarea_cont.appendChild(msg_textarea);
-	
-	var button_cont = document.createElement("div");
-	button_cont.className = 'button_cont';
-	content.appendChild(button_cont);
-	
 	// Only for IE
 	var setMouseEvents = function (elto) {
 		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ 
@@ -323,24 +298,52 @@ function show_messages (resp) {
 		}
 	};
 	
-	var clear_button = document.createElement("input");
-	clear_button.className = 'button';
-	clear_button.type = 'button';
-	clear_button.onclick = clear_message;
-	clear_button.value = translator.getLabel('clear');
-	setMouseEvents (clear_button);
-	button_cont.appendChild(clear_button);
+	// With EzWeb authentication, read-only mode is allowed
+	if (ezweb_login.get() == 'no'){
+		var header_text = document.createElement("h3");
+		header_text.innerHTML = translator.getLabel('doing');
+		content.appendChild(header_text);
 	
-	var update_button = document.createElement("input");
-	update_button.className = 'disabled_button';
-	update_button.id = 'update_button';
-	update_button.type = 'button';
-	update_button.disabled=true;
-	update_button.value = translator.getLabel('update');
-	update_button.onclick = update_edited_message;
-	setMouseEvents (update_button);
-	button_cont.appendChild(update_button);
+		var textarea_cont = document.createElement("div");
+		textarea_cont.id = 'status_container';
+		content.appendChild(textarea_cont);	
 	
+		var msg_textarea = document.createElement("textarea");
+		msg_textarea.id = 'status';
+		msg_textarea.rows = '2';
+		msg_textarea.cols = '50';
+		msg_textarea.maxlength = '140';
+		msg_textarea.onkeyup = check_message;	
+	
+		if (init_msg != ''){
+			msg_textarea.value=init_msg;
+			init_msg = '';	
+		}
+		textarea_cont.appendChild(msg_textarea);
+	
+		var button_cont = document.createElement("div");
+		button_cont.className = 'button_cont';
+		content.appendChild(button_cont);
+
+		var clear_button = document.createElement("input");
+		clear_button.className = 'button';
+		clear_button.type = 'button';
+		clear_button.onclick = clear_message;
+		clear_button.value = translator.getLabel('clear');
+		setMouseEvents (clear_button);
+		button_cont.appendChild(clear_button);
+		
+		var update_button = document.createElement("input");
+		update_button.className = 'disabled_button';
+		update_button.id = 'update_button';
+		update_button.type = 'button';
+		update_button.disabled=true;
+		update_button.value = translator.getLabel('update');
+		update_button.onclick = update_edited_message;
+		setMouseEvents (update_button);
+		button_cont.appendChild(update_button);
+	}
+		
 	var messages_container = document.createElement("div");
 	messages_container.id = 'message_container';
 	content.appendChild(messages_container);	
@@ -500,6 +503,12 @@ function check_message () {
 
 // Event from the platform (input-to-message)
 function arrived_message_handler (message) {
+	// With EzWeb authentication, read-only mode is allowed
+	if (ezweb_login.get() == 'yes'){
+		notification.info(translator.getLabel('read_mode'));
+		return;
+	}
+	
 	var nmessage = '';
 	var input_elto = document.getElementById('status');
 	
@@ -551,6 +560,12 @@ function arrived_message_handler (message) {
 
 // Event from the platform (auto-message)
 function arrived_automessage_handler (message) {
+	// With EzWeb authentication, only read mode is allowed
+	if (ezweb_login.get() == 'yes'){
+		notification.info(translator.getLabel('read_mode'));
+		return;
+	}
+	
 	var nmessage = '';
 	var input_elto = document.getElementById('status');
 	
