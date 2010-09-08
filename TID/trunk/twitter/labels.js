@@ -61,7 +61,7 @@ var labels = {
 		"error_from_bitly":"Error del servicio Bit.ly: ",
 		"without_api_key":"Lo sentimos, no se encuentra la API KEY para el servicio bitly. Las direcciones web no se pueden acortar.",
 		"http_error": "Lo sentimos, ha ocurrido un error y no hemos podido realizar su petici&oacute;n.<br/>Por favor, reg&iacute;strese de nuevo y vuelva a intentarlo...",
-		"sign_in_error":"Lo sentimos, ha ocurrido durante la autenticac&iacute;n de usuario.<br/>Por favor, reg&iacute;strese de nuevo y vuelva a intentarlo...",
+		"sign_in_error":"Lo sentimos, ha ocurrido un error durante la autenticac&iacute;n de usuario.<br/>Por favor, reg&iacute;strese de nuevo y vuelva a intentarlo...",
 		"update_error":"Lo sentimos, el servicio de Twitter no est&aacute; disponible temporalmente.",
 		"duplicated_message_error":"Lo sentimos, el mensaje que intenta enviar est&aacute; repetido y no ha sido publicado.",
 		"long_message_error":"Lo sentimos, el mensaje es demasiado largo. Modif&iacute;quelo antes de enviarlo.",
